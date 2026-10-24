@@ -6,8 +6,8 @@
   background: var(--platform-canvas);
 }
 
-/* 侧栏框架（.app-sider / .app-workspace-panel）统一在 app-shell-frame.css，
-   本文件只保留平台外壳自身的内容区布局。 */
+/* 側欄框架（.app-sider / .app-workspace-panel）統一在 app-shell-frame.css，
+   本文件只保留平臺外殼自身的內容區佈局。 */
 .platform-workspace__body {
   min-height: 0;
   background: var(--platform-canvas);
@@ -1149,7 +1149,7 @@
 }
 
 @media (max-width: 900px) {
-  /* 窄屏侧栏收进抽屉，左上角悬浮按钮会盖住内容，正文让出这一条。 */
+  /* 窄屏側欄收進抽屜，左上角懸浮按鈕會蓋住內容，正文讓出這一條。 */
   .platform-workspace__content {
     padding-left: 56px;
   }

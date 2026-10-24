@@ -18,7 +18,7 @@ describe('global smooth scroll', () => {
     const frameDocument = document.implementation.createHTMLDocument('prototype');
     const scrollRoot = frameDocument.createElement('main');
     scrollRoot.className = 'prototype-main';
-    scrollRoot.innerHTML = '<section data-page-content>内容</section>';
+    scrollRoot.innerHTML = '<section data-page-content>內容</section>';
     frameDocument.body.append(scrollRoot);
 
     installFrameTopnavOffset(frameDocument, 72);

@@ -83,7 +83,7 @@ export function groupClientPages(pages: HtmlPrototypePage[], sections: Array<{ i
   }));
   const knownSections = new Set(sections.map((section) => section.id));
   const ungrouped = pages.filter((page) => !knownSections.has(page.section) && page.menu !== false);
-  if (ungrouped.length) groups.push({ id: 'other', title: '其他页面', pages: ungrouped });
+  if (ungrouped.length) groups.push({ id: 'other', title: '其他頁面', pages: ungrouped });
   return groups.filter((group) => group.pages.length);
 }
 

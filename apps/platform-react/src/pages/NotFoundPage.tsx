@@ -8,11 +8,11 @@ export function NotFoundPage() {
     <main className="system-result-page">
       <Result
         status="404"
-        title="页面不存在"
-        subTitle="当前地址没有对应的平台页面或兼容入口。"
+        title="頁面不存在"
+        subTitle="當前地址沒有對應的平臺頁面或兼容入口。"
         extra={
           <Button type="primary" onClick={() => navigate('/')}>
-            返回首页
+            返回首頁
           </Button>
         }
       />

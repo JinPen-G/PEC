@@ -324,11 +324,21 @@ export async function scanHtmlPrototypePages(projectsRoot, { mounts = {} } = {})
       : {};
     const sectionsByClient = {};
     for (const [clientId, definition] of Object.entries(definitions)) {
+      const clientOrder = routeOrder?.clients?.[clientId] || {};
       const ordered = orderClientRouteData(
         definition.sections || [],
         pagesByClient[clientId] || [],
-        routeOrder?.clients?.[clientId] || {},
+        clientOrder,
       );
+      // .platform/route-order.json 的 pageMenu 覆盖：菜单显隐的唯一运行时可编辑来源
+      //（dev/构建/node 服务三个场景都会走到这里，静态包因此无需后端即可生效）。
+      const pageMenu = clientOrder.pageMenu || {};
+      if (Object.keys(pageMenu).length) {
+        for (const page of ordered.pages) {
+          const override = pageMenu[page.name];
+          if (typeof override === 'boolean') page.menu = override;
+        }
+      }
       pagesByClient[clientId] = ordered.pages;
       sectionsByClient[clientId] = ordered.sections;
     }

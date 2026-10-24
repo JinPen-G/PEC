@@ -13,8 +13,8 @@ import {
 
 const project = { id: 'demo', clients: [] } as unknown as ProjectManifest;
 const pages = [
-  { path: 'overview', name: 'overview', title: '概览', section: 'dashboard', menu: true },
-  { path: 'detail', name: 'detail', title: '详情', section: 'orders', menu: false },
+  { path: 'overview', name: 'overview', title: '概覽', section: 'dashboard', menu: true },
+  { path: 'detail', name: 'detail', title: '詳情', section: 'orders', menu: false },
 ] as HtmlPrototypePage[];
 
 describe('React project model', () => {
@@ -34,7 +34,7 @@ describe('React project model', () => {
     expect(
       groupClientPages(pages, [
         { id: 'dashboard', title: '看板' },
-        { id: 'orders', title: '订单' },
+        { id: 'orders', title: '訂單' },
       ]),
     ).toEqual([{ id: 'dashboard', title: '看板', pages: [pages[0]] }]);
   });

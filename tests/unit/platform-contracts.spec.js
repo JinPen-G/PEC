@@ -138,7 +138,10 @@ describe('platform client', () => {
     expect(client.getHtmlPrototypeUrl('demo', 'admin', '业务/首页.html')).toBe(
       '/prototype/projects/demo/prototype/admin/%E4%B8%9A%E5%8A%A1/%E9%A6%96%E9%A1%B5.html',
     );
-    expect(client.getHtmlPrototypeSourceDownloadUrl('demo', 'admin', '业务/首页.html')).toBe('');
+    // 静态部署下原型 HTML 本身公开在 dist 内，源文件下载直接给静态地址。
+    expect(client.getHtmlPrototypeSourceDownloadUrl('demo', 'admin', '业务/首页.html')).toBe(
+      '/prototype/projects/demo/prototype/admin/%E4%B8%9A%E5%8A%A1/%E9%A6%96%E9%A1%B5.html',
+    );
 
     const developmentClient = createPlatformClient({ fetchImpl, development: true });
     expect(developmentClient.getHtmlPrototypeSourceDownloadUrl('demo', 'admin', '业务/首页.html')).toBe(
@@ -221,7 +224,10 @@ describe('platform client', () => {
       fetchImpl,
     });
 
-    await expect(client.loadPlatformSettings()).resolves.toEqual({ developerMode: true });
+    await expect(client.loadPlatformSettings()).resolves.toEqual({
+      developerMode: true,
+      remoteManagement: false,
+    });
     expect(fetchImpl.mock.calls.map(([url]) => url)).toEqual([
       '/__platform/settings',
       '/prototype/platform-settings.json',

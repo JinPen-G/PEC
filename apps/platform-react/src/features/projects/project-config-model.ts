@@ -56,20 +56,20 @@ export const clientPresets: Array<{
   label: string;
   description: string;
 }> = [
-  { value: 'standard', label: '左侧菜单', description: '使用平台顶栏和左侧菜单，适合常规后台与管理类原型。' },
-  { value: 'topnav', label: '顶部导航', description: '使用平台顶栏和顶部菜单，适合栏目较少的业务页面。' },
+  { value: 'standard', label: '左側菜單', description: '使用平臺頂欄和左側菜單，適合常規後臺與管理類原型。' },
+  { value: 'topnav', label: '頂部導航', description: '使用平臺頂欄和頂部菜單，適合欄目較少的業務頁面。' },
   {
     value: 'simple',
-    label: '无页面菜单',
-    description: '保留平台顶栏，不显示页面菜单，适合单页功能或阅读页面。',
+    label: '無頁面菜單',
+    description: '保留平臺頂欄，不顯示頁面菜單，適合單頁功能或閱讀頁面。',
   },
-  { value: 'immersive', label: '沉浸式页面', description: '不显示平台导航，页面以完整画布呈现。' },
+  { value: 'immersive', label: '沉浸式頁面', description: '不顯示平臺導航，頁面以完整畫布呈現。' },
   {
     value: 'html-full',
-    label: '使用 HTML 自带外壳',
-    description: '保留 HTML 文件自己的顶栏和菜单，不再叠加平台外壳。',
+    label: '使用 HTML 自帶外殼',
+    description: '保留 HTML 文件自己的頂欄和菜單，不再疊加平臺外殼。',
   },
-  { value: 'login', label: '先登录再进入', description: '先进入平台登录页，登录后使用左侧菜单进入内容。' },
+  { value: 'login', label: '先登錄再進入', description: '先進入平臺登錄頁，登錄後使用左側菜單進入內容。' },
 ];
 
 export function projectSlug(value: string) {
@@ -95,8 +95,8 @@ export function createClient(
     sourcePrototype: prototype || {},
     id: client?.id || `client-${index}`,
     isNew: !client,
-    name: client?.name || `客户端 ${index}`,
-    description: client?.description || '项目客户端入口。',
+    name: client?.name || `客戶端 ${index}`,
+    description: client?.description || '項目客戶端入口。',
     icon: client?.icon || 'Management',
     defaultPage: client?.defaultPage || '',
     entryMode: client?.entry?.mode || 'direct',
@@ -210,8 +210,8 @@ export function buildProjectPayload(draft: ProjectDraft, editing: boolean) {
             ...currentDocsEntry,
             id: 'docs',
             kind: 'docs' as const,
-            name: currentDocsEntry?.name || '产品文档',
-            description: currentDocsEntry?.description || '阅读项目 PRD 与产品说明。',
+            name: currentDocsEntry?.name || '產品文檔',
+            description: currentDocsEntry?.description || '閱讀項目 PRD 與產品說明。',
             icon: currentDocsEntry?.icon || 'Document',
             order: currentDocsEntry?.order || 40,
           },

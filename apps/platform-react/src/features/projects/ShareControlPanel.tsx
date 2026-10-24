@@ -9,10 +9,11 @@ import { Surface } from '@/ui/platform/Surface';
 const { Text, Title } = Typography;
 
 function shareHint(status: { managedByStartup: boolean; canControl: boolean; readOnly: boolean }) {
-  if (status.managedByStartup) return '服务以局域网地址启动，分享状态由启动参数决定。';
-  if (status.readOnly) return '当前服务为只读模式，不能切换分享。';
-  if (!status.canControl) return '只有服务主机可以切换分享状态。';
-  return '开启后同一网络的设备可只读查看项目、原型和 PRD；写入始终只属于服务主机。';
+  if (status.managedByStartup) return '服務以局域網地址啓動，分享狀態由啓動參數決定。';
+  if (status.readOnly) return '當前服務爲只讀模式，不能切換分享。';
+  if (!status.canControl) return '只有服務主機（或開啓遠程管理後的授權瀏覽器）可以切換分享狀態。';
+  return '開啓後同一網絡的設備可只讀查看項目、原型和 PRD。';
+
 }
 
 export function ShareControlPanel() {
@@ -31,8 +32,8 @@ export function ShareControlPanel() {
         <Alert
           type="info"
           showIcon
-          title="局域网分享不可用"
-          description="当前平台由开发服务器或静态部署承载，未提供分享控制接口。使用 npm run serve:local 启动独立服务后可用。"
+          title="局域網分享不可用"
+          description="當前平臺由開發服務器或靜態部署承載，未提供分享控制接口。使用 npm run serve:local 啓動獨立服務後可用。"
         />
       </Surface>
     );
@@ -45,13 +46,13 @@ export function ShareControlPanel() {
     <Surface className="console-share-panel">
       <div>
         <Flex align="center" gap={8}>
-          <Title level={3}>局域网只读分享</Title>
-          <Tag color={sharing ? 'success' : 'default'}>{sharing ? '已开启' : '已关闭'}</Tag>
+          <Title level={3}>局域網只讀分享</Title>
+          <Tag color={sharing ? 'success' : 'default'}>{sharing ? '已開啓' : '已關閉'}</Tag>
         </Flex>
-        <Text type="secondary">{status ? shareHint(status) : '正在读取分享状态…'}</Text>
+        <Text type="secondary">{status ? shareHint(status) : '正在讀取分享狀態…'}</Text>
         {status?.urls.local ? (
           <div className="console-share-panel__urls">
-            <Text type="secondary">本机地址</Text>
+            <Text type="secondary">本機地址</Text>
             <Text code>{status.urls.local}</Text>
           </div>
         ) : null}
@@ -62,7 +63,7 @@ export function ShareControlPanel() {
               <Flex key={url} align="center" gap={6}>
                 <GlobalOutlined />
                 <Text code>{url}</Text>
-                <Tooltip title="复制地址">
+                <Tooltip title="複製地址">
                   <Button
                     type="text"
                     size="small"
@@ -75,15 +76,15 @@ export function ShareControlPanel() {
           </div>
         ) : null}
         {sharing && !lanUrls.length ? (
-          <Text type="warning">已开启分享，但未检测到可用的局域网地址。</Text>
+          <Text type="warning">已開啓分享，但未檢測到可用的局域網地址。</Text>
         ) : null}
       </div>
       <Switch
         checked={sharing}
         loading={shareQuery.isPending || toggleShare.isPending}
         disabled={!status?.canControl}
-        checkedChildren="开"
-        unCheckedChildren="关"
+        checkedChildren="開"
+        unCheckedChildren="關"
         onChange={(checked) => toggleShare.mutate(checked)}
       />
       {toggleShare.isError ? (
@@ -91,7 +92,7 @@ export function ShareControlPanel() {
           type="error"
           showIcon
           closable={{ onClose: toggleShare.reset }}
-          title="分享状态切换失败"
+          title="分享狀態切換失敗"
           description={toggleShare.error.message}
         />
       ) : null}

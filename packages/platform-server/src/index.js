@@ -4,6 +4,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { URL } from 'node:url';
+import { brotliCompress, constants as zlibConstants, gzip } from 'node:zlib';
 
 import { LOOPBACK_HOST, formatPlatformServerAddresses, isSharedHost, listLanAddresses } from './addresses.js';
 import {
@@ -34,6 +35,7 @@ import {
   restoreProjectRoute,
   restoreProjectSections,
   updateProjectRoute,
+  updateProjectPageMenu,
   updateProjectRouteOrder,
   updateProjectSections,
   writeJsonAtomic,
@@ -69,6 +71,36 @@ const DEFAULT_MIME_TYPES = Object.freeze({
 });
 
 const PROJECT_ASSET_EXTENSIONS = new Set(Object.keys(DEFAULT_MIME_TYPES));
+
+// 可压缩的文本类响应：局域网分享时 JS/CSS 传输体积可降约 70%，内容字节不变。
+const COMPRESSIBLE_MIME_TYPES = new Set([
+  'text/css; charset=utf-8',
+  'text/html; charset=utf-8',
+  'text/javascript; charset=utf-8',
+  'application/json; charset=utf-8',
+  'application/manifest+json',
+  'image/svg+xml; charset=utf-8',
+]);
+const MIN_COMPRESS_SIZE = 1024;
+
+function negotiateContentEncoding(request) {
+  const accepted = String(request.headers['accept-encoding'] || '').toLowerCase();
+  if (accepted.includes('br')) return 'br';
+  if (accepted.includes('gzip')) return 'gzip';
+  return '';
+}
+
+function compressContent(content, encoding) {
+  return new Promise((resolve, reject) => {
+    const callback = (error, result) => (error ? reject(error) : resolve(result));
+    if (encoding === 'br') {
+      // 默认质量 11 压缩 600 kB 级 JS 需要数百毫秒，得不偿失；质量 5 速度接近 gzip 且压缩率更好。
+      brotliCompress(content, { params: { [zlibConstants.BROTLI_PARAM_QUALITY]: 5 } }, callback);
+    } else {
+      gzip(content, callback);
+    }
+  });
+}
 const LOCAL_RUNTIME_BOOTSTRAP = "<script>window.__PLATFORM_RUNTIME__={mode:'local'};</script>";
 const SETTINGS_BODY_LIMIT = 16 * 1024;
 const SHARE_BODY_LIMIT = 4 * 1024;
@@ -87,13 +119,28 @@ function sendJson(response, payload, statusCode = 200) {
   response.end(JSON.stringify(payload));
 }
 
-function sendBytes(response, content, filePath, extraHeaders = {}) {
+async function sendBytes(response, content, filePath, extraHeaders = {}) {
+  const mimeType = mimeTypeFor(filePath);
   response.statusCode = 200;
-  response.setHeader('Content-Type', mimeTypeFor(filePath));
+  response.setHeader('Content-Type', mimeType);
   response.setHeader('Cache-Control', 'no-store');
   response.setHeader('X-Content-Type-Options', 'nosniff');
   for (const [name, value] of Object.entries(extraHeaders)) response.setHeader(name, value);
-  response.end(content);
+
+  const request = response.req;
+  const compressible = COMPRESSIBLE_MIME_TYPES.has(mimeType);
+  if (compressible) response.setHeader('Vary', 'Accept-Encoding');
+  const encoding =
+    compressible && content.length >= MIN_COMPRESS_SIZE && request?.method !== 'HEAD'
+      ? negotiateContentEncoding(request)
+      : '';
+  if (!encoding) {
+    response.end(content);
+    return;
+  }
+  const compressed = await compressContent(content, encoding);
+  response.setHeader('Content-Encoding', encoding);
+  response.end(compressed);
 }
 
 function decodeSegment(value) {
@@ -175,13 +222,16 @@ async function readJsonBody(request, limit) {
   });
 }
 
-function writeAccessError(request, response, writeEnabled, getClientAddress) {
+function writeAccessError(request, response, writeEnabled, getClientAddress, remoteManagement = false) {
   if (!writeEnabled) {
     sendJson(response, { code: LOCAL_SERVER_READ_ONLY_CODE, message: '独立本地服务当前为只读模式。' }, 403);
     return true;
   }
-  if (!isLocalRequest(request, getClientAddress)) {
-    sendJson(response, { code: 'FORBIDDEN', message: '配置写入仅允许在服务主机上执行。' }, 403);
+  if (!isLocalRequest(request, getClientAddress) && !remoteManagement) {
+    sendJson(response, {
+      code: 'FORBIDDEN',
+      message: '配置写入仅允许在服务主机上执行（平台控制台可开启远程管理）。',
+    }, 403);
     return true;
   }
   return false;
@@ -219,6 +269,17 @@ function sourceContentDisposition(filePath) {
   return `attachment; filename="${fallbackName}"; filename*=UTF-8''${encodeURIComponent(fileName)}`;
 }
 
+// Vite 构建产物使用内容哈希文件名（如 index-CijtrZEp.js），同名必然同内容，可以安全长缓存；
+// 其余文件（index.html、brand/、项目资源等）仍走默认 no-store，重建或修改后立即生效。
+const HASHED_ASSET_PATTERN = /-[A-Za-z0-9_-]{8}\.[A-Za-z0-9]+$/u;
+
+function immutableCacheHeaders(relativePath) {
+  if (!relativePath.startsWith('assets/')) return {};
+  return HASHED_ASSET_PATTERN.test(relativePath)
+    ? { 'Cache-Control': 'public, max-age=31536000, immutable' }
+    : {};
+}
+
 export function createPlatformServer({
   projectsRoot,
   mountsPath = '',
@@ -253,16 +314,17 @@ export function createPlatformServer({
     };
   }
 
-  function shareStatus(local) {
+  function shareStatus(local, remoteManagement = false) {
     return {
       sharing: startedShared || shareListeners.size > 0,
       managedByStartup: startedShared,
       host: startHost,
       port: boundPort,
       urls: shareUrls(),
-      writeEnabled: writeEnabled && local,
-      readOnly: !writeEnabled || !local,
-      canControl: writeEnabled && local && !startedShared,
+      writeEnabled: writeEnabled && (local || remoteManagement),
+      readOnly: !writeEnabled || (!local && !remoteManagement),
+      canControl: writeEnabled && (local || remoteManagement) && !startedShared,
+      remoteManagement,
     };
   }
 
@@ -355,8 +417,12 @@ export function createPlatformServer({
   }
 
   // 写请求一旦获得授权，扫描结果即视为过期。集中在这里失效，避免逐个写入分支遗漏。
-  function denyWrite(request, response) {
-    if (writeAccessError(request, response, writeEnabled, getClientAddress)) return true;
+  // 远程管理开关（platform-settings.json 的 remoteManagement）允许非本机浏览器执行管理写入。
+  async function denyWrite(request, response) {
+    const settings = settingsFile ? await readSettings(settingsFile) : normalizePlatformSettings({});
+    if (writeAccessError(request, response, writeEnabled, getClientAddress, settings.remoteManagement)) {
+      return true;
+    }
     invalidateScanCache();
     return false;
   }
@@ -417,15 +483,17 @@ export function createPlatformServer({
 
     if (requestUrl.pathname === '/__platform/bootstrap') {
       const scan = await scanProjectPackages(root, { mounts });
+      const settings = settingsFile ? await readSettings(settingsFile) : normalizePlatformSettings({});
       sendJson(response, {
         ok: true,
         runtime: {
           local,
-          writeEnabled: writeEnabled && local,
-          readOnly: !writeEnabled || !local,
+          writeEnabled: writeEnabled && (local || settings.remoteManagement),
+          readOnly: !writeEnabled || (!local && !settings.remoteManagement),
+          remoteManagement: settings.remoteManagement,
           host: startHost,
           port: boundPort,
-          share: shareStatus(local),
+          share: shareStatus(local, settings.remoteManagement),
         },
         workspace: {
           projectsDirectoryReady: true,
@@ -456,7 +524,7 @@ export function createPlatformServer({
       sendJson(response, local ? mounts : normalizeProjectMounts({}));
       return true;
     }
-    if (denyWrite(request, response)) return true;
+    if (await denyWrite(request, response)) return true;
     if (request.method !== 'POST') {
       sendJson(response, { code: 'METHOD_NOT_ALLOWED', message: '该接口只支持 POST。' }, 405);
       return true;
@@ -525,7 +593,7 @@ export function createPlatformServer({
       sendJson(response, { message: '项目管理接口只支持 POST。' }, 405);
       return true;
     }
-    if (denyWrite(request, response)) return true;
+    if (await denyWrite(request, response)) return true;
 
     try {
       const body = await readJsonBody(request, MANAGEMENT_BODY_LIMIT);
@@ -564,6 +632,7 @@ export function createPlatformServer({
       '/__project-routes/route/update',
       '/__project-routes/section/update',
       '/__project-routes/route/order',
+      '/__project-routes/route/menu',
       '/__project-routes/route/delete',
       '/__project-routes/route/restore',
       '/__project-routes/section/restore',
@@ -605,6 +674,8 @@ export function createPlatformServer({
           updateProjectSections({ projectRoot: workspaceRoot, target: body, mounts }),
         '/__project-routes/route/order': () =>
           updateProjectRouteOrder({ projectRoot: workspaceRoot, target: body, mounts }),
+        '/__project-routes/route/menu': () =>
+          updateProjectPageMenu({ projectRoot: workspaceRoot, target: body, mounts }),
         '/__project-routes/route/delete': () =>
           deleteProjectRoute({ projectRoot: workspaceRoot, target: body, mounts }),
         '/__project-routes/route/restore': () =>
@@ -648,7 +719,7 @@ export function createPlatformServer({
       sendJson(response, { message: '项目资源不存在或路径无效。' }, 404);
       return true;
     }
-    sendBytes(response, await fs.readFile(target), target);
+    await sendBytes(response, await fs.readFile(target), target);
     return true;
   }
 
@@ -670,7 +741,7 @@ export function createPlatformServer({
     );
 
     if (request.method === 'POST') {
-      if (denyWrite(request, response)) return true;
+      if (await denyWrite(request, response)) return true;
       try {
         const payload = normalizedProjectConfig(
           projectId,
@@ -762,7 +833,7 @@ export function createPlatformServer({
           'utf8',
         )
       : await fs.readFile(target);
-    sendBytes(
+    await sendBytes(
       response,
       content,
       target,
@@ -797,7 +868,7 @@ export function createPlatformServer({
       sendJson(response, { message: '文档路径无效。' }, 400);
       return true;
     }
-    sendBytes(response, await fs.readFile(target), target);
+    await sendBytes(response, await fs.readFile(target), target);
     return true;
   }
 
@@ -807,13 +878,13 @@ export function createPlatformServer({
     const relativePath = decodedPath === '/' ? 'index.html' : decodedPath.replace(/^\/+/, '');
     const target = await resolveExistingFile(publicRoot, relativePath);
     if (target) {
-      sendBytes(response, await readStaticFile(target), target);
+      await sendBytes(response, await readStaticFile(target), target, immutableCacheHeaders(relativePath));
       return true;
     }
     if (requestUrl.pathname.startsWith('/__')) return false;
     const fallback = await resolveExistingFile(publicRoot, 'index.html');
     if (!fallback) return false;
-    sendBytes(response, await readStaticFile(fallback), fallback);
+    await sendBytes(response, await readStaticFile(fallback), fallback);
     return true;
   }
 
@@ -842,20 +913,27 @@ export function createPlatformServer({
     if (requestUrl.pathname === '/__platform/share') {
       const local = isLocalRequest(request, getClientAddress);
       if (request.method === 'GET') {
-        sendJson(response, { ok: true, share: shareStatus(local) });
+        sendJson(response, {
+          ok: true,
+          share: shareStatus(
+            local,
+            settingsFile ? (await readSettings(settingsFile)).remoteManagement : false,
+          ),
+        });
         return;
       }
       if (request.method === 'POST') {
-        if (denyWrite(request, response)) return;
+        if (await denyWrite(request, response)) return true;
         try {
           const body = await readJsonBody(request, SHARE_BODY_LIMIT);
           if (typeof body?.enabled !== 'boolean') {
             throw requestError('enabled 必须是布尔值。', 400, 'INVALID_SHARE_STATE');
           }
           await setShareEnabled(body.enabled);
+          const settings = settingsFile ? await readSettings(settingsFile) : normalizePlatformSettings({});
           sendJson(response, {
             ok: true,
-            share: shareStatus(local),
+            share: shareStatus(local, settings.remoteManagement),
             message: body.enabled ? '已开启局域网只读分享。' : '已关闭局域网分享。',
           });
         } catch (error) {
@@ -871,7 +949,7 @@ export function createPlatformServer({
       return;
     }
     if (requestUrl.pathname === '/__platform/settings' && request.method === 'POST') {
-      if (denyWrite(request, response)) return;
+      if (await denyWrite(request, response)) return true;
       if (!settingsFile) {
         sendJson(response, { code: 'SERVER_CONFIG_ERROR', message: '独立服务未配置平台设置文件。' }, 503);
         return;

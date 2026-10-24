@@ -8,30 +8,30 @@ describe('PlatformPage', () => {
     render(
       <PlatformPage
         eyebrow="PROJECT LIBRARY"
-        title="项目包状态"
-        description="读取本地项目包"
-        actions={<button>重新扫描</button>}
+        title="項目包狀態"
+        description="讀取本地項目包"
+        actions={<button>重新掃描</button>}
       >
-        <div>项目清单</div>
+        <div>項目清單</div>
       </PlatformPage>,
     );
 
-    expect(screen.getByRole('main', { name: '项目包状态' })).toHaveAttribute(
+    expect(screen.getByRole('main', { name: '項目包狀態' })).toHaveAttribute(
       'data-description',
-      '读取本地项目包',
+      '讀取本地項目包',
     );
-    // 页面标题必须是真实 heading：既服务无障碍，也是 E2E 定位页面的依据。
-    expect(screen.getByRole('heading', { name: '项目包状态', level: 1 })).toBeInTheDocument();
+    // 頁面標題必須是真實 heading：既服務無障礙，也是 E2E 定位頁面的依據。
+    expect(screen.getByRole('heading', { name: '項目包狀態', level: 1 })).toBeInTheDocument();
     expect(screen.getByText('PROJECT LIBRARY')).toBeInTheDocument();
-    expect(screen.getByText('读取本地项目包')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '重新扫描' })).toBeInTheDocument();
-    expect(screen.getByText('项目清单')).toBeInTheDocument();
+    expect(screen.getByText('讀取本地項目包')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '重新掃描' })).toBeInTheDocument();
+    expect(screen.getByText('項目清單')).toBeInTheDocument();
   });
 
-  it('省略可选文案时只渲染标题', () => {
+  it('省略可選文案時只渲染標題', () => {
     render(
       <PlatformPage title="控制台">
-        <div>内容</div>
+        <div>內容</div>
       </PlatformPage>,
     );
 

@@ -41,24 +41,24 @@ export function WorkspaceOnboarding() {
       <Modal open={show} closable={false} footer={null} width={680} title={null}>
         <Space direction="vertical" size={24} style={{ width: '100%' }}>
           <div>
-            <Text type="secondary">首次启动</Text>
+            <Text type="secondary">首次啓動</Text>
             <Title level={2} style={{ marginTop: 6 }}>
-              准备你的产品体验工作区
+              準備你的產品體驗工作區
             </Title>
             <Paragraph type="secondary">
-              当前没有可用项目。你可以挂载已有项目文件夹、安装脱敏示例，或者先进入空平台。
+              當前沒有可用項目。你可以掛載已有項目文件夾、安裝脫敏示例，或者先進入空平臺。
             </Paragraph>
           </div>
           {bootstrap.data?.workspace.invalidProjects ? (
             <Alert
               type="warning"
               showIcon
-              title={`发现 ${bootstrap.data.workspace.invalidProjects} 个无效项目`}
-              description="进入项目包管理或健康检查中心，可以看到具体错误和修复建议。"
+              title={`發現 ${bootstrap.data.workspace.invalidProjects} 個無效項目`}
+              description="進入項目包管理或健康檢查中心，可以看到具體錯誤和修復建議。"
             />
           ) : null}
           {example.isError ? (
-            <Alert type="error" showIcon title="示例创建失败" description={example.error.message} />
+            <Alert type="error" showIcon title="示例創建失敗" description={example.error.message} />
           ) : null}
           <Flex vertical gap={10}>
             <Button
@@ -67,7 +67,7 @@ export function WorkspaceOnboarding() {
               icon={<FolderOpenOutlined />}
               onClick={() => setMountOpen(true)}
             >
-              打开现有项目
+              打開現有項目
             </Button>
             <Button
               size="large"
@@ -75,7 +75,7 @@ export function WorkspaceOnboarding() {
               loading={example.isPending}
               onClick={() => example.mutate()}
             >
-              创建脱敏示例
+              創建脫敏示例
             </Button>
             <Button
               type="text"
@@ -84,10 +84,10 @@ export function WorkspaceOnboarding() {
                 setDismissed(true);
               }}
             >
-              暂不配置，进入空平台
+              暫不配置，進入空平臺
             </Button>
           </Flex>
-          <Text type="secondary">“暂不配置”只记录在当前浏览器，不写入项目目录。</Text>
+          <Text type="secondary">“暫不配置”只記錄在當前瀏覽器，不寫入項目目錄。</Text>
         </Space>
       </Modal>
       <ProjectMountDialog

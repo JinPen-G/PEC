@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
 /**
- * 用户可见主题只有浅色和深色；`glass` 是浅色主题的兼容内部值，
- * 这样既能保留已有本地设置，又不再暴露独立的玻璃主题选项。
+ * 用戶可見主題只有淺色和深色；`glass` 是淺色主題的兼容內部值，
+ * 這樣既能保留已有本地設置，又不再暴露獨立的玻璃主題選項。
  */
 export type PlatformThemeMode = 'system' | 'dark' | 'glass';
 export type ResolvedThemeMode = Exclude<PlatformThemeMode, 'system'>;
@@ -20,7 +20,7 @@ function readThemeMode(): PlatformThemeMode {
   try {
     const stored = localStorage.getItem(THEME_MODE_KEY);
     if (stored === 'system' || stored === 'dark' || stored === 'glass') return stored;
-    // 旧版默认浅色与新版浅色统一，避免升级后继续读取旧的蓝色浅色主题。
+    // 舊版默認淺色與新版淺色統一，避免升級後繼續讀取舊的藍色淺色主題。
     if (stored === 'default') return 'glass';
     return 'glass';
   } catch {

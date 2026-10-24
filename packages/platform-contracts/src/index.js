@@ -132,7 +132,10 @@ export function normalizeHtmlPageCatalog(payload) {
 
 export function normalizePlatformSettings(payload) {
   const source = isRecord(payload?.settings) ? payload.settings : isRecord(payload) ? payload : {};
-  return { developerMode: Boolean(source.developerMode) };
+  return {
+    developerMode: Boolean(source.developerMode),
+    remoteManagement: Boolean(source.remoteManagement),
+  };
 }
 
 export function normalizeRouteList(payload) {

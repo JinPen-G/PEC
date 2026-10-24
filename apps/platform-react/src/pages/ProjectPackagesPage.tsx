@@ -24,7 +24,7 @@ import { Surface } from '@/ui/platform/Surface';
 const { Text, Title } = Typography;
 
 function projectDescription(project: ProjectManifest) {
-  return project.description || '暂无项目说明';
+  return project.description || '暫無項目說明';
 }
 
 export function ProjectPackagesPage() {
@@ -50,7 +50,7 @@ export function ProjectPackagesPage() {
     mutationFn: (payload: { data: Record<string, unknown>; editing: boolean }) =>
       platformApi.saveProject(payload.data, { editing: payload.editing }),
     onSuccess: async (result) => {
-      setNotice(`${result.message || '项目配置已保存。'} 开发服务正在重新载入项目配置。`);
+      setNotice(`${result.message || '項目配置已保存。'} 開發服務正在重新載入項目配置。`);
       setDialog(null);
       await queryClient.invalidateQueries({ queryKey: platformQueryKeys.projects });
       await queryClient.invalidateQueries({ queryKey: platformQueryKeys.htmlPages });
@@ -59,7 +59,7 @@ export function ProjectPackagesPage() {
   const unmountProject = useMutation({
     mutationFn: (projectId: string) => platformApi.unmountProject(projectId),
     onSuccess: async (result) => {
-      setNotice(String(result.message || '挂载已取消。'));
+      setNotice(String(result.message || '掛載已取消。'));
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: platformQueryKeys.projects }),
         queryClient.invalidateQueries({ queryKey: platformQueryKeys.htmlPages }),
@@ -72,7 +72,7 @@ export function ProjectPackagesPage() {
   const columns = useMemo<ColumnsType<ProjectManifest>>(
     () => [
       {
-        title: '项目名称',
+        title: '項目名稱',
         dataIndex: 'name',
         key: 'name',
         minWidth: 180,
@@ -83,7 +83,7 @@ export function ProjectPackagesPage() {
           </div>
         ),
       },
-      { title: '项目 ID', dataIndex: 'id', key: 'id', width: 160, render: (value) => <code>{value}</code> },
+      { title: '項目 ID', dataIndex: 'id', key: 'id', width: 160, render: (value) => <code>{value}</code> },
       {
         title: '版本',
         dataIndex: 'version',
@@ -92,7 +92,7 @@ export function ProjectPackagesPage() {
         render: (value) => <code>v{value || '1.0'}</code>,
       },
       {
-        title: '客户端',
+        title: '客戶端',
         dataIndex: 'clients',
         key: 'clients',
         minWidth: 210,
@@ -103,14 +103,14 @@ export function ProjectPackagesPage() {
             <Text type="secondary">-</Text>
           ),
       },
-      { title: '状态', key: 'status', width: 100, render: () => <Tag color="success">可用</Tag> },
+      { title: '狀態', key: 'status', width: 100, render: () => <Tag color="success">可用</Tag> },
       {
-        title: '首页显示',
+        title: '首頁顯示',
         key: 'homepage',
         width: 110,
         render: (_, project) => (
           <Tag color={project.homepage?.visible !== false ? 'blue' : 'default'}>
-            {project.homepage?.visible !== false ? '显示' : '隐藏'}
+            {project.homepage?.visible !== false ? '顯示' : '隱藏'}
           </Tag>
         ),
       },
@@ -128,7 +128,7 @@ export function ProjectPackagesPage() {
                     icon={<EditOutlined />}
                     onClick={() => setDialog({ mode: 'edit', project })}
                   >
-                    编辑
+                    編輯
                   </Button>
                   {project.mounted ? (
                     <Button
@@ -137,16 +137,16 @@ export function ProjectPackagesPage() {
                       icon={<DisconnectOutlined />}
                       onClick={() => {
                         Modal.confirm({
-                          title: `取消挂载“${project.name}”？`,
-                          content: '只移除本机挂载记录，不会删除或修改源项目文件。',
-                          okText: '取消挂载',
+                          title: `取消掛載“${project.name}”？`,
+                          content: '只移除本機掛載記錄，不會刪除或修改源項目文件。',
+                          okText: '取消掛載',
                           okButtonProps: { danger: true },
                           cancelText: '返回',
                           onOk: () => unmountProject.mutateAsync(project.id),
                         });
                       }}
                     >
-                      取消挂载
+                      取消掛載
                     </Button>
                   ) : null}
                 </Space>
@@ -160,18 +160,18 @@ export function ProjectPackagesPage() {
 
   return (
     <PlatformPage
-      title="项目包管理"
-      description="查看本地项目资料状态，维护项目入口、主题和客户端配置。"
+      title="項目包管理"
+      description="查看本地項目資料狀態，維護項目入口、主題和客戶端配置。"
       actions={
         <>
           {canManageProjects ? (
             <Button icon={<SafetyCertificateOutlined />} onClick={() => navigate('/tools/project-health')}>
-              健康检查
+              健康檢查
             </Button>
           ) : null}
           {canManageProjects ? (
             <Button icon={<OrderedListOutlined />} onClick={() => navigate('/tools/project-routes')}>
-              路由菜单
+              路由菜單
             </Button>
           ) : null}
           <Button
@@ -179,11 +179,11 @@ export function ProjectPackagesPage() {
             loading={manifestQuery.isFetching}
             onClick={() => void manifestQuery.refetch()}
           >
-            重新扫描
+            重新掃描
           </Button>
           {canManageProjects ? (
             <Button icon={<LinkOutlined />} onClick={() => setMountOpen(true)}>
-              挂载项目
+              掛載項目
             </Button>
           ) : null}
           {canManageProjects ? (
@@ -192,14 +192,14 @@ export function ProjectPackagesPage() {
               icon={<PlusOutlined />}
               onClick={() => setDialog({ mode: 'create', project: null })}
             >
-              新建项目
+              新建項目
             </Button>
           ) : null}
         </>
       }
     >
       {manifestQuery.isError ? (
-        <Alert type="error" showIcon title="项目包读取失败" description={manifestQuery.error.message} />
+        <Alert type="error" showIcon title="項目包讀取失敗" description={manifestQuery.error.message} />
       ) : null}
       {notice ? (
         <Alert type="success" showIcon closable={{ onClose: () => setNotice('') }} title={notice} />
@@ -209,7 +209,7 @@ export function ProjectPackagesPage() {
           type="error"
           showIcon
           closable={{ onClose: saveProject.reset }}
-          title="项目配置保存失败"
+          title="項目配置保存失敗"
           description={saveProject.error.message}
         />
       ) : null}
@@ -218,35 +218,35 @@ export function ProjectPackagesPage() {
           type="error"
           showIcon
           closable={{ onClose: unmountProject.reset }}
-          title="取消挂载失败"
+          title="取消掛載失敗"
           description={unmountProject.error.message}
         />
       ) : null}
 
-      <Surface className="packages-summary" aria-label="项目包概览">
+      <Surface className="packages-summary" aria-label="項目包概覽">
         <Flex className="packages-summary__stats" gap={0}>
-          <Statistic title="可用项目" value={projects.length} suffix="个" />
+          <Statistic title="可用項目" value={projects.length} suffix="個" />
           <Statistic
-            title="异常项目"
+            title="異常項目"
             value={invalidProjects.length}
-            suffix="个"
+            suffix="個"
             styles={
               invalidProjects.length
                 ? { content: { color: 'var(--ant-color-warning)' } }
                 : undefined
             }
           />
-          <Statistic title="当前权限" value={canManageProjects ? '可管理' : '只读'} />
+          <Statistic title="當前權限" value={canManageProjects ? '可管理' : '只讀'} />
         </Flex>
       </Surface>
 
       <Surface className="packages-table-panel">
         <div className="workspace-section-heading">
           <div>
-            <Title level={3}>项目清单</Title>
-            <Text type="secondary">有效项目可直接进入首页和配置流程。</Text>
+            <Title level={3}>項目清單</Title>
+            <Text type="secondary">有效項目可直接進入首頁和配置流程。</Text>
           </div>
-          <Tag color="blue">{projects.length} 个项目</Tag>
+          <Tag color="blue">{projects.length} 個項目</Tag>
         </div>
         {manifestQuery.isPending ? (
           <div className="page-loading">
@@ -262,7 +262,7 @@ export function ProjectPackagesPage() {
             scroll={{ x: 820 }}
           />
         ) : (
-          <Empty description="尚未发现有效项目包" />
+          <Empty description="尚未發現有效項目包" />
         )}
       </Surface>
 
@@ -291,7 +291,7 @@ export function ProjectPackagesPage() {
         open={mountOpen}
         onCancel={() => setMountOpen(false)}
         onMounted={async () => {
-          setNotice('项目已挂载，源文件保持在原目录。');
+          setNotice('項目已掛載，源文件保持在原目錄。');
           await Promise.all([
             queryClient.invalidateQueries({ queryKey: platformQueryKeys.projects }),
             queryClient.invalidateQueries({ queryKey: platformQueryKeys.htmlPages }),
@@ -314,8 +314,8 @@ function InvalidProjectPanel({
   onEdit: (project: ProjectManifest) => void;
 }) {
   const columns: ColumnsType<InvalidProject> = [
-    { title: '文件夹', dataIndex: 'folder', key: 'folder', width: 220 },
-    { title: '问题', dataIndex: 'errors', key: 'errors', render: (errors: string[]) => errors.join('；') },
+    { title: '文件夾', dataIndex: 'folder', key: 'folder', width: 220 },
+    { title: '問題', dataIndex: 'errors', key: 'errors', render: (errors: string[]) => errors.join('；') },
     ...(editable
       ? [
           {
@@ -328,7 +328,7 @@ function InvalidProjectPanel({
                   配置
                 </Button>
               ) : (
-                <Text type="secondary">无法读取配置</Text>
+                <Text type="secondary">無法讀取配置</Text>
               ),
           },
         ]
@@ -337,8 +337,8 @@ function InvalidProjectPanel({
   return (
     <Surface className="invalid-project-panel">
       <div className="workspace-section-heading">
-        <Title level={3}>无效项目包</Title>
-        <Tag color="warning">{projects.length} 个需要处理</Tag>
+        <Title level={3}>無效項目包</Title>
+        <Tag color="warning">{projects.length} 個需要處理</Tag>
       </div>
       <Table rowKey="folder" columns={columns} dataSource={projects} pagination={false} scroll={{ x: 600 }} />
     </Surface>

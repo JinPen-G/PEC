@@ -6,24 +6,24 @@ import { buildProjectPayload, draftFromProject } from './project-config-model';
 const project = {
   schemaVersion: 1,
   id: 'rental',
-  name: '租赁项目',
-  shortName: '租赁',
+  name: '租賃項目',
+  shortName: '租賃',
   version: '2.3.0',
   defaultLocale: 'zh-CN',
-  description: '历史说明',
+  description: '歷史說明',
   theme: { primary: '#1677ff', primaryHover: '#0d62d6', primaryActive: '#0b52b3', pageBackground: '#f7f8fa' },
   clients: [
     {
       id: 'operation',
-      name: '营运端',
+      name: '營運端',
       login: { account: 'admin', tenantCode: 'rimo' },
       extension: 'keep-me',
     },
   ],
   entries: [
-    { id: 'operation', kind: 'client', clientId: 'operation', name: '营运端', order: 10 },
-    { id: 'docs', kind: 'docs', name: '产品文档', order: 20 },
-    { id: 'mobile', kind: 'mobile', name: '移动端', order: 30 },
+    { id: 'operation', kind: 'client', clientId: 'operation', name: '營運端', order: 10 },
+    { id: 'docs', kind: 'docs', name: '產品文檔', order: 20 },
+    { id: 'mobile', kind: 'mobile', name: '移動端', order: 30 },
   ],
   docs: { enabled: true, root: 'docs' },
   prototype: {
@@ -39,15 +39,15 @@ const project = {
 describe('project configuration payload', () => {
   it('retains undisplayed project and client configuration while updating visible fields', () => {
     const draft = draftFromProject(project);
-    draft.name = '租赁项目新版';
+    draft.name = '租賃項目新版';
     draft.primary = '#2563eb';
-    draft.clients[0].name = '营运管理端';
+    draft.clients[0].name = '營運管理端';
     const payload = buildProjectPayload(draft, true);
 
     expect(payload).toMatchObject({
       id: 'rental',
-      name: '租赁项目新版',
-      shortName: '租赁',
+      name: '租賃項目新版',
+      shortName: '租賃',
       version: '2.3.0',
       defaultLocale: 'zh-CN',
       primary: '#2563eb',
@@ -59,12 +59,12 @@ describe('project configuration payload', () => {
     });
     expect(payload.clients[0]).toMatchObject({
       id: 'operation',
-      name: '营运管理端',
+      name: '營運管理端',
       login: { account: 'admin', tenantCode: 'rimo' },
       extension: 'keep-me',
     });
     expect(payload.entries).toEqual(
-      expect.arrayContaining([{ id: 'mobile', kind: 'mobile', name: '移动端', order: 30 }]),
+      expect.arrayContaining([{ id: 'mobile', kind: 'mobile', name: '移動端', order: 30 }]),
     );
   });
 

@@ -9,11 +9,11 @@ export function ProjectUnavailablePage() {
     <main className="system-result-page">
       <Result
         status="404"
-        title="项目不可用"
-        subTitle={`项目 ${projectId || '未知'} 不存在、已隐藏或当前入口不可访问。`}
+        title="項目不可用"
+        subTitle={`項目 ${projectId || '未知'} 不存在、已隱藏或當前入口不可訪問。`}
         extra={
           <Button type="primary" onClick={() => navigate('/')}>
-            返回首页
+            返回首頁
           </Button>
         }
       />

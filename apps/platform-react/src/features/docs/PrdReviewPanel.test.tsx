@@ -14,7 +14,7 @@ describe('PrdReviewPanel', () => {
         <PrdReviewPanel
           open
           projectId="sample-project"
-          pageTitle="示例页面"
+          pageTitle="示例頁面"
           documentPath={undefined as unknown as string}
           documents={[]}
           mode="split"
@@ -24,10 +24,10 @@ describe('PrdReviewPanel', () => {
       </QueryClientProvider>,
     );
 
-    expect(screen.getByText('示例页面')).toBeInTheDocument();
-    expect(screen.getByText('当前页面未关联 PRD')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '在文档中心打开' })).toBeDisabled();
-    expect(screen.getByRole('complementary', { name: '示例页面 PRD' })).toBeInTheDocument();
+    expect(screen.getByText('示例頁面')).toBeInTheDocument();
+    expect(screen.getByText('當前頁面未關聯 PRD')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '在文檔中心打開' })).toBeDisabled();
+    expect(screen.getByRole('complementary', { name: '示例頁面 PRD' })).toBeInTheDocument();
   });
 
   it('keeps display mode and document outline as explicit Ant controls', () => {
@@ -38,7 +38,7 @@ describe('PrdReviewPanel', () => {
         <PrdReviewPanel
           open
           projectId="sample-project"
-          pageTitle="示例页面"
+          pageTitle="示例頁面"
           documentPath=""
           documents={[]}
           mode="split"
@@ -48,11 +48,11 @@ describe('PrdReviewPanel', () => {
       </QueryClientProvider>,
     );
 
-    fireEvent.click(screen.getByRole('radio', { name: '浮层' }));
+    fireEvent.click(screen.getByRole('radio', { name: '浮層' }));
     expect(onModeChange).toHaveBeenCalledWith('overlay');
 
-    fireEvent.click(screen.getByRole('button', { name: '查看目录' }));
-    expect(screen.getByLabelText('PRD 本文目录')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '收起目录' })).toHaveAttribute('aria-pressed', 'true');
+    fireEvent.click(screen.getByRole('button', { name: '查看目錄' }));
+    expect(screen.getByLabelText('PRD 本文目錄')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '收起目錄' })).toHaveAttribute('aria-pressed', 'true');
   });
 });

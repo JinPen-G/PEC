@@ -13,6 +13,7 @@ import {
 import { findProject } from '@/features/projects/project-model';
 import { MarkdownReader } from '@/features/docs/MarkdownReader';
 import { resolveDocumentAssetPath, type MarkdownHeading } from '@/features/docs/markdown';
+import { appRouteUrl } from '@/features/routes/app-url';
 import { Button, Collapse, Empty, Input, Layout, Spin, Tag, Typography } from '@/ui/ant';
 import { ArrowLeftOutlined, FileTextOutlined, LinkOutlined } from '@/ui/ant/icons';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
@@ -21,7 +22,7 @@ const { Text } = Typography;
 const { Header, Sider, Content } = Layout;
 
 function getDocumentName(document: DocumentEntry) {
-  const fallback = document.path.split('/').pop()?.replace(/\.md$/iu, '') || '未命名文档';
+  const fallback = document.path.split('/').pop()?.replace(/\.md$/iu, '') || '未命名文檔';
   const fileName = typeof document.fileName === 'string' ? document.fileName : fallback;
   return document.title || fileName;
 }
@@ -71,7 +72,7 @@ export function DocsCenterPage() {
     const groups = new Map<string, DocumentEntry[]>();
     filteredDocuments.forEach((document) => {
       const folders = getDocumentFolders(document);
-      const key = folders.length ? folders.join(' / ') : '未分类';
+      const key = folders.length ? folders.join(' / ') : '未分類';
       const current = groups.get(key) ?? [];
       current.push(document);
       groups.set(key, current);
@@ -118,13 +119,13 @@ export function DocsCenterPage() {
     (documentPath: string, anchor = '') => {
       const next = new URLSearchParams({ doc: documentPath });
       if (anchor) next.set('anchor', anchor);
-      return `/p/${projectId}/docs?${next.toString()}`;
+      return appRouteUrl(`/p/${projectId}/docs?${next.toString()}`);
     },
     [projectId],
   );
 
   useEffect(() => {
-    document.title = `${selectedDocument?.title || '产品文档'} - ${project?.name || '项目'}`;
+    document.title = `${selectedDocument?.title || '產品文檔'} - ${project?.name || '項目'}`;
   }, [project?.name, selectedDocument?.title]);
 
   useEffect(() => {
@@ -182,8 +183,8 @@ export function DocsCenterPage() {
 
   const selectDocument = (document: DocumentEntry) => openDocument(document.path);
   const selectedFolderLabel = selectedDocument
-    ? getDocumentFolders(selectedDocument).join(' / ') || '未分类'
-    : '文档';
+    ? getDocumentFolders(selectedDocument).join(' / ') || '未分類'
+    : '文檔';
   const scrollToHeading = (headingId: string) => {
     setActiveHeadingId(headingId);
     document
@@ -199,7 +200,7 @@ export function DocsCenterPage() {
             className="docs-header__back"
             type="text"
             icon={<ArrowLeftOutlined />}
-            aria-label="返回首页"
+            aria-label="返回首頁"
             onClick={() => navigate('/')}
           />
           <span className="docs-header__identity-mark" aria-hidden="true">
@@ -207,15 +208,15 @@ export function DocsCenterPage() {
           </span>
           <div>
             <strong>{project.name}</strong>
-            <Text type="secondary">文档中心</Text>
+            <Text type="secondary">文檔中心</Text>
           </div>
         </div>
-        <div className="docs-header__current">产品资料</div>
+        <div className="docs-header__current">產品資料</div>
         <div className="docs-header__actions">
-          <Tag variant="filled">{documents.length} 份文档</Tag>
+          <Tag variant="filled">{documents.length} 份文檔</Tag>
           <ThemeControl />
           <Button type="text" onClick={() => navigate('/')}>
-            返回首页
+            返回首頁
           </Button>
         </div>
       </Header>
@@ -223,8 +224,8 @@ export function DocsCenterPage() {
         <Sider theme="light" width={292} className="docs-sidebar">
           <div className="docs-sidebar__heading">
             <div>
-              <Text strong>文档目录</Text>
-              <Text type="secondary">按文件夹分类</Text>
+              <Text strong>文檔目錄</Text>
+              <Text type="secondary">按文件夾分類</Text>
             </div>
             <Tag variant="filled">{filteredDocuments.length}</Tag>
           </div>
@@ -241,7 +242,7 @@ export function DocsCenterPage() {
               items={[
                 {
                   key: 'pages',
-                  label: `关联页面 ${associatedPages.length}`,
+                  label: `關聯頁面 ${associatedPages.length}`,
                   children: (
                     <ul className="docs-associated-pages__list">
                       {associatedPages.map((page) => (
@@ -288,7 +289,7 @@ export function DocsCenterPage() {
                 </section>
               ))
             ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="没有匹配文档" />
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="沒有匹配文檔" />
             )}
           </div>
         </Sider>
@@ -296,7 +297,7 @@ export function DocsCenterPage() {
           {selectedDocument ? (
             <div className="docs-reader__inner">
               <div className="docs-reader__breadcrumb">
-                <Text type="secondary">文档</Text>
+                <Text type="secondary">文檔</Text>
                 <span aria-hidden="true">›</span>
                 <Text>{selectedFolderLabel}</Text>
               </div>
@@ -313,14 +314,14 @@ export function DocsCenterPage() {
               />
             </div>
           ) : (
-            <Empty description="选择一份文档开始阅读" />
+            <Empty description="選擇一份文檔開始閱讀" />
           )}
         </Content>
         <Sider theme="light" width={224} className="docs-outline">
           <div className="docs-outline__heading">
             <div>
-              <Text strong>本文目录</Text>
-              <Text type="secondary">按章节跳转</Text>
+              <Text strong>本文目錄</Text>
+              <Text type="secondary">按章節跳轉</Text>
             </div>
             <Tag variant="filled">{headings.length}</Tag>
           </div>

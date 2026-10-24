@@ -1,6 +1,6 @@
 {
-  "name": "产品功能体验中心",
-  "short_name": "体验中心",
+  "name": "產品功能體驗中心",
+  "short_name": "體驗中心",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

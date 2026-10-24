@@ -7,13 +7,13 @@ const client: RouteClient = {
   name: '管理端',
   basePath: '/admin',
   sections: [
-    { id: 'workbench', title: '工作区' },
-    { id: 'orders', title: '订单中心' },
+    { id: 'workbench', title: '工作區' },
+    { id: 'orders', title: '訂單中心' },
   ],
   pages: [
-    { name: 'home', path: 'home', title: '首页', section: 'workbench' },
-    { name: 'orders', path: 'orders', title: '订单', section: 'orders' },
-    { name: 'detail', path: 'detail', title: '详情', section: 'orders' },
+    { name: 'home', path: 'home', title: '首頁', section: 'workbench' },
+    { name: 'orders', path: 'orders', title: '訂單', section: 'orders' },
+    { name: 'detail', path: 'detail', title: '詳情', section: 'orders' },
   ],
 };
 

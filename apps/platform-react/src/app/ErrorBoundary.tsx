@@ -23,9 +23,9 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBound
       <main className="system-result-page">
         <Result
           status="error"
-          title="页面暂时无法显示"
+          title="頁面暫時無法顯示"
           subTitle={this.state.error.message}
-          extra={<Button onClick={() => window.location.reload()}>重新加载</Button>}
+          extra={<Button onClick={() => window.location.reload()}>重新加載</Button>}
         />
       </main>
     );

@@ -81,7 +81,8 @@ export function useProjectHealth() {
   return useQuery({
     queryKey: platformQueryKeys.health,
     queryFn: () => platformApi.loadProjectHealth(),
-    enabled: platformApi.development,
+    // 静态部署读取打包时的健康快照，因此不再限制为本机
+    enabled: true,
   });
 }
 

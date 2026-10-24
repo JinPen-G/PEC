@@ -17,7 +17,7 @@ describe('platform theme', () => {
   });
 
   it('restores and persists the selected Ant theme', async () => {
-    // 旧版本的默认浅色设置应迁移到现在的浅色材质。
+    // 舊版本的默認淺色設置應遷移到現在的淺色材質。
     localStorage.setItem(STORAGE_KEY, 'default');
     render(
       <PlatformThemeProvider>

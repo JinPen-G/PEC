@@ -4,20 +4,20 @@ import { mergePagePrdLinks, pagePrdLinkFor, updatePagePrdOverride } from './prd-
 
 describe('page PRD link overrides', () => {
   const base = {
-    operation: { dashboard: '业务/Dashboard.md', orders: '业务/订单.md' },
+    operation: { dashboard: '業務/Dashboard.md', orders: '業務/訂單.md' },
   };
 
   it('keeps unrelated override records when a route association is changed', () => {
     const updated = updatePagePrdOverride(
-      { operation: { dashboard: '业务/新版看板.md' }, enterprise: { employee: '企业/员工.md' } },
+      { operation: { dashboard: '業務/新版看板.md' }, enterprise: { employee: '企業/員工.md' } },
       'operation',
       'orders',
-      '业务/订单详情.md',
+      '業務/訂單詳情.md',
     );
 
     expect(updated).toEqual({
-      operation: { dashboard: '业务/新版看板.md', orders: '业务/订单详情.md' },
-      enterprise: { employee: '企业/员工.md' },
+      operation: { dashboard: '業務/新版看板.md', orders: '業務/訂單詳情.md' },
+      enterprise: { employee: '企業/員工.md' },
     });
   });
 
@@ -26,8 +26,8 @@ describe('page PRD link overrides', () => {
     const merged = mergePagePrdLinks(base, overrides);
 
     expect(overrides).toEqual({ operation: { dashboard: null } });
-    expect(merged).toEqual({ operation: { orders: '业务/订单.md' } });
+    expect(merged).toEqual({ operation: { orders: '業務/訂單.md' } });
     expect(pagePrdLinkFor(merged, 'operation', 'dashboard')).toBe('');
-    expect(base.operation.dashboard).toBe('业务/Dashboard.md');
+    expect(base.operation.dashboard).toBe('業務/Dashboard.md');
   });
 });

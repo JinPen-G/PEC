@@ -135,7 +135,7 @@ export async function loadAiContext(project: ProjectManifest) {
       return {
         path: document.path,
         content: '',
-        error: error instanceof Error ? error.message : '文档正文读取失败。',
+        error: error instanceof Error ? error.message : '文檔正文讀取失敗。',
       };
     }
   });

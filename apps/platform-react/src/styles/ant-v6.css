@@ -6,11 +6,11 @@
   --platform-border: var(--ant-color-border-secondary, #f0f0f0);
   --platform-canvas: var(--ant-color-bg-layout, #f5f5f5);
   --platform-surface: var(--ant-color-bg-container, #fff);
-  /* 白色画布承载整页内容；结构性层级只由浮层材质和细阴影表达。 */
+  /* 白色畫布承載整頁內容；結構性層級只由浮層材質和細陰影表達。 */
   --platform-root-canvas: #fff;
   /*
-   * 平台材质扩展：颜色、边框和阴影优先读取 Ant Design token；
-   * backdrop-filter 不是 Ant 的内置 token，因此只在这里补充一层平台语义变量。
+   * 平臺材質擴展：顏色、邊框和陰影優先讀取 Ant Design token；
+   * backdrop-filter 不是 Ant 的內置 token，因此只在這裏補充一層平臺語義變量。
    */
   --platform-material-surface: var(--ant-color-bg-container, #fff);
   --platform-material-surface-strong: var(--ant-color-bg-elevated, #fff);
@@ -27,7 +27,7 @@
     0 1px 0 rgb(0 0 0 / 2%), 0 1px 12px rgb(0 0 0 / 6%), 0 0 1px rgb(0 0 0 / 32%);
   --platform-material-control-shadow: none;
   --platform-material-backdrop-filter: none;
-  /* Ant Design X 官网胶囊材质：低透明渐变 + 40px 背景模糊 + 双层高光描边。 */
+  /* Ant Design X 官網膠囊材質：低透明漸變 + 40px 背景模糊 + 雙層高光描邊。 */
   --platform-material-glass-background: linear-gradient(
     117deg,
     rgb(255 255 255 / 10%) 17%,
@@ -37,15 +37,15 @@
   --platform-material-glass-shadow:
     0 6px 16px 0 rgb(0 0 0 / 8%), 0 3px 6px -4px rgb(0 0 0 / 12%), 0 9px 28px 8px rgb(0 0 0 / 5%);
   /*
-   * BoardUI 侧栏基准：#f7f7f7、24px 圆角、白色 1px 外圈，以及三层短阴影。
-   * 平台保留半透明与 blur，令它在动态内容背景上仍是玻璃材质而非实体灰卡。
+   * BoardUI 側欄基準：#f7f7f7、24px 圓角、白色 1px 外圈，以及三層短陰影。
+   * 平臺保留半透明與 blur，令它在動態內容背景上仍是玻璃材質而非實體灰卡。
    */
   --platform-material-glass-sider-background: rgb(247 247 247 / 88%);
   --platform-material-glass-sider-shadow:
     0 1px 0 rgb(0 0 0 / 2%), 0 1px 12px rgb(0 0 0 / 6%), 0 0 1px rgb(0 0 0 / 32%);
   --platform-material-glass-border: linear-gradient(100deg, rgb(255 255 255 / 33%) 0%, transparent 100%);
   --platform-material-glass-highlight: linear-gradient(180deg, rgb(255 255 255 / 15%) 0%, transparent 100%);
-  /* 外壳底层只保留一层统一画布；侧栏材质单独读取 material token，避免玻璃失效。 */
+  /* 外殼底層只保留一層統一畫布；側欄材質單獨讀取 material token，避免玻璃失效。 */
   --platform-shell-canvas: #fff;
   --platform-home-radius-surface: 24px;
   --platform-home-radius-card: 20px;
@@ -61,7 +61,7 @@ html[data-theme='dark'] {
   --platform-surface: #141414;
   --platform-root-canvas: #000;
   --platform-material-surface: color-mix(in srgb, var(--ant-color-bg-container, #141414) 72%, transparent);
-  /* 顶栏与侧栏共用更深的导航材质，避免白色 HTML 内容把玻璃层托成灰白。 */
+  /* 頂欄與側欄共用更深的導航材質，避免白色 HTML 內容把玻璃層託成灰白。 */
   --platform-material-surface-strong: color-mix(
     in srgb,
     var(--ant-color-bg-container, #141414) 94%,
@@ -76,7 +76,7 @@ html[data-theme='dark'] {
     inset 0 1px 0 rgb(255 255 255 / 8%), 8px 0 24px rgb(0 0 0 / 38%), 0 0 1px rgb(0 0 0 / 32%);
   --platform-material-control-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), 0 8px 24px rgb(0 0 0 / 26%);
   --platform-material-backdrop-filter: blur(24px) saturate(140%);
-  /* 顶栏胶囊、平台侧栏、业务侧栏和窄屏抽屉统一使用这一深色 token。 */
+  /* 頂欄膠囊、平臺側欄、業務側欄和窄屏抽屜統一使用這一深色 token。 */
   --platform-material-glass-background: var(--platform-material-surface-strong);
   --platform-material-glass-backdrop-filter: blur(40px) saturate(150%);
   --platform-material-glass-shadow:
@@ -93,7 +93,7 @@ html[data-theme='glass'] {
   --platform-canvas: #fff;
   --platform-surface: color-mix(in srgb, var(--ant-color-bg-container, #fff) 68%, transparent);
   --platform-root-canvas: #fff;
-  /* Ant 的 bg-container/bg-elevated 默认是实心色，不能直接作为玻璃背景。 */
+  /* Ant 的 bg-container/bg-elevated 默認是實心色，不能直接作爲玻璃背景。 */
   --platform-material-surface: color-mix(in srgb, var(--ant-color-bg-container, #fff) 68%, transparent);
   --platform-material-surface-strong: color-mix(in srgb, var(--ant-color-bg-elevated, #fff) 82%, transparent);
   --platform-material-border: rgb(255 255 255 / 64%);
@@ -1102,7 +1102,7 @@ html[data-theme='glass'] .system-result-page .ant-result {
   --app-header-height: var(--ant-layout-header-height, 56px);
 }
 
-/* 侧栏与顶部两种外壳的框架样式都在 app-shell-frame.css（.app-sider / .client-topnav / .topnav-icon-button）。 */
+/* 側欄與頂部兩種外殼的框架樣式都在 app-shell-frame.css（.app-sider / .client-topnav / .topnav-icon-button）。 */
 
 .client-topbar {
   height: var(--app-header-height);
@@ -1482,7 +1482,7 @@ html[data-theme='dark'] .system-result-page .ant-result {
   background: var(--ant-color-bg-container) !important;
 }
 
-/* 深色主题的顶栏仍然是悬浮材质，不使用一整块纯色顶栏。 */
+/* 深色主題的頂欄仍然是懸浮材質，不使用一整塊純色頂欄。 */
 html[data-theme='dark'] .platform-workspace__global-header,
 html[data-theme='dark'] .home-topbar--ant,
 html[data-theme='dark'] .client-topbar,
@@ -1495,7 +1495,7 @@ html[data-theme='dark'] .mobile-preview-header {
   -webkit-backdrop-filter: var(--platform-material-backdrop-filter);
 }
 
-/* 深色导航材质统一覆盖所有侧栏形态，避免 Ant 默认容器色覆盖玻璃层。 */
+/* 深色導航材質統一覆蓋所有側欄形態，避免 Ant 默認容器色覆蓋玻璃層。 */
 html[data-theme='dark'] .app-sider,
 html[data-theme='dark'] .app-sider-drawer,
 html[data-theme='dark'] .client-sider,
@@ -1544,7 +1544,7 @@ html[data-theme='glass'] .system-result-page .ant-result {
   -webkit-backdrop-filter: var(--platform-material-backdrop-filter);
 }
 
-/* 选择器和功能胶囊的弹出层也使用同一材质，避免触发后又回到普通白底。 */
+/* 選擇器和功能膠囊的彈出層也使用同一材質，避免觸發後又回到普通白底。 */
 html[data-theme='glass'] .ant-select-dropdown,
 html[data-theme='glass'] .app-pill-menu .ant-dropdown-menu,
 html[data-theme='glass'] .app-pill-menu .ant-menu {
@@ -1567,7 +1567,7 @@ html[data-theme='glass'] .platform-workspace .ant-table-tbody > tr:hover > td {
   background: var(--platform-material-hover-surface) !important;
 }
 
-/* 首页顶栏与业务页顶栏保持同一结构：外层只负责定位，材质只落在内部胶囊。 */
+/* 首頁頂欄與業務頁頂欄保持同一結構：外層只負責定位，材質只落在內部膠囊。 */
 html[data-theme='dark'] .home-topbar--ant,
 html[data-theme='glass'] .home-topbar--ant {
   border: 0 !important;

@@ -43,7 +43,7 @@ export function routeGroups(client: RouteClient): RouteGroup[] {
   if (ungrouped.length)
     groups.push({
       id: '__ungrouped__',
-      title: '未分组',
+      title: '未分組',
       sectionIndex: -1,
       isUngrouped: true,
       pages: ungrouped,

@@ -6,7 +6,7 @@ import { PrototypeFrame } from './PrototypeFrame';
 
 const page = {
   path: 'dashboard',
-  title: '综合仪表板',
+  title: '綜合儀表板',
   source: 'dashboard.html',
   sourceRoot: 'operation',
 } as HtmlPrototypePage;
@@ -32,9 +32,9 @@ describe('PrototypeFrame', () => {
       />,
     );
 
-    expect(screen.getByText('正在加载原型页面…')).toBeInTheDocument();
-    fireEvent.load(screen.getByTitle('综合仪表板'));
-    expect(screen.queryByText('正在加载原型页面…')).not.toBeInTheDocument();
+    expect(screen.getByText('正在加載原型頁面…')).toBeInTheDocument();
+    fireEvent.load(screen.getByTitle('綜合儀表板'));
+    expect(screen.queryByText('正在加載原型頁面…')).not.toBeInTheDocument();
     expect(onLoad).toHaveBeenCalledOnce();
   });
 
@@ -50,11 +50,11 @@ describe('PrototypeFrame', () => {
       />,
     );
 
-    fireEvent.error(screen.getByTitle('综合仪表板'));
-    expect(await screen.findByText('原型页面加载失败')).toBeInTheDocument();
+    fireEvent.error(screen.getByTitle('綜合儀表板'));
+    expect(await screen.findByText('原型頁面加載失敗')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /重新加载/ }));
-    expect(await screen.findByText('正在加载原型页面…')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /重新加載/ }));
+    expect(await screen.findByText('正在加載原型頁面…')).toBeInTheDocument();
   });
 
   it('syncs the host theme and follows later theme changes', async () => {
@@ -75,7 +75,7 @@ describe('PrototypeFrame', () => {
       />,
     );
 
-    const frame = screen.getByTitle('综合仪表板') as HTMLIFrameElement;
+    const frame = screen.getByTitle('綜合儀表板') as HTMLIFrameElement;
     Object.defineProperty(frame, 'contentDocument', {
       configurable: true,
       value: document.implementation.createHTMLDocument(),

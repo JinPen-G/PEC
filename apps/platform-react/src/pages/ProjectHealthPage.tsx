@@ -13,14 +13,14 @@ import { Surface } from '@/ui/platform/Surface';
 
 const { Text, Title } = Typography;
 const categoryNames: Record<string, string> = {
-  manifest: '项目配置',
+  manifest: '項目配置',
   schema: 'Schema',
-  routes: '路由与菜单',
+  routes: '路由與菜單',
   html: 'HTML 原型',
-  documents: 'PRD 文档',
-  associations: '需求关联',
-  resources: '项目资源',
-  mounts: '目录挂载',
+  documents: 'PRD 文檔',
+  associations: '需求關聯',
+  resources: '項目資源',
+  mounts: '目錄掛載',
 };
 
 export function ProjectHealthPage() {
@@ -29,24 +29,24 @@ export function ProjectHealthPage() {
   const columns = useMemo<ColumnsType<ProjectHealthIssue>>(
     () => [
       {
-        title: '级别',
+        title: '級別',
         dataIndex: 'severity',
         width: 86,
         render: (severity) => (
           <Tag color={severity === 'error' ? 'error' : 'warning'}>
-            {severity === 'error' ? '错误' : '提醒'}
+            {severity === 'error' ? '錯誤' : '提醒'}
           </Tag>
         ),
       },
-      { title: '范围', dataIndex: 'category', width: 110, render: (value) => categoryNames[value] || value },
-      { title: '影响对象', dataIndex: 'object', width: 180, render: (value) => <code>{value}</code> },
+      { title: '範圍', dataIndex: 'category', width: 110, render: (value) => categoryNames[value] || value },
+      { title: '影響對象', dataIndex: 'object', width: 180, render: (value) => <code>{value}</code> },
       {
-        title: '问题与建议',
+        title: '問題與建議',
         key: 'message',
         render: (_, item) => (
           <div>
             <Text>{item.message}</Text>
-            <small className="table-secondary">建议：{item.suggestion}</small>
+            <small className="table-secondary">建議：{item.suggestion}</small>
           </div>
         ),
       },
@@ -56,16 +56,16 @@ export function ProjectHealthPage() {
 
   return (
     <PlatformPage
-      title="项目健康检查"
-      description="集中检查项目配置、页面、HTML、PRD、关联、资源、挂载和 Schema。"
+      title="項目健康檢查"
+      description="集中檢查項目配置、頁面、HTML、PRD、關聯、資源、掛載和 Schema。"
       actions={
         <Button icon={<ReloadOutlined />} loading={query.isFetching} onClick={() => void query.refetch()}>
-          重新扫描
+          重新掃描
         </Button>
       }
     >
       {query.isError ? (
-        <Alert type="error" showIcon title="健康检查失败" description={query.error.message} />
+        <Alert type="error" showIcon title="健康檢查失敗" description={query.error.message} />
       ) : null}
       {query.isPending ? (
         <div className="page-loading">
@@ -76,10 +76,10 @@ export function ProjectHealthPage() {
         <>
           <Surface className="packages-summary">
             <Flex className="packages-summary__stats" gap={0}>
-              <Statistic title="项目" value={report.summary.projects || 0} suffix="个" />
-              <Statistic title="健康" value={report.summary.healthy || 0} suffix="个" />
+              <Statistic title="項目" value={report.summary.projects || 0} suffix="個" />
+              <Statistic title="健康" value={report.summary.healthy || 0} suffix="個" />
               <Statistic
-                title="错误"
+                title="錯誤"
                 value={report.summary.errors || 0}
                 styles={{ content: { color: report.summary.errors ? 'var(--ant-color-error)' : undefined } }}
               />
@@ -93,8 +93,8 @@ export function ProjectHealthPage() {
           <Surface className="health-projects">
             <div className="workspace-section-heading">
               <div>
-                <Title level={3}>检查结果</Title>
-                <Text type="secondary">每条问题都保留影响对象和可执行建议，不再只显示“项目不可用”。</Text>
+                <Title level={3}>檢查結果</Title>
+                <Text type="secondary">每條問題都保留影響對象和可執行建議，不再只顯示“項目不可用”。</Text>
               </div>
               <Text type="secondary">
                 {report.generatedAt ? new Date(report.generatedAt).toLocaleString() : ''}
@@ -114,12 +114,12 @@ export function ProjectHealthPage() {
                       size="small"
                     />
                   ) : (
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="未发现问题" />
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="未發現問題" />
                   ),
                 }))}
               />
             ) : (
-              <Empty description="当前没有项目可检查" />
+              <Empty description="當前沒有項目可檢查" />
             )}
           </Surface>
         </>
@@ -144,9 +144,9 @@ function ProjectHealthLabel({ item }: { item: ProjectHealthItem }) {
       )}
       <Text strong>{item.project.name}</Text>
       <Text type="secondary">{item.project.id}</Text>
-      {item.project.mounted ? <Tag color="blue">外部挂载</Tag> : null}
+      {item.project.mounted ? <Tag color="blue">外部掛載</Tag> : null}
       <Tag color={healthy ? 'success' : item.summary.status === 'error' ? 'error' : 'warning'}>
-        {healthy ? '健康' : `${item.summary.errors} 错误 / ${item.summary.warnings} 提醒`}
+        {healthy ? '健康' : `${item.summary.errors} 錯誤 / ${item.summary.warnings} 提醒`}
       </Tag>
     </Flex>
   );

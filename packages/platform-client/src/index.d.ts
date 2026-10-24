@@ -13,7 +13,7 @@ import type {
 } from '../../platform-contracts/src/index.js';
 
 export type RouteMutationAction =
-  'create' | 'update' | 'delete' | 'restore' | 'order' | 'section-update' | 'section-restore';
+  'create' | 'update' | 'delete' | 'restore' | 'order' | 'page-menu' | 'section-update' | 'section-restore';
 
 export interface PlatformClient {
   readonly development: boolean;
@@ -56,4 +56,5 @@ export function createPlatformClient(options?: {
   baseUrl?: string;
   development?: boolean;
   apiMode?: 'development' | 'local' | 'static';
+  staticAssetVersion?: string;
 }): PlatformClient;

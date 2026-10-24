@@ -41,21 +41,30 @@ async function parseJsonResponse(response) {
   }
 }
 
+const STATIC_SETTINGS_KEY = 'product-experience-center:static-settings';
+
 export function createPlatformClient({
   fetchImpl = globalThis.fetch,
   baseUrl = '/',
   development = false,
   apiMode = development ? 'development' : 'static',
+  staticAssetVersion = '',
 } = {}) {
   if (typeof fetchImpl !== 'function') throw new TypeError('createPlatformClient 需要可用的 fetch。');
   const normalizedBaseUrl = normalizeBaseUrl(baseUrl);
   const useLocalApi = apiMode === 'development' || apiMode === 'local';
 
+  function versionedUrl(url) {
+    if (useLocalApi || !staticAssetVersion) return url;
+    if (/[?&]_release=/.test(url)) return url;
+    return `${url}${url.includes('?') ? '&' : '?'}_release=${encodeURIComponent(staticAssetVersion)}`;
+  }
+
   async function requestJson(url, options = {}) {
     const { fallbackMessage = '平台请求失败。', normalize, ...requestOptions } = options;
     let response;
     try {
-      response = await fetchImpl(url, { cache: 'no-store', ...requestOptions });
+      response = await fetchImpl(versionedUrl(url), { cache: 'no-store', ...requestOptions });
     } catch (cause) {
       throw new PlatformApiError('无法连接到平台服务。', {
         code: PLATFORM_ERROR_CODES.NETWORK_ERROR,
@@ -78,7 +87,7 @@ export function createPlatformClient({
     const { fallbackMessage = '平台内容读取失败。', ...requestOptions } = options;
     let response;
     try {
-      response = await fetchImpl(url, { cache: 'no-store', ...requestOptions });
+      response = await fetchImpl(versionedUrl(url), { cache: 'no-store', ...requestOptions });
     } catch (cause) {
       throw new PlatformApiError('无法连接到平台服务。', {
         code: PLATFORM_ERROR_CODES.NETWORK_ERROR,
@@ -101,7 +110,7 @@ export function createPlatformClient({
     const encodedPath = encodeFilePath(documentPath);
     return useLocalApi
       ? `/__prd/file?project=${encodedProjectId}&path=${encodeURIComponent(documentPath)}`
-      : `${normalizedBaseUrl}projects/${encodedProjectId}/docs/content/${encodedPath}`;
+      : versionedUrl(`${normalizedBaseUrl}projects/${encodedProjectId}/docs/content/${encodedPath}`);
   }
 
   function documentContentUrl(projectId, documentPath) {
@@ -162,7 +171,13 @@ export function createPlatformClient({
     },
 
     loadProjectHealth() {
-      requireDevelopment('静态部署不提供实时健康检查。');
+      // 静态部署：读取构建时打包进 dist 的健康快照（打包时的状态，非实时）。
+      if (!useLocalApi) {
+        return requestJson(`${normalizedBaseUrl}projects/health.json`, {
+          fallbackMessage: '项目健康快照读取失败。',
+          normalize: normalizeProjectHealthReport,
+        });
+      }
       return requestJson('/__projects/health', {
         fallbackMessage: '项目健康检查失败。',
         normalize: normalizeProjectHealthReport,
@@ -240,15 +255,18 @@ export function createPlatformClient({
       const hasSourceRoot = clientId && clientId !== '_';
       return useLocalApi
         ? `/__projects/html-content/${encodedProjectId}/${encodedClientId}/${encodedPath}`
-        : `${normalizedBaseUrl}projects/${encodedProjectId}/prototype/${hasSourceRoot ? `${encodedClientId}/` : ''}${encodedPath}`;
+        : `${normalizedBaseUrl}projects/${encodedProjectId}/prototype/${staticAssetVersion ? `releases/${encodeURIComponent(staticAssetVersion)}/` : ''}${hasSourceRoot ? `${encodedClientId}/` : ''}${encodedPath}`;
     },
 
     getHtmlPrototypeSourceDownloadUrl(projectId, clientId, sourcePath) {
-      if (!development && apiMode !== 'local') return '';
       const encodedProjectId = encodeURIComponent(projectId);
       const encodedClientId = encodeURIComponent(clientId || '_');
       const encodedPath = encodeFilePath(sourcePath);
       if (!encodedProjectId || !encodedPath) return '';
+      // 静态部署：原型 HTML 本身就在 dist 中公开，直接给静态文件地址（含完整壳）。
+      if (!useLocalApi) {
+        return `${normalizedBaseUrl}projects/${encodedProjectId}/prototype/${staticAssetVersion ? `releases/${encodeURIComponent(staticAssetVersion)}/` : ''}${clientId && clientId !== '_' ? `${encodedClientId}/` : ''}${encodedPath}`;
+      }
       return `/__projects/html-content/${encodedProjectId}/${encodedClientId}/${encodedPath}?download=source`;
     },
 
@@ -258,7 +276,7 @@ export function createPlatformClient({
       if (!encodedProjectId || !encodedPath) return '';
       return useLocalApi
         ? `/__projects/file?project=${encodedProjectId}&path=${encodeURIComponent(assetPath)}`
-        : `${normalizedBaseUrl}projects/${encodedProjectId}/${encodedPath}`;
+        : versionedUrl(`${normalizedBaseUrl}projects/${encodedProjectId}/${encodedPath}`);
     },
 
     async saveProject(project, { editing = false } = {}) {
@@ -369,21 +387,43 @@ export function createPlatformClient({
       const urls = useLocalApi
         ? ['/__platform/settings', `${normalizedBaseUrl}platform-settings.json`]
         : [`${normalizedBaseUrl}platform-settings.json`];
+      let loaded = null;
       for (const url of urls) {
         try {
-          return await requestJson(url, {
+          loaded = await requestJson(url, {
             fallbackMessage: '平台设置读取失败。',
             normalize: normalizePlatformSettings,
           });
+          break;
         } catch {
           // 开发接口不可用时回退到静态设置；离线场景使用关闭状态。
         }
       }
-      return normalizePlatformSettings({});
+      const base = loaded || normalizePlatformSettings({});
+      // 静态部署：当前浏览器的本地覆盖（开发者模式开关）优先于包内设置。
+      if (!useLocalApi && typeof globalThis.localStorage !== 'undefined') {
+        try {
+          const override = JSON.parse(globalThis.localStorage.getItem(STATIC_SETTINGS_KEY) || 'null');
+          if (override && typeof override === 'object') {
+            return normalizePlatformSettings({ ...base, ...override });
+          }
+        } catch {
+          // 覆盖内容损坏时忽略
+        }
+      }
+      return base;
     },
 
     async savePlatformSettings(settings) {
-      requireDevelopment('静态部署不支持在线修改共享开发模式。');
+      // 静态部署：无后端可写，开发者模式退化为当前浏览器本地持久化（localStorage）。
+      if (!useLocalApi) {
+        if (typeof globalThis.localStorage === 'undefined') {
+          throw new PlatformApiError('静态部署不支持修改平台设置。', 403, 'STATIC_READ_ONLY');
+        }
+        const normalized = normalizePlatformSettings(settings);
+        globalThis.localStorage.setItem(STATIC_SETTINGS_KEY, JSON.stringify(normalized));
+        return normalized;
+      }
       return requestJson('/__platform/settings', {
         method: 'POST',
         headers: JSON_HEADERS,
@@ -394,7 +434,38 @@ export function createPlatformClient({
     },
 
     async listRoutes(projectId) {
-      requireDevelopment('静态部署不支持路由管理。');
+      if (!useLocalApi) {
+        // 静态部署：从构建时产出的 html-pages.json + manifest.json 组装只读路由视图
+        //（写入操作仍被 STATIC_READ_ONLY 拒绝）。
+        const [catalog, manifestScan] = await Promise.all([
+          requestJson(`${normalizedBaseUrl}projects/html-pages.json`, {
+            fallbackMessage: 'HTML 页面目录读取失败。',
+            normalize: normalizeHtmlPageCatalog,
+          }),
+          requestJson(`${normalizedBaseUrl}projects/manifest.json`, {
+            fallbackMessage: '项目包扫描失败。',
+            normalize: normalizeProjectScanResult,
+          }),
+        ]);
+        const project = (manifestScan.projects || []).find((item) => item.id === projectId) || null;
+        if (!project) throw new PlatformApiError('静态包中不存在该项目。', 404, 'NOT_FOUND');
+        const catalogPages = catalog.projects?.[projectId] || {};
+        const catalogSections = catalog.sections?.[projectId] || {};
+        return {
+          ok: true,
+          project: { id: project.id, name: project.name, version: project.version || '' },
+          clients: (project.clients || []).map((client) => ({
+            id: client.id,
+            name: client.name,
+            basePath: `/${client.id}`,
+            sections: catalogSections[client.id] || [],
+            pages: catalogPages[client.id] || [],
+          })),
+          backups: [],
+          sectionBackups: [],
+          readOnly: true,
+        };
+      }
       return requestJson(`/__project-routes?projectId=${encodeURIComponent(projectId)}`, {
         fallbackMessage: '路由读取失败。',
         normalize: normalizeRouteList,
@@ -409,6 +480,7 @@ export function createPlatformClient({
         delete: '/__project-routes/route/delete',
         restore: '/__project-routes/route/restore',
         order: '/__project-routes/route/order',
+        'page-menu': '/__project-routes/route/menu',
         'section-update': '/__project-routes/section/update',
         'section-restore': '/__project-routes/section/restore',
       };

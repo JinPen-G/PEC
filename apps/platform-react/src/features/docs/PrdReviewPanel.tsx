@@ -20,6 +20,7 @@ import {
   OrderedListOutlined,
   SearchOutlined,
 } from '@/ui/ant/icons';
+import { appRouteUrl } from '@/features/routes/app-url';
 import { MarkdownReader } from './MarkdownReader';
 import { resolveDocumentAssetPath, type MarkdownHeading } from './markdown';
 
@@ -103,7 +104,7 @@ export function PrdReviewPanel({
     (documentPath: string, anchor = '') => {
       const search = new URLSearchParams({ doc: documentPath });
       if (anchor) search.set('anchor', anchor);
-      return `${import.meta.env.BASE_URL.replace(/\/$/, '')}/p/${projectId}/docs?${search.toString()}`;
+      return appRouteUrl(`/p/${projectId}/docs?${search.toString()}`);
     },
     [projectId],
   );
@@ -337,29 +338,29 @@ export function PrdReviewPanel({
           </div>
         </Flex>
         <Flex className="prd-review-panel__header-actions" gap={4}>
-          <Tooltip title="在文档中心打开">
+          <Tooltip title="在文檔中心打開">
             <Button
               type="text"
               disabled={!activeDocument}
               icon={<LinkOutlined />}
               onClick={openDocumentWindow}
-              aria-label="在文档中心打开"
+              aria-label="在文檔中心打開"
             />
           </Tooltip>
-          <Tooltip title="关闭">
-            <Button type="text" icon={<CloseOutlined />} onClick={onClose} aria-label="关闭 PRD" />
+          <Tooltip title="關閉">
+            <Button type="text" icon={<CloseOutlined />} onClick={onClose} aria-label="關閉 PRD" />
           </Tooltip>
         </Flex>
       </header>
       <div className="prd-review-panel__toolbar">
         <Flex className="prd-review-panel__mode" align="center" gap={8}>
-          <Text type="secondary">显示方式</Text>
+          <Text type="secondary">顯示方式</Text>
           <Segmented
             size="small"
             value={mode}
             options={[
               { label: '固定分屏', value: 'split' },
-              { label: '浮层', value: 'overlay' },
+              { label: '浮層', value: 'overlay' },
             ]}
             onChange={(value) => onModeChange(value as PrdPanelMode)}
           />
@@ -370,9 +371,9 @@ export function PrdReviewPanel({
           icon={<OrderedListOutlined />}
           onClick={() => setOutlineVisible((current) => !current)}
           aria-pressed={outlineVisible}
-          aria-label={outlineVisible ? '收起目录' : '查看目录'}
+          aria-label={outlineVisible ? '收起目錄' : '查看目錄'}
         >
-          {outlineVisible ? '收起目录' : '查看目录'}
+          {outlineVisible ? '收起目錄' : '查看目錄'}
         </Button>
       </div>
       <div className="prd-review-panel__search">
@@ -383,7 +384,7 @@ export function PrdReviewPanel({
             showSearch
             optionFilterProp="label"
             popupMatchSelectWidth={false}
-            aria-label="选择 PRD 文档"
+            aria-label="選擇 PRD 文檔"
             onChange={(value) => {
               setActiveDocument(value);
               setActiveHeading('');
@@ -402,26 +403,26 @@ export function PrdReviewPanel({
                 {searchStatus.count ? `${searchStatus.index}/${searchStatus.count}` : '0/0'}
               </Text>
             }
-            placeholder="搜索当前文档"
-            aria-label="搜索当前 PRD 文档"
+            placeholder="搜索當前文檔"
+            aria-label="搜索當前 PRD 文檔"
             onChange={(event) => updateSearch(event.target.value)}
           />
-          <Tooltip title="上一个结果">
+          <Tooltip title="上一個結果">
             <Button
               type="text"
               disabled={!searchStatus.count}
               icon={<ArrowUpOutlined />}
               onClick={() => focusSearchMatch(searchStatus.index - 2)}
-              aria-label="上一个搜索结果"
+              aria-label="上一個搜索結果"
             />
           </Tooltip>
-          <Tooltip title="下一个结果">
+          <Tooltip title="下一個結果">
             <Button
               type="text"
               disabled={!searchStatus.count}
               icon={<ArrowDownOutlined />}
               onClick={() => focusSearchMatch(searchStatus.index)}
-              aria-label="下一个搜索结果"
+              aria-label="下一個搜索結果"
             />
           </Tooltip>
         </div>
@@ -441,13 +442,13 @@ export function PrdReviewPanel({
               activeAnchor={requestedAnchor}
             />
           ) : (
-            <Empty description="当前页面未关联 PRD" />
+            <Empty description="當前頁面未關聯 PRD" />
           )}
         </div>
         {outlineVisible ? (
-          <aside ref={outlineRef} className="prd-review-panel__outline" aria-label="PRD 本文目录">
+          <aside ref={outlineRef} className="prd-review-panel__outline" aria-label="PRD 本文目錄">
             <Flex className="prd-review-panel__outline-header" align="center" justify="space-between">
-              <Text strong>本文目录</Text>
+              <Text strong>本文目錄</Text>
               <Tag variant="filled">{headings.length}</Tag>
             </Flex>
             <ul className="prd-review-panel__outline-list">

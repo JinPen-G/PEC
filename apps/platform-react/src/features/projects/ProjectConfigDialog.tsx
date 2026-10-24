@@ -42,7 +42,7 @@ export function ProjectConfigDialog({
   const [draft, setDraft] = useState<ProjectDraft>(() => draftFromProject(project));
   const [error, setError] = useState('');
   const editing = mode === 'edit';
-  const title = editing ? '编辑项目' : '新建项目';
+  const title = editing ? '編輯項目' : '新建項目';
 
   const clientIds = useMemo(() => new Set(draft.clients.map((client) => client.id)), [draft.clients]);
 
@@ -72,7 +72,7 @@ export function ProjectConfigDialog({
 
   function removeClient(index: number) {
     if (draft.clients.length <= 1) {
-      setError('项目至少需要保留一个客户端。');
+      setError('項目至少需要保留一個客戶端。');
       return;
     }
     setDraft((current) => ({
@@ -83,22 +83,22 @@ export function ProjectConfigDialog({
 
   async function submit() {
     if (!draft.name.trim()) {
-      setError('请输入项目名称。');
+      setError('請輸入項目名稱。');
       setSection('project');
       return;
     }
     if (!/^#[0-9a-f]{6}$/iu.test(draft.primary)) {
-      setError('主题色必须使用六位十六进制色值，例如 #2563eb。');
+      setError('主題色必須使用六位十六進制色值，例如 #2563eb。');
       setSection('project');
       return;
     }
     if (draft.clients.some((client) => !client.name.trim())) {
-      setError('请填写所有客户端名称。');
+      setError('請填寫所有客戶端名稱。');
       setSection('clients');
       return;
     }
     if (!editing && projectIds.includes(projectSlug(draft.name))) {
-      setError('该项目 ID 已存在，请调整项目名称后再保存。');
+      setError('該項目 ID 已存在，請調整項目名稱後再保存。');
       return;
     }
     setError('');
@@ -121,7 +121,7 @@ export function ProjectConfigDialog({
     >
       <div className="project-config-shell">
         <Text className="project-config-intro" type="secondary">
-          只设置项目内容入口，其他工程参数由平台自动处理。
+          只設置項目內容入口，其他工程參數由平臺自動處理。
         </Text>
         {error ? <Alert showIcon type="error" title={error} /> : null}
         <div className="project-config-body">
@@ -130,8 +130,8 @@ export function ProjectConfigDialog({
               mode="inline"
               selectedKeys={[section]}
               items={[
-                { key: 'project', icon: <SettingOutlined />, label: '项目资料' },
-                { key: 'clients', icon: <AppstoreOutlined />, label: `客户端（${draft.clients.length}）` },
+                { key: 'project', icon: <SettingOutlined />, label: '項目資料' },
+                { key: 'clients', icon: <AppstoreOutlined />, label: `客戶端（${draft.clients.length}）` },
               ]}
               onClick={({ key }) => setSection(key as 'project' | 'clients')}
             />
@@ -140,32 +140,32 @@ export function ProjectConfigDialog({
             {section === 'project' ? (
               <section className="project-config-section">
                 <div className="project-config-section__heading">
-                  <Title level={3}>项目资料</Title>
-                  <Text type="secondary">设置项目名称、文档来源和统一主题色。</Text>
+                  <Title level={3}>項目資料</Title>
+                  <Text type="secondary">設置項目名稱、文檔來源和統一主題色。</Text>
                 </div>
                 <Form layout="vertical" requiredMark={false}>
                   <div className="project-config-grid">
-                    <Form.Item label="项目名称" required>
+                    <Form.Item label="項目名稱" required>
                       <Input
                         value={draft.name}
                         maxLength={60}
-                        placeholder="例如：客户服务平台"
+                        placeholder="例如：客戶服務平臺"
                         onChange={(event) => updateDraft({ name: event.target.value })}
                       />
-                      {!editing ? <small>项目 ID、简称和版本由平台自动生成。</small> : null}
+                      {!editing ? <small>項目 ID、簡稱和版本由平臺自動生成。</small> : null}
                     </Form.Item>
-                    <Form.Item label="PRD 文件夹">
+                    <Form.Item label="PRD 文件夾">
                       <Input
                         value={draft.docsRoot}
                         allowClear
-                        placeholder="填写项目内目录或本机绝对路径；没有可留空"
+                        placeholder="填寫項目內目錄或本機絕對路徑；沒有可留空"
                         onChange={(event) => updateDraft({ docsRoot: event.target.value })}
                       />
-                      <small>填写后启用文档中心；清空则不显示文档入口。</small>
+                      <small>填寫後啓用文檔中心；清空則不顯示文檔入口。</small>
                     </Form.Item>
                   </div>
                   <div className="project-config-grid project-config-grid--divide">
-                    <Form.Item label="项目主题色" required>
+                    <Form.Item label="項目主題色" required>
                       <Input
                         value={draft.primary}
                         maxLength={7}
@@ -179,12 +179,12 @@ export function ProjectConfigDialog({
                           />
                         }
                       />
-                      <small>用于客户端外壳、主要按钮、链接和选中状态。</small>
+                      <small>用於客戶端外殼、主要按鈕、鏈接和選中狀態。</small>
                     </Form.Item>
                     <div className="project-visibility-row">
                       <div>
-                        <strong>在首页显示项目</strong>
-                        <Text type="secondary">关闭后，项目不会出现在首页的项目选择列表中。</Text>
+                        <strong>在首頁顯示項目</strong>
+                        <Text type="secondary">關閉後，項目不會出現在首頁的項目選擇列表中。</Text>
                       </div>
                       <Switch
                         checked={draft.homepageVisible}
@@ -198,11 +198,11 @@ export function ProjectConfigDialog({
               <section className="project-config-section">
                 <div className="project-config-section__heading project-config-section__heading--action">
                   <div>
-                    <Title level={3}>客户端</Title>
-                    <Text type="secondary">每个客户端只需确定名称、页面结构和内容来源。</Text>
+                    <Title level={3}>客戶端</Title>
+                    <Text type="secondary">每個客戶端只需確定名稱、頁面結構和內容來源。</Text>
                   </div>
                   <Button icon={<PlusOutlined />} onClick={addClient}>
-                    添加客户端
+                    添加客戶端
                   </Button>
                 </div>
                 <div className="project-client-list">
@@ -213,11 +213,11 @@ export function ProjectConfigDialog({
                         <header>
                           <div>
                             <span>{String(index + 1).padStart(2, '0')}</span>
-                            <strong>{client.name.trim() || `客户端 ${index + 1}`}</strong>
+                            <strong>{client.name.trim() || `客戶端 ${index + 1}`}</strong>
                           </div>
                           <div className="project-client-item__actions">
                             <label>
-                              首页显示{' '}
+                              首頁顯示{' '}
                               <Switch
                                 size="small"
                                 checked={client.entryEnabled}
@@ -233,21 +233,21 @@ export function ProjectConfigDialog({
                         </header>
                         <Form layout="vertical" requiredMark={false}>
                           <div className="project-client-grid">
-                            <Form.Item label="客户端名称">
+                            <Form.Item label="客戶端名稱">
                               <Input
                                 value={client.name}
-                                placeholder="例如：营运端"
+                                placeholder="例如：營運端"
                                 onChange={(event) =>
                                   updateClient(index, { ...client, name: event.target.value })
                                 }
                               />
                             </Form.Item>
-                            <Form.Item label="页面结构">
+                            <Form.Item label="頁面結構">
                               <Select
                                 value={preset}
                                 options={
                                   preset === 'custom'
-                                    ? [...clientPresets, { value: 'custom', label: '保留现有自定义入口' }]
+                                    ? [...clientPresets, { value: 'custom', label: '保留現有自定義入口' }]
                                     : clientPresets
                                 }
                                 onChange={(value) =>
@@ -259,11 +259,11 @@ export function ProjectConfigDialog({
                                 }
                               />
                             </Form.Item>
-                            <Form.Item label="HTML 页面文件夹">
+                            <Form.Item label="HTML 頁面文件夾">
                               <Input
                                 value={client.prototypeRoot}
                                 allowClear
-                                placeholder="使用工程页面时留空"
+                                placeholder="使用工程頁面時留空"
                                 onChange={(event) =>
                                   updateClient(index, { ...client, prototypeRoot: event.target.value })
                                 }
@@ -273,7 +273,7 @@ export function ProjectConfigDialog({
                         </Form>
                         <small>
                           {clientPresets.find((item) => item.value === preset)?.description ||
-                            '当前项目使用已有的自定义入口页面，保存时会原样保留。'}
+                            '當前項目使用已有的自定義入口頁面，保存時會原樣保留。'}
                         </small>
                       </article>
                     );

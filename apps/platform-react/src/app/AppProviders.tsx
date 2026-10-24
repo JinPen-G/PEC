@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 
-import { App as AntApp, ConfigProvider, zhCN } from '@/ui/ant';
+import { App as AntApp, ConfigProvider, zhTW } from '@/ui/ant';
 import { createAntThemeConfig } from '@/features/theme/ant-theme-config';
 import { PlatformThemeProvider, usePlatformTheme } from '@/features/theme/platform-theme';
 
@@ -29,7 +29,7 @@ function AntDesignProvider({ children }: { children: ReactNode }) {
   const { resolvedMode } = usePlatformTheme();
 
   return (
-    <ConfigProvider locale={zhCN} theme={createAntThemeConfig(resolvedMode)}>
+    <ConfigProvider locale={zhTW} theme={createAntThemeConfig(resolvedMode)}>
       <AntApp>{children}</AntApp>
     </ConfigProvider>
   );

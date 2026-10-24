@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "sample-project",
-  "name": "示例项目",
+  "name": "示例項目",
   "shortName": "示例",
-  "description": "项目原型、产品文档与演示页面。",
+  "description": "項目原型、產品文檔與演示頁面。",
   "version": "0.1.0",
   "defaultLocale": "zh-CN",
   "pageDefinitions": "page-definitions.js",
@@ -18,7 +18,7 @@
     {
       "id": "admin",
       "name": "管理端",
-      "description": "项目管理后台。",
+      "description": "項目管理後臺。",
       "icon": "Management",
       "defaultPage": "home",
       "entry": {
@@ -39,15 +39,15 @@
       "kind": "client",
       "clientId": "admin",
       "name": "管理端",
-      "description": "进入项目管理后台。",
+      "description": "進入項目管理後臺。",
       "icon": "Management",
       "order": 10
     },
     {
       "id": "docs",
       "kind": "docs",
-      "name": "产品文档",
-      "description": "阅读项目 PRD 与产品说明。",
+      "name": "產品文檔",
+      "description": "閱讀項目 PRD 與產品說明。",
       "icon": "Document",
       "order": 20
     }

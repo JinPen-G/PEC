@@ -4,8 +4,8 @@ import type { ProjectManifest } from '../../../../../packages/platform-contracts
 import { findProject, visibleProjects } from './project-model';
 
 const projects = [
-  { schemaVersion: 1, id: 'visible', name: '可见项目', clients: [], homepage: { visible: true } },
-  { schemaVersion: 1, id: 'hidden', name: '隐藏项目', clients: [], homepage: { visible: false } },
+  { schemaVersion: 1, id: 'visible', name: '可見項目', clients: [], homepage: { visible: true } },
+  { schemaVersion: 1, id: 'hidden', name: '隱藏項目', clients: [], homepage: { visible: false } },
 ] as ProjectManifest[];
 
 describe('React project access rules', () => {

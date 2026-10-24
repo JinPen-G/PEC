@@ -41,6 +41,7 @@ function readJsonBody(req) {
 function normalizeSettings(value) {
   return {
     developerMode: Boolean(value?.developerMode),
+    remoteManagement: Boolean(value?.remoteManagement),
   };
 }
 

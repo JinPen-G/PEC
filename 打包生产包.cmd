@@ -43,6 +43,7 @@ echo Production package created:
 echo %CD%\%ARCHIVE%
 echo Upload the contents of this ZIP to the server's /prototype/Rental/ directory.
 echo Keep index.html, assets, brand, and projects at the ZIP root.
+echo Upload version.json LAST, after all other files have finished uploading.
 echo.
 pause
 

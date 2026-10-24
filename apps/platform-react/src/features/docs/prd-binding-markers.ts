@@ -67,7 +67,7 @@ export function installPrdBindingMarkers(
     ) ?? document.body;
   if (!root) return;
 
-  // 关联数量增加时复用候选节点列表，避免每个绑定都重复遍历整棵页面树。
+  // 關聯數量增加時複用候選節點列表，避免每個綁定都重複遍歷整棵頁面樹。
   const candidates = Array.from(root.querySelectorAll('*'));
   bindings.forEach((binding) => {
     const target = resolveBindingElement(root, binding, candidates);

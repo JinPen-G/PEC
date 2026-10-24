@@ -98,6 +98,7 @@ export function htmlPrototypePlugin({
   projectsRoot,
   mountsPath = '',
   loadMounts = async () => ({ projects: {} }),
+  buildVersion = '',
 }) {
   const root = path.resolve(projectsRoot);
   const localMountsPath = mountsPath ? path.resolve(mountsPath) : '';
@@ -254,7 +255,7 @@ export function htmlPrototypePlugin({
               : source;
             this.emitFile({
               type: 'asset',
-              fileName: `projects/${projectId}/prototype/${clientPrefix}${relativePath}`,
+              fileName: `projects/${projectId}/prototype/${buildVersion ? `releases/${buildVersion}/` : ''}${clientPrefix}${relativePath}`,
               source: output,
             });
           }

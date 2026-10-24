@@ -29,7 +29,7 @@ function replaceMermaidBlockWithError(block: HTMLElement, message: string) {
   if (!parent) return;
   const container = document.createElement('div');
   container.className = 'mermaid-error';
-  container.textContent = `图表渲染失败：${message}`;
+  container.textContent = `圖表渲染失敗：${message}`;
   parent.replaceWith(container);
 }
 
@@ -69,9 +69,25 @@ export function MarkdownReader({
   function handleArticleClick(event: MouseEvent<HTMLElement>) {
     const target = event.target as HTMLElement | null;
     const link = target?.closest<HTMLAnchorElement>('a[data-doc-path]');
-    if (!link || !onDocumentNavigate) return;
+    if (link && onDocumentNavigate) {
+      event.preventDefault();
+      onDocumentNavigate(link.dataset.docPath || '', link.dataset.docAnchor || '');
+      return;
+    }
+
+    const anchor = target?.closest<HTMLAnchorElement>('a[href^="#"]');
+    const anchorId = anchor?.getAttribute('href')?.slice(1);
+    if (!anchor || !anchorId) return;
+    let decodedId = anchorId;
+    try {
+      decodedId = decodeURIComponent(anchorId);
+    } catch {
+      // 保留不完整的字面錨點，避免文檔鏈接中斷頁面交互。
+    }
+    const heading = articleRef.current?.querySelector<HTMLElement>(`#${CSS.escape(decodedId)}`);
+    if (!heading) return;
     event.preventDefault();
-    onDocumentNavigate(link.dataset.docPath || '', link.dataset.docAnchor || '');
+    heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   useEffect(() => onHeadings?.(rendered.headings), [onHeadings, rendered.headings]);
@@ -100,13 +116,13 @@ export function MarkdownReader({
             result.bindFunctions?.(container);
           } catch (renderError) {
             container.className = 'mermaid-error';
-            container.textContent = `图表渲染失败：${renderError instanceof Error ? renderError.message : '未知错误'}`;
+            container.textContent = `圖表渲染失敗：${renderError instanceof Error ? renderError.message : '未知錯誤'}`;
           }
         }
       })
       .catch((loadError) => {
         if (cancelled) return;
-        const message = loadError instanceof Error ? loadError.message : 'Mermaid 模块加载失败';
+        const message = loadError instanceof Error ? loadError.message : 'Mermaid 模塊加載失敗';
         findMermaidBlocks(articleRef.current).forEach((block) =>
           replaceMermaidBlockWithError(block, message),
         );
@@ -133,7 +149,7 @@ export function MarkdownReader({
         <Spin size="large" />
       </div>
     );
-  if (error) return <Alert type="error" showIcon title="文档读取失败" description={error} />;
+  if (error) return <Alert type="error" showIcon title="文檔讀取失敗" description={error} />;
   return (
     <article
       ref={articleRef}

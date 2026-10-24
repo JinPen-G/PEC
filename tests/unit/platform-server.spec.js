@@ -57,11 +57,11 @@ describe('platform local server', () => {
     const manifest = await fetch(`${baseUrl}/__projects/manifest`);
     expect(manifest.status).toBe(200);
     const manifestPayload = await manifest.json();
-    expect(manifestPayload.projects[0]).toMatchObject({ id: 'sample-project', name: '示例产品' });
+    expect(manifestPayload.projects[0]).toMatchObject({ id: 'sample-project', name: '示例產品' });
 
     const catalog = await fetch(`${baseUrl}/__projects/html-pages`);
     expect(catalog.status).toBe(200);
-    expect((await catalog.json()).projects['sample-project'].admin[0]).toMatchObject({ title: '发布看板' });
+    expect((await catalog.json()).projects['sample-project'].admin[0]).toMatchObject({ title: '發佈看板' });
 
     const bindings = await fetch(`${baseUrl}/__projects/prd-bindings?project=sample-project`);
     expect(bindings.status).toBe(200);
@@ -73,7 +73,7 @@ describe('platform local server', () => {
 
     const html = await fetch(`${baseUrl}/__projects/html-content/sample-project/admin/release-board.html`);
     expect(html.status).toBe(200);
-    expect(await html.text()).toContain('发布看板');
+    expect(await html.text()).toContain('發佈看板');
   });
 
   it('reads explicitly configured external PRD and HTML roots while blocking junction escapes', async () => {
@@ -190,7 +190,7 @@ describe('platform local server', () => {
     });
     expect(settingsResponse.status).toBe(200);
     expect(await settingsResponse.json()).toMatchObject({ ok: true, settings: { developerMode: true } });
-    expect(JSON.parse(await fs.readFile(fixture.settingsPath, 'utf8'))).toEqual({ developerMode: true });
+    expect(JSON.parse(await fs.readFile(fixture.settingsPath, 'utf8'))).toMatchObject({ developerMode: true });
 
     const previousPageLinks = await fs.readFile(
       path.join(fixture.projectRoot, '.platform/page-prd-links.json'),

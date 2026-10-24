@@ -155,12 +155,14 @@ export interface PrdBindingsPayload {
 
 export interface PlatformSettings {
   developerMode: boolean;
+  remoteManagement: boolean;
 }
 
 export interface RouteListResult {
   ok: true;
   clients: Array<Record<string, unknown>>;
   backups: Array<Record<string, unknown>>;
+  readOnly?: boolean;
   [key: string]: unknown;
 }
 

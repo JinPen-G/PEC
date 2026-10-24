@@ -110,12 +110,12 @@ export function AiContextPage() {
   return (
     <PlatformPage
       title="AI 上下文中心"
-      description="汇总项目页面、PRD、功能关联和变更影响，生成可追溯的交付上下文。"
+      description="彙總項目頁面、PRD、功能關聯和變更影響，生成可追溯的交付上下文。"
       actions={
         <>
           <Select
             value={projectId || undefined}
-            placeholder="选择项目"
+            placeholder="選擇項目"
             options={projects.map((item) => ({ value: item.id, label: item.name }))}
             onChange={setSelectedProjectId}
           />
@@ -132,27 +132,27 @@ export function AiContextPage() {
       {contextQuery.isError ? (
         <Result
           status="error"
-          title="项目上下文读取失败"
+          title="項目上下文讀取失敗"
           subTitle={contextQuery.error.message}
-          extra={<Button onClick={() => void contextQuery.refetch()}>重试</Button>}
+          extra={<Button onClick={() => void contextQuery.refetch()}>重試</Button>}
         />
       ) : null}
       {!context ? (
-        <Empty description="请选择项目" />
+        <Empty description="請選擇項目" />
       ) : (
         <>
           <Surface className="context-summary">
             <div>
               <Title level={2}>{context.project.name}</Title>
-              <Text type="secondary">页面与 PRD 覆盖率</Text>
+              <Text type="secondary">頁面與 PRD 覆蓋率</Text>
             </div>
             <div className="context-summary__metrics">
-              <Metric label="页面" value={context.summary.pages || 0} />
+              <Metric label="頁面" value={context.summary.pages || 0} />
               <Metric label="PRD" value={context.summary.documents || 0} />
-              <Metric label="页面覆盖" value={`${context.summary.pageCoverage || 0}%`} />
-              <Metric label="功能关联" value={context.summary.componentBindings || 0} />
+              <Metric label="頁面覆蓋" value={`${context.summary.pageCoverage || 0}%`} />
+              <Metric label="功能關聯" value={context.summary.componentBindings || 0} />
               <Metric
-                label="待处理"
+                label="待處理"
                 value={(context.summary.errors || 0) + (context.summary.warnings || 0)}
                 warning
               />
@@ -162,11 +162,11 @@ export function AiContextPage() {
             block
             value={activeTab}
             options={[
-              { label: `概览 ${context.issues.length}`, value: 'overview' },
-              { label: `页面矩阵 ${context.summary.pages || 0}`, value: 'pages' },
+              { label: `概覽 ${context.issues.length}`, value: 'overview' },
+              { label: `頁面矩陣 ${context.summary.pages || 0}`, value: 'pages' },
               { label: `PRD 索引 ${context.summary.documents || 0}`, value: 'documents' },
-              { label: `关联建议 ${context.summary.suggestions || 0}`, value: 'suggestions' },
-              { label: 'PRD 影响分析', value: 'impact' },
+              { label: `關聯建議 ${context.summary.suggestions || 0}`, value: 'suggestions' },
+              { label: 'PRD 影響分析', value: 'impact' },
             ]}
             onChange={(value) => setActiveTab(String(value))}
           />
@@ -217,7 +217,7 @@ export function AiContextPage() {
                 downloadJson(createContextExport(context), `${context.project.id}-delivery-context.json`)
               }
             >
-              导出上下文
+              導出上下文
             </Button>
             <Button
               icon={<DownloadOutlined />}
@@ -228,7 +228,7 @@ export function AiContextPage() {
                 )
               }
             >
-              导出完整上下文
+              導出完整上下文
             </Button>
             <Button
               icon={<DownloadOutlined />}
@@ -236,7 +236,7 @@ export function AiContextPage() {
                 downloadJson(createTraceabilityReport(context), `${context.project.id}-traceability.json`)
               }
             >
-              导出可追溯报告
+              導出可追溯報告
             </Button>
             {page ? (
               <Button
@@ -248,7 +248,7 @@ export function AiContextPage() {
                   )
                 }
               >
-                下载当前页面上下文
+                下載當前頁面上下文
               </Button>
             ) : null}
           </div>
@@ -280,26 +280,26 @@ function Overview({ context, onPage }: { context: AiContext; onPage: (key: strin
     <div className="context-overview">
       <div className="context-overview__heading">
         <div>
-          <Title level={2}>交付覆盖概览</Title>
-          <Text type="secondary">AI 上下文由当前项目包、PRD 目录和关联配置实时生成。</Text>
+          <Title level={2}>交付覆蓋概覽</Title>
+          <Text type="secondary">AI 上下文由當前項目包、PRD 目錄和關聯配置實時生成。</Text>
         </div>
-        <Tag color="blue">规则匹配，不是模型结论</Tag>
+        <Tag color="blue">規則匹配，不是模型結論</Tag>
       </div>
       <div className="context-callouts">
         <div>
           <CheckCircleFilled />
           <strong>{context.summary.linkedPages || 0}</strong>
-          <span>已关联 PRD 的页面</span>
+          <span>已關聯 PRD 的頁面</span>
         </div>
         <div>
           <LinkOutlined />
           <strong>{context.summary.componentBindings || 0}</strong>
-          <span>功能级 PRD 关联</span>
+          <span>功能級 PRD 關聯</span>
         </div>
         <div>
           <DatabaseOutlined />
           <strong>{context.summary.suggestions || 0}</strong>
-          <span>待确认关联建议</span>
+          <span>待確認關聯建議</span>
         </div>
       </div>
       <Table<ContextIssue>
@@ -308,24 +308,24 @@ function Overview({ context, onPage }: { context: AiContext; onPage: (key: strin
         dataSource={context.issues}
         columns={[
           {
-            title: '等级',
+            title: '等級',
             dataIndex: 'severity',
             width: 100,
             render: (value: string) => (
               <Tag color={severityColor(value)}>
-                {value === 'error' ? '错误' : value === 'warning' ? '提醒' : '提示'}
+                {value === 'error' ? '錯誤' : value === 'warning' ? '提醒' : '提示'}
               </Tag>
             ),
           },
-          { title: '问题', dataIndex: 'message' },
-          { title: '影响对象', dataIndex: 'subject', width: 260 },
+          { title: '問題', dataIndex: 'message' },
+          { title: '影響對象', dataIndex: 'subject', width: 260 },
           {
             title: '操作',
             width: 100,
             render: (_value, item) =>
               item.pageKey ? (
                 <Button type="link" onClick={() => onPage(item.pageKey || '')}>
-                  查看页面
+                  查看頁面
                 </Button>
               ) : null,
           },
@@ -345,7 +345,7 @@ function Pages({
   onSelect: (key: string) => void;
 }) {
   const current = context.pages.find((item) => item.key === selected) || context.pages[0];
-  if (!current) return <Empty description="当前项目没有页面" />;
+  if (!current) return <Empty description="當前項目沒有頁面" />;
   const requirement = context.documents.find((document) => document.path === current.documentPath);
   return (
     <div className="context-pages">
@@ -368,7 +368,7 @@ function Pages({
             )
           }
         >
-          下载页面上下文
+          下載頁面上下文
         </Button>
       </div>
       <div className="context-page-detail">
@@ -376,22 +376,22 @@ function Pages({
           column={1}
           title={current.title}
           items={[
-            { key: 'client', label: '客户端', children: current.clientName },
+            { key: 'client', label: '客戶端', children: current.clientName },
             { key: 'route', label: '路由', children: <code>{current.fullPath}</code> },
             {
               key: 'source',
-              label: '来源',
-              children: `${current.sourceType} · ${current.source || '未登记'}`,
+              label: '來源',
+              children: `${current.sourceType} · ${current.source || '未登記'}`,
             },
             {
               key: 'section',
-              label: '菜单分组',
-              children: current.sectionTitle || current.sectionId || '未分组',
+              label: '菜單分組',
+              children: current.sectionTitle || current.sectionId || '未分組',
             },
           ]}
         />
         <section>
-          <Title level={3}>{requirement?.title || '尚未关联 PRD'}</Title>
+          <Title level={3}>{requirement?.title || '尚未關聯 PRD'}</Title>
           {requirement ? (
             <>
               <Text type="secondary">{requirement.path}</Text>
@@ -404,7 +404,7 @@ function Pages({
               </ul>
             </>
           ) : (
-            <Empty description="该页面尚未关联 PRD 文件" />
+            <Empty description="該頁面尚未關聯 PRD 文件" />
           )}
         </section>
       </div>
@@ -431,9 +431,9 @@ function Documents({ context, onPage }: { context: AiContext; onPage: (key: stri
             </div>
           ),
         },
-        { title: '文档结构', width: 120, render: (_value, row) => `${row.headings.length} 个标题` },
+        { title: '文檔結構', width: 120, render: (_value, row) => `${row.headings.length} 個標題` },
         {
-          title: '关联页面',
+          title: '關聯頁面',
           minWidth: 260,
           render: (_value, row) =>
             row.linkedPageKeys.length ? (
@@ -443,15 +443,15 @@ function Documents({ context, onPage }: { context: AiContext; onPage: (key: stri
                 </Button>
               ))
             ) : (
-              <Text type="secondary">暂无页面级关联</Text>
+              <Text type="secondary">暫無頁面級關聯</Text>
             ),
         },
         {
-          title: '状态',
+          title: '狀態',
           width: 100,
           render: (_value, row) => (
             <Tag color={row.archived ? 'default' : row.contentAvailable ? 'success' : 'warning'}>
-              {row.archived ? '归档' : row.contentAvailable ? '可读取' : '正文失败'}
+              {row.archived ? '歸檔' : row.contentAvailable ? '可讀取' : '正文失敗'}
             </Tag>
           ),
         },
@@ -480,7 +480,7 @@ function Suggestions({
       scroll={{ x: 760 }}
       columns={[
         {
-          title: '页面',
+          title: '頁面',
           minWidth: 220,
           render: (_value, item) => (
             <div>
@@ -492,7 +492,7 @@ function Suggestions({
           ),
         },
         {
-          title: '建议 PRD',
+          title: '建議 PRD',
           minWidth: 330,
           render: (_value, item) => (
             <Select
@@ -537,7 +537,7 @@ function Suggestions({
               disabled={!platformApi.development || !choices[item.pageKey]}
               onClick={() => onConfirm(item.pageKey, choices[item.pageKey])}
             >
-              确认关联
+              確認關聯
             </Button>
           ),
         },
@@ -561,11 +561,11 @@ function Impact({
     return (
       <Result
         status="info"
-        title="尚未建立 PRD 变更基线"
-        subTitle="第一次建立基线只会写入当前浏览器的 localStorage，不会修改 PRD 或项目包。"
+        title="尚未建立 PRD 變更基線"
+        subTitle="第一次建立基線只會寫入當前瀏覽器的 localStorage，不會修改 PRD 或項目包。"
         extra={
           <Button type="primary" onClick={onBaseline}>
-            建立分析基线
+            建立分析基線
           </Button>
         }
       />
@@ -573,11 +573,11 @@ function Impact({
   return (
     <div>
       <div className="impact-toolbar">
-        <Text>基线：{impact.baselineCapturedAt?.replace('T', ' ').slice(0, 19)}</Text>
+        <Text>基線：{impact.baselineCapturedAt?.replace('T', ' ').slice(0, 19)}</Text>
         <strong>
-          {impact.changes.length ? `${impact.changes.length} 份文档有变化` : '当前文档与基线一致'}
+          {impact.changes.length ? `${impact.changes.length} 份文檔有變化` : '當前文檔與基線一致'}
         </strong>
-        <Button onClick={onBaseline}>更新分析基线</Button>
+        <Button onClick={onBaseline}>更新分析基線</Button>
       </div>
       {impact.changes.length ? (
         <Table
@@ -586,18 +586,18 @@ function Impact({
           pagination={false}
           columns={[
             {
-              title: '变化',
+              title: '變化',
               dataIndex: 'type',
               width: 100,
               render: (value: string) => (
                 <Tag color={value === 'removed' ? 'error' : value === 'changed' ? 'warning' : 'success'}>
-                  {value === 'removed' ? '删除' : value === 'changed' ? '变更' : '新增'}
+                  {value === 'removed' ? '刪除' : value === 'changed' ? '變更' : '新增'}
                 </Tag>
               ),
             },
             { title: 'PRD 文件', dataIndex: 'path' },
             {
-              title: '影响页面',
+              title: '影響頁面',
               render: (_value, item: { linkedPageKeys: string[] }) =>
                 item.linkedPageKeys.length ? (
                   item.linkedPageKeys.map((key) => (
@@ -606,13 +606,13 @@ function Impact({
                     </Button>
                   ))
                 ) : (
-                  <Text type="secondary">没有页面级关联</Text>
+                  <Text type="secondary">沒有頁面級關聯</Text>
                 ),
             },
           ]}
         />
       ) : (
-        <Empty description="当前没有检测到 PRD 变化" />
+        <Empty description="當前沒有檢測到 PRD 變化" />
       )}
     </div>
   );

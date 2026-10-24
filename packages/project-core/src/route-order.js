@@ -76,7 +76,7 @@ export function orderClientRouteData(sections, pages, clientConfig = {}) {
   return { sections: orderedSections, pages: orderedPages };
 }
 
-export function normalizeRouteOrder({ sections, pages, sectionOrder, pageOrder }) {
+export function normalizeRouteOrder({ sections, pages, sectionOrder, pageOrder, pageMenu }) {
   const validSectionIds = sections.map((section) => section.id);
   const requestedSections = Array.isArray(sectionOrder)
     ? sectionOrder.map(String).filter((id) => validSectionIds.includes(id))
@@ -95,5 +95,17 @@ export function normalizeRouteOrder({ sections, pages, sectionOrder, pageOrder }
     pageOrderBySection[section.id] = [...new Set([...requestedPages, ...validPageNames])];
   }
 
-  return { sectionOrder: normalizedSectionOrder, pageOrder: pageOrderBySection };
+  // 菜单显隐覆盖：仅保留有效页面名，且只记录与默认（显示）不同的状态（false），
+  // 显式 true 也允许（可覆盖 HTML manifest 里 menu:false 的页面）。
+  const validPageNames = new Set(pages.map(pageOrderKey).filter(Boolean));
+  const normalizedPageMenu = {};
+  for (const [name, visible] of Object.entries(pageMenu || {})) {
+    if (validPageNames.has(name) && typeof visible === 'boolean') normalizedPageMenu[name] = visible;
+  }
+
+  return {
+    sectionOrder: normalizedSectionOrder,
+    pageOrder: pageOrderBySection,
+    ...(Object.keys(normalizedPageMenu).length ? { pageMenu: normalizedPageMenu } : {}),
+  };
 }

@@ -28,8 +28,10 @@ import {
   Modal,
   Select,
   Spin,
+  Switch,
   Table,
   Tag,
+  Tooltip,
   Tabs,
   Typography,
 } from '@/ui/ant';
@@ -74,6 +76,7 @@ interface RouteData {
   clients: RouteClient[];
   backups: Array<Record<string, unknown>>;
   sectionBackups: Array<Record<string, unknown>>;
+  readOnly?: boolean;
 }
 interface RouteForm {
   client: string;
@@ -110,9 +113,9 @@ interface SectionBackup {
 }
 
 function routeType(page: RoutePage) {
-  if (page.sourceType === 'html-direct') return 'HTML 直读';
-  if (page.sourceType === 'html-template') return 'HTML 托管';
-  return 'HTML 页面';
+  if (page.sourceType === 'html-direct') return 'HTML 直讀';
+  if (page.sourceType === 'html-template') return 'HTML 託管';
+  return 'HTML 頁面';
 }
 
 function initialRouteForm(client: RouteClient, page?: RoutePage): RouteForm {
@@ -287,19 +290,19 @@ export function ProjectRoutesPage() {
     }
     setSectionsDialog({
       ...sectionsDialog,
-      sections: [...sectionsDialog.sections, { id, title: '新分组', isNew: true }],
+      sections: [...sectionsDialog.sections, { id, title: '新分組', isNew: true }],
     });
   }
 
   return (
     <PlatformPage
-      title="路由菜单管理"
-      description="按客户端管理菜单分组、页面顺序、页面路由、PRD 关联和可恢复备份。"
+      title="路由菜單管理"
+      description="按客戶端管理菜單分組、頁面順序、頁面路由、PRD 關聯和可恢復備份。"
       actions={
         <>
           <Select
             value={projectId || undefined}
-            placeholder="选择项目"
+            placeholder="選擇項目"
             onChange={setSelectedProjectId}
             options={projects.map((item) => ({ value: item.id, label: item.name }))}
           />
@@ -308,7 +311,7 @@ export function ProjectRoutesPage() {
             loading={routeQuery.isFetching}
             onClick={() => void routeQuery.refetch()}
           >
-            重新读取
+            重新讀取
           </Button>
         </>
       }
@@ -316,17 +319,17 @@ export function ProjectRoutesPage() {
       <Alert
         type="info"
         showIcon
-        title="路由新增会同时生成一个可运行的 HTML 占位页面；页面内容可直接在项目包的 html-pages 目录中维护。"
+        title="路由新增會同時生成一個可運行的 HTML 佔位頁面；頁面內容可直接在項目包的 html-pages 目錄中維護。"
       />
       {routeQuery.isError ? (
-        <Alert type="error" showIcon title="路由读取失败" description={routeQuery.error.message} />
+        <Alert type="error" showIcon title="路由讀取失敗" description={routeQuery.error.message} />
       ) : null}
       {actionError ? (
         <Alert
           type="error"
           showIcon
           closable={{ onClose: () => setActionError('') }}
-          title="操作失败"
+          title="操作失敗"
           description={actionError}
         />
       ) : null}
@@ -336,26 +339,34 @@ export function ProjectRoutesPage() {
         </div>
       ) : routeData ? (
         <>
+          {routeData.readOnly ? (
+            <Alert
+              type="info"
+              showIcon
+              title="靜態只讀模式"
+              description="當前是打包後的靜態部署：可查看路由、分組與菜單顯隱狀態；修改需要在本機開發環境進行並重新打包，或改用平臺服務（serve:local）部署。"
+            />
+          ) : null}
           <Surface className="routes-overview">
             <div>
               <Title level={2}>{routeData.project.name}</Title>
               <Text type="secondary">
-                {routeData.project.id} · {routeData.project.version || '未设置版本'}
+                {routeData.project.id} · {routeData.project.version || '未設置版本'}
               </Text>
             </div>
             <div className="routes-metrics">
-              <Metric label="客户端" value={localClients.length} detail="已登记入口" />
-              <Metric label="页面路由" value={metrics.pages} detail="当前项目总数" />
-              <Metric label="可恢复备份" value={metrics.backups} detail="页面与分组修改记录" />
+              <Metric label="客戶端" value={localClients.length} detail="已登記入口" />
+              <Metric label="頁面路由" value={metrics.pages} detail="當前項目總數" />
+              <Metric label="可恢復備份" value={metrics.backups} detail="頁面與分組修改記錄" />
             </div>
           </Surface>
           <Surface className="routes-panel">
             <div className="routes-panel__heading">
               <div>
-                <Title level={2}>客户端路由</Title>
-                <Text type="secondary">按客户端查看页面登记，分组与菜单顺序同实际客户端一致。</Text>
+                <Title level={2}>客戶端路由</Title>
+                <Text type="secondary">按客戶端查看頁面登記，分組與菜單順序同實際客戶端一致。</Text>
               </div>
-              <Tag>{localClients.length} 个客户端</Tag>
+              <Tag>{localClients.length} 個客戶端</Tag>
             </div>
             <Tabs
               className="route-client-tabs"
@@ -392,9 +403,16 @@ export function ProjectRoutesPage() {
                   setPrdTarget({ client: selectedClient, page });
                   setPrdPath(pagePrdLinkFor(pageLinks, selectedClient.id, page.name));
                 }}
+                onToggleMenu={(page, menu) => {
+                  void mutateRoute.mutateAsync({
+                    action: 'page-menu',
+                    target: { projectId, client: selectedClient.id, page: page.name, menu },
+                  });
+                }}
+                canWrite={platformApi.development}
               />
             ) : (
-              <Empty description="当前项目没有客户端" />
+              <Empty description="當前項目沒有客戶端" />
             )}
           </Surface>
           <BackupPanels
@@ -410,7 +428,7 @@ export function ProjectRoutesPage() {
           />
         </>
       ) : (
-        <Empty description="请选择项目" />
+        <Empty description="請選擇項目" />
       )}
       {routeDialog ? (
         <RouteDialog
@@ -471,6 +489,8 @@ function RouteClientWorkspace({
   onCreate,
   onEdit,
   onPrd,
+  onToggleMenu,
+  canWrite,
 }: {
   client: RouteClient;
   pageLinks: PagePrdLinks;
@@ -485,6 +505,8 @@ function RouteClientWorkspace({
   onCreate: () => void;
   onEdit: (page: RoutePage) => void;
   onPrd: (page: RoutePage) => void;
+  onToggleMenu: (page: RoutePage, menu: boolean) => void;
+  canWrite: boolean;
 }) {
   return (
     <>
@@ -492,15 +514,15 @@ function RouteClientWorkspace({
         <div>
           <strong>{client.name}</strong>
           <Text type="secondary">
-            {client.basePath} · {client.pages.length} 个路由
+            {client.basePath} · {client.pages.length} 個路由
           </Text>
         </div>
         <div>
           <Button icon={<EditOutlined />} onClick={onEditSections}>
-            编辑分组
+            編輯分組
           </Button>
           <Button type={dirty ? 'primary' : 'default'} loading={busy} disabled={!dirty} onClick={onSaveOrder}>
-            保存菜单顺序
+            保存菜單順序
           </Button>
           <Button type="primary" icon={<PlusOutlined />} onClick={onCreate}>
             新增路由
@@ -509,12 +531,12 @@ function RouteClientWorkspace({
       </div>
       <div className="route-order-hint">
         <span>
-          <b>01</b> 分组顺序对应客户端菜单顺序
+          <b>01</b> 分組順序對應客戶端菜單順序
         </span>
         <span>
-          <b>01</b> 组内序号对应分组内菜单顺序
+          <b>01</b> 組內序號對應分組內菜單順序
         </span>
-        <span>调整后点击“保存菜单顺序”</span>
+        <span>調整後點擊“保存菜單順序”</span>
       </div>
       <div className="route-groups">
         {routeGroups(client).map((group, groupIndex) => {
@@ -527,9 +549,9 @@ function RouteClientWorkspace({
                   <span className="route-order-badge">{formatOrder(groupIndex)}</span>
                   <span>
                     <strong>{group.title}</strong>
-                    <small>{group.isUngrouped ? '这些页面当前没有匹配到已登记的菜单分组' : group.id}</small>
+                    <small>{group.isUngrouped ? '這些頁面當前沒有匹配到已登記的菜單分組' : group.id}</small>
                   </span>
-                  <Tag>{group.pages.length} 个路由</Tag>
+                  <Tag>{group.pages.length} 個路由</Tag>
                   <ArrowRightOutlined className={opened ? 'is-open' : ''} />
                 </Button>
                 {!group.isUngrouped ? (
@@ -567,6 +589,8 @@ function RouteClientWorkspace({
                         onMove={onMovePage}
                         onEdit={onEdit}
                         onPrd={onPrd}
+                        onToggleMenu={onToggleMenu}
+                        canWrite={canWrite}
                       />
                     ),
                   },
@@ -587,6 +611,8 @@ function RouteTable({
   onMove,
   onEdit,
   onPrd,
+  onToggleMenu,
+  canWrite,
 }: {
   client: RouteClient;
   group: ReturnType<typeof routeGroups>[number];
@@ -594,6 +620,8 @@ function RouteTable({
   onMove: (section: string, index: number, direction: -1 | 1) => void;
   onEdit: (page: RoutePage) => void;
   onPrd: (page: RoutePage) => void;
+  onToggleMenu: (page: RoutePage, menu: boolean) => void;
+  canWrite: boolean;
 }) {
   return (
     <Table
@@ -604,14 +632,14 @@ function RouteTable({
       dataSource={group.pages}
       columns={[
         {
-          title: '顺序',
+          title: '順序',
           width: 62,
           render: (_value, _row, index) => (
             <span className="route-order-badge route-order-badge--small">{formatOrder(index)}</span>
           ),
         },
         {
-          title: '菜单名称',
+          title: '菜單名稱',
           dataIndex: 'title',
           minWidth: 180,
           render: (value, page: RoutePage) => (
@@ -619,6 +647,20 @@ function RouteTable({
               <strong>{value}</strong>
               <Tag color={page.sourceType === 'html-direct' ? 'green' : 'blue'}>{routeType(page)}</Tag>
             </div>
+          ),
+        },
+        {
+          title: '菜單顯示',
+          width: 92,
+          render: (_value, page: RoutePage) => (
+            <Tooltip title={page.menu === false ? '已隱藏：側欄不顯示，仍可通過 URL 訪問' : '顯示在側欄菜單中'}>
+              <Switch
+                size="small"
+                checked={page.menu !== false}
+                disabled={!canWrite}
+                onChange={(checked) => onToggleMenu(page, checked)}
+              />
+            </Tooltip>
           ),
         },
         {
@@ -632,15 +674,15 @@ function RouteTable({
           ),
         },
         {
-          title: '页面信息',
+          title: '頁面信息',
           minWidth: 200,
           render: (_value, page: RoutePage) => (
             <div>
-              <small>{page.source || '未记录页面来源'}</small>
+              <small>{page.source || '未記錄頁面來源'}</small>
               {pagePrdLinkFor(pageLinks, client.id, page.name) ? (
-                <Tag color="success">PRD 已关联</Tag>
+                <Tag color="success">PRD 已關聯</Tag>
               ) : (
-                <Tag>PRD 未关联</Tag>
+                <Tag>PRD 未關聯</Tag>
               )}
             </div>
           ),
@@ -666,14 +708,14 @@ function RouteTable({
               />
               {!['html-direct', 'html-template'].includes(page.sourceType || '') ? (
                 <Button type="link" onClick={() => onEdit(page)}>
-                  编辑
+                  編輯
                 </Button>
               ) : null}
               <Button type="link" icon={<LinkOutlined />} onClick={() => onPrd(page)}>
-                {pagePrdLinkFor(pageLinks, client.id, page.name) ? '编辑 PRD' : '关联 PRD'}
+                {pagePrdLinkFor(pageLinks, client.id, page.name) ? '編輯 PRD' : '關聯 PRD'}
               </Button>
               {page.sourceType === 'html-direct' ? (
-                <small>HTML 目录管理</small>
+                <small>HTML 目錄管理</small>
               ) : page.sourceType === 'html-template' ? (
                 <small>HTML 文件管理</small>
               ) : null}
@@ -703,7 +745,7 @@ function RouteDialog({
   const client = clients.find((item) => item.id === dialog.form.client) || clients[0];
   return (
     <Modal
-      title={dialog.mode === 'edit' ? '编辑路由' : '新增路由'}
+      title={dialog.mode === 'edit' ? '編輯路由' : '新增路由'}
       open
       footer={
         <>
@@ -715,9 +757,9 @@ function RouteDialog({
       }
       onCancel={onCancel}
     >
-      <Text type="secondary">路由信息会同步到页面注册表和客户端菜单。</Text>
+      <Text type="secondary">路由信息會同步到頁面註冊表和客戶端菜單。</Text>
       <Form layout="vertical">
-        <Form.Item label="客户端">
+        <Form.Item label="客戶端">
           <Select
             value={dialog.form.client}
             options={clients.map((item) => ({ value: item.id, label: item.name }))}
@@ -740,15 +782,15 @@ function RouteDialog({
             onChange={(event) => onChange({ ...dialog.form, routePath: event.target.value })}
           />
         </Form.Item>
-        <Form.Item label="路由名称">
+        <Form.Item label="路由名稱">
           <Input
             value={dialog.form.pageTitle}
-            placeholder="同时作为菜单显示名称"
+            placeholder="同時作爲菜單顯示名稱"
             onChange={(event) => onChange({ ...dialog.form, pageTitle: event.target.value })}
           />
         </Form.Item>
         <div className="route-form-grid">
-          <Form.Item label="菜单分组">
+          <Form.Item label="菜單分組">
             <Select
               value={dialog.form.menuSection}
               options={(client?.sections || []).map((section) => ({
@@ -758,7 +800,7 @@ function RouteDialog({
               onChange={(menuSection) => onChange({ ...dialog.form, menuSection })}
             />
           </Form.Item>
-          <Form.Item label="菜单图标">
+          <Form.Item label="菜單圖標">
             <Select
               value={dialog.form.menuIcon}
               options={iconOptions.map((value) => ({ value, label: value }))}
@@ -788,23 +830,23 @@ function SectionsDialog({
 }) {
   return (
     <Modal
-      title="编辑菜单分组"
+      title="編輯菜單分組"
       width={680}
       open
       footer={
         <>
           <Button onClick={onCancel}>取消</Button>
           <Button type="primary" loading={busy} onClick={onSubmit}>
-            保存分组
+            保存分組
           </Button>
         </>
       }
       onCancel={onCancel}
     >
       <div className="sections-dialog-heading">
-        <Text type="secondary">可新增、修改或删除菜单分组；删除仍被页面使用的分组时系统会阻止保存。</Text>
+        <Text type="secondary">可新增、修改或刪除菜單分組；刪除仍被頁面使用的分組時系統會阻止保存。</Text>
         <Button size="small" icon={<PlusOutlined />} onClick={onAdd}>
-          新增分组
+          新增分組
         </Button>
       </div>
       <div className="section-editor-list">
@@ -851,7 +893,7 @@ function SectionsDialog({
               type="link"
               onClick={() => onChange(dialog.sections.filter((_, itemIndex) => itemIndex !== index))}
             >
-              删除
+              刪除
             </Button>
           </div>
         ))}
@@ -879,13 +921,13 @@ function PrdDialog({
 }) {
   return (
     <Modal
-      title="关联页面 PRD"
+      title="關聯頁面 PRD"
       open
       footer={
         <>
           <Button onClick={onCancel}>取消</Button>
           <Button type="primary" loading={busy} onClick={onSave}>
-            保存关联
+            保存關聯
           </Button>
         </>
       }
@@ -906,14 +948,14 @@ function PrdDialog({
             showSearch
             value={value || undefined}
             loading={!documents.length}
-            placeholder="选择项目 docs 中的 Markdown 文件"
+            placeholder="選擇項目 docs 中的 Markdown 文件"
             options={documents.map((document) => ({
               value: document.path,
               label: `${document.title || document.path} · ${document.path}`,
             }))}
             onChange={(path) => onChange(path || '')}
           />
-          <Text type="secondary">清空后保存即可取消整页 PRD 关联，不会删除文档。</Text>
+          <Text type="secondary">清空後保存即可取消整頁 PRD 關聯，不會刪除文檔。</Text>
         </Form.Item>
       </Form>
     </Modal>
@@ -935,17 +977,17 @@ function BackupPanels({
 }) {
   const backupColumns: ColumnsType<PageBackup> = [
     {
-      title: '处理类型',
+      title: '處理類型',
       dataIndex: 'type',
       width: 120,
       render: (type: string | undefined) => (
         <Tag color={type === 'deleted' ? 'error' : 'warning'}>
-          {type === 'deleted' ? '删除备份' : type === 'edited' ? '编辑备份' : '替换备份'}
+          {type === 'deleted' ? '刪除備份' : type === 'edited' ? '編輯備份' : '替換備份'}
         </Tag>
       ),
     },
     {
-      title: '原页面',
+      title: '原頁面',
       key: 'page',
       render: (_: unknown, row) => (
         <div>
@@ -957,7 +999,7 @@ function BackupPanels({
       ),
     },
     {
-      title: '备份时间',
+      title: '備份時間',
       dataIndex: 'createdAt',
       width: 190,
       render: (value: string | undefined) =>
@@ -968,15 +1010,15 @@ function BackupPanels({
       width: 100,
       render: (_: unknown, row) => (
         <Button type="link" disabled={busy || Boolean(row.restoredAt)} onClick={() => onRestore(row.id)}>
-          还原
+          還原
         </Button>
       ),
     },
   ];
   const sectionColumns: ColumnsType<SectionBackup> = [
-    { title: '客户端', dataIndex: 'client', width: 130 },
+    { title: '客戶端', dataIndex: 'client', width: 130 },
     {
-      title: '分组变更',
+      title: '分組變更',
       key: 'sections',
       render: (_: unknown, row) => (
         <div>
@@ -990,7 +1032,7 @@ function BackupPanels({
       ),
     },
     {
-      title: '修改时间',
+      title: '修改時間',
       dataIndex: 'createdAt',
       width: 190,
       render: (value: string | undefined) =>
@@ -1005,7 +1047,7 @@ function BackupPanels({
           disabled={busy || Boolean(row.restoredAt)}
           onClick={() => onRestoreSections(row.id)}
         >
-          还原
+          還原
         </Button>
       ),
     },
@@ -1014,8 +1056,8 @@ function BackupPanels({
     <>
       <section className="backup-panel platform-surface">
         <div>
-          <Title level={2}>页面备份</Title>
-          <Tag color="warning">{backups.length} 条</Tag>
+          <Title level={2}>頁面備份</Title>
+          <Tag color="warning">{backups.length} 條</Tag>
         </div>
         <Table<PageBackup>
           rowKey="id"
@@ -1027,8 +1069,8 @@ function BackupPanels({
       </section>
       <section className="backup-panel platform-surface">
         <div>
-          <Title level={2}>分组备份</Title>
-          <Tag color="warning">{sectionBackups.length} 条</Tag>
+          <Title level={2}>分組備份</Title>
+          <Tag color="warning">{sectionBackups.length} 條</Tag>
         </div>
         <Table<SectionBackup>
           rowKey="id"

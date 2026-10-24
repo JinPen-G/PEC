@@ -2,8 +2,8 @@ import { expect, test } from '@playwright/test';
 
 test('opens the React home and reveals management tools with the local shortcut', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/产品功能体验中心/u);
-  await expect(page.getByRole('navigation', { name: '项目列表' })).toBeVisible();
+  await expect(page).toHaveTitle(/產品功能體驗中心/u);
+  await expect(page.getByRole('navigation', { name: '項目列表' })).toBeVisible();
   await expect(page.getByRole('button', { name: '控制台' })).toHaveCount(0);
 
   await page.keyboard.press('Control+Shift+M');
@@ -13,10 +13,10 @@ test('opens the React home and reveals management tools with the local shortcut'
 
 test('keeps management routes refreshable and reports unknown URLs', async ({ page }) => {
   await page.goto('/tools/project-routes');
-  await expect(page.getByRole('heading', { name: '路由菜单管理' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '路由菜單管理' })).toBeVisible();
   await page.reload();
-  await expect(page.getByRole('heading', { name: '路由菜单管理' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '路由菜單管理' })).toBeVisible();
 
   await page.goto('/route-that-does-not-exist');
-  await expect(page.getByText('页面不存在')).toBeVisible();
+  await expect(page.getByText('頁面不存在')).toBeVisible();
 });

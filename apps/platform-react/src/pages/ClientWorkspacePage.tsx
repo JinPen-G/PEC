@@ -22,6 +22,7 @@ import {
 } from '@/data/use-platform-data';
 import { PrdReviewPanel, type PrdPanelMode } from '@/features/docs/PrdReviewPanel';
 import { PrototypeFrame } from '@/features/prototypes/PrototypeFrame';
+import { appHomeUrl } from '@/features/routes/app-url';
 import {
   findClient,
   findProject,
@@ -102,7 +103,11 @@ export function ClientWorkspacePage() {
   const prdBindingsQuery = usePrdBindings(projectId, Boolean(project && selectedPage));
   const settingsQuery = usePlatformSettings();
   const saveDeveloperMode = useMutation({
-    mutationFn: (enabled: boolean) => platformApi.savePlatformSettings({ developerMode: enabled }),
+    mutationFn: (enabled: boolean) =>
+      platformApi.savePlatformSettings({
+        developerMode: enabled,
+        remoteManagement: settingsQuery.data?.remoteManagement ?? false,
+      }),
     onSuccess: (settings) => queryClient.setQueryData(['platform', 'settings'], settings),
   });
   const [prdOpen, setPrdOpen] = useState(false);
@@ -124,7 +129,8 @@ export function ClientWorkspacePage() {
       const target = event.target as HTMLElement | null;
       if (target?.closest('input, textarea, select, [contenteditable="true"]')) return;
       event.preventDefault();
-      if (!platformApi.development || saveDeveloperMode.isPending) return;
+      if (saveDeveloperMode.isPending) return;
+      // 静态部署下保存会退化为浏览器本地持久化，因此快捷键不再限制为本机。
       saveDeveloperMode.mutate(!sharedDeveloperMode);
     };
     window.addEventListener('keydown', handleDeveloperShortcut);
@@ -133,12 +139,12 @@ export function ClientWorkspacePage() {
 
   useEffect(() => {
     document.title = selectedPage
-      ? `${selectedPage.title} - ${project?.name || '项目'}`
-      : project?.name || '产品功能体验中心';
+      ? `${selectedPage.title} - ${project?.name || '項目'}`
+      : project?.name || '產品功能體驗中心';
   }, [project?.name, selectedPage]);
 
-  // 这些派生值和回调必须在加载态/空页面态之前创建，避免条件 Hook，
-  // 同时保证公共壳状态变化时不会给 iframe 生成新的回调引用。
+  // 這些派生值和回調必須在加載態/空頁面態之前創建，避免條件 Hook，
+  // 同時保證公共殼狀態變化時不會給 iframe 生成新的回調引用。
   const activePage = selectedPage ?? defaultPage;
   const resolvedPrdPath = activePage ? getPagePrdPath(prdLinksQuery.data, clientId, activePage) || '' : '';
   const resolvedRoutePath = activePage ? `/p/${projectId}/${clientId}/${activePage.path}` : '';
@@ -234,8 +240,8 @@ export function ClientWorkspacePage() {
       runtimeStatus.state === 'index-missing'
         ? {
             type: 'error' as const,
-            message: 'HTML 页面运行索引缺失',
-            description: `项目登记了 ${runtimeStatus.managedHtmlPageCount} 个托管 HTML 页面，但当前扫描结果没有可运行页面。请重新扫描项目包并检查页面文件。`,
+            message: 'HTML 頁面運行索引缺失',
+            description: `項目登記了 ${runtimeStatus.managedHtmlPageCount} 個託管 HTML 頁面，但當前掃描結果沒有可運行頁面。請重新掃描項目包並檢查頁面文件。`,
           }
         : null;
     return (
@@ -248,20 +254,19 @@ export function ClientWorkspacePage() {
             description={runtimeNotice.description}
           />
         ) : (
-          <Empty description={pages.length ? '页面不存在或已从原型目录移除' : '当前客户端尚未登记页面'} />
+          <Empty description={pages.length ? '頁面不存在或已從原型目錄移除' : '當前客戶端尚未登記頁面'} />
         )}
         <Button type="primary" onClick={() => navigate('/')}>
-          返回首页
+          返回首頁
         </Button>
       </main>
     );
   }
 
   const prdPath = resolvedPrdPath;
-  const sourceDownloadUrl =
-    developerMode && platformApi.development
-      ? platformApi.getHtmlPrototypeSourceDownloadUrl(projectId, selectedPage.sourceRoot, selectedPage.source)
-      : '';
+  const sourceDownloadUrl = developerMode
+    ? platformApi.getHtmlPrototypeSourceDownloadUrl(projectId, selectedPage.sourceRoot, selectedPage.source)
+    : '';
 
   return (
     <ConfigProvider theme={clientConfigTheme}>
@@ -427,7 +432,7 @@ function ClientWorkspace({
         syncRouteRef.current = `${current.pathname}${current.search}${current.hash}`;
         onNavigate(nextOuterUrl, { replace: true });
       } catch {
-        // 外部 HTML 目前由同源服务承载；若未来改为跨域，仅停止路由同步，不影响页面显示。
+        // 外部 HTML 目前由同源服務承載；若未來改爲跨域，僅停止路由同步，不影響頁面顯示。
       }
     },
     [clientId, groups, locationHash, locationSearch, onNavigate, pages, projectId, selectedPage.path],
@@ -439,13 +444,13 @@ function ClientWorkspace({
   );
   const accountItems = useMemo<MenuProps['items']>(
     () => [
-      { key: 'home', icon: <HomeOutlined />, label: '回到首页', onClick: () => onNavigate('/') },
+      { key: 'home', icon: <HomeOutlined />, label: '回到首頁', onClick: () => onNavigate('/') },
       ...(developerMode
         ? [
             {
               key: 'ai-context',
               icon: <DatabaseOutlined />,
-              label: '当前页面上下文',
+              label: '當前頁面上下文',
               onClick: () =>
                 onNavigate(
                   `/tools/ai-context?project=${encodeURIComponent(projectId)}&client=${encodeURIComponent(clientId)}&page=${encodeURIComponent(selectedPage.path)}`,
@@ -453,7 +458,7 @@ function ClientWorkspace({
             },
           ]
         : []),
-      { key: 'exit', icon: <LogoutOutlined />, label: '退出当前客户端', onClick: () => onNavigate('/') },
+      { key: 'exit', icon: <LogoutOutlined />, label: '退出當前客戶端', onClick: () => onNavigate('/') },
     ],
     [clientId, developerMode, onNavigate, projectId, selectedPage.path],
   );
@@ -503,10 +508,10 @@ function ClientWorkspace({
     return (
       <main className="client-bare" style={workspaceStyle}>
         {prdPath || sourceDownloadUrl ? (
-          <div className="client-bare-tools" aria-label="页面工具">
+          <div className="client-bare-tools" aria-label="頁面工具">
             {sourceDownloadUrl ? (
               <Button href={sourceDownloadUrl} icon={<DownloadOutlined />}>
-                下载源文件
+                下載源文件
               </Button>
             ) : null}
             {prdPath ? (
@@ -558,7 +563,7 @@ function ClientWorkspace({
           routeKey={`${clientId}:${selectedPage.path}`}
           selector={
             <Select
-              aria-label="客户端"
+              aria-label="客戶端"
               value={clientId}
               options={clientOptions}
               onChange={(value) => onNavigate(`/p/${projectId}/${value}`)}
@@ -566,7 +571,7 @@ function ClientWorkspace({
           }
           nav={(isCollapsed) => (
             <Menu
-              aria-label="客户端导航"
+              aria-label="客戶端導航"
               mode="inline"
               selectedKeys={[selectedPage.path]}
               openKeys={isCollapsed ? undefined : openMenuKeys}
@@ -584,7 +589,7 @@ function ClientWorkspace({
             <>
               {sourceDownloadUrl ? (
                 <Button type="text" href={sourceDownloadUrl} icon={<DownloadOutlined />}>
-                  {isCollapsed ? null : '下载源文件'}
+                  {isCollapsed ? null : '下載源文件'}
                 </Button>
               ) : null}
               <Button type="text" disabled={!prdPath} icon={<BookOutlined />} onClick={() => onOpenPrd()}>
@@ -619,8 +624,8 @@ function ClientWorkspace({
 }
 
 /**
- * 侧栏展开态的一级是**不可点的分组标题**，二级页面始终铺开；
- * 收起态换成只有图标的父项，二级收进悬浮浮层；顶部导航沿用可点父项 + 下拉二级。
+ * 側欄展開態的一級是**不可點的分組標題**，二級頁面始終鋪開；
+ * 收起態換成只有圖標的父項，二級收進懸浮浮層；頂部導航沿用可點父項 + 下拉二級。
  */
 function createMenuItems(
   groups: ReturnType<typeof groupClientPages>,
@@ -650,7 +655,7 @@ function createMenuItems(
 
 function ClientBrand({ projectName }: { projectName: string }) {
   return (
-    <a className="client-brand" href={import.meta.env.BASE_URL}>
+    <a className="client-brand" href={appHomeUrl()}>
       <span className="client-brand__mark" aria-hidden="true">
         <PlatformBrand variant="mark" alt="" />
       </span>
@@ -662,8 +667,8 @@ function ClientBrand({ projectName }: { projectName: string }) {
 }
 
 /**
- * 顶部导航：一级菜单直接排在主胶囊里，选中一级高亮。
- * 多页面分组使用 Ant Design Menu 原生子菜单，箭头与交互由 Menu 统一渲染。
+ * 頂部導航：一級菜單直接排在主膠囊裏，選中一級高亮。
+ * 多頁面分組使用 Ant Design Menu 原生子菜單，箭頭與交互由 Menu 統一渲染。
  */
 function ClientTopNavigation({
   groups,
@@ -708,7 +713,7 @@ function ClientTopNavigation({
       const target = event.target;
       if (!(target instanceof Element)) return;
       if (navigationRef.current?.contains(target)) return;
-      // Ant Menu 的子菜单默认挂到 body，点击浮层选项时不能提前把它卸载。
+      // Ant Menu 的子菜單默認掛到 body，點擊浮層選項時不能提前把它卸載。
       if (target.closest('.ant-menu-submenu-popup')) return;
       setOpenKeys([]);
     };
@@ -723,7 +728,7 @@ function ClientTopNavigation({
         className="client-topnav__track"
         activeKey={activeKey}
         layoutKey={groups.map((group) => `${group.id}:${group.pages.length}`).join('|')}
-        ariaLabel="客户端主导航"
+        ariaLabel="客戶端主導航"
       >
         <Menu
           className="client-topnav--native"
@@ -766,7 +771,7 @@ function ClientActions({
   onClientChange: (value: string) => void;
   onOpenPrd: () => void;
 }) {
-  /** 右侧四个功能保留图标表达，文字通过悬浮提示和 aria-label 提供。 */
+  /** 右側四個功能保留圖標表達，文字通過懸浮提示和 aria-label 提供。 */
   const entries: ReactNode[] = [
     <Dropdown
       key="client"
@@ -777,7 +782,7 @@ function ClientActions({
         items: [
           {
             type: 'group',
-            label: '切换客户端',
+            label: '切換客戶端',
             children: clientOptions.map((option) => ({ key: option.value, label: option.label })),
           },
         ],
@@ -786,22 +791,22 @@ function ClientActions({
         onClick: ({ key }) => onClientChange(key),
       }}
     >
-      <Tooltip title={`切换客户端：${clientName}`}>
-        <button type="button" className="topnav-icon-button" aria-label={`切换客户端，当前 ${clientName}`}>
+      <Tooltip title={`切換客戶端：${clientName}`}>
+        <button type="button" className="topnav-icon-button" aria-label={`切換客戶端，當前 ${clientName}`}>
           <AppstoreOutlined />
         </button>
       </Tooltip>
     </Dropdown>,
 
     sourceDownloadUrl ? (
-      <Tooltip key="download" title="下载源文件">
-        <a className="topnav-icon-button" href={sourceDownloadUrl} aria-label="下载源文件">
+      <Tooltip key="download" title="下載源文件">
+        <a className="topnav-icon-button" href={sourceDownloadUrl} aria-label="下載源文件">
           <DownloadOutlined />
         </a>
       </Tooltip>
     ) : null,
 
-    <Tooltip key="prd" title={prdPath ? '查看 PRD' : '当前页面没有关联 PRD'}>
+    <Tooltip key="prd" title={prdPath ? '查看 PRD' : '當前頁面沒有關聯 PRD'}>
       <button
         type="button"
         className="topnav-icon-button"
@@ -822,8 +827,8 @@ function ClientActions({
       placement="bottomRight"
       classNames={{ root: 'app-pill-menu' }}
     >
-      <Tooltip title="账号：Admin">
-        <button type="button" className="topnav-icon-button" aria-label="账号：Admin">
+      <Tooltip title="賬號：Admin">
+        <button type="button" className="topnav-icon-button" aria-label="賬號：Admin">
           <UserOutlined />
         </button>
       </Tooltip>

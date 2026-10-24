@@ -14,7 +14,7 @@ interface PlatformPageProps {
 
 export function PlatformPage({ eyebrow, title, description, actions, children }: PlatformPageProps) {
   useEffect(() => {
-    document.title = `${title} · 产品功能体验中心`;
+    document.title = `${title} · 產品功能體驗中心`;
   }, [title]);
 
   return (

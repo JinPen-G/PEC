@@ -68,7 +68,12 @@ export default [
     },
   },
   {
-    files: ['scripts/**/*.{js,cjs,mjs}', 'plugins/**/*.js', 'vite.config.js', 'playwright.config.js'],
+    files: [
+      'scripts/**/*.{js,cjs,mjs}',
+      'plugins/**/*.js',
+      'vite.config.js',
+      'playwright.config.js',
+    ],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',

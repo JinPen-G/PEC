@@ -60,7 +60,7 @@ export function ProjectMountDialog({
     <Modal
       open={open}
       width={640}
-      title="挂载现有项目文件夹"
+      title="掛載現有項目文件夾"
       onCancel={onCancel}
       afterClose={resetDialog}
       footer={
@@ -73,24 +73,24 @@ export function ProjectMountDialog({
             loading={mount.isPending}
             onClick={() => mount.mutate()}
           >
-            确认挂载
+            確認掛載
           </Button>
         </Flex>
       }
     >
       <Space direction="vertical" size={18} style={{ width: '100%' }}>
         <div>
-          <Title level={5}>项目文件不会被复制或移动</Title>
+          <Title level={5}>項目文件不會被複制或移動</Title>
           <Paragraph type="secondary">
-            平台只在本机的 project-mounts.local.json 中记录目录。取消挂载也不会删除源文件。
+            平臺只在本機的 project-mounts.local.json 中記錄目錄。取消掛載也不會刪除源文件。
           </Paragraph>
         </div>
         <Form layout="vertical">
-          <Form.Item label="项目文件夹" required>
+          <Form.Item label="項目文件夾" required>
             <Space.Compact style={{ width: '100%' }}>
               <Input
                 value={root}
-                placeholder="选择或输入包含 project.json 的绝对路径"
+                placeholder="選擇或輸入包含 project.json 的絕對路徑"
                 onChange={(event) => {
                   setRoot(event.target.value);
                   setCandidate(null);
@@ -102,15 +102,15 @@ export function ProjectMountDialog({
                 loading={browse.isPending}
                 onClick={() => browse.mutate()}
               >
-                浏览
+                瀏覽
               </Button>
               <Button loading={inspect.isPending} onClick={() => inspect.mutate(root)} disabled={!root}>
-                检查
+                檢查
               </Button>
             </Space.Compact>
           </Form.Item>
         </Form>
-        {error ? <Alert type="error" showIcon title="目录不可挂载" description={error} /> : null}
+        {error ? <Alert type="error" showIcon title="目錄不可掛載" description={error} /> : null}
         {candidate ? (
           <Alert
             type="success"
@@ -118,7 +118,7 @@ export function ProjectMountDialog({
             title={`${candidate.name}（${candidate.id}）`}
             description={
               <Text type="secondary">
-                已通过项目配置、页面定义和资源检查。客户端 {candidate.clients.length} 个。
+                已通過項目配置、頁面定義和資源檢查。客戶端 {candidate.clients.length} 個。
               </Text>
             }
           />

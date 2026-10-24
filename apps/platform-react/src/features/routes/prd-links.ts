@@ -5,8 +5,8 @@ export function clonePagePrdLinks(source: PagePrdLinks = {}): PagePrdLinks {
 }
 
 /**
- * 项目清单内的关联是只读基础层，.platform/page-prd-links.json 是可编辑覆盖层。
- * null 代表显式取消基础层中的关联，不能在保存前删除该键。
+ * 項目清單內的關聯是隻讀基礎層，.platform/page-prd-links.json 是可編輯覆蓋層。
+ * null 代表顯式取消基礎層中的關聯，不能在保存前刪除該鍵。
  */
 export function mergePagePrdLinks(base: PagePrdLinks = {}, overrides: PagePrdLinks = {}): PagePrdLinks {
   const next = clonePagePrdLinks(base);

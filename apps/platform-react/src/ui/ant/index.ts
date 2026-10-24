@@ -38,4 +38,6 @@ export {
   theme,
 } from 'antd';
 export type { MenuProps, TableProps, ThemeConfig, UploadProps } from 'antd';
-export { default as zhCN } from 'antd/locale/zh_CN';
+// antd 6 没有 exports 映射，根路径 `antd/locale/*` 是指向 lib/（CJS）的转发文件，
+// 会把整套 CJS locale 依赖重复打进首屏包；这里直接引 es/ 下的 ESM 版本。
+export { default as zhTW } from 'antd/es/locale/zh_TW';

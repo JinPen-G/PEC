@@ -6,7 +6,7 @@ const brandAsset = (fileName: string) => `${import.meta.env.BASE_URL}brand/${fil
 
 export function PlatformBrand({
   variant = 'mark',
-  alt = '产品功能体验中心',
+  alt = '產品功能體驗中心',
   className,
 }: {
   variant?: PlatformBrandVariant;

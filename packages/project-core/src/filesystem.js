@@ -123,6 +123,39 @@ export async function importJavaScriptFile(filePath, { cacheKey = Date.now() } =
   return import(`data:text/javascript;base64,${Buffer.from(moduleSource, 'utf8').toString('base64')}`);
 }
 
+async function pathExists(targetPath, fsApi) {
+  try {
+    await fsApi.lstat(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// Node 24 在部分 Windows 路径（例如包含中文的目录）上 fs.rm 会静默不生效：既不删除也不报错。
+// 先按常规方式调用 fs.rm，校验结果，仍存在时回退为 lstat + unlink/rmdir 的手工递归删除。
+async function removePathByHand(targetPath, fsApi) {
+  const stats = await fsApi.lstat(targetPath);
+  if (!stats.isDirectory()) {
+    await fsApi.unlink(targetPath);
+    return;
+  }
+  for (const entry of await fsApi.readdir(targetPath)) {
+    await removePathByHand(path.join(targetPath, entry), fsApi);
+  }
+  await fsApi.rmdir(targetPath);
+}
+
+export async function removePathReliably(targetPath, { fsApi = fs } = {}) {
+  try {
+    await fsApi.rm(targetPath, { recursive: true, force: true });
+  } catch {
+    // 忽略：统一由下方校验与回退兜底。
+  }
+  if (!(await pathExists(targetPath, fsApi))) return;
+  await removePathByHand(targetPath, fsApi);
+}
+
 export async function writeFileAtomic(filePath, content, options = {}) {
   const { fsApi = fs, ...writeOptions } = options;
   const directory = path.dirname(filePath);
@@ -135,7 +168,7 @@ export async function writeFileAtomic(filePath, content, options = {}) {
     await fsApi.writeFile(temporaryPath, content, writeOptions);
     await fsApi.rename(temporaryPath, filePath);
   } catch (error) {
-    await fsApi.rm(temporaryPath, { force: true }).catch(() => {});
+    await removePathReliably(temporaryPath, { fsApi }).catch(() => {});
     throw error;
   }
 }
@@ -172,7 +205,7 @@ export async function withFileRollback(filePaths, operation, { fsApi = fs } = {}
         if (snapshot.existed) {
           await writeFileAtomic(snapshot.filePath, snapshot.content, { mode: snapshot.mode, fsApi });
         } else {
-          await fsApi.rm(snapshot.filePath, { force: true });
+          await removePathReliably(snapshot.filePath, { fsApi });
         }
       } catch (rollbackError) {
         rollbackErrors.push({ filePath: snapshot.filePath, message: rollbackError.message });

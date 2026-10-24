@@ -36,19 +36,19 @@ export function ProjectMobilePage() {
         <header className="mobile-preview-header">
           <div>
             <strong>{project.name}</strong>
-            <Text type="secondary">移动端原型</Text>
+            <Text type="secondary">移動端原型</Text>
           </div>
           <div className="mobile-preview-actions">
             <ThemeControl />
             <Button type="text" onClick={() => navigate('/')}>
-              返回首页
+              返回首頁
             </Button>
           </div>
         </header>
         <iframe
           className="mobile-preview-frame"
           src={mobileUrl}
-          title={`${project.name} 移动端原型`}
+          title={`${project.name} 移動端原型`}
           referrerPolicy="same-origin"
           onLoad={(event) => {
             try {
@@ -56,7 +56,7 @@ export function ProjectMobilePage() {
               root?.style.setProperty('--brand', project.theme?.primary || DEFAULT_PROJECT_THEME.primary);
               root?.style.setProperty('--app-color-primary', project.theme?.primary || DEFAULT_PROJECT_THEME.primary);
             } catch {
-              // 同源项目资源会同步主题，未来跨域时保持原页面样式。
+              // 同源項目資源會同步主題，未來跨域時保持原頁面樣式。
             }
           }}
         />
@@ -68,11 +68,11 @@ export function ProjectMobilePage() {
     <main className="system-result-page">
       <Result
         status="404"
-        title="当前项目未启用独立移动端入口"
-        subTitle="如移动端以普通客户端形式配置，可直接从项目入口进入。"
+        title="當前項目未啓用獨立移動端入口"
+        subTitle="如移動端以普通客戶端形式配置，可直接從項目入口進入。"
         extra={
           <Button type="primary" onClick={() => navigate('/')}>
-            返回首页
+            返回首頁
           </Button>
         }
       />

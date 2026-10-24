@@ -5,18 +5,18 @@ import { MenuFoldOutlined, MenuOutlined, MenuUnfoldOutlined } from '@/ui/ant/ico
 
 const { Sider } = Layout;
 
-// 与 BoardUI 桌面侧栏保持同一 260px 节奏；内外留白由 app-shell-frame.css 统一控制。
+// 與 BoardUI 桌面側欄保持同一 260px 節奏；內外留白由 app-shell-frame.css 統一控制。
 const SIDER_WIDTH = 260;
 const SIDER_COLLAPSED_WIDTH = 64;
 const DRAWER_WIDTH = 272;
 const DESKTOP_QUERY = '(min-width: 992px)';
 
 /**
- * 侧栏 / 抽屉的切换点。
+ * 側欄 / 抽屜的切換點。
  *
- * 刻意不用 antd 的 `Grid.useBreakpoint()`：它首帧返回空对象，
- * 实测视口变窄后也不一定更新，结果仍被判成桌面、抽屉永远出不来。
- * `matchMedia` 是同一件事的直接表达，首帧就有确定值。
+ * 刻意不用 antd 的 `Grid.useBreakpoint()`：它首幀返回空對象，
+ * 實測視口變窄後也不一定更新，結果仍被判成桌面、抽屜永遠出不來。
+ * `matchMedia` 是同一件事的直接表達，首幀就有確定值。
  */
 export function useMinWidth(query: string) {
   const [matches, setMatches] = useState(() => window.matchMedia(query).matches);
@@ -31,33 +31,33 @@ export function useMinWidth(query: string) {
 }
 
 export interface AppSidebarProps {
-  /** 常驻侧栏是否收起；抽屉内永远是展开态。 */
+  /** 常駐側欄是否收起；抽屜內永遠是展開態。 */
   collapsed: boolean;
   onToggleCollapsed: () => void;
   brandMark: ReactNode;
-  /** 展开态可使用完整正式品牌标志；未提供时回退到图形 + 文字。 */
+  /** 展開態可使用完整正式品牌標誌；未提供時回退到圖形 + 文字。 */
   brandLogo?: ReactNode;
   brandTitle: string;
   brandSubtitle?: string;
   onBrandClick?: () => void;
-  /** 品牌区下方的选择器槽位（平台侧无此槽位）。 */
+  /** 品牌區下方的選擇器槽位（平臺側無此槽位）。 */
   selector?: ReactNode;
-  /** 菜单区。收起态传 true，调用方据此切换 group / submenu 结构。 */
+  /** 菜單區。收起態傳 true，調用方據此切換 group / submenu 結構。 */
   nav: (collapsed: boolean) => ReactNode;
-  /** 菜单与账号之间的工具区。 */
+  /** 菜單與賬號之間的工具區。 */
   tools?: (collapsed: boolean) => ReactNode;
-  /** 侧栏最底部。 */
+  /** 側欄最底部。 */
   account?: (collapsed: boolean) => ReactNode;
-  /** 路由标识；变化即关抽屉。 */
+  /** 路由標識；變化即關抽屜。 */
   routeKey?: string;
 }
 
 /**
- * 两个外壳共用的侧栏框架。
+ * 兩個外殼共用的側欄框架。
  *
- * 纵向五段：品牌（含折叠按钮）→ 选择器 → 菜单（独立滚动）→ 工具 → 账号。
- * 常驻侧栏与窄屏抽屉必须是同一份导航，各写一份迟早只改其中一处，
- * 因此内容抽成渲染函数，`inDrawer` 只影响收起态（抽屉里没有收起的意义）。
+ * 縱向五段：品牌（含摺疊按鈕）→ 選擇器 → 菜單（獨立滾動）→ 工具 → 賬號。
+ * 常駐側欄與窄屏抽屜必須是同一份導航，各寫一份遲早只改其中一處，
+ * 因此內容抽成渲染函數，`inDrawer` 隻影響收起態（抽屜裏沒有收起的意義）。
  */
 export function AppSidebar({
   collapsed,
@@ -96,11 +96,11 @@ export function AppSidebar({
             )}
           </button>
           {inDrawer ? null : (
-            <Tooltip title={isCollapsed ? '展开导航' : '收起导航'} placement="right">
+            <Tooltip title={isCollapsed ? '展開導航' : '收起導航'} placement="right">
               <Button
                 type="text"
                 className="app-sider__collapse"
-                aria-label={isCollapsed ? '展开导航' : '收起导航'}
+                aria-label={isCollapsed ? '展開導航' : '收起導航'}
                 icon={isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 onClick={onToggleCollapsed}
               />
@@ -143,7 +143,7 @@ function MobileAppSidebar({ children }: { children: ReactNode }) {
       <Button
         type="text"
         className="app-sider-drawer-trigger"
-        aria-label="打开导航"
+        aria-label="打開導航"
         icon={<MenuOutlined />}
         onClick={() => setDrawerOpen(true)}
       />

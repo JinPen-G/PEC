@@ -20,47 +20,47 @@ const { Content } = Layout;
 const COLLAPSED_KEY = 'product-experience-center:platform-nav-collapsed';
 
 /**
- * 平台导航分组。
+ * 平臺導航分組。
  *
- * 分组标题是**不可点**的一级，二级页面始终铺开——展开态一个页面都不用多点一次，
- * 收起态则退化成「图标父项 + 悬浮浮层」。
+ * 分組標題是**不可點**的一級，二級頁面始終鋪開——展開態一個頁面都不用多點一次，
+ * 收起態則退化成「圖標父項 + 懸浮浮層」。
  */
 const navigationSections = [
   {
     key: 'overview',
-    label: '概览',
+    label: '概覽',
     icon: <DashboardOutlined />,
     items: [{ key: '/tools/console', label: '控制台', icon: <SettingOutlined /> }],
   },
   {
     key: 'projects',
-    label: '项目资料',
+    label: '項目資料',
     icon: <FolderOpenOutlined />,
     items: [
-      { key: '/tools/projects', label: '项目包管理', icon: <FolderOpenOutlined /> },
-      { key: '/tools/project-health', label: '项目健康检查', icon: <SafetyCertificateOutlined /> },
-      { key: '/tools/project-routes', label: '路由菜单管理', icon: <OrderedListOutlined /> },
+      { key: '/tools/projects', label: '項目包管理', icon: <FolderOpenOutlined /> },
+      { key: '/tools/project-health', label: '項目健康檢查', icon: <SafetyCertificateOutlined /> },
+      { key: '/tools/project-routes', label: '路由菜單管理', icon: <OrderedListOutlined /> },
     ],
   },
   {
     key: 'pages',
-    label: '页面与需求',
+    label: '頁面與需求',
     icon: <DatabaseOutlined />,
     items: [{ key: '/tools/ai-context', label: 'AI 上下文中心', icon: <DatabaseOutlined /> }],
   },
   {
     key: 'reference',
-    label: '参考',
+    label: '參考',
     icon: <AppstoreOutlined />,
-    items: [{ key: '/components', label: '组件规范', icon: <AppstoreOutlined /> }],
+    items: [{ key: '/components', label: '組件規範', icon: <AppstoreOutlined /> }],
   },
 ];
 
 const navigation = navigationSections.flatMap((section) => section.items);
 
 /**
- * 展开态用 `type: "group"`（一级是标题）；收起态换成只有图标的父项，
- * 二级收进悬浮浮层——64px 宽放不下分组标题，平铺成一串图标又会丢掉归属关系。
+ * 展開態用 `type: "group"`（一級是標題）；收起態換成只有圖標的父項，
+ * 二級收進懸浮浮層——64px 寬放不下分組標題，平鋪成一串圖標又會丟掉歸屬關係。
  */
 function buildMenuItems(collapsed: boolean): MenuProps['items'] {
   return navigationSections.map((section) => {
@@ -97,7 +97,7 @@ export function PlatformShell() {
           onToggleCollapsed={toggleCollapsed}
           brandMark={<PlatformBrand variant="mark" alt="" />}
           brandLogo={<PlatformBrand variant="full" />}
-          brandTitle="产品功能体验中心"
+          brandTitle="產品功能體驗中心"
           onBrandClick={() => navigate('/')}
           routeKey={location.pathname}
           nav={(isCollapsed) => (
@@ -113,7 +113,7 @@ export function PlatformShell() {
             <>
               <ThemeControl showLabel={!isCollapsed} />
               <Button type="text" icon={<HomeOutlined />} onClick={() => navigate('/')}>
-                {isCollapsed ? null : '返回首页'}
+                {isCollapsed ? null : '返回首頁'}
               </Button>
             </>
           )}

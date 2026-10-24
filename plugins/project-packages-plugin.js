@@ -516,6 +516,13 @@ export function projectPackagesPlugin({
         fileName: 'projects/manifest.json',
         source: JSON.stringify(manifest, null, 2),
       });
+      // 静态部署的健康快照：打包时的项目健康报告随包发布，供线上只读查看。
+      const healthReport = await createProjectHealthReport(root, { mounts: await loadMounts() });
+      this.emitFile({
+        type: 'asset',
+        fileName: 'projects/health.json',
+        source: JSON.stringify(healthReport, null, 2),
+      });
       for (const project of manifest.projects) {
         const projectRoot = resolveMountedProjectRoot(root, project.id, await loadMounts());
         for (const absolutePath of await walkPublicFiles(projectRoot)) {

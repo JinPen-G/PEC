@@ -15,16 +15,16 @@ const searchOverlay = $('#searchOverlay');
 const searchInput = $('#searchInput');
 const searchResults = $('#searchResults');
 const pages = [
-  {title:'核心功能', desc:'项目包、HTML 原型、PRD、评审、本地 MCP 与局域网分享', href:'#capabilities'},
-  {title:'工作流', desc:'导入项目、浏览原型、对照 PRD、导出 AI 上下文', href:'#workflow'},
-  {title:'AI 协作', desc:'Codex、Claude、本地 MCP 与结构化项目上下文', href:'#ai'},
-  {title:'技术栈', desc:'React 19、Ant Design 6、TypeScript、Vite 6', href:'#stack'},
-  {title:'快速开始', desc:'克隆仓库并启动本地开发环境', href:'#start'}
+  {title:'核心功能', desc:'項目包、HTML 原型、PRD、評審、本地 MCP 與局域網分享', href:'#capabilities'},
+  {title:'工作流', desc:'導入項目、瀏覽原型、對照 PRD、導出 AI 上下文', href:'#workflow'},
+  {title:'AI 協作', desc:'Codex、Claude、本地 MCP 與結構化項目上下文', href:'#ai'},
+  {title:'技術棧', desc:'React 19、Ant Design 6、TypeScript、Vite 6', href:'#stack'},
+  {title:'快速開始', desc:'克隆倉庫並啓動本地開發環境', href:'#start'}
 ];
 function renderResults(q=''){
   const query=q.trim().toLowerCase();
   const items=query ? pages.filter(x => `${x.title}${x.desc}`.toLowerCase().includes(query)) : pages;
-  searchResults.innerHTML = items.length ? items.map(x=>`<a class="search-item" href="${x.href}"><b>${x.title}</b><small>${x.desc}</small></a>`).join('') : '<p>没有找到相关内容。</p>';
+  searchResults.innerHTML = items.length ? items.map(x=>`<a class="search-item" href="${x.href}"><b>${x.title}</b><small>${x.desc}</small></a>`).join('') : '<p>沒有找到相關內容。</p>';
   $$('.search-item',searchResults).forEach(a=>a.addEventListener('click',closeSearch));
 }
 function openSearch(){searchOverlay.hidden=false;renderResults();setTimeout(()=>searchInput.focus(),10)}
@@ -37,5 +37,5 @@ document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLower
 
 $('#copyCommand')?.addEventListener('click', async e => {
   const text='git clone https://github.com/Xiao0ozZ/Product-Experience-Center.git';
-  try{await navigator.clipboard.writeText(text);e.currentTarget.textContent='已复制';setTimeout(()=>e.currentTarget.textContent='复制',1200)}catch{e.currentTarget.textContent='请手动复制'}
+  try{await navigator.clipboard.writeText(text);e.currentTarget.textContent='已複製';setTimeout(()=>e.currentTarget.textContent='複製',1200)}catch{e.currentTarget.textContent='請手動複製'}
 });

@@ -6,6 +6,7 @@ import {
   importJavaScriptFile,
   isSafeRelativePath,
   resolveExistingPathInsideRoot,
+  removePathReliably,
   resolveWritablePathInsideRoot,
   withFileRollback,
   writeFileAtomic,
@@ -13,7 +14,7 @@ import {
 } from './filesystem.js';
 import { scanHtmlPrototypePages } from './html-prototypes.js';
 import { resolveProjectRoot } from './project-mounts.js';
-import { normalizeRouteOrder, orderClientRouteData } from './route-order.js';
+import { normalizeRouteOrder, orderClientRouteData, pageOrderKey } from './route-order.js';
 
 const ALLOWED_ICONS = new Set([
   'Calendar',
@@ -171,7 +172,7 @@ async function createPageBackup(projectPackage, metadata, sourcePath) {
     }
     await writeJsonAtomic(metadataPath, { ...metadata, id, sourceKind: 'html' });
   } catch (error) {
-    await fs.rm(directory, { recursive: true, force: true }).catch(() => {});
+    await removePathReliably(directory).catch(() => {});
     throw error;
   }
   return { id, directory };
@@ -223,7 +224,7 @@ async function createSectionBackup(projectPackage, metadata) {
     await fs.mkdir(directory, { recursive: true });
     await writeJsonAtomic(metadataPath, { ...metadata, id });
   } catch (error) {
-    await fs.rm(directory, { recursive: true, force: true }).catch(() => {});
+    await removePathReliably(directory).catch(() => {});
     throw error;
   }
   return { id, directory };
@@ -357,7 +358,15 @@ async function htmlPagesForProject(projectRoot, projectId, mounts = {}) {
 function clientRouteData(projectPackage, htmlPages, clientId, routeOrder) {
   const definition = projectPackage.definitions[clientId];
   const pages = [...routeDefinitionPages(definition), ...(htmlPages[clientId] || [])];
-  return orderClientRouteData(definition?.sections || [], pages, routeOrder?.clients?.[clientId]);
+  const ordered = orderClientRouteData(definition?.sections || [], pages, routeOrder?.clients?.[clientId]);
+  const pageMenu = routeOrder?.clients?.[clientId]?.pageMenu || {};
+  if (Object.keys(pageMenu).length) {
+    for (const page of ordered.pages) {
+      const override = pageMenu[page.name];
+      if (typeof override === 'boolean') page.menu = override;
+    }
+  }
+  return ordered;
 }
 
 export async function listProjectRoutes({ projectRoot, projectId, mounts = {} }) {
@@ -443,6 +452,7 @@ export async function updateProjectSections({ projectRoot, target, mounts = {} }
     pages: allPages,
     sectionOrder: updates.map((section) => section.id),
     pageOrder: routeOrder.clients?.[client]?.pageOrder,
+    pageMenu: routeOrder.clients?.[client]?.pageMenu,
   });
   const updatedDefinitions = cloneDefinitions(projectPackage.definitions, client, { sections: updates });
   const backup = await createSectionBackup(projectPackage, {
@@ -476,9 +486,37 @@ export async function updateProjectRouteOrder({ projectRoot, target, mounts = {}
     pages,
     sectionOrder: target.sectionOrder || currentClientOrder.sectionOrder,
     pageOrder: target.pageOrder || currentClientOrder.pageOrder,
+    pageMenu: currentClientOrder.pageMenu,
   });
   await writeRouteOrderConfig(projectPackage, client, normalizedOrder);
   return { client, order: normalizedOrder, requiresReload: true };
+}
+
+/** 更新单个页面的菜单显隐（写入 .platform/route-order.json 的 pageMenu 覆盖）。 */
+export async function updateProjectPageMenu({ projectRoot, target, mounts = {} }) {
+  const projectPackage = await loadProjectPackage(projectRoot, target.projectId, mounts);
+  const client = String(target.client || '').trim();
+  const clientDefinition = projectPackage.definitions[client];
+  if (!clientDefinition) throw new Error(`项目 ${target.projectId} 不存在客户端：${client}。`);
+  const pageName = String(target.page || '').trim();
+  if (!pageName) throw new Error('页面标识无效。');
+  const htmlPages = await htmlPagesForProject(projectRoot, target.projectId, mounts);
+  const pages = [...routeDefinitionPages(clientDefinition), ...(htmlPages[client] || [])];
+  const page = pages.find((item) => pageOrderKey(item) === pageName);
+  if (!page) throw new Error(`客户端 ${client} 不存在页面：${pageName}。`);
+  if (typeof target.menu !== 'boolean') throw new Error('menu 必须是布尔值。');
+
+  const currentConfig = await readRouteOrderConfig(projectPackage);
+  const currentClientOrder = currentConfig.clients?.[client] || {};
+  const normalizedOrder = normalizeRouteOrder({
+    sections: clientDefinition.sections || [],
+    pages,
+    sectionOrder: currentClientOrder.sectionOrder,
+    pageOrder: currentClientOrder.pageOrder,
+    pageMenu: { ...(currentClientOrder.pageMenu || {}), [pageName]: target.menu },
+  });
+  await writeRouteOrderConfig(projectPackage, client, normalizedOrder);
+  return { client, page: pageName, menu: target.menu, requiresReload: true };
 }
 
 export async function restoreProjectSections({ projectRoot, target, mounts = {} }) {
@@ -677,7 +715,7 @@ export async function updateProjectRoute({ projectRoot, target, mounts = {} }) {
       if (routeChanged && targetHtmlPath.target !== originalHtmlPath) {
         await fs.mkdir(path.dirname(targetHtmlPath.target), { recursive: true });
         await fs.copyFile(originalHtmlPath, targetHtmlPath.target);
-        await fs.rm(originalHtmlPath, { force: true });
+        await removePathReliably(originalHtmlPath);
       }
       await writeDefinitions(projectPackage.definitionsPath, updatedDefinitions);
     },
@@ -721,7 +759,7 @@ export async function deleteProjectRoute({ projectRoot, target, mounts = {} }) {
   );
   await withFileRollback([projectPackage.definitionsPath, sourcePath], async () => {
     await writeDefinitions(projectPackage.definitionsPath, updatedDefinitions);
-    await fs.rm(sourcePath, { force: true });
+    await removePathReliably(sourcePath);
   });
   return {
     backupId: backup.id,
@@ -797,7 +835,7 @@ export async function restoreProjectRoute({ projectRoot, target, mounts = {} }) 
     await fs.copyFile(backupSourcePath, restoredSourcePath);
     await writeDefinitions(projectPackage.definitionsPath, updatedDefinitions);
     if (replacementHtmlPath && replacementHtmlPath !== restoredSourcePath) {
-      await fs.rm(replacementHtmlPath, { force: true });
+      await removePathReliably(replacementHtmlPath);
     }
     metadata.restoredAt = new Date().toISOString();
     await writeJsonAtomic(metadataPath, metadata);

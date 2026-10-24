@@ -1,7 +1,7 @@
 export const clientPageDefinitions = {
   admin: {
     basePath: '/admin',
-    sections: [{ id: 'workspace', title: '工作区' }],
+    sections: [{ id: 'workspace', title: '工作區' }],
     pages: [
       // <generator:admin-pages>
     ],

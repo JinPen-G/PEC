@@ -87,7 +87,7 @@ function syncPrototypeFrameTheme(frameDocument: Document, theme: PrototypeFrameT
     resolvedTheme === 'dark' ? hostPageBackground : theme.pageBackground || hostPageBackground;
   if (pageBackground) {
     root.style.setProperty('--app-color-host-page', pageBackground);
-    // 新模板通过主题桥接层读取 host page；旧模板仍保留原有的直接注入方式。
+    // 新模板通過主題橋接層讀取 host page；舊模板仍保留原有的直接注入方式。
     if (!hasThemeBridge) root.style.setProperty('--app-color-page', pageBackground);
   }
 
@@ -206,7 +206,7 @@ export const PrototypeFrame = memo(function PrototypeFrame({
         syncPrototypeFrameTheme(frameDocument, theme);
       }
     } catch {
-      // 同源页面会同步项目主题；跨域页面保持自己的主题，不阻塞加载。
+      // 同源頁面會同步項目主題；跨域頁面保持自己的主題，不阻塞加載。
     }
     setFrameState({ source, status: 'ready' });
     setLoadVersion((version) => version + 1);
@@ -223,18 +223,18 @@ export const PrototypeFrame = memo(function PrototypeFrame({
       {frameStatus === 'loading' ? (
         <div className="prototype-frame-state" role="status">
           <Spin size="large" />
-          <Text type="secondary">正在加载原型页面…</Text>
+          <Text type="secondary">正在加載原型頁面…</Text>
         </div>
       ) : null}
       {frameStatus === 'error' ? (
         <div className="prototype-frame-state prototype-frame-state--error">
           <Result
             status="error"
-            title="原型页面加载失败"
-            subTitle="请确认原型文件仍然存在，并检查当前网络或局域网服务是否可访问。"
+            title="原型頁面加載失敗"
+            subTitle="請確認原型文件仍然存在，並檢查當前網絡或局域網服務是否可訪問。"
             extra={
               <Button type="primary" icon={<ReloadOutlined />} onClick={retry}>
-                重新加载
+                重新加載
               </Button>
             }
           />

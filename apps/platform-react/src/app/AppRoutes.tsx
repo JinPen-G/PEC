@@ -79,7 +79,7 @@ export function AppRoutes() {
     >
       <Routes>
         <Route index element={<HomePage />} />
-        {/* 兼容静态服务器常见的 /index.html 入口，统一回到应用根路由。 */}
+        {/* 兼容靜態服務器常見的 /index.html 入口，統一回到應用根路由。 */}
         <Route path="index.html" element={<Navigate to="/" replace />} />
         {homeAliases.map((path) => (
           <Route key={path} path={path} element={<Navigate to="/" replace />} />

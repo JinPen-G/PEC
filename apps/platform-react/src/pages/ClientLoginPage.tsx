@@ -72,29 +72,29 @@ export function ClientLoginPage() {
           <Card className="client-login__card">
             <Text className="home-kicker">{project.shortName || project.name}</Text>
             <Title level={2}>{client.name}</Title>
-            <Text type="secondary">{client.description || '登录后进入客户端'}</Text>
+            <Text type="secondary">{client.description || '登錄後進入客戶端'}</Text>
             {runtimeStatus.state === 'index-missing' || runtimeStatus.state === 'empty' ? (
               <Alert
                 showIcon
                 type={runtimeStatus.state === 'index-missing' ? 'error' : 'info'}
-                title={runtimeStatus.state === 'index-missing' ? 'HTML 页面索引异常' : '客户端暂无页面'}
-                description="请先在项目包中登记可运行的 HTML 页面。"
+                title={runtimeStatus.state === 'index-missing' ? 'HTML 頁面索引異常' : '客戶端暫無頁面'}
+                description="請先在項目包中登記可運行的 HTML 頁面。"
               />
             ) : (
               <Form layout="vertical" onFinish={enterClient} initialValues={{ account: 'admin' }}>
-                <Form.Item label="账号" name="account" rules={[{ required: true, message: '请输入账号' }]}>
+                <Form.Item label="賬號" name="account" rules={[{ required: true, message: '請輸入賬號' }]}>
                   <Input />
                 </Form.Item>
-                <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码' }]}>
+                <Form.Item label="密碼" name="password" rules={[{ required: true, message: '請輸入密碼' }]}>
                   <Input.Password />
                 </Form.Item>
                 <Button block type="primary" htmlType="submit">
-                  进入{client.name}
+                  進入{client.name}
                 </Button>
               </Form>
             )}
             <Button type="link" block onClick={() => navigate('/')}>
-              返回体验中心
+              返回體驗中心
             </Button>
           </Card>
         </div>

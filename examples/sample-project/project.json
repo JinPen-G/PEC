@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "sample-project",
-  "name": "示例产品",
+  "name": "示例產品",
   "shortName": "示例",
-  "description": "用于体验项目原型、PRD 和需求追溯能力的脱敏样例。",
+  "description": "用於體驗項目原型、PRD 和需求追溯能力的脫敏樣例。",
   "version": "0.1.0",
   "defaultLocale": "zh-CN",
   "pageDefinitions": "page-definitions.js",
@@ -20,7 +20,7 @@
       "id": "admin",
       "name": "管理端",
       "shortName": "管理",
-      "description": "查看示例业务概览。",
+      "description": "查看示例業務概覽。",
       "icon": "Management",
       "defaultPage": "release-board",
       "entry": { "mode": "direct" },
@@ -33,15 +33,15 @@
       "kind": "client",
       "clientId": "admin",
       "name": "管理端",
-      "description": "进入示例管理端。",
+      "description": "進入示例管理端。",
       "icon": "Management",
       "order": 10
     },
     {
       "id": "docs",
       "kind": "docs",
-      "name": "产品文档",
-      "description": "阅读示例 PRD。",
+      "name": "產品文檔",
+      "description": "閱讀示例 PRD。",
       "icon": "Document",
       "order": 20
     }

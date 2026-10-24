@@ -18,26 +18,26 @@ const { Text, Title } = Typography;
 
 const tools = [
   {
-    title: '项目包管理',
-    description: '管理项目资料、首页可见性、主题和客户端入口。',
+    title: '項目包管理',
+    description: '管理項目資料、首頁可見性、主題和客戶端入口。',
     to: '/tools/projects',
     icon: <FolderOpenOutlined />,
   },
   {
-    title: '路由菜单管理',
-    description: '维护菜单分组、页面顺序、PRD 关联与备份。',
+    title: '路由菜單管理',
+    description: '維護菜單分組、頁面順序、PRD 關聯與備份。',
     to: '/tools/project-routes',
     icon: <OrderedListOutlined />,
   },
   {
     title: 'AI 上下文中心',
-    description: '检查页面和 PRD 覆盖并导出交付上下文。',
+    description: '檢查頁面和 PRD 覆蓋並導出交付上下文。',
     to: '/tools/ai-context',
     icon: <DatabaseOutlined />,
   },
   {
-    title: '组件规范',
-    description: '查看 React 平台统一使用的 Ant Design 控件。',
+    title: '組件規範',
+    description: '查看 React 平臺統一使用的 Ant Design 控件。',
     to: '/components',
     icon: <AppstoreOutlined />,
   },
@@ -52,28 +52,42 @@ export function ConsolePage() {
   });
   const developerMode = settingsQuery.data?.developerMode ?? false;
   const saveSettings = useMutation({
-    mutationFn: (next: boolean) => platformApi.savePlatformSettings({ developerMode: next }),
+    mutationFn: (next: boolean) =>
+      platformApi.savePlatformSettings({
+        developerMode: next,
+        remoteManagement: settingsQuery.data?.remoteManagement ?? false,
+      }),
     onSuccess: (settings) => queryClient.setQueryData(['platform', 'settings'], settings),
   });
-  const canPersist = platformApi.development;
+  const remoteManagement = settingsQuery.data?.remoteManagement ?? false;
+  const saveRemoteManagement = useMutation({
+    mutationFn: (next: boolean) =>
+      platformApi.savePlatformSettings({
+        developerMode: settingsQuery.data?.developerMode ?? false,
+        remoteManagement: next,
+      }),
+    onSuccess: (settings) => queryClient.setQueryData(['platform', 'settings'], settings),
+  });
 
   return (
     <PlatformPage
       title="控制台"
-      description="管理平台级项目资料、页面路由和交付上下文。"
+      description="管理平臺級項目資料、頁面路由和交付上下文。"
       actions={
-        <Tag color={canPersist ? 'processing' : 'default'}>{canPersist ? '本机开发服务' : '静态只读'}</Tag>
+        <Tag color={platformApi.development ? 'processing' : 'default'}>
+          {platformApi.development ? '本機開發服務' : '靜態只讀'}
+        </Tag>
       }
     >
       {settingsQuery.isError ? (
-        <Alert type="error" showIcon title="开发模式读取失败" description={settingsQuery.error.message} />
+        <Alert type="error" showIcon title="開發模式讀取失敗" description={settingsQuery.error.message} />
       ) : null}
       {saveSettings.isError ? (
         <Alert
           type="error"
           showIcon
           closable={{ onClose: saveSettings.reset }}
-          title="开发模式保存失败"
+          title="開發模式保存失敗"
           description={saveSettings.error.message}
         />
       ) : null}
@@ -81,19 +95,43 @@ export function ConsolePage() {
       <Surface className="console-settings-panel">
         <div>
           <Flex align="center" gap={8}>
-            <Title level={3}>PRD 对照开发模式</Title>
-            <Tag color={developerMode ? 'success' : 'default'}>{developerMode ? '已开启' : '已关闭'}</Tag>
+            <Title level={3}>PRD 對照開發模式</Title>
+            <Tag color={developerMode ? 'success' : 'default'}>{developerMode ? '已開啓' : '已關閉'}</Tag>
           </Flex>
-          <Text type="secondary">开启后可在业务页面查看对应 PRD；默认不会自动打开侧窗。</Text>
-          {!canPersist ? <Text type="secondary">静态部署不支持修改共享开发模式。</Text> : null}
+          <Text type="secondary">
+            開啓後可在業務頁面查看對應 PRD；默認不會自動打開側窗。
+            {platformApi.development ? '' : '（靜態部署下此開關只保存在當前瀏覽器）'}
+          </Text>
         </div>
         <Switch
           checked={developerMode}
           loading={settingsQuery.isPending || saveSettings.isPending}
-          disabled={!canPersist}
-          checkedChildren="开"
-          unCheckedChildren="关"
+          checkedChildren="開"
+          unCheckedChildren="關"
           onChange={(checked) => saveSettings.mutate(checked)}
+        />
+      </Surface>
+
+      <Surface className="console-settings-panel">
+        <div>
+          <Flex align="center" gap={8}>
+            <Title level={3}>遠程管理</Title>
+            <Tag color={remoteManagement ? 'success' : 'default'}>
+              {remoteManagement ? '允許遠端寫入' : '僅限服務主機'}
+            </Tag>
+          </Flex>
+          <Text type="secondary">
+            通過平臺服務（serve:local）部署時，允許局域網/遠程瀏覽器執行路由、項目與 PRD 等管理寫入。
+            {platformApi.development ? '' : '（僅在以平臺服務部署時生效；靜態部署無後端，此開關不產生效果）'}
+          </Text>
+        </div>
+        <Switch
+          checked={remoteManagement}
+          loading={saveRemoteManagement.isPending}
+          disabled={!platformApi.development}
+          checkedChildren="開"
+          unCheckedChildren="關"
+          onChange={(checked) => saveRemoteManagement.mutate(checked)}
         />
       </Surface>
 
@@ -102,10 +140,10 @@ export function ConsolePage() {
       <Surface className="console-tool-list">
         <header className="workspace-section-heading">
           <div>
-            <Title level={3}>平台工作区</Title>
-            <Text type="secondary">选择需要处理的管理任务。</Text>
+            <Title level={3}>平臺工作區</Title>
+            <Text type="secondary">選擇需要處理的管理任務。</Text>
           </div>
-          <Text type="secondary">{tools.length} 个入口</Text>
+          <Text type="secondary">{tools.length} 個入口</Text>
         </header>
         <ul className="console-tool-list__items">
           {tools.map((tool) => (
@@ -120,7 +158,7 @@ export function ConsolePage() {
                 </div>
               </div>
               <Button type="text" icon={<ArrowRightOutlined />} onClick={() => navigate(tool.to)}>
-                打开
+                打開
               </Button>
             </li>
           ))}

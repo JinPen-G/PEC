@@ -45,7 +45,7 @@ describe('扫描缓存', () => {
     const { baseUrl, projectsRoot } = await startWritableService();
 
     const before = await readManifest(baseUrl);
-    expect(before.projects[0].name).toBe('示例产品');
+    expect(before.projects[0].name).toBe('示例產品');
 
     const manifestPath = path.join(projectsRoot, 'sample-project', 'project.json');
     const project = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
