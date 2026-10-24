@@ -12,3 +12,4 @@ Thumbs.db
 exports/
 .workbuddy/
 *.local
+apps/platform-react/src/__vue-preview__/
