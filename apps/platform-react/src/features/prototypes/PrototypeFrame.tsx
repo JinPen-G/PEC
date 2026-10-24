@@ -1,8 +1,11 @@
 import { memo, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import type { HtmlPrototypePage, PrdBinding } from '../../../../../packages/platform-contracts/src/index.js';
+import { PROTOTYPE_I18N_RUNTIME_SCRIPT } from '../../../../../packages/project-core/src/prototype-i18n-runtime.js';
 import { clearPrdBindingMarkers, installPrdBindingMarkers } from '@/features/docs/prd-binding-markers';
 import { installFrameSmoothScroll, installFrameTopnavOffset } from '@/features/motion/smooth-scroll';
+import { usePlatformLocale } from '@/features/locale/platform-locale';
 import { Button, Result, Spin, Typography } from '@/ui/ant';
 import { ReloadOutlined } from '@/ui/ant/icons';
 
@@ -148,6 +151,8 @@ export const PrototypeFrame = memo(function PrototypeFrame({
   onOpenPrd,
   onLoad,
 }: PrototypeFrameProps) {
+  const { t } = useTranslation();
+  const { locale } = usePlatformLocale();
   const { primary, primaryActive, primaryHover, pageBackground } = theme;
   const frameRef = useRef<HTMLIFrameElement>(null);
   const [loadVersion, setLoadVersion] = useState(0);
@@ -191,11 +196,25 @@ export const PrototypeFrame = memo(function PrototypeFrame({
   useEffect(() => {
     const frameDocument = frameRef.current?.contentDocument;
     if (!frameDocument) return;
+    // 语言桥：页面自带运行时（批量注入）则直接调用；否则注入运行时后再应用当前语言。
+    // 页面无 prototype-i18n 字典时运行时为 no-op——保持原文展示。
+    const frameWindow = frameDocument.defaultView;
+    if (frameWindow && !frameWindow.PrototypeI18n && frameDocument.head) {
+      const script = frameDocument.createElement('script');
+      script.textContent = PROTOTYPE_I18N_RUNTIME_SCRIPT;
+      frameDocument.head.append(script);
+    }
+    frameWindow?.PrototypeI18n?.setLocale(locale);
     installPrdBindingMarkers(frameDocument, prdBindings, (binding) =>
       onOpenPrd({ documentPath: binding.prd.document, anchor: binding.prd.anchor }),
     );
     return () => clearPrdBindingMarkers(frameDocument);
-  }, [loadVersion, onOpenPrd, prdBindings]);
+  }, [loadVersion, onOpenPrd, prdBindings, locale]);
+
+  // 宿主语言切换 → 通知 iframe 内运行时（Vue 重渲染后由其 MutationObserver 保持译文）
+  useEffect(() => {
+    frameRef.current?.contentDocument?.defaultView?.PrototypeI18n?.setLocale(locale);
+  }, [locale]);
 
   function handleLoad(frame: HTMLIFrameElement) {
     try {
@@ -223,18 +242,18 @@ export const PrototypeFrame = memo(function PrototypeFrame({
       {frameStatus === 'loading' ? (
         <div className="prototype-frame-state" role="status">
           <Spin size="large" />
-          <Text type="secondary">正在加載原型頁面…</Text>
+          <Text type="secondary">{t('workspace.frame.loading')}</Text>
         </div>
       ) : null}
       {frameStatus === 'error' ? (
         <div className="prototype-frame-state prototype-frame-state--error">
           <Result
             status="error"
-            title="原型頁面加載失敗"
-            subTitle="請確認原型文件仍然存在，並檢查當前網絡或局域網服務是否可訪問。"
+            title={t('workspace.frame.errorTitle')}
+            subTitle={t('workspace.frame.errorDescription')}
             extra={
               <Button type="primary" icon={<ReloadOutlined />} onClick={retry}>
-                重新加載
+                {t('workspace.frame.retry')}
               </Button>
             }
           />

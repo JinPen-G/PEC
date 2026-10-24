@@ -100,6 +100,8 @@ export interface HtmlPrototypePage {
   section: string;
   icon?: string;
   menu?: boolean;
+  lang?: string;
+  locales?: string[];
   [key: string]: unknown;
 }
 

@@ -77,7 +77,10 @@
       - 只修改 [AI-EDIT] 區域和帶 data-shell-* 的外殼文字；外殼骨架、統一依賴和基礎樣式保持不變。
       - 如需更換頁面主題，只修改 THEME_TOKENS 區域中的強調色與結構色變量，並同步更新全部主色派生變量；不要修改基礎樣式實現。
       - 頁面顏色必須使用 --app-color-* 或 --el-* 語義變量，不要在 PAGE_STYLE 中固定寫死頁面背景、面板背景、文字、邊框和狀態色。頁面默認使用淺色；運行環境可以通過 html[data-theme="light"] 或 html[data-theme="dark"] 提供淺色或深色主題，頁面不得刪除主題橋接區。
-      - 頁面主題統一由 html[data-theme="light"|"dark"] 與 html.dark 類驅動；位於 head 的 PROTOTYPE_THEME_BOOTSTRAP 區域的引導腳本與 ElementPrototypeTheme 接口屬於鎖定基礎設施，頁面不得刪除、改名或重複實現；Element Plus 組件的深色變量來自 element-plus/theme-chalk/dark/css-vars 樣式依賴，不得移除。
+        - 多語言協議（可選）：在 head 中放置 <script id="prototype-i18n" type="application/json">{"en":{"原文":"譯文"}}</script>，
+    頂層 key 為目標語言（en/zh-Hans），字典按「原文→譯文」對譯，平臺切換語言時自動應用；
+    未提供字典的語言保持頁面原文。運行時由平臺注入或 scripts/inject-prototype-i18n.mjs 批量寫入。
+- 頁面主題統一由 html[data-theme="light"|"dark"] 與 html.dark 類驅動；位於 head 的 PROTOTYPE_THEME_BOOTSTRAP 區域的引導腳本與 ElementPrototypeTheme 接口屬於鎖定基礎設施，頁面不得刪除、改名或重複實現；Element Plus 組件的深色變量來自 element-plus/theme-chalk/dark/css-vars 樣式依賴，不得移除。
       - 除模板自帶的結構演示分支外，本文件只承載一個桌面端後臺業務頁面；正式交付時不得保留多個頁面結構或改造成登錄頁、移動端頁面。
       - 頁面必須且只能有一個 data-page-content、一個 data-business-content；彈窗和抽屜統一放在 PAGE_OVERLAYS 區域。
 

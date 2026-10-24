@@ -5,3 +5,12 @@ interface Window {
     mode?: 'local';
   };
 }
+
+interface Window {
+  PrototypeI18n?: {
+    setLocale: (locale: string | null) => void;
+    refresh: () => void;
+    readonly locale: string | null;
+    readonly supportedLocales: string[];
+  };
+}
