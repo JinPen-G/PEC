@@ -18,16 +18,17 @@
   "console.remote.localOnly": "Service host only",
   "console.remote.description": "When deployed via the platform service (serve:local), LAN/remote browsers may perform management writes for routes, projects, PRD links, and more.",
   "console.remote.staticNote": "(Only takes effect when deployed with the platform service; static deployments have no backend, so this toggle has no effect)",
-  "console.tools.title": "Platform workspace",
+  "console.tools.title": "Platform Workspace",
   "console.tools.description": "Choose the management task to work on.",
   "console.tools.count": "{{count}} entries",
   "console.tools.open": "Open",
-  "console.tools.packages.title": "Project packages",
+  "console.tools.packages.title": "Project Packages",
   "console.tools.packages.description": "Manage project data, homepage visibility, themes, and client entries.",
-  "console.tools.routes.title": "Route menu management",
+  "console.tools.routes.title": "Route Menu Management",
   "console.tools.routes.description": "Maintain menu sections, page order, PRD links, and backups.",
-  "console.tools.ai.title": "AI context center",
+  "console.tools.ai.title": "AI Context Center",
   "console.tools.ai.description": "Review page and PRD coverage and export delivery context.",
-  "console.tools.components.title": "Component standards",
-  "console.tools.components.description": "View the Ant Design components used across the React platform."
+  "console.tools.components.title": "Component Standards",
+  "console.tools.components.description": "View the Ant Design components used across the React platform.",
+  "console.tools.count_one": "{{count}} entry"
 }

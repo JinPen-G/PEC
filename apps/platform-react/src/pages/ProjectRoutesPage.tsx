@@ -537,7 +537,9 @@ function RouteClientWorkspace({
         <span>{t('routes.workspace.hint.saveReminder')}</span>
       </div>
       <div className="route-groups">
-        {routeGroups(client).map((group, groupIndex) => {
+        {routeGroups(client)
+          .map((group) => (group.isUngrouped ? { ...group, title: t('routes.group.ungrouped') } : group))
+          .map((group, groupIndex) => {
           const key = `${client.id}:${group.id}`;
           const opened = openGroups.includes(key);
           return (
