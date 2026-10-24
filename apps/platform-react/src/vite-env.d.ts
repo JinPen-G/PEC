@@ -4,9 +4,6 @@ interface Window {
   __PLATFORM_RUNTIME__?: {
     mode?: 'local';
   };
-}
-
-interface Window {
   PrototypeI18n?: {
     setLocale: (locale: string | null) => void;
     refresh: () => void;

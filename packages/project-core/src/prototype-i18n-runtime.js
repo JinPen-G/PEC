@@ -73,8 +73,9 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
     const translated = entry[trimmed];
     if (typeof translated !== 'string' || !translated.trim() || translated === trimmed) return null;
     // 保留原文节点的前导/尾随空白（HTML 渲染折叠空白，不影响视觉）
-    const leading = text.match(/^\s*/u)[0];
-    const trailing = text.match(/\s*$/u)[0];
+    // 注意：本文件是模板字面量，正则中 \\s 需写成 \\\\s 才能发射正确的 \\s
+    const leading = text.match(/^\\s*/u)[0];
+    const trailing = text.match(/\\s*$/u)[0];
     return leading + translated + trailing;
   };
 
@@ -154,9 +155,8 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
   const setLocale = (locale) => {
     if (locale === BASE_LANG_FALLBACK) locale = null; // 基础语言 = 回退原文
     const next = typeof locale === 'string' && locale ? locale : readStoredLocale();
-    // 切回基础语言时 DOM 中可能混有翻译文本（Vue patch 创建的新 Text node 无法通过
-    // WeakMap 恢复原文），最可靠的方式是重载页面：runtime 已嵌入页面本体，
-    // reload 后以基础语言从模板重新渲染，runtime 以 null locale 启动不做事。
+    // 切回基础语言：apply() 通过 WeakMap 原文记忆恢复繁体（实测正确含翻译期间新建节点）。
+    // reload 分支仅在 localStorage 读失败/被清空时兜底触发（此时 WeakMap 不可靠）。
     if (next === null && everTranslated) {
       try {
         localStorage.setItem(STORAGE_KEY, BASE_LANG_FALLBACK);

@@ -2,6 +2,8 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { HtmlPrototypePage } from '../../../../../packages/platform-contracts/src/index.js';
+import '@/i18n';
+import { PlatformLocaleProvider } from '@/features/locale/platform-locale';
 import { PrototypeFrame } from './PrototypeFrame';
 
 const page = {
@@ -22,14 +24,16 @@ describe('PrototypeFrame', () => {
   it('shows a loading state and reveals the page after the iframe loads', () => {
     const onLoad = vi.fn();
     render(
-      <PrototypeFrame
+      <PlatformLocaleProvider>
+        <PrototypeFrame
         page={page}
         source="/__html/dashboard.html"
         theme={{ primary: '#1677ff' }}
         prdBindings={[]}
         onOpenPrd={vi.fn()}
         onLoad={onLoad}
-      />,
+      />
+      </PlatformLocaleProvider>,
     );
 
     expect(screen.getByText('正在加載原型頁面…')).toBeInTheDocument();
@@ -40,14 +44,16 @@ describe('PrototypeFrame', () => {
 
   it('shows a recoverable error instead of leaving an unexplained blank area', async () => {
     render(
-      <PrototypeFrame
+      <PlatformLocaleProvider>
+        <PrototypeFrame
         page={page}
         source="/__html/missing.html"
         theme={{ primary: '#1677ff' }}
         prdBindings={[]}
         onOpenPrd={vi.fn()}
         onLoad={vi.fn()}
-      />,
+      />
+      </PlatformLocaleProvider>,
     );
 
     fireEvent.error(screen.getByTitle('綜合儀表板'));
@@ -65,14 +71,16 @@ describe('PrototypeFrame', () => {
     document.documentElement.style.setProperty('--ant-color-text', 'rgba(255, 255, 255, 0.88)');
 
     render(
-      <PrototypeFrame
+      <PlatformLocaleProvider>
+        <PrototypeFrame
         page={page}
         source="/__html/dashboard.html"
         theme={{ primary: '#1677ff' }}
         prdBindings={[]}
         onOpenPrd={vi.fn()}
         onLoad={vi.fn()}
-      />,
+      />
+      </PlatformLocaleProvider>,
     );
 
     const frame = screen.getByTitle('綜合儀表板') as HTMLIFrameElement;

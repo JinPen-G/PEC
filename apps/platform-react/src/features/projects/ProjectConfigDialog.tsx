@@ -255,8 +255,17 @@ export function ProjectConfigDialog({
                                 value={preset}
                                 options={
                                   preset === 'custom'
-                                    ? [...clientPresets, { value: 'custom', label: t('dialogs.projectConfig.customPresetLabel') }]
-                                    : clientPresets
+                                    ? [
+                                        ...clientPresets.map((item) => ({
+                                          ...item,
+                                          label: t(`dialogs.projectConfig.preset.${item.value}.label`),
+                                        })),
+                                        { value: 'custom', label: t('dialogs.projectConfig.customPresetLabel') },
+                                      ]
+                                    : clientPresets.map((item) => ({
+                                        ...item,
+                                        label: t(`dialogs.projectConfig.preset.${item.value}.label`),
+                                      }))
                                 }
                                 onChange={(value) =>
                                   value !== 'custom' &&
@@ -280,8 +289,9 @@ export function ProjectConfigDialog({
                           </div>
                         </Form>
                         <small>
-                          {clientPresets.find((item) => item.value === preset)?.description ||
-                            t('dialogs.projectConfig.customPresetDescription')}
+                          {preset !== 'custom' && clientPresets.some((item) => item.value === preset)
+                            ? t(`dialogs.projectConfig.preset.${preset}.description`)
+                            : t('dialogs.projectConfig.customPresetDescription')}
                         </small>
                       </article>
                     );

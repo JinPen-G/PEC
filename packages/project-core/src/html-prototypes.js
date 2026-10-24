@@ -111,6 +111,23 @@ function routePathFromPrototypeManifest(manifest) {
   return /^[a-z0-9]+(?:-[a-z0-9]+)*$/u.test(routePath) ? routePath : '';
 }
 
+function readHtmlLang(source) {
+  const match = /<html\b[^>]*\slang=["']([\w-]+)["']/iu.exec(String(source || ''));
+  return match ? match[1] : '';
+}
+
+// 语言切换协议（v1）：<script id="prototype-i18n" type="application/json"> 的顶层 key 即页面支持的语言
+function readPrototypeI18nLocales(source) {
+  const match = /<script\b[^>]*\bid=["']prototype-i18n["'][^>]*>([\s\S]*?)<\/script>/iu.exec(String(source || ''));
+  if (!match) return [];
+  try {
+    const parsed = JSON.parse(match[1].trim() || '{}');
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? Object.keys(parsed) : [];
+  } catch {
+    return [];
+  }
+}
+
 async function readProjectDefinition(projectRoot, manifest) {
   const definitionPath = await resolveExistingPathInsideRoot(
     projectRoot,
@@ -283,6 +300,8 @@ export async function scanHtmlPrototypePages(projectsRoot, { mounts = {} } = {})
             isContentOnlyHtml && typeof prototypeManifest?.menu === 'boolean'
               ? prototypeManifest.menu
               : readMetaValue(source, 'prototype-menu') !== 'false',
+          lang: readHtmlLang(source) || 'zh-Hant',
+          locales: readPrototypeI18nLocales(source),
         });
       }
     }

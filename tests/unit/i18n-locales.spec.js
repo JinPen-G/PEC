@@ -58,8 +58,7 @@ describe('i18n 资源完整性', () => {
 
   it('zh-Hant 资源不应混入简体字特征字（平台为繁体）', () => {
     // 抽样常见简体特征字；资源正文应保持繁体
-    const simplifiedMarkers = ['项目', '数据', '切换', '客户端', '文档', '设置'];
-    for (const ns of namespaces) {
+        for (const ns of namespaces) {
       const content = readFileSync(path.join(LOCALES_DIR, 'zh-Hant', `${ns}.json`), 'utf8');
       for (const marker of SIMPLIFIED_MARKERS) {
         expect(content.includes(marker), `${ns}: 发现简体字样 ${marker}`).toBe(false);

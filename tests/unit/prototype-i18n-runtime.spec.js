@@ -1,15 +1,10 @@
 // 原型页语言桥运行时行为单测：在 jsdom 中 eval 运行时脚本，验证协议语义。
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
-import { afterAll, describe, expect, it, vi } from 'vitest';
+import { afterAll, describe, expect, it } from 'vitest';
 
 import { PROTOTYPE_I18N_RUNTIME_SCRIPT } from '../../packages/project-core/src/index.js';
 
 const runtimeSource = PROTOTYPE_I18N_RUNTIME_SCRIPT;
-
-const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
 function createPage({ html = '', dict = null, baseLang = 'zh-Hant' } = {}) {
   document.body.innerHTML = `

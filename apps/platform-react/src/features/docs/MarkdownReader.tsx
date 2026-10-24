@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, type MouseEvent } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Alert, Spin } from '@/ui/ant';
 import { renderMarkdown, type MarkdownHeading } from './markdown';
@@ -60,6 +61,7 @@ export function MarkdownReader({
   onDocumentNavigate?: (path: string, anchor?: string) => void;
   activeAnchor?: string;
 }) {
+  const { t } = useTranslation();
   const articleRef = useRef<HTMLElement>(null);
   const rendered = useMemo(
     () => renderMarkdown(source, { documentPath, resolveAssetUrl, resolveDocumentUrl }),
@@ -149,7 +151,7 @@ export function MarkdownReader({
         <Spin size="large" />
       </div>
     );
-  if (error) return <Alert type="error" showIcon title="文檔讀取失敗" description={error} />;
+  if (error) return <Alert type="error" showIcon title={t('docs.readError')} description={error} />;
   return (
     <article
       ref={articleRef}
