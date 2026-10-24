@@ -16,10 +16,13 @@
 //   - 在原型顶栏（管理员头像前）注入页内语言切换控件；平台嵌入时由平台接管
 import { TRADITIONAL_TO_SIMPLIFIED } from './traditional-simplified-map.js';
 
+export const PROTOTYPE_I18N_RUNTIME_VERSION = '3';
+
 export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
 (() => {
   const STORAGE_KEY = 'product-experience-center:locale';
-  const TRANSLATED_ATTRS = ['placeholder', 'title', 'aria-label', 'value'];
+  const TRANSLATED_ATTRS = ['placeholder', 'title', 'aria-label'];
+  const SKIP_TAGS = new Set(['script', 'style', 'noscript', 'textarea', 'code', 'pre']);
   const T2S = ${JSON.stringify(TRADITIONAL_TO_SIMPLIFIED)};
   const LOCALE_LABELS = { 'zh-Hant': '繁', 'zh-Hans': '简', en: 'EN' };
   const BASE_LANG_FALLBACK = 'zh-Hant';
@@ -65,8 +68,14 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
 
   const translateWithDictionary = (text, entry) => {
     if (typeof text !== 'string') return null;
-    const translated = entry[text];
-    return typeof translated === 'string' && translated.trim() && translated !== text ? translated : null;
+    const trimmed = text.trim();
+    if (!trimmed) return null;
+    const translated = entry[trimmed];
+    if (typeof translated !== 'string' || !translated.trim() || translated === trimmed) return null;
+    // 保留原文节点的前导/尾随空白（HTML 渲染折叠空白，不影响视觉）
+    const leading = text.match(/^\s*/u)[0];
+    const trailing = text.match(/\s*$/u)[0];
+    return leading + translated + trailing;
   };
 
   const translateToZhHans = (text) =>
@@ -95,16 +104,30 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
           changed = true;
         }
       } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // 跳过代码/样式/表单编辑区：转换这些内容会破坏脚本与用户输入
+        if (SKIP_TAGS.has(node.tagName?.toLowerCase() || '')) continue;
         if (applyToElement(node)) changed = true;
       }
     }
     return changed;
   };
 
+  let everTranslated = false;
   const apply = () => {
     if (applying || !document.body) return;
     applying = true;
     try {
+      const baseLang = document.documentElement.getAttribute('data-prototype-base-lang') || BASE_LANG_FALLBACK;
+      const targetLang = currentLocale || baseLang;
+      if (document.documentElement.lang !== targetLang) {
+        document.documentElement.lang = targetLang;
+      }
+      // 从未翻译过（默认繁体原文态）无需遍历；切回基础语言时必须遍历恢复原文
+      if (!currentLocale && !everTranslated) {
+        updateControl();
+        return;
+      }
+      if (currentLocale) everTranslated = true;
       const seen = new Set();
       const roots = [...document.querySelectorAll('[data-page-content], [data-page-overlay]'), document.body];
       for (const root of roots) {
@@ -122,11 +145,6 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
           }
         }
       }
-      const baseLang = document.documentElement.getAttribute('data-prototype-base-lang') || BASE_LANG_FALLBACK;
-      const targetLang = currentLocale || baseLang;
-      if (document.documentElement.lang !== targetLang) {
-        document.documentElement.lang = targetLang;
-      }
       updateControl();
     } finally {
       applying = false;
@@ -135,22 +153,34 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
 
   const setLocale = (locale) => {
     if (locale === BASE_LANG_FALLBACK) locale = null; // 基础语言 = 回退原文
-    currentLocale = typeof locale === 'string' && locale ? locale : readStoredLocale();
+    const next = typeof locale === 'string' && locale ? locale : readStoredLocale();
+    // 切回基础语言时 DOM 中可能混有翻译文本（Vue patch 创建的新 Text node 无法通过
+    // WeakMap 恢复原文），最可靠的方式是重载页面：runtime 已嵌入页面本体，
+    // reload 后以基础语言从模板重新渲染，runtime 以 null locale 启动不做事。
+    if (next === null && everTranslated) {
+      try {
+        localStorage.setItem(STORAGE_KEY, BASE_LANG_FALLBACK);
+      } catch {}
+      location.reload();
+      return;
+    }
+    currentLocale = next;
     dictionary = readDictScript();
     if (currentLocale && currentLocale !== 'zh-Hans' && !dictionary[currentLocale]) currentLocale = null;
     apply();
   };
 
+  let pendingApplyTimer = null;
   const observer = new MutationObserver(() => {
-    // Vue 重渲染会回写原文：微任务内幂等重应用，避免同步递归
+    // Vue 重渲染会回写原文：去抖后幂等重应用，避免同步递归与高频全量遍历
     if (applying) return;
-    setTimeout(() => setLocale(currentLocale), 50);
+    clearTimeout(pendingApplyTimer);
+    pendingApplyTimer = setTimeout(() => setLocale(currentLocale), 80);
   });
   const observe = () => {
-    const targets = document.querySelectorAll('[data-page-content], [data-page-overlay]');
     observer.disconnect();
-    for (const target of targets) {
-      observer.observe(target, {
+    if (document.body) {
+      observer.observe(document.body, {
         childList: true, characterData: true, subtree: true,
         attributes: true, attributeFilter: TRANSLATED_ATTRS,
       });
@@ -176,13 +206,14 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
   const buildControl = () => {
     if (document.querySelector('.' + CONTROL_CLASS)) return;
     const topbar = document.querySelector('[data-prototype-shell="topbar"], .prototype-topbar');
-    if (!topbar) return;
-    const userDropdown = topbar.querySelector('.el-dropdown');
-    if (!userDropdown) return;
+    const userDropdown = topbar ? topbar.querySelector('.el-dropdown') : null;
 
     const wrap = document.createElement('div');
     wrap.className = CONTROL_CLASS;
-    wrap.style.cssText = 'display:inline-flex;align-items:center;margin-right:8px;position:relative;';
+    // 有顶栏头像时内联插入头像前；无顶栏结构（full-shell/自研壳）时兜底挂 body 右上角
+    const inlineStyle = 'display:inline-flex;align-items:center;margin-right:8px;position:relative;';
+    const fallbackStyle = 'display:inline-flex;align-items:center;position:fixed;top:12px;right:12px;z-index:2200;';
+    wrap.style.cssText = userDropdown ? inlineStyle : fallbackStyle;
     const locales = ['zh-Hant', 'zh-Hans', ...Object.keys(readDictScript()).filter((l) => l !== 'zh-Hant' && l !== 'zh-Hans')];
     const labels = { 'zh-Hant': '繁', 'zh-Hans': '简', en: 'EN' };
     wrap.innerHTML =
@@ -227,7 +258,11 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
     document.addEventListener('click', () => {
       if (controlOpen) { controlOpen = false; menu.style.display = 'none'; }
     });
-    userDropdown.parentElement.insertBefore(wrap, userDropdown);
+    if (userDropdown) {
+      userDropdown.parentElement.insertBefore(wrap, userDropdown);
+    } else {
+      document.body.append(wrap);
+    }
     updateControl();
   };
 
@@ -247,7 +282,8 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
       return currentLocale;
     },
     get supportedLocales() {
-      return ['zh-Hans', ...Object.keys(readDictScript()).filter((l) => l !== 'zh-Hans')];
+      // 与页内控件列表同源：基础语言 + 内置 zh-Hans + 字典声明的其他语言
+      return ['zh-Hant', 'zh-Hans', ...Object.keys(readDictScript()).filter((l) => l !== 'zh-Hant' && l !== 'zh-Hans')];
     },
   };
 

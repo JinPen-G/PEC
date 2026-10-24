@@ -102,13 +102,14 @@ describe('prototype-i18n runtime', () => {
     expect(document.getElementById('title').textContent).toBe('Order Management');
   });
 
-  it('setLocale(null) 回退原文', () => {
+  it('setLocale 回退基础语言时写入 localStorage 并触发 reload', () => {
     createPage({ dict: { en: { 訂單管理: 'Order Management' } } });
     evalRuntime();
     window.PrototypeI18n.setLocale('en');
     expect(document.getElementById('title').textContent).toBe('Order Management');
-    window.PrototypeI18n.setLocale(null);
-    expect(document.getElementById('title').textContent).toBe('訂單管理');
-    expect(document.documentElement.lang).toBe('zh-Hant');
+    // 切回基础语言 → everTranslated=true → 触发 location.reload
+    //（jsdom location.reload 不可 mock；验证 localStorage 已写入基础语言，reload 后 runtime 以 null 启动）
+    window.PrototypeI18n.setLocale('zh-Hant');
+    expect(localStorage.getItem('product-experience-center:locale')).toBe('zh-Hant');
   });
 });

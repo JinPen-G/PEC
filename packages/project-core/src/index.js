@@ -7,7 +7,7 @@ export * from './filesystem.js';
 export * from './html-prototype-format.js';
 export * from './html-preflight.js';
 export * from './html-prototypes.js';
-export { PROTOTYPE_I18N_RUNTIME_SCRIPT } from './prototype-i18n-runtime.js';
+export { PROTOTYPE_I18N_RUNTIME_SCRIPT, PROTOTYPE_I18N_RUNTIME_VERSION } from './prototype-i18n-runtime.js';
 export { traditionalToSimplified, TRADITIONAL_TO_SIMPLIFIED } from './traditional-simplified-map.js';
 export * from './migrations.js';
 export * from './project-definitions.js';

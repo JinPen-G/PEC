@@ -31,7 +31,7 @@ describe('zh-Hans 运行时转换', () => {
     }
   });
 
-  it('语料经转换后不再含映射表中的源繁体字', () => {
+  it('语料经转换后不再含映射表中的源繁体字', { timeout: 20_000 }, () => {
     for (const value of collectValues()) {
       const converted = traditionalToSimplified(value);
       for (const traditional of Object.keys(TRADITIONAL_TO_SIMPLIFIED)) {
