@@ -261,6 +261,16 @@ html[data-theme='glass'] .system-result-page .ant-result {
   background: var(--ant-color-primary-bg);
 }
 
+.language-control.ant-btn {
+  min-width: 34px;
+  color: var(--ant-color-text-secondary);
+}
+
+.language-control.ant-btn:hover {
+  color: var(--ant-color-primary);
+  background: var(--ant-color-primary-bg);
+}
+
 .app-frame .ant-btn {
   transition:
     color 160ms ease,
@@ -1447,6 +1457,7 @@ html[data-theme='glass'] .system-result-page .ant-result {
   .app-sider__brand-button,
   .app-sider__collapse,
   .theme-control.ant-btn,
+  .language-control.ant-btn,
   .animated-pill-nav__indicator {
     transition: none;
   }

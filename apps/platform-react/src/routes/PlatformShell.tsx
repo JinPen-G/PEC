@@ -122,7 +122,7 @@ export function PlatformShell() {
           tools={(isCollapsed) => (
             <>
               <ThemeControl showLabel={!isCollapsed} />
-              <LanguageControl/>
+              <LanguageControl showLabel={!isCollapsed} />
               <Button type="text" icon={<HomeOutlined />} onClick={() => navigate('/')}>
                 {isCollapsed ? null : t('chrome.action.backHome')}
               </Button>

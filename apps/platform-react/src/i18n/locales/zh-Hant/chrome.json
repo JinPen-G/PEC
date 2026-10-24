@@ -31,5 +31,5 @@
   "chrome.theme.dark": "深色主題",
   "chrome.theme.tooltip": "主題：{{mode}}",
   "chrome.language.group": "語言 / Language",
-  "chrome.language.tooltip": "語言 / Language：{{locale}}"
+  "chrome.language.tooltip": "語言：{{locale}}"
 }

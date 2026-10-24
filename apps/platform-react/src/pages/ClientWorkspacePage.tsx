@@ -449,8 +449,14 @@ function ClientWorkspace({
   );
 
   const menuItems = useMemo(
-    () => createMenuItems(groups, layoutType, navigatePage, collapsed),
-    [collapsed, groups, layoutType, navigatePage],
+    () =>
+      createMenuItems(
+        groups.map((group) => (group.id === 'other' ? { ...group, title: t('workspace.group.other') } : group)),
+        layoutType,
+        navigatePage,
+        collapsed,
+      ),
+    [collapsed, groups, layoutType, navigatePage, t],
   );
   const accountItems = useMemo<MenuProps['items']>(
     () => [
@@ -606,7 +612,7 @@ function ClientWorkspace({
                 {isCollapsed ? null : t('workspace.tools.viewPrd')}
               </Button>
               <ThemeControl showLabel={!isCollapsed} />
-              <LanguageControl/>
+              <LanguageControl showLabel={!isCollapsed} />
             </>
           )}
           account={(isCollapsed) => (
