@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import type { ColumnsType } from 'antd/es/table';
+import { useTranslation } from 'react-i18next';
 
 import type {
   ProjectHealthIssue,
@@ -12,60 +13,67 @@ import { PlatformPage } from '@/ui/platform/PlatformPage';
 import { Surface } from '@/ui/platform/Surface';
 
 const { Text, Title } = Typography;
-const categoryNames: Record<string, string> = {
-  manifest: '項目配置',
-  schema: 'Schema',
-  routes: '路由與菜單',
-  html: 'HTML 原型',
-  documents: 'PRD 文檔',
-  associations: '需求關聯',
-  resources: '項目資源',
-  mounts: '目錄掛載',
-};
+const categoryKeys = [
+  'manifest',
+  'schema',
+  'routes',
+  'html',
+  'documents',
+  'associations',
+  'resources',
+  'mounts',
+] as const;
 
 export function ProjectHealthPage() {
+  const { t } = useTranslation();
   const query = useProjectHealth();
   const report = query.data;
   const columns = useMemo<ColumnsType<ProjectHealthIssue>>(
     () => [
       {
-        title: '級別',
+        title: t('health.table.severity'),
         dataIndex: 'severity',
         width: 86,
         render: (severity) => (
           <Tag color={severity === 'error' ? 'error' : 'warning'}>
-            {severity === 'error' ? '錯誤' : '提醒'}
+            {severity === 'error' ? t('common.tag.error') : t('common.tag.warning')}
           </Tag>
         ),
       },
-      { title: '範圍', dataIndex: 'category', width: 110, render: (value) => categoryNames[value] || value },
-      { title: '影響對象', dataIndex: 'object', width: 180, render: (value) => <code>{value}</code> },
       {
-        title: '問題與建議',
+        title: t('health.table.category'),
+        dataIndex: 'category',
+        width: 110,
+        render: (value) =>
+          (categoryKeys as readonly string[]).includes(value) ? t(`health.category.${value}`) : value,
+      },
+      { title: t('common.column.affectedObject'), dataIndex: 'object', width: 180, render: (value) => <code>{value}</code> },
+      {
+        title: t('health.table.message'),
         key: 'message',
         render: (_, item) => (
           <div>
             <Text>{item.message}</Text>
-            <small className="table-secondary">建議：{item.suggestion}</small>
+            <small className="table-secondary">{t('health.table.suggestionLabel', { suggestion: item.suggestion })}</small>
           </div>
         ),
       },
     ],
-    [],
+    [t],
   );
 
   return (
     <PlatformPage
-      title="項目健康檢查"
-      description="集中檢查項目配置、頁面、HTML、PRD、關聯、資源、掛載和 Schema。"
+      title={t('health.header.title')}
+      description={t('health.header.description')}
       actions={
         <Button icon={<ReloadOutlined />} loading={query.isFetching} onClick={() => void query.refetch()}>
-          重新掃描
+          {t('common.action.rescan')}
         </Button>
       }
     >
       {query.isError ? (
-        <Alert type="error" showIcon title="健康檢查失敗" description={query.error.message} />
+        <Alert type="error" showIcon title={t('health.alert.loadFailed')} description={query.error.message} />
       ) : null}
       {query.isPending ? (
         <div className="page-loading">
@@ -76,15 +84,15 @@ export function ProjectHealthPage() {
         <>
           <Surface className="packages-summary">
             <Flex className="packages-summary__stats" gap={0}>
-              <Statistic title="項目" value={report.summary.projects || 0} suffix="個" />
-              <Statistic title="健康" value={report.summary.healthy || 0} suffix="個" />
+              <Statistic title={t('common.field.project')} value={report.summary.projects || 0} suffix={t('common.unit.count')} />
+              <Statistic title={t('health.status.healthy')} value={report.summary.healthy || 0} suffix={t('common.unit.count')} />
               <Statistic
-                title="錯誤"
+                title={t('common.tag.error')}
                 value={report.summary.errors || 0}
                 styles={{ content: { color: report.summary.errors ? 'var(--ant-color-error)' : undefined } }}
               />
               <Statistic
-                title="提醒"
+                title={t('common.tag.warning')}
                 value={report.summary.warnings || 0}
                 styles={{ content: { color: report.summary.warnings ? 'var(--ant-color-warning)' : undefined } }}
               />
@@ -93,8 +101,8 @@ export function ProjectHealthPage() {
           <Surface className="health-projects">
             <div className="workspace-section-heading">
               <div>
-                <Title level={3}>檢查結果</Title>
-                <Text type="secondary">每條問題都保留影響對象和可執行建議，不再只顯示“項目不可用”。</Text>
+                <Title level={3}>{t('health.results.title')}</Title>
+                <Text type="secondary">{t('health.results.description')}</Text>
               </div>
               <Text type="secondary">
                 {report.generatedAt ? new Date(report.generatedAt).toLocaleString() : ''}
@@ -114,12 +122,12 @@ export function ProjectHealthPage() {
                       size="small"
                     />
                   ) : (
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="未發現問題" />
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('health.results.emptyIssues')} />
                   ),
                 }))}
               />
             ) : (
-              <Empty description="當前沒有項目可檢查" />
+              <Empty description={t('health.results.noProjects')} />
             )}
           </Surface>
         </>
@@ -129,6 +137,7 @@ export function ProjectHealthPage() {
 }
 
 function ProjectHealthLabel({ item }: { item: ProjectHealthItem }) {
+  const { t } = useTranslation();
   const healthy = item.summary.status === 'healthy';
   return (
     <Flex align="center" gap={10} wrap="wrap">
@@ -144,9 +153,14 @@ function ProjectHealthLabel({ item }: { item: ProjectHealthItem }) {
       )}
       <Text strong>{item.project.name}</Text>
       <Text type="secondary">{item.project.id}</Text>
-      {item.project.mounted ? <Tag color="blue">外部掛載</Tag> : null}
+      {item.project.mounted ? <Tag color="blue">{t('health.label.mounted')}</Tag> : null}
       <Tag color={healthy ? 'success' : item.summary.status === 'error' ? 'error' : 'warning'}>
-        {healthy ? '健康' : `${item.summary.errors} 錯誤 / ${item.summary.warnings} 提醒`}
+        {healthy
+          ? t('health.status.healthy')
+          : t('health.status.errorWarningSummary', {
+              errors: item.summary.errors,
+              warnings: item.summary.warnings,
+            })}
       </Tag>
     </Flex>
   );

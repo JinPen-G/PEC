@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { useProjectManifest } from '@/data/use-platform-data';
 import { DEFAULT_PROJECT_THEME } from '@/features/projects/project-config-model';
@@ -7,10 +8,12 @@ import { findProject } from '@/features/projects/project-model';
 import { platformApi } from '@/data/platform-api';
 import { Button, Result, Spin, Typography } from '@/ui/ant';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
+import { LanguageControl } from '@/ui/platform/LanguageControl';
 
 const { Text } = Typography;
 
 export function ProjectMobilePage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { projectId = '' } = useParams();
   const projectQuery = useProjectManifest();
@@ -36,19 +39,20 @@ export function ProjectMobilePage() {
         <header className="mobile-preview-header">
           <div>
             <strong>{project.name}</strong>
-            <Text type="secondary">移動端原型</Text>
+            <Text type="secondary">{t('home.mobile.badge')}</Text>
           </div>
           <div className="mobile-preview-actions">
             <ThemeControl />
+            <LanguageControl/>
             <Button type="text" onClick={() => navigate('/')}>
-              返回首頁
+              {t('home.mobile.backHome')}
             </Button>
           </div>
         </header>
         <iframe
           className="mobile-preview-frame"
           src={mobileUrl}
-          title={`${project.name} 移動端原型`}
+          title={t('home.mobile.frameTitle', { project: project.name })}
           referrerPolicy="same-origin"
           onLoad={(event) => {
             try {
@@ -68,11 +72,11 @@ export function ProjectMobilePage() {
     <main className="system-result-page">
       <Result
         status="404"
-        title="當前項目未啓用獨立移動端入口"
-        subTitle="如移動端以普通客戶端形式配置，可直接從項目入口進入。"
+        title={t('home.mobile.disabledTitle')}
+        subTitle={t('home.mobile.disabledDescription')}
         extra={
           <Button type="primary" onClick={() => navigate('/')}>
-            返回首頁
+            {t('home.mobile.backHome')}
           </Button>
         }
       />

@@ -1,18 +1,20 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Result } from '@/ui/ant';
 
 export function NotFoundPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <main className="system-result-page">
       <Result
         status="404"
-        title="頁面不存在"
-        subTitle="當前地址沒有對應的平臺頁面或兼容入口。"
+        title={t('chrome.notFound.title')}
+        subTitle={t('chrome.notFound.subtitle')}
         extra={
           <Button type="primary" onClick={() => navigate('/')}>
-            返回首頁
+            {t('chrome.notFound.backHome')}
           </Button>
         }
       />

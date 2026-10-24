@@ -1,4 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Flex, Typography } from '@/ui/ant';
 
@@ -13,9 +14,10 @@ interface PlatformPageProps {
 }
 
 export function PlatformPage({ eyebrow, title, description, actions, children }: PlatformPageProps) {
+  const { t } = useTranslation();
   useEffect(() => {
-    document.title = `${title} · 產品功能體驗中心`;
-  }, [title]);
+    document.title = t('chrome.page.docTitle', { title });
+  }, [title, t]);
 
   return (
     <main

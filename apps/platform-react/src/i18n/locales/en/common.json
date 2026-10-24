@@ -1,0 +1,17 @@
+{
+  "platformName": "Project Prototype & Data Collaboration Platform",
+  "common.field.client": "Client",
+  "common.field.project": "Project",
+  "common.action.cancel": "Cancel",
+  "common.action.edit": "Edit",
+  "common.action.restore": "Restore",
+  "common.action.rescan": "Rescan",
+  "common.action.selectProject": "Select a project",
+  "common.empty.selectProject": "Select a project",
+  "common.column.actions": "Actions",
+  "common.column.status": "Status",
+  "common.column.affectedObject": "Affected object",
+  "common.tag.error": "Error",
+  "common.tag.warning": "Warning",
+  "common.unit.count": ""
+}

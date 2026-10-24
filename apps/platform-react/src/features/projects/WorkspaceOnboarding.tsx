@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 import type { ProjectManifest } from '../../../../../packages/platform-contracts/src/index.js';
 import { platformApi } from '@/data/platform-api';
@@ -12,6 +13,7 @@ const { Paragraph, Text, Title } = Typography;
 const DISMISSED_KEY = 'product-experience-center:onboarding-dismissed';
 
 export function WorkspaceOnboarding() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const bootstrap = useBootstrapState();
   const [dismissed, setDismissed] = useState(() => localStorage.getItem(DISMISSED_KEY) === '1');
@@ -41,24 +43,24 @@ export function WorkspaceOnboarding() {
       <Modal open={show} closable={false} footer={null} width={680} title={null}>
         <Space direction="vertical" size={24} style={{ width: '100%' }}>
           <div>
-            <Text type="secondary">首次啓動</Text>
+            <Text type="secondary">{t('dialogs.onboarding.eyebrow')}</Text>
             <Title level={2} style={{ marginTop: 6 }}>
-              準備你的產品體驗工作區
+              {t('dialogs.onboarding.title')}
             </Title>
-            <Paragraph type="secondary">
-              當前沒有可用項目。你可以掛載已有項目文件夾、安裝脫敏示例，或者先進入空平臺。
-            </Paragraph>
+            <Paragraph type="secondary">{t('dialogs.onboarding.description')}</Paragraph>
           </div>
           {bootstrap.data?.workspace.invalidProjects ? (
             <Alert
               type="warning"
               showIcon
-              title={`發現 ${bootstrap.data.workspace.invalidProjects} 個無效項目`}
-              description="進入項目包管理或健康檢查中心，可以看到具體錯誤和修復建議。"
+              title={t('dialogs.onboarding.invalidProjects', {
+                count: bootstrap.data.workspace.invalidProjects,
+              })}
+              description={t('dialogs.onboarding.invalidProjectsHint')}
             />
           ) : null}
           {example.isError ? (
-            <Alert type="error" showIcon title="示例創建失敗" description={example.error.message} />
+            <Alert type="error" showIcon title={t('dialogs.onboarding.exampleFailed')} description={example.error.message} />
           ) : null}
           <Flex vertical gap={10}>
             <Button
@@ -67,7 +69,7 @@ export function WorkspaceOnboarding() {
               icon={<FolderOpenOutlined />}
               onClick={() => setMountOpen(true)}
             >
-              打開現有項目
+              {t('dialogs.onboarding.openExisting')}
             </Button>
             <Button
               size="large"
@@ -75,7 +77,7 @@ export function WorkspaceOnboarding() {
               loading={example.isPending}
               onClick={() => example.mutate()}
             >
-              創建脫敏示例
+              {t('dialogs.onboarding.createExample')}
             </Button>
             <Button
               type="text"
@@ -84,10 +86,10 @@ export function WorkspaceOnboarding() {
                 setDismissed(true);
               }}
             >
-              暫不配置，進入空平臺
+              {t('dialogs.onboarding.skip')}
             </Button>
           </Flex>
-          <Text type="secondary">“暫不配置”只記錄在當前瀏覽器，不寫入項目目錄。</Text>
+          <Text type="secondary">{t('dialogs.onboarding.skipHint')}</Text>
         </Space>
       </Modal>
       <ProjectMountDialog

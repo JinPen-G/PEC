@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { ColumnsType } from 'antd/es/table';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import type { InvalidProject, ProjectManifest } from '../../../../packages/platform-contracts/src/index.js';
 import { platformApi } from '@/data/platform-api';
@@ -23,11 +24,8 @@ import { Surface } from '@/ui/platform/Surface';
 
 const { Text, Title } = Typography;
 
-function projectDescription(project: ProjectManifest) {
-  return project.description || '暫無項目說明';
-}
-
 export function ProjectPackagesPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
@@ -50,7 +48,7 @@ export function ProjectPackagesPage() {
     mutationFn: (payload: { data: Record<string, unknown>; editing: boolean }) =>
       platformApi.saveProject(payload.data, { editing: payload.editing }),
     onSuccess: async (result) => {
-      setNotice(`${result.message || '項目配置已保存。'} 開發服務正在重新載入項目配置。`);
+      setNotice(`${result.message || t('packages.notice.savedFallback')} ${t('packages.notice.reloading')}`);
       setDialog(null);
       await queryClient.invalidateQueries({ queryKey: platformQueryKeys.projects });
       await queryClient.invalidateQueries({ queryKey: platformQueryKeys.htmlPages });
@@ -59,7 +57,7 @@ export function ProjectPackagesPage() {
   const unmountProject = useMutation({
     mutationFn: (projectId: string) => platformApi.unmountProject(projectId),
     onSuccess: async (result) => {
-      setNotice(String(result.message || '掛載已取消。'));
+      setNotice(String(result.message || t('packages.notice.unmountFallback')));
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: platformQueryKeys.projects }),
         queryClient.invalidateQueries({ queryKey: platformQueryKeys.htmlPages }),
@@ -72,27 +70,33 @@ export function ProjectPackagesPage() {
   const columns = useMemo<ColumnsType<ProjectManifest>>(
     () => [
       {
-        title: '項目名稱',
+        title: t('packages.table.name'),
         dataIndex: 'name',
         key: 'name',
         minWidth: 180,
         render: (name: string, project) => (
           <div>
             <Text strong>{name}</Text>
-            <small className="table-secondary">{projectDescription(project)}</small>
+            <small className="table-secondary">{project.description || t('packages.project.descriptionMissing')}</small>
           </div>
         ),
       },
-      { title: '項目 ID', dataIndex: 'id', key: 'id', width: 160, render: (value) => <code>{value}</code> },
       {
-        title: '版本',
+        title: t('packages.table.projectId'),
+        dataIndex: 'id',
+        key: 'id',
+        width: 160,
+        render: (value) => <code>{value}</code>,
+      },
+      {
+        title: t('packages.table.version'),
         dataIndex: 'version',
         key: 'version',
         width: 100,
         render: (value) => <code>v{value || '1.0'}</code>,
       },
       {
-        title: '客戶端',
+        title: t('common.field.client'),
         dataIndex: 'clients',
         key: 'clients',
         minWidth: 210,
@@ -103,21 +107,26 @@ export function ProjectPackagesPage() {
             <Text type="secondary">-</Text>
           ),
       },
-      { title: '狀態', key: 'status', width: 100, render: () => <Tag color="success">可用</Tag> },
       {
-        title: '首頁顯示',
+        title: t('common.column.status'),
+        key: 'status',
+        width: 100,
+        render: () => <Tag color="success">{t('packages.table.statusAvailable')}</Tag>,
+      },
+      {
+        title: t('packages.table.homepage'),
         key: 'homepage',
         width: 110,
         render: (_, project) => (
           <Tag color={project.homepage?.visible !== false ? 'blue' : 'default'}>
-            {project.homepage?.visible !== false ? '顯示' : '隱藏'}
+            {project.homepage?.visible !== false ? t('packages.table.visible') : t('packages.table.hidden')}
           </Tag>
         ),
       },
       ...(canManageProjects
         ? [
             {
-              title: '操作',
+              title: t('common.column.actions'),
               key: 'action',
               width: 176,
               fixed: 'right' as const,
@@ -128,7 +137,7 @@ export function ProjectPackagesPage() {
                     icon={<EditOutlined />}
                     onClick={() => setDialog({ mode: 'edit', project })}
                   >
-                    編輯
+                    {t('common.action.edit')}
                   </Button>
                   {project.mounted ? (
                     <Button
@@ -137,16 +146,16 @@ export function ProjectPackagesPage() {
                       icon={<DisconnectOutlined />}
                       onClick={() => {
                         Modal.confirm({
-                          title: `取消掛載“${project.name}”？`,
-                          content: '只移除本機掛載記錄，不會刪除或修改源項目文件。',
-                          okText: '取消掛載',
+                          title: t('packages.table.unmountConfirmTitle', { name: project.name }),
+                          content: t('packages.table.unmountConfirmContent'),
+                          okText: t('packages.table.unmount'),
                           okButtonProps: { danger: true },
-                          cancelText: '返回',
+                          cancelText: t('packages.table.unmountCancel'),
                           onOk: () => unmountProject.mutateAsync(project.id),
                         });
                       }}
                     >
-                      取消掛載
+                      {t('packages.table.unmount')}
                     </Button>
                   ) : null}
                 </Space>
@@ -155,23 +164,23 @@ export function ProjectPackagesPage() {
           ]
         : []),
     ],
-    [canManageProjects, unmountProject],
+    [canManageProjects, unmountProject, t],
   );
 
   return (
     <PlatformPage
-      title="項目包管理"
-      description="查看本地項目資料狀態，維護項目入口、主題和客戶端配置。"
+      title={t('packages.header.title')}
+      description={t('packages.header.description')}
       actions={
         <>
           {canManageProjects ? (
             <Button icon={<SafetyCertificateOutlined />} onClick={() => navigate('/tools/project-health')}>
-              健康檢查
+              {t('packages.header.healthCheck')}
             </Button>
           ) : null}
           {canManageProjects ? (
             <Button icon={<OrderedListOutlined />} onClick={() => navigate('/tools/project-routes')}>
-              路由菜單
+              {t('packages.header.routeMenu')}
             </Button>
           ) : null}
           <Button
@@ -179,11 +188,11 @@ export function ProjectPackagesPage() {
             loading={manifestQuery.isFetching}
             onClick={() => void manifestQuery.refetch()}
           >
-            重新掃描
+            {t('common.action.rescan')}
           </Button>
           {canManageProjects ? (
             <Button icon={<LinkOutlined />} onClick={() => setMountOpen(true)}>
-              掛載項目
+              {t('packages.header.mountProject')}
             </Button>
           ) : null}
           {canManageProjects ? (
@@ -192,14 +201,19 @@ export function ProjectPackagesPage() {
               icon={<PlusOutlined />}
               onClick={() => setDialog({ mode: 'create', project: null })}
             >
-              新建項目
+              {t('packages.header.createProject')}
             </Button>
           ) : null}
         </>
       }
     >
       {manifestQuery.isError ? (
-        <Alert type="error" showIcon title="項目包讀取失敗" description={manifestQuery.error.message} />
+        <Alert
+          type="error"
+          showIcon
+          title={t('packages.alert.loadFailed')}
+          description={manifestQuery.error.message}
+        />
       ) : null}
       {notice ? (
         <Alert type="success" showIcon closable={{ onClose: () => setNotice('') }} title={notice} />
@@ -209,7 +223,7 @@ export function ProjectPackagesPage() {
           type="error"
           showIcon
           closable={{ onClose: saveProject.reset }}
-          title="項目配置保存失敗"
+          title={t('packages.alert.saveFailed')}
           description={saveProject.error.message}
         />
       ) : null}
@@ -218,35 +232,38 @@ export function ProjectPackagesPage() {
           type="error"
           showIcon
           closable={{ onClose: unmountProject.reset }}
-          title="取消掛載失敗"
+          title={t('packages.alert.unmountFailed')}
           description={unmountProject.error.message}
         />
       ) : null}
 
-      <Surface className="packages-summary" aria-label="項目包概覽">
+      <Surface className="packages-summary" aria-label={t('packages.summary.ariaLabel')}>
         <Flex className="packages-summary__stats" gap={0}>
-          <Statistic title="可用項目" value={projects.length} suffix="個" />
+          <Statistic title={t('packages.summary.available')} value={projects.length} suffix={t('common.unit.count')} />
           <Statistic
-            title="異常項目"
+            title={t('packages.summary.invalid')}
             value={invalidProjects.length}
-            suffix="個"
+            suffix={t('common.unit.count')}
             styles={
               invalidProjects.length
                 ? { content: { color: 'var(--ant-color-warning)' } }
                 : undefined
             }
           />
-          <Statistic title="當前權限" value={canManageProjects ? '可管理' : '只讀'} />
+          <Statistic
+            title={t('packages.summary.currentPermission')}
+            value={canManageProjects ? t('packages.summary.manageable') : t('packages.summary.readOnly')}
+          />
         </Flex>
       </Surface>
 
       <Surface className="packages-table-panel">
         <div className="workspace-section-heading">
           <div>
-            <Title level={3}>項目清單</Title>
-            <Text type="secondary">有效項目可直接進入首頁和配置流程。</Text>
+            <Title level={3}>{t('packages.list.title')}</Title>
+            <Text type="secondary">{t('packages.list.description')}</Text>
           </div>
-          <Tag color="blue">{projects.length} 個項目</Tag>
+          <Tag color="blue">{t('packages.list.count', { count: projects.length })}</Tag>
         </div>
         {manifestQuery.isPending ? (
           <div className="page-loading">
@@ -262,7 +279,7 @@ export function ProjectPackagesPage() {
             scroll={{ x: 820 }}
           />
         ) : (
-          <Empty description="尚未發現有效項目包" />
+          <Empty description={t('packages.list.empty')} />
         )}
       </Surface>
 
@@ -291,7 +308,7 @@ export function ProjectPackagesPage() {
         open={mountOpen}
         onCancel={() => setMountOpen(false)}
         onMounted={async () => {
-          setNotice('項目已掛載，源文件保持在原目錄。');
+          setNotice(t('packages.notice.mounted'));
           await Promise.all([
             queryClient.invalidateQueries({ queryKey: platformQueryKeys.projects }),
             queryClient.invalidateQueries({ queryKey: platformQueryKeys.htmlPages }),
@@ -313,22 +330,23 @@ function InvalidProjectPanel({
   editable: boolean;
   onEdit: (project: ProjectManifest) => void;
 }) {
+  const { t } = useTranslation();
   const columns: ColumnsType<InvalidProject> = [
-    { title: '文件夾', dataIndex: 'folder', key: 'folder', width: 220 },
-    { title: '問題', dataIndex: 'errors', key: 'errors', render: (errors: string[]) => errors.join('；') },
+    { title: t('packages.invalid.folder'), dataIndex: 'folder', key: 'folder', width: 220 },
+    { title: t('packages.invalid.issues'), dataIndex: 'errors', key: 'errors', render: (errors: string[]) => errors.join(t('packages.invalid.errorsSeparator')) },
     ...(editable
       ? [
           {
-            title: '操作',
+            title: t('common.column.actions'),
             key: 'action',
             width: 120,
             render: (_: unknown, item: InvalidProject) =>
               item.project ? (
                 <Button size="small" onClick={() => onEdit(item.project as ProjectManifest)}>
-                  配置
+                  {t('packages.invalid.configure')}
                 </Button>
               ) : (
-                <Text type="secondary">無法讀取配置</Text>
+                <Text type="secondary">{t('packages.invalid.unreadable')}</Text>
               ),
           },
         ]
@@ -337,8 +355,8 @@ function InvalidProjectPanel({
   return (
     <Surface className="invalid-project-panel">
       <div className="workspace-section-heading">
-        <Title level={3}>無效項目包</Title>
-        <Tag color="warning">{projects.length} 個需要處理</Tag>
+        <Title level={3}>{t('packages.invalid.title')}</Title>
+        <Tag color="warning">{t('packages.invalid.count', { count: projects.length })}</Tag>
       </div>
       <Table rowKey="folder" columns={columns} dataSource={projects} pagination={false} scroll={{ x: 600 }} />
     </Surface>

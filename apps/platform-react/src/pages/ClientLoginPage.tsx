@@ -1,5 +1,6 @@
 import { useMemo, type CSSProperties } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { useHtmlPageCatalog, useProjectManifest } from '@/data/use-platform-data';
 import {
@@ -13,10 +14,12 @@ import { DEFAULT_PROJECT_THEME } from '@/features/projects/project-config-model'
 import { Alert, Button, Card, ConfigProvider, Form, Input, Spin, Typography } from '@/ui/ant';
 import { PlatformBrand } from '@/ui/platform/PlatformBrand';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
+import { LanguageControl } from '@/ui/platform/LanguageControl';
 
 const { Text, Title } = Typography;
 
 export function ClientLoginPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { projectId = '', clientId = '' } = useParams();
   const projectQuery = useProjectManifest();
@@ -67,34 +70,47 @@ export function ClientLoginPage() {
             </div>
           </Button>
           <ThemeControl showLabel />
+          <LanguageControl/>
         </header>
         <div className="client-login__body">
           <Card className="client-login__card">
             <Text className="home-kicker">{project.shortName || project.name}</Text>
             <Title level={2}>{client.name}</Title>
-            <Text type="secondary">{client.description || '登錄後進入客戶端'}</Text>
+            <Text type="secondary">{client.description || t('home.login.fallbackDescription')}</Text>
             {runtimeStatus.state === 'index-missing' || runtimeStatus.state === 'empty' ? (
               <Alert
                 showIcon
                 type={runtimeStatus.state === 'index-missing' ? 'error' : 'info'}
-                title={runtimeStatus.state === 'index-missing' ? 'HTML 頁面索引異常' : '客戶端暫無頁面'}
-                description="請先在項目包中登記可運行的 HTML 頁面。"
+                title={
+                  runtimeStatus.state === 'index-missing'
+                    ? t('home.login.indexErrorTitle')
+                    : t('home.login.emptyTitle')
+                }
+                description={t('home.login.indexErrorDescription')}
               />
             ) : (
               <Form layout="vertical" onFinish={enterClient} initialValues={{ account: 'admin' }}>
-                <Form.Item label="賬號" name="account" rules={[{ required: true, message: '請輸入賬號' }]}>
+                <Form.Item
+                  label={t('home.login.account')}
+                  name="account"
+                  rules={[{ required: true, message: t('home.login.accountRequired') }]}
+                >
                   <Input />
                 </Form.Item>
-                <Form.Item label="密碼" name="password" rules={[{ required: true, message: '請輸入密碼' }]}>
+                <Form.Item
+                  label={t('home.login.password')}
+                  name="password"
+                  rules={[{ required: true, message: t('home.login.passwordRequired') }]}
+                >
                   <Input.Password />
                 </Form.Item>
                 <Button block type="primary" htmlType="submit">
-                  進入{client.name}
+                  {t('home.login.enter', { client: client.name })}
                 </Button>
               </Form>
             )}
             <Button type="link" block onClick={() => navigate('/')}>
-              返回體驗中心
+              {t('home.login.backToHub')}
             </Button>
           </Card>
         </div>

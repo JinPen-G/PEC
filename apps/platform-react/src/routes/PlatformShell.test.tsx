@@ -2,6 +2,8 @@ import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import '@/i18n';
+import { PlatformLocaleProvider } from '@/features/locale/platform-locale';
 import { PlatformThemeProvider } from '@/features/theme/platform-theme';
 
 import { PlatformShell } from './PlatformShell';
@@ -28,15 +30,17 @@ afterEach(() => {
 describe('PlatformShell', () => {
   it('uses one sidebar frame with grouped navigation and a separate content panel', () => {
     render(
-      <PlatformThemeProvider>
-        <MemoryRouter initialEntries={['/tools/console']}>
-          <Routes>
-            <Route element={<PlatformShell />}>
-              <Route path="tools/console" element={<div>控制台內容</div>} />
-            </Route>
-          </Routes>
-        </MemoryRouter>
-      </PlatformThemeProvider>,
+      <PlatformLocaleProvider>
+        <PlatformThemeProvider>
+          <MemoryRouter initialEntries={['/tools/console']}>
+            <Routes>
+              <Route element={<PlatformShell />}>
+                <Route path="tools/console" element={<div>控制台內容</div>} />
+              </Route>
+            </Routes>
+          </MemoryRouter>
+        </PlatformThemeProvider>
+      </PlatformLocaleProvider>,
     );
 
     expect(document.querySelector('.app-sider')).not.toBeNull();

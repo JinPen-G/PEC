@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { platformApi } from '@/data/platform-api';
 import { Alert, Button, Flex, Switch, Tag, Typography } from '@/ui/ant';
@@ -16,34 +17,8 @@ import { ShareControlPanel } from '@/features/projects/ShareControlPanel';
 
 const { Text, Title } = Typography;
 
-const tools = [
-  {
-    title: '項目包管理',
-    description: '管理項目資料、首頁可見性、主題和客戶端入口。',
-    to: '/tools/projects',
-    icon: <FolderOpenOutlined />,
-  },
-  {
-    title: '路由菜單管理',
-    description: '維護菜單分組、頁面順序、PRD 關聯與備份。',
-    to: '/tools/project-routes',
-    icon: <OrderedListOutlined />,
-  },
-  {
-    title: 'AI 上下文中心',
-    description: '檢查頁面和 PRD 覆蓋並導出交付上下文。',
-    to: '/tools/ai-context',
-    icon: <DatabaseOutlined />,
-  },
-  {
-    title: '組件規範',
-    description: '查看 React 平臺統一使用的 Ant Design 控件。',
-    to: '/components',
-    icon: <AppstoreOutlined />,
-  },
-];
-
 export function ConsolePage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const settingsQuery = useQuery({
@@ -68,26 +43,57 @@ export function ConsolePage() {
       }),
     onSuccess: (settings) => queryClient.setQueryData(['platform', 'settings'], settings),
   });
+  const tools = [
+    {
+      title: t('console.tools.packages.title'),
+      description: t('console.tools.packages.description'),
+      to: '/tools/projects',
+      icon: <FolderOpenOutlined />,
+    },
+    {
+      title: t('console.tools.routes.title'),
+      description: t('console.tools.routes.description'),
+      to: '/tools/project-routes',
+      icon: <OrderedListOutlined />,
+    },
+    {
+      title: t('console.tools.ai.title'),
+      description: t('console.tools.ai.description'),
+      to: '/tools/ai-context',
+      icon: <DatabaseOutlined />,
+    },
+    {
+      title: t('console.tools.components.title'),
+      description: t('console.tools.components.description'),
+      to: '/components',
+      icon: <AppstoreOutlined />,
+    },
+  ];
 
   return (
     <PlatformPage
-      title="控制台"
-      description="管理平臺級項目資料、頁面路由和交付上下文。"
+      title={t('console.header.title')}
+      description={t('console.header.description')}
       actions={
         <Tag color={platformApi.development ? 'processing' : 'default'}>
-          {platformApi.development ? '本機開發服務' : '靜態只讀'}
+          {platformApi.development ? t('console.header.envDev') : t('console.header.envStatic')}
         </Tag>
       }
     >
       {settingsQuery.isError ? (
-        <Alert type="error" showIcon title="開發模式讀取失敗" description={settingsQuery.error.message} />
+        <Alert
+          type="error"
+          showIcon
+          title={t('console.alert.loadFailed')}
+          description={settingsQuery.error.message}
+        />
       ) : null}
       {saveSettings.isError ? (
         <Alert
           type="error"
           showIcon
           closable={{ onClose: saveSettings.reset }}
-          title="開發模式保存失敗"
+          title={t('console.alert.saveFailed')}
           description={saveSettings.error.message}
         />
       ) : null}
@@ -95,19 +101,21 @@ export function ConsolePage() {
       <Surface className="console-settings-panel">
         <div>
           <Flex align="center" gap={8}>
-            <Title level={3}>PRD 對照開發模式</Title>
-            <Tag color={developerMode ? 'success' : 'default'}>{developerMode ? '已開啓' : '已關閉'}</Tag>
+            <Title level={3}>{t('console.devMode.title')}</Title>
+            <Tag color={developerMode ? 'success' : 'default'}>
+              {developerMode ? t('console.devMode.on') : t('console.devMode.off')}
+            </Tag>
           </Flex>
           <Text type="secondary">
-            開啓後可在業務頁面查看對應 PRD；默認不會自動打開側窗。
-            {platformApi.development ? '' : '（靜態部署下此開關只保存在當前瀏覽器）'}
+            {t('console.devMode.description')}
+            {platformApi.development ? '' : t('console.devMode.staticNote')}
           </Text>
         </div>
         <Switch
           checked={developerMode}
           loading={settingsQuery.isPending || saveSettings.isPending}
-          checkedChildren="開"
-          unCheckedChildren="關"
+          checkedChildren={t('console.switch.on')}
+          unCheckedChildren={t('console.switch.off')}
           onChange={(checked) => saveSettings.mutate(checked)}
         />
       </Surface>
@@ -115,22 +123,22 @@ export function ConsolePage() {
       <Surface className="console-settings-panel">
         <div>
           <Flex align="center" gap={8}>
-            <Title level={3}>遠程管理</Title>
+            <Title level={3}>{t('console.remote.title')}</Title>
             <Tag color={remoteManagement ? 'success' : 'default'}>
-              {remoteManagement ? '允許遠端寫入' : '僅限服務主機'}
+              {remoteManagement ? t('console.remote.allowRemote') : t('console.remote.localOnly')}
             </Tag>
           </Flex>
           <Text type="secondary">
-            通過平臺服務（serve:local）部署時，允許局域網/遠程瀏覽器執行路由、項目與 PRD 等管理寫入。
-            {platformApi.development ? '' : '（僅在以平臺服務部署時生效；靜態部署無後端，此開關不產生效果）'}
+            {t('console.remote.description')}
+            {platformApi.development ? '' : t('console.remote.staticNote')}
           </Text>
         </div>
         <Switch
           checked={remoteManagement}
           loading={saveRemoteManagement.isPending}
           disabled={!platformApi.development}
-          checkedChildren="開"
-          unCheckedChildren="關"
+          checkedChildren={t('console.switch.on')}
+          unCheckedChildren={t('console.switch.off')}
           onChange={(checked) => saveRemoteManagement.mutate(checked)}
         />
       </Surface>
@@ -140,10 +148,10 @@ export function ConsolePage() {
       <Surface className="console-tool-list">
         <header className="workspace-section-heading">
           <div>
-            <Title level={3}>平臺工作區</Title>
-            <Text type="secondary">選擇需要處理的管理任務。</Text>
+            <Title level={3}>{t('console.tools.title')}</Title>
+            <Text type="secondary">{t('console.tools.description')}</Text>
           </div>
-          <Text type="secondary">{tools.length} 個入口</Text>
+          <Text type="secondary">{t('console.tools.count', { count: tools.length })}</Text>
         </header>
         <ul className="console-tool-list__items">
           {tools.map((tool) => (
@@ -158,7 +166,7 @@ export function ConsolePage() {
                 </div>
               </div>
               <Button type="text" icon={<ArrowRightOutlined />} onClick={() => navigate(tool.to)}>
-                打開
+                {t('console.tools.open')}
               </Button>
             </li>
           ))}

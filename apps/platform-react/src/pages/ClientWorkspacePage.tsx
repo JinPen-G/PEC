@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import type { HtmlPrototypePage, PrdBinding } from '../../../../packages/platform-contracts/src/index.js';
 import { platformApi } from '@/data/platform-api';
@@ -63,6 +64,7 @@ import { AnimatedPillNav } from '@/ui/platform/AnimatedPillNav';
 import { ProjectIcon } from '@/ui/platform/ProjectIcon';
 import { PlatformBrand } from '@/ui/platform/PlatformBrand';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
+import { LanguageControl } from '@/ui/platform/LanguageControl';
 
 const { Header, Content } = Layout;
 const TOPNAV_CONTENT_OFFSET = 72;
@@ -84,6 +86,7 @@ function usePageBindings<T extends { pagePath: string }>(
 }
 
 export function ClientWorkspacePage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
@@ -139,9 +142,9 @@ export function ClientWorkspacePage() {
 
   useEffect(() => {
     document.title = selectedPage
-      ? `${selectedPage.title} - ${project?.name || '項目'}`
-      : project?.name || '產品功能體驗中心';
-  }, [project?.name, selectedPage]);
+      ? `${selectedPage.title} - ${project?.name || t('workspace.fallbackProjectName')}`
+      : project?.name || t('workspace.defaultDocumentTitle');
+  }, [project?.name, selectedPage, t]);
 
   // 這些派生值和回調必須在加載態/空頁面態之前創建，避免條件 Hook，
   // 同時保證公共殼狀態變化時不會給 iframe 生成新的回調引用。
@@ -240,8 +243,10 @@ export function ClientWorkspacePage() {
       runtimeStatus.state === 'index-missing'
         ? {
             type: 'error' as const,
-            message: 'HTML 頁面運行索引缺失',
-            description: `項目登記了 ${runtimeStatus.managedHtmlPageCount} 個託管 HTML 頁面，但當前掃描結果沒有可運行頁面。請重新掃描項目包並檢查頁面文件。`,
+            message: t('workspace.runtimeIndexMissing'),
+            description: t('workspace.runtimeIndexMissingDescription', {
+              count: runtimeStatus.managedHtmlPageCount,
+            }),
           }
         : null;
     return (
@@ -254,10 +259,14 @@ export function ClientWorkspacePage() {
             description={runtimeNotice.description}
           />
         ) : (
-          <Empty description={pages.length ? '頁面不存在或已從原型目錄移除' : '當前客戶端尚未登記頁面'} />
+          <Empty
+            description={
+              pages.length ? t('workspace.pageMissing') : t('workspace.clientNoPages')
+            }
+          />
         )}
         <Button type="primary" onClick={() => navigate('/')}>
-          返回首頁
+          {t('workspace.backHome')}
         </Button>
       </main>
     );
@@ -350,6 +359,7 @@ function ClientWorkspace({
   onOpenPrd: (target?: { documentPath: string; anchor?: string }) => void;
   onNavigate: ReturnType<typeof useNavigate>;
 }) {
+  const { t } = useTranslation();
   const collapsedKey = `product-experience-center:client-nav:${projectId}:${clientId}`;
   const [collapsed, setCollapsed] = useState(() => localStorage.getItem(collapsedKey) === 'collapsed');
   const syncRouteRef = useRef('');
@@ -444,13 +454,13 @@ function ClientWorkspace({
   );
   const accountItems = useMemo<MenuProps['items']>(
     () => [
-      { key: 'home', icon: <HomeOutlined />, label: '回到首頁', onClick: () => onNavigate('/') },
+      { key: 'home', icon: <HomeOutlined />, label: t('workspace.menu.backHome'), onClick: () => onNavigate('/') },
       ...(developerMode
         ? [
             {
               key: 'ai-context',
               icon: <DatabaseOutlined />,
-              label: '當前頁面上下文',
+              label: t('workspace.menu.currentPageContext'),
               onClick: () =>
                 onNavigate(
                   `/tools/ai-context?project=${encodeURIComponent(projectId)}&client=${encodeURIComponent(clientId)}&page=${encodeURIComponent(selectedPage.path)}`,
@@ -458,9 +468,9 @@ function ClientWorkspace({
             },
           ]
         : []),
-      { key: 'exit', icon: <LogoutOutlined />, label: '退出當前客戶端', onClick: () => onNavigate('/') },
+      { key: 'exit', icon: <LogoutOutlined />, label: t('workspace.menu.exitClient'), onClick: () => onNavigate('/') },
     ],
-    [clientId, developerMode, onNavigate, projectId, selectedPage.path],
+    [clientId, developerMode, onNavigate, projectId, selectedPage.path, t],
   );
   const clientOptions = useMemo(
     () => project.clients.map((item) => ({ label: item.name, value: item.id })),
@@ -508,15 +518,15 @@ function ClientWorkspace({
     return (
       <main className="client-bare" style={workspaceStyle}>
         {prdPath || sourceDownloadUrl ? (
-          <div className="client-bare-tools" aria-label="頁面工具">
+          <div className="client-bare-tools" aria-label={t('workspace.tools.ariaLabel')}>
             {sourceDownloadUrl ? (
               <Button href={sourceDownloadUrl} icon={<DownloadOutlined />}>
-                下載源文件
+                {t('workspace.tools.downloadSource')}
               </Button>
             ) : null}
             {prdPath ? (
               <Button type="primary" icon={<BookOutlined />} onClick={() => onOpenPrd()}>
-                查看 PRD
+                {t('workspace.tools.viewPrd')}
               </Button>
             ) : null}
           </div>
@@ -563,7 +573,7 @@ function ClientWorkspace({
           routeKey={`${clientId}:${selectedPage.path}`}
           selector={
             <Select
-              aria-label="客戶端"
+              aria-label={t('workspace.selectClient')}
               value={clientId}
               options={clientOptions}
               onChange={(value) => onNavigate(`/p/${projectId}/${value}`)}
@@ -571,7 +581,7 @@ function ClientWorkspace({
           }
           nav={(isCollapsed) => (
             <Menu
-              aria-label="客戶端導航"
+              aria-label={t('workspace.clientNav')}
               mode="inline"
               selectedKeys={[selectedPage.path]}
               openKeys={isCollapsed ? undefined : openMenuKeys}
@@ -589,13 +599,14 @@ function ClientWorkspace({
             <>
               {sourceDownloadUrl ? (
                 <Button type="text" href={sourceDownloadUrl} icon={<DownloadOutlined />}>
-                  {isCollapsed ? null : '下載源文件'}
+                  {isCollapsed ? null : t('workspace.tools.downloadSource')}
                 </Button>
               ) : null}
               <Button type="text" disabled={!prdPath} icon={<BookOutlined />} onClick={() => onOpenPrd()}>
-                {isCollapsed ? null : '查看 PRD'}
+                {isCollapsed ? null : t('workspace.tools.viewPrd')}
               </Button>
               <ThemeControl showLabel={!isCollapsed} />
+              <LanguageControl/>
             </>
           )}
           account={(isCollapsed) => (
@@ -679,6 +690,7 @@ function ClientTopNavigation({
   selectedPage: HtmlPrototypePage;
   onNavigatePage: (page: HtmlPrototypePage) => void;
 }) {
+  const { t } = useTranslation();
   const navigationRef = useRef<HTMLDivElement>(null);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
   const items: MenuProps['items'] = groups.map((group) => {
@@ -728,7 +740,7 @@ function ClientTopNavigation({
         className="client-topnav__track"
         activeKey={activeKey}
         layoutKey={groups.map((group) => `${group.id}:${group.pages.length}`).join('|')}
-        ariaLabel="客戶端主導航"
+        ariaLabel={t('workspace.mainNav')}
       >
         <Menu
           className="client-topnav--native"
@@ -771,6 +783,7 @@ function ClientActions({
   onClientChange: (value: string) => void;
   onOpenPrd: () => void;
 }) {
+  const { t } = useTranslation();
   /** 右側四個功能保留圖標表達，文字通過懸浮提示和 aria-label 提供。 */
   const entries: ReactNode[] = [
     <Dropdown
@@ -782,7 +795,7 @@ function ClientActions({
         items: [
           {
             type: 'group',
-            label: '切換客戶端',
+            label: t('workspace.actions.switchClientGroup'),
             children: clientOptions.map((option) => ({ key: option.value, label: option.label })),
           },
         ],
@@ -791,26 +804,26 @@ function ClientActions({
         onClick: ({ key }) => onClientChange(key),
       }}
     >
-      <Tooltip title={`切換客戶端：${clientName}`}>
-        <button type="button" className="topnav-icon-button" aria-label={`切換客戶端，當前 ${clientName}`}>
+      <Tooltip title={t('workspace.actions.switchClientTooltip', { name: clientName })}>
+        <button type="button" className="topnav-icon-button" aria-label={t('workspace.actions.switchClientAria', { name: clientName })}>
           <AppstoreOutlined />
         </button>
       </Tooltip>
     </Dropdown>,
 
     sourceDownloadUrl ? (
-      <Tooltip key="download" title="下載源文件">
-        <a className="topnav-icon-button" href={sourceDownloadUrl} aria-label="下載源文件">
+      <Tooltip key="download" title={t('workspace.tools.downloadSource')}>
+        <a className="topnav-icon-button" href={sourceDownloadUrl} aria-label={t('workspace.tools.downloadSource')}>
           <DownloadOutlined />
         </a>
       </Tooltip>
     ) : null,
 
-    <Tooltip key="prd" title={prdPath ? '查看 PRD' : '當前頁面沒有關聯 PRD'}>
+    <Tooltip key="prd" title={prdPath ? t('workspace.tools.viewPrd') : t('workspace.actions.noPrd')}>
       <button
         type="button"
         className="topnav-icon-button"
-        aria-label="查看 PRD"
+        aria-label={t('workspace.tools.viewPrd')}
         disabled={!prdPath}
         onClick={() => onOpenPrd()}
       >
@@ -819,6 +832,7 @@ function ClientActions({
     </Tooltip>,
 
     <ThemeControl key="theme" iconOnly />,
+    <LanguageControl key="language" iconOnly />,
 
     <Dropdown
       key="account"
@@ -827,8 +841,8 @@ function ClientActions({
       placement="bottomRight"
       classNames={{ root: 'app-pill-menu' }}
     >
-      <Tooltip title="賬號：Admin">
-        <button type="button" className="topnav-icon-button" aria-label="賬號：Admin">
+      <Tooltip title={t('workspace.actions.account')}>
+        <button type="button" className="topnav-icon-button" aria-label={t('workspace.actions.account')}>
           <UserOutlined />
         </button>
       </Tooltip>

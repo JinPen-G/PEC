@@ -1,0 +1,21 @@
+{
+  "platformName": "Project Prototype & Data Collaboration Platform",
+  "docs.docTitle": "{{document}} - {{project}}",
+  "docs.titleFallback.document": "Product documents",
+  "docs.titleFallback.project": "Project",
+  "docs.action.backHome": "Back to Home",
+  "docs.header.title": "Docs Center",
+  "docs.header.current": "Product Materials",
+  "docs.header.docCount": "{{count}} documents",
+  "docs.sidebar.title": "Document Catalog",
+  "docs.sidebar.hint": "Grouped by folder",
+  "docs.search.placeholder": "Search file names",
+  "docs.associatedPages.count": "Related pages ({{count}})",
+  "docs.sidebar.noMatch": "No matching documents",
+  "docs.breadcrumb.documents": "Documents",
+  "docs.reader.empty": "Select a document to start reading",
+  "docs.outline.title": "On This Page",
+  "docs.outline.hint": "Jump to a section",
+  "docs.document.untitled": "Untitled document",
+  "docs.group.uncategorized": "Uncategorized"
+}

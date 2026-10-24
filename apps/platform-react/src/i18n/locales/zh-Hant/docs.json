@@ -1,0 +1,21 @@
+{
+  "platformName": "項目原型與資料協作平臺",
+  "docs.docTitle": "{{document}} - {{project}}",
+  "docs.titleFallback.document": "產品文檔",
+  "docs.titleFallback.project": "項目",
+  "docs.action.backHome": "返回首頁",
+  "docs.header.title": "文檔中心",
+  "docs.header.current": "產品資料",
+  "docs.header.docCount": "{{count}} 份文檔",
+  "docs.sidebar.title": "文檔目錄",
+  "docs.sidebar.hint": "按文件夾分類",
+  "docs.search.placeholder": "搜索文件名",
+  "docs.associatedPages.count": "關聯頁面 {{count}}",
+  "docs.sidebar.noMatch": "沒有匹配文檔",
+  "docs.breadcrumb.documents": "文檔",
+  "docs.reader.empty": "選擇一份文檔開始閱讀",
+  "docs.outline.title": "本文目錄",
+  "docs.outline.hint": "按章節跳轉",
+  "docs.document.untitled": "未命名文檔",
+  "docs.group.uncategorized": "未分類"
+}

@@ -7,6 +7,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 import { platformApi } from '@/data/platform-api';
 import { Button, Empty, Flex, Input, Segmented, Select, Tag, Tooltip, Typography } from '@/ui/ant';
@@ -62,6 +63,7 @@ export function PrdReviewPanel({
   onModeChange: (mode: PrdPanelMode) => void;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   const options = useMemo(() => {
     const values = new Map<string, PrdDocumentOption>();
     for (const item of documents) if (item.path) values.set(item.path, item);
@@ -310,7 +312,7 @@ export function PrdReviewPanel({
       ref={panelRef}
       className={`prd-review-panel prd-review-panel--${mode}${dragging ? ' is-dragging' : ''}`}
       role={mode === 'overlay' ? 'dialog' : 'complementary'}
-      aria-label={`${pageTitle} PRD`}
+      aria-label={t('workspace.prd.panelAriaLabel', { page: pageTitle })}
       aria-modal={mode === 'overlay' ? false : undefined}
       style={
         mode === 'overlay' ? { transform: `translate3d(${position.x}px, ${position.y}px, 0)` } : undefined
@@ -338,29 +340,29 @@ export function PrdReviewPanel({
           </div>
         </Flex>
         <Flex className="prd-review-panel__header-actions" gap={4}>
-          <Tooltip title="在文檔中心打開">
+          <Tooltip title={t('workspace.prd.openInDocsCenter')}>
             <Button
               type="text"
               disabled={!activeDocument}
               icon={<LinkOutlined />}
               onClick={openDocumentWindow}
-              aria-label="在文檔中心打開"
+              aria-label={t('workspace.prd.openInDocsCenter')}
             />
           </Tooltip>
-          <Tooltip title="關閉">
-            <Button type="text" icon={<CloseOutlined />} onClick={onClose} aria-label="關閉 PRD" />
+          <Tooltip title={t('workspace.prd.close')}>
+            <Button type="text" icon={<CloseOutlined />} onClick={onClose} aria-label={t('workspace.prd.closeAria')} />
           </Tooltip>
         </Flex>
       </header>
       <div className="prd-review-panel__toolbar">
         <Flex className="prd-review-panel__mode" align="center" gap={8}>
-          <Text type="secondary">顯示方式</Text>
+          <Text type="secondary">{t('workspace.prd.displayMode')}</Text>
           <Segmented
             size="small"
             value={mode}
             options={[
-              { label: '固定分屏', value: 'split' },
-              { label: '浮層', value: 'overlay' },
+              { label: t('workspace.prd.modeSplit'), value: 'split' },
+              { label: t('workspace.prd.modeOverlay'), value: 'overlay' },
             ]}
             onChange={(value) => onModeChange(value as PrdPanelMode)}
           />
@@ -371,9 +373,9 @@ export function PrdReviewPanel({
           icon={<OrderedListOutlined />}
           onClick={() => setOutlineVisible((current) => !current)}
           aria-pressed={outlineVisible}
-          aria-label={outlineVisible ? '收起目錄' : '查看目錄'}
+          aria-label={outlineVisible ? t('workspace.prd.hideOutline') : t('workspace.prd.showOutline')}
         >
-          {outlineVisible ? '收起目錄' : '查看目錄'}
+          {outlineVisible ? t('workspace.prd.hideOutline') : t('workspace.prd.showOutline')}
         </Button>
       </div>
       <div className="prd-review-panel__search">
@@ -384,7 +386,7 @@ export function PrdReviewPanel({
             showSearch
             optionFilterProp="label"
             popupMatchSelectWidth={false}
-            aria-label="選擇 PRD 文檔"
+            aria-label={t('workspace.prd.selectDocument')}
             onChange={(value) => {
               setActiveDocument(value);
               setActiveHeading('');
@@ -403,26 +405,26 @@ export function PrdReviewPanel({
                 {searchStatus.count ? `${searchStatus.index}/${searchStatus.count}` : '0/0'}
               </Text>
             }
-            placeholder="搜索當前文檔"
-            aria-label="搜索當前 PRD 文檔"
+            placeholder={t('workspace.prd.searchPlaceholder')}
+            aria-label={t('workspace.prd.searchAria')}
             onChange={(event) => updateSearch(event.target.value)}
           />
-          <Tooltip title="上一個結果">
+          <Tooltip title={t('workspace.prd.prevResult')}>
             <Button
               type="text"
               disabled={!searchStatus.count}
               icon={<ArrowUpOutlined />}
               onClick={() => focusSearchMatch(searchStatus.index - 2)}
-              aria-label="上一個搜索結果"
+              aria-label={t('workspace.prd.prevResultAria')}
             />
           </Tooltip>
-          <Tooltip title="下一個結果">
+          <Tooltip title={t('workspace.prd.nextResult')}>
             <Button
               type="text"
               disabled={!searchStatus.count}
               icon={<ArrowDownOutlined />}
               onClick={() => focusSearchMatch(searchStatus.index)}
-              aria-label="下一個搜索結果"
+              aria-label={t('workspace.prd.nextResultAria')}
             />
           </Tooltip>
         </div>
@@ -442,13 +444,13 @@ export function PrdReviewPanel({
               activeAnchor={requestedAnchor}
             />
           ) : (
-            <Empty description="當前頁面未關聯 PRD" />
+            <Empty description={t('workspace.prd.empty')} />
           )}
         </div>
         {outlineVisible ? (
-          <aside ref={outlineRef} className="prd-review-panel__outline" aria-label="PRD 本文目錄">
+          <aside ref={outlineRef} className="prd-review-panel__outline" aria-label={t('workspace.prd.outlineAria')}>
             <Flex className="prd-review-panel__outline-header" align="center" justify="space-between">
-              <Text strong>本文目錄</Text>
+              <Text strong>{t('workspace.prd.outlineTitle')}</Text>
               <Tag variant="filled">{headings.length}</Tag>
             </Flex>
             <ul className="prd-review-panel__outline-list">

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 import type { ProjectManifest } from '../../../../../packages/platform-contracts/src/index.js';
 import { platformApi } from '@/data/platform-api';
@@ -17,6 +18,7 @@ export function ProjectMountDialog({
   onCancel: () => void;
   onMounted: (project: ProjectManifest) => Promise<void> | void;
 }) {
+  const { t } = useTranslation();
   const [root, setRoot] = useState('');
   const [candidate, setCandidate] = useState<ProjectManifest | null>(null);
   const [error, setError] = useState('');
@@ -60,12 +62,12 @@ export function ProjectMountDialog({
     <Modal
       open={open}
       width={640}
-      title="掛載現有項目文件夾"
+      title={t('dialogs.mount.title')}
       onCancel={onCancel}
       afterClose={resetDialog}
       footer={
         <Flex justify="flex-end" gap={8}>
-          <Button onClick={onCancel}>取消</Button>
+          <Button onClick={onCancel}>{t('dialogs.mount.cancel')}</Button>
           <Button
             type="primary"
             icon={<LinkOutlined />}
@@ -73,24 +75,22 @@ export function ProjectMountDialog({
             loading={mount.isPending}
             onClick={() => mount.mutate()}
           >
-            確認掛載
+            {t('dialogs.mount.confirm')}
           </Button>
         </Flex>
       }
     >
       <Space direction="vertical" size={18} style={{ width: '100%' }}>
         <div>
-          <Title level={5}>項目文件不會被複制或移動</Title>
-          <Paragraph type="secondary">
-            平臺只在本機的 project-mounts.local.json 中記錄目錄。取消掛載也不會刪除源文件。
-          </Paragraph>
+          <Title level={5}>{t('dialogs.mount.noCopyTitle')}</Title>
+          <Paragraph type="secondary">{t('dialogs.mount.noCopyDescription')}</Paragraph>
         </div>
         <Form layout="vertical">
-          <Form.Item label="項目文件夾" required>
+          <Form.Item label={t('dialogs.mount.folderLabel')} required>
             <Space.Compact style={{ width: '100%' }}>
               <Input
                 value={root}
-                placeholder="選擇或輸入包含 project.json 的絕對路徑"
+                placeholder={t('dialogs.mount.folderPlaceholder')}
                 onChange={(event) => {
                   setRoot(event.target.value);
                   setCandidate(null);
@@ -102,15 +102,15 @@ export function ProjectMountDialog({
                 loading={browse.isPending}
                 onClick={() => browse.mutate()}
               >
-                瀏覽
+                {t('dialogs.mount.browse')}
               </Button>
               <Button loading={inspect.isPending} onClick={() => inspect.mutate(root)} disabled={!root}>
-                檢查
+                {t('dialogs.mount.inspect')}
               </Button>
             </Space.Compact>
           </Form.Item>
         </Form>
-        {error ? <Alert type="error" showIcon title="目錄不可掛載" description={error} /> : null}
+        {error ? <Alert type="error" showIcon title={t('dialogs.mount.invalidTitle')} description={error} /> : null}
         {candidate ? (
           <Alert
             type="success"
@@ -118,7 +118,7 @@ export function ProjectMountDialog({
             title={`${candidate.name}（${candidate.id}）`}
             description={
               <Text type="secondary">
-                已通過項目配置、頁面定義和資源檢查。客戶端 {candidate.clients.length} 個。
+                {t('dialogs.mount.candidateDescription', { count: candidate.clients.length })}
               </Text>
             }
           />

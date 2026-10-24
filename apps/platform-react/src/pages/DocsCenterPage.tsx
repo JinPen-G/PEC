@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 import type { DocumentEntry } from '../../../../packages/platform-contracts/src/index.js';
 import { platformApi } from '@/data/platform-api';
@@ -11,18 +12,20 @@ import {
   useProjectManifest,
 } from '@/data/use-platform-data';
 import { findProject } from '@/features/projects/project-model';
+import { usePlatformLocale } from '@/features/locale/platform-locale';
 import { MarkdownReader } from '@/features/docs/MarkdownReader';
 import { resolveDocumentAssetPath, type MarkdownHeading } from '@/features/docs/markdown';
 import { appRouteUrl } from '@/features/routes/app-url';
 import { Button, Collapse, Empty, Input, Layout, Spin, Tag, Typography } from '@/ui/ant';
 import { ArrowLeftOutlined, FileTextOutlined, LinkOutlined } from '@/ui/ant/icons';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
+import { LanguageControl } from '@/ui/platform/LanguageControl';
 
 const { Text } = Typography;
 const { Header, Sider, Content } = Layout;
 
-function getDocumentName(document: DocumentEntry) {
-  const fallback = document.path.split('/').pop()?.replace(/\.md$/iu, '') || '未命名文檔';
+function getDocumentName(document: DocumentEntry, untitledLabel: string) {
+  const fallback = document.path.split('/').pop()?.replace(/\.md$/iu, '') || untitledLabel;
   const fileName = typeof document.fileName === 'string' ? document.fileName : fallback;
   return document.title || fileName;
 }
@@ -33,6 +36,8 @@ function getDocumentFolders(document: DocumentEntry) {
 }
 
 export function DocsCenterPage() {
+  const { t } = useTranslation();
+  const { locale } = usePlatformLocale();
   const navigate = useNavigate();
   const { projectId = '' } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -62,25 +67,27 @@ export function DocsCenterPage() {
   const filteredDocuments = useMemo(
     () =>
       documents.filter((document) =>
-        `${getDocumentName(document)} ${getDocumentFolders(document).join(' ')}`
+        `${getDocumentName(document, t('docs.document.untitled'))} ${getDocumentFolders(document).join(' ')}`
           .toLowerCase()
           .includes(filter.trim().toLowerCase()),
       ),
-    [documents, filter],
+    [documents, filter, t],
   );
   const documentGroups = useMemo(() => {
     const groups = new Map<string, DocumentEntry[]>();
     filteredDocuments.forEach((document) => {
       const folders = getDocumentFolders(document);
-      const key = folders.length ? folders.join(' / ') : '未分類';
+      const key = folders.length ? folders.join(' / ') : t('docs.group.uncategorized');
       const current = groups.get(key) ?? [];
       current.push(document);
       groups.set(key, current);
     });
     return [...groups.entries()]
-      .sort(([left], [right]) => left.localeCompare(right, 'zh-Hans-CN', { numeric: true }))
+      .sort(([left], [right]) =>
+        left.localeCompare(right, locale === 'en' ? 'en' : 'zh-Hans-CN', { numeric: true }),
+      )
       .map(([label, groupDocuments]) => ({ label, documents: groupDocuments }));
-  }, [filteredDocuments]);
+  }, [filteredDocuments, t, locale]);
   const associatedPages = useMemo(() => {
     if (!project || !selectedPath) return [];
     const projectPages = htmlCatalogQuery.data?.projects?.[projectId] ?? {};
@@ -125,8 +132,11 @@ export function DocsCenterPage() {
   );
 
   useEffect(() => {
-    document.title = `${selectedDocument?.title || '產品文檔'} - ${project?.name || '項目'}`;
-  }, [project?.name, selectedDocument?.title]);
+    document.title = t('docs.docTitle', {
+      document: selectedDocument?.title || t('docs.titleFallback.document'),
+      project: project?.name || t('docs.titleFallback.project'),
+    });
+  }, [project?.name, selectedDocument?.title, t]);
 
   useEffect(() => {
     const reader = document.querySelector<HTMLElement>('.docs-reader');
@@ -183,8 +193,8 @@ export function DocsCenterPage() {
 
   const selectDocument = (document: DocumentEntry) => openDocument(document.path);
   const selectedFolderLabel = selectedDocument
-    ? getDocumentFolders(selectedDocument).join(' / ') || '未分類'
-    : '文檔';
+    ? getDocumentFolders(selectedDocument).join(' / ') || t('docs.group.uncategorized')
+    : t('docs.breadcrumb.documents');
   const scrollToHeading = (headingId: string) => {
     setActiveHeadingId(headingId);
     document
@@ -200,7 +210,7 @@ export function DocsCenterPage() {
             className="docs-header__back"
             type="text"
             icon={<ArrowLeftOutlined />}
-            aria-label="返回首頁"
+            aria-label={t('docs.action.backHome')}
             onClick={() => navigate('/')}
           />
           <span className="docs-header__identity-mark" aria-hidden="true">
@@ -208,15 +218,16 @@ export function DocsCenterPage() {
           </span>
           <div>
             <strong>{project.name}</strong>
-            <Text type="secondary">文檔中心</Text>
+            <Text type="secondary">{t('docs.header.title')}</Text>
           </div>
         </div>
-        <div className="docs-header__current">產品資料</div>
+        <div className="docs-header__current">{t('docs.header.current')}</div>
         <div className="docs-header__actions">
-          <Tag variant="filled">{documents.length} 份文檔</Tag>
+          <Tag variant="filled">{t('docs.header.docCount', { count: documents.length })}</Tag>
           <ThemeControl />
+          <LanguageControl/>
           <Button type="text" onClick={() => navigate('/')}>
-            返回首頁
+            {t('docs.action.backHome')}
           </Button>
         </div>
       </Header>
@@ -224,8 +235,8 @@ export function DocsCenterPage() {
         <Sider theme="light" width={292} className="docs-sidebar">
           <div className="docs-sidebar__heading">
             <div>
-              <Text strong>文檔目錄</Text>
-              <Text type="secondary">按文件夾分類</Text>
+              <Text strong>{t('docs.sidebar.title')}</Text>
+              <Text type="secondary">{t('docs.sidebar.hint')}</Text>
             </div>
             <Tag variant="filled">{filteredDocuments.length}</Tag>
           </div>
@@ -233,7 +244,7 @@ export function DocsCenterPage() {
             value={filter}
             onChange={(event) => setFilter(event.target.value)}
             allowClear
-            placeholder="搜索文件名"
+            placeholder={t('docs.search.placeholder')}
           />
           {associatedPages.length ? (
             <Collapse
@@ -242,7 +253,7 @@ export function DocsCenterPage() {
               items={[
                 {
                   key: 'pages',
-                  label: `關聯頁面 ${associatedPages.length}`,
+                  label: t('docs.associatedPages.count', { count: associatedPages.length }),
                   children: (
                     <ul className="docs-associated-pages__list">
                       {associatedPages.map((page) => (
@@ -275,12 +286,12 @@ export function DocsCenterPage() {
                         <Button
                           type="text"
                           block
-                          title={getDocumentName(document)}
+                          title={getDocumentName(document, t('docs.document.untitled'))}
                           onClick={() => selectDocument(document)}
                         >
                           <FileTextOutlined />
                           <span className="docs-file-item__content">
-                            <strong>{getDocumentName(document)}</strong>
+                            <strong>{getDocumentName(document, t('docs.document.untitled'))}</strong>
                           </span>
                         </Button>
                       </li>
@@ -289,7 +300,7 @@ export function DocsCenterPage() {
                 </section>
               ))
             ) : (
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="沒有匹配文檔" />
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('docs.sidebar.noMatch')} />
             )}
           </div>
         </Sider>
@@ -297,7 +308,7 @@ export function DocsCenterPage() {
           {selectedDocument ? (
             <div className="docs-reader__inner">
               <div className="docs-reader__breadcrumb">
-                <Text type="secondary">文檔</Text>
+                <Text type="secondary">{t('docs.breadcrumb.documents')}</Text>
                 <span aria-hidden="true">›</span>
                 <Text>{selectedFolderLabel}</Text>
               </div>
@@ -314,14 +325,14 @@ export function DocsCenterPage() {
               />
             </div>
           ) : (
-            <Empty description="選擇一份文檔開始閱讀" />
+            <Empty description={t('docs.reader.empty')} />
           )}
         </Content>
         <Sider theme="light" width={224} className="docs-outline">
           <div className="docs-outline__heading">
             <div>
-              <Text strong>本文目錄</Text>
-              <Text type="secondary">按章節跳轉</Text>
+              <Text strong>{t('docs.outline.title')}</Text>
+              <Text type="secondary">{t('docs.outline.hint')}</Text>
             </div>
             <Tag variant="filled">{headings.length}</Tag>
           </div>

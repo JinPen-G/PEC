@@ -1,20 +1,86 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// 觀察期保留的 i18n 基礎設施：當前平臺只提供簡體中文，界面沒有語言入口，
-// 因此 main.tsx 不再預先加載本模塊，避免把 i18next 打進首屏。
-// 真正啓用多語言時，在 main.tsx 頂部 `import './i18n';` 即可恢復初始化。
+import { LOCALE_STORAGE_KEY, readStoredLocale } from '@/features/locale/platform-locale';
+import chromeZh from './locales/zh-Hant/chrome.json';
+import chromeEn from './locales/en/chrome.json';
+import homeZh from './locales/zh-Hant/home.json';
+import homeEn from './locales/en/home.json';
+import workspaceZh from './locales/zh-Hant/workspace.json';
+import workspaceEn from './locales/en/workspace.json';
+import routesZh from './locales/zh-Hant/routes.json';
+import routesEn from './locales/en/routes.json';
+import packagesZh from './locales/zh-Hant/packages.json';
+import packagesEn from './locales/en/packages.json';
+import consoleZh from './locales/zh-Hant/console.json';
+import consoleEn from './locales/en/console.json';
+import aiZh from './locales/zh-Hant/ai.json';
+import aiEn from './locales/en/ai.json';
+import healthZh from './locales/zh-Hant/health.json';
+import healthEn from './locales/en/health.json';
+import docsZh from './locales/zh-Hant/docs.json';
+import docsEn from './locales/en/docs.json';
+import dialogsZh from './locales/zh-Hant/dialogs.json';
+import dialogsEn from './locales/en/dialogs.json';
+import commonZh from './locales/zh-Hant/common.json';
+import commonEn from './locales/en/common.json';
+
+function mergeResources(...parts: Array<Record<string, unknown>>) {
+  return parts.reduce<Record<string, unknown>>(
+    (merged, part) => Object.assign(merged, part),
+    {},
+  );
+}
+
 void i18n.use(initReactI18next).init({
-  lng: 'zh-CN',
-  fallbackLng: 'zh-CN',
+  lng: readStoredLocale(),
+  fallbackLng: 'zh-Hant',
+  // 资源使用扁平点号 key（'chrome.nav.overview'），关闭 i18next 的嵌套/命名空间分隔解析
+  keySeparator: false,
+  nsSeparator: false,
+  supportedLngs: ['zh-Hant', 'en'],
   interpolation: { escapeValue: false },
   resources: {
-    'zh-CN': {
-      translation: {
-        platformName: '項目原型與資料協作平臺',
-      },
+    'zh-Hant': {
+      translation: mergeResources(
+        chromeZh,
+        homeZh,
+        workspaceZh,
+        routesZh,
+        packagesZh,
+        consoleZh,
+        aiZh,
+        healthZh,
+        docsZh,
+        dialogsZh,
+        commonZh,
+      ),
+    },
+    en: {
+      translation: mergeResources(
+        chromeEn,
+        homeEn,
+        workspaceEn,
+        routesEn,
+        packagesEn,
+        consoleEn,
+        aiEn,
+        healthEn,
+        docsEn,
+        dialogsEn,
+        commonEn,
+      ),
     },
   },
+});
+
+// 切换语言时持久化到与 PlatformLocaleProvider 相同的存储键（单一事实源）。
+i18n.on('languageChanged', (language) => {
+  try {
+    localStorage.setItem(LOCALE_STORAGE_KEY, language);
+  } catch {
+    // Storage is optional.
+  }
 });
 
 export default i18n;

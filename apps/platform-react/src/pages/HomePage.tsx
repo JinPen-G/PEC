@@ -8,6 +8,7 @@ import {
   type KeyboardEvent,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import type {
   HtmlPageCatalog,
@@ -46,6 +47,7 @@ import {
   SettingOutlined,
 } from '@/ui/ant/icons';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
+import { LanguageControl } from '@/ui/platform/LanguageControl';
 import { AnimatedPillNav } from '@/ui/platform/AnimatedPillNav';
 import { PlatformBrand } from '@/ui/platform/PlatformBrand';
 
@@ -61,6 +63,7 @@ function readToolsVisibility() {
 }
 
 export function HomePage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const homePageRef = useRef<HTMLElement>(null);
@@ -74,8 +77,10 @@ export function HomePage() {
   const selectedProject = projects.find((project) => project.id === selectedId) ?? null;
 
   useEffect(() => {
-    document.title = selectedProject ? `${selectedProject.name} - 產品功能體驗中心` : '產品功能體驗中心';
-  }, [selectedProject]);
+    document.title = selectedProject
+      ? t('home.docTitle.project', { project: selectedProject.name })
+      : t('home.docTitle.default');
+  }, [selectedProject, t]);
 
   useEffect(() => {
     function handleShortcut(event: globalThis.KeyboardEvent) {
@@ -143,7 +148,7 @@ export function HomePage() {
     return (
       <div className="home-loading home-loading--ant">
         <Spin size="large" />
-        <Text type="secondary">正在讀取項目資料</Text>
+        <Text type="secondary">{t('home.loading')}</Text>
       </div>
     );
   }
@@ -161,7 +166,7 @@ export function HomePage() {
             className="home-project-nav"
             activeKey={selectedId}
             layoutKey={projects.map((project) => project.id).join('|')}
-            ariaLabel="項目列表"
+            ariaLabel={t('home.nav.ariaLabel')}
           >
             {projects.length ? (
               projects.map((project) => (
@@ -177,7 +182,7 @@ export function HomePage() {
                 </Button>
               ))
             ) : (
-              <span className="home-project-nav__empty">暫無開放項目</span>
+              <span className="home-project-nav__empty">{t('home.nav.empty')}</span>
             )}
           </AnimatedPillNav>
 
@@ -185,27 +190,28 @@ export function HomePage() {
 
           <Flex className="home-topbar__actions" gap={4} align="center">
             <ThemeControl />
+            <LanguageControl/>
             {showTools ? (
               <>
                 <Button
                   type="text"
                   icon={<AppstoreOutlined />}
-                  aria-label="組件規範"
-                  title="組件規範"
+                  aria-label={t('home.tools.components')}
+                  title={t('home.tools.components')}
                   onClick={() => navigate('/components')}
                 />
                 <Button
                   type="text"
                   icon={<FolderOpenOutlined />}
-                  aria-label="項目管理"
-                  title="項目管理"
+                  aria-label={t('home.tools.projects')}
+                  title={t('home.tools.projects')}
                   onClick={() => navigate('/tools/projects')}
                 />
                 <Button
                   type="text"
                   icon={<SettingOutlined />}
-                  aria-label="控制台"
-                  title="控制台"
+                  aria-label={t('home.tools.console')}
+                  title={t('home.tools.console')}
                   onClick={() => navigate('/tools/console')}
                 />
               </>
@@ -219,8 +225,8 @@ export function HomePage() {
           <Alert
             type="error"
             showIcon
-            title="項目資料讀取失敗"
-            description="請確認 React 開發服務和項目掃描接口可用。"
+            title={t('home.error.title')}
+            description={t('home.error.description')}
           />
         ) : selectedProject ? (
           <ProjectWorkspace
@@ -233,7 +239,9 @@ export function HomePage() {
           <section className="home-empty home-empty--ant">
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
-              description={projects.length ? '選擇項目後顯示項目內容入口' : '當前沒有開放的項目'}
+              description={
+                projects.length ? t('home.empty.selectHint') : t('home.empty.none')
+              }
             />
           </section>
         )}
@@ -251,6 +259,7 @@ function ProjectWorkspace({
   catalog: HtmlPageCatalog | undefined;
   onOpen: (path: string) => void;
 }) {
+  const { t } = useTranslation();
   const entries = [...(project.entries ?? [])].sort((left, right) => (left.order ?? 0) - (right.order ?? 0));
   const productEntries = entries.filter((entry) => entry.kind !== 'docs');
   const documentEntries = entries.filter((entry) => entry.kind === 'docs');
@@ -278,13 +287,13 @@ function ProjectWorkspace({
                 <Title level={2}>{project.name}</Title>
                 <Tag>v{project.version || '0.0.0'}</Tag>
               </Flex>
-              <Text type="secondary">{project.description || '項目原型與資料入口'}</Text>
+              <Text type="secondary">{project.description || t('home.entry.fallbackDescription')}</Text>
             </div>
           </div>
           <div className="home-project-heading__meta">
-            <Tag color="success">可訪問</Tag>
+            <Tag color="success">{t('home.status.accessible')}</Tag>
             <Text type="secondary">
-              {productEntries.length} 個產品入口 · {documentEntries.length} 個文檔入口
+              {t('home.meta.entryCounts', { product: productEntries.length, docs: documentEntries.length })}
             </Text>
           </div>
         </header>
@@ -293,8 +302,8 @@ function ProjectWorkspace({
 
         <div className={`home-workspace__body ${documentEntries.length ? 'has-documents' : ''}`}>
           <EntrySection
-            title="產品入口"
-            description="進入客戶端或移動端原型"
+            title={t('home.section.products')}
+            description={t('home.section.productsDescription')}
             entries={productEntries}
             project={project}
             catalog={catalog}
@@ -303,8 +312,8 @@ function ProjectWorkspace({
           {documentEntries.length ? (
             <EntrySection
               compact
-              title="產品文檔"
-              description="查看項目 PRD 與相關資料"
+              title={t('home.section.documents')}
+              description={t('home.section.documentsDescription')}
               entries={documentEntries}
               project={project}
               catalog={catalog}
@@ -334,6 +343,7 @@ function EntrySection({
   compact?: boolean;
   onOpen: (path: string) => void;
 }) {
+  const { t } = useTranslation();
   return (
     <section className={`home-entry-section ${compact ? 'is-compact' : ''}`}>
       <header>
@@ -341,7 +351,7 @@ function EntrySection({
           <Title level={3}>{title}</Title>
           <Text type="secondary">{description}</Text>
         </div>
-        <Text type="secondary">{entries.length} 項</Text>
+        <Text type="secondary">{t('home.section.count', { count: entries.length })}</Text>
       </header>
       {entries.length ? (
         <div className="home-entry-grid">
@@ -356,7 +366,7 @@ function EntrySection({
           ))}
         </div>
       ) : (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暫無入口" />
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t('home.section.empty')} />
       )}
     </section>
   );
@@ -373,6 +383,7 @@ function ProjectEntryButton({
   catalog: HtmlPageCatalog | undefined;
   onOpen: (path: string) => void;
 }) {
+  const { t } = useTranslation();
   const client = entry.kind === 'client' ? project.clients.find((item) => item.id === entry.clientId) : null;
   const pages = client ? getClientPages(catalog, project.id, client.id) : [];
   const runtimeStatus = client ? getClientRuntimeStatus(project, client.id, pages) : null;
@@ -383,7 +394,7 @@ function ProjectEntryButton({
       : `/p/${project.id}/mobile`;
   const icon =
     entry.kind === 'docs' ? <BookOutlined /> : entry.kind === 'mobile' ? <MobileOutlined /> : <CarOutlined />;
-  const status = getEntryStatus(runtimeStatus);
+  const status = getEntryStatus(runtimeStatus, t);
 
   function handleKeyDown(event: KeyboardEvent<HTMLElement>) {
     if (event.key !== 'Enter' && event.key !== ' ') return;
@@ -406,24 +417,35 @@ function ProjectEntryButton({
           <Title level={4}>{entry.name}</Title>
           {status.tag ? <Tag color={status.color}>{status.tag}</Tag> : null}
         </Flex>
-        <Text type="secondary">{status.description || entry.description || '進入查看項目內容'}</Text>
+        <Text type="secondary">{status.description || entry.description || t('home.entry.viewHint')}</Text>
       </div>
       <ArrowRightOutlined className="home-entry-card__arrow" />
     </Card>
   );
 }
 
-function getEntryStatus(runtimeStatus: ReturnType<typeof getClientRuntimeStatus> | null) {
+function getEntryStatus(
+  runtimeStatus: ReturnType<typeof getClientRuntimeStatus> | null,
+  t: (key: string, options?: Record<string, unknown>) => string,
+) {
   if (!runtimeStatus) return { tag: '', color: undefined, description: '' };
   if (runtimeStatus.state === 'ready') {
     return {
-      tag: `${runtimeStatus.runnablePageCount} 頁`,
+      tag: t('home.entry.pagesTag', { count: runtimeStatus.runnablePageCount }),
       color: 'processing' as const,
       description: '',
     };
   }
   if (runtimeStatus.state === 'index-missing') {
-    return { tag: '索引異常', color: 'error' as const, description: '頁面運行索引尚未生成' };
+    return {
+      tag: t('home.entry.indexErrorTag'),
+      color: 'error' as const,
+      description: t('home.entry.indexErrorDescription'),
+    };
   }
-  return { tag: '暫無頁面', color: undefined, description: '該客戶端尚未啓用可運行頁面' };
+  return {
+    tag: t('home.entry.noPagesTag'),
+    color: undefined,
+    description: t('home.entry.noPagesDescription'),
+  };
 }

@@ -1,9 +1,15 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 
-import { App as AntApp, ConfigProvider, zhTW } from '@/ui/ant';
+import i18n from '@/i18n';
+import { App as AntApp, ConfigProvider, enUS, zhTW } from '@/ui/ant';
 import { createAntThemeConfig } from '@/features/theme/ant-theme-config';
 import { PlatformThemeProvider, usePlatformTheme } from '@/features/theme/platform-theme';
+import {
+  PlatformLocaleProvider,
+  usePlatformLocale,
+} from '@/features/locale/platform-locale';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,18 +24,25 @@ const queryClient = new QueryClient({
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      <PlatformThemeProvider>
-        <AntDesignProvider>{children}</AntDesignProvider>
-      </PlatformThemeProvider>
+      <PlatformLocaleProvider>
+        <PlatformThemeProvider>
+          <AntDesignProvider>{children}</AntDesignProvider>
+        </PlatformThemeProvider>
+      </PlatformLocaleProvider>
     </QueryClientProvider>
   );
 }
 
 function AntDesignProvider({ children }: { children: ReactNode }) {
   const { resolvedMode } = usePlatformTheme();
+  const { locale } = usePlatformLocale();
+
+  useEffect(() => {
+    void i18n.changeLanguage(locale);
+  }, [locale]);
 
   return (
-    <ConfigProvider locale={zhTW} theme={createAntThemeConfig(resolvedMode)}>
+    <ConfigProvider locale={locale === 'en' ? enUS : zhTW} theme={createAntThemeConfig(resolvedMode)}>
       <AntApp>{children}</AntApp>
     </ConfigProvider>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Drawer, Layout, Tooltip } from '@/ui/ant';
 import { MenuFoldOutlined, MenuOutlined, MenuUnfoldOutlined } from '@/ui/ant/icons';
@@ -73,6 +74,7 @@ export function AppSidebar({
   account,
   routeKey,
 }: AppSidebarProps) {
+  const { t } = useTranslation();
   const isDesktop = useMinWidth(DESKTOP_QUERY);
   function renderShell(inDrawer: boolean) {
     const isCollapsed = collapsed && !inDrawer;
@@ -96,11 +98,11 @@ export function AppSidebar({
             )}
           </button>
           {inDrawer ? null : (
-            <Tooltip title={isCollapsed ? '展開導航' : '收起導航'} placement="right">
+            <Tooltip title={isCollapsed ? t('chrome.nav.expand') : t('chrome.nav.collapse')} placement="right">
               <Button
                 type="text"
                 className="app-sider__collapse"
-                aria-label={isCollapsed ? '展開導航' : '收起導航'}
+                aria-label={isCollapsed ? t('chrome.nav.expand') : t('chrome.nav.collapse')}
                 icon={isCollapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 onClick={onToggleCollapsed}
               />
@@ -136,6 +138,7 @@ export function AppSidebar({
 }
 
 function MobileAppSidebar({ children }: { children: ReactNode }) {
+  const { t } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
@@ -143,7 +146,7 @@ function MobileAppSidebar({ children }: { children: ReactNode }) {
       <Button
         type="text"
         className="app-sider-drawer-trigger"
-        aria-label="打開導航"
+        aria-label={t('chrome.nav.open')}
         icon={<MenuOutlined />}
         onClick={() => setDrawerOpen(true)}
       />

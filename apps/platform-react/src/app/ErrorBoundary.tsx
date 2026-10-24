@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Result } from '@/ui/ant';
 
@@ -19,15 +20,21 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, ErrorBound
 
   render() {
     if (!this.state.error) return this.props.children;
-    return (
-      <main className="system-result-page">
-        <Result
-          status="error"
-          title="頁面暫時無法顯示"
-          subTitle={this.state.error.message}
-          extra={<Button onClick={() => window.location.reload()}>重新加載</Button>}
-        />
-      </main>
-    );
+    return <ErrorFallback message={this.state.error.message} />;
   }
+}
+
+/** class 組件用不了 hook，回退 UI 拆成函數組件以接入 t()。 */
+function ErrorFallback({ message }: { message: string }) {
+  const { t } = useTranslation();
+  return (
+    <main className="system-result-page">
+      <Result
+        status="error"
+        title={t('chrome.error.title')}
+        subTitle={message}
+        extra={<Button onClick={() => window.location.reload()}>{t('chrome.error.reload')}</Button>}
+      />
+    </main>
+  );
 }

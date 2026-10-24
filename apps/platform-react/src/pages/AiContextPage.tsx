@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import type { PagePrdLinks, ProjectManifest } from '../../../../packages/platform-contracts/src/index.js';
 import { platformApi } from '@/data/platform-api';
@@ -59,6 +60,7 @@ function severityColor(value: string) {
 }
 
 export function AiContextPage() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const projectsQuery = useProjectManifest();
@@ -109,13 +111,13 @@ export function AiContextPage() {
 
   return (
     <PlatformPage
-      title="AI 上下文中心"
-      description="彙總項目頁面、PRD、功能關聯和變更影響，生成可追溯的交付上下文。"
+      title={t('ai.header.title')}
+      description={t('ai.header.description')}
       actions={
         <>
           <Select
             value={projectId || undefined}
-            placeholder="選擇項目"
+            placeholder={t('common.action.selectProject')}
             options={projects.map((item) => ({ value: item.id, label: item.name }))}
             onChange={setSelectedProjectId}
           />
@@ -124,7 +126,7 @@ export function AiContextPage() {
             loading={contextQuery.isFetching}
             onClick={() => void contextQuery.refetch()}
           >
-            重新分析
+            {t('ai.header.reanalyze')}
           </Button>
         </>
       }
@@ -132,27 +134,30 @@ export function AiContextPage() {
       {contextQuery.isError ? (
         <Result
           status="error"
-          title="項目上下文讀取失敗"
+          title={t('ai.error.loadFailed')}
           subTitle={contextQuery.error.message}
-          extra={<Button onClick={() => void contextQuery.refetch()}>重試</Button>}
+          extra={<Button onClick={() => void contextQuery.refetch()}>{t('ai.error.retry')}</Button>}
         />
       ) : null}
       {!context ? (
-        <Empty description="請選擇項目" />
+        <Empty description={t('common.empty.selectProject')} />
       ) : (
         <>
           <Surface className="context-summary">
             <div>
               <Title level={2}>{context.project.name}</Title>
-              <Text type="secondary">頁面與 PRD 覆蓋率</Text>
+              <Text type="secondary">{t('ai.summary.coverage')}</Text>
             </div>
             <div className="context-summary__metrics">
-              <Metric label="頁面" value={context.summary.pages || 0} />
-              <Metric label="PRD" value={context.summary.documents || 0} />
-              <Metric label="頁面覆蓋" value={`${context.summary.pageCoverage || 0}%`} />
-              <Metric label="功能關聯" value={context.summary.componentBindings || 0} />
+              <Metric label={t('ai.summary.pages')} value={context.summary.pages || 0} />
+              <Metric label={t('ai.summary.documents')} value={context.summary.documents || 0} />
               <Metric
-                label="待處理"
+                label={t('ai.summary.pageCoverage')}
+                value={`${context.summary.pageCoverage || 0}%`}
+              />
+              <Metric label={t('ai.summary.bindings')} value={context.summary.componentBindings || 0} />
+              <Metric
+                label={t('ai.summary.pending')}
                 value={(context.summary.errors || 0) + (context.summary.warnings || 0)}
                 warning
               />
@@ -162,11 +167,17 @@ export function AiContextPage() {
             block
             value={activeTab}
             options={[
-              { label: `概覽 ${context.issues.length}`, value: 'overview' },
-              { label: `頁面矩陣 ${context.summary.pages || 0}`, value: 'pages' },
-              { label: `PRD 索引 ${context.summary.documents || 0}`, value: 'documents' },
-              { label: `關聯建議 ${context.summary.suggestions || 0}`, value: 'suggestions' },
-              { label: 'PRD 影響分析', value: 'impact' },
+              { label: t('ai.tabs.overview', { count: context.issues.length }), value: 'overview' },
+              { label: t('ai.tabs.pages', { count: context.summary.pages || 0 }), value: 'pages' },
+              {
+                label: t('ai.tabs.documents', { count: context.summary.documents || 0 }),
+                value: 'documents',
+              },
+              {
+                label: t('ai.tabs.suggestions', { count: context.summary.suggestions || 0 }),
+                value: 'suggestions',
+              },
+              { label: t('ai.tabs.impact'), value: 'impact' },
             ]}
             onChange={(value) => setActiveTab(String(value))}
           />
@@ -217,7 +228,7 @@ export function AiContextPage() {
                 downloadJson(createContextExport(context), `${context.project.id}-delivery-context.json`)
               }
             >
-              導出上下文
+              {t('ai.actions.exportContext')}
             </Button>
             <Button
               icon={<DownloadOutlined />}
@@ -228,7 +239,7 @@ export function AiContextPage() {
                 )
               }
             >
-              導出完整上下文
+              {t('ai.actions.exportFullContext')}
             </Button>
             <Button
               icon={<DownloadOutlined />}
@@ -236,7 +247,7 @@ export function AiContextPage() {
                 downloadJson(createTraceabilityReport(context), `${context.project.id}-traceability.json`)
               }
             >
-              導出可追溯報告
+              {t('ai.actions.exportTraceability')}
             </Button>
             {page ? (
               <Button
@@ -248,7 +259,7 @@ export function AiContextPage() {
                   )
                 }
               >
-                下載當前頁面上下文
+                {t('ai.actions.downloadPageContext')}
               </Button>
             ) : null}
           </div>
@@ -276,30 +287,31 @@ function Metric({
 }
 
 function Overview({ context, onPage }: { context: AiContext; onPage: (key: string) => void }) {
+  const { t } = useTranslation();
   return (
     <div className="context-overview">
       <div className="context-overview__heading">
         <div>
-          <Title level={2}>交付覆蓋概覽</Title>
-          <Text type="secondary">AI 上下文由當前項目包、PRD 目錄和關聯配置實時生成。</Text>
+          <Title level={2}>{t('ai.overview.title')}</Title>
+          <Text type="secondary">{t('ai.overview.description')}</Text>
         </div>
-        <Tag color="blue">規則匹配，不是模型結論</Tag>
+        <Tag color="blue">{t('ai.overview.tag')}</Tag>
       </div>
       <div className="context-callouts">
         <div>
           <CheckCircleFilled />
           <strong>{context.summary.linkedPages || 0}</strong>
-          <span>已關聯 PRD 的頁面</span>
+          <span>{t('ai.overview.linkedPages')}</span>
         </div>
         <div>
           <LinkOutlined />
           <strong>{context.summary.componentBindings || 0}</strong>
-          <span>功能級 PRD 關聯</span>
+          <span>{t('ai.overview.bindings')}</span>
         </div>
         <div>
           <DatabaseOutlined />
           <strong>{context.summary.suggestions || 0}</strong>
-          <span>待確認關聯建議</span>
+          <span>{t('ai.overview.suggestions')}</span>
         </div>
       </div>
       <Table<ContextIssue>
@@ -308,24 +320,28 @@ function Overview({ context, onPage }: { context: AiContext; onPage: (key: strin
         dataSource={context.issues}
         columns={[
           {
-            title: '等級',
+            title: t('ai.table.severity'),
             dataIndex: 'severity',
             width: 100,
             render: (value: string) => (
               <Tag color={severityColor(value)}>
-                {value === 'error' ? '錯誤' : value === 'warning' ? '提醒' : '提示'}
+                {value === 'error'
+                  ? t('common.tag.error')
+                  : value === 'warning'
+                    ? t('common.tag.warning')
+                    : t('ai.severity.info')}
               </Tag>
             ),
           },
-          { title: '問題', dataIndex: 'message' },
-          { title: '影響對象', dataIndex: 'subject', width: 260 },
+          { title: t('ai.table.issue'), dataIndex: 'message' },
+          { title: t('common.column.affectedObject'), dataIndex: 'subject', width: 260 },
           {
-            title: '操作',
+            title: t('common.column.actions'),
             width: 100,
             render: (_value, item) =>
               item.pageKey ? (
                 <Button type="link" onClick={() => onPage(item.pageKey || '')}>
-                  查看頁面
+                  {t('ai.table.viewPage')}
                 </Button>
               ) : null,
           },
@@ -344,8 +360,9 @@ function Pages({
   selected: string;
   onSelect: (key: string) => void;
 }) {
+  const { t } = useTranslation();
   const current = context.pages.find((item) => item.key === selected) || context.pages[0];
-  if (!current) return <Empty description="當前項目沒有頁面" />;
+  if (!current) return <Empty description={t('ai.pages.empty')} />;
   const requirement = context.documents.find((document) => document.path === current.documentPath);
   return (
     <div className="context-pages">
@@ -368,7 +385,7 @@ function Pages({
             )
           }
         >
-          下載頁面上下文
+          {t('ai.pages.download')}
         </Button>
       </div>
       <div className="context-page-detail">
@@ -376,22 +393,22 @@ function Pages({
           column={1}
           title={current.title}
           items={[
-            { key: 'client', label: '客戶端', children: current.clientName },
-            { key: 'route', label: '路由', children: <code>{current.fullPath}</code> },
+            { key: 'client', label: t('common.field.client'), children: current.clientName },
+            { key: 'route', label: t('ai.pages.field.route'), children: <code>{current.fullPath}</code> },
             {
               key: 'source',
-              label: '來源',
-              children: `${current.sourceType} · ${current.source || '未登記'}`,
+              label: t('ai.pages.field.source'),
+              children: `${current.sourceType} · ${current.source || t('ai.pages.sourceNotRegistered')}`,
             },
             {
               key: 'section',
-              label: '菜單分組',
-              children: current.sectionTitle || current.sectionId || '未分組',
+              label: t('ai.pages.field.section'),
+              children: current.sectionTitle || current.sectionId || t('ai.pages.ungrouped'),
             },
           ]}
         />
         <section>
-          <Title level={3}>{requirement?.title || '尚未關聯 PRD'}</Title>
+          <Title level={3}>{requirement?.title || t('ai.pages.noPrdTitle')}</Title>
           {requirement ? (
             <>
               <Text type="secondary">{requirement.path}</Text>
@@ -404,7 +421,7 @@ function Pages({
               </ul>
             </>
           ) : (
-            <Empty description="該頁面尚未關聯 PRD 文件" />
+            <Empty description={t('ai.pages.noPrdEmpty')} />
           )}
         </section>
       </div>
@@ -413,6 +430,7 @@ function Pages({
 }
 
 function Documents({ context, onPage }: { context: AiContext; onPage: (key: string) => void }) {
+  const { t } = useTranslation();
   return (
     <Table<ContextDocument>
       rowKey="path"
@@ -421,7 +439,7 @@ function Documents({ context, onPage }: { context: AiContext; onPage: (key: stri
       scroll={{ x: 760 }}
       columns={[
         {
-          title: 'PRD',
+          title: t('ai.documents.table.prd'),
           dataIndex: 'title',
           minWidth: 260,
           render: (value: string, row) => (
@@ -431,9 +449,13 @@ function Documents({ context, onPage }: { context: AiContext; onPage: (key: stri
             </div>
           ),
         },
-        { title: '文檔結構', width: 120, render: (_value, row) => `${row.headings.length} 個標題` },
         {
-          title: '關聯頁面',
+          title: t('ai.documents.table.structure'),
+          width: 120,
+          render: (_value, row) => t('ai.documents.headingsCount', { count: row.headings.length }),
+        },
+        {
+          title: t('ai.documents.table.linkedPages'),
           minWidth: 260,
           render: (_value, row) =>
             row.linkedPageKeys.length ? (
@@ -443,15 +465,19 @@ function Documents({ context, onPage }: { context: AiContext; onPage: (key: stri
                 </Button>
               ))
             ) : (
-              <Text type="secondary">暫無頁面級關聯</Text>
+              <Text type="secondary">{t('ai.documents.noPageLinks')}</Text>
             ),
         },
         {
-          title: '狀態',
+          title: t('common.column.status'),
           width: 100,
           render: (_value, row) => (
             <Tag color={row.archived ? 'default' : row.contentAvailable ? 'success' : 'warning'}>
-              {row.archived ? '歸檔' : row.contentAvailable ? '可讀取' : '正文失敗'}
+              {row.archived
+                ? t('ai.documents.statusArchived')
+                : row.contentAvailable
+                  ? t('ai.documents.statusReadable')
+                  : t('ai.documents.statusFailed')}
             </Tag>
           ),
         },
@@ -469,6 +495,7 @@ function Suggestions({
   busy: boolean;
   onConfirm: (pageKey: string, documentPath: string) => void;
 }) {
+  const { t } = useTranslation();
   const [choices, setChoices] = useState<Record<string, string>>(() =>
     Object.fromEntries(context.suggestions.map((item) => [item.pageKey, item.candidates[0]?.path || ''])),
   );
@@ -480,7 +507,7 @@ function Suggestions({
       scroll={{ x: 760 }}
       columns={[
         {
-          title: '頁面',
+          title: t('ai.suggestions.table.page'),
           minWidth: 220,
           render: (_value, item) => (
             <div>
@@ -492,7 +519,7 @@ function Suggestions({
           ),
         },
         {
-          title: '建議 PRD',
+          title: t('ai.suggestions.table.suggestedPrd'),
           minWidth: 330,
           render: (_value, item) => (
             <Select
@@ -506,7 +533,7 @@ function Suggestions({
           ),
         },
         {
-          title: '可信度',
+          title: t('ai.suggestions.table.confidence'),
           width: 130,
           render: (_value, item) => {
             const choice = item.candidates.find((candidate) => candidate.path === choices[item.pageKey]);
@@ -520,14 +547,18 @@ function Suggestions({
                       : 'warning'
                 }
               >
-                {choice?.confidence === 'high' ? '高' : choice?.confidence === 'medium' ? '中' : '低'}{' '}
+                {choice?.confidence === 'high'
+                  ? t('ai.suggestions.confidence.high')
+                  : choice?.confidence === 'medium'
+                    ? t('ai.suggestions.confidence.medium')
+                    : t('ai.suggestions.confidence.low')}{' '}
                 {Math.round((choice?.score || 0) * 100)}%
               </Tag>
             );
           },
         },
         {
-          title: '操作',
+          title: t('common.column.actions'),
           width: 130,
           render: (_value, item) => (
             <Button
@@ -537,7 +568,7 @@ function Suggestions({
               disabled={!platformApi.development || !choices[item.pageKey]}
               onClick={() => onConfirm(item.pageKey, choices[item.pageKey])}
             >
-              確認關聯
+              {t('ai.suggestions.confirm')}
             </Button>
           ),
         },
@@ -557,15 +588,16 @@ function Impact({
   onBaseline: () => void;
   onPage: (key: string) => void;
 }) {
+  const { t } = useTranslation();
   if (!impact || impact.status === 'uninitialized')
     return (
       <Result
         status="info"
-        title="尚未建立 PRD 變更基線"
-        subTitle="第一次建立基線只會寫入當前瀏覽器的 localStorage，不會修改 PRD 或項目包。"
+        title={t('ai.impact.noBaselineTitle')}
+        subTitle={t('ai.impact.noBaselineSubtitle')}
         extra={
           <Button type="primary" onClick={onBaseline}>
-            建立分析基線
+            {t('ai.impact.createBaseline')}
           </Button>
         }
       />
@@ -573,11 +605,17 @@ function Impact({
   return (
     <div>
       <div className="impact-toolbar">
-        <Text>基線：{impact.baselineCapturedAt?.replace('T', ' ').slice(0, 19)}</Text>
+        <Text>
+          {t('ai.impact.baselineLabel', {
+            time: impact.baselineCapturedAt?.replace('T', ' ').slice(0, 19) || '',
+          })}
+        </Text>
         <strong>
-          {impact.changes.length ? `${impact.changes.length} 份文檔有變化` : '當前文檔與基線一致'}
+          {impact.changes.length
+            ? t('ai.impact.changesCount', { count: impact.changes.length })
+            : t('ai.impact.noChanges')}
         </strong>
-        <Button onClick={onBaseline}>更新分析基線</Button>
+        <Button onClick={onBaseline}>{t('ai.impact.updateBaseline')}</Button>
       </div>
       {impact.changes.length ? (
         <Table
@@ -586,18 +624,22 @@ function Impact({
           pagination={false}
           columns={[
             {
-              title: '變化',
+              title: t('ai.impact.table.change'),
               dataIndex: 'type',
               width: 100,
               render: (value: string) => (
                 <Tag color={value === 'removed' ? 'error' : value === 'changed' ? 'warning' : 'success'}>
-                  {value === 'removed' ? '刪除' : value === 'changed' ? '變更' : '新增'}
+                  {value === 'removed'
+                    ? t('ai.impact.changeRemoved')
+                    : value === 'changed'
+                      ? t('ai.impact.changeChanged')
+                      : t('ai.impact.changeAdded')}
                 </Tag>
               ),
             },
-            { title: 'PRD 文件', dataIndex: 'path' },
+            { title: t('ai.impact.table.prdFile'), dataIndex: 'path' },
             {
-              title: '影響頁面',
+              title: t('ai.impact.table.affectedPages'),
               render: (_value, item: { linkedPageKeys: string[] }) =>
                 item.linkedPageKeys.length ? (
                   item.linkedPageKeys.map((key) => (
@@ -606,13 +648,13 @@ function Impact({
                     </Button>
                   ))
                 ) : (
-                  <Text type="secondary">沒有頁面級關聯</Text>
+                  <Text type="secondary">{t('ai.impact.noPageLinks')}</Text>
                 ),
             },
           ]}
         />
       ) : (
-        <Empty description="當前沒有檢測到 PRD 變化" />
+        <Empty description={t('ai.impact.empty')} />
       )}
     </div>
   );
