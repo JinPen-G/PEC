@@ -1,9 +1,11 @@
+import { useTranslation } from 'react-i18next';
 import { Button, Dropdown, Tooltip, type MenuProps } from '@/ui/ant';
 import { GlobalOutlined } from '@/ui/ant/icons';
 import { usePlatformLocale, type PlatformLocale } from '@/features/locale/platform-locale';
 
 const localeLabels: Record<PlatformLocale, string> = {
   'zh-Hant': '繁體中文',
+  'zh-Hans': '简体中文',
   en: 'English',
 };
 
@@ -14,13 +16,15 @@ export function LanguageControl({
   showLabel?: boolean;
   iconOnly?: boolean;
 }) {
+  const { t } = useTranslation();
   const { locale, setLocale } = usePlatformLocale();
   const items: MenuProps['items'] = [
     {
       type: 'group',
-      label: '語言 / Language',
+      label: t('chrome.language.group'),
       children: [
         { key: 'zh-Hant', label: '繁體中文' },
+        { key: 'zh-Hans', label: '简体中文' },
         { key: 'en', label: 'English' },
       ],
     },
@@ -43,11 +47,11 @@ export function LanguageControl({
         classNames={{ root: 'app-pill-menu' }}
         menu={menu}
       >
-        <Tooltip title={`語言 / Language：${localeLabels[locale]}`}>
+        <Tooltip title={t('chrome.language.tooltip', { locale: localeLabels[locale] })}>
           <button
             type="button"
             className="topnav-icon-button language-control"
-            aria-label={`語言 / Language：${localeLabels[locale]}`}
+            aria-label={t('chrome.language.tooltip', { locale: localeLabels[locale] })}
           >
             <GlobalOutlined />
           </button>
@@ -58,12 +62,12 @@ export function LanguageControl({
 
   return (
     <Dropdown trigger={['click']} menu={menu}>
-      <Tooltip title={`語言 / Language：${localeLabels[locale]}`}>
+      <Tooltip title={t('chrome.language.tooltip', { locale: localeLabels[locale] })}>
         <Button
           className="language-control"
           type="text"
           icon={<GlobalOutlined />}
-          aria-label={`語言 / Language：${localeLabels[locale]}`}
+          aria-label={t('chrome.language.tooltip', { locale: localeLabels[locale] })}
         >
           {showLabel ? localeLabels[locale] : null}
         </Button>

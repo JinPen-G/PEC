@@ -17,5 +17,7 @@
   "docs.outline.title": "本文目錄",
   "docs.outline.hint": "按章節跳轉",
   "docs.document.untitled": "未命名文檔",
-  "docs.group.uncategorized": "未分類"
+  "docs.group.uncategorized": "未分類",
+  "docs.readError": "文檔讀取失敗",
+  "docs.header.docCount_one": "{{count}} 份文檔"
 }

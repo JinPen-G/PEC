@@ -39,5 +39,10 @@
   "workspace.prd.nextResultAria": "下一個搜索結果",
   "workspace.prd.empty": "當前頁面未關聯 PRD",
   "workspace.prd.outlineTitle": "本文目錄",
-  "workspace.prd.outlineAria": "PRD 本文目錄"
+  "workspace.prd.outlineAria": "PRD 本文目錄",
+  "workspace.frame.loading": "正在加載原型頁面…",
+  "workspace.frame.errorTitle": "原型頁面加載失敗",
+  "workspace.frame.errorDescription": "請確認原型文件仍存在，或稍後重新加載。",
+  "workspace.frame.retry": "重新加載",
+  "workspace.group.other": "其他頁面"
 }

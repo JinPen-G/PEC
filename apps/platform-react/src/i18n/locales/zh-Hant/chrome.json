@@ -24,5 +24,12 @@
   "chrome.projectUnavailable.title": "項目不可用",
   "chrome.projectUnavailable.subtitle": "項目 {{project}} 不存在、已隱藏或當前入口不可訪問。",
   "chrome.projectUnavailable.unknown": "未知",
-  "chrome.projectUnavailable.backHome": "返回首頁"
+  "chrome.projectUnavailable.backHome": "返回首頁",
+  "chrome.theme.group": "界面主題",
+  "chrome.theme.system": "跟隨系統",
+  "chrome.theme.light": "淺色主題",
+  "chrome.theme.dark": "深色主題",
+  "chrome.theme.tooltip": "主題：{{mode}}",
+  "chrome.language.group": "語言 / Language",
+  "chrome.language.tooltip": "語言 / Language：{{locale}}"
 }

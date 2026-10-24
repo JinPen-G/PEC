@@ -41,5 +41,7 @@
   "home.mobile.backHome": "返回首頁",
   "home.mobile.frameTitle": "{{project}} 移動端原型",
   "home.mobile.disabledTitle": "當前項目未啓用獨立移動端入口",
-  "home.mobile.disabledDescription": "如移動端以普通客戶端形式配置，可直接從項目入口進入。"
+  "home.mobile.disabledDescription": "如移動端以普通客戶端形式配置，可直接從項目入口進入。",
+  "home.section.count_one": "{{count}} 項",
+  "home.entry.pagesTag_one": "{{count}} 頁"
 }

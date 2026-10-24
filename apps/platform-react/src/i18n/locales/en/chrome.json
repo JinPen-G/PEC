@@ -24,5 +24,12 @@
   "chrome.projectUnavailable.title": "Project unavailable",
   "chrome.projectUnavailable.subtitle": "Project {{project}} does not exist, is hidden, or is not accessible from this entry.",
   "chrome.projectUnavailable.unknown": "Unknown",
-  "chrome.projectUnavailable.backHome": "Back to Home"
+  "chrome.projectUnavailable.backHome": "Back to Home",
+  "chrome.theme.group": "Interface theme",
+  "chrome.theme.system": "Follow system",
+  "chrome.theme.light": "Light theme",
+  "chrome.theme.dark": "Dark theme",
+  "chrome.theme.tooltip": "Theme: {{mode}}",
+  "chrome.language.group": "Language / 語言",
+  "chrome.language.tooltip": "Language / 語言: {{locale}}"
 }

@@ -41,5 +41,6 @@
   "packages.invalid.issues": "Issues",
   "packages.invalid.errorsSeparator": "; ",
   "packages.invalid.configure": "Configure",
-  "packages.invalid.unreadable": "Configuration unreadable"
+  "packages.invalid.unreadable": "Configuration unreadable",
+  "packages.list.count_one": "{{count}} project"
 }

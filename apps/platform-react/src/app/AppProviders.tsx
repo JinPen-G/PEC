@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 
 import i18n from '@/i18n';
-import { App as AntApp, ConfigProvider, enUS, zhTW } from '@/ui/ant';
+import { App as AntApp, ConfigProvider, enUS, zhCN, zhTW } from '@/ui/ant';
 import { createAntThemeConfig } from '@/features/theme/ant-theme-config';
 import { PlatformThemeProvider, usePlatformTheme } from '@/features/theme/platform-theme';
 import {
@@ -42,7 +42,7 @@ function AntDesignProvider({ children }: { children: ReactNode }) {
   }, [locale]);
 
   return (
-    <ConfigProvider locale={locale === 'en' ? enUS : zhTW} theme={createAntThemeConfig(resolvedMode)}>
+    <ConfigProvider locale={locale === 'en' ? enUS : locale === 'zh-Hans' ? zhCN : zhTW} theme={createAntThemeConfig(resolvedMode)}>
       <AntApp>{children}</AntApp>
     </ConfigProvider>
   );

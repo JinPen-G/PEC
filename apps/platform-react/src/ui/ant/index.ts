@@ -42,3 +42,4 @@ export type { MenuProps, TableProps, ThemeConfig, UploadProps } from 'antd';
 // 会把整套 CJS locale 依赖重复打进首屏包；这里直接引 es/ 下的 ESM 版本。
 export { default as zhTW } from 'antd/es/locale/zh_TW';
 export { default as enUS } from 'antd/es/locale/en_US';
+export { default as zhCN } from 'antd/es/locale/zh_CN';

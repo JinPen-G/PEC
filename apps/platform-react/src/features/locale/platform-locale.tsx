@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 
-export type PlatformLocale = 'zh-Hant' | 'en';
+export type PlatformLocale = 'zh-Hant' | 'zh-Hans' | 'en';
 
 interface PlatformLocaleContextValue {
   locale: PlatformLocale;
@@ -13,7 +13,7 @@ const PlatformLocaleContext = createContext<PlatformLocaleContextValue | null>(n
 export function readStoredLocale(): PlatformLocale {
   try {
     const stored = localStorage.getItem(LOCALE_STORAGE_KEY);
-    if (stored === 'en' || stored === 'zh-Hant') return stored;
+    if (stored === 'en' || stored === 'zh-Hant' || stored === 'zh-Hans') return stored;
     return 'zh-Hant';
   } catch {
     return 'zh-Hant';

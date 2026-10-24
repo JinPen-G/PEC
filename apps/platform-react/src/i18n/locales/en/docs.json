@@ -17,5 +17,7 @@
   "docs.outline.title": "On This Page",
   "docs.outline.hint": "Jump to a section",
   "docs.document.untitled": "Untitled document",
-  "docs.group.uncategorized": "Uncategorized"
+  "docs.group.uncategorized": "Uncategorized",
+  "docs.header.docCount_one": "{{count}} document",
+  "docs.readError": "Failed to load the document"
 }

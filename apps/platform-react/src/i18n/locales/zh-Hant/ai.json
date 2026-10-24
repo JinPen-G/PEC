@@ -68,5 +68,6 @@
   "ai.impact.table.prdFile": "PRD 文件",
   "ai.impact.table.affectedPages": "影響頁面",
   "ai.impact.noPageLinks": "沒有頁面級關聯",
-  "ai.impact.empty": "當前沒有檢測到 PRD 變化"
+  "ai.impact.empty": "當前沒有檢測到 PRD 變化",
+  "ai.impact.changesCount_one": "{{count}} 份文檔有變化"
 }

@@ -1,6 +1,6 @@
 {
   "platformName": "Project Prototype & Data Collaboration Platform",
-  "ai.header.title": "AI context center",
+  "ai.header.title": "AI Context Hub",
   "ai.header.description": "Aggregates project pages, PRDs, component bindings, and change impact into a traceable delivery context.",
   "ai.header.reanalyze": "Re-analyze",
   "ai.error.loadFailed": "Failed to load project context",
@@ -68,5 +68,6 @@
   "ai.impact.table.prdFile": "PRD file",
   "ai.impact.table.affectedPages": "Affected pages",
   "ai.impact.noPageLinks": "No page-level links",
-  "ai.impact.empty": "No PRD changes detected"
+  "ai.impact.empty": "No PRD changes detected",
+  "ai.impact.changesCount_one": "{{count}} document changed"
 }

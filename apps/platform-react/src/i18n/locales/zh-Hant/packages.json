@@ -41,5 +41,6 @@
   "packages.invalid.issues": "問題",
   "packages.invalid.errorsSeparator": "；",
   "packages.invalid.configure": "配置",
-  "packages.invalid.unreadable": "無法讀取配置"
+  "packages.invalid.unreadable": "無法讀取配置",
+  "packages.list.count_one": "{{count}} 個項目"
 }

@@ -41,5 +41,7 @@
   "home.mobile.backHome": "Back to Home",
   "home.mobile.frameTitle": "{{project}} mobile prototype",
   "home.mobile.disabledTitle": "This project has no standalone mobile entry",
-  "home.mobile.disabledDescription": "If the mobile experience is configured as a regular client, open it from the project entry."
+  "home.mobile.disabledDescription": "If the mobile experience is configured as a regular client, open it from the project entry.",
+  "home.section.count_one": "{{count}} item",
+  "home.entry.pagesTag_one": "{{count}} page"
 }

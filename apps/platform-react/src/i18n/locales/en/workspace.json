@@ -6,8 +6,8 @@
   "workspace.runtimeIndexMissingDescription": "The project registered {{count}} managed HTML pages, but the latest scan contains no runnable pages. Rescan the project package and check the page files.",
   "workspace.pageMissing": "The page does not exist or has been removed from the prototype catalog",
   "workspace.clientNoPages": "No pages have been registered for this client yet",
-  "workspace.backHome": "Back to home",
-  "workspace.menu.backHome": "Back to home",
+  "workspace.backHome": "Back to Home",
+  "workspace.menu.backHome": "Back to Home",
   "workspace.menu.currentPageContext": "Current page context",
   "workspace.menu.exitClient": "Exit current client",
   "workspace.tools.ariaLabel": "Page tools",
@@ -39,5 +39,10 @@
   "workspace.prd.nextResultAria": "Next search match",
   "workspace.prd.empty": "No PRD is linked to the current page",
   "workspace.prd.outlineTitle": "Document outline",
-  "workspace.prd.outlineAria": "PRD document outline"
+  "workspace.prd.outlineAria": "PRD document outline",
+  "workspace.frame.loading": "Loading prototype page…",
+  "workspace.frame.errorTitle": "Failed to load the prototype page",
+  "workspace.frame.errorDescription": "Make sure the prototype file still exists, or reload later.",
+  "workspace.frame.retry": "Reload",
+  "workspace.group.other": "Other pages"
 }

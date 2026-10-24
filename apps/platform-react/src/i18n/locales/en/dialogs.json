@@ -73,5 +73,19 @@
   "dialogs.mount.browse": "Browse",
   "dialogs.mount.inspect": "Check",
   "dialogs.mount.invalidTitle": "Folder cannot be mounted",
-  "dialogs.mount.candidateDescription": "Passed project config, page definition, and asset checks. {{count}} client(s)."
+  "dialogs.mount.candidateDescription": "Passed project config, page definition, and asset checks. {{count}} clients.",
+  "dialogs.projectConfig.preset.standard.label": "Sidebar layout",
+  "dialogs.projectConfig.preset.standard.description": "Platform top bar with a sidebar menu — best for typical admin prototypes.",
+  "dialogs.projectConfig.preset.topnav.label": "Top navigation",
+  "dialogs.projectConfig.preset.topnav.description": "Platform top bar with a top menu — best for pages with few sections.",
+  "dialogs.projectConfig.preset.simple.label": "No page menu",
+  "dialogs.projectConfig.preset.simple.description": "Keeps the platform top bar without a page menu — best for single-page or reading pages.",
+  "dialogs.projectConfig.preset.immersive.label": "Immersive page",
+  "dialogs.projectConfig.preset.immersive.description": "No platform navigation; the page renders as a full canvas.",
+  "dialogs.projectConfig.preset.html-full.label": "Use the HTML's own shell",
+  "dialogs.projectConfig.preset.html-full.description": "Keeps the HTML file's own top bar and menus instead of adding the platform shell.",
+  "dialogs.projectConfig.preset.login.label": "Login first",
+  "dialogs.projectConfig.preset.login.description": "Opens the platform login page first; content is reached through the sidebar after signing in.",
+  "dialogs.onboarding.invalidProjects_one": "Found {{count}} invalid project",
+  "dialogs.mount.candidateDescription_one": "Passed project config, page definition, and asset checks. {{count}} client."
 }

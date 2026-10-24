@@ -75,5 +75,9 @@
   "routes.backup.originalPage": "Original page",
   "routes.backup.backupTime": "Backed up at",
   "routes.backup.sectionChanges": "Section changes",
-  "routes.backup.modifiedTime": "Modified at"
+  "routes.backup.modifiedTime": "Modified at",
+  "routes.group.ungrouped": "Ungrouped",
+  "routes.panel.clientCount_one": "{{count}} client",
+  "routes.workspace.routeCount_one": "{{count}} route",
+  "routes.backup.count_one": "{{count}} entry"
 }

@@ -13,10 +13,10 @@
   "console.devMode.staticNote": "（靜態部署下此開關只保存在當前瀏覽器）",
   "console.switch.on": "開",
   "console.switch.off": "關",
-  "console.remote.title": "遠程管理",
+  "console.remote.title": "遠端管理",
   "console.remote.allowRemote": "允許遠端寫入",
   "console.remote.localOnly": "僅限服務主機",
-  "console.remote.description": "通過平臺服務（serve:local）部署時，允許局域網/遠程瀏覽器執行路由、項目與 PRD 等管理寫入。",
+  "console.remote.description": "通過平臺服務（serve:local）部署時，允許局域網/遠端瀏覽器執行路由、項目與 PRD 等管理寫入。",
   "console.remote.staticNote": "（僅在以平臺服務部署時生效；靜態部署無後端，此開關不產生效果）",
   "console.tools.title": "平臺工作區",
   "console.tools.description": "選擇需要處理的管理任務。",
@@ -29,5 +29,6 @@
   "console.tools.ai.title": "AI 上下文中心",
   "console.tools.ai.description": "檢查頁面和 PRD 覆蓋並導出交付上下文。",
   "console.tools.components.title": "組件規範",
-  "console.tools.components.description": "查看 React 平臺統一使用的 Ant Design 控件。"
+  "console.tools.components.description": "查看 React 平臺統一使用的 Ant Design 控件。",
+  "console.tools.count_one": "{{count}} 個入口"
 }

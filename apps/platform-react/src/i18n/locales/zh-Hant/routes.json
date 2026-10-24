@@ -75,5 +75,9 @@
   "routes.backup.originalPage": "原頁面",
   "routes.backup.backupTime": "備份時間",
   "routes.backup.sectionChanges": "分組變更",
-  "routes.backup.modifiedTime": "修改時間"
+  "routes.backup.modifiedTime": "修改時間",
+  "routes.group.ungrouped": "未分組",
+  "routes.panel.clientCount_one": "{{count}} 個客戶端",
+  "routes.workspace.routeCount_one": "{{count}} 個路由",
+  "routes.backup.count_one": "{{count}} 條"
 }

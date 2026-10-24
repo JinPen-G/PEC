@@ -1,7 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import { LOCALE_STORAGE_KEY, readStoredLocale } from '@/features/locale/platform-locale';
+import { readStoredLocale } from '@/features/locale/platform-locale';
+import { traditionalToSimplified } from './zh-hans-map';
 import chromeZh from './locales/zh-Hant/chrome.json';
 import chromeEn from './locales/en/chrome.json';
 import homeZh from './locales/zh-Hant/home.json';
@@ -32,13 +33,24 @@ function mergeResources(...parts: Array<Record<string, unknown>>) {
   );
 }
 
+// zh-Hans 资源由 zh-Hant 运行时做字符级繁→简转换生成：
+// 两个语言集永远 key 同步（含复数后缀 key），无需维护第二份简体资源。
+function toSimplified(resource: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(resource).map(([key, value]) => [
+      key,
+      typeof value === 'string' ? traditionalToSimplified(value) : value,
+    ]),
+  );
+}
+
 void i18n.use(initReactI18next).init({
   lng: readStoredLocale(),
   fallbackLng: 'zh-Hant',
   // 资源使用扁平点号 key（'chrome.nav.overview'），关闭 i18next 的嵌套/命名空间分隔解析
   keySeparator: false,
   nsSeparator: false,
-  supportedLngs: ['zh-Hant', 'en'],
+  supportedLngs: ['zh-Hant', 'zh-Hans', 'en'],
   interpolation: { escapeValue: false },
   resources: {
     'zh-Hant': {
@@ -71,16 +83,24 @@ void i18n.use(initReactI18next).init({
         commonEn,
       ),
     },
+    'zh-Hans': {
+      translation: toSimplified(
+        mergeResources(
+          chromeZh,
+          homeZh,
+          workspaceZh,
+          routesZh,
+          packagesZh,
+          consoleZh,
+          aiZh,
+          healthZh,
+          docsZh,
+          dialogsZh,
+          commonZh,
+        ),
+      ),
+    },
   },
-});
-
-// 切换语言时持久化到与 PlatformLocaleProvider 相同的存储键（单一事实源）。
-i18n.on('languageChanged', (language) => {
-  try {
-    localStorage.setItem(LOCALE_STORAGE_KEY, language);
-  } catch {
-    // Storage is optional.
-  }
 });
 
 export default i18n;
