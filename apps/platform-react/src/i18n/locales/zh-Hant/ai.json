@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "ai.header.title": "AI 上下文中心",
   "ai.header.description": "彙總項目頁面、PRD、功能關聯和變更影響，生成可追溯的交付上下文。",
   "ai.header.reanalyze": "重新分析",
@@ -69,5 +68,6 @@
   "ai.impact.table.affectedPages": "影響頁面",
   "ai.impact.noPageLinks": "沒有頁面級關聯",
   "ai.impact.empty": "當前沒有檢測到 PRD 變化",
-  "ai.impact.changesCount_one": "{{count}} 份文檔有變化"
+  "ai.impact.changesCount_one": "{{count}} 份文檔有變化",
+  "ai.impact.changesCount_other": "{{count}} 份文檔有變化"
 }

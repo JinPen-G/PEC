@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "home.docTitle.default": "Product Experience Center",
   "home.docTitle.project": "{{project}} - Product Experience Center",
   "home.loading": "Loading project data",
@@ -43,5 +42,7 @@
   "home.mobile.disabledTitle": "This project has no standalone mobile entry",
   "home.mobile.disabledDescription": "If the mobile experience is configured as a regular client, open it from the project entry.",
   "home.section.count_one": "{{count}} item",
-  "home.entry.pagesTag_one": "{{count}} page"
+  "home.entry.pagesTag_one": "{{count}} page",
+  "home.section.count_other": "{{count}} item",
+  "home.entry.pagesTag_other": "{{count}} page"
 }

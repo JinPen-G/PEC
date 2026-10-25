@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "health.header.title": "項目健康檢查",
   "health.header.description": "集中檢查項目配置、頁面、HTML、PRD、關聯、資源、掛載和 Schema。",
   "health.alert.loadFailed": "健康檢查失敗",

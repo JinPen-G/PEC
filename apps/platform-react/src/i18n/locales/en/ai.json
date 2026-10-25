@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "ai.header.title": "AI Context Hub",
   "ai.header.description": "Aggregates project pages, PRDs, component bindings, and change impact into a traceable delivery context.",
   "ai.header.reanalyze": "Re-analyze",
@@ -69,5 +68,6 @@
   "ai.impact.table.affectedPages": "Affected pages",
   "ai.impact.noPageLinks": "No page-level links",
   "ai.impact.empty": "No PRD changes detected",
-  "ai.impact.changesCount_one": "{{count}} document changed"
+  "ai.impact.changesCount_one": "{{count}} document changed",
+  "ai.impact.changesCount_other": "{{count}} document changed"
 }

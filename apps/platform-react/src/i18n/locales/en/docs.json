@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "docs.docTitle": "{{document}} - {{project}}",
   "docs.titleFallback.document": "Product documents",
   "docs.titleFallback.project": "Project",
@@ -19,5 +18,6 @@
   "docs.document.untitled": "Untitled document",
   "docs.group.uncategorized": "Uncategorized",
   "docs.header.docCount_one": "{{count}} document",
-  "docs.readError": "Failed to load the document"
+  "docs.readError": "Failed to load the document",
+  "docs.header.docCount_other": "{{count}} document"
 }

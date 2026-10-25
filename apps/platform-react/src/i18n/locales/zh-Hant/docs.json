@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "docs.docTitle": "{{document}} - {{project}}",
   "docs.titleFallback.document": "產品文檔",
   "docs.titleFallback.project": "項目",
@@ -19,5 +18,6 @@
   "docs.document.untitled": "未命名文檔",
   "docs.group.uncategorized": "未分類",
   "docs.readError": "文檔讀取失敗",
-  "docs.header.docCount_one": "{{count}} 份文檔"
+  "docs.header.docCount_one": "{{count}} 份文檔",
+  "docs.header.docCount_other": "{{count}} 份文檔"
 }

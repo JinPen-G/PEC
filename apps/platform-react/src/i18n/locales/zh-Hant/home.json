@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "home.docTitle.default": "產品功能體驗中心",
   "home.docTitle.project": "{{project}} - 產品功能體驗中心",
   "home.loading": "正在讀取項目資料",
@@ -43,5 +42,7 @@
   "home.mobile.disabledTitle": "當前項目未啓用獨立移動端入口",
   "home.mobile.disabledDescription": "如移動端以普通客戶端形式配置，可直接從項目入口進入。",
   "home.section.count_one": "{{count}} 項",
-  "home.entry.pagesTag_one": "{{count}} 頁"
+  "home.entry.pagesTag_one": "{{count}} 頁",
+  "home.section.count_other": "{{count}} 項",
+  "home.entry.pagesTag_other": "{{count}} 頁"
 }

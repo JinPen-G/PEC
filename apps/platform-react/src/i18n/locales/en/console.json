@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "console.header.title": "Console",
   "console.header.description": "Manage platform-level project data, page routes, and delivery context.",
   "console.header.envDev": "Local development service",
@@ -30,5 +29,6 @@
   "console.tools.ai.description": "Review page and PRD coverage and export delivery context.",
   "console.tools.components.title": "Component Standards",
   "console.tools.components.description": "View the Ant Design components used across the React platform.",
-  "console.tools.count_one": "{{count}} entry"
+  "console.tools.count_one": "{{count}} entry",
+  "console.tools.count_other": "{{count}} entry"
 }

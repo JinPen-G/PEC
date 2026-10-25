@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "routes.header.title": "路由菜單管理",
   "routes.header.description": "按客戶端管理菜單分組、頁面順序、頁面路由、PRD 關聯和可恢復備份。",
   "routes.header.reload": "重新讀取",
@@ -79,5 +78,8 @@
   "routes.group.ungrouped": "未分組",
   "routes.panel.clientCount_one": "{{count}} 個客戶端",
   "routes.workspace.routeCount_one": "{{count}} 個路由",
-  "routes.backup.count_one": "{{count}} 條"
+  "routes.backup.count_one": "{{count}} 條",
+  "routes.panel.clientCount_other": "{{count}} 個客戶端",
+  "routes.workspace.routeCount_other": "{{count}} 個路由",
+  "routes.backup.count_other": "{{count}} 條"
 }

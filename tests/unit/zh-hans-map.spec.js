@@ -42,15 +42,7 @@ describe('zh-Hans 运行时转换', () => {
     }
   });
 
-  it('语料中每个 CJK 字符都已映射或简繁同形（防新增繁体字漏映射）', () => {
-    for (const value of collectValues()) {
-      for (const char of value) {
-        if (char.charCodeAt(0) <= 0x2e7f) continue;
-        // 字符不在映射表中 → 视为简繁同形，但必须验证它转换前后不变（即不在源集中）
-        if (!TRADITIONAL_TO_SIMPLIFIED[char]) continue;
-      }
-      // 覆盖率由上一用例兜底；此处防止映射表被误清空
-      expect(Object.keys(TRADITIONAL_TO_SIMPLIFIED).length).toBeGreaterThan(100);
-    }
+  it('映射表非空（防误清空）', () => {
+    expect(Object.keys(TRADITIONAL_TO_SIMPLIFIED).length).toBeGreaterThan(100);
   });
 });

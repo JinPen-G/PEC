@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "console.header.title": "控制台",
   "console.header.description": "管理平臺級項目資料、頁面路由和交付上下文。",
   "console.header.envDev": "本機開發服務",
@@ -30,5 +29,6 @@
   "console.tools.ai.description": "檢查頁面和 PRD 覆蓋並導出交付上下文。",
   "console.tools.components.title": "組件規範",
   "console.tools.components.description": "查看 React 平臺統一使用的 Ant Design 控件。",
-  "console.tools.count_one": "{{count}} 個入口"
+  "console.tools.count_one": "{{count}} 個入口",
+  "console.tools.count_other": "{{count}} 個入口"
 }

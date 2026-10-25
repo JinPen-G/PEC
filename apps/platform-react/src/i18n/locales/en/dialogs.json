@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "dialogs.onboarding.eyebrow": "First launch",
   "dialogs.onboarding.title": "Set up your product experience workspace",
   "dialogs.onboarding.description": "No projects are available yet. You can mount an existing project folder, install the sanitized example, or continue with an empty platform.",
@@ -87,5 +86,7 @@
   "dialogs.projectConfig.preset.login.label": "Login first",
   "dialogs.projectConfig.preset.login.description": "Opens the platform login page first; content is reached through the sidebar after signing in.",
   "dialogs.onboarding.invalidProjects_one": "Found {{count}} invalid project",
-  "dialogs.mount.candidateDescription_one": "Passed project config, page definition, and asset checks. {{count}} client."
+  "dialogs.mount.candidateDescription_one": "Passed project config, page definition, and asset checks. {{count}} client.",
+  "dialogs.onboarding.invalidProjects_other": "Found {{count}} invalid project",
+  "dialogs.mount.candidateDescription_other": "Passed project config, page definition, and asset checks. {{count}} client."
 }

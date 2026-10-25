@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "dialogs.onboarding.eyebrow": "首次啓動",
   "dialogs.onboarding.title": "準備你的產品體驗工作區",
   "dialogs.onboarding.description": "當前沒有可用項目。你可以掛載已有項目文件夾、安裝脫敏示例，或者先進入空平臺。",
@@ -87,5 +86,7 @@
   "dialogs.projectConfig.preset.login.label": "先登錄再進入",
   "dialogs.projectConfig.preset.login.description": "先進入平臺登錄頁，登錄後使用左側菜單進入內容。",
   "dialogs.onboarding.invalidProjects_one": "發現 {{count}} 個無效項目",
-  "dialogs.mount.candidateDescription_one": "已通過項目配置、頁面定義和資源檢查。客戶端 {{count}} 個。"
+  "dialogs.mount.candidateDescription_one": "已通過項目配置、頁面定義和資源檢查。客戶端 {{count}} 個。",
+  "dialogs.onboarding.invalidProjects_other": "發現 {{count}} 個無效項目",
+  "dialogs.mount.candidateDescription_other": "已通過項目配置、頁面定義和資源檢查。客戶端 {{count}} 個。"
 }

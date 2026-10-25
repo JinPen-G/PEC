@@ -118,7 +118,8 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
     if (applying || !document.body) return;
     applying = true;
     try {
-      const baseLang = document.documentElement.getAttribute('data-prototype-base-lang') || BASE_LANG_FALLBACK;
+      // 基础语言从页面原始声明读取（注入器保留 <html lang>，平台不改写此属性）
+    const baseLang = document.documentElement.getAttribute('data-prototype-base-lang') || document.documentElement.getAttribute('lang') || BASE_LANG_FALLBACK;
       const targetLang = currentLocale || baseLang;
       if (document.documentElement.lang !== targetLang) {
         document.documentElement.lang = targetLang;
@@ -155,7 +156,7 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
   const setLocale = (locale) => {
     if (locale === BASE_LANG_FALLBACK) locale = null; // 基础语言 = 回退原文
     const next = typeof locale === 'string' && locale ? locale : readStoredLocale();
-    // 切回基础语言：apply() 通过 WeakMap 原文记忆恢复繁体（实测正确含翻译期间新建节点）。
+    // 切回基础语言：apply() 通过 WeakMap 原文记忆恢复繁体（实测正确，含翻译期间新建的 Text node）。
     // reload 分支仅在 localStorage 读失败/被清空时兜底触发（此时 WeakMap 不可靠）。
     if (next === null && everTranslated) {
       try {
@@ -193,7 +194,7 @@ export const PROTOTYPE_I18N_RUNTIME_SCRIPT = `
 
   const updateControl = () => {
     const current = controlOpen ? undefined : document.querySelector('.' + CONTROL_CLASS + '__current');
-    if (current) current.textContent = LOCALE_LABELS[currentLocale] || '繁';
+    if (current) current.textContent = LOCALE_LABELS[currentLocale] || (currentLocale || '').toUpperCase() || '繁';
     const options = document.querySelectorAll('.' + CONTROL_CLASS + '__option');
     for (const option of options) {
       const active = option.dataset.locale === currentLocale;

@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "health.header.title": "Project Health Check",
   "health.header.description": "Centrally checks project configuration, pages, HTML, PRDs, bindings, resources, mounts, and schema.",
   "health.alert.loadFailed": "Health check failed",

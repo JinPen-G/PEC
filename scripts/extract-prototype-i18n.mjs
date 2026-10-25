@@ -18,17 +18,16 @@ const CJK = /[\u3400-\u9fff\uf900-\ufaff]/u;
 function extractTexts(source) {
   const root = parse(source, { comment: false });
   const texts = new Set();
-  // content + overlay 区域内的文本节点
-  const scope = root.querySelectorAll('[data-page-content], [data-page-overlay]');
+  // roots 对齐运行时（[data-page-content] + [data-page-overlay] + body 全页）
+  const scope = [...root.querySelectorAll('[data-page-content], [data-page-overlay]'), root.querySelector('body')].filter(Boolean);
   for (const area of scope) {
     for (const node of area.querySelectorAll('*')) {
-      // Vue 插值以外的纯文本
+      if (['script', 'style', 'noscript', 'textarea', 'code', 'pre'].includes(node.tagName?.toLowerCase() || '')) continue;
+      // Vue 插值以外的纯文本（整节点 trim 口径对齐运行时）
       for (const child of node.childNodes) {
         if (child.nodeType === 3 && child.rawText && CJK.test(child.rawText)) {
-          for (const part of child.rawText.split('\n')) {
-            const trimmed = part.trim();
-            if (trimmed && CJK.test(trimmed)) texts.add(trimmed);
-          }
+          const trimmed = child.rawText.trim();
+          if (trimmed && CJK.test(trimmed)) texts.add(trimmed);
         }
       }
       for (const attr of ['placeholder', 'title', 'aria-label']) {

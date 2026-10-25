@@ -54,7 +54,7 @@ function cleanDictionary(source) {
   if (!dict.en) dict.en = {};
   const serialized = `${DICT_BLOCK_PREFIX}${JSON.stringify(dict, null, 2)}</script>`;
   const next = serialized
-    ? source.replace(match[0], serialized)
+    ? source.replace(match[0], () => serialized)
     : source.replace(match[0], '').replaceAll('\n\n\n', '\n\n');
   return { source: next, removed };
 }
@@ -66,7 +66,7 @@ function inject(source) {
   // 1) <html lang> 缺省声明
   const htmlTag = /<html\b([^>]*)>/iu.exec(updated);
   if (htmlTag && !/\blang=/iu.test(htmlTag[1])) {
-    updated = updated.replace(htmlTag[0], `<html lang="${LANG_DEFAULT}"${htmlTag[1]}>`);
+    updated = updated.replace(htmlTag[0], () => `<html lang="${LANG_DEFAULT}"${htmlTag[1]}>`);
     changes.push('lang');
   }
 

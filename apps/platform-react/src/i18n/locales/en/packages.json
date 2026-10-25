@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "packages.header.title": "Project Packages",
   "packages.header.description": "View local project data status and maintain project entries, themes, and client configuration.",
   "packages.header.healthCheck": "Health check",
@@ -42,5 +41,6 @@
   "packages.invalid.errorsSeparator": "; ",
   "packages.invalid.configure": "Configure",
   "packages.invalid.unreadable": "Configuration unreadable",
-  "packages.list.count_one": "{{count}} project"
+  "packages.list.count_one": "{{count}} project",
+  "packages.list.count_other": "{{count}} project"
 }

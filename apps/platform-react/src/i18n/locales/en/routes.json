@@ -1,5 +1,4 @@
 {
-  "platformName": "Project Prototype & Data Collaboration Platform",
   "routes.header.title": "Route Menu Management",
   "routes.header.description": "Manage menu sections, page order, page routes, PRD links, and restorable backups per client.",
   "routes.header.reload": "Reload",
@@ -79,5 +78,8 @@
   "routes.group.ungrouped": "Ungrouped",
   "routes.panel.clientCount_one": "{{count}} client",
   "routes.workspace.routeCount_one": "{{count}} route",
-  "routes.backup.count_one": "{{count}} entry"
+  "routes.backup.count_one": "{{count}} entry",
+  "routes.panel.clientCount_other": "{{count}} client",
+  "routes.workspace.routeCount_other": "{{count}} route",
+  "routes.backup.count_other": "{{count}} entry"
 }

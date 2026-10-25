@@ -1,5 +1,4 @@
 {
-  "platformName": "項目原型與資料協作平臺",
   "packages.header.title": "項目包管理",
   "packages.header.description": "查看本地項目資料狀態，維護項目入口、主題和客戶端配置。",
   "packages.header.healthCheck": "健康檢查",
@@ -42,5 +41,6 @@
   "packages.invalid.errorsSeparator": "；",
   "packages.invalid.configure": "配置",
   "packages.invalid.unreadable": "無法讀取配置",
-  "packages.list.count_one": "{{count}} 個項目"
+  "packages.list.count_one": "{{count}} 個項目",
+  "packages.list.count_other": "{{count}} 個項目"
 }
