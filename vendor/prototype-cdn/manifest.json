@@ -1,0 +1,15 @@
+{
+  "$comment": "原型页统一依赖的 CDN 资源本地副本。平台在服务/构建时把页面中的 CDN 地址改写为本地路径（/__vendor/prototype-cdn/ 或 <base>vendor/prototype-cdn/），消除外部 CDN 网络延迟；文件名含版本号，内容不可变，可永久缓存。升级依赖版本时：下载新版本文件加入本目录，并在 packages/project-core/src/prototype-cdn-vendor.js 的清单中登记新映射。",
+  "files": {
+    "tailwind-cdn@3.4.17.js": "https://cdn.tailwindcss.com",
+    "vue@3.4.21.global.prod.js": "https://unpkg.com/vue@3.4.21/dist/vue.global.prod.js",
+    "element-plus@2.8.0.index.full.min.js": "https://unpkg.com/element-plus@2.8.0/dist/index.full.min.js",
+    "element-plus@2.8.0.index.css": "https://unpkg.com/element-plus@2.8.0/dist/index.css",
+    "element-plus@2.8.0.locale.zh-cn.js": "https://unpkg.com/element-plus@2.8.0/dist/locale/zh-cn",
+    "element-plus@2.8.0.dark.css-vars.css": "https://unpkg.com/element-plus@2.8.0/theme-chalk/dark/css-vars.css",
+    "element-plus-icons-vue@2.3.1.index.iife.min.js": "https://unpkg.com/@element-plus/icons-vue@2.3.1/dist/index.iife.min.js",
+    "dayjs@1.11.10.min.js": "https://unpkg.com/dayjs@1.11.10/dayjs.min.js",
+    "echarts@5.5.0.min.js": "https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js",
+    "lucide@0.468.0.min.js": "https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+  }
+}

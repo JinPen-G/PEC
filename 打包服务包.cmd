@@ -44,6 +44,8 @@ robocopy scripts "%STAGE%\scripts" //E //NFL //NDL //NJH //NJS >nul
 robocopy packages "%STAGE%\packages" //E //NFL //NDL //NJH //NJS >nul
 REM 3) 项目源（page-definitions/.platform/文档 等——服务器上可继续编辑管理数据）
 robocopy projects "%STAGE%\projects" //E //NFL //NDL //NJH //NJS >nul
+REM 3.5) 原型页 CDN 依赖本地副本（vendor/prototype-cdn，构建产物已含，服务器端 /__vendor 路由也使用）
+robocopy vendor "%STAGE%\vendor" //E //NFL //NDL //NJH //NJS >nul
 REM 4) 配置与启动脚本
 copy /y package.json "%STAGE%\package.json" >nul
 copy /y platform-settings.json "%STAGE%\platform-settings.json" >nul

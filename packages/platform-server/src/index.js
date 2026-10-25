@@ -39,6 +39,8 @@ import {
   updateProjectRouteOrder,
   updateProjectSections,
   writeJsonAtomic,
+  prototypeVendorFilePath,
+  rewritePrototypeCdnAssets,
 } from '../../project-core/src/index.js';
 import {
   isRecord,
@@ -274,6 +276,10 @@ function sourceContentDisposition(filePath) {
 const HASHED_ASSET_PATTERN = /-[A-Za-z0-9_-]{8}\.[A-Za-z0-9]+$/u;
 
 function immutableCacheHeaders(relativePath) {
+  // 原型公共依赖：文件名含版本号，内容不可变，可永久缓存。
+  if (relativePath.startsWith('vendor/prototype-cdn/')) {
+    return { 'Cache-Control': 'public, max-age=31536000, immutable' };
+  }
   if (!relativePath.startsWith('assets/')) return {};
   return HASHED_ASSET_PATTERN.test(relativePath)
     ? { 'Cache-Control': 'public, max-age=31536000, immutable' }
@@ -297,6 +303,8 @@ export function createPlatformServer({
   const mountsFile = mountsPath ? path.resolve(mountsPath) : '';
   const settingsFile = settingsPath ? path.resolve(settingsPath) : '';
   const publicRoot = staticRoot ? path.resolve(staticRoot) : '';
+  // 原型页 CDN 依赖的本地副本（版本化文件名，内容不可变）。
+  const vendorRoot = path.resolve(workspaceRoot, 'vendor', 'prototype-cdn');
 
   // 启动地址由命令行决定。分享开关只增删「额外的局域网监听」，不动主监听：
   // 在请求处理中关闭主监听会等待自身连接结束，导致 server.close() 永不回调。
@@ -826,10 +834,27 @@ export function createPlatformServer({
       );
       return true;
     }
+    // 源文件下载保持 no-store；平台视图允许协商缓存（ETag 304），原型编辑后仍即时生效。
+    if (!downloadSource) {
+      const stat = await fs.stat(target).catch(() => null);
+      if (stat) {
+        const etag = `"${stat.size.toString(16)}-${Number(stat.mtimeMs).toString(16)}"`;
+        if (request.headers['if-none-match'] === etag) {
+          response.statusCode = 304;
+          response.setHeader('ETag', etag);
+          response.setHeader('Cache-Control', 'no-cache');
+          response.end();
+          return true;
+        }
+        response.setHeader('ETag', etag);
+      }
+    }
     const sourceText = isHtml ? await fs.readFile(target, 'utf8') : null;
     const content = isHtml
       ? Buffer.from(
-          downloadSource || source.shellMode === 'full' ? sourceText : applyContentOnlyMode(sourceText),
+          downloadSource || source.shellMode === 'full'
+            ? sourceText
+            : rewritePrototypeCdnAssets(applyContentOnlyMode(sourceText)),
           'utf8',
         )
       : await fs.readFile(target);
@@ -837,8 +862,30 @@ export function createPlatformServer({
       response,
       content,
       target,
-      downloadSource ? { 'Content-Disposition': sourceContentDisposition(target) } : {},
+      downloadSource
+        ? { 'Content-Disposition': sourceContentDisposition(target) }
+        : { 'Cache-Control': 'no-cache' },
     );
+    return true;
+  }
+
+  async function handleVendorAssets(requestUrl, response) {
+    const prefix = '/__vendor/prototype-cdn/';
+    if (!requestUrl.pathname.startsWith(prefix)) return false;
+    const fileName = decodeSegment(requestUrl.pathname.slice(prefix.length));
+    const vendorFile = prototypeVendorFilePath(fileName);
+    if (!vendorFile) {
+      sendJson(response, { message: '原型公共依赖不存在。' }, 404);
+      return true;
+    }
+    try {
+      const content = await fs.readFile(path.join(vendorRoot, vendorFile));
+      await sendBytes(response, content, vendorFile, {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      });
+    } catch (error) {
+      sendJson(response, { message: '原型公共依赖读取失败。', detail: error.message }, 500);
+    }
     return true;
   }
 
@@ -992,6 +1039,7 @@ export function createPlatformServer({
       await handleProjectAsset(requestUrl, response);
       return;
     }
+    if (await handleVendorAssets(requestUrl, response)) return;
     if (await handleHtmlContent(request, requestUrl, response)) return;
     if (await handlePrd(requestUrl, response)) return;
     if (requestUrl.pathname === '/__platform/settings') {

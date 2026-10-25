@@ -5,6 +5,7 @@ import { ErrorBoundary } from './ErrorBoundary';
 import { AppProviders } from './AppProviders';
 import { AppRoutes } from './AppRoutes';
 import { startDeploymentVersionCheck } from './deployment-updates';
+import { warmPrototypeVendorCache } from '@/ui/platform/warmPrototypeVendorCache';
 
 // 首次啓動引導只在空工作區時出現，且本身要等 bootstrap 接口返回後才會展示，
 // 延遲加載可把 Form/Input 等僅在彈窗內使用的依賴移出首屏 chunk，不影響可見行爲。
@@ -21,6 +22,10 @@ export function App() {
       buildId: import.meta.env.VITE_PLATFORM_BUILD_ID || '',
       baseUrl: import.meta.env.BASE_URL,
     });
+  }, []);
+
+  useEffect(() => {
+    warmPrototypeVendorCache();
   }, []);
 
   return (
