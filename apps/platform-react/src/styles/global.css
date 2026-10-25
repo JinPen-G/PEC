@@ -6,12 +6,43 @@
   --app-font-mono:
     'SFMono-Regular', 'SF Mono', ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+  --ink: var(--ant-color-text, #1d1d1f);
+  --ink-3: var(--ant-color-text-tertiary, rgba(0, 0, 0, 0.45));
   font-family: var(--app-font-sans);
   color: var(--ant-color-text, #1d1d1f);
   background: var(--platform-root-canvas, var(--ant-color-bg-layout, #f2f5f9));
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
+
+@keyframes pixel-on {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 1; }
+}
+
+@keyframes shimmer-text {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-state .pixel-cell {
+    animation: none !important;
+    opacity: 0.15 !important;
+  }
+  .loading-state .shimmer-label {
+    animation: none !important;
+    background: none !important;
+    color: var(--ink) !important;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
 
 * {
   box-sizing: border-box;

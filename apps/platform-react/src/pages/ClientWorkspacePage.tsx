@@ -45,7 +45,6 @@ import {
   Layout,
   Menu,
   Select,
-  Spin,
   Tooltip,
   type MenuProps,
 } from '@/ui/ant';
@@ -65,6 +64,7 @@ import { ProjectIcon } from '@/ui/platform/ProjectIcon';
 import { PlatformBrand } from '@/ui/platform/PlatformBrand';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
 import { LanguageControl } from '@/ui/platform/LanguageControl';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Header, Content } = Layout;
 const TOPNAV_CONTENT_OFFSET = 72;
@@ -227,7 +227,7 @@ export function ClientWorkspacePage() {
   if (projectQuery.isPending || catalogQuery.isPending) {
     return (
       <div className="home-loading">
-        <Spin size="large" />
+        <LoadingState />
       </div>
     );
   }

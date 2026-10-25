@@ -7,10 +7,11 @@ import type {
   ProjectHealthItem,
 } from '../../../../packages/platform-contracts/src/index.js';
 import { useProjectHealth } from '@/data/use-platform-data';
-import { Alert, Button, Collapse, Empty, Flex, Spin, Statistic, Table, Tag, Typography } from '@/ui/ant';
+import { Alert, Button, Collapse, Empty, Flex, Statistic, Table, Tag, Typography } from '@/ui/ant';
 import { CheckCircleFilled, ReloadOutlined, WarningFilled } from '@/ui/ant/icons';
 import { PlatformPage } from '@/ui/platform/PlatformPage';
 import { Surface } from '@/ui/platform/Surface';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Text, Title } = Typography;
 const categoryKeys = [
@@ -77,7 +78,7 @@ export function ProjectHealthPage() {
       ) : null}
       {query.isPending ? (
         <div className="page-loading">
-          <Spin size="large" />
+          <LoadingState />
         </div>
       ) : null}
       {report ? (

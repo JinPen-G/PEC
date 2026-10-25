@@ -16,10 +16,11 @@ import { usePlatformLocale } from '@/features/locale/platform-locale';
 import { MarkdownReader } from '@/features/docs/MarkdownReader';
 import { resolveDocumentAssetPath, type MarkdownHeading } from '@/features/docs/markdown';
 import { appRouteUrl } from '@/features/routes/app-url';
-import { Button, Collapse, Empty, Input, Layout, Spin, Tag, Typography } from '@/ui/ant';
+import { Button, Collapse, Empty, Input, Layout, Tag, Typography } from '@/ui/ant';
 import { ArrowLeftOutlined, FileTextOutlined, LinkOutlined } from '@/ui/ant/icons';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
 import { LanguageControl } from '@/ui/platform/LanguageControl';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Text } = Typography;
 const { Header, Sider, Content } = Layout;
@@ -179,7 +180,7 @@ export function DocsCenterPage() {
   if (projectQuery.isPending)
     return (
       <div className="home-loading">
-        <Spin size="large" />
+        <LoadingState />
       </div>
     );
   if (!project || project.homepage?.visible === false || project.docs?.enabled === false)
@@ -187,7 +188,7 @@ export function DocsCenterPage() {
   if (manifestQuery.isPending)
     return (
       <div className="home-loading">
-        <Spin size="large" />
+        <LoadingState />
       </div>
     );
 

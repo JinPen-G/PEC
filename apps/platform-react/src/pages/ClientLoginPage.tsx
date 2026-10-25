@@ -11,10 +11,11 @@ import {
   getDefaultPage,
 } from '@/features/projects/project-model';
 import { DEFAULT_PROJECT_THEME } from '@/features/projects/project-config-model';
-import { Alert, Button, Card, ConfigProvider, Form, Input, Spin, Typography } from '@/ui/ant';
+import { Alert, Button, Card, ConfigProvider, Form, Input, Typography } from '@/ui/ant';
 import { PlatformBrand } from '@/ui/platform/PlatformBrand';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
 import { LanguageControl } from '@/ui/platform/LanguageControl';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Text, Title } = Typography;
 
@@ -34,7 +35,7 @@ export function ClientLoginPage() {
   if (projectQuery.isPending || catalogQuery.isPending)
     return (
       <div className="home-loading">
-        <Spin size="large" />
+        <LoadingState />
       </div>
     );
   if (!project || project.homepage?.visible === false || !client)

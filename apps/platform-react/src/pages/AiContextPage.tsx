@@ -26,7 +26,6 @@ import {
   Result,
   Segmented,
   Select,
-  Spin,
   Table,
   Tag,
   Typography,
@@ -40,6 +39,7 @@ import {
 } from '@/ui/ant/icons';
 import { PlatformPage } from '@/ui/platform/PlatformPage';
 import { Surface } from '@/ui/platform/Surface';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Text, Title } = Typography;
 
@@ -105,7 +105,7 @@ export function AiContextPage() {
   if (contextQuery.isPending)
     return (
       <div className="page-loading">
-        <Spin size="large" />
+        <LoadingState />
       </div>
     );
 

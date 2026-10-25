@@ -2,7 +2,7 @@ import { Navigate, useLocation, useParams } from 'react-router-dom';
 
 import { useProjectManifest } from '@/data/use-platform-data';
 import { resolveLegacyClientPath, resolveLegacyProjectEntry } from '@/features/projects/legacy-route-model';
-import { Spin } from '@/ui/ant';
+import LoadingState from '@/ui/platform/LoadingState';
 
 function withLocation(target: string, search: string, hash: string) {
   return `${target}${search}${hash}`;
@@ -11,7 +11,7 @@ function withLocation(target: string, search: string, hash: string) {
 function Loading() {
   return (
     <div className="app-route-loading">
-      <Spin size="large" />
+      <LoadingState />
     </div>
   );
 }

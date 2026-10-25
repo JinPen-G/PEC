@@ -6,8 +6,9 @@ import { PROTOTYPE_I18N_RUNTIME_SCRIPT } from '../../../../../packages/project-c
 import { clearPrdBindingMarkers, installPrdBindingMarkers } from '@/features/docs/prd-binding-markers';
 import { installFrameSmoothScroll, installFrameTopnavOffset } from '@/features/motion/smooth-scroll';
 import { usePlatformLocale } from '@/features/locale/platform-locale';
-import { Button, Result, Spin, Typography } from '@/ui/ant';
+import { Button, Result, Typography } from '@/ui/ant';
 import { ReloadOutlined } from '@/ui/ant/icons';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Text } = Typography;
 
@@ -241,7 +242,7 @@ export const PrototypeFrame = memo(function PrototypeFrame({
     <div className="prototype-frame-host" aria-busy={frameStatus === 'loading'}>
       {frameStatus === 'loading' ? (
         <div className="prototype-frame-state" role="status">
-          <Spin size="large" />
+          <LoadingState label={t(t('workspace.frame.loading'))} />
           <Text type="secondary">{t('workspace.frame.loading')}</Text>
         </div>
       ) : null}

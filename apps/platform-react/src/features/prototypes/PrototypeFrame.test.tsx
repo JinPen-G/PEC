@@ -36,9 +36,9 @@ describe('PrototypeFrame', () => {
       </PlatformLocaleProvider>,
     );
 
-    expect(screen.getByText('正在加載原型頁面…')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toBeInTheDocument();
     fireEvent.load(screen.getByTitle('綜合儀表板'));
-    expect(screen.queryByText('正在加載原型頁面…')).not.toBeInTheDocument();
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
     expect(onLoad).toHaveBeenCalledOnce();
   });
 
@@ -60,7 +60,7 @@ describe('PrototypeFrame', () => {
     expect(await screen.findByText('原型頁面加載失敗')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /重新加載/ }));
-    expect(await screen.findByText('正在加載原型頁面…')).toBeInTheDocument();
+    expect(await screen.findByRole('status')).toBeInTheDocument();
   });
 
   it('syncs the host theme and follows later theme changes', async () => {

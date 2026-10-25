@@ -33,7 +33,6 @@ import {
   Divider,
   Empty,
   Flex,
-  Spin,
   Tag,
   Typography,
 } from '@/ui/ant';
@@ -50,6 +49,7 @@ import { ThemeControl } from '@/ui/platform/ThemeControl';
 import { LanguageControl } from '@/ui/platform/LanguageControl';
 import { AnimatedPillNav } from '@/ui/platform/AnimatedPillNav';
 import { PlatformBrand } from '@/ui/platform/PlatformBrand';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Text, Title } = Typography;
 const TOOLS_VISIBILITY_KEY = 'project-platform:home-engineering-tools';
@@ -147,7 +147,7 @@ export function HomePage() {
   if (projectQuery.isPending || catalogQuery.isPending) {
     return (
       <div className="home-loading home-loading--ant">
-        <Spin size="large" />
+        <LoadingState />
         <Text type="secondary">{t('home.loading')}</Text>
       </div>
     );

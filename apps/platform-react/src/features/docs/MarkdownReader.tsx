@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, type MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Alert, Spin } from '@/ui/ant';
+import { Alert } from '@/ui/ant';
 import { renderMarkdown, type MarkdownHeading } from './markdown';
+import LoadingState from '@/ui/platform/LoadingState';
 
 type MermaidInstance = (typeof import('mermaid'))['default'];
 
@@ -148,7 +149,7 @@ export function MarkdownReader({
   if (loading)
     return (
       <div className="document-loading">
-        <Spin size="large" />
+        <LoadingState />
       </div>
     );
   if (error) return <Alert type="error" showIcon title={t('docs.readError')} description={error} />;

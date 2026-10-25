@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { PlatformShell } from '@/routes/PlatformShell';
-import { Spin } from '@/ui/ant';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const ComponentGalleryPage = lazy(() =>
   import('@/pages/ComponentGalleryPage').then((module) => ({ default: module.ComponentGalleryPage })),
@@ -73,7 +73,7 @@ export function AppRoutes() {
     <Suspense
       fallback={
         <div className="app-route-loading">
-          <Spin size="large" />
+          <LoadingState />
         </div>
       }
     >

@@ -6,9 +6,10 @@ import { useProjectManifest } from '@/data/use-platform-data';
 import { DEFAULT_PROJECT_THEME } from '@/features/projects/project-config-model';
 import { findProject } from '@/features/projects/project-model';
 import { platformApi } from '@/data/platform-api';
-import { Button, Result, Spin, Typography } from '@/ui/ant';
+import { Button, Result, Typography } from '@/ui/ant';
 import { ThemeControl } from '@/ui/platform/ThemeControl';
 import { LanguageControl } from '@/ui/platform/LanguageControl';
+import LoadingState from '@/ui/platform/LoadingState';
 
 const { Text } = Typography;
 
@@ -22,7 +23,7 @@ export function ProjectMobilePage() {
   if (projectQuery.isPending)
     return (
       <div className="home-loading">
-        <Spin size="large" />
+        <LoadingState />
       </div>
     );
   if (!project || project.homepage?.visible === false)
