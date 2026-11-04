@@ -1,6 +1,6 @@
 {
-  "home.docTitle.default": "Product Experience Center",
-  "home.docTitle.project": "{{project}} - Product Experience Center",
+  "home.docTitle.default": "Preview",
+  "home.docTitle.project": "{{project}} - Preview",
   "home.loading": "Loading project data",
   "home.nav.ariaLabel": "Project list",
   "home.nav.empty": "No open projects",

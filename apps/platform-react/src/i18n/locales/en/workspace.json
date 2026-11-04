@@ -1,6 +1,6 @@
 {
   "workspace.fallbackProjectName": "Project",
-  "workspace.defaultDocumentTitle": "Product Experience Center",
+  "workspace.defaultDocumentTitle": "Preview",
   "workspace.runtimeIndexMissing": "HTML page runtime index is missing",
   "workspace.runtimeIndexMissingDescription": "The project registered {{count}} managed HTML pages, but the latest scan contains no runnable pages. Rescan the project package and check the page files.",
   "workspace.pageMissing": "The page does not exist or has been removed from the prototype catalog",

@@ -1,6 +1,6 @@
 {
-  "chrome.brand.name": "Product Experience Center",
-  "chrome.page.docTitle": "{{title}} · Product Experience Center",
+  "chrome.brand.name": "Preview",
+  "chrome.page.docTitle": "{{title}} · Preview",
   "chrome.nav.overview": "Overview",
   "chrome.nav.console": "Console",
   "chrome.nav.projects": "Projects",

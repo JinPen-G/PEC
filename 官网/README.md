@@ -1,4 +1,4 @@
-# Product Experience Center · GitHub Pages 官网
+# Preview · GitHub Pages 官网
 
 这是按官网视觉稿复刻的纯静态站点，不依赖 Node、CDN 或在线字体。
 
@@ -13,7 +13,7 @@
 
 ## GitHub Pages 部署
 
-1. 将本压缩包中的 `docs` 文件夹复制到 `Product-Experience-Center` 仓库根目录。
+1. 将本压缩包中的 `docs` 文件夹复制到平台仓库根目录。
 2. 提交并推送到 GitHub。
 3. 打开仓库 `Settings` → `Pages`。
 4. `Build and deployment` 选择 `Deploy from a branch`。

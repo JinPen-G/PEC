@@ -1,6 +1,6 @@
-# 产品功能体验中心
+# Preview
 
-这是一个基于 React、Ant Design 和 Vite 的本地项目资料与原型平台。它提供共用的首页、项目入口、顶栏、侧栏、主题、文档中心、路由菜单和 HTML 页面承载能力，供产品评审、业务演示和前端开发协作使用。
+Preview（产品预览）是一个面向内部评审与客户演示的平台，用可交互的 Demo 介绍功能设计、讨论业务流程并确认需求。基于 React、Ant Design 和 Vite 构建。它提供共用的首页、项目入口、顶栏、侧栏、主题、文档中心、路由菜单和 HTML 页面承载能力，供产品评审、业务演示和前端开发协作使用。
 
 平台不连接真实业务后端。项目包中的页面、模拟数据、资源和 PRD 可以放在本地 `projects/{project-id}`，也可以通过被 Git 忽略的 `project-mounts.local.json` 挂载外部目录。
 
@@ -30,7 +30,7 @@
 ## 目录结构
 
 ```text
-项目资料原型工程/
+Preview/
 ├─ apps/platform-react/          React 正式平台应用
 ├─ packages/project-core/        项目包、HTML、文档、路由和关联领域核心
 ├─ packages/platform-client/     浏览器数据访问层

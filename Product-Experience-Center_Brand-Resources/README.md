@@ -1,6 +1,6 @@
-# Product Experience Center 品牌资源包
+# Preview 品牌资源包
 
-适用于 GitHub 项目：Product-Experience-Center（产品功能体验中心）。
+适用于 Preview（产品预览）。
 
 ## 核心概念
 图形由多层“页面 / 项目卡片”汇聚组成，表达项目包、原型页面、文档与评审内容在同一工作台中被组织和体验。前景蓝色页面保留两个圆点与两条内容线，强化“可运行产品页面”的识别。

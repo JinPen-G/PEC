@@ -1,6 +1,6 @@
 {
   "workspace.fallbackProjectName": "項目",
-  "workspace.defaultDocumentTitle": "產品功能體驗中心",
+  "workspace.defaultDocumentTitle": "Preview · 產品預覽",
   "workspace.runtimeIndexMissing": "HTML 頁面運行索引缺失",
   "workspace.runtimeIndexMissingDescription": "項目登記了 {{count}} 個託管 HTML 頁面，但當前掃描結果沒有可運行頁面。請重新掃描項目包並檢查頁面文件。",
   "workspace.pageMissing": "頁面不存在或已從原型目錄移除",

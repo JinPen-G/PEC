@@ -36,6 +36,6 @@ searchInput?.addEventListener('input',e=>renderResults(e.target.value));
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch()}if(e.key==='Escape'&&!searchOverlay.hidden)closeSearch()});
 
 $('#copyCommand')?.addEventListener('click', async e => {
-  const text='git clone https://github.com/Xiao0ozZ/Product-Experience-Center.git';
+  const text='git clone https://github.com/XiaoJinPeng/project-prototype-platform.git';
   try{await navigator.clipboard.writeText(text);e.currentTarget.textContent='已複製';setTimeout(()=>e.currentTarget.textContent='複製',1200)}catch{e.currentTarget.textContent='請手動複製'}
 });

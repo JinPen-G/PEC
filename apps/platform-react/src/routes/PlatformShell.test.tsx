@@ -45,7 +45,7 @@ describe('PlatformShell', () => {
 
     expect(document.querySelector('.app-sider')).not.toBeNull();
     expect(document.querySelector('.app-workspace-panel')).not.toBeNull();
-    expect(screen.getByRole('img', { name: '產品功能體驗中心' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Preview' })).toBeInTheDocument();
     // 一級是分組標題，控制台掛在「概覽」分組下。
     expect(screen.getByText('概覽')).toBeInTheDocument();
     expect(screen.getAllByText('控制台').length).toBeGreaterThan(0);

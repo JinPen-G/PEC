@@ -1,6 +1,6 @@
 {
-  "name": "產品功能體驗中心",
-  "short_name": "體驗中心",
+  "name": "Preview · 產品預覽",
+  "short_name": "Preview",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

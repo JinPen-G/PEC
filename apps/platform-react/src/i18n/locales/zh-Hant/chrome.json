@@ -1,6 +1,6 @@
 {
-  "chrome.brand.name": "產品功能體驗中心",
-  "chrome.page.docTitle": "{{title}} · 產品功能體驗中心",
+  "chrome.brand.name": "Preview",
+  "chrome.page.docTitle": "{{title}} · Preview",
   "chrome.nav.overview": "概覽",
   "chrome.nav.console": "控制台",
   "chrome.nav.projects": "項目資料",

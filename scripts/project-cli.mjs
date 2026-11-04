@@ -52,7 +52,7 @@ function resolveFromWorkspace(value, fallback) {
 }
 
 function printHelp() {
-  console.log(`产品功能体验中心 CLI
+  console.log(`Preview CLI
 
 用法：
   npm run project -- validate [--projects-root projects] [--json]

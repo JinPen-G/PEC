@@ -11,7 +11,7 @@ const workspaceRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)),
 
 const args = process.argv.slice(2);
 if (args.includes('--help') || args.includes('-h')) {
-  console.log(`产品功能体验中心本地 MCP Server（只读）
+  console.log(`Preview本地 MCP Server（只读）
 
 用法：
   npm run mcp:serve

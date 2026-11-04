@@ -211,7 +211,7 @@ export function createMcpRequestHandler({ tools, redactOptions = {} }) {
           capabilities: { tools: {} },
           serverInfo: { name: MCP_SERVER_NAME, version: MCP_SERVER_VERSION },
           instructions:
-            '产品功能体验中心本地只读上下文服务。先用 list_projects 取项目 ID，再按需获取项目概览、页面交付上下文、PRD、关联与健康问题。',
+            'Preview本地只读上下文服务。先用 list_projects 取项目 ID，再按需获取项目概览、页面交付上下文、PRD、关联与健康问题。',
         },
       };
     }

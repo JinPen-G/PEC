@@ -1,6 +1,6 @@
 {
-  "home.docTitle.default": "產品功能體驗中心",
-  "home.docTitle.project": "{{project}} - 產品功能體驗中心",
+  "home.docTitle.default": "Preview · 產品預覽",
+  "home.docTitle.project": "{{project}} - Preview",
   "home.loading": "正在讀取項目資料",
   "home.nav.ariaLabel": "項目列表",
   "home.nav.empty": "暫無開放項目",
