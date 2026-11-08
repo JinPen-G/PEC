@@ -1,0 +1,243 @@
+:root {
+  --rental-color-bg-layout: var(--background);
+  --rental-color-bg-container: var(--surface);
+  --rental-color-border-secondary: var(--border);
+  --rental-color-fill-tertiary: var(--surface-muted);
+  --rental-color-text: var(--foreground);
+  --rental-color-text-heading: var(--foreground);
+  --rental-color-text-description: var(--text-secondary);
+  --rental-color-text-secondary: var(--text-secondary);
+  --rental-typography-section-title-weight: 600;
+  --rental-color-primary: var(--accent);
+  --rental-color-primary-bg: var(--accent-subtle);
+  --rental-typography-login-title-size: 24px;
+  --rental-typography-login-title-weight: 600;
+  --rental-typography-login-title-line-height: 32px;
+  --control-height-sm: 32px;
+  --control-height-md: 36px;
+  --control-height-lg: 40px;
+  --rental-typography-font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --rental-sidebar-expanded-width: 240px;
+  --rental-sidebar-menu-height: 32px;
+  --rental-sidebar-menu-gap: 2px;
+  --rental-sidebar-group-label-height: 24px;
+  --rental-sidebar-icon-size: 18px;
+  --rental-sidebar-submenu-min-width: 160px;
+  --rental-layout-context-height: 48px;
+  --rental-layout-context-optical-inset: 4px;
+  --rental-ui-radius-container: 26px;
+  --rental-ui-radius-button: 18px;
+  --rental-ui-radius-input: 18px;
+  --rental-ui-radius-sm: 14px;
+  --rental-ui-radius-lg: 26px;
+  --rental-typography-body-size: 14px;
+  --rental-typography-body-line-height: 22px;
+  --rental-typography-body-weight: 400;
+  --rental-typography-meta-size: 12px;
+  --rental-typography-page-title-size: 20px;
+  --rental-typography-page-title-weight: 600;
+  --rental-typography-page-title-line-height: 28px;
+  --rental-choice-text: var(--text-muted);
+  --rental-choice-text-selected: var(--foreground);
+  --rental-choice-weight: 500;
+  --rental-control-width-select: 192px;
+  --rental-control-height-default: 36px;
+  --rental-layout-header-content-gap: var(--space-2);
+  --rental-layout-inline-gap: 8px;
+  --text-meta: var(--text-muted);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+* {
+  box-sizing: border-box;
+}
+/* Same base typography as the fixed admin styles/designTokens; do not inherit
+ * Preview's former Ant Design app wrapper or its blue anchor defaults. */
+html,
+body,
+#root {
+  min-height: 100%;
+  height: 100%;
+  margin: 0;
+}
+body {
+  overflow: hidden;
+  font-family: var(--rental-typography-font-family);
+  font-size: var(--rental-typography-body-size);
+  font-weight: var(--rental-typography-body-weight);
+  line-height: var(--rental-typography-body-line-height);
+  color: var(--foreground);
+  background: var(--background);
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+.preview-native-stage {
+  height: 100dvh;
+  padding: 6px;
+  background: var(--rental-color-fill-tertiary);
+  color: var(--foreground);
+}
+.preview-native-root.app-shell {
+  position: relative;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--rental-color-border-secondary);
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 10%);
+  font-size: 14px;
+}
+.preview-native-root [data-slot='sidebar-wrapper'] {
+  min-height: 0;
+}
+.preview-native-root [data-slot='sidebar-container'] {
+  position: absolute;
+  height: 100%;
+  border-inline-width: 0;
+}
+.preview-native-root .app-workspace {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 6px 6px 6px 0;
+  overflow: hidden;
+  border: 1px solid var(--rental-color-border-secondary);
+  border-radius: var(--rental-ui-radius-lg);
+  background: var(--surface);
+}
+.preview-context-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  height: var(--rental-layout-context-height);
+  gap: var(--space-2);
+  padding-block-start: var(--rental-layout-context-optical-inset);
+}
+.preview-context-location,
+.preview-context-actions,
+.preview-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.preview-context-location {
+  flex: 1;
+  padding-inline: var(--space-4);
+}
+.preview-context-actions {
+  flex: none;
+  gap: var(--space-4);
+  padding-inline: var(--space-4);
+}
+.preview-breadcrumb {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.preview-breadcrumb > :not(:last-child) {
+  color: var(--text-secondary);
+}
+.preview-breadcrumb > :last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.preview-demo-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.workspace-clock {
+  color: var(--text-muted);
+  font-size: var(--rental-typography-meta-size);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.preview-menu-empty {
+  padding: 12px;
+  color: var(--text-secondary);
+  font-size: var(--rental-typography-meta-size);
+}
+.preview-document-trigger {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: var(--rental-ui-radius-button);
+  background: var(--surface);
+  color: var(--foreground);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.preview-document-trigger:hover {
+  background: var(--surface-muted);
+}
+.preview-document-host {
+  overflow: hidden;
+}
+.preview-document-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 56px;
+  padding: 8px 12px 8px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.preview-document-heading strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+.preview-document-body {
+  min-height: 0;
+  overflow: auto;
+  padding: 20px;
+}
+.preview-document-panel {
+  outline: none;
+}
+.preview-document-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+@media (max-width: 767px) {
+  .preview-native-root .app-workspace {
+    margin: 6px;
+  }
+  .preview-demo-label,
+  .workspace-clock-date,
+  .preview-breadcrumb > :not(:last-child) {
+    display: none;
+  }
+}
+@media (max-width: 640px) {
+  .preview-native-stage {
+    padding: 0;
+  }
+  .preview-native-root.app-shell {
+    height: 100vh;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .preview-native-root .app-workspace {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .preview-native-stage *,
+  .preview-login * {
+    scroll-behavior: auto;
+  }
+}

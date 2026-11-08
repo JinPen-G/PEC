@@ -1,0 +1,84 @@
+/* One theme-aware surface behind the sidebar and rounded workspace. */
+:root { --rental-sidebar-surface: oklch(0.985 0 0); }
+:root[data-theme="dark"] { --rental-sidebar-surface: oklch(0.205 0 0); }
+.native-admin-shell { background: var(--rental-sidebar-surface); }
+.rental-sidebar-colors { --sidebar: var(--rental-sidebar-surface); }
+/* Keep the native collapse hit target; the rounded workspace owns the visible edge. */
+.rental-sidebar-colors [data-sidebar="rail"]::after { display: none; }
+/* Brand/search and mode controls stay outside the menu's only scroll region. */
+.rental-sidebar-colors :is([data-sidebar="header"], [data-sidebar="footer"], .operator-mode-switch) { flex-shrink: 0; }
+/* Remove inherited prose-list margin; the footer's native inset owns bottom spacing. */
+.rental-sidebar-colors [data-sidebar="footer"] > [data-sidebar="menu"] { margin-block: 0; }
+/* App geometry roles only; preserved source classes, sizes and motion stay native. */
+.rental-sidebar-colors :is([data-sidebar="menu-button"], [data-sidebar="menu-sub-button"], [data-slot="sidebar-trigger"], [data-slot="dropdown-menu-item"], [data-slot="dropdown-menu-sub-trigger"], [data-slot="dropdown-menu-radio-item"], [data-slot="dropdown-menu-checkbox-item"]) {
+  border-radius: var(--rental-ui-radius-button);
+}
+/* Native highlights cache the measured corner; keep a live token after preference changes. */
+.rental-sidebar-colors [data-slot="trigger-highlight"] { border-radius: var(--rental-ui-radius-button) !important; }
+.rental-sidebar-colors [data-slot="sidebar-input"] { border-radius: var(--rental-ui-radius-input); }
+.rental-sidebar-colors :is([data-slot="dropdown-menu-content"], [data-slot="dropdown-menu-sub-content"], [data-slot="tooltip-content"]) {
+  border-radius: var(--rental-ui-radius-container);
+}
+.rental-sidebar-colors[data-mobile="true"] {
+  border-start-end-radius: var(--rental-ui-radius-container);
+  border-end-end-radius: var(--rental-ui-radius-container);
+}
+.rental-sidebar-colors [data-sidebar="brand-mark"] { border-radius: var(--rental-ui-radius-container); }
+.rental-sidebar-colors [data-sidebar="brand-mark"] img { border-radius: inherit; }
+/* Sidebar-only inverse trial; tenant artwork and the shared favicon source stay intact. */
+.rental-sidebar-colors [data-sidebar="brand-mark"][data-brand-inverted] { background: #000; }
+:root[data-theme="dark"] .rental-sidebar-colors [data-sidebar="brand-mark"][data-brand-inverted] { background: #fff; }
+.rental-sidebar-colors [data-sidebar="brand-mark"][data-brand-inverted] img { width: 75%; height: 75%; border-radius: 0; background: transparent; filter: invert(1); }
+.rental-sidebar-colors [data-sidebar="workspace-icon"] { border-radius: var(--rental-ui-radius-sm); }
+
+/* Resolve account accent before the reference palette shadows --accent locally. */
+:root {
+  --rental-sidebar-selected-bg: var(--accent);
+  --rental-sidebar-selected-ink: var(--accent-foreground);
+}
+.rental-sidebar-colors { --sidebar-ring: var(--rental-sidebar-selected-bg); }
+/* Chinese labels use the shared control height and one compact spacing rhythm. */
+.rental-sidebar-colors [data-sidebar="content"] { gap: var(--rental-sidebar-menu-gap); }
+.rental-sidebar-colors [data-sidebar="menu"] { gap: var(--rental-sidebar-menu-gap); }
+.rental-sidebar-colors [data-sidebar="group-label"] { height: var(--rental-sidebar-group-label-height); }
+.rental-sidebar-colors [data-sidebar="menu-button"][data-size="default"],
+.rental-sidebar-colors [data-sidebar="menu-sub-button"] {
+  height: var(--rental-sidebar-menu-height);
+  font-size: var(--rental-typography-body-size);
+  line-height: var(--rental-typography-body-line-height);
+  transition-property: width, height, padding, background-color, color;
+  transition-duration: var(--animate-ui-sidebar-duration), var(--animate-ui-sidebar-duration), var(--animate-ui-sidebar-duration), var(--animate-ui-sidebar-color-duration, 200ms), var(--animate-ui-sidebar-color-duration, 200ms);
+  transition-timing-function: var(--animate-ui-sidebar-easing), var(--animate-ui-sidebar-easing), var(--animate-ui-sidebar-easing), var(--animate-ui-sidebar-color-easing, ease), var(--animate-ui-sidebar-color-easing, ease);
+}
+.rental-sidebar-colors [data-sidebar="menu-sub"] { gap: var(--rental-sidebar-menu-gap); }
+.rental-sidebar-colors [data-sidebar="menu-button"] > svg:first-child { width: var(--rental-sidebar-icon-size); height: var(--rental-sidebar-icon-size); }
+.rental-sidebar-colors [data-sidebar="menu-button"] > .rental-animated-icon { font-size: var(--rental-sidebar-icon-size); }
+/* One native controlled surface glides on selection; pointer/focus only gets neutral feedback. */
+.rental-sidebar-route-highlight {
+  background: var(--rental-sidebar-selected-bg);
+  border-radius: var(--rental-ui-radius-button);
+  pointer-events: none;
+}
+.rental-sidebar-sub-highlight { translate: -1px; }
+.rental-sidebar-colors :is([data-sidebar="menu-button"], [data-sidebar="menu-sub-button"])[data-active] {
+  background-color: transparent;
+  color: var(--rental-sidebar-selected-ink);
+}
+.rental-sidebar-colors :is([data-sidebar="menu-button"], [data-sidebar="menu-sub-button"])[data-active] > svg { color: inherit; }
+
+.native-admin-shell [data-slot="sidebar"][data-collapsible="icon"] [data-sidebar="group-label"] { margin-top: calc(-1 * var(--rental-sidebar-group-label-height)); }
+/* Measure the icon button, not the sidebar column while its width is still shrinking. */
+.native-admin-shell [data-slot="sidebar"][data-collapsible="icon"] .rental-sidebar-route-target { width: var(--rental-sidebar-menu-height); }
+/* 18px icons must center in the native 32px button, without the old 8px inset/gap. */
+.native-admin-shell [data-slot="sidebar"][data-collapsible="icon"] .rental-sidebar-navigation [data-sidebar="menu-button"] {
+  justify-content: center;
+  column-gap: 0;
+  padding-inline: 0 !important;
+}
+.native-admin-shell [data-slot="sidebar"][data-collapsible="icon"] .rental-sidebar-navigation [data-sidebar="menu-button"] > span:not(.rental-animated-icon) { max-width: 0; }
+.rental-sidebar-colors [data-slot="dropdown-menu-content"].rental-sidebar-submenu {
+  width: max-content;
+  min-width: var(--rental-sidebar-submenu-min-width);
+  max-width: var(--available-width);
+}
+.rental-sidebar-submenu [data-slot="dropdown-menu-item"] { min-height: var(--rental-sidebar-menu-height); justify-content: space-between; }

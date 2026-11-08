@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@preview/ui/admin": ["../../packages/preview-ui/src/admin.tsx"],
+      "@preview/ui/loading": ["../../packages/preview-ui/src/LoadingState.tsx"],
+      "@/registry/*": ["../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/*"],
+      "@preview/ui": ["../../packages/preview-ui/src/index.ts"],
+      "@/registry/components/button/button": [
+        "../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/components/button/button.tsx"
+      ],
+      "@/lib/motion-tokens": [
+        "../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/lib/motion-tokens.ts"
+      ],
+      "@/*": ["./src/*"]
+    },
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": ["src"]
+}

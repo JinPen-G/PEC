@@ -1,0 +1,24 @@
+import { afterEach, expect, it } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { DevicePreview } from './DevicePreview';
+afterEach(cleanup);
+it('keeps native form state and DOM identity across phone and full-size previews', () => {
+  const child = <input aria-label="Draft" defaultValue="" />;
+  const view = render(<DevicePreview mobile={false}>{child}</DevicePreview>);
+  const input = screen.getByLabelText('Draft');
+  const positionedScreen = view.container.querySelector('.showcase-device-screen');
+  const scaler = view.container.querySelector('.showcase-device-scaler');
+  fireEvent.change(input, { target: { value: 'Unsubmitted draft' } });
+  view.rerender(<DevicePreview mobile>{child}</DevicePreview>);
+  expect(screen.getByLabelText('Draft')).toBe(input);
+  expect(input).toHaveValue('Unsubmitted draft');
+  expect(view.container.querySelector('.preview-shell_bezel__I2eh4')).toBeInTheDocument();
+  expect(view.container.querySelector('.showcase-device-screen')).toBe(positionedScreen);
+  expect(view.container.querySelector('.showcase-device-scaler')).toBe(scaler);
+  expect(view.container.querySelector('.showcase-device-shell')).toHaveAttribute('data-mode', 'mobile');
+  view.rerender(<DevicePreview mobile={false}>{child}</DevicePreview>);
+  expect(screen.getByLabelText('Draft')).toBe(input);
+  expect(input).toHaveValue('Unsubmitted draft');
+  expect(view.container.querySelector('.showcase-device-screen')).toBe(positionedScreen);
+  expect(view.container.querySelector('.showcase-device-scaler')).toBe(scaler);
+});

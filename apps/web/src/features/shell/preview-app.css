@@ -1,0 +1,167 @@
+body {
+  margin: 0;
+  background: var(--background);
+}
+.preview-native-login .preview-login-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  color: inherit;
+  font-size: 28px;
+  font-weight: 600;
+}
+.preview-native-login .login-brand--compact .preview-login-wordmark {
+  font-size: 24px;
+}
+.preview-native-login .login-card-brand .preview-login-wordmark {
+  color: var(--login-brand-heading);
+}
+.preview-native-login .login-panel-heading p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+.preview-login-fields > div {
+  margin-bottom: 16px;
+}
+.preview-native-login .login-submit {
+  margin-top: 8px;
+}
+.preview-login-hint {
+  margin: 20px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.75;
+}
+.preview-native-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  color: var(--foreground);
+  background: var(--surface);
+}
+.preview-documents {
+  max-width: 960px;
+  margin: auto;
+  padding: 32px;
+}
+.preview-documents > header {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+}
+.preview-documents > header h1 {
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.preview-documents > header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.preview-appearance {
+  padding: 0 var(--space-6) var(--space-6);
+}
+.preview-appearance .text-meta {
+  color: var(--rental-color-text-description);
+  font-size: 12px;
+  line-height: 20px;
+}
+.preview-radius-field {
+  margin-bottom: 24px;
+}
+.preview-color-setting {
+  margin-bottom: 24px;
+}
+.preview-mode-trigger {
+  display: grid;
+  place-items: center;
+  height: 32px;
+  width: 32px;
+  border: 0;
+  border-radius: var(--rental-ui-radius-button);
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+}
+.preview-mode-trigger:hover {
+  background: var(--surface-muted);
+  color: var(--foreground);
+}
+.preview-mode-trigger:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.preview-document-body .markdown-reader {
+  padding: 0;
+  font-size: 13px;
+}
+.preview-document-body h1 {
+  font-size: 20px;
+}
+.preview-document-body h2 {
+  font-size: 16px;
+}
+.preview-documents .markdown-body,
+.preview-document-body .markdown-body {
+  margin: 0;
+  color: var(--foreground);
+  line-height: 1.85;
+}
+.preview-documents .markdown-body :is(h1, h2, h3),
+.preview-document-body .markdown-body :is(h1, h2, h3) {
+  color: inherit;
+  line-height: 1.3;
+  scroll-margin-top: 24px;
+}
+.preview-documents .markdown-body h2,
+.preview-document-body .markdown-body h2 {
+  margin-top: 32px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.preview-documents .markdown-body p,
+.preview-document-body .markdown-body p {
+  margin-block: 1em;
+}
+.preview-documents .markdown-body a,
+.preview-document-body .markdown-body a {
+  color: var(--accent);
+  text-underline-offset: 3px;
+}
+.preview-documents .markdown-body table,
+.preview-document-body .markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.preview-documents .markdown-body :is(th, td),
+.preview-document-body .markdown-body :is(th, td) {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+}
+.preview-documents .markdown-body pre,
+.preview-document-body .markdown-body pre {
+  overflow: auto;
+  padding: 16px;
+  background: var(--surface-muted);
+  border-radius: 10px;
+}
+.preview-documents .markdown-body img,
+.preview-document-body .markdown-body img,
+.preview-document-body .mermaid-diagram svg {
+  max-width: 100%;
+}
+@media (max-width: 640px) {
+  .preview-login-brand {
+    padding: 24px;
+  }
+  .preview-login-main {
+    padding-bottom: 56px;
+  }
+  .preview-documents,
+  .preview-appearance {
+    padding: 24px;
+  }
+}

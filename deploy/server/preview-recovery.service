@@ -1,0 +1,16 @@
+[Unit]
+Description=Recover interrupted Preview deployment before startup
+After=network.target
+Before=preview.service
+ConditionPathExists=/opt/preview/state/transaction.json
+
+[Service]
+Type=oneshot
+User=preview
+Group=preview
+UMask=0077
+ExecStart=@NODE@ /opt/preview/scripts/deploy.mjs recover --boot --config /etc/preview/deploy.json
+TimeoutStartSec=180
+
+[Install]
+WantedBy=multi-user.target

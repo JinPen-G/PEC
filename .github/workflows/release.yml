@@ -1,0 +1,89 @@
+name: Preview release
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Deploy latest commit, rollback previous compatible release, or recover interrupted deployment
+        type: choice
+        options: [deploy, rollback, recover]
+        default: deploy
+permissions:
+  contents: read
+concurrency:
+  group: preview-production
+  cancel-in-progress: false
+jobs:
+  build:
+    if: ${{ github.event_name == 'push' || inputs.operation == 'deploy' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.0'
+          cache: npm
+      - run: npm ci
+      - run: npm run docs:check && npm run architecture:check && npm run typecheck
+      - run: npm run structure:check
+      - run: npm run lint:deploy
+      - run: npm run ui:source:check
+      - run: npm run build:web
+      - name: Report business graph maintenance gaps
+        run: npm run graph:check
+      - run: npm run build:runtime
+      - run: npm run release:smoke
+      - run: npm run release:package
+      - name: Pack verified complete release
+        run: |
+          release=$(find output/releases -mindepth 1 -maxdepth 1 -type d | head -n 1)
+          node scripts/release.mjs verify --release "$release"
+          tar -czf output/preview-release.tar.gz -C output/releases "$(basename "$release")"
+          tar -czf output/preview-server-setup.tar.gz deploy/server output/tools
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-release
+          path: output/preview-release.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-server-setup
+          path: output/preview-server-setup.tar.gz
+  deploy:
+    needs: build
+    if: ${{ always() && !cancelled() && github.ref == 'refs/heads/main' && vars.PREVIEW_DEPLOY_ENABLED == 'true' && (needs.build.result == 'success' || (github.event_name == 'workflow_dispatch' && inputs.operation != 'deploy')) }}
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        if: ${{ github.event_name == 'push' || inputs.operation == 'deploy' }}
+        with:
+          name: preview-release
+          path: output
+      - name: Install pinned SSH configuration
+        env:
+          SSH_KEY: ${{ secrets.PREVIEW_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.PREVIEW_KNOWN_HOSTS }}
+        run: |
+          umask 077
+          test -n "$SSH_KEY" && test -n "$KNOWN_HOSTS"
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: Deploy complete release or run maintenance operation
+        env:
+          DESTINATION: ${{ secrets.PREVIEW_SSH_DESTINATION }}
+          OPERATION: ${{ inputs.operation || 'deploy' }}
+        run: |
+          [[ "$DESTINATION" =~ ^preview@[a-zA-Z0-9.-]+$ ]] || { echo 'PREVIEW_SSH_DESTINATION must be preview@hostname'; exit 1; }
+          case "$OPERATION" in
+            deploy)
+              archive="preview-release-${GITHUB_RUN_ID}.tar.gz"
+              scp -o BatchMode=yes -o StrictHostKeyChecking=yes output/preview-release.tar.gz "$DESTINATION:/var/lib/preview/incoming/$archive"
+              ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$DESTINATION" "/usr/bin/env node /opt/preview/scripts/deploy.mjs deploy --archive /var/lib/preview/incoming/$archive --sequence $GITHUB_RUN_ID"
+              ;;
+            rollback|recover)
+              ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$DESTINATION" "/usr/bin/env node /opt/preview/scripts/deploy.mjs $OPERATION"
+              ;;
+            *) exit 1 ;;
+          esac

@@ -1,0 +1,497 @@
+.requirement-graph-page {
+  width: 100%;
+  min-width: 0;
+  padding: 40px 48px 52px;
+  color: var(--foreground);
+}
+.requirement-graph-heading {
+  margin-bottom: 36px;
+}
+.requirement-graph-heading h1 {
+  margin: 0 0 14px;
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.requirement-graph-heading p {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.requirement-graph-page button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+.requirement-graph-page :is(button, a, input, summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.requirement-graph-workspace {
+  position: relative;
+}
+.requirement-graph-preview-heading {
+  display: flex;
+  margin-bottom: 16px;
+  color: var(--foreground);
+  font-size: 13px;
+}
+.requirement-graph-preview-heading > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 0 11px;
+  border-bottom: 1px solid var(--foreground);
+}
+.requirement-graph-frame {
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--surface-muted);
+}
+.requirement-graph-toolbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 70px;
+  padding: 22px 26px 0;
+}
+.requirement-graph-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.requirement-graph-topics button {
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  transition:
+    background 160ms,
+    color 160ms;
+}
+.requirement-graph-topics button:hover {
+  background: var(--surface);
+}
+.requirement-graph-topics button[aria-pressed='true'] {
+  background: var(--foreground);
+  color: var(--surface);
+}
+.requirement-graph-topics i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+.requirement-graph-picker-trigger {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: var(--text-muted);
+  cursor: pointer;
+  list-style: none;
+}
+.requirement-graph-picker-trigger:hover {
+  color: var(--foreground);
+  background: var(--surface);
+}
+.requirement-graph-picker-panel {
+  z-index: 4;
+  width: 228px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow-floating);
+}
+.requirement-graph-picker-panel input {
+  width: 100%;
+  padding: 8px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 12px;
+}
+.requirement-graph-picker-panel input::placeholder {
+  color: var(--text-muted);
+}
+.requirement-graph-picker-panel > div {
+  max-height: 250px;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.requirement-graph-picker-panel button {
+  justify-content: space-between;
+  width: 100%;
+  padding: 9px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  text-align: left;
+}
+.requirement-graph-picker-panel button:hover,
+.requirement-graph-picker-panel button[aria-pressed='true'] {
+  background: var(--surface-muted);
+}
+.requirement-graph-body {
+  display: flex;
+  min-width: 0;
+}
+.requirement-graph-visual {
+  flex: 1;
+  min-width: 0;
+}
+.requirement-graph-stage {
+  position: relative;
+  height: 510px;
+  overflow: hidden;
+}
+.requirement-graph-canvas {
+  position: absolute;
+  inset: 0;
+}
+.requirement-graph-canvas canvas {
+  display: block;
+}
+.requirement-graph-canvas-loading,
+.requirement-graph-canvas-error {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 10px;
+  background: var(--surface-muted);
+  text-align: center;
+}
+.requirement-graph-canvas-error small {
+  max-width: 44ch;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+.requirement-graph-tools {
+  position: absolute;
+  bottom: 20px;
+  right: 22px;
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.requirement-graph-tools button {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 6px;
+  color: var(--text-muted);
+}
+.requirement-graph-tools button:hover {
+  background: var(--surface-muted);
+  color: var(--foreground);
+}
+.requirement-graph-detail {
+  position: relative;
+  flex: none;
+  width: 288px;
+  max-height: 510px;
+  overflow: auto;
+  padding: 28px 24px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.65;
+  scrollbar-width: thin;
+}
+.requirement-graph-detail h2 {
+  margin: 0 24px 12px 0;
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+.requirement-graph-detail > p {
+  margin: 0;
+  color: var(--text-secondary);
+}
+.requirement-graph-close {
+  position: absolute;
+  right: 14px;
+  top: 24px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--text-muted);
+}
+.requirement-graph-detail-tabs {
+  display: flex;
+  gap: 18px;
+  margin: 24px 0 18px;
+  border-bottom: 1px solid var(--border);
+}
+.requirement-graph-detail-tabs button {
+  padding: 0 0 9px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+.requirement-graph-detail-tabs button[aria-pressed='true'] {
+  border-bottom: 1px solid var(--foreground);
+  color: var(--foreground);
+}
+.requirement-graph-detail blockquote {
+  margin: 0 0 22px;
+  font-size: 12px;
+}
+.requirement-graph-detail blockquote p {
+  margin: 0 0 10px;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+.requirement-graph-detail blockquote button {
+  justify-content: flex-start;
+  padding: 0;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-align: left;
+}
+.requirement-graph-detail blockquote button:hover {
+  color: var(--foreground);
+}
+.requirement-graph-detail h3 {
+  margin: 22px 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.requirement-graph-links > div {
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+.requirement-graph-links > div > button,
+.requirement-graph-impact-item > button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0;
+  text-align: left;
+  font-size: 12px;
+}
+.requirement-graph-links summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 11px;
+  list-style: none;
+}
+.requirement-graph-links details[open] > blockquote {
+  margin: 12px 0 0;
+}
+.requirement-graph-prototypes a {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  color: var(--foreground);
+}
+.requirement-graph-impact-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.requirement-graph-impact-item small {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+.requirement-graph-caveat {
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+.requirement-graph-maintenance {
+  margin-top: 18px;
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.requirement-graph-maintenance summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  list-style: none;
+  cursor: pointer;
+}
+.requirement-graph-maintenance p {
+  margin: 6px 0;
+}
+.requirement-graph-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 400px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+.requirement-graph-empty p {
+  margin: 0;
+}
+.requirement-graph-empty small {
+  max-width: 48ch;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.requirement-graph-empty button {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+}
+.requirement-graph-workspace.expanded {
+  position: fixed;
+  z-index: 100;
+  inset: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: 0 0 0 24px var(--surface);
+}
+.requirement-graph-workspace.expanded .requirement-graph-frame {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.requirement-graph-workspace.expanded .requirement-graph-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.requirement-graph-workspace.expanded .requirement-graph-visual {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.requirement-graph-workspace.expanded .requirement-graph-stage {
+  flex: 1;
+  height: auto;
+  min-height: 160px;
+}
+.requirement-graph-workspace.expanded .requirement-graph-detail {
+  max-height: none;
+}
+.requirement-graph-document {
+  max-height: 600px;
+  overflow: auto;
+  padding: 32px 0;
+}
+.requirement-graph-document header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.requirement-graph-document h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+.requirement-graph-workspace.expanded .requirement-graph-document {
+  position: absolute;
+  inset: 68px 24px 24px;
+  z-index: 5;
+  max-height: none;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+@media (max-width: 1000px) {
+  .requirement-graph-page {
+    padding: 32px 30px;
+  }
+  .requirement-graph-detail {
+    width: 260px;
+    padding-inline: 20px;
+  }
+}
+@media (max-width: 720px) {
+  .requirement-graph-page {
+    padding: 28px 16px;
+  }
+  .requirement-graph-heading {
+    margin-bottom: 28px;
+  }
+  .requirement-graph-heading h1 {
+    font-size: 30px;
+  }
+  .requirement-graph-heading p {
+    font-size: 13px;
+  }
+  .requirement-graph-toolbar {
+    padding: 16px 16px 0;
+    min-height: 62px;
+  }
+  .requirement-graph-topics {
+    gap: 3px;
+  }
+  .requirement-graph-topics button {
+    min-height: 32px;
+    padding-inline: 8px;
+    font-size: 10px;
+  }
+  .requirement-graph-stage {
+    height: 450px;
+  }
+  .requirement-graph-tools {
+    bottom: 14px;
+    right: 14px;
+  }
+  .requirement-graph-tools button {
+    width: 36px;
+    height: 36px;
+  }
+  .requirement-graph-body {
+    flex-direction: column;
+  }
+  .requirement-graph-detail {
+    width: 100%;
+    max-height: 340px;
+    border-left: 0;
+    border-top: 1px solid var(--border);
+  }
+  .requirement-graph-workspace.expanded {
+    inset: 8px;
+    padding: 12px;
+  }
+  .requirement-graph-workspace.expanded .requirement-graph-detail {
+    max-height: 240px;
+  }
+  .requirement-graph-document {
+    padding: 24px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .requirement-graph-topics button {
+    transition: none;
+  }
+}

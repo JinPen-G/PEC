@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-05",
+  "reason": "负责人确认统一应用登录、按角色呈现工作台，修订前原文字节快照",
+  "files": [
+    {
+      "source": "docs/原生原型平台/原生原型平台-需求.md",
+      "snapshot": "docs__原生原型平台__原生原型平台-需求.md",
+      "sha256": "4b4bf2846b040f12b97bb22cda237bc9394f81829d77628a54578e09d34a2056"
+    },
+    {
+      "source": "docs/原生原型平台/原生原型平台-开发任务.md",
+      "snapshot": "docs__原生原型平台__原生原型平台-开发任务.md",
+      "sha256": "acdb478477390a9f461b47aebc38cd79c6d78a2140212c73dcf643876f2cfaec"
+    },
+    {
+      "source": "docs/原生原型平台/原生原型平台-开发记录.md",
+      "snapshot": "docs__原生原型平台__原生原型平台-开发记录.md",
+      "sha256": "dfd1bbb686694564b451e59c01c8c07f4b95190096a91cf64cd336dc9d4e4bbe"
+    },
+    {
+      "source": "docs/原生原型平台/原生原型平台-协作接续.md",
+      "snapshot": "docs__原生原型平台__原生原型平台-协作接续.md",
+      "sha256": "602282500a4c06df30475f4a70d35907dcb05237f684907e038d9ae03fddd66e"
+    },
+    {
+      "source": "docs/平台建设/Preview-需求.md",
+      "snapshot": "docs__平台建设__Preview-需求.md",
+      "sha256": "efb570933476719d2a2cf18ff6d2d20a5df429105968c412a4824ad668d6f348"
+    },
+    {
+      "source": "docs/平台建设/Preview-协作接续.md",
+      "snapshot": "docs__平台建设__Preview-协作接续.md",
+      "sha256": "944cd0edc2507c6e91da1465d3ba9f656fafa01249e3af57a22102d91f539bf1"
+    },
+    {
+      "source": "docs/文档导航.md",
+      "snapshot": "docs__文档导航.md",
+      "sha256": "75a22ab20ae1e0977375e7ddacda7472393cd2e7ab09fd9a51271bce300e43b6"
+    },
+    {
+      "source": "README.md",
+      "snapshot": "README.md",
+      "sha256": "bd2bbf44d890249917fa712e70b60d0852ff2d3150df184552b81f03f65fbc39"
+    }
+  ]
+}

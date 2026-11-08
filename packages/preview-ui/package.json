@@ -1,0 +1,23 @@
+{
+  "name": "@preview/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "dependencies": {
+    "@animate-ui/react": "2.3.0",
+    "@base-ui/react": "1.9.0",
+    "@hugeicons/core-free-icons": "4.3.5",
+    "@hugeicons/react": "1.1.10",
+    "motion": "14.6.0",
+    "lucide-react": "1.49.0",
+    "cn": "0.4.0",
+    "class-variance-authority": "0.7.1"
+  }
+}

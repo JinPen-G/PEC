@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "contentKey": "rimo-rental",
+  "moduleKey": "rimo-native",
+  "title": "RIMO Rental 项目概况",
+  "overview": "overview.md",
+  "graph": "graph.json",
+  "requirements": [
+    {
+      "id": "vehicle-groups",
+      "title": "車型組管理 · 原型功能说明",
+      "category": "車輛管理",
+      "status": "draft",
+      "path": "requirements/vehicle-groups.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-groups"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-transfer",
+      "title": "車輛調撥管理 · 原型功能说明",
+      "category": "車輛管理",
+      "status": "draft",
+      "path": "requirements/vehicle-transfer.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-transfer"
+        }
+      ]
+    },
+    {
+      "id": "vehicle-status",
+      "title": "车辆状态与控车",
+      "category": "车辆管理",
+      "status": "confirmed",
+      "access": "public",
+      "path": "requirements/vehicle-status.md",
+      "pages": []
+    }
+  ],
+  "assets": []
+}

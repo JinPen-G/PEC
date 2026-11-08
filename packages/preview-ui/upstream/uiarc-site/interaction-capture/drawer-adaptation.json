@@ -1,0 +1,20 @@
+{
+  "repository": "https://github.com/kuratlielia/arc-library",
+  "commit": "8302b52ed9dc79ae7ca699b158a98dfdf09656f7",
+  "license": "MIT",
+  "adaptation": "Only relative motion-token import and optional localized closeLabel prop; original source untouched.",
+  "records": [
+    {
+      "source": "packages/preview-ui/upstream/uiarc-site/free-source/registry/components/drawer/drawer.tsx",
+      "runtime": "packages/preview-ui/src/site/auth-registry/components/drawer/drawer.tsx",
+      "sourceSha256": "8c8c81515a9057a02b689f55c8fbd2245ada8ed6d25b0c345d6b6bc28128f469",
+      "runtimeSha256": "74f64a7f60931fb5cb85eb25d91197b82b1315e14372822113129180cd28bf67"
+    },
+    {
+      "source": "packages/preview-ui/upstream/uiarc-site/free-source/registry/components/drawer/drawer.module.css",
+      "runtime": "packages/preview-ui/src/site/auth-registry/components/drawer/drawer.module.css",
+      "sourceSha256": "f0bbe416307a5203eefea97940c22952914d92f8a906ecc1e4b201da10f13e01",
+      "runtimeSha256": "f0bbe416307a5203eefea97940c22952914d92f8a906ecc1e4b201da10f13e01"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "capturedAt": "2026-11-06T08:05:36.863Z",
+  "url": "https://uiarc.dev/components/button",
+  "sourceUrl": "https://uiarc.dev/_next/static/chunks/39865-dc562cb1ebef7cfb.js",
+  "file": "sidebar-reference.js",
+  "sha256": "94d743745366f5cd83a21d37fc5f0cf4efa24f93d10e9ec5bed22faabe904372",
+  "use": "Read-only browser-observed reference, never imported or executed.",
+  "observed": {
+    "section": {
+      "height": "siteMotionTokens.spring.smooth",
+      "opacity": 0.18,
+      "overflowDuringMotion": "clip",
+      "overflowAfterEnter": "visible"
+    },
+    "more": {
+      "enter": {
+        "opacity": 0,
+        "scale": 0.97,
+        "y": -4
+      },
+      "exit": {
+        "opacity": 0,
+        "scale": 0.97,
+        "y": -4,
+        "duration": 0.12
+      }
+    },
+    "fullscreen": {
+      "origin": "preview bounds",
+      "enter": "siteMotionTokens.spring.smooth",
+      "exitOpacity": {
+        "duration": 0.24,
+        "delay": 0.12
+      }
+    },
+    "docs": {
+      "headingFont": 22,
+      "headingLineHeight": 24.2,
+      "bodyFont": 15,
+      "bodyLineHeight": 24.75,
+      "paragraphMarginBottom": 16
+    }
+  },
+  "matchedLayout": {
+    "viewport": "1440x1000",
+    "topbar": 64,
+    "sidebar": 242,
+    "detailLeft": 325.597229,
+    "detailWidth": 759.694458,
+    "tocLeft": 1141.291626,
+    "previewRadius": 26
+  }
+}

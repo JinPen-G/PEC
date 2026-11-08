@@ -1,0 +1,39 @@
+.query-state-loading { min-height: 280px; display: grid; place-items: center; }
+.route-loader { min-height: 360px; display: grid; place-items: center; }
+.auth-loader { min-height: 100vh; display: grid; place-items: center; }
+
+/* Original page loading: staggered 3×3 pixel grid with the label on its right. */
+.rental-loading-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--rental-color-text-secondary);
+  font-size: var(--rental-typography-body-size);
+  font-weight: var(--rental-typography-body-weight);
+  line-height: var(--rental-typography-body-line-height);
+}
+.rental-loading-grid {
+  display: grid;
+  flex: none;
+  grid-template-columns: repeat(3, 4px);
+  gap: 2px;
+  width: 16px;
+  height: 16px;
+}
+.rental-loading-cell {
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  background: var(--rental-color-primary);
+  opacity: .18;
+  animation: rental-pixel-on 650ms ease-in-out infinite;
+}
+@keyframes rental-pixel-on {
+  0%, 100% { opacity: .18; transform: scale(.82); }
+  45% { opacity: 1; transform: scale(1); }
+  70% { opacity: .18; transform: scale(.82); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rental-loading-cell { animation: none !important; opacity: .48; transform: none; }
+}

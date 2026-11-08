@@ -6,11 +6,11 @@ import { fileURLToPath } from 'node:url';
 
 import { describe, expect, it } from 'vitest';
 
-import { traditionalToSimplified, TRADITIONAL_TO_SIMPLIFIED } from '../../apps/platform-react/src/i18n/zh-hans-map';
+import { traditionalToSimplified, TRADITIONAL_TO_SIMPLIFIED } from '../../apps/web/src/i18n/zh-hans-map';
 
 const LOCALES_ZH_HANT = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
-  '../../apps/platform-react/src/i18n/locales/zh-Hant',
+  '../../apps/web/src/i18n/locales/zh-Hant',
 );
 
 function collectValues() {
@@ -37,7 +37,10 @@ describe('zh-Hans 运行时转换', () => {
       for (const traditional of Object.keys(TRADITIONAL_TO_SIMPLIFIED)) {
         // 允许的例外：该繁体字恰好也是某个字的简体目标（映射目标集），如 臺→台 后仍出现的 台
         if (Object.values(TRADITIONAL_TO_SIMPLIFIED).includes(traditional)) continue;
-        expect(converted.includes(traditional), `转换后仍含繁体字 ${traditional}: ${value.slice(0, 40)}`).toBe(false);
+        expect(
+          converted.includes(traditional),
+          `转换后仍含繁体字 ${traditional}: ${value.slice(0, 40)}`,
+        ).toBe(false);
       }
     }
   });

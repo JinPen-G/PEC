@@ -1,5 +1,5 @@
 {
-  "name": "@prototype-platform/platform-client",
+  "name": "@preview/platform-client",
   "version": "0.1.0",
   "private": true,
   "type": "module",

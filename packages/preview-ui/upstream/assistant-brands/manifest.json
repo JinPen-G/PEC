@@ -1,0 +1,28 @@
+{
+  "capturedAt": "2026-11-06T06:45:17.205Z",
+  "license": "Official brand assets; trademarks belong to their respective owners. No open source license inferred.",
+  "files": [
+    {
+      "file": "deepseek-wordmark.svg",
+      "url": "https://www.deepseek.com/",
+      "adaptation": "Inline official header SVG; symbol path extracted without geometry changes.",
+      "sha256": "1a1d76b9af2773338c981b63fa930b1e04acda91cb03bc971e6e85cae3b1099b"
+    },
+    {
+      "file": "workbuddy-wordmark.png",
+      "url": "https://assets.workbuddy.cn/web/workbuddy/2d555459d623c206fdb8c6a492111abb97151910/assets/workbuddy-logo-WhgOvEF7.png",
+      "adaptation": "Official header wordmark; display left square symbol with object-fit crop.",
+      "sha256": "8458707673cda7528abac36908e6ac0c82d2b1f7558ba6344a676a68db83f44f"
+    }
+  ],
+  "runtime": [
+    {
+      "file": "packages/preview-ui/src/site/assistant-brands/deepseek.json",
+      "sha256": "dde855812879c0f310a0688d584a87674a5ff7bcb7f3a6bd801bfba4ee056ebd"
+    },
+    {
+      "file": "packages/preview-ui/src/site/assistant-brands/workbuddy.png",
+      "sha256": "8458707673cda7528abac36908e6ac0c82d2b1f7558ba6344a676a68db83f44f"
+    }
+  ]
+}

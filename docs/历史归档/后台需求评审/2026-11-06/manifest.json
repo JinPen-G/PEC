@@ -1,0 +1,41 @@
+{
+  "capturedAt": "2026-11-06T10:31:42.486Z",
+  "reason": "后台需求与当前实现复核前保全；快照中的相对链接按source原位置解释。",
+  "records": [
+    {
+      "source": "docs/原生原型平台/原生原型平台-需求.md",
+      "file": "docs/原生原型平台/原生原型平台-需求.md",
+      "sha256": "d6fabd37ef02edcaec5582680d04d595995c65e8eec0ffbc8971aa6619237608"
+    },
+    {
+      "source": "docs/原生原型平台/原生原型平台-开发任务.md",
+      "file": "docs/原生原型平台/原生原型平台-开发任务.md",
+      "sha256": "00352e96b7c56a6b1fef0df79fa7afb2ecfe952496a932ed3b6d04fc0ee31b6e"
+    },
+    {
+      "source": "docs/原生原型平台/原生原型平台-开发记录.md",
+      "file": "docs/原生原型平台/原生原型平台-开发记录.md",
+      "sha256": "a2606161335e299511bb8c97a20ea2c5b37d702d231a1ba7353c325e1c6c822b"
+    },
+    {
+      "source": "docs/原生原型平台/原生原型平台-协作接续.md",
+      "file": "docs/原生原型平台/原生原型平台-协作接续.md",
+      "sha256": "724fa2639d5a23cea67e510ddda4dbfb069ded488f1e6d4fd1dc92dc02167e2b"
+    },
+    {
+      "source": "README.md",
+      "file": "README.md",
+      "sha256": "7a830ec503802cab7865121101c42d0f95a8770d4bf36fe1a2b8be2689f51c44"
+    },
+    {
+      "source": "templates/native-project/README.md",
+      "file": "templates/native-project/README.md",
+      "sha256": "8e15309d85896092ed31504dfa5241c6116da4b954460205795b7a02b9018020"
+    },
+    {
+      "source": "docs/公共技术资料/工程规范/Preview-架构说明.md",
+      "file": "docs/公共技术资料/工程规范/Preview-架构说明.md",
+      "sha256": "3a3cb1adb957ca3d90bc9e98e732995ae08e4a6566e90debc0bdea2805bfd314"
+    }
+  ]
+}

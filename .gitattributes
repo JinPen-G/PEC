@@ -1,0 +1,25 @@
+* text=auto
+*.js text eol=lf
+*.mjs text eol=lf
+*.sh text eol=lf
+*.cjs text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.cmd text eol=crlf
+
+# Preserve upstream files and historical byte snapshots without normalization.
+vendor/** -text
+docs/历史归档/** -text
+projects/** -text
+
+packages/preview-ui/upstream/** -text
+packages/preview-ui/src/animate-sidebar/runtime/** -text
+packages/preview-ui/src/animate-sidebar/animate-sidebar.css -text
+plugins/sidebar-styles.js -text
+resources/** -text

@@ -1,60 +1,105 @@
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
+import { nativeSidebarStyles } from './plugins/sidebar-styles.js';
+import { motionPreferenceAdapter, motionPreferenceStyles } from './plugins/motion-preference-plugin.js';
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
 
-import { htmlPrototypePlugin } from './plugins/html-prototype-plugin.js';
-import { cleanDistPlugin } from './plugins/clean-dist-plugin.js';
-import { deploymentVersionPlugin } from './plugins/deployment-version-plugin.js';
-import { platformSettingsPlugin } from './plugins/platform-settings-plugin.js';
-import { prdContentPlugin } from './plugins/prd-content-plugin.js';
-import { projectPackagesPlugin } from './plugins/project-packages-plugin.js';
-import { projectRoutesPlugin } from './plugins/project-routes-plugin.js';
-import { loadProjectMounts } from './packages/project-core/src/index.js';
-import { manualChunks } from './apps/platform-react/vite.chunks.js';
+import { manualChunks } from './apps/web/vite-chunks.js';
+import { nativeVersionPlugin } from './plugins/version-plugin.js';
+import { showcaseBuildPlugin } from './plugins/showcase-build-plugin.js';
 
-const appRoot = fileURLToPath(new URL('./apps/platform-react/', import.meta.url));
+const appRoot = fileURLToPath(new URL('./apps/web/', import.meta.url));
 const repositoryRoot = fileURLToPath(new URL('./', import.meta.url));
-const projectsRoot = fileURLToPath(new URL('./projects/', import.meta.url));
-const projectMountsPath = fileURLToPath(new URL('./project-mounts.local.json', import.meta.url));
-const platformSettingsPath = fileURLToPath(new URL('./platform-settings.json', import.meta.url));
-const loadMounts = () => loadProjectMounts(projectMountsPath);
-const buildVersion = Date.now().toString(36);
 
-export default defineConfig({
-  root: appRoot,
-  base: process.env.VITE_BASE_PATH || '/',
-  plugins: [
-    react(),
-    cleanDistPlugin(),
-    deploymentVersionPlugin({ version: buildVersion }),
-    platformSettingsPlugin({ settingsPath: platformSettingsPath }),
-    projectPackagesPlugin({ projectsRoot, mountsPath: projectMountsPath, loadMounts }),
-    htmlPrototypePlugin({
-      projectsRoot,
-      mountsPath: projectMountsPath,
-      loadMounts,
-      buildVersion,
-      vendorRoot: fileURLToPath(new URL('./vendor/prototype-cdn/', import.meta.url)),
-    }),
-    prdContentPlugin({ projectsRoot, mountsPath: projectMountsPath, loadMounts }),
-    projectRoutesPlugin({ projectRoot: repositoryRoot, loadMounts }),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./apps/platform-react/src/', import.meta.url)),
+// Core/UI builds isolate the framework; native builds include registered React pages.
+export default defineConfig(({ mode }) => {
+  const core = mode === 'core';
+  // UI review needs no project files, host settings or legacy management APIs.
+  const ui = mode === 'ui';
+  if (mode === 'legacy') throw new Error('HTML 挂载模式已移除，请使用 npm run dev');
+  const native = !ui && !core;
+  return {
+    root: appRoot,
+    envDir: false,
+    base: '/',
+    css: { postcss: { plugins: [nativeSidebarStyles(), motionPreferenceStyles()] } },
+    plugins: [
+      tailwindcss(),
+      react(),
+      motionPreferenceAdapter(),
+      ...(native ? [nativeVersionPlugin(repositoryRoot), showcaseBuildPlugin(repositoryRoot)] : []),
+    ],
+    resolve: {
+      alias: {
+        '@preview/ui/admin': fileURLToPath(new URL('./packages/preview-ui/src/admin.tsx', import.meta.url)),
+        '@preview/ui/loading': fileURLToPath(
+          new URL('./packages/preview-ui/src/LoadingState.tsx', import.meta.url),
+        ),
+        '@/registry': fileURLToPath(
+          new URL(
+            './packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/',
+            import.meta.url,
+          ),
+        ),
+        '@/registry/components/button/button': fileURLToPath(
+          new URL(
+            './packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/components/button/button.tsx',
+            import.meta.url,
+          ),
+        ),
+        '@preview/ui': fileURLToPath(new URL('./packages/preview-ui/src/index.ts', import.meta.url)),
+        '@/lib/motion-tokens': fileURLToPath(
+          new URL(
+            './packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/lib/motion-tokens.ts',
+            import.meta.url,
+          ),
+        ),
+        '@': fileURLToPath(new URL('./apps/web/src/', import.meta.url)),
+      },
     },
-  },
-  server: {
-    host: '127.0.0.1',
-    port: 5188,
-    strictPort: true,
-    fs: { allow: [repositoryRoot] },
-  },
-  build: {
-    outDir: fileURLToPath(new URL('./dist/', import.meta.url)),
-    emptyOutDir: true,
-    rollupOptions: {
-      output: { manualChunks },
+    server: {
+      host: '127.0.0.1',
+      port: 5188,
+      strictPort: true,
+      fs: { allow: [repositoryRoot] },
+      ...(native
+        ? {
+            proxy: {
+              '/api/native': { target: 'http://127.0.0.1:5190', changeOrigin: false },
+              '/api/project-context': { target: 'http://127.0.0.1:5190', changeOrigin: false },
+            },
+          }
+        : {}),
     },
-  },
+    build: {
+      outDir: fileURLToPath(
+        new URL(
+          native ? './output/web/' : ui ? './output/ui/' : core ? './output/core/' : './dist/',
+          import.meta.url,
+        ),
+      ),
+      emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          // Page chunks contain only explicitly assigned project modules. Shared
+          // locale/UI dependencies must never migrate into a protected chunk.
+          onlyExplicitManualChunks: true,
+          manualChunks: (id) => {
+            const normalized = id.replaceAll('\\', '/');
+            const page = /\/project-modules\/([^/]+)\/([^/]+)\//.exec(normalized);
+            return page ? `page-${page[1]}-${page[2]}` : manualChunks(id);
+          },
+          chunkFileNames: (chunk) =>
+            chunk.name.startsWith('page-') ? 'page-assets/[name]-[hash].js' : 'assets/[name]-[hash].js',
+          entryFileNames: (chunk) =>
+            chunk.name.startsWith('page-') ? 'page-assets/[name]-[hash].js' : 'assets/[name]-[hash].js',
+          assetFileNames: (asset) =>
+            asset.names?.some((name) => name.startsWith('page-'))
+              ? 'page-assets/[name]-[hash][extname]'
+              : 'assets/[name]-[hash][extname]',
+        },
+      },
+    },
+  };
 });

@@ -1,0 +1,19 @@
+/* Generated from the fixed Rental OS source; regenerate with the importer. */
+.page-header { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--rental-layout-header-content-gap); min-width: 0; margin-block-end: var(--rental-layout-header-content-gap); }
+.page-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--rental-layout-inline-gap) var(--rental-layout-header-content-gap); min-height: var(--rental-control-height-default); min-width: 0; }
+.page-title-row { display: flex; align-items: center; gap: 2px; min-height: var(--rental-control-height-default); min-width: 0; }
+.page-title {
+  margin: 0;
+  overflow: hidden;
+  color: var(--rental-color-text-heading);
+  font-size: var(--rental-typography-page-title-size);
+  font-weight: var(--rental-typography-page-title-weight);
+  line-height: var(--rental-typography-page-title-line-height);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.operator-mode-switch { padding: var(--space-1) var(--space-2) var(--space-2); }
+.operator-mode-expanded .arc-segmented { width: 100%; }
+.operator-mode-collapsed { display: none; }
+[data-slot="sidebar"][data-collapsible="icon"] .operator-mode-expanded { display: none; }
+[data-slot="sidebar"][data-collapsible="icon"] .operator-mode-collapsed { display: flex; justify-content: center; }

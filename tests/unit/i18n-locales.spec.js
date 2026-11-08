@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 
 const LOCALES_DIR = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  '../../apps/platform-react/src/i18n/locales',
+  '../../apps/web/src/i18n/locales',
 );
 
 function flattenKeys(object, prefix = '') {
@@ -18,35 +18,65 @@ function flattenKeys(object, prefix = '') {
 }
 
 const namespaces = [
-  'chrome', 'home', 'workspace', 'routes', 'packages',
-  'console', 'ai', 'health', 'docs', 'dialogs', 'common',
+  'chrome',
+  'home',
+  'workspace',
+  'routes',
+  'packages',
+  'console',
+  'ai',
+  'health',
+  'docs',
+  'dialogs',
+  'common',
 ];
 
 // 简体专用特征词（字符级扫描，覆盖常见简繁差异）
 const SIMPLIFIED_MARKERS = [
-  '项目', '数据', '切换', '客户端', '文档', '设置', '视图', '网络', '服务', '组件',
-  '确认', '删除', '备份', '标签', '属性', '默认', '用户', '权限', '记录', '验证',
-  '访问', '关联', '后端', '启动', '预览', '上传', '下载', '软件', '紧急', '确认框',
+  '项目',
+  '数据',
+  '切换',
+  '客户端',
+  '文档',
+  '设置',
+  '视图',
+  '网络',
+  '服务',
+  '组件',
+  '确认',
+  '删除',
+  '备份',
+  '标签',
+  '属性',
+  '默认',
+  '用户',
+  '权限',
+  '记录',
+  '验证',
+  '访问',
+  '关联',
+  '后端',
+  '启动',
+  '预览',
+  '上传',
+  '下载',
+  '软件',
+  '紧急',
+  '确认框',
 ];
 
 const EMPTY_VALUE_WHITELIST = new Set(['common.unit.count']);
 
 // 提取 {{var}} 插值变量集合
 function interpolationVars(value) {
-  return new Set(
-    [...String(value).matchAll(/\{\{(\w+)\}\}/gu)].map((match) => match[1]),
-  );
+  return new Set([...String(value).matchAll(/\{\{(\w+)\}\}/gu)].map((match) => match[1]));
 }
 
 describe('i18n 资源完整性', () => {
   it('每个命名空间的 zh-Hant 与 en key 集合完全一致', () => {
     for (const ns of namespaces) {
-      const zhHant = JSON.parse(
-        readFileSync(path.join(LOCALES_DIR, 'zh-Hant', `${ns}.json`), 'utf8'),
-      );
-      const en = JSON.parse(
-        readFileSync(path.join(LOCALES_DIR, 'en', `${ns}.json`), 'utf8'),
-      );
+      const zhHant = JSON.parse(readFileSync(path.join(LOCALES_DIR, 'zh-Hant', `${ns}.json`), 'utf8'));
+      const en = JSON.parse(readFileSync(path.join(LOCALES_DIR, 'en', `${ns}.json`), 'utf8'));
       const zhKeys = new Set(flattenKeys(zhHant));
       const enKeys = new Set(flattenKeys(en));
       const missingInEn = [...zhKeys].filter((key) => !enKeys.has(key));
@@ -58,7 +88,7 @@ describe('i18n 资源完整性', () => {
 
   it('zh-Hant 资源不应混入简体字特征字（平台为繁体）', () => {
     // 抽样常见简体特征字；资源正文应保持繁体
-        for (const ns of namespaces) {
+    for (const ns of namespaces) {
       const content = readFileSync(path.join(LOCALES_DIR, 'zh-Hant', `${ns}.json`), 'utf8');
       for (const marker of SIMPLIFIED_MARKERS) {
         expect(content.includes(marker), `${ns}: 发现简体字样 ${marker}`).toBe(false);
@@ -102,7 +132,8 @@ describe('i18n 资源完整性', () => {
     for (const ns of namespaces) {
       const en = JSON.parse(readFileSync(path.join(LOCALES_DIR, 'en', `${ns}.json`), 'utf8'));
       for (const [key, value] of Object.entries(en)) {
-        if ([...EMPTY_VALUE_WHITELIST].some((allowed) => key === allowed || key.endsWith(`.${allowed}`))) continue;
+        if ([...EMPTY_VALUE_WHITELIST].some((allowed) => key === allowed || key.endsWith(`.${allowed}`)))
+          continue;
         expect(String(value).trim().length > 0, `${ns}.${key}: en 值为空`).toBe(true);
       }
     }

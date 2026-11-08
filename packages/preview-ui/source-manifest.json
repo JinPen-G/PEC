@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 1,
+  "source": "Rental OS",
+  "commit": "2a66243656a5f4866585fe8fdd757f4b98d022ab",
+  "files": [
+    {
+      "source": "apps/admin/config/motionPreferenceAdapter.ts",
+      "sha256": "08780eb2bc750dd43b36c5a6575300aea4ba652e8451944a4275429717c7f574"
+    },
+    {
+      "source": "apps/admin/config/nativeSidebarStyles.ts",
+      "sha256": "d385409a74a4076c7590cefdf44c967830de7dbfe94177925b1763e41b79df9e"
+    },
+    {
+      "source": "apps/admin/public/brand/login-graphite.webp",
+      "sha256": "7ea6d14ed44e47695ebe9818106e4e387de998f3c959519c01b2cd3d499b8d1f"
+    },
+    {
+      "source": "apps/admin/src/app/MotionPreferenceProvider.tsx",
+      "sha256": "9f160d2cdb6925ae60329844a71723846145b5674c53ac4509a89f807154deed"
+    },
+    {
+      "source": "apps/admin/src/app/arcTokens.ts",
+      "sha256": "f66bfb0f3833706436a7f0b6a4c597fe2ed20b96e49e840f68db759369bd3913"
+    },
+    {
+      "source": "apps/admin/src/app/designTokens.ts",
+      "sha256": "d8da95483ec1a8ad7d7be3dae5da71a944e12db7284bdc68621d3cc7c806a257"
+    },
+    {
+      "source": "apps/admin/src/app/motionPreferences.ts",
+      "sha256": "d67c5f50df7340ae6ab38f6f577b32be43ed7474377e482e012585581cc97e47"
+    },
+    {
+      "source": "apps/admin/src/app/theme.tsx",
+      "sha256": "8fbd3ac194793820a03494441ddbf9d138ab607c51c8576c4b3c48a623d91713"
+    },
+    {
+      "source": "apps/admin/src/app/userAvatar.ts",
+      "sha256": "de2e5f88834eeecbdb566e0fb9e90692c758c7c1e39245b0154fa4fb21ee060e"
+    },
+    {
+      "source": "apps/admin/src/assets/default-user-avatar.jpg",
+      "sha256": "c080d627acdedca5ba0b7d8e30ddf4ddcc15aa56c896f67037c273233cde18c3"
+    },
+    {
+      "source": "apps/admin/src/components/AppShell.tsx",
+      "sha256": "728bfcc79bc87df33c951d06630f31cdc0eaa290147a8403264215cd2a830c94"
+    },
+    {
+      "source": "apps/admin/src/components/PageHeader.tsx",
+      "sha256": "9e84a062c962dcca3a6d391dd8a4070ade0c0ce36d7a8f29748fca5c4df68c00"
+    },
+    {
+      "source": "apps/admin/src/components/WorkspaceClock.tsx",
+      "sha256": "176678623182b6c123636b280fa36162f2fb5427a3cbe1e636353409e66a2dfe"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/LICENSE.md",
+      "sha256": "bb145c4b692008a88e8e565953d1ca258f2f9ea25190afaa86877a9e9de1c040"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/NativeAccountMenu.tsx",
+      "sha256": "8dbf1d0b8fb79337ba7af773e87830d8e097523d8aa01c2c218fb26b094cbb78"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/NativeNavigation.tsx",
+      "sha256": "a2080b59b4a9f4ae32f1f5a31786a94f4569694c2fc3c85326cb4dfe4d2e7f31"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/NativeWorkspaceSwitcher.tsx",
+      "sha256": "5032be20e12bf7756f8e33d7cd6edb4417c63679326110902ca8cc5fc1c4db75"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/README.md",
+      "sha256": "8d1a18c9aaf162aa2e9fff2a018afbf9bbae3433dd4dbe8f9aca06fb29796378"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/animate-sidebar.css",
+      "sha256": "eab3c816ec42afeb8feb2a9eef4c8688d31de86cc159c948b15f3d6015412d78"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/avatar.tsx",
+      "sha256": "fdcd030b0a785f82f8869903d0a5e85529507821d792e6241ee816649a911279"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/button.tsx",
+      "sha256": "f2daf0eb3a5aa0b8d673dc379db8de8ceced9d96189094973dd6dd0e7ec65bba"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/collapsible.tsx",
+      "sha256": "5f491a4139fa40632d905dfbb040938ac14e776250cced3c2474c683fd1c045a"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/dropdown-menu.tsx",
+      "sha256": "7ead6c95439e0898c8512f317804c9af0365e88818332dd5e63f925b05bc4df6"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/input.tsx",
+      "sha256": "e4e8084fb5855dd302ccf0c0ebf334f88c97e87896ad39f5902a6d43788e07fd"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/panel-left.tsx",
+      "sha256": "e9cfce3f76a30eb52a73e4ec4b2dcba76da8232e16821597ed751ec7acc3a682"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/separator.tsx",
+      "sha256": "5ac90b5ea0b91f8416dd607b96305418915ed7f343968fca5084e9587c2e41fa"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/sheet.tsx",
+      "sha256": "7ac657f67fa3c609c63d9cf30eb96c28deb954995438a0e0260bf46611f3c295"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/sidebar.tsx",
+      "sha256": "78524331630201f8174417e8431ab29fc4782cf899d82a3776372e563f0e56fa"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/skeleton.tsx",
+      "sha256": "144c2ce403e0099393a7b80a1b384de04e0b4e0c3cb01fd300c44b6761c27df1"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/runtime/tooltip.tsx",
+      "sha256": "547dc06d23a86f40bb25c0b312a7464c069e0364681f1fbe2bebad5eee478a86"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/scope.ts",
+      "sha256": "4ce910ce7749628e41b99e6328d32e4e5fd39c8cf39541bd6ab8a38046ba394f"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/sidebar-adapter.css",
+      "sha256": "addad4813361e71897c57ddd8274204df36e0643593f140596ce42bcee5afeb6"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/sources.json",
+      "sha256": "c426c16f868e7dffea8bfb3d7fb35469f33670ca83be6819c938ab4e24fed5ad"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/avatar.tsx.source",
+      "sha256": "fdcd030b0a785f82f8869903d0a5e85529507821d792e6241ee816649a911279"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/button.tsx.source",
+      "sha256": "f2daf0eb3a5aa0b8d673dc379db8de8ceced9d96189094973dd6dd0e7ec65bba"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/collapsible.tsx.source",
+      "sha256": "5f491a4139fa40632d905dfbb040938ac14e776250cced3c2474c683fd1c045a"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/dropdown-menu.tsx.source",
+      "sha256": "504cd4d7c5854af186cdc04ddf0f8344bbca37cd933de570ddf7968ca4532247"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/input.tsx.source",
+      "sha256": "e4e8084fb5855dd302ccf0c0ebf334f88c97e87896ad39f5902a6d43788e07fd"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/panel-left.tsx.source",
+      "sha256": "e9cfce3f76a30eb52a73e4ec4b2dcba76da8232e16821597ed751ec7acc3a682"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/separator.tsx.source",
+      "sha256": "5ac90b5ea0b91f8416dd607b96305418915ed7f343968fca5084e9587c2e41fa"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/sheet.tsx.source",
+      "sha256": "dd76b659aac82bf4e3dd73e8b64d43fc901563a4ff0fc21c9152b7c9163f2f18"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/sidebar-demo.tsx.source",
+      "sha256": "6f928efa95353ece8959e33bdff12eea12fab91e0fcbaa8e405eba78a8e0d6a6"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/skeleton.tsx.source",
+      "sha256": "144c2ce403e0099393a7b80a1b384de04e0b4e0c3cb01fd300c44b6761c27df1"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/vendor/tooltip.tsx.source",
+      "sha256": "23b9e62d0f6fa74077f723a4f09f43faf1afe2e93a97ee2714893d361b089162"
+    },
+    {
+      "source": "apps/admin/src/components/ui/ColorPicker.tsx",
+      "sha256": "037f5c1c3c082426d36c71ebfbed46c907c66bd1708c0a35d37707cee728f10f"
+    },
+    {
+      "source": "apps/admin/src/components/ui/Segmented.tsx",
+      "sha256": "827f43b9f4f4418985a5c812da8da4d8f3016fba6f05f648ed1868b7cf3aee00"
+    },
+    {
+      "source": "apps/admin/src/components/ui/Select.tsx",
+      "sha256": "5c0b070ebe8981ef9ed63c9cd3acce3d59c5439b2801875907b1cab9c411a2bf"
+    },
+    {
+      "source": "apps/admin/src/components/ui/Slider.tsx",
+      "sha256": "462c6244bb2c0e9fbbe677d30a625fa3e28172e915fd6176ce5c8aefc5ba3a5e"
+    },
+    {
+      "source": "apps/admin/src/components/ui/Switch.tsx",
+      "sha256": "b46663d7c2f2ddef0d444a9e6a3984d9cd454ffb019d6948d6c8e7e61fb58150"
+    },
+    {
+      "source": "apps/admin/src/components/ui/arc-bridge.css",
+      "sha256": "c8180b89f1b1f75a99a6e4e3702b384ed640942b203d6ba92e6f60f853a8c2aa"
+    },
+    {
+      "source": "apps/admin/src/components/ui/data-table/DataTable.module.css",
+      "sha256": "a39d033d1ca0d0bab359d7ba2b381388295787eb29ce3b205f52b8b3bff0a919"
+    },
+    {
+      "source": "apps/admin/src/components/ui/input-radius.css",
+      "sha256": "bcbd8d2f8c461cae9b8912c99b1e8f6b9714fb707a3a6ecee5dfe58bb35931bc"
+    },
+    {
+      "source": "apps/admin/src/features/ai-operator/AiOperatorNavigation.tsx",
+      "sha256": "99e2b9079e908e7604af96f2a6608d062f82283090a1fdd42dc335074d4caf48"
+    },
+    {
+      "source": "apps/admin/src/features/ai-operator/ai-operator.css",
+      "sha256": "43c71dbebf915ad91912465ad279754b1a9fb1b00c4d1c4fc2d021cfe787b964"
+    },
+    {
+      "source": "apps/admin/src/features/appearance/AppearancePage.tsx",
+      "sha256": "b0bd12e0e70dc716aa0f99c995b8be8ba3200ada519d2102b361f33a2e45d8df"
+    },
+    {
+      "source": "apps/admin/src/features/appearance/MotionSettingCard.tsx",
+      "sha256": "d848ffc726c04a9683f53fceeff6a9c9ae0feac5317bcebe71cd1b1dacab6487"
+    },
+    {
+      "source": "apps/admin/src/features/auth/LoginPage.tsx",
+      "sha256": "f594caad63cd169e48699833ae7355cefefb51b9722d9a75df1c04b85e6a88dd"
+    },
+    {
+      "source": "apps/admin/src/features/copilot/CopilotLayout.tsx",
+      "sha256": "8c89f421dd88e84f04ca7b9ef180d9d528cb8db662281bff69b12a0d646f9c5a"
+    },
+    {
+      "source": "apps/admin/src/features/copilot/archive/ai-side-panel/AiSidePanel.tsx",
+      "sha256": "48419700828c06f5e6598ebb16cfc9f4951393ba93239f3d9c80c2bf6c454a07"
+    },
+    {
+      "source": "apps/admin/src/features/copilot/archive/ai-side-panel/README.md",
+      "sha256": "56b234387e8d18fccd19e91ca23a6781c56a66254698293db4f2316fb11d02d7"
+    },
+    {
+      "source": "apps/admin/src/features/copilot/archive/ai-side-panel/panel-demo.ts",
+      "sha256": "4e85c315b564fcb48f7d3ccbbff13012fbd60372bd4420c78ab2202506e94d40"
+    },
+    {
+      "source": "apps/admin/src/features/copilot/archive/ai-side-panel/panel-state.ts",
+      "sha256": "0cee4da528e0891b75c5ccc8f6467f62c6fa8afdbfeadb5229be18eb024c3332"
+    },
+    {
+      "source": "apps/admin/src/features/copilot/archive/ai-side-panel/side-panel.css",
+      "sha256": "f59fd25a4150e886a760257d1c7d18ee9fe49575b764c9742560587b5e9c1143"
+    },
+    {
+      "source": "apps/admin/src/features/copilot/copilot.css",
+      "sha256": "ffb5562cb003de1df823da8fcf1a2b104f5c2d8bf8c2be8a0c79b48379e615f6"
+    },
+    {
+      "source": "apps/admin/src/features/rental-core/RentalOrdersPage.module.css",
+      "sha256": "62c7586d5b3a43f69b881317b11c6c502421df079b0819804e59d9e5ce913b66"
+    },
+    {
+      "source": "apps/admin/src/features/rental-core/RentalOrdersPage.tsx",
+      "sha256": "dde4480ddbcd1a92762ab6dcb59b119076377267edbfa6fe6ce29356a1a665eb"
+    },
+    {
+      "source": "apps/admin/src/features/rental-core/rentalOrderColumns.tsx",
+      "sha256": "aafb9531c46c5ffe6e1850234ec40496040f33595812fa980f551f565769b863"
+    },
+    {
+      "source": "apps/admin/src/features/sound/GlobalInteractionSounds.tsx",
+      "sha256": "0ca3d4ccb09361c90352a634a0014d6ee707062b2d71de4986c9a5432d2d833b"
+    },
+    {
+      "source": "apps/admin/src/features/sound/SoundSettingCard.tsx",
+      "sha256": "88409d6b40c99a67288dad21f0073f241163a92d83d329e82fec40058e1b2a27"
+    },
+    {
+      "source": "apps/admin/src/features/sound/mutationSound.ts",
+      "sha256": "e516c3142030221bdd64616f296c1716e97da116bf98fddf89dd89ee59393c57"
+    },
+    {
+      "source": "apps/admin/src/features/sound/soundEngine.ts",
+      "sha256": "ffcb74dbf48a2d3fe3282fef8e8f72798dffac316a6701d029cbad2371321479"
+    },
+    {
+      "source": "apps/admin/src/features/sound/soundPacks.ts",
+      "sha256": "f3d1b09243d403abb8adf14d258712d925b2fca21c3a01f7922373e3090c9f5b"
+    },
+    {
+      "source": "apps/admin/src/features/sound/soundPreferences.ts",
+      "sha256": "756319b4c232520d6a1ae43c1569d6c9329f09fee9cc46e33e2a2917ae4b4e0c"
+    },
+    {
+      "source": "apps/admin/src/features/sound/soundService.ts",
+      "sha256": "2b31a6e7b208f634c6aa4ed0d0ea3e11800caad4fb07522bfd6829e6c96f57eb"
+    },
+    {
+      "source": "apps/admin/src/lib/usePrefersReducedMotion.ts",
+      "sha256": "5f3f376ef8233c3a32aa870bc76f24ca5563e70b5262377aa700f7f49cff2412"
+    },
+    {
+      "source": "apps/admin/src/styles.css",
+      "sha256": "13ec1920d553ebfc5fdb2c174c2c9a8c99e465ca1cd9a53e19c850f105f73a93"
+    },
+    {
+      "source": "packages/shared/src/platform.ts",
+      "sha256": "d39886fe39b1dc89ac7ef074521a1eafb43e5fd696c458203f461fe628a6e8b3"
+    },
+    {
+      "source": "packages/ui-arc/LICENSE",
+      "sha256": "1b73a3fbab233cb995e6e9b6a63d302f91975c74c1629919c8e9820902820dde"
+    },
+    {
+      "source": "packages/ui-arc/README.md",
+      "sha256": "f946cac9129ef97a00bbca726f6fa121d5c468108fbf0e1266388acecbd018d4"
+    },
+    {
+      "source": "packages/ui-arc/vendor/lib/motion-tokens.ts",
+      "sha256": "8f301fb79fc34c2d505d770b8fa978327229151100bafb0cac9310f66a0e0088"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/blocks/login-centered/login-centered.module.css",
+      "sha256": "b53f679cee01e22ff453596fbaba11dd735de5e31f1e720d15b603125b404963"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/button/button.module.css",
+      "sha256": "bd884714fff6e29712938c4fdc60e86baf7da4ba9937facd380ada6b7e3c91a3"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/button/button.tsx",
+      "sha256": "2cff729eadbee434e9a99c59a50cbde007276295b15599f78410ee7ee4750604"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/color-picker/color-picker.module.css",
+      "sha256": "d37416a1a2e30cfcae32919e94d88b997f1cde7ecd959f6fec984a3d66ae7ec4"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/color-picker/color-picker.tsx",
+      "sha256": "6cbdf3f5085a3a0f902fac4fdbb94c57e68637b59e9649374e1cb052be9cac53"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/input/input.module.css",
+      "sha256": "d791a5338683eec6bed79d7c55a2bdf16c21f4f1b3d45883ae6aa782283482b0"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/input/input.tsx",
+      "sha256": "82172538fef4470039f937b61027d550816e44e86f83b5f0fed662b20010815a"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/password-field/password-field.module.css",
+      "sha256": "114f1424e1d4af1d8e925d788a64f7f3668c04676c4c0cd0a6a9be63ceadc4a6"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/password-field/password-field.tsx",
+      "sha256": "6493602f64c5ec00ba2c6bfd06371310537e335f136e5266dd348e90dd213212"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.module.css",
+      "sha256": "f9eff5af8ddf5f9c9343251b97767da613d8ad74a988c4a7ff8ec2782b2afd90"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.tsx",
+      "sha256": "99b73db360557055ae4e12e2347413b2c16377e2b780a8646fee7e59c8853ce4"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/select/select.module.css",
+      "sha256": "f7877644f67b32239e6333659044a6ddc00f86ac1e215e1cfe1eed282d8f3570"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/select/select.tsx",
+      "sha256": "1b08a2a6966845c9422e42e5775c033abff06f5532a33e2f711018a003acffcc"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/slider/slider.module.css",
+      "sha256": "0c5545071e4fe172e3f27d6deb91084e295537e76412910f862654600adbd44a"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/slider/slider.tsx",
+      "sha256": "9e3eb796d076ce9beb5b70d3695f0f8d7d4f755d816eeaccfe478dfc4dfb7bd3"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/switch/switch.module.css",
+      "sha256": "a859377ae59a4ed256e5ee535521e9a21301eb8e8dd4a2956f0a3bc103c35c77"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/switch/switch.tsx",
+      "sha256": "f9080e0dae59db0efaa71922cf57e208252a91e14ed940156c13ea85e657ac6c"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/text-morph/text-morph.module.css",
+      "sha256": "693280ab7dbb4e47962081dd1af3efe82daf7dbdec2f6fdb1faf8d0bd8a24f3b"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/text-morph/text-morph.tsx",
+      "sha256": "8119dab51fe247962e8f45364ecaea66de81fd718a0ee0498893ce43cd716254"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/theme-switch/theme-switch.module.css",
+      "sha256": "43eaaced4eb64894840fab8419563e5dd0005538e42b98ca8ee7d43658d9636f"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/components/theme-switch/theme-switch.tsx",
+      "sha256": "bcdc0c21620db33936720a305f2ab3779d4b6978485e20bfa6ce771ab637b96a"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/foundation.css",
+      "sha256": "12a33c2e8769f3555a8504ead579c8a7de4df253a772c3378e85b601a9de2126"
+    },
+    {
+      "source": "packages/ui-arc/vendor/registry/motion-tokens.ts",
+      "sha256": "42db5f86ac4981be3a8ef363de94012acab5e03f6627f4bd4829564c1e3d2251"
+    },
+    {
+      "source": "packages/ui-tablecn/LICENSE.md",
+      "sha256": "5fd7a7bdfbd51978be197d9f78669a353bc9b88b73c8f16b22d93f57a883234d"
+    },
+    {
+      "source": "packages/ui-tablecn/README.md",
+      "sha256": "bedb82d2c88d395190c8274a2cc1747512dcfaa4933935713a938a1e9b63cf3c"
+    }
+  ],
+  "licenses": [
+    "apps/admin/src/components/animate-sidebar/LICENSE.md",
+    "packages/ui-arc/LICENSE",
+    "packages/ui-tablecn/LICENSE.md"
+  ],
+  "integration": "Preview-only; runtime copies and CSS scanning are adapters, not upstream modifications."
+}

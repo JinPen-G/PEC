@@ -1,5 +1,5 @@
 {
-  "name": "@prototype-platform/platform-contracts",
+  "name": "@preview/platform-contracts",
   "version": "0.1.0",
   "private": true,
   "type": "module",

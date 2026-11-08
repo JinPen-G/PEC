@@ -1,0 +1,39 @@
+/* Original theme-rise (.36s), theme-split (.39s) and curve from the captured
+   UIARC stylesheet. A Preview-only attribute prevents affecting the backend. */
+html[data-preview-theme-motion]::view-transition-old(root) {
+  animation: none;
+}
+html[data-preview-theme-motion]::view-transition-new(root) {
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: both;
+}
+html[data-preview-theme-motion='rise']::view-transition-new(root) {
+  animation-name: preview-theme-rise;
+  animation-duration: 0.36s;
+}
+html[data-preview-theme-motion='split']::view-transition-new(root) {
+  animation-name: preview-theme-split;
+  animation-duration: 0.39s;
+}
+@keyframes preview-theme-rise {
+  from {
+    clip-path: inset(100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@keyframes preview-theme-split {
+  from {
+    clip-path: inset(50% 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-preview-theme-motion]::view-transition-old(root),
+  html[data-preview-theme-motion]::view-transition-new(root) {
+    animation-duration: 0.01ms !important;
+  }
+}

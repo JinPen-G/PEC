@@ -1,0 +1,365 @@
+{
+  "schemaVersion": 1,
+  "topics": [
+    {
+      "id": "telematics",
+      "label": "车机资料",
+      "description": "车机上报、接收时间与在线状态。"
+    },
+    {
+      "id": "vehicle-operations",
+      "label": "车辆管理",
+      "description": "控车、速查提醒与历史记录。"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "telemetry-upload",
+      "label": "车机资料接收",
+      "type": "interface",
+      "summary": "车机接收接口按资料类别处理上报，更新最新状态并保留原始记录。",
+      "aliases": [],
+      "topics": [
+        "telematics"
+      ],
+      "primaryTopic": "telematics",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "31-车机资料接收",
+          "quote": "其余三类资料写入原始上报记录，并更新该 CID 的最新状态；缺少的字段不得覆盖既有有效值。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "latest-telemetry",
+      "label": "最新车机状态",
+      "type": "object",
+      "summary": "即时及休眠资料更新对应 CID 的最新状态；缺失字段不覆盖有效值。",
+      "aliases": [],
+      "topics": [
+        "telematics"
+      ],
+      "primaryTopic": "telematics",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "31-车机资料接收",
+          "quote": "其余三类资料写入原始上报记录，并更新该 CID 的最新状态；缺少的字段不得覆盖既有有效值。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "received-at",
+      "label": "平台接收时间",
+      "type": "field",
+      "summary": "平台在资料入库时记录 receivedAt，统一以 UTC 保存。",
+      "aliases": [],
+      "topics": [
+        "telematics"
+      ],
+      "primaryTopic": "telematics",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "32-时间字段",
+          "quote": "RIMO 接收 `immediateInfoUpload` 并完成入库时写入，以 UTC 保存；页面按租户时区转换显示。不得使用供应商 `ts` 或前端刷新时间替代。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "telemetry-freshness",
+      "label": "10 分钟逾时",
+      "type": "rule",
+      "summary": "以平台接收时间判断资料逾时，每分钟及新资料入库后重新计算。",
+      "aliases": [],
+      "topics": [
+        "telematics"
+      ],
+      "primaryTopic": "telematics",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "34-车机新鲜度与离线状态",
+          "quote": "资料逾时 = 当前 UTC 时间 - latest.receivedAt（UTC） > 10 分钟",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "device-online",
+      "label": "车机在线状态",
+      "type": "state",
+      "summary": "只有 GPRS 在线且资料未逾时，才判定页面车机在线。",
+      "aliases": [],
+      "topics": [
+        "telematics",
+        "vehicle-operations"
+      ],
+      "primaryTopic": "telematics",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "34-车机新鲜度与离线状态",
+          "quote": "页面车机在线 = Data.iduGPRSStatus = 1 AND 非资料逾时",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "vehicle-control",
+      "label": "汽车控车",
+      "type": "feature",
+      "summary": "汽车必须处于页面车机在线状态才允许下发；微电车不开放控制。",
+      "aliases": [],
+      "topics": [
+        "vehicle-operations"
+      ],
+      "primaryTopic": "vehicle-operations",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "51-调用规则",
+          "quote": "仅 `Vehicle` 且页面车机在线时允许下发；`MicroEV` 本期不显示控制按钮。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "vehicle-quick-view",
+      "label": "速查表提醒",
+      "type": "feature",
+      "summary": "资料逾时归入通讯异常，避免重复叠加定位异常。",
+      "aliases": [],
+      "topics": [
+        "vehicle-operations"
+      ],
+      "primaryTopic": "vehicle-operations",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "361-通用规则",
+          "quote": "资料逾时按离线处理，只显示“通讯异常”，不再叠加“定位异常”。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "telemetry-history",
+      "label": "资料历史记录",
+      "type": "feature",
+      "summary": "按车辆和平台接收时间保留不可覆盖的历史快照。",
+      "aliases": [],
+      "topics": [
+        "vehicle-operations"
+      ],
+      "primaryTopic": "vehicle-operations",
+      "status": "active",
+      "requirements": [
+        "vehicle-status"
+      ],
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "46-车机资料历史记录",
+          "quote": "每次接收并完成字段标准化的车机资料，按车辆、`receivedAt`保存为不可覆盖的历史快照。速查表操作区提供“历史记录”，以近全屏弹窗分页查看。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    }
+  ],
+  "edges": [
+    {
+      "id": "upload-latest",
+      "source": "telemetry-upload",
+      "target": "latest-telemetry",
+      "relation": "provides_data",
+      "label": "更新状态",
+      "reason": "即时及休眠资料更新对应 CID 的最新状态；缺失字段不覆盖有效值。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "31-车机资料接收",
+          "quote": "其余三类资料写入原始上报记录，并更新该 CID 的最新状态；缺少的字段不得覆盖既有有效值。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ]
+    },
+    {
+      "id": "upload-time",
+      "source": "telemetry-upload",
+      "target": "received-at",
+      "relation": "provides_data",
+      "label": "记录时间",
+      "reason": "平台在资料入库时记录 receivedAt，统一以 UTC 保存。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "32-时间字段",
+          "quote": "RIMO 接收 `immediateInfoUpload` 并完成入库时写入，以 UTC 保存；页面按租户时区转换显示。不得使用供应商 `ts` 或前端刷新时间替代。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ]
+    },
+    {
+      "id": "time-freshness",
+      "source": "received-at",
+      "target": "telemetry-freshness",
+      "relation": "provides_data",
+      "label": "判断逾时",
+      "reason": "以平台接收时间判断资料逾时，每分钟及新资料入库后重新计算。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "34-车机新鲜度与离线状态",
+          "quote": "资料逾时 = 当前 UTC 时间 - latest.receivedAt（UTC） > 10 分钟",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ]
+    },
+    {
+      "id": "freshness-online",
+      "source": "telemetry-freshness",
+      "target": "device-online",
+      "relation": "constrains",
+      "label": "决定在线状态",
+      "reason": "只有 GPRS 在线且资料未逾时，才判定页面车机在线。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "34-车机新鲜度与离线状态",
+          "quote": "页面车机在线 = Data.iduGPRSStatus = 1 AND 非资料逾时",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ]
+    },
+    {
+      "id": "online-control",
+      "source": "device-online",
+      "target": "vehicle-control",
+      "relation": "constrains",
+      "label": "控车前置条件",
+      "reason": "汽车必须处于页面车机在线状态才允许下发；微电车不开放控制。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "51-调用规则",
+          "quote": "仅 `Vehicle` 且页面车机在线时允许下发；`MicroEV` 本期不显示控制按钮。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ]
+    },
+    {
+      "id": "freshness-reminder",
+      "source": "telemetry-freshness",
+      "target": "vehicle-quick-view",
+      "relation": "constrains",
+      "label": "逾时提醒",
+      "reason": "资料逾时归入通讯异常，避免重复叠加定位异常。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "361-通用规则",
+          "quote": "资料逾时按离线处理，只显示“通讯异常”，不再叠加“定位异常”。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ]
+    },
+    {
+      "id": "upload-history",
+      "source": "telemetry-upload",
+      "target": "telemetry-history",
+      "relation": "provides_data",
+      "label": "保存快照",
+      "reason": "按车辆和平台接收时间保留不可覆盖的历史快照。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "vehicle-status",
+          "anchor": "46-车机资料历史记录",
+          "quote": "每次接收并完成字段标准化的车机资料，按车辆、`receivedAt`保存为不可覆盖的历史快照。速查表操作区提供“历史记录”，以近全屏弹窗分页查看。",
+          "revision": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+        }
+      ]
+    }
+  ],
+  "review": {
+    "graphRevision": "8e5854f662cd96aa87dc2ab0bf2781a73c22814f375b3939a01b4e1eb8075ee8",
+    "reviewedAt": "2026-11-07T20:02:52.571Z",
+    "requirements": {
+      "vehicle-groups": "f4db993ab3373b6d7339295c922710c37314288fee26774b947a3de70b672414",
+      "vehicle-transfer": "1c5a3cd4ac760304d7472f7fffee6f75d012723e6abd545293c3daa002f31b44",
+      "vehicle-status": "e5b69440e2324241e58f7156ba5127d7ea3519e92d7192e9eed3e3f191958915"
+    },
+    "bindings": {
+      "vehicle-groups": "6bf31f211bb5b0a19c29e2ae08a69aacafc9bc7a49507877b61d1fcfbf6c60d9",
+      "vehicle-transfer": "f217e3b78c0d1e34853e9e5aa280175bc09781d5460c2ba9168e9d7b8a134c8f",
+      "vehicle-status": "1bd9311056660b9acdb8af9cdde87bdaca8f2630d25cbeb91001303780fe977d"
+    },
+    "prototypes": {
+      "operation/vehicle-groups": "92abfdc871e82390d81ef3ff77efc80e3996ebb47840636c8cc1c8773c9b8e66",
+      "operation/vehicle-transfer": "27ad7161a5e38531dc69b923e9ed45c8904177d7e285abbfc22950197fdbf666"
+    },
+    "note": "读取车辆控制台PRD v1.4六个章节，逐条核对8节点和7条明确关系；不关联尚未制作的原型。原有两份原型说明仍未纳入本小范围演示。界面和范围轮廓调整不改变业务关系。"
+  }
+}

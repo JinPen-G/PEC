@@ -1,0 +1,390 @@
+.rimo-transfer {
+  --transfer-primary: var(--app-color-primary, #00689e);
+  --transfer-text: var(--foreground, #1f2937);
+  --transfer-muted: var(--text-secondary, #6b7280);
+  --transfer-surface: var(--surface, #fff);
+  --transfer-border: var(--border, #e5e7eb);
+  width: 100%;
+  font:
+    14px/1.5 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  color: var(--transfer-text);
+}
+.rimo-transfer h1 {
+  font-size: 24px;
+  margin: 0 0 5px;
+  letter-spacing: -0.02em;
+}
+.rimo-transfer h2 {
+  font-size: 20px;
+  margin: 0;
+}
+.rimo-transfer p {
+  color: var(--transfer-muted);
+  margin: 0;
+}
+.rimo-transfer-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.rimo-transfer button {
+  cursor: pointer;
+  font: inherit;
+}
+.rimo-transfer :where(.transfer-primary, .transfer-secondary) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  min-height: 38px;
+  padding: 7px 14px;
+  border: 1px solid var(--transfer-primary);
+  border-radius: 5px;
+  background: var(--transfer-primary);
+  color: var(--accent-foreground, #fff);
+}
+.rimo-transfer .transfer-secondary {
+  background: var(--transfer-surface);
+  border-color: var(--transfer-border);
+  color: var(--transfer-text);
+}
+.rimo-transfer button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.rimo-transfer .transfer-panel {
+  background: var(--transfer-surface);
+  border: 1px solid var(--transfer-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.rimo-transfer .transfer-filters {
+  padding: 16px;
+  border-bottom: 1px solid var(--transfer-border);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: var(--surface-muted, #f9fafb);
+}
+.rimo-transfer :where(input:not([type='checkbox']), select) {
+  border: 1px solid var(--transfer-border);
+  border-radius: 5px;
+  padding: 7px 10px;
+  color: var(--transfer-text);
+  background: var(--transfer-surface);
+  min-height: 34px;
+  font: inherit;
+  max-width: 100%;
+}
+.rimo-transfer .transfer-filters input {
+  width: 210px;
+}
+.rimo-transfer .transfer-filters select {
+  max-width: 200px;
+}
+.rimo-transfer .transfer-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--transfer-border);
+  border-radius: 50%;
+  background: var(--transfer-surface);
+  color: var(--transfer-muted);
+}
+.rimo-transfer .transfer-table-scroll {
+  overflow-x: auto;
+}
+.rimo-transfer .transfer-mobile-select-label {
+  display: none;
+}
+.rimo-transfer table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 860px;
+  text-align: left;
+}
+.rimo-transfer :where(th, td) {
+  padding: 13px 12px;
+  border-bottom: 1px solid var(--transfer-border);
+}
+.rimo-transfer th {
+  color: var(--transfer-muted);
+  font-size: 13px;
+}
+.rimo-transfer .transfer-vehicle {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.rimo-transfer .transfer-vehicle > span {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--transfer-border);
+  background: var(--surface-muted, #f3f4f6);
+  color: var(--transfer-muted);
+  border-radius: 8px;
+}
+.rimo-transfer small {
+  display: block;
+  font-size: 12px;
+  color: var(--transfer-muted);
+  margin-top: 3px;
+}
+.rimo-transfer .transfer-tag {
+  display: inline-block;
+  color: #529b2e;
+  border: 1px solid #67c23a66;
+  border-radius: 4px;
+  padding: 1px 7px;
+  background: #67c23a0d;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.rimo-transfer .transfer-tag.SHARING_ONE_WAY {
+  color: #b88230;
+  border-color: #e6a23c66;
+  background: #e6a23c0d;
+}
+.rimo-transfer .transfer-tag.STORE_STANDARD {
+  color: var(--transfer-primary);
+  border-color: #00689e44;
+  background: #00689e0d;
+}
+.rimo-transfer .transfer-tag.USED {
+  color: var(--transfer-muted);
+  border-color: var(--transfer-border);
+  background: transparent;
+}
+.rimo-transfer .transfer-link {
+  background: none;
+  border: 0;
+  color: var(--transfer-primary);
+  padding: 5px;
+}
+.rimo-transfer .transfer-empty {
+  text-align: center;
+  padding: 40px;
+}
+.rimo-transfer .transfer-notice {
+  color: var(--transfer-primary);
+  padding: 12px 0;
+}
+.rimo-transfer .transfer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: #0006;
+  display: flex;
+  justify-content: flex-end;
+}
+.rimo-transfer .transfer-drawer {
+  width: min(900px, 100%);
+  background: var(--transfer-surface);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 50px #0002;
+}
+.rimo-transfer .transfer-drawer header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px;
+  border-bottom: 1px solid var(--transfer-border);
+}
+.rimo-transfer .transfer-bulk {
+  padding: 22px;
+  border-bottom: 1px solid var(--transfer-border);
+}
+.rimo-transfer .transfer-bulk > div {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+}
+.rimo-transfer label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--transfer-muted);
+}
+.rimo-transfer .transfer-bulk label {
+  flex: 1;
+}
+.rimo-transfer .transfer-execution {
+  flex: 1;
+  overflow: auto;
+  padding: 22px;
+  background: var(--surface-muted, #f9fafb);
+}
+.rimo-transfer .transfer-change {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 30px minmax(180px, 1fr);
+  gap: 20px;
+  align-items: center;
+  padding: 18px;
+  margin-top: 16px;
+  border: 1px solid var(--transfer-border);
+  border-radius: 12px;
+  background: var(--transfer-surface);
+}
+.rimo-transfer .transfer-change.changed {
+  border-color: #e6a23c;
+}
+.rimo-transfer .transfer-change p {
+  font-size: 12px;
+  margin-top: 8px;
+}
+.rimo-transfer .transfer-target {
+  display: grid;
+  gap: 12px;
+}
+.rimo-transfer footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-top: 1px solid var(--transfer-border);
+}
+.rimo-transfer footer > div {
+  display: flex;
+  gap: 10px;
+}
+@media (max-width: 600px) {
+  .rimo-transfer-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .rimo-transfer .transfer-change {
+    grid-template-columns: 1fr;
+  }
+  .rimo-transfer .transfer-bulk > div {
+    flex-wrap: wrap;
+  }
+  .rimo-transfer footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@container (max-width: 600px) {
+  .rimo-transfer-heading {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@container (max-width: 450px) {
+  .rimo-transfer .transfer-drawer {
+    height: 100%;
+    min-height: 0;
+  }
+  .rimo-transfer h1 {
+    font-size: 22px;
+  }
+  .rimo-transfer .transfer-filters {
+    padding: 14px;
+  }
+  .rimo-transfer .transfer-filters input {
+    width: 100%;
+  }
+  .rimo-transfer .transfer-filters select {
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .rimo-transfer table,
+  .rimo-transfer tbody {
+    display: block;
+    min-width: 0;
+    width: 100%;
+  }
+  .rimo-transfer thead tr {
+    display: flex;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--transfer-border);
+  }
+  .rimo-transfer thead th {
+    display: none;
+  }
+  .rimo-transfer thead th:first-child {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border: 0;
+  }
+  .rimo-transfer .transfer-mobile-select-label {
+    display: inline;
+  }
+  .rimo-transfer tbody tr {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    gap: 10px;
+    padding: 16px 14px;
+    border-bottom: 1px solid var(--transfer-border);
+    align-items: center;
+  }
+  .rimo-transfer tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .rimo-transfer td {
+    min-width: 0;
+    border: 0;
+    padding: 0;
+    overflow-wrap: anywhere;
+  }
+  .rimo-transfer td:nth-child(2),
+  .rimo-transfer td:nth-child(3),
+  .rimo-transfer td:nth-child(6) {
+    grid-column: 2 / -1;
+  }
+  .rimo-transfer td:nth-child(4) {
+    grid-column: 2;
+  }
+  .rimo-transfer td:nth-child(6) {
+    text-align: right;
+  }
+  .rimo-transfer .transfer-link {
+    min-height: 40px;
+    padding-inline: 12px;
+  }
+  .rimo-transfer td.transfer-empty {
+    grid-column: 1 / -1;
+    padding: 28px 0;
+  }
+  .rimo-transfer .transfer-change {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px;
+  }
+  .rimo-transfer .transfer-change > svg {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+  .rimo-transfer .transfer-bulk > div {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .rimo-transfer .transfer-drawer :is(header, .transfer-bulk, .transfer-execution, footer) {
+    padding: 16px;
+  }
+  .rimo-transfer .transfer-drawer header {
+    flex: none;
+  }
+  .rimo-transfer footer {
+    flex: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .rimo-transfer footer > div {
+    justify-content: flex-end;
+  }
+}

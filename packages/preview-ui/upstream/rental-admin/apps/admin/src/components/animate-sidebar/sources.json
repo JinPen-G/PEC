@@ -1,0 +1,79 @@
+{
+  "repository": "https://github.com/imskyleen/animate-ui",
+  "revision": "7fffde3e56e804bcf5e580e1c13ca5bd565ef588",
+  "page": "https://animate-ui.com/docs/primitives/base-ui/sidebar",
+  "adaptations": "Native example shell and Base UI components: imports, localization/accessibility labels and isolated portal/theme scopes only; sizes/classes/motion unchanged. Business navigation is separate. sidebar-adapter.css applies shared app radius, Chinese row geometry and account accent tokens. The public animateOnHover=false option prevents hover/focus contention. The original effects/highlight controlled parent mode restores route-driven selection glide; source spring, reduced-motion, collapse and overlay motion remain intact. Preserved runtime classes and motion are unchanged.",
+  "files": [
+    {
+      "file": "runtime/avatar.tsx",
+      "source": "apps/v2/components/ui/base-ui/avatar.tsx",
+      "upstreamSha256": "fdcd030b0a785f82f8869903d0a5e85529507821d792e6241ee816649a911279",
+      "adaptedSha256": "fdcd030b0a785f82f8869903d0a5e85529507821d792e6241ee816649a911279"
+    },
+    {
+      "file": "runtime/button.tsx",
+      "source": "apps/v2/components/ui/base-ui/button.tsx",
+      "upstreamSha256": "f2daf0eb3a5aa0b8d673dc379db8de8ceced9d96189094973dd6dd0e7ec65bba",
+      "adaptedSha256": "f2daf0eb3a5aa0b8d673dc379db8de8ceced9d96189094973dd6dd0e7ec65bba"
+    },
+    {
+      "file": "runtime/collapsible.tsx",
+      "source": "apps/v2/components/ui/base-ui/collapsible.tsx",
+      "upstreamSha256": "5f491a4139fa40632d905dfbb040938ac14e776250cced3c2474c683fd1c045a",
+      "adaptedSha256": "5f491a4139fa40632d905dfbb040938ac14e776250cced3c2474c683fd1c045a"
+    },
+    {
+      "file": "runtime/dropdown-menu.tsx",
+      "source": "apps/v2/components/ui/base-ui/dropdown-menu.tsx",
+      "upstreamSha256": "504cd4d7c5854af186cdc04ddf0f8344bbca37cd933de570ddf7968ca4532247",
+      "adaptedSha256": "7ead6c95439e0898c8512f317804c9af0365e88818332dd5e63f925b05bc4df6"
+    },
+    {
+      "file": "runtime/input.tsx",
+      "source": "apps/v2/components/ui/base-ui/input.tsx",
+      "upstreamSha256": "e4e8084fb5855dd302ccf0c0ebf334f88c97e87896ad39f5902a6d43788e07fd",
+      "adaptedSha256": "e4e8084fb5855dd302ccf0c0ebf334f88c97e87896ad39f5902a6d43788e07fd"
+    },
+    {
+      "file": "runtime/separator.tsx",
+      "source": "apps/v2/components/ui/base-ui/separator.tsx",
+      "upstreamSha256": "5ac90b5ea0b91f8416dd607b96305418915ed7f343968fca5084e9587c2e41fa",
+      "adaptedSha256": "5ac90b5ea0b91f8416dd607b96305418915ed7f343968fca5084e9587c2e41fa"
+    },
+    {
+      "file": "runtime/sheet.tsx",
+      "source": "apps/v2/components/ui/base-ui/sheet.tsx",
+      "upstreamSha256": "dd76b659aac82bf4e3dd73e8b64d43fc901563a4ff0fc21c9152b7c9163f2f18",
+      "adaptedSha256": "7ac657f67fa3c609c63d9cf30eb96c28deb954995438a0e0260bf46611f3c295"
+    },
+    {
+      "file": "runtime/skeleton.tsx",
+      "source": "apps/v2/components/ui/base-ui/skeleton.tsx",
+      "upstreamSha256": "144c2ce403e0099393a7b80a1b384de04e0b4e0c3cb01fd300c44b6761c27df1",
+      "adaptedSha256": "144c2ce403e0099393a7b80a1b384de04e0b4e0c3cb01fd300c44b6761c27df1"
+    },
+    {
+      "file": "runtime/tooltip.tsx",
+      "source": "apps/v2/components/ui/base-ui/tooltip.tsx",
+      "upstreamSha256": "23b9e62d0f6fa74077f723a4f09f43faf1afe2e93a97ee2714893d361b089162",
+      "adaptedSha256": "547dc06d23a86f40bb25c0b312a7464c069e0364681f1fbe2bebad5eee478a86"
+    },
+    {
+      "file": "runtime/sidebar.tsx",
+      "source": "apps/v2/demos/base-ui/sidebar.tsx",
+      "upstreamSha256": "6f928efa95353ece8959e33bdff12eea12fab91e0fcbaa8e405eba78a8e0d6a6",
+      "adaptedSha256": "78524331630201f8174417e8431ab29fc4782cf899d82a3776372e563f0e56fa"
+    },
+    {
+      "file": "runtime/panel-left.tsx",
+      "source": "apps/v2/registry/hugeicons/panel-left/index.tsx",
+      "upstreamSha256": "e9cfce3f76a30eb52a73e4ec4b2dcba76da8232e16821597ed751ec7acc3a682",
+      "adaptedSha256": "e9cfce3f76a30eb52a73e4ec4b2dcba76da8232e16821597ed751ec7acc3a682"
+    }
+  ],
+  "avatar": {
+    "source": "apps/v2/public/avatars/shadcn.jpg",
+    "sha256": "c080d627acdedca5ba0b7d8e30ddf4ddcc15aa56c896f67037c273233cde18c3"
+  },
+  "hashEncoding": "UTF-8 text normalized to LF; avatar uses raw bytes"
+}

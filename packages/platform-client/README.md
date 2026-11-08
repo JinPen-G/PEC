@@ -1,5 +1,5 @@
 # Platform Client
 
-共用平台的框架无关数据访问层，供 React 平台和独立本地服务使用。
+[createNativeClient](src/client.js) 提供带 Cookie、CSRF、取消信号及真实错误的请求。会话变化由应用清除缓存；失败不回退到静态资料，也不模拟成功。
 
-客户端通过构造参数接收 `fetch`、`baseUrl` 和运行环境，不依赖 React 或 Vite。静态部署的只读边界由客户端统一处理，页面来源统一为 HTML 原型、项目文档和项目配置。
+类型在 [client.d.ts](src/client.d.ts)。旧 HTML 管理、挂载和静态快照客户端已移除。错误合同由 platform-contracts 维护，反例见[错误测试](../../tests/unit/api-errors.spec.js)。

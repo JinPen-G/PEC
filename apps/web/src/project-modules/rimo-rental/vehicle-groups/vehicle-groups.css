@@ -1,0 +1,317 @@
+.rimo-groups {
+  --rimo-primary: var(--app-color-primary, #00689e);
+  --rimo-panel: var(--surface, #fff);
+  --rimo-text: var(--foreground, #1f2937);
+  --rimo-muted: var(--text-secondary, #64748b);
+  --rimo-border: var(--border, #e5e7eb);
+  width: 100%;
+  font:
+    14px/1.5 -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  color: var(--rimo-text);
+}
+.rimo-groups h1 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 5px;
+}
+.rimo-groups h2 {
+  font-size: 19px;
+  margin: 0;
+}
+.rimo-groups p {
+  color: var(--rimo-muted);
+  margin: 0;
+}
+.rimo-groups-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+.rimo-groups button {
+  cursor: pointer;
+}
+.rimo-groups .rimo-primary,
+.rimo-groups .rimo-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 7px 15px;
+  border-radius: 5px;
+  border: 1px solid var(--rimo-primary);
+  background: var(--rimo-primary);
+  color: var(--accent-foreground, white);
+  font: inherit;
+  white-space: nowrap;
+}
+.rimo-groups .rimo-secondary {
+  border-color: var(--rimo-border);
+  background: var(--rimo-panel);
+  color: var(--rimo-text);
+}
+.rimo-groups .rimo-table-panel {
+  background: var(--rimo-panel);
+  border: 1px solid var(--rimo-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.rimo-groups .rimo-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid var(--rimo-border);
+  color: var(--rimo-muted);
+}
+.rimo-groups .rimo-filter input {
+  border: none;
+  background: transparent;
+  outline: none;
+  min-width: 0;
+  width: 220px;
+  color: var(--rimo-text);
+}
+.rimo-groups .rimo-filter span {
+  margin-left: auto;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.rimo-groups .rimo-table-scroll {
+  overflow-x: auto;
+}
+.rimo-groups table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  text-align: left;
+}
+.rimo-groups :where(th, td) {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--rimo-border);
+}
+.rimo-groups th {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rimo-muted);
+  background: var(--surface-muted, #f9fafb);
+}
+.rimo-groups td:first-child {
+  width: 94px;
+}
+.rimo-groups td small {
+  display: block;
+  font-size: 12px;
+  color: var(--rimo-muted);
+  margin-top: 3px;
+}
+.rimo-groups .rimo-vehicle-photo {
+  width: 64px;
+  height: 48px;
+  border: 1px solid var(--rimo-border);
+  border-radius: 5px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-muted, #f3f4f6);
+  color: var(--rimo-muted);
+}
+.rimo-groups .rimo-features {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.rimo-groups .rimo-tag {
+  padding: 1px 6px;
+  border: 1px solid #67c23a66;
+  border-radius: 4px;
+  color: #529b2e;
+  background: #67c23a0d;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.rimo-groups .rimo-tag.motorcycle {
+  color: #b88230;
+  border-color: #e6a23c66;
+  background: #e6a23c0d;
+}
+.rimo-groups .rimo-tag.microElectric,
+.rimo-groups .rimo-tag.neutral {
+  color: var(--rimo-muted);
+  border-color: var(--rimo-border);
+  background: transparent;
+}
+.rimo-groups .rimo-right {
+  text-align: right;
+  white-space: nowrap;
+}
+.rimo-groups .rimo-link {
+  border: 0;
+  background: transparent;
+  color: var(--rimo-primary);
+  padding: 5px;
+  font: inherit;
+}
+.rimo-groups .rimo-link.danger {
+  color: #f56c6c;
+}
+.rimo-groups .rimo-empty {
+  text-align: center;
+  padding: 40px;
+}
+.rimo-groups .rimo-notice {
+  padding: 12px 0;
+  color: var(--rimo-primary);
+}
+.rimo-groups .rimo-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: #0006;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+}
+.rimo-groups .rimo-dialog {
+  width: min(860px, 100%);
+  max-height: calc(var(--preview-screen-height, 90dvh) - 44px);
+  overflow: auto;
+  padding: 24px;
+  background: var(--rimo-panel);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px #0003;
+}
+.rimo-groups .rimo-dialog.compact {
+  width: min(420px, 100%);
+}
+.rimo-groups .rimo-dialog header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.rimo-groups .rimo-icon {
+  border: 0;
+  background: none;
+  color: var(--rimo-muted);
+  padding: 6px;
+}
+.rimo-groups .rimo-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.rimo-groups .rimo-form-grid label {
+  display: grid;
+  gap: 7px;
+}
+.rimo-groups .rimo-form-grid :where(input, select) {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid var(--rimo-border);
+  border-radius: 5px;
+  background: var(--rimo-panel);
+  color: var(--rimo-text);
+  font: inherit;
+}
+.rimo-groups .rimo-form-grid small {
+  font-size: 12px;
+  color: var(--rimo-muted);
+}
+.rimo-groups .rimo-form-wide {
+  grid-column: 1/-1;
+}
+.rimo-groups footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+@media (max-width: 600px) {
+  .rimo-groups-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .rimo-groups .rimo-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@container (max-width: 600px) {
+  .rimo-groups-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .rimo-groups .rimo-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@container (max-width: 450px) {
+  .rimo-groups .rimo-dialog-backdrop {
+    padding: 16px;
+  }
+  .rimo-groups .rimo-dialog {
+    max-height: calc(var(--preview-screen-height, 90dvh) - 32px);
+    padding: 20px;
+    overscroll-behavior: contain;
+  }
+  .rimo-groups h1 {
+    font-size: 22px;
+  }
+  .rimo-groups .rimo-filter {
+    padding: 14px;
+  }
+  .rimo-groups .rimo-filter input {
+    flex: 1;
+    width: 0;
+  }
+  .rimo-groups table,
+  .rimo-groups tbody {
+    display: block;
+    min-width: 0;
+    width: 100%;
+  }
+  .rimo-groups thead {
+    display: none;
+  }
+  .rimo-groups tbody tr {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr) auto;
+    gap: 10px 12px;
+    padding: 16px 14px;
+    border-bottom: 1px solid var(--rimo-border);
+    align-items: center;
+  }
+  .rimo-groups tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .rimo-groups td {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    overflow-wrap: anywhere;
+  }
+  .rimo-groups td:first-child {
+    width: auto;
+  }
+  .rimo-groups .rimo-vehicle-photo {
+    width: 54px;
+    height: 46px;
+  }
+  .rimo-groups td:nth-child(4),
+  .rimo-groups td:nth-child(5) {
+    grid-column: 2 / -1;
+  }
+  .rimo-groups .rimo-link {
+    min-height: 40px;
+    min-width: 48px;
+  }
+  .rimo-groups td.rimo-empty {
+    grid-column: 1 / -1;
+    padding: 28px 0;
+  }
+}
