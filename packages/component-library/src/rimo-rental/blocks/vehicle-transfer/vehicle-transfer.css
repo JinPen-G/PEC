@@ -1,0 +1,9 @@
+[data-rimo-page='vehicle-transfer'] .rimo-station-filter {
+  min-width: 220px;
+}
+[data-rimo-page='vehicle-transfer'] .rimo-service-filter {
+  min-width: 160px;
+}
+[data-rimo-overlay='vehicle-transfer'] .rimo-transfer-list {
+  margin-top: 24px;
+}

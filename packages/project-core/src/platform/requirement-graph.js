@@ -45,13 +45,15 @@ export function validateRequirementGraph(input) {
     nodeIds = new Set(),
     edgeIds = new Set();
   const topics = array(input.topics, 100).map((item) => {
-    record(item, ['id', 'label', 'description']);
+    record(item, ['id', 'label', 'description', 'category']);
     requireGraph(validId(item.id) && !topicIds.has(item.id));
+    requireGraph(item.category === undefined || ['business', 'management'].includes(item.category));
     topicIds.add(item.id);
     return {
       id: item.id,
       label: string(item.label, 100),
       description: string(item.description ?? '', 500, true),
+      ...(item.category ? { category: item.category } : {}),
     };
   });
   const nodes = array(input.nodes, 10000).map((item) => {
@@ -68,6 +70,7 @@ export function validateRequirementGraph(input) {
       'evidence',
       'coverage',
       'prototypes',
+      'keyPoints',
     ]);
     requireGraph(validId(item.id) && !nodeIds.has(item.id));
     nodeIds.add(item.id);
@@ -87,6 +90,17 @@ export function validateRequirementGraph(input) {
     );
     const sources = evidence(item.evidence);
     requireGraph(sources.every((source) => requirements.includes(source.requirementId)));
+    // Key points are AI-written reading aids; every point must cite the node's PRD quotes.
+    const keyPoints = array(item.keyPoints ?? [], 12).map((point) => {
+      record(point, ['kind', 'text', 'evidence']);
+      requireGraph(['trigger', 'rule'].includes(point.kind));
+      const refs = array(point.evidence, 6);
+      requireGraph(
+        refs.length && refs.every((index) => Number.isInteger(index) && index >= 0 && index < sources.length),
+        '需求要点必须引用节点的PRD出处',
+      );
+      return { kind: point.kind, text: string(point.text, 300), evidence: refs };
+    });
     requireGraph(['none', 'partial', 'presented'].includes(item.coverage));
     const prototypes = array(item.prototypes, 40).map((page) => {
       record(page, ['clientId', 'pageKey', 'anchor', 'target', 'revision']);
@@ -100,6 +114,7 @@ export function validateRequirementGraph(input) {
       summary: string(item.summary, 2000),
       aliases: array(item.aliases ?? [], 20).map((alias) => string(alias, 160)),
       evidence: sources,
+      keyPoints,
       prototypes,
     };
   });
@@ -138,9 +153,22 @@ export function validateRequirementGraph(input) {
     review: { ...input.review, note: string(input.review.note ?? '', 1000, true) },
   };
 }
-export function requirementBindingRevision(document) {
+export function requirementBindingRevision(document, files) {
   return graphHash(
-    JSON.stringify({ status: document.status, pages: document.pages, access: document.access ?? 'project' }),
+    JSON.stringify({
+      status: document.status,
+      pages: document.pages,
+      access: document.access ?? 'project',
+      ...(document.summary
+        ? {
+            summary: document.summary,
+            summaryRevision: files?.has(document.summary)
+              ? graphHash(files.get(document.summary))
+              : (document.summaryRevision ?? null),
+          }
+        : {}),
+      ...(document.assets ? { assets: document.assets } : {}),
+    }),
   );
 }
 export function reviewedGraphRevision(graph) {
@@ -149,7 +177,7 @@ export function reviewedGraphRevision(graph) {
 function sectionText(markdown, anchor) {
   const lines = markdown.split('\n');
   const start = lines.findIndex((line) => {
-    const heading = /^(#{1,6})\s+(.+)$/.exec(line);
+    const heading = /^(#{1,6})\s+(.+)$/.exec(line.replace(/\r$/, ''));
     return heading && graphHeadingId(heading[2]) === anchor;
   });
   if (start < 0) return null;
@@ -165,7 +193,7 @@ export function requirementGraphView(
   project,
   { documents, allowedPage, scope = 'project-business' } = {},
 ) {
-  const allDocuments = snapshot.manifest.requirements.map((item) => ({
+  const allDocuments = (snapshot?.manifest.requirements ?? []).map((item) => ({
     ...item,
     revision: graphHash(snapshot.files.get(item.path)),
   }));
@@ -176,8 +204,8 @@ export function requirementGraphView(
   const envelope = {
     schemaVersion: 1,
     projectId: project.id,
-    releaseId: snapshot.releaseId ?? 'development',
-    contentRevision: snapshot.revision,
+    releaseId: snapshot?.releaseId ?? 'development',
+    contentRevision: snapshot?.revision ?? '',
     graphRevision: '',
     reviewedAt: null,
     accessScope: scope,
@@ -196,11 +224,11 @@ export function requirementGraphView(
     edgeTotal: 0,
     nextOffset: null,
   };
-  const bytes = snapshot.files.get(snapshot.manifest.graph ?? '');
+  const bytes = snapshot?.files.get(snapshot.manifest.graph ?? '');
   if (!bytes)
     return {
       ...envelope,
-      availability: 'missing',
+      availability: snapshot ? 'missing' : 'unconfigured',
       freshness: 'unknown',
       complete: false,
       diagnostics: readable.map(({ id }) => ({ code: 'UNMAPPED_REQUIREMENT', requirementId: id })),
@@ -287,7 +315,7 @@ export function requirementGraphView(
       diagnostics.push({ code: 'UNMAPPED_REQUIREMENT', requirementId: doc.id });
     if (
       graph.review.requirements[doc.id] !== doc.revision ||
-      graph.review.bindings[doc.id] !== requirementBindingRevision(doc)
+      graph.review.bindings[doc.id] !== requirementBindingRevision(doc, snapshot.files)
     )
       diagnostics.push({ code: 'UNREVIEWED_REQUIREMENT', requirementId: doc.id });
   }
@@ -455,7 +483,9 @@ export function queryRequirementGraph(view, operation, args = {}) {
       (node) =>
         (!args.topic || node.topics.includes(args.topic)) &&
         (!args.type || node.type === args.type) &&
-        [node.label, node.summary, ...node.aliases].some((text) => text.toLocaleLowerCase().includes(query)),
+        [node.label, node.summary, ...node.aliases, ...node.keyPoints.map((point) => point.text)].some(
+          (text) => text.toLocaleLowerCase().includes(query),
+        ),
     );
     const result = page(matches, offset, limit);
     return { ...envelope, ...result, complete: view.complete && result.nextOffset === null };

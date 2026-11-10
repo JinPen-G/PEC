@@ -1,0 +1,3 @@
+import Block from '@preview/library/rimo-rental/blocks/corporate-login/CorporateLoginBlock.jsx';
+import { RimoPage } from '../RimoPage';
+export default function CorporateLoginPage() { return <RimoPage pageKey="corporate-login" clientId="operation" assets={{"../公开页/logo.png":"assets/1149c5bbf7a0d88a.png","logo.png":"assets/1149c5bbf7a0d88a.png"}} routes={{"../企业端/corporate_login.html":{"clientId":"enterprise","pageKey":"enterprise-corporate-login"},"corporate_login.html":{"clientId":"operation","pageKey":"corporate-login"},"login.html":{"clientId":"operation","pageKey":"login"},"workbench.html":{"clientId":"operation","pageKey":"workbench"}}}><Block /></RimoPage>; }

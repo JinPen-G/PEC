@@ -1,9 +1,21 @@
 /** Original landing-page region classes and motion, with only current project
  * content. No fabricated customer logos, purchase statistics or other projects. */
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'motion/react';
-import { ArrowRight, ArrowUpRight, ChevronDown, Code2, Eye, Layers3, LockKeyhole } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Bot,
+  ChevronDown,
+  Component,
+  Compass,
+  FileText,
+  Gauge,
+  Layers3,
+  LockKeyhole,
+  ShieldCheck,
+} from 'lucide-react';
 import { siteMotionTokens } from '@preview/ui';
 import { useShowcaseText } from './showcase-locale';
 import { useQuery } from '@tanstack/react-query';
@@ -20,9 +32,33 @@ export interface LandingPage {
 }
 const link = (page: LandingPage) => `/pages/${page.projectId}/${page.clientId}/${page.pageKey}`;
 const client = createNativeClient();
+const principles: [string, string, ReactNode][] = [
+  ['源自实践', '方法与规范来自真实的行业项目和一线产品工作。', <Compass size={22} />],
+  ['由 Agent 驱动', '为人与 Agent 共同协作的工作流而设计。从撰写需求到提交代码。', <Bot size={22} />],
+  ['为速度而设计', '减少沟通噪音和理解偏差，让团队专注、快速地交付。', <Gauge size={22} />],
+];
+const toolkit: [string, string, ReactNode][] = [
+  ['组件库', '界面组件与业务区块，开箱即用。Agent 直接调用，交付风格始终一致。', <Component size={22} />],
+  ['需求库', '需求、规则与功能关系统一管理，每一条都能追溯到原文。', <FileText size={22} />],
+  ['AI 工程治理', '覆盖需求、编码、验证到交付的开发规范。Agent 接入即遵循。', <ShieldCheck size={22} />],
+];
+const questions = [
+  ['这是什么？', '面向团队与 Agent 的产品中心，汇集行业产品、业务逻辑、组件库、需求库和 AI 工程治理规范。'],
+  [
+    '什么是 AI 工程治理？',
+    '一套规范 AI 开发全过程的规则：如何提需求、写代码、做验证。接入后由 Agent 自动遵循，不熟悉 AI 的开发者也能专业交付。',
+  ],
+  [
+    '我的 AI 工具能用吗？',
+    '可以。Claude Code、Cursor、Codex 等支持 MCP 的工具，接入后即可读取治理规范、业务需求和功能关系。',
+  ],
+  ['业务逻辑可信吗？', '每条逻辑关系都标注需求原文出处，AI 提炼的要点可随时对照原文核实。'],
+  ['谁可以访问？', '公开内容直接浏览；其余内容由管理员按账号和项目授权。'],
+  ['产品演示中的数据是真实的吗？', '演示数据均为模拟，任何操作都不会影响真实业务。'],
+];
 function LandingPreview({ page }: { page: LandingPage }) {
   const query = useQuery<{ entry: string; styles: string[] }>({
-    queryKey: ['landing-preview', page.pageKey],
+    queryKey: ['landing-preview', page.projectId, page.clientId, page.pageKey],
     queryFn: () => client.request(`/showcase/${page.projectId}/${page.clientId}/${page.pageKey}`),
     enabled: page.access === 'public',
     retry: false,
@@ -47,17 +83,49 @@ function LandingPreview({ page }: { page: LandingPage }) {
     </span>
   );
 }
-export function SiteLanding({ pages }: { pages: LandingPage[] }) {
+function FeatureSection({
+  title,
+  action,
+  to,
+  items,
+  spaced,
+}: {
+  title: string;
+  action: string;
+  to: string;
+  items: [string, string, ReactNode][];
+  spaced?: boolean;
+}) {
+  const text = useShowcaseText();
+  return (
+    <section
+      className={`how-it-works_section__rivYt page_container__jZF7q${spaced ? ' landing_clips__26AfS' : ''}`}
+    >
+      <div className="how-it-works_head__WdYQC">
+        <h2>{text(title)}</h2>
+        <Link className="how-it-works_link__lty1j" to={to}>
+          {text(action)}
+          <ArrowRight size={16} />
+        </Link>
+      </div>
+      <div className="how-it-works_grid__LRsJ3">
+        {items.map(([name, description, icon]) => (
+          <article className="how-it-works_item__i_vjv" key={name}>
+            {icon}
+            <h3>{text(name)}</h3>
+            <p>{text(description)}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+export function SiteLanding({ pages, projectMenu }: { pages: LandingPage[]; projectMenu?: ReactNode }) {
   const text = useShowcaseText(),
     reduced = useReducedMotion();
   const [question, setQuestion] = useState(0);
   const first = pages[0];
-  const questions = [
-    ['公开页面需要登录吗？', '公开页面可直接查看预览、页面源码和业务说明。'],
-    ['重要页面如何访问？', '重要页面需要登录，并由管理员授权给指定账号；仅登录不会自动获得权限。'],
-    ['AI 可以读取需求吗？', 'AI 使用项目只读凭证读取业务需求。凭证通过私有配置提供，不写入页面网址。'],
-    ['如何更新原型和需求？', '在本地修改后提交 Git，通过已配置的 GitHub 发布流程更新。网页仅提供读取。'],
-  ];
+  const explore = first ? link(first) : '/pages';
   return (
     <main id="main">
       <section className="page_hero__7KFOs">
@@ -66,9 +134,9 @@ export function SiteLanding({ pages }: { pages: LandingPage[] }) {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: reduced ? 0 : 0.6, ease: [...siteMotionTokens.ease.enter] }}
         >
-          {text('原型与需求，')}
+          {text('为团队和 Agent 打造的')}
           <br />
-          {text('在一个地方看清楚。')}
+          {text('产品中心。')}
         </motion.h1>
         <motion.div
           className="page_heroLeadIn__Bamxl"
@@ -76,31 +144,39 @@ export function SiteLanding({ pages }: { pages: LandingPage[] }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: reduced ? 0 : 0.18 }}
         >
-          <p className="page_lead__vF_iL">
-            {text('查看可交互的原生页面、页面源码与业务 PRD。公开页面直接浏览，重要页面由管理员授权。')}
-          </p>
+          <p className="page_lead__vF_iL">{text('专为规划和构建产品而设计，为 AI 时代而生。')}</p>
           <div className="page_actions___si5r">
-            <Link className="page_primary__2CBMe" to={first ? link(first) : '/pages'}>
-              {text('浏览原型页面')}
+            <Link className="page_primary__2CBMe" to={explore}>
+              {text('探索产品')}
               <ArrowRight size={16} />
             </Link>
             <Link className="page_secondary__jzhTV" to="/docs/ai">
-              {text('让 AI 读取业务需求')}
+              {text('接入 MCP')}
               <ArrowRight size={16} />
             </Link>
           </div>
         </motion.div>
       </section>
+      <FeatureSection
+        title="新一代的产品工具"
+        action="了解 AI 接入"
+        to="/docs/ai"
+        items={principles}
+        spaced
+      />
       <section className="page_container__jZF7q landing_clips__26AfS">
         <div className="clip-sections_head__E7FqN">
           <div>
-            <h2>{text('当前原型页面')}</h2>
-            <p>{text('预览交互、查看源码，随页面阅读业务说明。')}</p>
+            <h2>{text('产品与业务逻辑')}</h2>
+            <p>{text('从行业场景到每条规则的前因后果，一图看清。产品可直接体验，逻辑逐条溯源。')}</p>
           </div>
-          <Link className="clip-sections_all__myGLe" to={first ? link(first) : '/pages'}>
-            {text('浏览全部页面')}
-            <ArrowRight size={16} />
-          </Link>
+          <div className="showcase-product-section-actions">
+            {projectMenu}
+            <Link className="clip-sections_all__myGLe" to={explore}>
+              {text('查看全部产品')}
+              <ArrowRight size={16} />
+            </Link>
+          </div>
         </div>
         <div className="clip-sections_grid__Vaqr3">
           {pages.map((page) => (
@@ -126,7 +202,7 @@ export function SiteLanding({ pages }: { pages: LandingPage[] }) {
                     </span>
                   </span>
                   <span className="clip-sections_hint__1bJxU">
-                    {text(page.access === 'public' ? '直接查看预览、源码和页面说明' : '由管理员授权后查看')}
+                    {text(page.access === 'public' ? '可交互演示，逻辑可溯源' : '授权后可见')}
                   </span>
                 </span>
               </Link>
@@ -134,33 +210,12 @@ export function SiteLanding({ pages }: { pages: LandingPage[] }) {
           ))}
         </div>
       </section>
-      <section className="how-it-works_section__rivYt page_container__jZF7q">
-        <div className="how-it-works_head__WdYQC">
-          <h2>{text('同一页面，三种查看方式')}</h2>
-          <Link className="how-it-works_link__lty1j" to="/docs/ai">
-            {text('AI 接入')}
-            <ArrowRight size={16} />
-          </Link>
-        </div>
-        <div className="how-it-works_grid__LRsJ3">
-          {[
-            ['交互预览', '在原生页面中操作列表、表单与弹窗。', <Eye size={22} />],
-            ['页面源码', '查看明确允许展示的 React 页面源码。', <Code2 size={22} />],
-            ['业务需求', '阅读当前页面关联的 PRD，与原型一起评审。', <LockKeyhole size={22} />],
-          ].map(([title, description, icon]) => (
-            <article className="how-it-works_item__i_vjv" key={String(title)}>
-              {icon}
-              <h3>{text(String(title))}</h3>
-              <p>{text(String(description))}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      <FeatureSection title="构建所需，一应俱全" action="阅读文档" to="/docs" items={toolkit} />
       <section className="page_container__jZF7q page_faqSection__mfM8r">
         <div className="page_faqIntro__KtkWD">
           <h2>{text('常见问题')}</h2>
           <Link className="page_textLink__pfFKU" to="/docs">
-            {text('查看业务说明')}
+            {text('阅读文档')}
             <ArrowUpRight size={16} />
           </Link>
         </div>
@@ -184,6 +239,28 @@ export function SiteLanding({ pages }: { pages: LandingPage[] }) {
           ))}
         </div>
       </section>
+      <section className="page_finalSection__VX7vN">
+        <div className="page_container__jZF7q page_finalInner__InEtC">
+          <div className="page_finalCopy__eUcGt">
+            <h2>
+              {text('为未来而建，')}
+              <br />
+              {text('今天即可使用。')}
+            </h2>
+            <p>{text('接入一次，产品、需求与规范随 Agent 同行。')}</p>
+            <div className="page_finalActions__96kLD">
+              <Link className="page_finalPrimary__Vdlf_" to={explore}>
+                {text('探索产品')}
+                <ArrowRight size={16} />
+              </Link>
+              <Link className="page_finalSecondary__j7s1j" to="/docs/ai">
+                {text('接入 MCP')}
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
       <footer className="site-footer_footer__UVYZj">
         <div className="site-footer_top__vpxM_">
           <div className="site-footer_intro__IJ5n1">
@@ -191,11 +268,12 @@ export function SiteLanding({ pages }: { pages: LandingPage[] }) {
               <Layers3 size={22} />
               Preview
             </Link>
-            <p>{text('原型页面、业务需求和 AI 只读资料入口。')}</p>
+            <p>{text('为团队和 Agent 打造的产品中心。')}</p>
           </div>
           <nav className="showcase-landing-footer-links">
-            <Link to={first ? link(first) : '/pages'}>{text('原型页面')}</Link>
-            <Link to="/docs">{text('业务需求')}</Link>
+            <Link to={explore}>{text('产品')}</Link>
+            <Link to="/docs/graph">{text('需求图谱')}</Link>
+            <Link to="/docs">{text('文档')}</Link>
             <Link to="/docs/ai">{text('AI 接入')}</Link>
           </nav>
         </div>

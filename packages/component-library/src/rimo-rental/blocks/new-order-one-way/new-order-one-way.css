@@ -1,0 +1,796 @@
+@layer properties;
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]), :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) {
+  --color-red-500: var(--app-color-danger);
+  --color-orange-500: var(--app-color-warning);
+  --color-green-100: color-mix(in srgb, var(--app-color-success) 10%, var(--background, var(--app-color-panel)));
+  --color-green-600: var(--app-color-success);
+  --color-blue-50: color-mix(in srgb, var(--app-color-primary) 5%, var(--background, var(--app-color-panel)));
+  --color-blue-100: color-mix(in srgb, var(--app-color-primary) 10%, var(--background, var(--app-color-panel)));
+  --color-blue-700: var(--app-color-primary);
+  --color-slate-50: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-slate-800: var(--foreground, #202124);
+  --color-gray-50: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-gray-100: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-gray-200: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-gray-300: var(--border, var(--app-color-border));
+  --color-gray-400: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-500: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-600: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-700: var(--foreground, #202124);
+  --color-gray-800: var(--foreground, #202124);
+  --color-gray-900: var(--foreground, #202124);
+  --color-black: var(--foreground, #202124);
+  --color-white: var(--background, var(--app-color-panel));
+  --spacing: 0.25rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: calc(1 / 0.75);
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --text-base: 1rem;
+  --text-base--line-height: calc(1.5 / 1);
+  --text-lg: 1.125rem;
+  --text-lg--line-height: calc(1.75 / 1.125);
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: calc(2 / 1.5);
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: calc(2.25 / 1.875);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .relative {
+  position: relative;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .col-span-2 {
+  grid-column: span 2 / span 2;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .col-span-3 {
+  grid-column: span 3 / span 3;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .col-span-9 {
+  grid-column: span 9 / span 9;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mx-auto {
+  margin-inline: auto;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .my-2 {
+  margin-block: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mt-1 {
+  margin-top: var(--spacing);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mt-2 {
+  margin-top: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mt-4 {
+  margin-top: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mb-1 {
+  margin-bottom: var(--spacing);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mb-2 {
+  margin-bottom: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mb-3 {
+  margin-bottom: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .mb-4 {
+  margin-bottom: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .block {
+  display: block;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .flex {
+  display: flex;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .grid {
+  display: grid;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!h-5 {
+  height: calc(var(--spacing) * 5) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!h-10 {
+  height: calc(var(--spacing) * 10) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .h-4 {
+  height: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .h-14 {
+  height: calc(var(--spacing) * 14);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .h-\[45px\] {
+  height: 45px;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .h-full {
+  height: 100%;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!w-56 {
+  width: calc(var(--spacing) * 56) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!w-full {
+  width: 100% !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .w-4 {
+  width: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .w-14 {
+  width: calc(var(--spacing) * 14);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .w-20 {
+  width: calc(var(--spacing) * 20);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .w-full {
+  width: 100%;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .min-w-\[360px\] {
+  min-width: 360px;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .flex-1 {
+  flex: 1;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .shrink-0 {
+  flex-shrink: 0;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .scale-75 {
+  --tw-scale-x: 75%;
+  --tw-scale-y: 75%;
+  --tw-scale-z: 75%;
+  scale: var(--tw-scale-x) var(--tw-scale-y);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .cursor-not-allowed {
+  cursor: not-allowed;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .cursor-pointer {
+  cursor: pointer;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .flex-col {
+  flex-direction: column;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .items-baseline {
+  align-items: baseline;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .items-center {
+  align-items: center;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .items-end {
+  align-items: flex-end;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .items-start {
+  align-items: flex-start;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .justify-between {
+  justify-content: space-between;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .justify-center {
+  justify-content: center;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .justify-end {
+  justify-content: flex-end;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .gap-0\.5 {
+  gap: calc(var(--spacing) * 0.5);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .gap-1 {
+  gap: var(--spacing);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .gap-2 {
+  gap: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .gap-3 {
+  gap: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .gap-4 {
+  gap: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .gap-5 {
+  gap: calc(var(--spacing) * 5);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) :where(.space-y-1 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(var(--spacing) * var(--tw-space-y-reverse));
+  margin-block-end: calc(var(--spacing) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) :where(.space-y-2 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
+  margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) :where(.space-y-3 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));
+  margin-block-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) :where(.space-y-4 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(calc(var(--spacing) * 4) * var(--tw-space-y-reverse));
+  margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) :where(.divide-x > :not(:last-child)) {
+  --tw-divide-x-reverse: 0;
+  border-inline-style: var(--tw-border-style);
+  border-inline-start-width: calc(1px * var(--tw-divide-x-reverse));
+  border-inline-end-width: calc(1px * calc(1 - var(--tw-divide-x-reverse)));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) :where(.divide-gray-100 > :not(:last-child)) {
+  border-color: var(--color-gray-100);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!rounded-lg {
+  border-radius: var(--radius-lg) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .rounded {
+  border-radius: 0.25rem;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .rounded-full {
+  border-radius: calc(infinity * 1px);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .rounded-lg {
+  border-radius: var(--radius-lg);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .rounded-md {
+  border-radius: var(--radius-md);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-b {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-dashed {
+  --tw-border-style: dashed;
+  border-style: dashed;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!border-\[color\:var\(--app-color-primary-light-8\)\] {
+  border-color: var(--app-color-primary-light-8) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!border-gray-200 {
+  border-color: var(--color-gray-200) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-\[color\:var\(--app-color-primary\)\] {
+  border-color: var(--app-color-primary);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-\[color\:var\(--app-color-primary-light-8\)\] {
+  border-color: var(--app-color-primary-light-8);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-\[color\:var\(--app-color-primary-light-9\)\] {
+  border-color: var(--app-color-primary-light-9);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-blue-100 {
+  border-color: var(--color-blue-100);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-gray-100 {
+  border-color: var(--color-gray-100);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-gray-200 {
+  border-color: var(--color-gray-200);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .border-gray-300 {
+  border-color: var(--color-gray-300);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!bg-slate-50\/50 {
+  background-color: color-mix(in srgb, oklch(98.4% 0.003 247.858) 50%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-slate-50) 50%, transparent) !important;
+  }
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-\[color\:var\(--app-color-primary\)\] {
+  background-color: var(--app-color-primary);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-\[color\:var\(--app-color-primary-light-9\)\] {
+  background-color: var(--app-color-primary-light-9);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-blue-50 {
+  background-color: var(--color-blue-50);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-gray-50 {
+  background-color: var(--color-gray-50);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-gray-50\/50 {
+  background-color: color-mix(in srgb, oklch(98.5% 0.002 247.839) 50%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background-color: color-mix(in oklab, var(--color-gray-50) 50%, transparent);
+  }
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-gray-100 {
+  background-color: var(--color-gray-100);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-green-100 {
+  background-color: var(--color-green-100);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .bg-white {
+  background-color: var(--color-white);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!p-0 {
+  padding: 0px !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!p-4 {
+  padding: calc(var(--spacing) * 4) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .p-0 {
+  padding: 0px;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .p-1 {
+  padding: var(--spacing);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .p-2 {
+  padding: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .p-2\.5 {
+  padding: calc(var(--spacing) * 2.5);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .p-3 {
+  padding: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .p-4 {
+  padding: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!px-1 {
+  padding-inline: var(--spacing) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!px-4 {
+  padding-inline: calc(var(--spacing) * 4) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .px-2 {
+  padding-inline: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .px-3 {
+  padding-inline: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .px-4 {
+  padding-inline: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .py-1 {
+  padding-block: var(--spacing);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .py-1\.5 {
+  padding-block: calc(var(--spacing) * 1.5);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .py-2 {
+  padding-block: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .py-4 {
+  padding-block: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .pt-2 {
+  padding-top: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .pt-3 {
+  padding-top: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .pt-4 {
+  padding-top: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .pr-2 {
+  padding-right: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-center {
+  text-align: center;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-right {
+  text-align: right;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!text-base {
+  font-size: var(--text-base) !important;
+  line-height: var(--tw-leading, var(--text-base--line-height)) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-2xl {
+  font-size: var(--text-2xl);
+  line-height: var(--tw-leading, var(--text-2xl--line-height));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-3xl {
+  font-size: var(--text-3xl);
+  line-height: var(--tw-leading, var(--text-3xl--line-height));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-base {
+  font-size: var(--text-base);
+  line-height: var(--tw-leading, var(--text-base--line-height));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-lg {
+  font-size: var(--text-lg);
+  line-height: var(--tw-leading, var(--text-lg--line-height));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-sm {
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-xs {
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!text-\[10px\] {
+  font-size: 10px !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-\[11px\] {
+  font-size: 11px;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .leading-4 {
+  --tw-leading: calc(var(--spacing) * 4);
+  line-height: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .leading-5 {
+  --tw-leading: calc(var(--spacing) * 5);
+  line-height: calc(var(--spacing) * 5);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .\!font-bold {
+  --tw-font-weight: var(--font-weight-bold) !important;
+  font-weight: var(--font-weight-bold) !important;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .font-bold {
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .font-medium {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .font-normal {
+  --tw-font-weight: var(--font-weight-normal);
+  font-weight: var(--font-weight-normal);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-\[color\:var\(--app-color-primary\)\] {
+  color: var(--app-color-primary);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-\[color\:var\(--app-color-primary-hover\)\] {
+  color: var(--app-color-primary-hover);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-blue-700 {
+  color: var(--color-blue-700);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-gray-400 {
+  color: var(--color-gray-400);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-gray-500 {
+  color: var(--color-gray-500);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-gray-600 {
+  color: var(--color-gray-600);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-gray-700 {
+  color: var(--color-gray-700);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-gray-800 {
+  color: var(--color-gray-800);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-gray-900 {
+  color: var(--color-gray-900);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-green-600 {
+  color: var(--color-green-600);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-orange-500 {
+  color: var(--color-orange-500);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-red-500 {
+  color: var(--color-red-500);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-slate-800 {
+  color: var(--color-slate-800);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .text-white {
+  color: var(--color-white);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .opacity-50 {
+  opacity: 50%;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .shadow-lg {
+  --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: none;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .shadow-sm {
+  --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: none;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .ring-1 {
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .shadow-\[color\:var\(--app-color-primary-shadow\)\] {
+  --tw-shadow-color: var(--app-color-primary-shadow);
+  @supports (color: color-mix(in lab, red, red)) {
+    --tw-shadow-color: color-mix(in oklab, var(--app-color-primary-shadow) var(--tw-shadow-alpha), transparent);
+  }
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .ring-black\/5 {
+  --tw-ring-color: color-mix(in srgb, var(--app-color-text) 5%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    --tw-ring-color: color-mix(in oklab, var(--color-black) 5%, transparent);
+  }
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .transition-all {
+  transition-property: all;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .transition-colors {
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .duration-200 {
+  --tw-duration: 200ms;
+  transition-duration: 200ms;
+}
+:where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .select-none {
+  -webkit-user-select: none;
+  user-select: none;
+}
+@media (hover: hover) {
+  :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .hover\:border-\[color\:var\(--app-color-primary-light-7\)\]:hover {
+    border-color: var(--app-color-primary-light-7);
+  }
+  :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .hover\:border-gray-200:hover {
+    border-color: var(--color-gray-200);
+  }
+  :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .hover\:bg-gray-50:hover {
+    background-color: var(--color-gray-50);
+  }
+  :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .hover\:text-gray-700:hover {
+    color: var(--color-gray-700);
+  }
+  :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .hover\:shadow-md:hover {
+    --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .hover\:shadow-none:hover {
+    --tw-shadow: 0 0 #0000;
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-divide-x-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: var(--app-color-panel);
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) *, :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) ::before, :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) ::after, :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) ::backdrop {
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-scale-z: 1;
+      --tw-space-y-reverse: 0;
+      --tw-divide-x-reverse: 0;
+      --tw-border-style: solid;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: var(--app-color-panel);
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-duration: initial;
+    }
+  }
+}
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--app-color-text-secondary);
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .sticky-summary {
+            position: sticky;
+            top: 20px;
+        }
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .el-card__header {
+            padding: 0 !important;
+            min-height: 0 !important;
+            border-bottom: none !important;
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .el-select-dropdown__item.customer-option {
+            height: 54px !important;
+            line-height: normal !important;
+            padding: 5px 12px !important;
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .customer-option-content {
+            width: 100%;
+            line-height: 1.35;
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-layout {
+            grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr) !important;
+        }
+
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-main-column,
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-summary-column {
+            grid-column: auto !important;
+            min-width: 0;
+        }
+
+        @media (max-width: 1280px) {
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .prototype-main {
+                padding: 20px;
+            }
+
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-layout {
+                grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr) !important;
+                gap: 16px;
+            }
+
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-vehicle-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .sticky-summary {
+                position: static;
+                top: auto;
+            }
+        }
+
+        @media (max-width: 960px) {
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-layout {
+                display: block !important;
+            }
+
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-summary-column {
+                margin-top: 16px;
+            }
+
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-intro-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .prototype-main {
+                padding: 16px;
+            }
+
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-vehicle-grid,
+            :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .new-order-layout .grid.grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+      @media (max-width: 1080px) {
+        :where([data-rimo-page="new-order-one-way"], [data-rimo-overlay="new-order-one-way"]) .el-pagination .el-pagination__jump {
+          display: none;
+        }
+      }
+    

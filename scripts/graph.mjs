@@ -38,13 +38,10 @@ for (const snapshot of packages) {
     moduleKey: module.key,
     pageSourceRoot: sourceRoot,
   });
-  const clientIds = new Set([
-    module.clientId ?? 'operation',
-    ...snapshot.manifest.requirements.flatMap((doc) => doc.pages.map((page) => page.clientId)),
-  ]);
   const prototypes = {};
-  for (const clientId of clientIds)
-    for (const [pageKey, revision] of Object.entries(hashes)) prototypes[`${clientId}/${pageKey}`] = revision;
+  const clients = module.initialClients ?? [{ id: module.clientId ?? 'operation', pages: module.pages }];
+  for (const client of clients)
+    for (const page of client.pages) if (hashes[page.key]) prototypes[`${client.id}/${page.key}`] = hashes[page.key];
   const project = { id: module.projectId ?? module.key, moduleKey: module.key, links: [] };
   snapshot.prototypeRevisions = prototypes;
   if (operation === 'review') {
@@ -71,7 +68,7 @@ for (const snapshot of packages) {
         snapshot.manifest.requirements.map((doc) => [doc.id, graphHash(snapshot.files.get(doc.path))]),
       ),
       bindings: Object.fromEntries(
-        snapshot.manifest.requirements.map((doc) => [doc.id, requirementBindingRevision(doc)]),
+        snapshot.manifest.requirements.map((doc) => [doc.id, requirementBindingRevision(doc, snapshot.files)]),
       ),
       prototypes,
       note: value('--note'),
@@ -98,7 +95,7 @@ for (const snapshot of packages) {
           view,
           prototypeRevisions: prototypes,
           bindingRevisions: Object.fromEntries(
-            snapshot.manifest.requirements.map((doc) => [doc.id, requirementBindingRevision(doc)]),
+            snapshot.manifest.requirements.map((doc) => [doc.id, requirementBindingRevision(doc, snapshot.files)]),
           ),
           graphReviewRevision:
             view.availability === 'ready'

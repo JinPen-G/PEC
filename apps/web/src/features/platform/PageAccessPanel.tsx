@@ -1,6 +1,6 @@
 /** Administrators replace one user's menu grants atomically. PRD bodies stay in Git. */
 import { useState } from 'react';
-import { Alert, Empty, Form, Input, Select, Table, Tag } from '@preview/ui/admin';
+import { Alert, Empty, Form, Select, Table, Tag } from '@preview/ui/admin';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@preview/ui/admin';
 import { useNativeAuth, useNativeQuery, type NativeAccount, type NativeProject } from './platform-api';
@@ -8,12 +8,6 @@ interface Grant {
   clientId: string;
   pageKey: string;
   userId: string;
-}
-interface Token {
-  id: string;
-  label: string;
-  expiresAt: number;
-  revokedAt: number | null;
 }
 export function PageAccessPanel({
   project,
@@ -25,15 +19,9 @@ export function PageAccessPanel({
   const { client } = useNativeAuth();
   const cache = useQueryClient();
   const grants = useNativeQuery<Grant[]>(`/page-grants?projectId=${project.id}`);
-  const tokens = useNativeQuery<Token[]>(
-    `/context-tokens?projectId=${project.id}`,
-    Boolean(project.contentKey),
-  );
   const [accountId, setAccountId] = useState('');
   const [selected, setSelected] = useState<string[]>([]);
   const [revision, setRevision] = useState(project.revision);
-  const [label, setLabel] = useState(''),
-    [secret, setSecret] = useState('');
   const [error, setError] = useState(''),
     [pending, setPending] = useState(false),
     [saved, setSaved] = useState(false);
@@ -128,7 +116,7 @@ export function PageAccessPanel({
             }}
             disabled={!accountId || pending}
             placeholder="选择受限菜单"
-            showSearch={false}
+            showSearch={{ optionFilterProp: 'label' }}
             options={pages
               .filter((page) => page.access !== 'public')
               .map((page) => ({
@@ -159,12 +147,14 @@ export function PageAccessPanel({
         onRefresh={() => grants.refetch()}
         pagination={{ pageSize: 10, hideOnSinglePage: true }}
         loading={grants.isPending}
-        scroll={{ x: 560 }}
+        tableLayout="fixed"
+        scroll={{ x: 640 }}
         locale={{ emptyText: <Empty description="还没有用户获得受限菜单授权" /> }}
         dataSource={eligible.filter((account) => grants.data?.some((grant) => grant.userId === account.id))}
         columns={[
           {
             title: '用户',
+            width: 190,
             render: (_, account) => (
               <>
                 <strong>{account.displayName}</strong>
@@ -174,6 +164,7 @@ export function PageAccessPanel({
           },
           {
             title: '已授权菜单',
+            width: 230,
             render: (_, account) =>
               grants.data
                 ?.filter((grant) => grant.userId === account.id)
@@ -186,8 +177,11 @@ export function PageAccessPanel({
           },
           {
             title: '操作',
+            key: 'actions',
+            width: 220,
+            fixed: false,
             render: (_, account) => (
-              <div className="native-actions">
+              <div className="native-actions native-table-actions">
                 <Button size="small" disabled={pending} onClick={() => chooseAccount(account.id)}>
                   编辑授权
                 </Button>
@@ -203,67 +197,6 @@ export function PageAccessPanel({
           },
         ]}
       />
-      {project.contentKey && (
-        <details className="native-ai-access native-page-access">
-          <summary>AI 项目只读访问</summary>
-          <p className="text-meta">
-            凭证可读取本项目全部已发布业务资料，不受网页菜单授权范围限制。默认有效期30天，可随时撤销；原文仅显示一次。
-          </p>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              void mutate(async () => {
-                const result = await client.request<{ secret: string }>('/context-tokens', {
-                  method: 'POST',
-                  body: { projectId: project.id, label, days: 30 },
-                });
-                setSecret(result.secret);
-                setLabel('');
-              });
-            }}
-          >
-            <label>
-              凭证名称
-              <Input
-                required
-                maxLength={80}
-                aria-label="AI凭证名称"
-                value={label}
-                onChange={(event) => setLabel(event.target.value)}
-              />
-            </label>
-            <Button htmlType="submit" disabled={pending}>
-              签发只读凭证
-            </Button>
-          </form>
-          {secret && (
-            <div>
-              <p>请保存在AI客户端私有配置，勿写入网址或源码。</p>
-              <code>{secret}</code>
-              <Button size="small" onClick={() => setSecret('')}>
-                关闭凭证显示
-              </Button>
-            </div>
-          )}
-          {tokens.error && <p role="alert">{tokens.error.message}</p>}
-          <ul>
-            {tokens.data?.map((token) => (
-              <li key={token.id}>
-                {token.label} · {token.revokedAt ? '已撤销' : new Date(token.expiresAt).toLocaleDateString()}
-                <Button
-                  size="small"
-                  disabled={pending || Boolean(token.revokedAt)}
-                  onClick={() =>
-                    void mutate(() => client.request(`/context-tokens/${token.id}`, { method: 'DELETE' }))
-                  }
-                >
-                  撤销凭证
-                </Button>
-              </li>
-            ))}
-          </ul>
-        </details>
-      )}
     </section>
   );
 }

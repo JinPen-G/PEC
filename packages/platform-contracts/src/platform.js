@@ -7,21 +7,19 @@ export function nativePublicAssetAllowed(relative) {
     relative === 'auth-assets/marcus-johnson.svg'
   );
 }
+import { componentRegistryFiles } from './component-registry.js';
+import registeredProjects from './registered-projects.json' with { type: 'json' };
 export const NATIVE_MODULES = Object.freeze([
   { key: 'empty', label: '空白工作台', pages: [{ key: 'canvas', label: '工作台' }] },
   { key: 'rental-orders', label: '租赁订单示例', pages: [{ key: 'orders', label: '租赁订单' }] },
-  {
-    key: 'rimo-native',
-    projectId: 'rimo-rental',
-    clientId: 'operation',
-    contentKey: 'rimo-rental',
-    label: 'RIMO 营运原型',
+  ...registeredProjects.map(({ module }) => ({
+    ...module,
     surface: 'showcase',
-    pages: [
-      { key: 'vehicle-groups', label: '車組管理', source: 'VehicleGroupsPage.tsx' },
-      { key: 'vehicle-transfer', label: '車輛調度', source: 'VehicleTransferPage.tsx' },
-    ],
-  },
+    pages: module.pages.map((page) => ({
+      ...page,
+      sourceFiles: page.registryItem ? componentRegistryFiles(page.registryItem) : page.sourceFiles,
+    })),
+  })),
 ]);
 export const NATIVE_ROLES = Object.freeze(['admin', 'member']);
 export const PROJECT_ROLES = Object.freeze(['editor', 'viewer']);

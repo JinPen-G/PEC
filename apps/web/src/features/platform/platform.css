@@ -34,6 +34,13 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.native-table-actions {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+.native-table-actions > * {
+  flex-shrink: 0;
+}
 .native-member-form {
   display: flex;
   gap: 8px;

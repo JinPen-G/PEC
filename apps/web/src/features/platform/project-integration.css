@@ -1,0 +1,50 @@
+.native-integration {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+.native-integration > h2 {
+  margin: 24px 0 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.native-integration > h2:first-child {
+  margin-top: 0;
+}
+.native-integration > p {
+  margin: 0;
+  line-height: 1.6;
+}
+.native-integration > button {
+  justify-self: start;
+}
+.native-integration .native-form-width {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 140px;
+  width: 100%;
+  max-width: 760px;
+  gap: 16px;
+}
+.native-integration .native-form-width > label {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-width: 0;
+}
+.native-integration .native-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.native-integration .native-form-width > .native-toolbar {
+  grid-column: 1 / -1;
+}
+.native-integration .native-form-width > button {
+  justify-self: start;
+}
+@media (max-width: 600px) {
+  .native-integration .native-form-width {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

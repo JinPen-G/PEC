@@ -49,6 +49,43 @@ function member(store, admin, username) {
   store.changePassword(user, { currentPassword: password, password: `${password}-changed` });
   return store.login(username, `${password}-changed`).user;
 }
+test('collaboration uses visible page grants and admits logged-in public viewers without backend membership', async () => {
+  const { store, admin } = await fixture({
+    moduleCatalog: [{ key: 'demo-module', pages: [{ key: 'public-page' }, { key: 'private-page' }] }],
+  });
+  const viewer = member(store, admin, 'public-viewer');
+  const project = store.createProject(admin, {
+    id: 'demo-project',
+    name: 'Demo',
+    moduleKey: 'demo-module',
+    clients: [
+      {
+        ...configuration.clients[0],
+        defaultPage: 'public-page',
+        pages: [
+          { key: 'public-page', label: 'Public', visible: true, position: 0, access: 'public' },
+          { key: 'private-page', label: 'Private', visible: true, position: 1, access: 'restricted' },
+        ],
+      },
+    ],
+  });
+  expect(() => store.getProject(viewer, project.id)).toThrow('无权访问');
+  expect(store.getCollaborationProject(viewer, project.id).clients[0].pages.map((page) => page.key)).toEqual([
+    'public-page',
+  ]);
+  expect(() => store.getCollaborationProject(null, project.id)).toThrow();
+  store.setPageGrant(admin, project.id, 'admin', 'private-page', viewer.id, true);
+  expect(store.getCollaborationProject(viewer, project.id).clients[0].pages).toHaveLength(2);
+  store.setPageGrant(admin, project.id, 'admin', 'private-page', viewer.id, false);
+  expect(store.getCollaborationProject(viewer, project.id).clients[0].pages.map((page) => page.key)).toEqual([
+    'public-page',
+  ]);
+  store.updateProject(admin, project.id, {
+    revision: store.getProject(admin, project.id).revision,
+    archived: true,
+  });
+  expect(() => store.getCollaborationProject(viewer, project.id)).toThrow('无权访问');
+});
 test('basic projects need no source directory and attach only matching source declarations after restart', async () => {
   const { store, admin, owner, directory } = await fixture();
   const project = store.createProject(admin, { id: 'new-project', name: '新项目' });

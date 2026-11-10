@@ -1,0 +1,12 @@
+.demo-content {
+  padding: var(--space-6);
+  min-width: 0;
+}
+.demo-content .showcase-runtime-ready {
+  width: 100%;
+}
+@media (max-width: 760px) {
+  .demo-content {
+    padding: var(--space-4);
+  }
+}

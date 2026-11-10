@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "module": {
+    "key": "your-project",
+    "projectId": "your-project",
+    "label": "项目名称",
+    "surface": "showcase",
+    "clientId": "web",
+    "contentKey": "your-project",
+    "pages": [{ "key": "overview", "label": "业务页面", "source": "OverviewPage.tsx", "kind": "page" }],
+    "initialClients": [
+      {
+        "id": "web",
+        "name": "管理端",
+        "layout": "desktop",
+        "enabled": true,
+        "position": 0,
+        "defaultPage": "overview",
+        "pages": [
+          {
+            "key": "overview",
+            "label": "业务页面",
+            "group": "业务管理",
+            "visible": true,
+            "access": "restricted",
+            "position": 0
+          }
+        ]
+      }
+    ]
+  },
+  "registry": []
+}

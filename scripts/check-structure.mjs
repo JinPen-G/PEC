@@ -76,9 +76,9 @@ export function checkEngineeringName(relative, directory = false) {
     if (/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name) || /^zh-(?:Hans|Hant)$/.test(name)) return [];
     return [`${relative}: 目录使用英文 kebab-case`];
   }
-  if (!/\.(?:[cm]?js|tsx?|css|json|sh|service|conf)$/.test(name)) return [];
+  if (!/\.(?:[cm]?js|[jt]sx?|css|json|sh|service|conf)$/.test(name)) return [];
   const stem = name
-    .replace(/\.(?:[cm]?js|tsx?|css|json|sh|service|conf)$/, '')
+    .replace(/\.(?:[cm]?js|[jt]sx?|css|json|sh|service|conf)$/, '')
     .replace(/\.(?:test|spec|d|module)$/, '');
   if (
     /^(?:native|legacy)(?:-|$)/.test(stem) ||
@@ -88,7 +88,7 @@ export function checkEngineeringName(relative, directory = false) {
     return [`${relative}: 按职责命名，不能用历史版本或临时状态后缀`];
   if (
     /^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(stem) ||
-    (/\.tsx?$/.test(name) && /^[A-Z][A-Za-z0-9]*$/.test(stem))
+    (/\.[jt]sx?$/.test(name) && /^[A-Z][A-Za-z0-9]*$/.test(stem))
   )
     return [];
   return [`${relative}: 文件使用 kebab-case，React 组件使用 PascalCase`];

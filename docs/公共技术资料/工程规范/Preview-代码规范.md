@@ -11,10 +11,11 @@
 | platform-contracts | 平台无关的数据声明与纯逻辑                                   | 响应、错误、归一化和类型，不依赖 Node、DOM、React 或其他平台包                    |
 | platform-client    | platform-contracts、注入的 fetch                             | 请求、静态只读边界和响应归一化，不依赖 Node、React、Vite 或文件系统               |
 | project-shared     | 平台无关纯逻辑                                               | 浏览器与 Node 共用的上下文算法、语言映射和桥接脚本文本，不读取宿主文件或 DOM      |
+| component-library | React 与明确声明的组件依赖                                    | 可安装基础组件与区块，不依赖网站 features、账号、Node 或平台后台外壳              |
 | project-core       | Node 基础库、project-shared、自身领域模块                    | 文件契约、扫描、路径、文档、路由、迁移与原子写入，不依赖 HTTP、Vite、React 或应用 |
 | platform-server    | project-core、platform-contracts、Node                       | HTTP 与 MCP 适配、生命周期和运行边界，不依赖浏览器应用                            |
 | plugins / scripts  | 对应领域包与工具库                                           | Vite、CLI、构建及检查入口，不复制领域规则                                         |
-| web                | platform-client、platform-contracts、project-shared、公共 UI | 路由、原生页面、交互与主题，不直接调用 Node 领域核心或服务端实现                  |
+| web                | platform-client、platform-contracts、project-shared、公共 UI、component-library | 路由、原生页面、交互与主题，不直接调用 Node 领域核心或服务端实现                  |
 | api                | platform-server、Node                                        | 正式原生平台启动装配，不拥有领域规则或浏览器代码                                  |
 
 公共出口优先复用；内部模块间相对导入可以保留，不为形式创建更多适配层。新增跨层依赖先说明职责变化，不以扩充白名单掩盖反向依赖。

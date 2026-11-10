@@ -9,6 +9,7 @@ export { Table } from './admin-controls/runtime/apps/admin/src/components/ui/Tab
 export { Input } from './admin-controls/runtime/apps/admin/src/components/ui/Input';
 export { SearchField } from './admin-controls/runtime/apps/admin/src/components/ui/SearchField';
 export { Select } from './admin-controls/runtime/apps/admin/src/components/ui/Select';
+export { Segmented } from './admin-controls/runtime/apps/admin/src/components/ui/Segmented';
 export { Modal } from './admin-controls/runtime/apps/admin/src/components/ui/Modal';
 export { Tabs } from './admin-controls/runtime/apps/admin/src/components/ui/Tabs';
 export { Tabs as TabsRoot, TabsList, TabsTrigger, TabsContent } from './admin-controls/runtime/packages/ui-arc/vendor/registry/components/tabs/tabs';

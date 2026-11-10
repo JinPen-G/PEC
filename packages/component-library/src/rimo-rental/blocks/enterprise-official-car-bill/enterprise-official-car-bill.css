@@ -1,0 +1,234 @@
+@layer properties;
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]), :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) {
+  --color-gray-500: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-700: var(--foreground, #202124);
+  --color-gray-800: var(--foreground, #202124);
+  --color-gray-900: var(--foreground, #202124);
+  --spacing: 0.25rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: calc(2 / 1.5);
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --tracking-tight: -0.025em;
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .mt-1 {
+  margin-top: var(--spacing);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .mb-6 {
+  margin-bottom: calc(var(--spacing) * 6);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .flex-1 {
+  flex: 1;
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .text-2xl {
+  font-size: var(--text-2xl);
+  line-height: var(--tw-leading, var(--text-2xl--line-height));
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .text-sm {
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .font-bold {
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .font-medium {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .font-semibold {
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .tracking-tight {
+  --tw-tracking: var(--tracking-tight);
+  letter-spacing: var(--tracking-tight);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .text-gray-500 {
+  color: var(--color-gray-500);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .text-gray-700 {
+  color: var(--color-gray-700);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .text-gray-800 {
+  color: var(--color-gray-800);
+}
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .text-gray-900 {
+  color: var(--color-gray-900);
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) *, :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) ::before, :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) ::after, :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) ::backdrop {
+      --tw-font-weight: initial;
+      --tw-tracking: initial;
+    }
+  }
+}
+
+
+:where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.5);
+            border-radius: 3px;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page {
+            min-height: 100%;
+            padding: 24px;
+            background: var(--app-color-surface-muted);
+            font-family: var(--app-font-family-sans);
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__content-card {
+            display: flex;
+            min-height: calc(100vh - 244px);
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--app-color-surface-muted);
+            border-radius: 12px;
+            background: var(--app-color-panel);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px;
+            border-bottom: 1px solid var(--app-color-surface-muted);
+            background: var(--app-color-surface-muted);
+            flex-wrap: wrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__filters {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__filters {
+            column-gap: 12px;
+            row-gap: 8px;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__filters > .el-button + .el-button {
+            margin-left: 0 !important;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__date-picker {
+            width: 320px;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__history-button {
+            gap: 8px;
+            border-color: #dbe4ee;
+            color: var(--app-color-text);
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__summary {
+            color: var(--app-color-text-secondary);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__status-tag {
+            font-weight: 600;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__action-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__inner-wrapper::before {
+            display: none;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__header th.el-table__cell {
+            height: 44px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__body td.el-table__cell {
+            padding-top: 14px;
+            padding-bottom: 14px;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__row td {
+            border-bottom: 1px solid var(--app-color-surface-muted);
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__header table,
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__body table,
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__footer table {
+            table-layout: fixed !important;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__header th.el-table__cell > .cell {
+            display: flex;
+            min-height: 44px;
+            align-items: center;
+            box-sizing: border-box;
+            white-space: nowrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__header th.is-center > .cell {
+            justify-content: center;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-table__header th.is-right > .cell {
+            justify-content: flex-end;
+        }
+
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-table .el-tag {
+            padding-inline: 10px;
+        }
+
+        @media (max-width: 960px) {
+            :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page {
+                padding: 16px;
+            }
+
+            :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__content-card {
+                min-height: calc(100vh - 220px);
+            }
+
+            :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page__date-picker {
+                width: 100%;
+            }
+        }
+      @media (max-width: 1080px) {
+        :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .el-pagination .el-pagination__jump {
+          display: none;
+        }
+      }
+    

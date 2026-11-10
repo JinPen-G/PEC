@@ -5,9 +5,11 @@ import { contentDocuments, effectiveDocuments } from './project-content.js';
 import { fail } from './store.js';
 
 export function pageDocuments(snapshot, project, clientId, pageKey) {
-  return effectiveDocuments(snapshot, project).filter((document) =>
+  const documents = effectiveDocuments(snapshot, project).filter((document) =>
     document.pages.some((page) => page.clientId === clientId && page.pageKey === pageKey),
   );
+  const authored = documents.filter((document) => document.summary);
+  return authored.length ? authored : documents;
 }
 export function canReadDocument(store, user, project, document, original) {
   if (user?.role === 'admin') return true;
@@ -46,13 +48,15 @@ export function requireDocumentAccess(store, user, project, snapshot, file) {
   if (typeof file !== 'string' || !file) fail(400, '需要文档路径', 'BAD_REQUEST');
   const allowed = readableDocuments(store, user, project, snapshot);
   if (file.endsWith('.md')) {
-    if (!allowed.some((document) => document.path === file)) fail(403, '此文档需要对应页面授权', 'FORBIDDEN');
+    if (!allowed.some((document) => document.path === file || document.summary === file)) fail(403, '此文档需要对应页面授权', 'FORBIDDEN');
     return;
   }
   if (!snapshot.manifest.assets.includes(file)) fail(404, '说明资源未发布', 'NOT_FOUND');
   if (user?.role === 'admin') return;
+  if (allowed.some(document => document.assets?.includes(file))) return;
   const references = contentDocuments(snapshot).filter((document) => {
-    const source = snapshot.files.get(document.path).toString('utf8');
+    const source = [document.path, document.summary].filter(Boolean)
+      .map((file) => snapshot.files.get(file).toString('utf8')).join('\n');
     return [...source.matchAll(/!?\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g)].some(
       (match) =>
         path.posix.normalize(path.posix.join(path.posix.dirname(document.path), match[1].split('#')[0])) ===

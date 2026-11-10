@@ -1,0 +1,3 @@
+import Block from '@preview/library/rimo-rental/blocks/channel-ticket-batch-detail/ChannelTicketBatchDetailBlock.jsx';
+import { RimoPage } from '../RimoPage';
+export default function ChannelTicketBatchDetailPage() { return <RimoPage pageKey="channel-ticket-batch-detail" clientId="operation" assets={{}} routes={{"../企业端/channel_ticket_batch_detail.html":{"clientId":"enterprise","pageKey":"enterprise-channel-ticket-batch-detail"},"channel_ticket_batch_detail.html":{"clientId":"operation","pageKey":"channel-ticket-batch-detail"},"../企业端/channel_ticket_batches.html":{"clientId":"enterprise","pageKey":"enterprise-channel-ticket-batches"},"channel_ticket_batches.html":{"clientId":"operation","pageKey":"channel-ticket-batches"}}}><Block /></RimoPage>; }

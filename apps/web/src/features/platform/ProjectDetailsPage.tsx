@@ -16,6 +16,9 @@ const Menus = lazy(() => import('./ProjectMenuPage').then((module) => ({ default
 const Access = lazy(() =>
   import('./ProjectAccessPage').then((module) => ({ default: module.ProjectAccessPage })),
 );
+const Integration = lazy(() =>
+  import('./ProjectIntegrationPage').then((module) => ({ default: module.ProjectIntegrationPage })),
+);
 
 export function ProjectDetailsPage({ projectId }: { projectId: string }) {
   const { locale } = usePlatformLocale();
@@ -24,19 +27,23 @@ export function ProjectDetailsPage({ projectId }: { projectId: string }) {
   const query = useNativeQuery<NativeProject>(`/projects/${projectId}`);
   const [params, setParams] = useSearchParams();
   const requested = params.get('tab');
-  const active = requested === 'menus' || requested === 'access' ? requested : 'settings';
+  const active =
+    requested === 'menus' || requested === 'access' || requested === 'integration' ? requested : 'settings';
   const [visited, setVisited] = useState(() => new Set([active]));
   if (query.error) return <QueryFailure message={query.error.message} retry={() => void query.refetch()} />;
   if (!query.data) return <LoadingStage label="读取项目信息…" />;
   const project = query.data;
   if (project.memberRole === 'viewer') return <QueryFailure message="需要项目管理权限" />;
-  if (active === 'access' && project.memberRole !== 'admin')
+  if ((active === 'access' || active === 'integration') && project.memberRole !== 'admin')
     return <QueryFailure message="仅管理员可以授权用户" />;
   const panels = [
     { key: 'settings', label: text('基础信息', '基本資訊', 'Basic information'), content: Settings },
     { key: 'menus', label: text('菜单管理', '選單管理', 'Menus'), content: Menus },
     ...(project.memberRole === 'admin'
-      ? [{ key: 'access', label: text('用户授权', '使用者授權', 'User access'), content: Access }]
+      ? [
+          { key: 'access', label: text('用户授权', '使用者授權', 'User access'), content: Access },
+          { key: 'integration', label: text('AI 接入', 'AI 接入', 'AI integration'), content: Integration },
+        ]
       : []),
   ];
   return (

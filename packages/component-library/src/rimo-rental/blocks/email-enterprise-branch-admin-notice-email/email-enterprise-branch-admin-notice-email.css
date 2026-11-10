@@ -1,0 +1,327 @@
+:where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .table {
+  display: table;
+}
+
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) {
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      color: #111111;
+      font-family: "Noto Sans SC", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial, sans-serif;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) img {
+      border: 0;
+      display: block;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .page-shell {
+      width: 100%;
+      padding: 0 12px 40px;
+      background: #f5f5f5;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .mail-frame {
+      width: 918px;
+      margin: 0 auto;
+      background: #f5f5f5;
+      border: 1px solid #d6d6d6;
+    }
+
+      :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .hero {
+        width: 915px;
+        height: 213px;
+        background: #1d38bf;
+      }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .hero-logo {
+      width: 130px;
+      height: 35px;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      border-radius: 4px;
+      object-fit: contain;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .hero-copy {
+      font-size: 14px;
+      line-height: 25px;
+      color: #fff9f9;
+      letter-spacing: 0;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .greeting {
+      font-size: 24px;
+      line-height: 40px;
+      font-weight: 400;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .greeting-strong {
+      font-weight: 700;
+      color: #112bba;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .headline {
+      font-size: 26px;
+      line-height: 25px;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .headline-accent {
+      color: #112bba;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .intro {
+      font-size: 24px;
+      line-height: 40px;
+      font-weight: 400;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .card-shell {
+      width: 878px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .section-heading {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 700;
+      color: #112bba;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .account-frame {
+      width: 797px;
+      border: 1.5px solid #1a1a1a;
+      border-radius: 16px;
+      background: #ffffff;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .account-table {
+      width: 100%;
+      background: #ffffff;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .account-table td {
+      height: 69px;
+      padding: 0;
+      border-bottom: 1px solid #1a1a1a;
+      vertical-align: middle;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .account-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .cell-label {
+      width: 402px;
+      font-size: 24px;
+      line-height: 40px;
+      font-weight: 400;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .cell-value {
+      width: 395px;
+      font-size: 24px;
+      line-height: 40px;
+      font-weight: 400;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .company-code-main {
+      width: 120px;
+      font-size: 24px;
+      line-height: 40px;
+      font-weight: 400;
+      color: #111111;
+      white-space: nowrap;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .company-code-note {
+      font-size: 13px;
+      line-height: 16px;
+      font-weight: 700;
+      color: #ff6f09;
+      white-space: normal;
+      width: 150px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .row-icon {
+      width: 26px;
+      height: 26px;
+      display: block;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .label-inner {
+      width: 100%;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .label-inner td {
+      height: 69px;
+      padding: 0;
+      border-bottom: none;
+      vertical-align: middle;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .label-icon-slot {
+      width: 76px;
+      padding-left: 28px !important;
+      box-sizing: border-box;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .label-text {
+      font-size: 24px;
+      line-height: 40px;
+      font-weight: 400;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .warning-strip {
+      width: 786px;
+      height: 43px;
+      background: #fef2d8;
+      border-radius: 10px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .warning-text {
+      font-size: 16px;
+      line-height: 40px;
+      font-weight: 700;
+      color: #ff6f09;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .cta-button {
+      display: inline-block;
+      width: 404px;
+      height: 74px;
+      background: #112bba;
+      border-radius: 10px;
+      color: #ffffff !important;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .divider {
+      width: 878px;
+      border-top: 1px solid #d0d0d0;
+      font-size: 1px;
+      line-height: 1px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .step-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 9px;
+      background: #2645d0;
+      color: #ffffff;
+      font-size: 10px;
+      line-height: 18px;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 auto 6px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .step-visual {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto;
+      background: #eef2fb;
+      border-radius: 41px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 82px 82px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .step-icon {
+      width: 30px;
+      height: 30px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .step-icon-combo-date {
+      width: 20.87px;
+      height: 20px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .step-icon-combo-success {
+      width: 20.87px;
+      height: 20px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .step-text {
+      width: 99px;
+      margin: 0 auto;
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+      color: #111111;
+      text-align: center;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .step-line {
+      width: 46px;
+      border-top: 1px dashed #a0a0a0;
+      margin: 48px auto 0;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .app-panel {
+      width: 810px;
+      height: 120px;
+      background: #edf4fb;
+      border-radius: 10px;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .app-title {
+      font-size: 20px;
+      line-height: 40px;
+      font-weight: 700;
+      color: #112bba;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .app-copy {
+      font-size: 15px;
+      line-height: 25px;
+      font-weight: 400;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .support-title {
+      font-size: 20px;
+      line-height: 25px;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .support-copy {
+      font-size: 15px;
+      line-height: 25px;
+      font-weight: 400;
+      color: #111111;
+    }
+
+    @media screen and (max-width: 980px) {
+      :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .page-shell {
+        padding: 0;
+      }
+
+      :where([data-rimo-page="email-enterprise-branch-admin-notice-email"], [data-rimo-overlay="email-enterprise-branch-admin-notice-email"]) .mail-frame {
+        width: 100% !important;
+      }
+    }
+  

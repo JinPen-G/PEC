@@ -29,6 +29,12 @@ export interface GraphPrototype {
   revision: string;
   stale?: boolean;
 }
+/** AI-written reading aid; `evidence` holds indexes into the node's PRD quotes. */
+export interface GraphKeyPoint {
+  kind: 'trigger' | 'rule';
+  text: string;
+  evidence: number[];
+}
 export interface GraphNode {
   id: string;
   label: string;
@@ -40,6 +46,7 @@ export interface GraphNode {
   status: 'active' | 'deprecated';
   requirements: string[];
   evidence: GraphEvidence[];
+  keyPoints: GraphKeyPoint[];
   coverage: 'none' | 'partial' | 'presented';
   prototypes: GraphPrototype[];
   stale: boolean;
@@ -61,14 +68,16 @@ export interface GraphTopic {
   id: string;
   label: string;
   description: string;
+  category?: 'business' | 'management';
 }
 /** Git authoring format excludes derived API fields such as stale/requirementStatus. */
 export type GraphNodeDefinition = Omit<
   GraphNode,
-  'stale' | 'requirementStatus' | 'evidence' | 'prototypes'
+  'stale' | 'requirementStatus' | 'evidence' | 'prototypes' | 'keyPoints'
 > & {
   evidence: Omit<GraphEvidence, 'stale'>[];
   prototypes: Omit<GraphPrototype, 'stale'>[];
+  keyPoints?: GraphKeyPoint[];
 };
 export type GraphEdgeDefinition = Omit<GraphEdge, 'stale' | 'evidence'> & {
   evidence: Omit<GraphEvidence, 'stale'>[];
@@ -106,7 +115,7 @@ export interface RequirementGraph {
   contentRevision: string;
   graphRevision: string;
   releaseId: string;
-  availability: 'ready' | 'missing' | 'invalid';
+  availability: 'ready' | 'missing' | 'invalid' | 'unconfigured';
   freshness: 'current' | 'stale' | 'unknown';
   reviewedAt: string | null;
   accessScope: 'project-business' | 'authorized-web';

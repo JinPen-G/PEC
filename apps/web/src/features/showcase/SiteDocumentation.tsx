@@ -8,7 +8,7 @@ import { SourcePanel } from './SourcePanel';
 import { guideContent, siteGuides } from './site-guides';
 import { useTocNavigation } from './toc-navigation';
 import { TocSelection } from './TocSelection';
-import { CONTEXT_TOOLS } from '../../../../../packages/platform-contracts/src/context';
+import { CONTEXT_TOOLS, AGENT_TOOLS } from '../../../../../packages/platform-contracts/src/context';
 
 function SectionHeading({
   id,
@@ -82,7 +82,7 @@ export function SiteDocumentation({ path, pages }: { path: string; pages: Landin
                 <SectionHeading id="context" title={text('业务上下文')} scrollTo={scrollTo} />
                 <p>{text('AI 使用管理员签发的只读凭证，按需读取项目概况、需求目录、业务原文与页面关联。')}</p>
                 <ul className="docs_notes__6jcWA">
-                  {CONTEXT_TOOLS.map((tool) => (
+                  {[...AGENT_TOOLS, ...CONTEXT_TOOLS].map((tool) => (
                     <li key={tool.name}>
                       <code>{tool.name}</code>
                     </li>
@@ -101,6 +101,11 @@ export function SiteDocumentation({ path, pages }: { path: string; pages: Landin
               >
                 <SectionHeading id="connection" title={text('连接 MCP')} scrollTo={scrollTo} />
                 <p>{text('在支持 Streamable HTTP 的客户端中，私下配置管理员签发的项目凭证。')}</p>
+                <p>
+                  {text(
+                    '在后台项目的“AI 接入”中检查资料、选择读取范围并复制 MCP 配置。连接后先调用 get_project_context，再读取已发布治理规则、相关需求和组件源码。',
+                  )}
+                </p>
                 <SourcePanel
                   fileName="mcp.json"
                   source={JSON.stringify(

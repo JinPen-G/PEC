@@ -20,6 +20,22 @@ import {
   validateRequirementGraph,
 } from '../../packages/project-core/src/platform/requirement-graph.js';
 const fixtures = [];
+test('page-summary edits change maintenance receipts without changing the quoted full-document revision', () => {
+  const document = {
+    id: 'summary-rule',
+    status: 'draft',
+    pages: [],
+    summary: 'requirements/summary.md',
+    assets: [],
+  };
+  const files = new Map([[document.summary, Buffer.from('Only idle vehicles may transfer.')]]);
+  const before = requirementBindingRevision(document, files);
+  files.set(
+    document.summary,
+    Buffer.from('Only idle vehicles without conflicting reservations may transfer.'),
+  );
+  expect(requirementBindingRevision(document, files)).not.toBe(before);
+});
 const publicDoc = '# 公开规则\n字段变化影响功能。',
   privateDoc = '# 私有规则\n内部车辆限制。',
   orphanDoc = '# 未做原型\n独立业务流程。';
@@ -234,6 +250,60 @@ test('impact follows relation policy and evidence; shared topics never imply dep
   history.nodes[0].summary = 'D:\\private\\notes';
   expect(() => validateRequirementGraph(history)).toThrow();
 });
+test('business and management categories survive authorized projection without adding relationships', async () => {
+  const item = await fixture();
+  item.graph.topics[0].category = 'business';
+  item.graph.topics[1].category = 'management';
+  const definition = validateRequirementGraph(item.graph);
+  expect(definition.topics.map((topic) => topic.category)).toEqual(['business', 'management']);
+  item.snapshot.files.set('graph.json', Buffer.from(JSON.stringify(item.graph)));
+  const view = requirementGraphView(item.snapshot, project);
+  expect(queryRequirementGraph(view, 'list_graph_topics', {}).items.map((topic) => topic.category)).toEqual([
+    'business',
+    'management',
+  ]);
+  expect(queryRequirementGraph(view, 'get_requirement_graph', { topic: 'shared' }).nodes).toHaveLength(4);
+  expect(queryRequirementGraph(view, 'analyze_requirement_impact', { id: 'orphan' }).items).toEqual([]);
+  item.graph.topics[0].category = 'unknown';
+  expect(() => validateRequirementGraph(item.graph)).toThrow();
+});
+test('CRLF business documents retain their heading evidence and complete impact paths', async () => {
+  const item = await fixture();
+  for (const document of item.snapshot.manifest.requirements) {
+    const bytes = Buffer.from(
+      item.snapshot.files.get(document.path).toString('utf8').replace(/\r?\n/g, '\r\n'),
+    );
+    item.snapshot.files.set(document.path, bytes);
+    item.graph.review.requirements[document.id] = graphHash(bytes);
+    for (const entity of [...item.graph.nodes, ...item.graph.edges])
+      for (const proof of entity.evidence)
+        if (proof.requirementId === document.id) proof.revision = graphHash(bytes);
+  }
+  item.graph.review.graphRevision = reviewedGraphRevision(validateRequirementGraph(item.graph));
+  item.snapshot.files.set('graph.json', Buffer.from(JSON.stringify(item.graph)));
+  const view = requirementGraphView(item.snapshot, project);
+  expect(view.freshness).toBe('current');
+  expect(view.nodes.every((node) => !node.stale)).toBe(true);
+  expect(queryRequirementGraph(view, 'analyze_requirement_impact', { id: 'field' }).items).toHaveLength(2);
+});
+test('key points must cite the node PRD quotes and are searchable', async () => {
+  const item = await fixture();
+  const graph = structuredClone(item.graph);
+  graph.nodes[0].keyPoints = [{ kind: 'rule', text: '字段变化需同步功能', evidence: [0] }];
+  expect(validateRequirementGraph(graph).nodes[0].keyPoints).toHaveLength(1);
+  graph.review.graphRevision = reviewedGraphRevision(validateRequirementGraph(graph));
+  item.snapshot.files.set('graph.json', Buffer.from(JSON.stringify(graph)));
+  const view = requirementGraphView(item.snapshot, project);
+  expect(queryRequirementGraph(view, 'search_graph_nodes', { query: '需同步' }).items[0].id).toBe('field');
+  for (const invalid of [
+    { kind: 'rule', text: '没有出处', evidence: [] },
+    { kind: 'rule', text: '出处越界', evidence: [1] },
+    { kind: 'summary', text: '未知类型', evidence: [0] },
+  ]) {
+    graph.nodes[0].keyPoints = [invalid];
+    expect(() => validateRequirementGraph(graph)).toThrow();
+  }
+});
 test('stale evidence and invalid graph remain visible without rejecting the business package', async () => {
   const item = await fixture();
   item.snapshot.files.set('requirements/public.md', Buffer.from('# 公开规则\n改写规则。'));
@@ -302,4 +372,59 @@ test('web filters nodes, edges and no-prototype PRDs; authorized MCP reads busin
   await expect(
     item.client.callTool({ name: 'get_graph_node', arguments: { id: 'secret' } }),
   ).rejects.toThrow();
+});
+
+test('unconfigured graph is distinct from missing content, unpublished graph and invalid graph', async () => {
+  const item = await fixture();
+  item.runtime = createNativeServer({
+    dataDirectory: path.join(item.root, 'data'),
+    contentRoot: item.contentRoot,
+    sources: {},
+  });
+  await new Promise((resolve) => item.runtime.server.listen(0, '127.0.0.1', resolve));
+  const store = item.runtime.store;
+  const admin = store.bootstrap({
+    username: 'graph-admin',
+    displayName: 'Graph admin',
+    password: 'fixture-password',
+  });
+  store.createProject(admin, project);
+  store.createProject(admin, { ...project, id: 'no-content', sourceId: 'none', contentKey: '' });
+  store.createProject(admin, { ...project, id: 'missing-content', contentKey: 'not-published' });
+  store.createProject(admin, {
+    ...project,
+    id: 'private-no-content',
+    sourceId: 'none',
+    contentKey: '',
+    clients: project.clients.map((client) => ({
+      ...client,
+      pages: client.pages.map((page) => ({ ...page, access: 'restricted' })),
+    })),
+  });
+  const base = `http://127.0.0.1:${item.runtime.server.address().port}/api/native/showcase`;
+  const unconfigured = await fetch(`${base}/no-content/graph`);
+  expect(unconfigured.status).toBe(200);
+  expect(await unconfigured.json()).toMatchObject({
+    availability: 'unconfigured',
+    complete: false,
+    nodes: [],
+    documents: [],
+  });
+  expect((await fetch(`${base}/no-content/graph-document?id=public`)).status).toBe(404);
+  expect((await fetch(`${base}/private-no-content/graph`)).status).toBe(401);
+  const missing = await fetch(`${base}/missing-content/graph`);
+  expect(missing.status).toBe(404);
+  expect(await missing.json()).toMatchObject({ code: 'CONTENT_NOT_FOUND' });
+  await fs.unlink(path.join(item.pkg, 'graph.json'));
+  const unpublished = await fetch(`${base}/graph-project/graph`);
+  expect(unpublished.status).toBe(200);
+  expect(await unpublished.json()).toMatchObject({ availability: 'missing', complete: false });
+  await fs.writeFile(path.join(item.pkg, 'graph.json'), '{');
+  const invalid = await fetch(`${base}/graph-project/graph`);
+  expect(invalid.status).toBe(200);
+  expect(await invalid.json()).toMatchObject({ availability: 'invalid', complete: false });
+  await fs.writeFile(path.join(item.pkg, 'manifest.json'), '{');
+  const brokenContent = await fetch(`${base}/graph-project/graph`);
+  expect(brokenContent.status).toBe(422);
+  expect(await brokenContent.json()).toMatchObject({ code: 'CONTENT_INVALID' });
 });

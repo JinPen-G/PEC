@@ -22,6 +22,9 @@ import {
 } from '../../project-core/src/platform/project-content.js';
 import { createProjectContextHandler } from './project-context.js';
 import { createShowcaseHandler } from './showcase-server.js';
+import { COMPONENT_REGISTRY } from '../../platform-contracts/src/component-registry.js';
+import { createAgentContext } from '../../project-core/src/platform/agent-context.js';
+import { requirementGraphView } from '../../project-core/src/platform/requirement-graph.js';
 import {
   readableDocuments,
   requireDocumentAccess,
@@ -83,6 +86,8 @@ export function createNativeServer({
   publicOrigin = 'http://127.0.0.1:5190',
   allowBootstrap = false,
   storeOptions = {},
+  moduleCatalog = NATIVE_MODULES,
+  componentRegistry = COMPONENT_REGISTRY,
 }) {
   const origin = new URL(publicOrigin),
     secure = origin.protocol === 'https:';
@@ -90,7 +95,7 @@ export function createNativeServer({
     ...storeOptions,
     dataDirectory,
     documentSources: ['none', ...Object.keys(sources), 'published'],
-    moduleCatalog: NATIVE_MODULES,
+    moduleCatalog,
   });
   const legacyDocuments = createNativeDocuments({ sources });
   store.synchronizeProjectSources();
@@ -98,7 +103,7 @@ export function createNativeServer({
     contentRoot,
     releaseRoot,
     releaseId,
-    moduleCatalog: NATIVE_MODULES,
+    moduleCatalog,
     pageSourceRoot,
     staticRoot,
   });
@@ -126,7 +131,22 @@ export function createNativeServer({
     response.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8' });
     response.end(JSON.stringify(value));
   };
-  const projectContext = createProjectContextHandler({ store, content, publicOrigin, json, body });
+  const agentContext = createAgentContext({
+    content,
+    registry: componentRegistry,
+    pageSourceRoot,
+    staticRoot,
+    releaseRoot,
+    publicOrigin: origin.origin,
+  });
+  const projectContext = createProjectContextHandler({
+    store,
+    content,
+    agentContext,
+    publicOrigin,
+    json,
+    body,
+  });
   const showcase = createShowcaseHandler({
     store,
     content,
@@ -135,6 +155,10 @@ export function createNativeServer({
     pageSourceRoot,
     json,
     cookies,
+    publicOrigin: origin.origin,
+    agentContext,
+    moduleCatalog,
+    componentRegistry,
   });
   function requestOrigin(request) {
     if (request.headers.origin !== origin.origin || request.headers['sec-fetch-site'] === 'cross-site')
@@ -247,7 +271,7 @@ export function createNativeServer({
           return json(response, collaboration.command(collaborate[1], token, await readBody()));
         if (route === `${NATIVE_API_PREFIX}/catalog` && request.method === 'GET')
           return json(response, {
-            modules: NATIVE_MODULES,
+            modules: moduleCatalog,
             sources: user.role === 'admin' ? documents.sources() : [],
             contents: user.role === 'admin' ? await content.catalog() : [],
           });
@@ -256,7 +280,7 @@ export function createNativeServer({
         if (route === `${NATIVE_API_PREFIX}/context-tokens` && request.method === 'POST') {
           const input = await readBody();
           const project = store.getProject(user, input.projectId);
-          await content.snapshot(project);
+          if (project.contentKey) await content.snapshot(project);
           requireSession();
           return json(response, store.issueContextToken(user, input.projectId, input), 201);
         }
@@ -302,6 +326,42 @@ export function createNativeServer({
           const id = decodeURIComponent(project[1]),
             suffix = project[2];
           if (!suffix && request.method === 'GET') return json(response, store.getProject(user, id));
+          if (suffix === 'readiness' && request.method === 'GET') {
+            const current = store.getProject(user, id);
+            if (user.role !== 'admin') fail(403, '仅管理员可检查接入状态', 'FORBIDDEN');
+            const result = await agentContext.query(
+              { project: current, scopes: ['business:read', 'governance:read', 'components:read'] },
+              'get_project_context',
+            );
+            const module = moduleCatalog.find((item) => item.key === current.moduleKey);
+            const visible = current.clients
+              .filter((client) => client.enabled)
+              .flatMap((client) => client.pages.filter((page) => page.visible));
+            const snapshot = current.contentKey ? await content.snapshot(current) : null;
+            const checks = await agentContext.check(current, moduleCatalog);
+            const graph = snapshot ? requirementGraphView(snapshot, current) : null;
+            requireSession();
+            return json(response, {
+              ...result,
+              ...checks,
+              archived: current.archived,
+              registeredPages: module?.pages.length ?? 0,
+              visiblePages: visible.length,
+              mcpUrl: `${origin.origin}/api/project-context/mcp`,
+              unlinkedRequirements:
+                snapshot?.manifest.requirements
+                  .filter((doc) => !doc.pages.length)
+                  .map((doc) => ({ id: doc.id, title: doc.title })) ?? [],
+              graph: graph
+                ? {
+                    availability: graph.availability,
+                    freshness: graph.freshness,
+                    complete: graph.complete,
+                    diagnostics: graph.diagnostics,
+                  }
+                : null,
+            });
+          }
           if (!suffix && request.method === 'PATCH') {
             const input = await readBody();
             const existing = store.getProject(user, id);

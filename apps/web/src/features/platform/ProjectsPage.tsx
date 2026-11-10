@@ -8,6 +8,8 @@ import { Button } from '@preview/ui/admin';
 import { useNativeAuth, useNativeQuery, type NativeProject } from './platform-api';
 import { QueryFailure, PageHeading } from './PageLayout';
 import { projectIcons } from './ProjectSettingsPage';
+import { NATIVE_MODULES } from '../../../../../packages/platform-contracts/src/platform';
+import { usePlatformLocale } from '@/features/locale/platform-locale';
 export function ProjectsPage({
   onOpen,
   onConfigure,
@@ -22,6 +24,15 @@ export function ProjectsPage({
   const { client } = useNativeAuth(),
     cache = useQueryClient();
   const projects = useNativeQuery<NativeProject[]>('/projects');
+  const { locale } = usePlatformLocale();
+  const text = (hans: string, hant: string, en: string) =>
+    locale === 'en' ? en : locale === 'zh-Hant' ? hant : hans;
+  const available = NATIVE_MODULES.filter(
+    (module) =>
+      module.surface === 'showcase' &&
+      module.projectId &&
+      !projects.data?.some((project) => project.id === module.projectId),
+  );
   const [search, setSearch] = useState(''),
     [creating, setCreating] = useState(false),
     [pending, setPending] = useState(false),
@@ -80,10 +91,12 @@ export function ProjectsPage({
           (project) =>
             `${project.name} ${project.id}`.includes(search) && (!selectionOnly || !project.archived),
         )}
-        scroll={{ x: 800 }}
+        tableLayout="fixed"
+        scroll={{ x: selectionOnly ? 780 : locale === 'en' ? 1240 : 1040 }}
         columns={[
           {
             title: '项目',
+            width: 190,
             render: (_, project) => (
               <>
                 <strong>{project.name}</strong>
@@ -91,17 +104,21 @@ export function ProjectsPage({
               </>
             ),
           },
-          { title: '说明', dataIndex: 'description' },
+          { title: '说明', dataIndex: 'description', width: 220 },
           {
             title: '我的权限',
+            width: 130,
             render: (_, project) =>
               ({ admin: '平台管理员', editor: '项目编辑者', viewer: '项目查看者' })[project.memberRole],
           },
-          { title: '状态', render: (_, project) => (project.archived ? '已归档' : '可用') },
+          { title: '状态', width: 100, render: (_, project) => (project.archived ? '已归档' : '可用') },
           {
             title: '操作',
+            key: 'actions',
+            width: selectionOnly ? 140 : locale === 'en' ? 600 : 400,
+            fixed: false,
             render: (_, project) => (
-              <div className="native-actions">
+              <div className="native-actions native-table-actions">
                 <Button
                   size="small"
                   disabled={
@@ -123,6 +140,11 @@ export function ProjectsPage({
                 {!selectionOnly && project.memberRole === 'admin' && (
                   <Link className="native-route-link" to={`/projects/${project.id}/settings?tab=access`}>
                     用户授权
+                  </Link>
+                )}
+                {!selectionOnly && project.memberRole === 'admin' && (
+                  <Link className="native-route-link" to={`/projects/${project.id}/settings?tab=integration`}>
+                    {text('AI 接入', 'AI 接入', 'AI integration')}
                   </Link>
                 )}
                 {!selectionOnly && project.memberRole !== 'viewer' && (
@@ -149,6 +171,21 @@ export function ProjectsPage({
           onFinish={(input) => void submit(input)}
           disabled={pending}
         >
+          {available.length > 0 && (
+            <Form.Item
+              label={text('使用已接入的项目源码', '使用已接入的專案原始碼', 'Use registered project source')}
+            >
+              <Select
+                allowClear
+                placeholder={text('选择项目', '選擇專案', 'Choose a project')}
+                options={available.map((module) => ({ value: module.projectId, label: module.label }))}
+                onChange={(id) => {
+                  const module = available.find((module) => module.projectId === id);
+                  if (module) form.setFieldsValue({ id: module.projectId, name: module.label });
+                }}
+              />
+            </Form.Item>
+          )}
           <Form.Item
             name="id"
             label="项目编码"

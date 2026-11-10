@@ -1,0 +1,600 @@
+@layer properties;
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]), :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) {
+  --color-red-600: var(--app-color-danger);
+  --color-amber-500: var(--app-color-warning);
+  --color-amber-700: var(--app-color-warning);
+  --color-green-600: var(--app-color-success);
+  --color-emerald-600: var(--app-color-success);
+  --color-emerald-700: var(--app-color-success);
+  --color-blue-50: color-mix(in srgb, var(--app-color-primary) 5%, var(--background, var(--app-color-panel)));
+  --color-blue-100: color-mix(in srgb, var(--app-color-primary) 10%, var(--background, var(--app-color-panel)));
+  --color-blue-700: var(--app-color-primary);
+  --color-blue-900: var(--app-color-primary);
+  --color-slate-50: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-slate-200: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-slate-300: var(--border, var(--app-color-border));
+  --color-slate-400: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-50: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-gray-100: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-gray-200: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
+  --color-gray-400: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-500: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-600: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
+  --color-gray-700: var(--foreground, #202124);
+  --color-gray-800: var(--foreground, #202124);
+  --color-gray-900: var(--foreground, #202124);
+  --color-white: var(--background, var(--app-color-panel));
+  --spacing: 0.25rem;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: calc(1 / 0.75);
+  --text-sm: 0.875rem;
+  --text-sm--line-height: calc(1.25 / 0.875);
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: calc(2 / 1.5);
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --leading-tight: 1.25;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mt-0\.5 {
+  margin-top: calc(var(--spacing) * 0.5);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mt-1 {
+  margin-top: var(--spacing);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mt-2 {
+  margin-top: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mt-3 {
+  margin-top: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mr-1 {
+  margin-right: var(--spacing);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mb-1 {
+  margin-bottom: var(--spacing);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mb-3 {
+  margin-bottom: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mb-4 {
+  margin-bottom: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .mb-5 {
+  margin-bottom: calc(var(--spacing) * 5);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ml-\[120px\] {
+  margin-left: 120px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ml-auto {
+  margin-left: auto;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .flex {
+  display: flex;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .grid {
+  display: grid;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .table {
+  display: table;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .w-36 {
+  width: calc(var(--spacing) * 36);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .w-40 {
+  width: calc(var(--spacing) * 40);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .w-52 {
+  width: calc(var(--spacing) * 52);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .w-56 {
+  width: calc(var(--spacing) * 56);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .w-64 {
+  width: calc(var(--spacing) * 64);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .w-\[84px\] {
+  width: 84px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .w-full {
+  width: 100%;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .min-w-0 {
+  min-width: 0px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .flex-1 {
+  flex: 1;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .shrink-0 {
+  flex-shrink: 0;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .flex-wrap {
+  flex-wrap: wrap;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .items-center {
+  align-items: center;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .items-start {
+  align-items: flex-start;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .justify-between {
+  justify-content: space-between;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .justify-center {
+  justify-content: center;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .gap-2 {
+  gap: calc(var(--spacing) * 2);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .gap-3 {
+  gap: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .gap-4 {
+  gap: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) :where(.space-y-1 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(var(--spacing) * var(--tw-space-y-reverse));
+  margin-block-end: calc(var(--spacing) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) :where(.space-y-2 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
+  margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) :where(.space-y-4 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(calc(var(--spacing) * 4) * var(--tw-space-y-reverse));
+  margin-block-end: calc(calc(var(--spacing) * 4) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) :where(.space-y-5 > :not(:last-child)) {
+  --tw-space-y-reverse: 0;
+  margin-block-start: calc(calc(var(--spacing) * 5) * var(--tw-space-y-reverse));
+  margin-block-end: calc(calc(var(--spacing) * 5) * calc(1 - var(--tw-space-y-reverse)));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .gap-x-4 {
+  column-gap: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .gap-y-1 {
+  row-gap: var(--spacing);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .overflow-hidden {
+  overflow: hidden;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .rounded-lg {
+  border-radius: var(--radius-lg);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .rounded-xl {
+  border-radius: var(--radius-xl);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-t {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 1px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-b {
+  border-bottom-style: var(--tw-border-style);
+  border-bottom-width: 1px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-dashed {
+  --tw-border-style: dashed;
+  border-style: dashed;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-\[color\:var\(--app-color-primary\)\] {
+  border-color: var(--app-color-primary);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-blue-100 {
+  border-color: var(--color-blue-100);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-gray-100 {
+  border-color: var(--color-gray-100);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-gray-200 {
+  border-color: var(--color-gray-200);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-slate-200 {
+  border-color: var(--color-slate-200);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .border-slate-300 {
+  border-color: var(--color-slate-300);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .bg-blue-50 {
+  background-color: var(--color-blue-50);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .bg-gray-50 {
+  background-color: var(--color-gray-50);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .bg-slate-50 {
+  background-color: var(--color-slate-50);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .bg-white {
+  background-color: var(--color-white);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .p-3 {
+  padding: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .p-4 {
+  padding: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .p-5 {
+  padding: calc(var(--spacing) * 5);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .px-3 {
+  padding-inline: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .px-4 {
+  padding-inline: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .py-2\.5 {
+  padding-block: calc(var(--spacing) * 2.5);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .py-4 {
+  padding-block: calc(var(--spacing) * 4);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .pt-0\.5 {
+  padding-top: calc(var(--spacing) * 0.5);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .pt-3 {
+  padding-top: calc(var(--spacing) * 3);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-center {
+  text-align: center;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-left {
+  text-align: left;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-right {
+  text-align: right;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-2xl {
+  font-size: var(--text-2xl);
+  line-height: var(--tw-leading, var(--text-2xl--line-height));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-sm {
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-xs {
+  font-size: var(--text-xs);
+  line-height: var(--tw-leading, var(--text-xs--line-height));
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-\[11px\] {
+  font-size: 11px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-\[28px\] {
+  font-size: 28px;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .leading-5 {
+  --tw-leading: calc(var(--spacing) * 5);
+  line-height: calc(var(--spacing) * 5);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .leading-tight {
+  --tw-leading: var(--leading-tight);
+  line-height: var(--leading-tight);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .font-bold {
+  --tw-font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-bold);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .font-medium {
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .font-semibold {
+  --tw-font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-semibold);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .break-all {
+  word-break: break-all;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-amber-500 {
+  color: var(--color-amber-500);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-amber-700 {
+  color: var(--color-amber-700);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-blue-700 {
+  color: var(--color-blue-700);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-blue-900 {
+  color: var(--color-blue-900);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-emerald-600 {
+  color: var(--color-emerald-600);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-emerald-700 {
+  color: var(--color-emerald-700);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-gray-400 {
+  color: var(--color-gray-400);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-gray-500 {
+  color: var(--color-gray-500);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-gray-600 {
+  color: var(--color-gray-600);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-gray-700 {
+  color: var(--color-gray-700);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-gray-800 {
+  color: var(--color-gray-800);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-gray-900 {
+  color: var(--color-gray-900);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-green-600 {
+  color: var(--color-green-600);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-red-600 {
+  color: var(--color-red-600);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .text-slate-400 {
+  color: var(--color-slate-400);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .shadow-md {
+  --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: none;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .shadow-sm {
+  --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+  box-shadow: none;
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ring-2 {
+  --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+  box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .shadow-\[color\:var\(--app-color-primary-shadow\)\] {
+  --tw-shadow-color: var(--app-color-primary-shadow);
+  @supports (color: color-mix(in lab, red, red)) {
+    --tw-shadow-color: color-mix(in oklab, var(--app-color-primary-shadow) var(--tw-shadow-alpha), transparent);
+  }
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ring-\[color\:var\(--app-color-primary-light-8\)\] {
+  --tw-ring-color: var(--app-color-primary-light-8);
+}
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .transition-all {
+  transition-property: all;
+  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+@media (hover: hover) {
+  :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .hover\:border-\[color\:var\(--app-color-primary-light-7\)\]:hover {
+    border-color: var(--app-color-primary-light-7);
+  }
+}
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: var(--app-color-panel);
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) *, :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) ::before, :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) ::after, :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) ::backdrop {
+      --tw-space-y-reverse: 0;
+      --tw-border-style: solid;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: var(--app-color-panel);
+      --tw-ring-offset-shadow: 0 0 #0000;
+    }
+  }
+}
+
+
+:where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .custom-scroll::-webkit-scrollbar-thumb {
+            background: var(--app-color-border);
+            border-radius: 3px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .table-card {
+            border: 1px solid var(--app-color-border);
+            border-radius: 8px;
+            background: var(--app-color-panel);
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .info-table th {
+            width: 136px;
+            background: var(--app-color-surface-muted);
+            color: var(--app-color-text-secondary);
+            font-weight: 500;
+            text-align: left;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .info-table th,
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .info-table td {
+            border: 1px solid var(--app-color-border);
+            padding: 10px 12px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .el-table th.el-table__cell {
+            background: var(--app-color-surface-subtle);
+            color: var(--app-color-text-secondary);
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .official-more-filter-button {
+            min-width: 116px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ticket-filter-daterange {
+            width: 100% !important;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ticket-filter-daterange-wrap {
+            width: 360px;
+            max-width: 100%;
+            flex: 0 0 360px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ticket-filter-daterange-wrap .el-date-editor {
+            width: 100% !important;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ticket-filter-daterange .el-range-input {
+            width: 88px;
+            font-size: 12px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .ticket-filter-daterange .el-range-separator {
+            width: 20px;
+            padding: 0 4px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .station-range-tooltip {
+            max-width: 420px;
+            white-space: normal;
+            line-height: 1.5;
+        }
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-toolbar,
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-controls {
+            min-width: 0;
+            flex-wrap: wrap;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-controls > *,
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-actions > * {
+            flex: 0 0 auto;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-actions {
+            min-width: 0;
+            flex-wrap: wrap;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-controls,
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-actions {
+            column-gap: 12px;
+            row-gap: 8px;
+        }
+
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-controls > .el-button + .el-button,
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .adaptive-filter-actions > .el-button + .el-button {
+            margin-left: 0 !important;
+        }
+      @media (max-width: 1080px) {
+        :where([data-rimo-page="channel-ticket-batches"], [data-rimo-overlay="channel-ticket-batches"]) .el-pagination .el-pagination__jump {
+          display: none;
+        }
+      }
+    

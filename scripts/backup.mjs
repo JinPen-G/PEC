@@ -6,6 +6,7 @@ import { constants } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
+import { DATABASE_MIGRATION_FROM } from '../packages/project-core/src/platform/schema.js';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const args = process.argv.slice(2),
   command = args[0];
@@ -30,7 +31,9 @@ if (command === 'backup') {
   try {
     if (
       database.prepare('PRAGMA integrity_check').get().integrity_check !== 'ok' ||
-      ![1, 2, 3].includes(database.prepare('PRAGMA user_version').get().user_version)
+      !DATABASE_MIGRATION_FROM.filter((version) => version > 0).includes(
+        database.prepare('PRAGMA user_version').get().user_version,
+      )
     )
       throw new Error('Backup is invalid or incompatible');
   } finally {

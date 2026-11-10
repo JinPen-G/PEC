@@ -1,0 +1,7 @@
+[data-rimo-overlay='vehicle-groups'] .rimo-form-footer {
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+[data-rimo-overlay='vehicle-groups'] .rimo-brand-types {
+  margin: 16px 0 24px;
+}

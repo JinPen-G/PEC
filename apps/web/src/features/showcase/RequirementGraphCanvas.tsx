@@ -28,62 +28,59 @@ function drawingColor(value: string, fallback: string) {
   const [r, g, b, a] = context.getImageData(0, 0, 1, 1).data;
   return `rgba(${r},${g},${b},${a / 255})`;
 }
-async function adjustView(
-  graph: Graph,
-  width: number,
-  selected: string | null,
-  reduced: boolean,
-  activeTopic = '',
-) {
-  const timing = { duration: reduced ? 0 : 220 };
-  if (selected && graph.getNodeData().some((node) => node.id === renderNodeId(selected))) {
-    if (graph.getZoom() < 0.8 || graph.getZoom() > 1.1) await graph.zoomTo(1, timing);
-    await graph.focusElement(renderNodeId(selected), timing);
-  } else {
-    await graph.fitView({ when: 'always' });
-    if (graph.getZoom() > 1) {
-      await graph.zoomTo(1, timing);
-      await graph.focusElement(
-        graph.getNodeData().map((node) => node.id),
-        timing,
-      );
-    }
-    if (width >= 560 && graph.getZoom() < 0.65) {
-      await graph.zoomTo(0.65, timing);
-      await graph.focusElement(
-        graph.getNodeData().map((node) => node.id),
-        timing,
-      );
-    }
-    if (width < 560 && graph.getNodeData().length) {
-      await graph.zoomTo(0.85, timing);
-      const first = graph.getNodeData()[0];
-      const topicNodes = graph.getNodeData().filter((node) => node.data?.primaryTopic === activeTopic);
-      await graph.focusElement(
-        activeTopic && topicNodes.length ? topicNodes.map((node) => node.id) : (first.combo ?? first.id),
-        timing,
-      );
-    }
+/** Frames nodes within a readable zoom range instead of an extreme fit. */
+async function frameNodes(graph: Graph, ids: string[], timing: { duration: number }) {
+  if (!ids.length) return;
+  const points = ids.map((id) => graph.getElementPosition(id));
+  const [canvasWidth, canvasHeight] = graph.getSize();
+  const spanX = Math.max(...points.map((p) => p[0])) - Math.min(...points.map((p) => p[0])) + 200;
+  const spanY = Math.max(...points.map((p) => p[1])) - Math.min(...points.map((p) => p[1])) + 170;
+  const zoom = Math.min(1, Math.max(0.8, Math.min(canvasWidth / spanX, canvasHeight / spanY)));
+  if (Math.abs(graph.getZoom() - zoom) > 0.05) await graph.zoomTo(zoom, timing);
+  await graph.focusElement(ids, timing);
+}
+async function adjustView(graph: Graph, selected: string | null, reduced: boolean, focus: string[] = []) {
+  const timing = { duration: reduced ? 0 : 260 };
+  const all = graph.getNodeData();
+  if (!all.length) return;
+  if (selected && all.some((node) => node.id === renderNodeId(selected))) {
+    // Frame the selection with its direct neighbours so causes and effects stay visible.
+    await frameNodes(
+      graph,
+      [renderNodeId(selected), ...graph.getNeighborNodesData(renderNodeId(selected)).map((node) => node.id)],
+      timing,
+    );
+    return;
   }
+  const wanted = new Set(focus.map(renderNodeId));
+  const targets = all.filter((node) => wanted.has(node.id));
+  await frameNodes(
+    graph,
+    (targets.length ? targets : all).map((node) => node.id),
+    timing,
+  );
 }
 export default function RequirementGraphCanvas({
   nodes,
   edges,
   topics,
+  topic,
   selected,
   onSelect,
   expanded,
   onExpand,
-  activeTopic,
+  focus,
 }: {
   nodes: GraphNode[];
   edges: GraphEdge[];
   topics: GraphTopic[];
+  topic: string | null;
   selected: string | null;
   onSelect: (id: string | null) => void;
   expanded: boolean;
   onExpand: () => void;
-  activeTopic: string;
+  /** Search matches: dimmed contrast and framed when nothing is selected. */
+  focus: string[] | null;
 }) {
   const text = useShowcaseText(),
     { locale } = usePlatformLocale(),
@@ -91,28 +88,31 @@ export default function RequirementGraphCanvas({
   const host = useRef<HTMLDivElement>(null),
     instance = useRef<Graph | null>(null);
   const callback = useRef(onSelect),
-    dataRef = useRef({ nodes, edges, topics, locale });
+    dataRef = useRef({ nodes, edges, topics, topic, locale });
   const queue = useRef<Promise<void>>(Promise.resolve());
   const layoutIdentity = useRef('');
+  const renderedSignature = useRef('');
   const positions = useRef(new Map<string, { x: number; y: number }>());
   const defaultLayout = useRef<LayoutOptions | undefined>(undefined);
   const selection = useRef(selected);
-  const topicSelection = useRef(activeTopic);
+  const topicSelection = useRef<string[]>(focus ?? []);
   const previousSelection = useRef<string | null>(null);
+  const previousFocus = useRef('');
   const [ready, setReady] = useState(false);
   const [error, setError] = useState('');
+  const [compact, setCompact] = useState(false);
   useEffect(() => {
     callback.current = onSelect;
   }, [onSelect]);
   useEffect(() => {
-    dataRef.current = { nodes, edges, topics, locale };
-  }, [nodes, edges, topics, locale]);
+    dataRef.current = { nodes, edges, topics, topic, locale };
+  }, [nodes, edges, topics, topic, locale]);
   useEffect(() => {
     selection.current = selected;
   }, [selected]);
   useEffect(() => {
-    topicSelection.current = activeTopic;
-  }, [activeTopic]);
+    topicSelection.current = focus ?? [];
+  }, [focus]);
   useEffect(() => {
     if (!host.current) return;
     const graph = new Graph({
@@ -139,7 +139,16 @@ export default function RequirementGraphCanvas({
               }
             : {
                 type: 'grid',
-                rows: 1,
+                rows: Math.max(
+                  1,
+                  Math.ceil(
+                    Math.sqrt(
+                      dataRef.current.topics.filter((topic) =>
+                        dataRef.current.nodes.some((node) => node.primaryTopic === topic.id),
+                      ).length,
+                    ),
+                  ),
+                ),
                 condense: true,
                 preventOverlap: true,
                 nodeSpacing: 36,
@@ -163,15 +172,15 @@ export default function RequirementGraphCanvas({
           haloPointerEvents: 'all',
           labelPlacement: 'bottom',
           labelOffsetY: 8,
-          labelFontSize: 13,
+          labelFontSize: 14,
           labelFontWeight: 400,
-          labelMaxWidth: 120,
+          labelMaxWidth: 160,
           labelWordWrap: true,
           labelMaxLines: 2,
           labelTextAlign: 'center',
         },
         state: {
-          selected: { opacity: 1, lineWidth: 3, size: 20 },
+          focused: { opacity: 1, lineWidth: 3, size: 20, haloStrokeOpacity: 0 },
           dimmed: { opacity: 0.3 },
         },
       },
@@ -190,6 +199,7 @@ export default function RequirementGraphCanvas({
         style: {
           opacity: 1,
           labelOpacity: 1,
+          halo: false,
           lineWidth: 1,
           endArrow: true,
           endArrowSize: 5,
@@ -201,7 +211,7 @@ export default function RequirementGraphCanvas({
         },
         state: {
           dimmed: { opacity: 0.12, labelOpacity: 0 },
-          selected: { opacity: 1, lineWidth: 1.8, labelOpacity: 1 },
+          connected: { opacity: 1, lineWidth: 1.2, labelOpacity: 1, halo: false, labelFontWeight: 400 },
         },
       },
     });
@@ -229,22 +239,19 @@ export default function RequirementGraphCanvas({
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         if (graph.destroyed) return;
-        graph.resize();
+        const container = host.current?.parentElement;
+        if (!container) return;
+        setCompact(container.clientWidth < 620);
+        graph.resize(container.clientWidth, container.clientHeight);
         queue.current = queue.current
           .catch(() => {})
           .then(async () => {
             if (!graph.destroyed && graph.getNodeData().length)
-              await adjustView(
-                graph,
-                host.current?.clientWidth ?? 1000,
-                selection.current,
-                !!reduced,
-                topicSelection.current,
-              );
+              await adjustView(graph, selection.current, !!reduced, topicSelection.current);
           });
       });
     });
-    resize.observe(host.current);
+    resize.observe(host.current.parentElement ?? host.current);
     return () => {
       resize.disconnect();
       cancelAnimationFrame(frame);
@@ -262,11 +269,26 @@ export default function RequirementGraphCanvas({
           if (graph.destroyed) return;
           const current = dataRef.current,
             style = getComputedStyle(document.documentElement);
-          const ink = drawingColor(style.getPropertyValue('--foreground').trim(), '#202124');
-          const surface = drawingColor(style.getPropertyValue('--surface').trim(), '#ffffff');
-          const line = drawingColor(style.getPropertyValue('--text-muted').trim(), '#94a3b8');
+          const tokens = ['--foreground', '--surface', '--text-muted', '--surface-muted'].map((name) =>
+            style.getPropertyValue(name).trim(),
+          );
           const family = getComputedStyle(document.body).fontFamily;
-          const displayTopic = (node: GraphNode) => topicSelection.current || node.primaryTopic;
+          const displayTopic = (node: GraphNode) =>
+            current.topic && node.topics.includes(current.topic) ? current.topic : node.primaryTopic;
+          // Theme observers and refetches often deliver identical input; skip redundant redraws.
+          const signature = JSON.stringify({
+            compact,
+            tokens,
+            family,
+            locale: current.locale,
+            nodes: current.nodes.map((node) => [node.id, node.label, displayTopic(node)]),
+            edges: current.edges.map((edge) => [edge.id, edge.source, edge.target, edge.label]),
+          });
+          if (signature === renderedSignature.current && graph.getNodeData().length) return;
+          const ink = drawingColor(tokens[0], '#202124');
+          const surface = drawingColor(tokens[1], '#ffffff');
+          const line = drawingColor(tokens[2], '#94a3b8');
+          const mutedSurface = drawingColor(tokens[3], '#f8f8f8');
           const groups = current.topics.filter((topic) =>
             current.nodes.some((node) => displayTopic(node) === topic.id),
           );
@@ -286,7 +308,7 @@ export default function RequirementGraphCanvas({
             nodes: current.nodes.map((node) => ({
               id: renderNodeId(node.id),
               combo: `scope:${displayTopic(node)}`,
-              data: { primaryTopic: displayTopic(node) },
+              data: { primaryTopic: displayTopic(node), topics: node.topics },
               style: {
                 ...positions.current.get(renderNodeId(node.id)),
                 fill: scopeColor(current.topics.findIndex((topic) => topic.id === displayTopic(node))),
@@ -310,13 +332,13 @@ export default function RequirementGraphCanvas({
                 opacity: 1,
                 stroke: line,
                 strokeOpacity: 0.5,
-                labelFill: line,
+                labelFill: ink,
                 labelText: text(edge.label),
+                labelWordWrap: true,
+                labelMaxWidth: compact ? 70 : 180,
+                labelMaxLines: 3,
                 labelOpacity: 1,
-                labelBackgroundFill: drawingColor(
-                  style.getPropertyValue('--surface-muted').trim(),
-                  '#f8f8f8',
-                ),
+                labelBackgroundFill: mutedSurface,
               },
             })),
             combos: groups.map((topic) => ({
@@ -365,11 +387,12 @@ export default function RequirementGraphCanvas({
             };
           });
           const identity = JSON.stringify({
+            compact,
             nodes: current.nodes.map((node) => [node.id, displayTopic(node)]),
             edges: current.edges.map((edge) => [edge.id, edge.source, edge.target]),
           });
           const styleOnly = layoutIdentity.current === identity && graph.getNodeData().length > 0;
-          const restorePositions = data.nodes!.every((node) => positions.current.has(node.id));
+          if (!styleOnly) setReady(false);
           // BubbleSets caches member bounds. Dispose them before removed nodes
           // leave the graph; otherwise upstream callbacks can read deleted IDs.
           if (!styleOnly) graph.setPlugins([]);
@@ -378,24 +401,33 @@ export default function RequirementGraphCanvas({
             graph.updateEdgeData(data.edges!);
             graph.updateComboData(data.combos!);
           } else {
+            positions.current.clear();
+            for (const node of data.nodes!) {
+              delete node.style?.x;
+              delete node.style?.y;
+            }
             graph.setData(data);
           }
           graph.setPlugins(contours);
           graph.setOptions({
-            layout: styleOnly || restorePositions ? undefined : defaultLayout.current,
-            animation: !reduced && !styleOnly && !restorePositions,
+            layout: styleOnly
+              ? undefined
+              : selection.current
+                ? {
+                    type: 'dagre',
+                    rankdir: compact ? 'TB' : 'LR',
+                    nodeSize: compact ? [128, 56] : [160, 70],
+                    nodesep: compact ? 32 : 40,
+                    ranksep: compact ? 75 : 110,
+                  }
+                : defaultLayout.current,
+            animation: false,
           });
           await graph.render();
           if (!graph.destroyed) {
-            if (!styleOnly)
-              await adjustView(
-                graph,
-                host.current?.clientWidth ?? 1000,
-                selection.current,
-                !!reduced,
-                topicSelection.current,
-              );
+            if (!styleOnly) await adjustView(graph, selection.current, !!reduced, topicSelection.current);
             layoutIdentity.current = identity;
+            renderedSignature.current = signature;
             setReady(true);
             setError('');
           }
@@ -405,13 +437,20 @@ export default function RequirementGraphCanvas({
         });
     };
     render();
-    const observer = new MutationObserver(render);
+    let frame = 0;
+    const observer = new MutationObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(render);
+    });
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class', 'data-theme', 'style'],
     });
-    return () => observer.disconnect();
-  }, [nodes, edges, topics, locale, reduced, text, activeTopic]);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [nodes, edges, topics, topic, locale, reduced, text, compact]);
   useEffect(() => {
     const graph = instance.current;
     if (!graph) return;
@@ -424,41 +463,42 @@ export default function RequirementGraphCanvas({
             .filter((edge) => edge.source === selected || edge.target === selected)
             .flatMap((edge) => [edge.source, edge.target]),
         ]);
+        const matches = focus ? new Set(focus) : null;
         const states: Record<string, string[]> = {};
         nodes.forEach(
           (node) =>
-            (states[renderNodeId(node.id)] = !selected
-              ? []
-              : node.id === selected
-                ? ['selected']
+            (states[renderNodeId(node.id)] = selected
+              ? node.id === selected
+                ? ['focused']
                 : connected.has(node.id)
                   ? []
-                  : ['dimmed']),
+                  : ['dimmed']
+              : matches && !matches.has(node.id)
+                ? ['dimmed']
+                : []),
         );
         edges.forEach(
           (edge) =>
-            (states[renderEdgeId(edge.id)] = !selected
-              ? []
-              : edge.source === selected || edge.target === selected
-                ? ['selected']
-                : ['dimmed']),
+            (states[renderEdgeId(edge.id)] = selected
+              ? edge.source === selected || edge.target === selected
+                ? ['connected']
+                : ['dimmed']
+              : matches && !(matches.has(edge.source) && matches.has(edge.target))
+                ? ['dimmed']
+                : []),
         );
         await graph.setElementState(states, !reduced);
-        if (previousSelection.current !== selected) {
-          await adjustView(
-            graph,
-            host.current?.clientWidth ?? 1000,
-            selected,
-            !!reduced,
-            topicSelection.current,
-          );
+        const focusKey = (focus ?? []).join('|');
+        if (previousSelection.current !== selected || (!selected && previousFocus.current !== focusKey)) {
+          await adjustView(graph, selected, !!reduced, focus ?? []);
           previousSelection.current = selected;
+          previousFocus.current = focusKey;
         }
       })
       .catch((reason: unknown) => {
         if (!graph.destroyed) setError(reason instanceof Error ? reason.message : text('图谱绘制失败'));
       });
-  }, [selected, nodes, edges, reduced, text]);
+  }, [selected, focus, nodes, edges, reduced, text]);
   const action = (operation: () => Promise<void> | undefined) => {
     void operation()?.catch((reason: unknown) => {
       setError(reason instanceof Error ? reason.message : text('图谱绘制失败'));
@@ -466,24 +506,27 @@ export default function RequirementGraphCanvas({
   };
   return (
     <div className="requirement-graph-stage">
-      <div
-        ref={host}
-        className="requirement-graph-canvas"
-        role="img"
-        aria-busy={!ready && !error}
-        aria-label={text('需求关系图谱，可通过查找节点选择功能')}
-      />
-      {!ready && !error && (
-        <div className="requirement-graph-canvas-loading">
-          <LoadingStage label={text('绘制关系图谱…')} />
-        </div>
-      )}
-      {error && (
-        <div className="requirement-graph-canvas-error" role="alert">
-          {text('图谱绘制失败')}
-          <small>{error}</small>
-        </div>
-      )}
+      <div className="requirement-graph-viewport">
+        <div
+          ref={host}
+          className="requirement-graph-canvas"
+          data-layout={compact ? 'vertical' : 'horizontal'}
+          role="img"
+          aria-busy={!ready && !error}
+          aria-label={text('需求关系图谱，可通过查找节点选择功能')}
+        />
+        {!ready && !error && (
+          <div className="requirement-graph-canvas-loading">
+            <LoadingStage label={text('绘制关系图谱…')} />
+          </div>
+        )}
+        {error && (
+          <div className="requirement-graph-canvas-error" role="alert">
+            {text('图谱绘制失败')}
+            <small>{error}</small>
+          </div>
+        )}
+      </div>
       <div className="requirement-graph-tools" aria-label={text('图谱视图控制')}>
         <button
           type="button"

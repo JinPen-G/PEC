@@ -1,0 +1,500 @@
+:where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .table {
+  display: table;
+}
+
+
+:where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .custom-scroll::-webkit-scrollbar-thumb {
+            background: var(--app-color-border);
+            border-radius: 3px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-order-page {
+            display: flex;
+            min-height: 100%;
+            padding: 0;
+            flex-direction: column;
+            background: transparent;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-page-header {
+            display: flex;
+            flex-shrink: 0;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-page-title {
+            margin: 0;
+            color: var(--app-color-text);
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+            letter-spacing: 0;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-page-note {
+            margin: 4px 0 0;
+            color: var(--app-color-text-secondary);
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-action-button {
+            display: inline-flex;
+            height: 40px;
+            padding: 0 16px;
+            align-items: center;
+            gap: 6px;
+            color: var(--app-color-panel);
+            font-size: 14px;
+            font-weight: 500;
+            background: var(--app-color-primary);
+            border: 1px solid var(--app-color-primary);
+            border-radius: 6px;
+            box-shadow: 0 8px 16px var(--app-color-primary-shadow);
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color 0.18s ease, background-color 0.18s ease;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-action-button:hover {
+            background: var(--app-color-primary-hover);
+            border-color: var(--app-color-primary-hover);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-panel {
+            padding: 12px;
+            flex-shrink: 0;
+            margin-bottom: 16px;
+            background: var(--app-color-panel);
+            border: 1px solid var(--app-color-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-head {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-title {
+            color: var(--app-color-text);
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+            gap: 8px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-card {
+            display: flex;
+            min-width: 0;
+            height: 62px;
+            padding: 8px 12px;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            text-align: left;
+            background: var(--app-color-panel);
+            border: 1px solid var(--app-color-surface-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.16s ease, border-color 0.16s ease;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-card:hover,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-card.is-active {
+            background: #f0f9ff;
+            border-color: var(--app-color-primary);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-label {
+            overflow: hidden;
+            width: 100%;
+            color: var(--app-color-text-secondary);
+            font-size: 12px;
+            line-height: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-count {
+            margin-top: 4px;
+            color: var(--app-color-text);
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 24px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-summary-card.is-active .official-summary-count {
+            color: var(--app-color-primary);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel {
+            --el-component-size: 32px;
+            --el-component-size-large: 32px;
+            --el-border-radius-base: 4px;
+            --el-border-radius-small: 4px;
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-bar {
+            padding: 16px;
+            background: var(--app-color-surface-muted);
+            border-bottom: 1px solid var(--app-color-border);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field {
+            display: flex;
+            width: 220px;
+            min-width: 220px;
+            align-items: center;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--wide {
+            width: 280px;
+            min-width: 280px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--compact {
+            width: 140px;
+            min-width: 140px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--sm {
+            width: 160px;
+            min-width: 160px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--status {
+            width: 180px;
+            min-width: 180px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--date,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control--date {
+            width: 260px;
+            min-width: 260px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-actions {
+            display: flex;
+            flex: 0 0 auto;
+            flex-wrap: nowrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-actions .el-button {
+            margin-left: 0 !important;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-row .el-button {
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 14px;
+            line-height: 1;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-row .el-button.is-circle {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-more-filter-button,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-export-button {
+            min-width: 96px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-panel {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--app-color-surface-muted);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-grid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control {
+            flex: 0 0 auto;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control--md {
+            width: 140px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control--xl {
+            width: 160px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-input__wrapper,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-select__wrapper,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-date-editor.el-input__wrapper {
+            min-height: 32px;
+            border-radius: 4px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-select,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-date-editor {
+            width: 100%;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-input__inner,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-select__selected-item,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-select__placeholder,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-panel .el-range-input {
+            color: var(--app-color-text);
+            font-size: 14px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-table-panel {
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+            background: var(--app-color-panel);
+            overflow: hidden;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-list-panel {
+            overflow: hidden;
+            background: var(--app-color-panel);
+            border: 1px solid var(--app-color-border);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-order-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            color: var(--app-color-text);
+            font-size: 13px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-order-table th {
+            height: 44px;
+            padding: 0 12px;
+            color: #4b5563;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+            text-align: left;
+            background: var(--app-color-surface-muted);
+            border-bottom: 1px solid var(--app-color-border);
+            white-space: nowrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-order-table td {
+            padding: 10px 12px;
+            vertical-align: top;
+            border-bottom: 1px solid #eef2f7;
+            background: var(--app-color-panel);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-order-table tr:nth-child(even) td {
+            background: #fcfcfd;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-order-table tr:hover td {
+            background: var(--app-color-surface-muted);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-order-table .is-center {
+            text-align: center;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-info-cell {
+            display: flex;
+            min-width: 0;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 3px;
+            color: var(--app-color-text);
+            font-size: 13px;
+            line-height: 17px;
+            text-align: left;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-info-primary {
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            color: var(--app-color-text);
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 18px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-info-link {
+            color: var(--app-color-primary);
+            font-weight: 700;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-meta-value {
+            min-width: 0;
+            color: var(--app-color-text);
+            font-size: 13px;
+            line-height: 17px;
+            overflow-wrap: anywhere;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-variant-numeric: tabular-nums;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-table-actions {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-table-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 56px;
+            padding: 16px;
+            border-top: 1px solid var(--app-color-surface-muted);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-table-bottom-text {
+            color: var(--app-color-text-secondary);
+            font-size: 13px;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .table-scroll {
+            overflow-x: auto;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .tag {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 58px;
+            height: 24px;
+            padding: 0 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .tag-warning {
+            color: #b45309;
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .tag-primary {
+            color: var(--app-color-primary);
+            background: var(--app-color-primary-light-9);
+            border-color: var(--app-color-primary-light-8);
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .tag-success {
+            color: #047857;
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .tag-danger {
+            color: #be123c;
+            background: #fff1f2;
+            border-color: #fecdd3;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .tag-info {
+            color: var(--app-color-text-secondary);
+            background: var(--app-color-surface-muted);
+            border-color: var(--app-color-border);
+        }
+
+        @media (max-width: 1280px) {
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-actions {
+                width: auto;
+                justify-content: flex-end;
+                margin-left: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--sm,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--wide,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--compact,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--status,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-field--date,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control--md,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control--xl,
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-advanced-control--date {
+                width: 100%;
+                min-width: 100%;
+            }
+
+            :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-actions {
+                width: 100%;
+            }
+        }
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-row,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-actions {
+            min-width: 0;
+            flex-wrap: wrap;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-row > *,
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-actions > * {
+            flex: 0 0 auto;
+        }
+
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .official-filter-actions {
+            white-space: normal;
+        }
+      @media (max-width: 1080px) {
+        :where([data-rimo-page="enterprise-official-order"], [data-rimo-overlay="enterprise-official-order"]) .el-pagination .el-pagination__jump {
+          display: none;
+        }
+      }
+    

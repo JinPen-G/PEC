@@ -4,6 +4,8 @@
   "version": "0.11.0",
   "type": "module",
   "scripts": {
+    "project:register": "node scripts/project-register.mjs",
+    "project:check": "node scripts/project-check.mjs",
     "graph:check": "node scripts/graph.mjs check",
     "graph:inspect": "node scripts/graph.mjs inspect",
     "graph:review": "node scripts/graph.mjs review",
@@ -38,7 +40,7 @@
     "dev:native": "npm run dev",
     "serve": "node apps/api/main.mjs",
     "serve:native": "npm run serve",
-    "build:web": "vite build",
+    "build:web": "npm run project:check && vite build",
     "build:native": "npm run build:web",
     "build:runtime": "node scripts/build-runtime.mjs",
     "structure:check": "node scripts/check-structure.mjs",
@@ -58,6 +60,7 @@
     "admin:initialize": "node scripts/initialize-admin.mjs"
   },
   "dependencies": {
+    "@babel/parser": "^7.29.7",
     "@animate-ui/react": "2.3.0",
     "@ant-design/icons": "^6.3.2",
     "@antv/g6": "5.1.1",
@@ -99,7 +102,9 @@
     "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
-    "@babel/parser": "^7.29.7",
+    "@babel/generator": "^7.29.7",
+    "@babel/traverse": "^7.29.7",
+    "@babel/types": "^7.29.7",
     "@playwright/test": "^1.61.1",
     "@tailwindcss/vite": "4.3.3",
     "@testing-library/jest-dom": "^7.0.1",

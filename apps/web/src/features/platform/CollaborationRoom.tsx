@@ -4,13 +4,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Alert, Select } from '@preview/ui/admin';
 import { Button } from '@preview/ui/admin';
 import { useNativeAuth, type NativeProject } from './platform-api';
+import { usePlatformLocale } from '@/features/locale/platform-locale';
 import type {
   Participant,
   PresentationState,
 } from '../../../../../packages/platform-contracts/src/collaboration';
 
 type Client = ReturnType<typeof useNativeAuth>['client'];
-function createRoom(client: Client, project: NativeProject) {
+type RoomProject = Pick<NativeProject, 'id'>;
+function createRoom(client: Client, project: RoomProject) {
   let snapshot: { id: string; participants: Participant[]; status: string; error: string } = {
     id: '',
     participants: [],
@@ -86,7 +88,10 @@ function createRoom(client: Client, project: NativeProject) {
           const current = value.participants.find(
             (person: Participant) => person.id === snapshot.id,
           )?.following;
-          update({ participants: value.participants, status: previous && !current ? '跟随已结束' : '在线' });
+          update({
+            participants: value.participants,
+            status: current ? '在线' : previous ? '跟随已结束' : snapshot.status,
+          });
         } catch {
           update({ error: '协作协议不兼容' });
         }
@@ -162,23 +167,34 @@ const RoomContext = createContext<{
   state: ReturnType<ReturnType<typeof createRoom>['snapshot']>;
 } | null>(null);
 export const usePresentation = () => useContext(Presentation);
+export const useCollaboration = () => useContext(RoomContext);
 export function CollaborationRoom({
   project,
   enabled,
+  routePrefix = '/p',
   children,
 }: {
-  project?: NativeProject;
+  project?: RoomProject;
   enabled: boolean;
+  routePrefix?: '/p' | '/demo' | '/pages';
   children: ReactNode;
 }) {
   if (!project || !enabled) return <>{children}</>;
   return (
-    <ActiveRoom key={project.id} project={project}>
+    <ActiveRoom key={project.id} project={project} routePrefix={routePrefix}>
       {children}
     </ActiveRoom>
   );
 }
-function ActiveRoom({ project, children }: { project: NativeProject; children: ReactNode }) {
+function ActiveRoom({
+  project,
+  routePrefix,
+  children,
+}: {
+  project: RoomProject;
+  routePrefix: '/p' | '/demo' | '/pages';
+  children: ReactNode;
+}) {
   const { client } = useNativeAuth(),
     location = useLocation(),
     navigate = useNavigate();
@@ -193,10 +209,10 @@ function ActiveRoom({ project, children }: { project: NativeProject; children: R
   useEffect(() => room.start(), [room]);
   useEffect(() => {
     if (target?.state) {
-      const path = `/p/${project.id}/${target.state.clientId}${target.state.pageKey ? `/${target.state.pageKey}` : ''}`;
+      const path = `${routePrefix}/${project.id}/${target.state.clientId}${target.state.pageKey ? `/${target.state.pageKey}` : ''}`;
       if (location.pathname !== path) navigate(path, { replace: true });
     }
-  }, [target?.state, project.id, navigate, location.pathname]);
+  }, [target?.state, project.id, routePrefix, navigate, location.pathname]);
   useEffect(() => {
     if (!me?.following && clientId)
       room.publish({
@@ -209,12 +225,16 @@ function ActiveRoom({ project, children }: { project: NativeProject; children: R
   const effectiveDialog = target?.state ? (target.state.dialog?.orderId ?? null) : dialog;
   useEffect(() => {
     let last = 0;
+    let pointing = false;
+    const leave = () => {
+      if (pointing) room.pointer(null);
+      pointing = false;
+    };
     const move = (event: PointerEvent) => {
-      if (performance.now() - last < 80) return;
-      last = performance.now();
       const surface =
         event.target instanceof Element
-          ? event.target.closest<HTMLElement>('[data-prototype-canvas], [data-demo-dialog="order-detail"]')
+          ? (event.target.closest<HTMLElement>('[data-demo-dialog="order-detail"]') ??
+            document.querySelector<HTMLElement>('[data-prototype-canvas]'))
           : null;
       const content = surface?.dataset.demoDialog
         ? surface.querySelector<HTMLElement>('[role="dialog"]')
@@ -224,23 +244,29 @@ function ActiveRoom({ project, children }: { project: NativeProject; children: R
         !content.contains(event.target as Node) ||
         (surface?.dataset.demoDialog && !effectiveDialog)
       ) {
-        room.pointer(null);
+        leave();
         return;
       }
+      if (performance.now() - last < 80) return;
+      last = performance.now();
       const rect = content.getBoundingClientRect();
-      if (rect.width && rect.height)
+      if (rect.width && rect.height) {
+        pointing = true;
         room.pointer({
           x: (event.clientX - rect.left) / rect.width,
           y: (event.clientY - rect.top) / rect.height,
           surface: surface?.dataset.demoDialog ? `dialog:${effectiveDialog}` : `${clientId}/${pageKey}`,
         });
+      }
     };
-    const leave = () => room.pointer(null);
     document.addEventListener('pointermove', move);
     document.addEventListener('pointerleave', leave);
+    window.addEventListener('blur', leave);
     return () => {
+      leave();
       document.removeEventListener('pointermove', move);
       document.removeEventListener('pointerleave', leave);
+      window.removeEventListener('blur', leave);
     };
   }, [clientId, pageKey, effectiveDialog, room]);
   return (
@@ -268,24 +294,36 @@ function ActiveRoom({ project, children }: { project: NativeProject; children: R
 }
 export function CollaborationControls() {
   const context = useContext(RoomContext);
+  const { locale } = usePlatformLocale();
+  const text = (hans: string, hant: string, en: string) =>
+    locale === 'en' ? en : locale === 'zh-Hant' ? hant : hans;
   if (!context) return null;
   const { room, state } = context,
     me = state.participants.find((person) => person.id === state.id);
+  const statuses: Record<string, string> = {
+    在线: text('在线', '在線', 'Online'),
+    连接中: text('连接中', '連線中', 'Connecting'),
+    跟随已结束: text('跟随已结束', '跟隨已結束', 'Following ended'),
+    需要刷新版本: text('需要刷新版本', '需要重新整理版本', 'Refresh required'),
+    协作不可用: text('协作不可用', '協作無法使用', 'Collaboration unavailable'),
+    '连接中断，正在重连': text('连接中断，正在重连', '連線中斷，正在重連', 'Reconnecting'),
+  };
   return (
     <div className="native-collaboration-controls">
       <span className="text-meta">
-        {state.status} · {state.participants.length} 人
+        {statuses[state.status] ?? state.status} · {state.participants.length}{' '}
+        {text('人', '人', state.participants.length === 1 ? 'person' : 'people')}
       </span>
       <Select
-        aria-label="主动跟随"
-        placeholder="选择跟随对象"
+        aria-label={text('主动跟随', '主動跟隨', 'Follow participant')}
+        placeholder={text('选择跟随对象', '選擇跟隨對象', 'Choose a participant')}
         value={me?.following ?? undefined}
         allowClear
         disabled={!state.id}
         onChange={(value) => {
           void room.follow(value ?? null);
         }}
-        style={{ width: 144 }}
+        style={{ width: locale === 'en' ? 176 : 144, maxWidth: '100%' }}
         options={state.participants
           .filter((person) => person.id !== state.id && !person.following && person.state)
           .map((person) => ({ value: person.id, label: person.name }))}
@@ -297,7 +335,7 @@ export function CollaborationControls() {
             void room.follow(null);
           }}
         >
-          退出跟随
+          {text('退出跟随', '退出跟隨', 'Stop following')}
         </Button>
       )}
       {state.error && <Alert type="warning" title={state.error} />}
@@ -313,23 +351,59 @@ function PointerLayer({
   surface: string;
   dialog: string | null;
 }) {
-  const [rect, setRect] = useState<{ left: number; top: number; width: number; height: number } | null>(null);
+  const [rect, setRect] = useState<{
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    clipPath: string;
+  } | null>(null);
   useEffect(() => {
     const measure = () => {
       const element = document.querySelector<HTMLElement>(
         dialog ? '[data-demo-dialog="order-detail"]' : '[data-prototype-canvas]',
       );
-      const box = (
-        dialog ? element?.querySelector<HTMLElement>('[role="dialog"]') : element
-      )?.getBoundingClientRect();
-      setRect(box ? { left: box.left, top: box.top, width: box.width, height: box.height } : null);
+      const content = dialog ? element?.querySelector<HTMLElement>('[role="dialog"]') : element;
+      const box = content?.getBoundingClientRect();
+      if (!content || !box?.width || !box.height) {
+        setRect(null);
+        return;
+      }
+      let top = Math.max(0, box.top),
+        left = Math.max(0, box.left),
+        right = Math.min(window.innerWidth, box.right),
+        bottom = Math.min(window.innerHeight, box.bottom);
+      for (let parent = content.parentElement; parent; parent = parent.parentElement) {
+        const style = getComputedStyle(parent);
+        const bounds = parent.getBoundingClientRect();
+        if (/(auto|scroll|hidden|clip)/.test(style.overflowX)) {
+          left = Math.max(left, bounds.left);
+          right = Math.min(right, bounds.right);
+        }
+        if (/(auto|scroll|hidden|clip)/.test(style.overflowY)) {
+          top = Math.max(top, bounds.top);
+          bottom = Math.min(bottom, bounds.bottom);
+        }
+      }
+      setRect(
+        right > left && bottom > top
+          ? {
+              left: box.left,
+              top: box.top,
+              width: box.width,
+              height: box.height,
+              clipPath: `inset(${top}px ${window.innerWidth - right}px ${window.innerHeight - bottom}px ${left}px)`,
+            }
+          : null,
+      );
     };
+    measure();
     const timer = setInterval(measure, 100);
     return () => clearInterval(timer);
   }, [surface, dialog]);
   if (!rect) return null;
   return (
-    <div className="native-pointer-layer" aria-hidden>
+    <div className="native-pointer-layer" style={{ clipPath: rect.clipPath }} aria-hidden>
       {participants
         .filter((person) => person.pointer?.surface === (dialog ? `dialog:${dialog}` : surface))
         .map((person) => (

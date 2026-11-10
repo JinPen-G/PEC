@@ -1,7 +1,7 @@
 /** Return URLs are same-app paths. Account role is verified again at destination. */
 export function safeReturnTo(value: string | null) {
   return value &&
-    /^\/(?:pages(?:\/|$)|manage(?:\/|$)|projects(?:\/|$)|center(?:\/|$)|p\/|docs(?:\/|$)|documents$)/.test(
+    /^\/(?:pages(?:\/|$)|manage(?:\/|$)|projects(?:\/|$)|center(?:\/|$)|demo(?:\/|\?|$)|p\/|docs(?:\/|$)|documents$)/.test(
       value,
     ) &&
     !/[\\\r\n]/.test(value)

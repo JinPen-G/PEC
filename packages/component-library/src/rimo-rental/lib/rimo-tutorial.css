@@ -1,0 +1,20 @@
+.rimo-tutorial { color: var(--foreground, #202124); min-width: 0; }
+.rimo-tutorial-heading { display: flex; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.rimo-tutorial-heading p { color: var(--text-secondary, #64748b); max-width: 72ch; }
+.rimo-tutorial-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 36px; }
+.rimo-tutorial-navigation { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.rimo-tutorial-navigation > button { text-align: left; height: auto; justify-content: flex-start; white-space: normal; padding: 10px 12px; }
+.rimo-tutorial-navigation p, .rimo-tutorial-path, .rimo-tutorial-article figcaption { color: var(--text-secondary, #64748b); font-size: 13px; }
+.rimo-tutorial-article { min-width: 0; }
+.rimo-tutorial-article h2 { margin-top: 0; }
+.rimo-tutorial-article figure { margin: 16px 0 28px; }
+.rimo-tutorial-article figure button { background: transparent; border: 0; padding: 0; text-align: left; cursor: zoom-in; max-width: 100%; }
+.rimo-tutorial-article img { display: block; max-width: 100%; height: auto; border-radius: var(--radius-panel, 12px); }
+.rimo-tutorial-step { margin: 28px 0; }
+.rimo-tutorial-step h3 { font-size: 16px; line-height: 1.6; }
+.rimo-tutorial-editor-head { display: grid; gap: 12px; margin-bottom: 24px; max-width: 760px; }
+.rimo-tutorial-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
+.rimo-tutorial-tools > input { flex: 1 1 160px; min-width: 0; }
+.rimo-tutorial-editor-head label { display: grid; gap: 8px; }
+.rimo-tutorial.documentation .rimo-tutorial-article { font-size: 15px; line-height: 1.8; }
+@media (max-width: 760px) { .rimo-tutorial-layout { grid-template-columns: 1fr; gap: 24px; } .rimo-tutorial-heading { flex-wrap: wrap; } }

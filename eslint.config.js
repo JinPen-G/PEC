@@ -59,7 +59,11 @@ export default [
     },
   },
   {
-    files: ['apps/web/**/*.{ts,tsx}', 'packages/preview-ui/src/**/*.{ts,tsx}'],
+    files: [
+      'apps/web/**/*.{ts,tsx}',
+      'packages/preview-ui/src/**/*.{ts,tsx}',
+      'packages/component-library/src/**/*.{js,jsx,ts,tsx}',
+    ],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

@@ -23,6 +23,7 @@ const MODULE_DOCUMENTS = [
   'packages/platform-contracts/README.md',
   'packages/platform-server/README.md',
   'packages/preview-ui/README.md',
+  'packages/component-library/README.md',
 ];
 
 function inside(root, target) {

@@ -1,7 +1,7 @@
 /** The reference fullscreen surface grows from the preview's actual bounds.
  * The native mount moves into this surface and returns after exit, preserving
  * drafts and local state instead of creating a second prototype instance. */
-import { useLayoutEffect, useState, type RefObject } from 'react';
+import { useLayoutEffect, useState, type RefObject, type ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { X } from 'lucide-react';
@@ -20,11 +20,13 @@ function FullscreenSurface({
   nativeRef,
   mobile,
   initialBounds,
+  toolbar,
 }: {
   title: string;
   nativeRef: RefObject<HTMLDivElement | null>;
   mobile: boolean;
   initialBounds?: PreviewBounds | null;
+  toolbar?: ReactNode;
 }) {
   const text = useShowcaseText(),
     reduced = useReducedMotion();
@@ -101,9 +103,12 @@ function FullscreenSurface({
         >
           <div className="preview-shell_panelHead__Ir8ix">
             <Dialog.Title className="preview-shell_panelTitle__Sombi">{title}</Dialog.Title>
-            <Dialog.Close className="preview-shell_close__sM5M3" aria-label={text('关闭放大预览')}>
-              <X size={16} />
-            </Dialog.Close>
+            <div className="showcase-fullscreen-toolbar">
+              {toolbar}
+              <Dialog.Close className="preview-shell_close__sM5M3" aria-label={text('关闭放大预览')}>
+                <X size={16} />
+              </Dialog.Close>
+            </div>
           </div>
           <div className="preview-shell_panelBody__FXaKS" data-mode={mobile ? 'mobile' : 'fit'}>
             <div ref={setHost} className="showcase-fullscreen-native" />
@@ -121,6 +126,7 @@ export function FullscreenPreview({
   nativeRef,
   initialBounds,
   onExitComplete,
+  toolbar,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -129,6 +135,7 @@ export function FullscreenPreview({
   nativeRef: RefObject<HTMLDivElement | null>;
   initialBounds?: PreviewBounds | null;
   onExitComplete?: () => void;
+  toolbar?: ReactNode;
 }) {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   return (
@@ -143,6 +150,7 @@ export function FullscreenPreview({
                 mobile={mobile}
                 nativeRef={nativeRef}
                 initialBounds={initialBounds}
+                toolbar={toolbar}
               />
             </Dialog.Portal>
           )}

@@ -2,9 +2,16 @@
  * protected runtime file must belong to a registered, authorized page. */
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { SHOWCASE_MODULES } from '../../platform-contracts/src/showcase.js';
+import { SHOWCASE_MODULES, showcaseModules } from '../../platform-contracts/src/showcase.js';
+import { COMPONENT_REGISTRY } from '../../platform-contracts/src/component-registry.js';
+import {
+  loadComponentRegistryItem,
+  requireComponentRegistryAccess,
+  registryItemResponse,
+} from '../../project-core/src/platform/component-registry.js';
 import { readContentFile } from '../../project-core/src/platform/project-content.js';
 import { fail } from '../../project-core/src/platform/store.js';
+import { requireScope, requireProjectComponent } from '../../project-core/src/platform/agent-context.js';
 import { resolveExistingPathInsideRoot } from '../../project-core/src/filesystem.js';
 import {
   pageDocuments,
@@ -24,7 +31,12 @@ export function createShowcaseHandler({
   pageSourceRoot,
   json,
   cookies,
+  publicOrigin,
+  agentContext,
+  moduleCatalog,
+  componentRegistry = COMPONENT_REGISTRY,
 }) {
+  const registeredPages = moduleCatalog ? showcaseModules(moduleCatalog) : SHOWCASE_MODULES;
   async function buildRoot() {
     if (!releaseRoot) return staticRoot;
     const pointer = JSON.parse(await fs.readFile(path.join(releaseRoot, 'current.json'), 'utf8'));
@@ -57,13 +69,67 @@ export function createShowcaseHandler({
   }
   return async (request, response, url) => {
     const user = store.authenticate(cookies(request))?.user ?? null;
+    if (url.pathname.startsWith('/r/')) {
+      if (request.method !== 'GET') fail(405, '仅支持读取', 'METHOD_NOT_ALLOWED');
+      const match = /^\/r\/([a-z0-9-]+)\/([a-z0-9-]+)\.json$/.exec(url.pathname);
+      if (!match) fail(404, '组件安装清单不存在', 'NOT_FOUND');
+      const [, projectId, name] = match;
+      if (request.headers.authorization) {
+        const authorization = request.headers.authorization;
+        if (!authorization.startsWith('Bearer ')) fail(401, '需要项目读取凭证', 'UNAUTHORIZED');
+        const secret = authorization.slice(7);
+        const initial = store.authenticateContextToken(secret);
+        requireScope(initial, 'components:read');
+        if (initial.project.id !== projectId) fail(404, '项目不存在或无权访问', 'NOT_FOUND');
+        const item = await agentContext.readInstallItem(initial.project, name);
+        const current = store.authenticateContextToken(secret);
+        requireScope(current, 'components:read');
+        requireProjectComponent(current.project, componentRegistry, name);
+        if (current.project.revision !== initial.project.revision)
+          fail(409, '项目已变更，请重试', 'CONFLICT');
+        json(response, item);
+        return true;
+      }
+      requireComponentRegistryAccess(store, user, projectId, componentRegistry, name);
+      const root = await buildRoot();
+      let item;
+      if (root) {
+        const file = await resolveExistingPathInsideRoot(root, `page-source/registry/${name}.json`, {
+          allowedExtensions: ['.json'],
+        });
+        if (!file) fail(503, '组件尚未构建', 'REGISTRY_UNAVAILABLE');
+        item = JSON.parse(await fs.readFile(file, 'utf8'));
+      } else {
+        if (!pageSourceRoot) fail(503, '组件源码不可用', 'REGISTRY_UNAVAILABLE');
+        item = await loadComponentRegistryItem(pageSourceRoot, componentRegistry, name);
+      }
+      const result = registryItemResponse(item, componentRegistry, projectId, publicOrigin);
+      requireComponentRegistryAccess(
+        store,
+        store.authenticate(cookies(request))?.user ?? null,
+        projectId,
+        componentRegistry,
+        name,
+      );
+      json(response, result);
+      return true;
+    }
     if (url.pathname.startsWith('/page-assets/')) {
       if (request.method !== 'GET') fail(405, '仅支持读取', 'METHOD_NOT_ALLOWED');
       const { root, entries } = await descriptors();
       const file = decodeURIComponent(url.pathname.slice(1));
-      const entry = entries.find((item) => item.assets.includes(file));
-      if (!root || !entry) fail(404, '页面资源不存在', 'NOT_FOUND');
-      authorizedModule(user, entry.moduleKey, entry.pageKey);
+      const candidates = entries.filter((item) => item.assets.includes(file));
+      if (!root || !candidates.length) fail(404, '页面资源不存在', 'NOT_FOUND');
+      const entry = candidates.find((item) => {
+        try {
+          authorizedModule(user, item.moduleKey, item.pageKey);
+          return true;
+        } catch (error) {
+          if (error.status !== 403) throw error;
+          return false;
+        }
+      });
+      if (!entry) fail(403, '此页面运行资源需要授权', 'FORBIDDEN');
       const resolved = await resolveExistingPathInsideRoot(root, file, {
         allowedExtensions: ['.js', '.css'],
       });
@@ -100,6 +166,21 @@ export function createShowcaseHandler({
       json(response, { allowed: true });
       return true;
     }
+    if (url.pathname === '/api/native/showcase/registry-permission') {
+      const name = url.searchParams.get('name');
+      const permitted = store.pageCatalog(user).some((page) => {
+        try {
+          requireComponentRegistryAccess(store, user, page.projectId, componentRegistry, name);
+          return true;
+        } catch (error) {
+          if (error.status !== 403) throw error;
+          return false;
+        }
+      });
+      if (!permitted) fail(403, '组件需要授权', 'FORBIDDEN');
+      json(response, { allowed: true });
+      return true;
+    }
     const graphRoute = /^\/api\/native\/showcase\/([a-z0-9-]+)\/(graph|graph-query|graph-document)$/.exec(
       url.pathname,
     );
@@ -109,8 +190,11 @@ export function createShowcaseHandler({
       let project;
       if (first) project = store.pageAccess(user, projectId, first.clientId, first.pageKey).project;
       else project = store.getProject(user, projectId);
-      const snapshot = await content.snapshot(project, url.searchParams.get('contentRevision') ?? undefined);
-      const allowed = readableDocuments(store, user, project, snapshot);
+      const snapshot =
+        project.sourceId === 'none' && !project.contentKey
+          ? null
+          : await content.snapshot(project, url.searchParams.get('contentRevision') ?? undefined);
+      const allowed = snapshot ? readableDocuments(store, user, project, snapshot) : [];
       const requireCurrentAccess = () => {
         const nowUser = store.authenticate(cookies(request))?.user ?? null;
         const nowProject = first
@@ -165,7 +249,7 @@ export function createShowcaseHandler({
       return true;
     }
     const match =
-      /^\/api\/native\/showcase\/([a-z0-9-]+)\/([a-z0-9-]+)\/([a-z0-9-]+)(?:\/(source|markdown|asset))?$/.exec(
+      /^\/api\/native\/showcase\/([a-z0-9-]+)\/([a-z0-9-]+)\/([a-z0-9-]+)(?:\/(source|markdown|document|asset))?$/.exec(
         url.pathname,
       );
     if (!match) fail(404, '展示页面不存在', 'NOT_FOUND');
@@ -181,7 +265,7 @@ export function createShowcaseHandler({
       if (current.project.revision !== initial.project.revision)
         fail(409, '页面权限或配置已变更', 'CONFLICT');
     };
-    const descriptor = SHOWCASE_MODULES[initial.project.moduleKey]?.[pageKey];
+    const descriptor = registeredPages[initial.project.moduleKey]?.[pageKey];
     if (!descriptor) fail(404, '页面尚未接入展示包', 'NOT_FOUND');
     const { root, entries } = await descriptors();
     const compiled = entries.find(
@@ -202,9 +286,21 @@ export function createShowcaseHandler({
       return true;
     }
     const snapshot = initial.project.sourceId === 'none' ? null : await content.snapshot(initial.project);
+    if (resource === 'document') {
+      if (!snapshot) fail(404, '业务需求未发布', 'CONTENT_NOT_FOUND');
+      const file = url.searchParams.get('path');
+      requireDocumentAccess(store, user, initial.project, snapshot, file);
+      const document = readableDocuments(store, user, initial.project, snapshot).find((item) => item.path === file);
+      if (!document) fail(404, '业务需求未发布', 'CONTENT_NOT_FOUND');
+      recheck();
+      json(response, { path: file, title: document.title, markdown: snapshot.files.get(file).toString('utf8') });
+      return true;
+    }
     const documents = snapshot ? pageDocuments(snapshot, initial.project, clientId, pageKey) : [];
     for (const document of documents)
       requireDocumentAccess(store, user, initial.project, snapshot, document.path);
+    for (const document of documents.filter((item) => item.summary))
+      requireDocumentAccess(store, user, initial.project, snapshot, document.summary);
     const markdown = documents
       .map((item) => snapshot.files.get(item.path).toString('utf8'))
       .join('\n\n---\n\n');
@@ -242,10 +338,20 @@ export function createShowcaseHandler({
       releaseId: snapshot?.releaseId ?? null,
       entry: root
         ? `/${compiled.entry}`
-        : `/src/project-modules/${initial.project.moduleKey}/${pageKey}/${descriptor.source}`,
+        : `/${descriptor.root.replace(/^apps\/web\//, '')}/${descriptor.source}`,
       styles: root ? compiled.assets.filter((file) => file.endsWith('.css')).map((file) => `/${file}`) : [],
       documents,
       markdown,
+      summaryMarkdown: documents.filter((item) => item.summary)
+        .map((item) => snapshot.files.get(item.summary).toString('utf8')).join('\n\n'),
+      summaryPath: documents.find((item) => item.summary)?.summary ?? null,
+      registry: descriptor.registryItem
+        ? {
+            name: descriptor.registryItem,
+            kind: componentRegistry.find((item) => item.name === descriptor.registryItem)?.kind,
+            url: `/r/${projectId}/${descriptor.registryItem}.json`,
+          }
+        : null,
     });
     return true;
   };

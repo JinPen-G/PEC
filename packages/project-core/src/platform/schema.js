@@ -1,7 +1,7 @@
 /** Additive schema upgrades run in one transaction, shared by startup and deploy. */
-export const DATABASE_SCHEMA = 3;
-export const DATABASE_MIN_SCHEMA = 3;
-export const DATABASE_MIGRATION_FROM = [0, 1, 2, 3];
+export const DATABASE_SCHEMA = 4;
+export const DATABASE_MIN_SCHEMA = 4;
+export const DATABASE_MIGRATION_FROM = [0, 1, 2, 3, 4];
 
 export function migrateNativeDatabase(database) {
   const version = database.prepare('PRAGMA user_version').get().user_version;
@@ -25,6 +25,7 @@ export function migrateNativeDatabase(database) {
       database.exec("ALTER TABLE projects ADD COLUMN content_key TEXT NOT NULL DEFAULT ''");
     database.exec(`
       CREATE TABLE IF NOT EXISTS context_tokens (id TEXT PRIMARY KEY, token_hash TEXT NOT NULL UNIQUE, project_id TEXT NOT NULL REFERENCES projects(id), issuer_id TEXT NOT NULL REFERENCES accounts(id), issuer_revision INTEGER NOT NULL, label TEXT NOT NULL, created_at INTEGER NOT NULL, expires_at INTEGER NOT NULL, revoked_at INTEGER);
+      CREATE TABLE IF NOT EXISTS context_token_scopes (token_id TEXT PRIMARY KEY REFERENCES context_tokens(id), scopes TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS page_grants (project_id TEXT NOT NULL REFERENCES projects(id), client_id TEXT NOT NULL, page_key TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES accounts(id), PRIMARY KEY(project_id,client_id,page_key,user_id));
       PRAGMA user_version=${DATABASE_SCHEMA};`);
     if (

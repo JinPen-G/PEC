@@ -460,6 +460,41 @@ body[data-preview-view='showcase'] #root {
   gap: 4px;
   color: var(--text-secondary);
 }
+.uiarc-showcase .showcase-demo-navigation {
+  display: none;
+  align-items: center;
+  min-height: 36px;
+  margin-bottom: 12px;
+  padding: 8px 10px;
+  border-radius: var(--radius-control);
+  color: var(--foreground);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+.uiarc-showcase .showcase-demo-navigation:hover {
+  background: var(--surface-muted);
+}
+@media (max-width: 1100px) {
+  .uiarc-showcase .site-nav_headerActions__pddgO .showcase-search-launch,
+  .uiarc-showcase .page_topActions__2fJLa .showcase-search-launch,
+  .uiarc-showcase .site-nav_headerActions__pddgO .showcase-appearance-label,
+  .uiarc-showcase .page_topActions__2fJLa .showcase-appearance-label {
+    display: none;
+  }
+}
+@media (max-width: 380px) {
+  .uiarc-showcase .site-nav_headerInner__u9LL9 {
+    gap: 4px;
+  }
+  .uiarc-showcase .site-nav_brand__GnbJw {
+    gap: 4px;
+    font-size: 14px;
+  }
+  .uiarc-showcase .site-nav_brand__GnbJw svg {
+    width: 22px;
+    height: 22px;
+  }
+}
 .uiarc-showcase .showcase-search-portal {
   position: fixed;
   inset: 0;
@@ -910,6 +945,15 @@ body[data-preview-view='showcase'] #root {
 .uiarc-showcase .showcase-document-tab {
   padding-bottom: 32px;
 }
+.uiarc-showcase .showcase-page-brief .showcase-document-summary-head {
+  margin-bottom: 18px;
+}
+.uiarc-showcase .showcase-page-brief .showcase-document-body {
+  max-width: 72ch;
+}
+.uiarc-showcase .showcase-page-brief .showcase-document-body > p + ul {
+  margin-top: 16px;
+}
 .uiarc-showcase .showcase-guide .library-docs_section__WJnkm h2 {
   font-family: var(--font-display);
   line-height: 1.1;
@@ -1001,6 +1045,25 @@ body[data-preview-view='showcase'] #root {
   margin: auto;
 }
 @media (max-width: 760px) {
+  .uiarc-showcase .showcase-demo-navigation {
+    display: flex;
+  }
+  .uiarc-showcase .site-nav_headerInner__u9LL9 {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+  }
+  .uiarc-showcase .site-nav_headerInner__u9LL9 > .showcase-mobile-nav {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .uiarc-showcase .site-nav_headerActions__pddgO {
+    display: flex;
+    grid-column: 3;
+    grid-row: 1;
+    gap: 4px;
+  }
+  .uiarc-showcase .site-nav_headerActions__pddgO > .showcase-language {
+    flex-shrink: 0;
+  }
   .uiarc-showcase .page_topbarInner__EzU0U {
     width: calc(100% - 28px);
     gap: 12px;

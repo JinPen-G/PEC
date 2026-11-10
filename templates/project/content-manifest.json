@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "contentKey": "your-project",
+  "moduleKey": "your-project",
+  "title": "项目名称",
+  "overview": "overview.md",
+  "requirements": [
+    {
+      "id": "business-rule",
+      "title": "业务需求",
+      "category": "业务管理",
+      "status": "confirmed",
+      "path": "requirements/business-rule.md",
+      "pages": [{ "clientId": "web", "pageKey": "overview" }]
+    }
+  ],
+  "governance": [{ "id": "delivery-rules", "title": "AI 开发约定", "path": "governance/delivery-rules.md" }],
+  "assets": [],
+  "graph": "graph.json"
+}

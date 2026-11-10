@@ -18,6 +18,10 @@
 
 节点有稳定 ID、类型、主题集合、主要主题、生命周期、需求 ID、章节引用，以及 `none/partial/presented` 原型覆盖。引用保存 `requirementId/anchor/quote/revision`，原型保存 `clientId/pageKey/anchor/target/revision`。原型只表示交互画面的位置，不能据此推导生产实现。归属不是依赖；图谱响应同时返回 `vocabulary`，让远程 AI 获取关系传播方向和证据分类。
 
+主题可选`category: "business" | "management"`，分别用于业务线与共用管理导航，未声明的旧图谱仍兼容。RIMO按业务线归集需求，共享规则通过多个`topics`归属保留唯一ID；分类不新增连线、不改变传播方向，也不授予跨页面访问权限。网页和MCP读取同一分类信息。前台将关联功能节点单独列为“管理功能关联”，业务前因/后果仍按关系的传播方向判断。
+
+节点可选 `keyPoints`，供前台详解快速阅读：`kind` 为 `trigger`（触发条件）或 `rule`（关键规则），`text` 是 AI 提炼的简短说明，`evidence` 是本节点 `evidence` 数组的序号，至少一个且必须存在。每个节点最多 12 条、每条最多 300 字。要点只能复述引用原文，不能新增、合并出原文没有的规则；原文变化后与引用一同核对。API 返回的 `keyPoints` 始终为数组，并参与节点搜索。
+
 当前关系为 `depends_on/provides_data/constrains/triggers/precedes/integrates_with/references/similar_to`。依赖关系的影响沿被依赖方到依赖方传播；数据、约束、触发及前置关系正向传播；对接双向；引用和相似不传播影响。路径查询沿声明方向，不能当作影响分析。对外关系只允许 `explicit` 且必须附PRD原文出处，不接受推断或待核实关系。过期依据和资料草稿仍标记维护/核对状态，不伪造当前生产规则；废弃对象默认不参与现行查询。
 
 本地 AI 维护顺序：

@@ -4,6 +4,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fail } from './store.js';
+import { resolveExistingPathInsideRoot } from '../filesystem.js';
 import { GRAPH_TOOL_NAMES } from '../../../project-shared/src/requirement-graph.js';
 import { requirementGraphView, queryRequirementGraph, graphHash } from './requirement-graph.js';
 
@@ -53,6 +54,7 @@ export function validateContentManifest(input, moduleCatalog) {
     'requirements',
     'assets',
     'graph',
+    'governance',
   ]);
   requireValue(input.schemaVersion === 1 && validId(input.contentKey) && validId(input.moduleKey));
   const module = moduleCatalog.find((item) => item.key === input.moduleKey);
@@ -62,13 +64,19 @@ export function validateContentManifest(input, moduleCatalog) {
   const ids = new Set(['overview']),
     paths = new Set(['overview.md']);
   const requirements = input.requirements.map((item) => {
-    object(item, ['id', 'title', 'category', 'status', 'path', 'pages', 'access']);
+    object(item, ['id', 'title', 'category', 'status', 'path', 'summary', 'assets', 'pages', 'access']);
     requireValue(item.access === undefined || ['public', 'project'].includes(item.access));
     requireValue(validId(item.id) && !ids.has(item.id), '业务需求标识无效或重复');
     ids.add(item.id);
     const file = filePath(item.path, 'requirements');
     requireValue(!paths.has(file), '业务文件重复声明');
     paths.add(file);
+    const summary = item.summary === undefined ? undefined : filePath(item.summary, 'requirements');
+    if (summary) {
+      requireValue(!paths.has(summary), '业务文件重复声明');
+      paths.add(summary);
+    }
+    if (item.assets !== undefined) requireValue(Array.isArray(item.assets) && item.assets.length <= 200 && new Set(item.assets).size === item.assets.length && item.assets.every(asset => input.assets.includes(asset)), '页面资源必须在业务清单内登记');
     requireValue(['draft', 'confirmed', 'planned', 'historical'].includes(item.status));
     requireValue(Array.isArray(item.pages) && item.pages.length <= 40);
     const pageIds = new Set();
@@ -91,6 +99,8 @@ export function validateContentManifest(input, moduleCatalog) {
       category: text(item.category),
       status: item.status,
       path: file,
+      ...(summary ? { summary } : {}),
+      ...(item.assets ? { assets: [...item.assets] } : {}),
       pages,
       ...(item.access ? { access: item.access } : {}),
     };
@@ -100,6 +110,17 @@ export function validateContentManifest(input, moduleCatalog) {
     requireValue(!paths.has(file), '业务资源重复声明');
     paths.add(file);
     return file;
+  });
+  const governance = input.governance ?? [];
+  requireValue(Array.isArray(governance) && governance.length <= 100, '治理规则清单无效');
+  const rules = governance.map((item) => {
+    object(item, ['id', 'title', 'path']);
+    requireValue(validId(item.id) && !ids.has(item.id), '治理规则标识无效或重复');
+    ids.add(item.id);
+    const file = filePath(item.path, 'governance');
+    requireValue(!paths.has(file), '治理规则文件重复');
+    paths.add(file);
+    return { id: item.id, title: text(item.title), path: file };
   });
   requireValue(input.graph === undefined || input.graph === 'graph.json', '图谱只允许登记graph.json');
   return {
@@ -111,6 +132,7 @@ export function validateContentManifest(input, moduleCatalog) {
     requirements,
     assets,
     ...(input.graph ? { graph: input.graph } : {}),
+    ...(input.governance ? { governance: rules } : {}),
   };
 }
 async function regularFiles(root, relative = '', depth = 0) {
@@ -125,7 +147,7 @@ async function regularFiles(root, relative = '', depth = 0) {
       requireValue(item.isFile());
       files.push(file);
     }
-    requireValue(files.length <= 403, '业务资料包过大');
+    requireValue(files.length <= 503, '业务资料包过大');
   }
   return files.sort();
 }
@@ -148,7 +170,13 @@ export async function loadContentPackage(root, contentKey, moduleCatalog) {
   }
   const manifest = validateContentManifest(input, moduleCatalog);
   requireValue(manifest.contentKey === contentKey);
-  const names = [manifest.overview, ...manifest.requirements.map((item) => item.path), ...manifest.assets];
+  const names = [
+    manifest.overview,
+    ...manifest.requirements.map((item) => item.path),
+    ...manifest.requirements.filter((item) => item.summary).map((item) => item.summary),
+    ...(manifest.governance ?? []).map((item) => item.path),
+    ...manifest.assets,
+  ];
   const actual = await regularFiles(directory);
   // A declared graph may be absent or stale without blocking a safe release.
   if (manifest.graph && actual.includes(manifest.graph)) names.push(manifest.graph);
@@ -273,6 +301,18 @@ export function readContentFile(snapshot, file) {
     releaseId: snapshot.releaseId,
   };
 }
+async function prototypeSourceFiles(directory, relative = '', depth = 0) {
+  if (depth > 12) throw new Error('原型源码目录层级过深');
+  const files = [];
+  for (const entry of await fs.readdir(path.join(directory, relative), { withFileTypes: true })) {
+    if (entry.isSymbolicLink()) throw new Error('原型源码不允许符号链接');
+    const name = relative ? `${relative}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) files.push(...(await prototypeSourceFiles(directory, name, depth + 1)));
+    else if (entry.isFile() && /\.([jt]sx?|css|json)$/.test(entry.name)) files.push(name);
+    if (files.length > 100) throw new Error('原型源码文件过多');
+  }
+  return files.sort();
+}
 export async function loadPrototypeRevisions({
   moduleCatalog,
   moduleKey,
@@ -310,16 +350,25 @@ export async function loadPrototypeRevisions({
           continue;
         sourceDirectory = path.dirname(path.join(directory, entry.source));
       }
-      const files = (await fs.readdir(sourceDirectory, { withFileTypes: true }))
-        .filter((entry) => entry.isFile() && /\.(tsx?|css)$/.test(entry.name))
-        .map((entry) => entry.name)
-        .sort();
+      const pageFiles = await prototypeSourceFiles(sourceDirectory);
+      const files =
+        pageSourceRoot && page.sourceFiles?.length
+          ? [...new Set([...pageFiles.map((file) => `${relative}/${file}`), ...page.sourceFiles])].sort()
+          : pageFiles;
       if (files.length > 100) continue;
       const records = [];
-      const realRoot = await fs.realpath(directory);
+      const realRoot = await fs.realpath(
+        pageSourceRoot && page.sourceFiles?.length ? pageSourceRoot : directory,
+      );
       for (const file of files) {
-        const target = path.join(sourceDirectory, file),
-          stat = await fs.lstat(target);
+        const target =
+          pageSourceRoot && page.sourceFiles?.length
+            ? await resolveExistingPathInsideRoot(pageSourceRoot, file, {
+                allowedExtensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.json'],
+              })
+            : path.join(sourceDirectory, file);
+        if (!target) throw new Error('原型源码范围无效');
+        const stat = await fs.lstat(target);
         const resolved = await fs.realpath(target);
         if (
           !stat.isFile() ||
@@ -478,13 +527,18 @@ export function queryBusinessContext(snapshot, project, operation, args = {}) {
       ),
       '项目页面不可用',
     );
+    const requirements = documents.filter((item) =>
+      item.pages.some((page) => page.clientId === args.clientId && page.pageKey === args.pageKey),
+    );
     return {
       ...envelope,
       clientId: args.clientId,
       pageKey: args.pageKey,
-      requirements: documents.filter((item) =>
-        item.pages.some((page) => page.clientId === args.clientId && page.pageKey === args.pageKey),
-      ),
+      requirements,
+      summaries: requirements.filter((item) => item.summary).map((item) => ({
+        documentId: item.id,
+        markdown: snapshot.files.get(item.summary).toString('utf8'),
+      })),
     };
   }
   if (operation === 'search_requirements') {

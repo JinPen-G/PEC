@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 import { manualChunks } from './apps/web/vite-chunks.js';
 import { nativeVersionPlugin } from './plugins/version-plugin.js';
-import { showcaseBuildPlugin } from './plugins/showcase-build-plugin.js';
+import { showcaseBuildPlugin, protectedLibraryChunk } from './plugins/showcase-build-plugin.js';
 
 const appRoot = fileURLToPath(new URL('./apps/web/', import.meta.url));
 const repositoryRoot = fileURLToPath(new URL('./', import.meta.url));
@@ -32,6 +32,7 @@ export default defineConfig(({ mode }) => {
     ],
     resolve: {
       alias: {
+        '@preview/library': fileURLToPath(new URL('./packages/component-library/src/', import.meta.url)),
         '@preview/ui/admin': fileURLToPath(new URL('./packages/preview-ui/src/admin.tsx', import.meta.url)),
         '@preview/ui/loading': fileURLToPath(
           new URL('./packages/preview-ui/src/LoadingState.tsx', import.meta.url),
@@ -67,6 +68,7 @@ export default defineConfig(({ mode }) => {
         ? {
             proxy: {
               '/api/native': { target: 'http://127.0.0.1:5190', changeOrigin: false },
+              '/r/': { target: 'http://127.0.0.1:5190', changeOrigin: false },
               '/api/project-context': { target: 'http://127.0.0.1:5190', changeOrigin: false },
             },
           }
@@ -87,8 +89,12 @@ export default defineConfig(({ mode }) => {
           onlyExplicitManualChunks: true,
           manualChunks: (id) => {
             const normalized = id.replaceAll('\\', '/');
+            const libraryChunk = protectedLibraryChunk(normalized);
+            if (libraryChunk) return libraryChunk;
             const page = /\/project-modules\/([^/]+)\/([^/]+)\//.exec(normalized);
-            return page ? `page-${page[1]}-${page[2]}` : manualChunks(id);
+            if (page) return `page-${page[1]}-${page[2]}`;
+            const project = /\/project-modules\/([^/]+)\//.exec(normalized);
+            return project ? `page-${project[1]}-shared` : manualChunks(id);
           },
           chunkFileNames: (chunk) =>
             chunk.name.startsWith('page-') ? 'page-assets/[name]-[hash].js' : 'assets/[name]-[hash].js',

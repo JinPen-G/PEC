@@ -1,6 +1,7 @@
 /** Reading density chooses a full document tab. Excerpts select whole original
  * sections; they never invent business rules or replace the published PRD. */
-export function documentDisplay(source: string) {
+export function documentDisplay(source: string, authoredSummary?: string) {
+  if (authoredSummary?.trim()) return { long: true, summary: authoredSummary };
   const lines = source.split('\n');
   const sections: { title: string; start: number; end: number }[] = [];
   let fence: string | null = null;

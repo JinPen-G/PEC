@@ -74,6 +74,9 @@ export interface FrameworkShellProps {
   onWorkspaceChange: (key: string) => void;
   navigationMode: 'components' | 'admin';
   onNavigationModeChange: (mode: 'components' | 'admin') => void;
+  showNavigationModeSwitch?: boolean;
+  showAppearanceLink?: boolean;
+  showDocumentControl?: boolean;
   brand: ReactNode;
   account: string;
   accountDescription: string;
@@ -322,10 +325,12 @@ function AccountMenu(props: FrameworkShellProps) {
                   {labels.passwordChange}
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem onClick={() => props.onNavigate('/manage/appearance')}>
-                <HugeiconsIcon icon={Settings01Icon} strokeWidth={2} />
-                {labels.appearance}
-              </DropdownMenuItem>
+              {props.showAppearanceLink !== false && (
+                <DropdownMenuItem onClick={() => props.onNavigate('/manage/appearance')}>
+                  <HugeiconsIcon icon={Settings01Icon} strokeWidth={2} />
+                  {labels.appearance}
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSub>
                 <DropdownMenuSubTrigger>
                   <HugeiconsIcon icon={SunMoonIcon} strokeWidth={2} />
@@ -454,38 +459,40 @@ function ShellContents(props: FrameworkShellProps) {
             onChange={(event) => setQuery(event.target.value)}
           />
         </SidebarHeader>
-        <div className="operator-mode-switch">
-          <div className="operator-mode-expanded">
-            <div className="arc-segmented arc-segmented-block">
-              <SegmentedControl
-                label={props.labels.workMode}
-                value={props.navigationMode}
-                options={[
-                  { label: props.labels.center, value: 'components' },
-                  { label: props.labels.admin, value: 'admin' },
-                ]}
-                onValueChange={(value) => {
-                  setQuery('');
-                  props.onNavigationModeChange(value as 'components' | 'admin');
-                }}
-              />
+        {props.showNavigationModeSwitch !== false && (
+          <div className="operator-mode-switch">
+            <div className="operator-mode-expanded">
+              <div className="arc-segmented arc-segmented-block">
+                <SegmentedControl
+                  label={props.labels.workMode}
+                  value={props.navigationMode}
+                  options={[
+                    { label: props.labels.center, value: 'components' },
+                    { label: props.labels.admin, value: 'admin' },
+                  ]}
+                  onValueChange={(value) => {
+                    setQuery('');
+                    props.onNavigationModeChange(value as 'components' | 'admin');
+                  }}
+                />
+              </div>
+            </div>
+            <div className="operator-mode-collapsed">
+              <button
+                type="button"
+                className="preview-mode-trigger"
+                aria-label={
+                  props.navigationMode === 'admin' ? props.labels.switchCenter : props.labels.switchAdmin
+                }
+                onClick={() =>
+                  props.onNavigationModeChange(props.navigationMode === 'admin' ? 'components' : 'admin')
+                }
+              >
+                {props.navigationMode === 'admin' ? <BookOpen size={18} /> : <LayoutDashboard size={18} />}
+              </button>
             </div>
           </div>
-          <div className="operator-mode-collapsed">
-            <button
-              type="button"
-              className="preview-mode-trigger"
-              aria-label={
-                props.navigationMode === 'admin' ? props.labels.switchCenter : props.labels.switchAdmin
-              }
-              onClick={() =>
-                props.onNavigationModeChange(props.navigationMode === 'admin' ? 'components' : 'admin')
-              }
-            >
-              {props.navigationMode === 'admin' ? <BookOpen size={18} /> : <LayoutDashboard size={18} />}
-            </button>
-          </div>
-        </div>
+        )}
         <SidebarContent>
           <Navigation
             keepEmptySections={props.navigationMode === 'components'}
@@ -524,20 +531,24 @@ function ShellContents(props: FrameworkShellProps) {
           <div className="preview-context-actions">
             {props.contextControls}
             <WorkspaceClock locale={props.locale} />
-            <button
-              type="button"
-              className="preview-document-trigger"
-              disabled={!props.documentAvailable}
-              title={
-                !props.documentAvailable ? (props.documentUnavailableReason ?? '本页尚未关联文档') : undefined
-              }
-              aria-controls="preview-page-document"
-              aria-expanded={props.documentOpen}
-              onClick={props.onDocumentToggle}
-            >
-              <FileText size={15} />
-              {props.labels.pageDocument}
-            </button>
+            {props.showDocumentControl !== false && (
+              <button
+                type="button"
+                className="preview-document-trigger"
+                disabled={!props.documentAvailable}
+                title={
+                  !props.documentAvailable
+                    ? (props.documentUnavailableReason ?? '本页尚未关联文档')
+                    : undefined
+                }
+                aria-controls="preview-page-document"
+                aria-expanded={props.documentOpen}
+                onClick={props.onDocumentToggle}
+              >
+                <FileText size={15} />
+                {props.labels.pageDocument}
+              </button>
+            )}
           </div>
         </header>
         {props.children}

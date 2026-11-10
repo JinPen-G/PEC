@@ -36,7 +36,7 @@ function setup() {
   const denied = new Set();
   const store = {
     authenticate: (token) => (denied.has(token) ? null : { user: { id: token, displayName: token } }),
-    getProject: (user, id) => {
+    getCollaborationProject: (user, id) => {
       if (denied.has(user.id) || id !== 'project-a') throw new Error('Denied');
       return project;
     },
@@ -55,7 +55,7 @@ function setup() {
   room.stream(a, 'A', first);
   room.stream(b, 'B', second);
   room.stream(c, 'C', third);
-  return { room, denied, a, b, c, first, second, third };
+  return { room, store, denied, a, b, c, first, second, third };
 }
 test('late join receives latest snapshot; only active followers identify a target', () => {
   const { room, a, b, c, second, third } = setup();
@@ -135,4 +135,48 @@ test('slow SSE recipients drop intermediate snapshots and receive the latest sta
   second.emit('drain');
   expect(second.latest().participants.find((person) => person.id === a).state.sequence).toBe(3);
   expect(second.latest().participants.find((person) => person.id === b)).toBeDefined();
+});
+
+test('recipient page grants filter snapshots and end following before a private page is sent', () => {
+  const { room, store, a: leader, b: follower, second } = setup();
+  store.getCollaborationProject = (user) => ({
+    ...project,
+    clients: [
+      {
+        id: 'admin',
+        enabled: true,
+        pages: [
+          { key: 'orders', visible: true },
+          ...(user.id === 'A' ? [{ key: 'private-page', visible: true }] : []),
+        ],
+      },
+    ],
+  });
+  room.command(leader, 'A', { type: 'state', state: state(1) });
+  room.command(follower, 'B', { type: 'follow', target: leader });
+  room.command(leader, 'A', { type: 'state', state: { ...state(2), pageKey: 'private-page' } });
+  const snapshot = second.latest();
+  expect(snapshot.participants.find((person) => person.id === follower).following).toBeNull();
+  expect(snapshot.participants.some((person) => person.id === leader)).toBe(false);
+  expect(JSON.stringify(snapshot)).not.toContain('private-page');
+  expect(() => room.command(follower, 'B', { type: 'follow', target: leader })).toThrow('跟随对象不可用');
+});
+
+test('follower pointer uses the current followed page and read-only dialog surface', () => {
+  const { room, a: leader, b: follower, first } = setup();
+  room.command(leader, 'A', { type: 'state', state: state(1) });
+  room.command(follower, 'B', { type: 'follow', target: leader });
+  room.command(leader, 'A', {
+    type: 'state',
+    state: { ...state(2), dialog: { key: 'order-detail', orderId: 'demo-order-001' } },
+  });
+  room.command(follower, 'B', {
+    type: 'pointer',
+    pointer: { x: 0.4, y: 0.6, surface: 'dialog:demo-order-001' },
+  });
+  expect(first.latest().participants.find((person) => person.id === follower)).toMatchObject({
+    following: leader,
+    state: { dialog: { key: 'order-detail', orderId: 'demo-order-001' } },
+    pointer: { x: 0.4, y: 0.6, surface: 'dialog:demo-order-001' },
+  });
 });

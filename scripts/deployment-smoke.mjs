@@ -13,6 +13,7 @@ import { packageRelease } from './release.mjs';
 import { deployRelease } from './deploy.mjs';
 import { readDeploymentConfig, readJson, writeJson } from './deployment-config.mjs';
 import { createNativeStore } from '../packages/project-core/src/platform/store.js';
+import { DATABASE_SCHEMA } from '../packages/project-core/src/platform/schema.js';
 const run = promisify(execFile);
 const root = fileURLToPath(new URL('..', import.meta.url));
 const workspace = await fs.mkdtemp(path.join(tmpdir(), 'preview-deployment-'));
@@ -98,7 +99,9 @@ function withDatabase(callback) {
   }
 }
 withDatabase((database) =>
-  database.exec('DROP TABLE page_grants; DROP TABLE context_tokens; PRAGMA user_version=1;'),
+  database.exec(
+    'DROP TABLE page_grants; DROP TABLE context_token_scopes; DROP TABLE context_tokens; PRAGMA user_version=1;',
+  ),
 );
 let child = null;
 const service = async (action) => {
@@ -154,13 +157,20 @@ try {
   await deployRelease({ config, archive: first.archive, sequence: 10, service, healthTimeout: 10000 });
   assert.equal(
     withDatabase((database) => database.prepare('PRAGMA user_version').get().user_version),
-    3,
+    DATABASE_SCHEMA,
   );
   assert.equal(
     withDatabase((database) => database.prepare('SELECT display_name FROM accounts').get().display_name),
     'Before migration',
   );
-  checks.push('first deploy migrates schema 1 to 3 and preserves synthetic account');
+  assert.ok(
+    withDatabase((database) =>
+      database
+        .prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='context_token_scopes'")
+        .get(),
+    ),
+  );
+  checks.push(`first deploy migrates schema 1 to ${DATABASE_SCHEMA} and preserves synthetic account`);
   assert.equal((await fetch(`${config.publicOrigin}/auth-assets/marcus-johnson.svg`)).status, 200);
   assert.equal((await fetch(`${config.publicOrigin}/auth-assets/undeclared.svg`)).status, 404);
   assert.equal(
@@ -201,9 +211,9 @@ try {
     'Keep after rollback',
   );
   checks.push('compatible code/content rollback retains current account data');
-  withDatabase((database) => database.exec('PRAGMA user_version=4;'));
+  withDatabase((database) => database.exec(`PRAGMA user_version=${DATABASE_SCHEMA + 1};`));
   await assert.rejects(deployRelease({ config, rollback: true, service }), /不兼容/);
-  withDatabase((database) => database.exec('PRAGMA user_version=3;'));
+  withDatabase((database) => database.exec(`PRAGMA user_version=${DATABASE_SCHEMA};`));
   await fs.writeFile(path.join(buildRoot, 'index.html'), '<title>Broken candidate readiness</title>');
   const broken = await makeRelease('d');
   const failingService = async (action) => {

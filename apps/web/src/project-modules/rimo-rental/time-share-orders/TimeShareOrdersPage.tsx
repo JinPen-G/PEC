@@ -1,0 +1,3 @@
+import Block from '@preview/library/rimo-rental/blocks/time-share-orders/TimeShareOrdersBlock.jsx';
+import { RimoPage } from '../RimoPage';
+export default function TimeShareOrdersPage() { return <RimoPage pageKey="time-share-orders" clientId="operation" assets={{}} routes={{"../企业端/time_share_orders.html":{"clientId":"enterprise","pageKey":"enterprise-time-share-orders"},"time_share_orders.html":{"clientId":"operation","pageKey":"time-share-orders"},"new_order_one_way.html":{"clientId":"operation","pageKey":"new-order-one-way"},"new_order_same_station.html":{"clientId":"operation","pageKey":"new-order-same-station"},"order_detail.html":{"clientId":"operation","pageKey":"order-detail"}}}><Block /></RimoPage>; }

@@ -333,18 +333,19 @@ export function createNativeStore({
     if (!Object.hasOwn(modules, moduleKey)) fail(400, '原型模块未注册');
     const configuration = normalizeConfiguration(
       {
-        clients: input.clients ?? [
-          {
-            id: registration?.clientId ?? 'main',
-            name: '功能页面',
-            icon: 'layout',
-            layout: 'desktop',
-            enabled: true,
-            position: 0,
-            defaultPage: '',
-            pages: [],
-          },
-        ],
+        clients: input.clients ??
+          registration?.initialClients ?? [
+            {
+              id: registration?.clientId ?? 'main',
+              name: '功能页面',
+              icon: 'layout',
+              layout: 'desktop',
+              enabled: true,
+              position: 0,
+              defaultPage: '',
+              pages: [],
+            },
+          ],
         links: input.links ?? [],
       },
       moduleKey,
@@ -478,15 +479,22 @@ export function createNativeStore({
       return publicProject(projectAccess(user, projectId, false, true));
     });
   }
-  const tokenMetadata = (row) => ({
-    id: row.id,
-    projectId: row.project_id,
-    label: row.label,
-    scope: 'business:read',
-    createdAt: row.created_at,
-    expiresAt: row.expires_at,
-    revokedAt: row.revoked_at,
-  });
+  const tokenMetadata = (row) => {
+    const scopes = JSON.parse(
+      db.prepare('SELECT scopes FROM context_token_scopes WHERE token_id=?').get(row.id)?.scopes ??
+        '["business:read"]',
+    );
+    return {
+      id: row.id,
+      projectId: row.project_id,
+      label: row.label,
+      scope: scopes.join(' '),
+      scopes,
+      createdAt: row.created_at,
+      expiresAt: row.expires_at,
+      revokedAt: row.revoked_at,
+    };
+  };
   function pageAccess(user, projectId, clientId, pageKey) {
     const row = db.prepare('SELECT * FROM projects WHERE id=? AND archived=0').get(projectId);
     if (!row) fail(404, '页面不存在', 'NOT_FOUND');
@@ -716,11 +724,18 @@ export function createNativeStore({
         )
         .all(projectId);
     },
-    issueContextToken(user, projectId, { label, days = 30 }) {
+    issueContextToken(user, projectId, { label, days = 30, scopes = ['business:read'] }) {
       return transaction(() => {
         const issuer = actor(user, true);
         projectAccess(user, projectId);
         if (!Number.isInteger(days) || days < 1 || days > 90) fail(400, '凭证有效期需为1–90天');
+        if (
+          !Array.isArray(scopes) ||
+          !scopes.length ||
+          scopes.length > 3 ||
+          scopes.some((scope) => !['business:read', 'governance:read', 'components:read'].includes(scope))
+        )
+          fail(400, '凭证读取范围无效');
         const secret = `preview_ctx_${randomBytes(32).toString('base64url')}`;
         const id = randomUUID(),
           at = now();
@@ -735,6 +750,10 @@ export function createNativeStore({
           at + days * 86400000,
         );
         audit(user, 'issue-context-token', id);
+        db.prepare('INSERT INTO context_token_scopes VALUES(?,?)').run(
+          id,
+          JSON.stringify([...new Set(scopes)]),
+        );
         return { ...tokenMetadata(db.prepare('SELECT * FROM context_tokens WHERE id=?').get(id)), secret };
       });
     },
@@ -773,7 +792,7 @@ export function createNativeStore({
       )
         fail(401, '业务读取凭证已失效', 'UNAUTHORIZED');
       const project = publicProject(projectAccess(safeAccount(issuer), row.project_id));
-      return { tokenId: row.id, project };
+      return { tokenId: row.id, project, scopes: tokenMetadata(row).scopes };
     },
     getSettings(user) {
       actor(user);
@@ -818,6 +837,17 @@ export function createNativeStore({
     projectAccess,
     getProject(user, id) {
       return visibleProject(user, projectAccess(user, id, false, true));
+    },
+    getCollaborationProject(user, id) {
+      actor(user);
+      const row = db.prepare('SELECT * FROM projects WHERE id=? AND archived=0').get(id);
+      if (!row) fail(404, '项目不存在或无权访问', 'NOT_FOUND');
+      const project = visibleProject(user, { row, memberRole: 'viewer' });
+      if (project.clients.length) return project;
+      const owned = publicProject(projectAccess(user, id));
+      if (owned.clients.some((client) => client.pages.length))
+        fail(403, '当前没有可协作的页面', 'FORBIDDEN');
+      return owned;
     },
     listProjects(user) {
       const account = actor(user);

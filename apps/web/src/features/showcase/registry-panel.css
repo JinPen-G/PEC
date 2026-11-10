@@ -1,0 +1,20 @@
+.showcase-registry {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.showcase-registry h2 {
+  margin: 16px 0 0;
+  font-size: 20px;
+  color: var(--foreground);
+}
+.showcase-registry p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.showcase-registry .docs_code__X6QfU {
+  margin: 0;
+  min-width: 0;
+}

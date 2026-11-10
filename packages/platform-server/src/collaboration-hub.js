@@ -11,7 +11,7 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
     const session = store.authenticate(connection.token);
     if (!session || session.user.mustChangePassword) return false;
     try {
-      const project = store.getProject(session.user, connection.projectId);
+      const project = store.getCollaborationProject(session.user, connection.projectId);
       return (
         !project.archived && (!connection.state || Boolean(validatePresentation(connection.state, project)))
       );
@@ -19,25 +19,42 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
       return false;
     }
   }
+  const presentation = (connection) =>
+    connections.get(connection.following)?.state ?? connection.state;
   const participant = (connection) => ({
     id: connection.id,
     name: connection.name,
     following: connection.following,
-    state: connection.state,
+    state: presentation(connection),
     pointer: connection.pointer,
   });
-  function snapshot(projectId) {
+  function canRead(connection, state) {
+    const session = store.authenticate(connection.token);
+    if (!session) return false;
+    try {
+      return Boolean(
+        validatePresentation(state, store.getCollaborationProject(session.user, connection.projectId)),
+      );
+    } catch {
+      return false;
+    }
+  }
+  function snapshot(recipient) {
     return {
       protocol: 1,
       revision: ++revision,
       participants: [...connections.values()]
         .filter(
-          (connection) => connection.projectId === projectId && connection.response && permitted(connection),
+          (connection) =>
+            connection.projectId === recipient.projectId &&
+            connection.response &&
+            permitted(connection) &&
+            (!presentation(connection) || canRead(recipient, presentation(connection))),
         )
         .map(participant),
     };
   }
-  function send(connection, value) {
+  function send(connection) {
     const response = connection.response;
     if (!response || response.writableEnded || response.destroyed || !permitted(connection)) return;
     if (response.writableNeedDrain) {
@@ -45,13 +62,13 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
         connection.waitingDrain = true;
         response.once('drain', () => {
           connection.waitingDrain = false;
-          if (permitted(connection)) send(connection, snapshot(connection.projectId));
+          if (permitted(connection)) send(connection);
           else remove(connection.id);
         });
       }
       return;
     }
-    response.write(`data: ${JSON.stringify(value)}\n\n`);
+    response.write(`data: ${JSON.stringify(snapshot(connection))}\n\n`);
   }
   function remove(id, notify = true) {
     const connection = connections.get(id);
@@ -69,9 +86,16 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
     [...connections.values()]
       .filter((connection) => connection.projectId === projectId && !permitted(connection))
       .forEach((connection) => remove(connection.id, false));
-    const value = snapshot(projectId);
+    for (const connection of connections.values()) {
+      if (connection.projectId !== projectId || !connection.following) continue;
+      const target = connections.get(connection.following);
+      if (!target?.response || !target.state || !canRead(connection, target.state)) {
+        connection.following = null;
+        connection.pointer = null;
+      }
+    }
     for (const connection of connections.values())
-      if (connection.projectId === projectId) send(connection, value);
+      if (connection.projectId === projectId) send(connection);
   }
   function own(id, token) {
     const connection = connections.get(id);
@@ -97,7 +121,7 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
     join(token, projectId) {
       const session = store.authenticate(token);
       if (!session) fail(401, '登录已失效', 'UNAUTHORIZED');
-      store.projectAccess(session.user, projectId);
+      store.getCollaborationProject(session.user, projectId);
       if (connections.size >= 200) fail(503, '协作连接已达容量上限', 'COLLABORATION_CAPACITY');
       const id = randomUUID();
       connections.set(id, {
@@ -134,7 +158,7 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
       const connection = own(id, token);
       connection.touched = now();
       const session = store.authenticate(token),
-        project = store.getProject(session.user, connection.projectId);
+        project = store.getCollaborationProject(session.user, connection.projectId);
       switch (input.type) {
         case 'heartbeat':
           break;
@@ -152,12 +176,13 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
         case 'pointer': {
           const pointer = validatePointer(input.pointer);
           if (pointer === undefined) fail(400, '指针位置无效');
+          const state = presentation(connection);
           if (
             pointer &&
-            (!connection.state ||
+            (!state ||
               ![
-                `${connection.state.clientId}/${connection.state.pageKey}`,
-                ...(connection.state.dialog ? [`dialog:${connection.state.dialog.orderId}`] : []),
+                `${state.clientId}/${state.pageKey}`,
+                ...(state.dialog ? [`dialog:${state.dialog.orderId}`] : []),
               ].includes(pointer.surface))
           )
             fail(400, '指针不属于当前演示表面');
@@ -181,7 +206,8 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
             target.projectId !== connection.projectId ||
             target.following ||
             !target.state ||
-            !permitted(target)
+            !permitted(target) ||
+            !validatePresentation(target.state, project)
           )
             fail(409, '跟随对象不可用，不能跟随自己或形成跟随链', 'FOLLOW_REJECTED');
           for (const other of connections.values()) if (other.following === id) other.following = null;

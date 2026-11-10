@@ -1,0 +1,16 @@
+{
+  "name": "@preview/library",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./src/*"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "dependencies": {
+    "lucide-react": "^1.49.0"
+  }
+}

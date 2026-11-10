@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "contentKey": "rimo-rental",
   "moduleKey": "rimo-native",
-  "title": "RIMO Rental 项目概况",
+  "title": "RIMO Rental 产品与业务知识",
   "overview": "overview.md",
   "graph": "graph.json",
   "requirements": [
     {
       "id": "vehicle-groups",
-      "title": "車型組管理 · 原型功能说明",
-      "category": "車輛管理",
+      "title": "车型组管理 · 页面说明",
+      "category": "车辆管理",
       "status": "draft",
       "path": "requirements/vehicle-groups.md",
       "pages": [
@@ -21,8 +21,8 @@
     },
     {
       "id": "vehicle-transfer",
-      "title": "車輛調撥管理 · 原型功能说明",
-      "category": "車輛管理",
+      "title": "车辆调拨管理 · 页面说明",
+      "category": "车辆管理",
       "status": "draft",
       "path": "requirements/vehicle-transfer.md",
       "pages": [
@@ -33,14 +33,2367 @@
       ]
     },
     {
+      "id": "vehicle-status-excerpt",
+      "title": "车辆状态与控车 · 示例节录",
+      "category": "车辆管理",
+      "status": "draft",
+      "path": "requirements/vehicle-status.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-console"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-c22311b728",
+      "title": "RIMO租赁平台业务全局说明",
+      "category": "业务知识库",
+      "status": "confirmed",
+      "path": "requirements/knowledge/RIMO租赁平台业务全局说明.md",
+      "pages": []
+    },
+    {
+      "id": "knowledge-58cb66beac",
+      "title": "RIMO 租赁平台功能业务关系图表",
+      "category": "业务知识库",
+      "status": "confirmed",
+      "path": "requirements/knowledge/RIMO租赁平台功能业务关系图表.md",
+      "pages": []
+    },
+    {
+      "id": "knowledge-f7be5a9a91",
+      "title": "RIMO 租赁平台功能模块清单",
+      "category": "业务知识库",
+      "status": "confirmed",
+      "path": "requirements/knowledge/RIMO租赁平台功能模块清单.md",
+      "pages": []
+    },
+    {
+      "id": "knowledge-31ba3c835b",
+      "title": "公务车业务说明",
+      "category": "业务知识库",
+      "status": "confirmed",
+      "path": "requirements/knowledge/公务车业务说明.md",
+      "pages": []
+    },
+    {
+      "id": "knowledge-a61b45e6b2",
+      "title": "分时租赁业务说明",
+      "category": "业务知识库",
+      "status": "confirmed",
+      "path": "requirements/knowledge/分时租赁业务说明.md",
+      "pages": []
+    },
+    {
+      "id": "knowledge-1864f917f1",
+      "title": "门市租车业务说明",
+      "category": "业务知识库",
+      "status": "confirmed",
+      "path": "requirements/knowledge/门市租赁业务说明.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "corporate-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "marketing"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "new-order"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "pricing"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "service-products"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "settings"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "workbench"
+        }
+      ]
+    },
+    {
+      "id": "members-c6d1bbcb0c",
+      "title": "会员资质认证审核",
+      "category": "会员管理",
+      "status": "confirmed",
+      "path": "requirements/members/会员资质认证审核.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "member-review"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "member-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "members"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-ef9fa9eea9",
+      "title": "企业端公务车后台功能 PRD - 全局口径与角色权限",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/00_全局口径与角色权限.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-dashboard"
+        },
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-approval-setting"
+        },
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-contract-quotas"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-3050e399c1",
+      "title": "企业端公务车后台功能 PRD - Dashboard",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/01_Dashboard.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-dashboard"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "dashboard"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-83480c0d00",
+      "title": "Dashboard 使用率统计与明细补充",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/01A_Dashboard使用率统计与明细.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-dashboard"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "dashboard"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-479690039b",
+      "title": "企业端公务车后台功能 PRD - 公务订单管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/02_公务订单管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-order"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-383fce8cf4",
+      "title": "企业端公务车后台功能 PRD - 新增公务订单",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/03_新增公务订单.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-order-add"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-5787bcb2e2",
+      "title": "企业端公务车后台功能 PRD - 车辆调度排程",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/04_车辆调度排程.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-dispatch-schedule"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-20b03b981a",
+      "title": "企业端公务车后台功能 PRD - 公务车辆管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/05_公务车辆管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-vehicles"
+        },
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-vehicle-add"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "vehicles"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-681e3a30cf",
+      "title": "营运端公务车辆合约管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/07_营运端公务车辆合约管理.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "official-vehicle-contracts"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-dda8e39452",
+      "title": "企业端公务车后台功能 PRD - 合约配额管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/08_合约配额管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-contract-quotas"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-d04981b412",
+      "title": "企业端公务车后台功能 PRD - 用车管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/09_用车管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-car-use-management"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-fbd38953e8",
+      "title": "企业端公务车后台功能 PRD - 员工管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/10_员工管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-employee-management"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-0ec6fee383",
+      "title": "企业端公务车后台功能 PRD - 员工审核",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/11_员工审核.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-employee-review"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-9c217bcac5",
+      "title": "企业端公务车后台功能 PRD - 分公司管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/12_分公司管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-branch-company-management"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-350c108fc8",
+      "title": "企业端公务车后台功能 PRD - 部门管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/13_部门管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-department-management"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-9ff5f46de9",
+      "title": "企业端公务车后台功能 PRD - 审批设定",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/14_审批设定.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-approval-setting"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-c113eae3d0",
+      "title": "企业端公务车后台功能 PRD - 账单管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/15_账单管理.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-car-bill"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-a3f963d0b7",
+      "title": "企业端公务车后台功能 PRD - 数据快照与验收标准",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/16_数据快照与验收标准.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-order"
+        },
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-car-bill"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-53fccc81e6",
+      "title": "企业端公务车后台功能 PRD - 公务车据点管理",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/17_公务车据点管理.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "stations"
+        }
+      ]
+    },
+    {
+      "id": "official-vehicles-22cae7306c",
+      "title": "企业端公务车清洁保养提醒",
+      "category": "公务车",
+      "status": "confirmed",
+      "path": "requirements/official-vehicles/18_清洁保养提醒.md",
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-vehicle-reminders"
+        }
+      ]
+    },
+    {
+      "id": "time-share-45b30a4381",
+      "title": "分时租赁订单列表标签与状态说明",
+      "category": "分时租赁",
+      "status": "confirmed",
+      "path": "requirements/time-share/分时租赁订单列表标签与状态说明.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "time-share-orders"
+        },
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-time-share-orders"
+        }
+      ]
+    },
+    {
+      "id": "channel-tickets-d9adf7cd57",
+      "title": "RIMO 车辆与车机状态资料字段整理",
+      "category": "合作通路",
+      "status": "confirmed",
+      "path": "requirements/channel-tickets/RIMO_车辆与车机状态资料字段整理_微电车.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-console"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-status-list"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "tbox-management"
+        }
+      ]
+    },
+    {
+      "id": "channel-tickets-ee110de5c4",
+      "title": "合作通路租車券预约（同站租还）",
+      "category": "合作通路",
+      "status": "confirmed",
+      "path": "requirements/channel-tickets/合作渠道租车券（同站租还）.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "channel-ticket-batches"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "channel-ticket-batch-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "channel-ticket-applications"
+        },
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-channel-ticket-batches"
+        },
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-channel-ticket-batch-detail"
+        },
+        {
+          "clientId": "mobile",
+          "pageKey": "mobile-channel-ticket-app"
+        },
+        {
+          "clientId": "mobile",
+          "pageKey": "mobile-channel-ticket-app-compatible"
+        }
+      ]
+    },
+    {
+      "id": "interfaces-a4fbf9fd4c",
+      "title": "RIMO Rental APP 第三方控車 API 說明",
+      "category": "接口文档",
+      "status": "confirmed",
+      "path": "requirements/interfaces/RIMO Rental APP 第三方控車 API 說明.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-console"
+        }
+      ]
+    },
+    {
+      "id": "interfaces-7ab2f46e7c",
+      "title": "RIMO Rental 管理後台車輛控車 API 說明",
+      "category": "接口文档",
+      "status": "confirmed",
+      "path": "requirements/interfaces/RIMO Rental 管理後台車輛控車 API 說明.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-console"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "tbox-management"
+        }
+      ]
+    },
+    {
       "id": "vehicle-status",
-      "title": "车辆状态与控车",
+      "title": "车辆控制台与车机状态对接 PRD",
       "category": "车辆管理",
       "status": "confirmed",
-      "access": "public",
-      "path": "requirements/vehicle-status.md",
+      "path": "requirements/vehicles/车辆控制台与车机状态对接PRD.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-console"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-status-list"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "tbox-management"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-aadfb466ec",
+      "title": "AI 智能调度分析 Agent",
+      "category": "门市租赁",
+      "status": "planned",
+      "path": "requirements/store-rental/AI智能调度分析Agent.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "war-room"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "system-rules"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-905742b896",
+      "title": "门市租赁业务方案说明 - 逐页说明稿",
+      "category": "门市租赁",
+      "status": "planned",
+      "path": "requirements/store-rental/业务介绍/门市租赁业务方案说明-逐页说明稿.md",
       "pages": []
+    },
+    {
+      "id": "store-rental-01fe2057b0",
+      "title": "动态调价策略（牌价&费率）",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/动态调价策略（牌价&费率）.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "pricing"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-8944c2a189",
+      "title": "基础产品定价（车组）",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/基础产品定价（车组）.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "service-products"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-groups"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-11b6872ebd",
+      "title": "增值服务管理（保险&配件）",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/增值服务管理（保险&配件）.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "services"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-6e4f898c73",
+      "title": "智能调度派车算法",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/智能调度派车算法.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-4d8dad7d9e",
+      "title": "智能调度派车规则",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/智能调度派车规则.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-58d8f67462",
+      "title": "服务站点管理",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/服务站点管理.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "stations"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "rental-companies"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "stores"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-e9ea3f8d07",
+      "title": "租赁业务规则",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/租赁业务规则.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "settings"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-d77b1b0cf3",
+      "title": "行销方案管理",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/行销方案管理.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "marketing"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-6056512fcb",
+      "title": "事故出险处理",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/事故出险处理.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-573d547312",
+      "title": "取消与关闭订单",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/取消与关闭订单.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-e71c38e00d",
+      "title": "延长用车",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/延长用车.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-5cf870b5b0",
+      "title": "新建订单",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/新建订单.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "new-order"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-2ef4432bd6",
+      "title": "订单取车",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/订单取车.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-351353f602",
+      "title": "订单改派",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/订单改派.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-1f1b94d21c",
+      "title": "订单详情",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/订单详情.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-7231aa72b7",
+      "title": "订单还车",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/订单还车.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-4f9aac6a08",
+      "title": "费用管理",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/费用管理.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "new-order"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-2c8b5e250e",
+      "title": "门市租车订单列表",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/门市租车订单列表.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-15db6de434",
+      "title": "门市租车订单总索引",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/门市租车订单总索引.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "new-order"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-894b857405",
+      "title": "门市租车订单状态",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/订单/门市租车订单状态.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-b6773d16fe",
+      "title": "车行与门市管理",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/车行与门市管理.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "rental-companies"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "stores"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "stations"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-d195923f5d",
+      "title": "门市租赁业务总索引",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/门市租赁业务总索引.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-56ec4d91d4",
+      "title": "门市租赁端到端业务流程",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/门市租赁端到端业务流程.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "new-order"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "store-rental-2b53a79cb4",
+      "title": "门市租赁调度边界与履约规则",
+      "category": "门市租赁",
+      "status": "confirmed",
+      "path": "requirements/store-rental/门市租赁调度边界与履约规则.md",
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        },
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "page-email-boocar-account-notice-email",
+      "title": "boocar 公务车账号通知",
+      "category": "email · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/email-boocar-account-notice-email.md",
+      "summary": "requirements/page-summaries/email-boocar-account-notice-email.md",
+      "assets": [
+        "assets/a3ccaab4d868c6ae.png",
+        "assets/f70e6456ef5ef00c.png",
+        "assets/37477482e21edbbf.png",
+        "assets/efac504d528a6aa8.png",
+        "assets/c3a28d398cccfc71.png",
+        "assets/7867a90f219fabc6.png",
+        "assets/ff6bc428666a9013.png",
+        "assets/07871c35dfd5e989.png",
+        "assets/7b96ebbbce8fc3ac.png",
+        "assets/59f19fcf089b788c.png",
+        "assets/5d248b1c71a560e4.png",
+        "assets/d3eb47037b83d31a.png",
+        "assets/b63f49c138da89dd.png",
+        "assets/20ba234a07ad8da6.png",
+        "assets/98808745caede988.png",
+        "assets/4109d9b12cc93070.png",
+        "assets/aaed3ac0c6560062.png",
+        "assets/e60353d8ca440597.png",
+        "assets/a52a64886c4f96f1.png",
+        "assets/be665c6614063aac.png",
+        "assets/73e4c20de0e8f0c8.png",
+        "assets/8190c57e68f94ed4.png",
+        "assets/7bfbb19cb327a68f.png",
+        "assets/0b9f9e596d2d4304.png",
+        "assets/24de258ed8fa2743.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "email",
+          "pageKey": "email-boocar-account-notice-email"
+        }
+      ]
+    },
+    {
+      "id": "page-email-boocar-branch-admin-notice-email",
+      "title": "boocar 分公司账号通知",
+      "category": "email · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/email-boocar-branch-admin-notice-email.md",
+      "summary": "requirements/page-summaries/email-boocar-branch-admin-notice-email.md",
+      "assets": [
+        "assets/a3ccaab4d868c6ae.png",
+        "assets/f70e6456ef5ef00c.png",
+        "assets/37477482e21edbbf.png",
+        "assets/efac504d528a6aa8.png",
+        "assets/c3a28d398cccfc71.png",
+        "assets/7867a90f219fabc6.png",
+        "assets/ff6bc428666a9013.png",
+        "assets/07871c35dfd5e989.png",
+        "assets/7b96ebbbce8fc3ac.png",
+        "assets/59f19fcf089b788c.png",
+        "assets/5d248b1c71a560e4.png",
+        "assets/d3eb47037b83d31a.png",
+        "assets/5e501aef51cb3ef6.png",
+        "assets/20ba234a07ad8da6.png",
+        "assets/98808745caede988.png",
+        "assets/4109d9b12cc93070.png",
+        "assets/aaed3ac0c6560062.png",
+        "assets/e60353d8ca440597.png",
+        "assets/a52a64886c4f96f1.png",
+        "assets/be665c6614063aac.png",
+        "assets/73e4c20de0e8f0c8.png",
+        "assets/f39d76c45da1d7a1.png",
+        "assets/7bfbb19cb327a68f.png",
+        "assets/0b9f9e596d2d4304.png",
+        "assets/24de258ed8fa2743.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "email",
+          "pageKey": "email-boocar-branch-admin-notice-email"
+        }
+      ]
+    },
+    {
+      "id": "page-email-enterprise-branch-admin-notice-email",
+      "title": "企业分公司管理员通知",
+      "category": "email · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/email-enterprise-branch-admin-notice-email.md",
+      "summary": "requirements/page-summaries/email-enterprise-branch-admin-notice-email.md",
+      "assets": [
+        "assets/a3ccaab4d868c6ae.png",
+        "assets/37477482e21edbbf.png",
+        "assets/efac504d528a6aa8.png",
+        "assets/c3a28d398cccfc71.png",
+        "assets/7867a90f219fabc6.png",
+        "assets/ff6bc428666a9013.png",
+        "assets/07871c35dfd5e989.png",
+        "assets/7b96ebbbce8fc3ac.png",
+        "assets/59f19fcf089b788c.png",
+        "assets/5d248b1c71a560e4.png",
+        "assets/d3eb47037b83d31a.png",
+        "assets/5e501aef51cb3ef6.png",
+        "assets/20ba234a07ad8da6.png",
+        "assets/98808745caede988.png",
+        "assets/4109d9b12cc93070.png",
+        "assets/aaed3ac0c6560062.png",
+        "assets/e60353d8ca440597.png",
+        "assets/a52a64886c4f96f1.png",
+        "assets/be665c6614063aac.png",
+        "assets/73e4c20de0e8f0c8.png",
+        "assets/f39d76c45da1d7a1.png",
+        "assets/7bfbb19cb327a68f.png",
+        "assets/0b9f9e596d2d4304.png",
+        "assets/24de258ed8fa2743.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "email",
+          "pageKey": "email-enterprise-branch-admin-notice-email"
+        }
+      ]
+    },
+    {
+      "id": "page-email-enterprise-contract-notice-email",
+      "title": "企业签约账号通知",
+      "category": "email · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/email-enterprise-contract-notice-email.md",
+      "summary": "requirements/page-summaries/email-enterprise-contract-notice-email.md",
+      "assets": [
+        "assets/37477482e21edbbf.png",
+        "assets/efac504d528a6aa8.png",
+        "assets/7867a90f219fabc6.png",
+        "assets/ff6bc428666a9013.png",
+        "assets/07871c35dfd5e989.png",
+        "assets/7b96ebbbce8fc3ac.png",
+        "assets/59f19fcf089b788c.png",
+        "assets/5d248b1c71a560e4.png",
+        "assets/d3eb47037b83d31a.png",
+        "assets/20ba234a07ad8da6.png",
+        "assets/98808745caede988.png",
+        "assets/4109d9b12cc93070.png",
+        "assets/aaed3ac0c6560062.png",
+        "assets/e60353d8ca440597.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "email",
+          "pageKey": "email-enterprise-contract-notice-email"
+        }
+      ]
+    },
+    {
+      "id": "page-email-notification-messages",
+      "title": "通知消息",
+      "category": "email · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/email-notification-messages.md",
+      "summary": "requirements/page-summaries/email-notification-messages.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "email",
+          "pageKey": "email-notification-messages"
+        }
+      ]
+    },
+    {
+      "id": "page-verification-email",
+      "title": "验证码邮件",
+      "category": "email · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/verification-email.md",
+      "summary": "requirements/page-summaries/verification-email.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "email",
+          "pageKey": "verification-email"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-approval-setting",
+      "title": "预约审批设定",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-approval-setting.md",
+      "summary": "requirements/page-summaries/enterprise-approval-setting.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-approval-setting"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-branch-company-management",
+      "title": "分公司管理",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-branch-company-management.md",
+      "summary": "requirements/page-summaries/enterprise-branch-company-management.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-branch-company-management"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-car-use-management",
+      "title": "车辆使用范围",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-car-use-management.md",
+      "summary": "requirements/page-summaries/enterprise-car-use-management.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-car-use-management"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-channel-ticket-batch-detail",
+      "title": "企业租车券批次详情",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-channel-ticket-batch-detail.md",
+      "summary": "requirements/page-summaries/enterprise-channel-ticket-batch-detail.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-channel-ticket-batch-detail"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-channel-ticket-batches",
+      "title": "企业合作通路租车券",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-channel-ticket-batches.md",
+      "summary": "requirements/page-summaries/enterprise-channel-ticket-batches.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-channel-ticket-batches"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-contract-quotas",
+      "title": "合约配额管理",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-contract-quotas.md",
+      "summary": "requirements/page-summaries/enterprise-contract-quotas.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-contract-quotas"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-corporate-login",
+      "title": "企业端登录",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-corporate-login.md",
+      "summary": "requirements/page-summaries/enterprise-corporate-login.md",
+      "assets": [
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-corporate-login"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-dashboard",
+      "title": "公务车仪表板",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-dashboard.md",
+      "summary": "requirements/page-summaries/enterprise-dashboard.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-dashboard"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-department-management",
+      "title": "部门管理",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-department-management.md",
+      "summary": "requirements/page-summaries/enterprise-department-management.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-department-management"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-dispatch-schedule",
+      "title": "车辆调度排程",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-dispatch-schedule.md",
+      "summary": "requirements/page-summaries/enterprise-dispatch-schedule.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-dispatch-schedule"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-employee-management",
+      "title": "员工管理",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-employee-management.md",
+      "summary": "requirements/page-summaries/enterprise-employee-management.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-employee-management"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-employee-review",
+      "title": "员工申请审核",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-employee-review.md",
+      "summary": "requirements/page-summaries/enterprise-employee-review.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-employee-review"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-official-car-bill",
+      "title": "公务车账单",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-official-car-bill.md",
+      "summary": "requirements/page-summaries/enterprise-official-car-bill.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-car-bill"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-official-order-add",
+      "title": "新增公务订单",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-official-order-add.md",
+      "summary": "requirements/page-summaries/enterprise-official-order-add.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-order-add"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-official-order",
+      "title": "公务订单管理",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-official-order.md",
+      "summary": "requirements/page-summaries/enterprise-official-order.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-order"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-official-vehicle-add",
+      "title": "新增公务车",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-official-vehicle-add.md",
+      "summary": "requirements/page-summaries/enterprise-official-vehicle-add.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-vehicle-add"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-official-vehicle-reminders",
+      "title": "清洁保养提醒",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-official-vehicle-reminders.md",
+      "summary": "requirements/page-summaries/enterprise-official-vehicle-reminders.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-vehicle-reminders"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-official-vehicles",
+      "title": "公务车辆管理",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-official-vehicles.md",
+      "summary": "requirements/page-summaries/enterprise-official-vehicles.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-official-vehicles"
+        }
+      ]
+    },
+    {
+      "id": "page-enterprise-time-share-orders",
+      "title": "企业分时租赁订单",
+      "category": "enterprise · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/enterprise-time-share-orders.md",
+      "summary": "requirements/page-summaries/enterprise-time-share-orders.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "enterprise",
+          "pageKey": "enterprise-time-share-orders"
+        }
+      ]
+    },
+    {
+      "id": "page-tutorial-index",
+      "title": "公务车教程目录",
+      "category": "public · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/tutorial-index.md",
+      "summary": "requirements/page-summaries/tutorial-index.md",
+      "assets": [
+        "assets/85f5f97493a140ed.png",
+        "assets/524d4f711822c4c6.png",
+        "assets/1f5755321be34ca7.png",
+        "assets/580301c55e0ec95a.png",
+        "assets/456b2604b9442ad3.png",
+        "assets/1e96b261093377df.png",
+        "assets/5ccff791e317b756.png",
+        "assets/8ab1c0b6a6c3851d.png",
+        "assets/6f2f5e70c243ec81.png",
+        "assets/378dbc7a2bf5eb1f.png",
+        "assets/ac0d1db9d1f63658.png",
+        "assets/0e418421910caae7.png",
+        "assets/11b510fe6a98716a.png",
+        "assets/acf594bd5c9da7cc.png",
+        "assets/2b3a644ad8630fe2.png",
+        "assets/db53461b87e8b180.png",
+        "assets/e9fc2f1585aad0c9.png",
+        "assets/335389d2c601b406.png",
+        "assets/a63714af4c793fcd.png",
+        "assets/5e7d3581f5c3326c.png",
+        "assets/f69956e8ee12943d.png",
+        "assets/02dffab67549c4aa.png",
+        "assets/97dc99397ae72944.png",
+        "assets/6b0e8d75d219f33d.png",
+        "assets/2c9edf910d2f1b3e.png",
+        "assets/aa6ad05ebffa7aa6.png",
+        "assets/0c7cc6a9fc542514.png",
+        "assets/315125d68e703cfd.png",
+        "assets/6e05220c4c5d77e7.png",
+        "assets/fa80eaaed4e64281.png",
+        "assets/400dc92818f29188.png",
+        "assets/e95b3a7bd0132687.png",
+        "assets/d64ed0eedbed6dba.png",
+        "assets/5cab8575df367977.png",
+        "assets/ec3e7fd86af9ecef.png",
+        "assets/b5ecdc7e10298492.png",
+        "assets/0fc1791305e16918.png",
+        "assets/91c48f989891c3d5.png",
+        "assets/889041401b9f8285.png",
+        "assets/2aee0d4c401bcf6a.png",
+        "assets/2658f0451a8c1676.png",
+        "assets/5972a4904391433c.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "public",
+          "pageKey": "tutorial-index"
+        }
+      ]
+    },
+    {
+      "id": "page-tutorial-documentation",
+      "title": "公务车教程文档版",
+      "category": "public · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/tutorial-documentation.md",
+      "summary": "requirements/page-summaries/tutorial-documentation.md",
+      "assets": [
+        "assets/85f5f97493a140ed.png",
+        "assets/524d4f711822c4c6.png",
+        "assets/1f5755321be34ca7.png",
+        "assets/580301c55e0ec95a.png",
+        "assets/456b2604b9442ad3.png",
+        "assets/1e96b261093377df.png",
+        "assets/5ccff791e317b756.png",
+        "assets/8ab1c0b6a6c3851d.png",
+        "assets/6f2f5e70c243ec81.png",
+        "assets/378dbc7a2bf5eb1f.png",
+        "assets/ac0d1db9d1f63658.png",
+        "assets/0e418421910caae7.png",
+        "assets/11b510fe6a98716a.png",
+        "assets/acf594bd5c9da7cc.png",
+        "assets/2b3a644ad8630fe2.png",
+        "assets/db53461b87e8b180.png",
+        "assets/e9fc2f1585aad0c9.png",
+        "assets/335389d2c601b406.png",
+        "assets/a63714af4c793fcd.png",
+        "assets/5e7d3581f5c3326c.png",
+        "assets/f69956e8ee12943d.png",
+        "assets/02dffab67549c4aa.png",
+        "assets/97dc99397ae72944.png",
+        "assets/6b0e8d75d219f33d.png",
+        "assets/2c9edf910d2f1b3e.png",
+        "assets/aa6ad05ebffa7aa6.png",
+        "assets/0c7cc6a9fc542514.png",
+        "assets/315125d68e703cfd.png",
+        "assets/6e05220c4c5d77e7.png",
+        "assets/fa80eaaed4e64281.png",
+        "assets/400dc92818f29188.png",
+        "assets/e95b3a7bd0132687.png",
+        "assets/d64ed0eedbed6dba.png",
+        "assets/5cab8575df367977.png",
+        "assets/ec3e7fd86af9ecef.png",
+        "assets/b5ecdc7e10298492.png",
+        "assets/0fc1791305e16918.png",
+        "assets/91c48f989891c3d5.png",
+        "assets/889041401b9f8285.png",
+        "assets/2aee0d4c401bcf6a.png",
+        "assets/2658f0451a8c1676.png",
+        "assets/5972a4904391433c.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "public",
+          "pageKey": "tutorial-documentation"
+        }
+      ]
+    },
+    {
+      "id": "page-tutorial-editor",
+      "title": "公务车教程维护",
+      "category": "public · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/tutorial-editor.md",
+      "summary": "requirements/page-summaries/tutorial-editor.md",
+      "assets": [
+        "assets/85f5f97493a140ed.png",
+        "assets/524d4f711822c4c6.png",
+        "assets/1f5755321be34ca7.png",
+        "assets/580301c55e0ec95a.png",
+        "assets/456b2604b9442ad3.png",
+        "assets/1e96b261093377df.png",
+        "assets/5ccff791e317b756.png",
+        "assets/8ab1c0b6a6c3851d.png",
+        "assets/6f2f5e70c243ec81.png",
+        "assets/378dbc7a2bf5eb1f.png",
+        "assets/ac0d1db9d1f63658.png",
+        "assets/0e418421910caae7.png",
+        "assets/11b510fe6a98716a.png",
+        "assets/acf594bd5c9da7cc.png",
+        "assets/2b3a644ad8630fe2.png",
+        "assets/db53461b87e8b180.png",
+        "assets/e9fc2f1585aad0c9.png",
+        "assets/335389d2c601b406.png",
+        "assets/a63714af4c793fcd.png",
+        "assets/5e7d3581f5c3326c.png",
+        "assets/f69956e8ee12943d.png",
+        "assets/02dffab67549c4aa.png",
+        "assets/97dc99397ae72944.png",
+        "assets/6b0e8d75d219f33d.png",
+        "assets/2c9edf910d2f1b3e.png",
+        "assets/aa6ad05ebffa7aa6.png",
+        "assets/0c7cc6a9fc542514.png",
+        "assets/315125d68e703cfd.png",
+        "assets/6e05220c4c5d77e7.png",
+        "assets/fa80eaaed4e64281.png",
+        "assets/400dc92818f29188.png",
+        "assets/e95b3a7bd0132687.png",
+        "assets/d64ed0eedbed6dba.png",
+        "assets/5cab8575df367977.png",
+        "assets/ec3e7fd86af9ecef.png",
+        "assets/b5ecdc7e10298492.png",
+        "assets/0fc1791305e16918.png",
+        "assets/91c48f989891c3d5.png",
+        "assets/889041401b9f8285.png",
+        "assets/2aee0d4c401bcf6a.png",
+        "assets/2658f0451a8c1676.png",
+        "assets/5972a4904391433c.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "public",
+          "pageKey": "tutorial-editor"
+        }
+      ]
+    },
+    {
+      "id": "page-tutorial",
+      "title": "公务车操作教程",
+      "category": "public · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/tutorial.md",
+      "summary": "requirements/page-summaries/tutorial.md",
+      "assets": [
+        "assets/85f5f97493a140ed.png",
+        "assets/524d4f711822c4c6.png",
+        "assets/1f5755321be34ca7.png",
+        "assets/580301c55e0ec95a.png",
+        "assets/456b2604b9442ad3.png",
+        "assets/1e96b261093377df.png",
+        "assets/5ccff791e317b756.png",
+        "assets/8ab1c0b6a6c3851d.png",
+        "assets/6f2f5e70c243ec81.png",
+        "assets/378dbc7a2bf5eb1f.png",
+        "assets/ac0d1db9d1f63658.png",
+        "assets/0e418421910caae7.png",
+        "assets/11b510fe6a98716a.png",
+        "assets/acf594bd5c9da7cc.png",
+        "assets/2b3a644ad8630fe2.png",
+        "assets/db53461b87e8b180.png",
+        "assets/e9fc2f1585aad0c9.png",
+        "assets/335389d2c601b406.png",
+        "assets/a63714af4c793fcd.png",
+        "assets/5e7d3581f5c3326c.png",
+        "assets/f69956e8ee12943d.png",
+        "assets/02dffab67549c4aa.png",
+        "assets/97dc99397ae72944.png",
+        "assets/6b0e8d75d219f33d.png",
+        "assets/2c9edf910d2f1b3e.png",
+        "assets/aa6ad05ebffa7aa6.png",
+        "assets/0c7cc6a9fc542514.png",
+        "assets/315125d68e703cfd.png",
+        "assets/6e05220c4c5d77e7.png",
+        "assets/fa80eaaed4e64281.png",
+        "assets/400dc92818f29188.png",
+        "assets/e95b3a7bd0132687.png",
+        "assets/d64ed0eedbed6dba.png",
+        "assets/5cab8575df367977.png",
+        "assets/ec3e7fd86af9ecef.png",
+        "assets/b5ecdc7e10298492.png",
+        "assets/0fc1791305e16918.png",
+        "assets/91c48f989891c3d5.png",
+        "assets/889041401b9f8285.png",
+        "assets/2aee0d4c401bcf6a.png",
+        "assets/2658f0451a8c1676.png",
+        "assets/5972a4904391433c.png",
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "public",
+          "pageKey": "tutorial"
+        }
+      ]
+    },
+    {
+      "id": "page-mobile-channel-ticket-app-compatible",
+      "title": "租车券预约：现有流程适配",
+      "category": "mobile · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/mobile-channel-ticket-app-compatible.md",
+      "summary": "requirements/page-summaries/mobile-channel-ticket-app-compatible.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "mobile",
+          "pageKey": "mobile-channel-ticket-app-compatible"
+        }
+      ]
+    },
+    {
+      "id": "page-mobile-channel-ticket-app",
+      "title": "租车券预约 APP",
+      "category": "mobile · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/mobile-channel-ticket-app.md",
+      "summary": "requirements/page-summaries/mobile-channel-ticket-app.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "mobile",
+          "pageKey": "mobile-channel-ticket-app"
+        }
+      ]
+    },
+    {
+      "id": "page-channel-ticket-applications",
+      "title": "租车券申报审批",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/channel-ticket-applications.md",
+      "summary": "requirements/page-summaries/channel-ticket-applications.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "channel-ticket-applications"
+        }
+      ]
+    },
+    {
+      "id": "page-channel-ticket-batch-detail",
+      "title": "租车券批次详情",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/channel-ticket-batch-detail.md",
+      "summary": "requirements/page-summaries/channel-ticket-batch-detail.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "channel-ticket-batch-detail"
+        }
+      ]
+    },
+    {
+      "id": "page-channel-ticket-batches",
+      "title": "合作通路租车券",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/channel-ticket-batches.md",
+      "summary": "requirements/page-summaries/channel-ticket-batches.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "channel-ticket-batches"
+        }
+      ]
+    },
+    {
+      "id": "page-corporate-detail",
+      "title": "企业详情",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/corporate-detail.md",
+      "summary": "requirements/page-summaries/corporate-detail.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "corporate-detail"
+        }
+      ]
+    },
+    {
+      "id": "page-corporate-login",
+      "title": "企业服务登录",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/corporate-login.md",
+      "summary": "requirements/page-summaries/corporate-login.md",
+      "assets": [
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "corporate-login"
+        }
+      ]
+    },
+    {
+      "id": "page-corporates",
+      "title": "企业客户管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/corporates.md",
+      "summary": "requirements/page-summaries/corporates.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "corporates"
+        }
+      ]
+    },
+    {
+      "id": "page-dashboard",
+      "title": "综合仪表板",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/dashboard.md",
+      "summary": "requirements/page-summaries/dashboard.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "dashboard"
+        }
+      ]
+    },
+    {
+      "id": "page-dispatch",
+      "title": "车辆排程看板",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/dispatch.md",
+      "summary": "requirements/page-summaries/dispatch.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "dispatch"
+        }
+      ]
+    },
+    {
+      "id": "page-employees",
+      "title": "平台业务账户管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/employees.md",
+      "summary": "requirements/page-summaries/employees.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "employees"
+        }
+      ]
+    },
+    {
+      "id": "page-login",
+      "title": "营运后台登录",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/login.md",
+      "summary": "requirements/page-summaries/login.md",
+      "assets": [
+        "assets/1149c5bbf7a0d88a.png"
+      ],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "login"
+        }
+      ]
+    },
+    {
+      "id": "page-marketing",
+      "title": "行销方案管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/marketing.md",
+      "summary": "requirements/page-summaries/marketing.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "marketing"
+        }
+      ]
+    },
+    {
+      "id": "page-member-detail",
+      "title": "会员详情",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/member-detail.md",
+      "summary": "requirements/page-summaries/member-detail.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "member-detail"
+        }
+      ]
+    },
+    {
+      "id": "page-member-review",
+      "title": "资质认证审核",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/member-review.md",
+      "summary": "requirements/page-summaries/member-review.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "member-review"
+        }
+      ]
+    },
+    {
+      "id": "page-members",
+      "title": "个人会员管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/members.md",
+      "summary": "requirements/page-summaries/members.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "members"
+        }
+      ]
+    },
+    {
+      "id": "page-membership-plans",
+      "title": "客户等级方案",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/membership-plans.md",
+      "summary": "requirements/page-summaries/membership-plans.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "membership-plans"
+        }
+      ]
+    },
+    {
+      "id": "page-new-order-one-way",
+      "title": "新增甲租乙还订单",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/new-order-one-way.md",
+      "summary": "requirements/page-summaries/new-order-one-way.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "new-order-one-way"
+        }
+      ]
+    },
+    {
+      "id": "page-new-order-same-station",
+      "title": "新增同站租还订单",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/new-order-same-station.md",
+      "summary": "requirements/page-summaries/new-order-same-station.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "new-order-same-station"
+        }
+      ]
+    },
+    {
+      "id": "page-new-order",
+      "title": "新增门市租车订单",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/new-order.md",
+      "summary": "requirements/page-summaries/new-order.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "new-order"
+        }
+      ]
+    },
+    {
+      "id": "page-official-vehicle-contracts",
+      "title": "公务用车合约管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/official-vehicle-contracts.md",
+      "summary": "requirements/page-summaries/official-vehicle-contracts.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "official-vehicle-contracts"
+        }
+      ]
+    },
+    {
+      "id": "page-order-detail",
+      "title": "订单详情",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/order-detail.md",
+      "summary": "requirements/page-summaries/order-detail.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "order-detail"
+        }
+      ]
+    },
+    {
+      "id": "page-permissions-grouped",
+      "title": "权限管理：业务分组",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/permissions-grouped.md",
+      "summary": "requirements/page-summaries/permissions-grouped.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "permissions-grouped"
+        }
+      ]
+    },
+    {
+      "id": "page-permissions",
+      "title": "权限管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/permissions.md",
+      "summary": "requirements/page-summaries/permissions.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "permissions"
+        }
+      ]
+    },
+    {
+      "id": "page-pricing",
+      "title": "动态调价策略",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/pricing.md",
+      "summary": "requirements/page-summaries/pricing.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "pricing"
+        }
+      ]
+    },
+    {
+      "id": "page-rental-companies",
+      "title": "车行管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/rental-companies.md",
+      "summary": "requirements/page-summaries/rental-companies.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "rental-companies"
+        }
+      ]
+    },
+    {
+      "id": "page-service-products",
+      "title": "基础产品定价",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/service-products.md",
+      "summary": "requirements/page-summaries/service-products.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "service-products"
+        }
+      ]
+    },
+    {
+      "id": "page-services",
+      "title": "增值服务管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/services.md",
+      "summary": "requirements/page-summaries/services.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "services"
+        }
+      ]
+    },
+    {
+      "id": "page-settings",
+      "title": "租赁业务规则",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/settings.md",
+      "summary": "requirements/page-summaries/settings.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "settings"
+        }
+      ]
+    },
+    {
+      "id": "page-stations",
+      "title": "据点管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/stations.md",
+      "summary": "requirements/page-summaries/stations.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "stations"
+        }
+      ]
+    },
+    {
+      "id": "page-store-orders",
+      "title": "门市租赁订单",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/store-orders.md",
+      "summary": "requirements/page-summaries/store-orders.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "store-orders"
+        }
+      ]
+    },
+    {
+      "id": "page-stores",
+      "title": "门市管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/stores.md",
+      "summary": "requirements/page-summaries/stores.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "stores"
+        }
+      ]
+    },
+    {
+      "id": "page-system-rules",
+      "title": "系统通用参数",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/system-rules.md",
+      "summary": "requirements/page-summaries/system-rules.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "system-rules"
+        }
+      ]
+    },
+    {
+      "id": "page-tbox-management",
+      "title": "车机设定中心",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/tbox-management.md",
+      "summary": "requirements/page-summaries/tbox-management.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "tbox-management"
+        }
+      ]
+    },
+    {
+      "id": "page-time-share-orders",
+      "title": "分时租赁订单",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/time-share-orders.md",
+      "summary": "requirements/page-summaries/time-share-orders.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "time-share-orders"
+        }
+      ]
+    },
+    {
+      "id": "page-vehicle-console",
+      "title": "车辆控制台",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/vehicle-console.md",
+      "summary": "requirements/page-summaries/vehicle-console.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-console"
+        }
+      ]
+    },
+    {
+      "id": "page-vehicle-groups",
+      "title": "车型组管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/vehicle-groups.md",
+      "summary": "requirements/page-summaries/vehicle-groups.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-groups"
+        }
+      ]
+    },
+    {
+      "id": "page-vehicle-status-list",
+      "title": "车辆速查表",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/vehicle-status-list.md",
+      "summary": "requirements/page-summaries/vehicle-status-list.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-status-list"
+        }
+      ]
+    },
+    {
+      "id": "page-vehicle-transfer",
+      "title": "车辆调拨管理",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/vehicle-transfer.md",
+      "summary": "requirements/page-summaries/vehicle-transfer.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicle-transfer"
+        }
+      ]
+    },
+    {
+      "id": "page-vehicles",
+      "title": "车辆档案库",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/vehicles.md",
+      "summary": "requirements/page-summaries/vehicles.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "vehicles"
+        }
+      ]
+    },
+    {
+      "id": "page-war-room",
+      "title": "战情分析看板",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/war-room.md",
+      "summary": "requirements/page-summaries/war-room.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "war-room"
+        }
+      ]
+    },
+    {
+      "id": "page-workbench",
+      "title": "工作台首页",
+      "category": "operation · 页面需求",
+      "status": "draft",
+      "path": "requirements/pages/workbench.md",
+      "summary": "requirements/page-summaries/workbench.md",
+      "assets": [],
+      "pages": [
+        {
+          "clientId": "operation",
+          "pageKey": "workbench"
+        }
+      ]
     }
   ],
-  "assets": []
+  "assets": [
+    "assets/a3ccaab4d868c6ae.png",
+    "assets/f70e6456ef5ef00c.png",
+    "assets/ad20fe462fa9e00f.png",
+    "assets/37477482e21edbbf.png",
+    "assets/efac504d528a6aa8.png",
+    "assets/c3a28d398cccfc71.png",
+    "assets/7867a90f219fabc6.png",
+    "assets/ff6bc428666a9013.png",
+    "assets/07871c35dfd5e989.png",
+    "assets/7b96ebbbce8fc3ac.png",
+    "assets/59f19fcf089b788c.png",
+    "assets/5d248b1c71a560e4.png",
+    "assets/d3eb47037b83d31a.png",
+    "assets/5e501aef51cb3ef6.png",
+    "assets/b63f49c138da89dd.png",
+    "assets/20ba234a07ad8da6.png",
+    "assets/98808745caede988.png",
+    "assets/4109d9b12cc93070.png",
+    "assets/aaed3ac0c6560062.png",
+    "assets/e60353d8ca440597.png",
+    "assets/a52a64886c4f96f1.png",
+    "assets/be665c6614063aac.png",
+    "assets/73e4c20de0e8f0c8.png",
+    "assets/8190c57e68f94ed4.png",
+    "assets/f39d76c45da1d7a1.png",
+    "assets/7bfbb19cb327a68f.png",
+    "assets/0b9f9e596d2d4304.png",
+    "assets/24de258ed8fa2743.png",
+    "assets/85f5f97493a140ed.png",
+    "assets/524d4f711822c4c6.png",
+    "assets/1f5755321be34ca7.png",
+    "assets/580301c55e0ec95a.png",
+    "assets/456b2604b9442ad3.png",
+    "assets/1e96b261093377df.png",
+    "assets/5ccff791e317b756.png",
+    "assets/8ab1c0b6a6c3851d.png",
+    "assets/6f2f5e70c243ec81.png",
+    "assets/378dbc7a2bf5eb1f.png",
+    "assets/ac0d1db9d1f63658.png",
+    "assets/0e418421910caae7.png",
+    "assets/e0febd7d94334d55.png",
+    "assets/6fc36cf37a670503.png",
+    "assets/11b510fe6a98716a.png",
+    "assets/acf594bd5c9da7cc.png",
+    "assets/2b3a644ad8630fe2.png",
+    "assets/db53461b87e8b180.png",
+    "assets/e9fc2f1585aad0c9.png",
+    "assets/335389d2c601b406.png",
+    "assets/a63714af4c793fcd.png",
+    "assets/5e7d3581f5c3326c.png",
+    "assets/f69956e8ee12943d.png",
+    "assets/02dffab67549c4aa.png",
+    "assets/97dc99397ae72944.png",
+    "assets/0f9f2831dc6daa18.png",
+    "assets/fbdb9e614173c871.png",
+    "assets/6b0e8d75d219f33d.png",
+    "assets/2c9edf910d2f1b3e.png",
+    "assets/aa6ad05ebffa7aa6.png",
+    "assets/0c7cc6a9fc542514.png",
+    "assets/315125d68e703cfd.png",
+    "assets/6e05220c4c5d77e7.png",
+    "assets/884353d9d4f20e18.png",
+    "assets/fa80eaaed4e64281.png",
+    "assets/400dc92818f29188.png",
+    "assets/e95b3a7bd0132687.png",
+    "assets/9402c0f6b2e5f9f0.png",
+    "assets/d64ed0eedbed6dba.png",
+    "assets/5cab8575df367977.png",
+    "assets/ec3e7fd86af9ecef.png",
+    "assets/b5ecdc7e10298492.png",
+    "assets/0fc1791305e16918.png",
+    "assets/91c48f989891c3d5.png",
+    "assets/889041401b9f8285.png",
+    "assets/2aee0d4c401bcf6a.png",
+    "assets/2658f0451a8c1676.png",
+    "assets/5972a4904391433c.png",
+    "assets/1149c5bbf7a0d88a.png"
+  ]
 }

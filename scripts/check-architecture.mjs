@@ -7,16 +7,30 @@ import path from 'node:path';
 import process from 'node:process';
 import { URL, fileURLToPath, pathToFileURL } from 'node:url';
 import { parse } from '@babel/parser';
+import { COMPONENT_REGISTRY } from '../packages/platform-contracts/src/component-registry.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const RULES = Object.freeze({
   'platform-contracts': { dependencies: ['project-shared'], node: false },
   'platform-client': { dependencies: ['platform-contracts'], node: false },
   'project-shared': { dependencies: [], node: false },
+  'component-library': {
+    dependencies: [],
+    node: false,
+    external: [
+      'react',
+      'react-dom',
+      ...new Set(
+        COMPONENT_REGISTRY.flatMap((item) => item.dependencies)
+          .map((name) => name.match(/^(@[^/]+\/[^@]+|[^@]+)(?:@.*)?$/)?.[1])
+          .filter(Boolean),
+      ),
+    ],
+  },
   'project-core': {
     dependencies: ['project-shared'],
     node: true,
-    external: ['graphology', 'graphology-shortest-path'],
+    external: ['graphology', 'graphology-shortest-path', '@babel/parser'],
   },
   'platform-server': {
     dependencies: ['project-core', 'platform-contracts'],
@@ -57,7 +71,13 @@ const RULES = Object.freeze({
     ],
   },
   web: {
-    dependencies: ['platform-client', 'platform-contracts', 'project-shared', 'preview-ui'],
+    dependencies: [
+      'platform-client',
+      'platform-contracts',
+      'project-shared',
+      'preview-ui',
+      'component-library',
+    ],
     node: false,
   },
   api: { dependencies: ['platform-server'], node: true },
@@ -118,6 +138,8 @@ export function checkSourceImports(file, source, root = ROOT) {
       specifier.startsWith('@preview/ui/')
     ) {
       target = 'packages/preview-ui/src/index.ts';
+    } else if (specifier.startsWith('@preview/library/')) {
+      target = `packages/component-library/src/${specifier.slice('@preview/library/'.length)}`;
     } else if (specifier.startsWith('@/')) {
       target = `apps/web/src/${specifier.slice(2)}`;
     } else if (specifier.startsWith('@preview/')) {
@@ -145,7 +167,7 @@ function sourceFiles(directory) {
     if (entry.isSymbolicLink()) return [];
     const file = path.join(directory, entry.name);
     if (entry.isDirectory()) return sourceFiles(file);
-    return /\.(?:[cm]?js|tsx?)$/u.test(file) && !/\.(?:test|spec)\./u.test(file) ? [file] : [];
+    return /\.(?:[cm]?js|[jt]sx?)$/u.test(file) && !/\.(?:test|spec)\./u.test(file) ? [file] : [];
   });
 }
 

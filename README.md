@@ -6,6 +6,14 @@ Preview 是多项目原生页面与业务需求展示平台。前台采用 UIARC
 
 页面像组件库里的组件一样直接使用 React 编写，业务需求在本地整理后随 Git 发布。网页只读展示业务内容。平台研发四册、个人开发记录和 AI 接续只保留在源码文档中，不对外发布。
 
+可复用源码维护在 [component-library](packages/component-library/README.md)，基础组件与页面级区块按库分目录，展示入口只引用同一份实现。项目范围 Registry 按需复制源码及安装依赖；受限源码支持授权会话或 `components:read` 项目凭证，凭证通过请求头传递。
+
+新项目使用[接入清单模板](templates/project/README.md)：放入 React 原型与 Markdown PRD，执行 `project:register -- --file <project.json>` 登记，重启开发服务或完整构建后，在后台选择已接入源码创建项目。初始菜单来自清单，已有项目配置不被覆盖；`project:check` 检查源码、PRD、组件依赖及图谱维护状态，正式 web 构建先执行该检查。
+
+后续直接在本仓库开发：展示入口在 `apps/web/src/project-modules/{project-code}`，可复用组件/区块在 `packages/component-library/src/{project-code}`，PRD在 `project-content/{project-code}`。包括RIMO在内的展示项目统一由 `packages/platform-contracts/src/registered-projects.json` 登记，新增功能只改自己的源码与项目数据，具体步骤见[持续开发说明](templates/project/README.md#在当前仓库持续开发)。
+
+后台“项目 → AI 接入”提供资料检查、凭证签发/撤销及 MCP 配置。三种权限为业务需求与图谱、已发布治理规则、组件源码与安装；旧凭证保持原业务范围。标准 Streamable HTTP MCP 在完整授权时提供18个工具，连接后先调用 `get_project_context`。治理规则只来自业务资料包明确登记的 `governance/*.md`，不发布内部研发文档。
+
 ## 项目与权限
 
 - 项目：编码、名称、说明、图标、排序及归档状态。
@@ -18,11 +26,19 @@ Preview 是多项目原生页面与业务需求展示平台。前台采用 UIARC
 
 组件中心为 `/center/{projectId}?kind=requirements|components&category=...`。左侧一级菜单为需求管理、组件管理，二级菜单共用该项目前台的功能分类；右侧列出当前分类下的功能页面名或组件名。页面/组件身份由工程登记决定，菜单控制上下架与授权，业务需求仍只读。未登记组件时显示空状态。
 
-Docs需求图谱已接入原生画布、需求出处和项目授权MCP。主题轮廓随可见节点分布变化；对外关系只能有明确PRD原文依据。当前演示取实际RIMO车辆控制台PRD，8个节点、7条关系；其他业务资料仍待整理。日常需求、PRD与原型开发必须同步维护，维护缺口提示不阻止部署，完整范围见[图谱需求第25节](docs/原生原型平台/原生原型平台-需求.md)。
+Docs需求图谱已接入原生画布、需求出处和项目授权MCP。主题轮廓随可见节点分布变化；对外关系只能有明确PRD原文依据。RIMO资料接入正在扩充需求和页面索引，仍保留未核对提醒，不能以登记数量代表业务验收。日常需求、PRD与原型开发必须同步维护，维护缺口提示不阻止部署，完整范围见[图谱需求第25节](docs/原生原型平台/原生原型平台-需求.md)。
 
 前台页面为 `/pages/{projectId}/{clientId}/{pageKey}`。应用使用 HashRouter，可直接访问 `/#/projects/...` 和 `/#/center/...`。
 
+顶部 **Try the demo** 通过现有登录进入 `/demo`：用管理后台式外壳组合当前账号在前台可见的页面，左侧分类菜单、右侧直接操作。菜单与前台共用授权目录，隐藏、下架或撤权同步移除；Demo 不展示实际管理功能。单页地址为 `/#/demo/{projectId}/{clientId}/{pageKey}`。
+
+Demo 顶栏提供在线人数和主动跟随。同项目、同页面可见对方内容区鼠标；选择用户后跟随页面切换，退出后独立浏览。登录用户可在其可见的公开页面参与；受限页面继续逐项校验权限。弹窗仅同步已登记的只读状态，普通表单、筛选、滚动及业务操作不自动同步。
+
+展示前台的页面预览也提供“在线协作”，入口在预览工具栏与全屏预览头部。前台与Demo共用项目在线范围，跟随时保留当前浏览方式；源码、PRD和管理表单不采集鼠标。匿名浏览不加入协作，离开项目页面或退出登录后离开房间。
+
 **HTML 导入、目录挂载、iframe 业务页、旧本机写入服务及旧静态导出流程已退役。** 原始 HTML、真实项目资料、上游快照不改。不要再使用旧项目包工具来创建新页面。
+
+RIMO本轮接入只保留原型右侧业务内容，原侧栏、顶栏及外壳样式不进入区块。同规范页面按当前平台的React公共控件与布局批量适配，特殊业务分支单独处理，逐页核对全部字段、操作、状态和弹窗；整理要点放在预览下方，规范化全文通过“文档”页签阅读。已确认页面保留，普通构建不运行迁移或读取上游目录。工程登记与逐页验收分开，当前范围见原生需求第29节及专项接续。
 
 ## 工程入口
 
@@ -31,6 +47,7 @@ Docs需求图谱已接入原生画布、需求出处和项目授权MCP。主题�
 | [apps/web](apps/web/README.md)                                       | React 前台、后台与独立项目页面         |
 | [apps/api](apps/api/README.md)                                       | Node 服务装配                          |
 | [packages/preview-ui](packages/preview-ui/README.md)                 | 公共 UI、主题、动效及来源              |
+| [packages/component-library](packages/component-library/README.md) | 可复用组件、页面级区块与安装源码       |
 | [packages/project-core](packages/project-core/README.md)             | SQLite 身份、项目、菜单权限及受控资料  |
 | [packages/platform-contracts](packages/platform-contracts/README.md) | 注册声明、HTTP 错误与类型              |
 | [packages/platform-client](packages/platform-client/README.md)       | 带会话和 CSRF 的请求                   |
@@ -66,7 +83,7 @@ npm run architecture:check
 
 GitHub Actions 已接入完整发行：推送 main 后统一构建前端、API、注册声明与业务资料，服务器自动备份、执行兼容迁移、重启并验证候选版本，成功后才开放访问。支持兼容回退和中断恢复；账号、授权及凭证保存在发行目录外。首次服务器初始化、TLS和GitHub配置见[自动部署说明](docs/公共技术资料/部署运维/Preview-更新与缓存.md)。本地隔离部署已验证，真实服务器、域名、密钥及生产流水线仍待环境提供。
 
-当前仍只有两页 RIMO 原生示例。正式业务 PRD 整理、更多业务页面、用户视觉验收与生产验证单独记录。实际阶段证据见[开发记录](docs/原生原型平台/原生原型平台-开发记录.md)，当前待办见[协作接续](docs/原生原型平台/原生原型平台-协作接续.md)，不把框架代码或静态检查等同整个平台业务已完成。
+RIMO当前登记71个React页面、132项需求及独立页面要点；本地新增菜单默认受限。图谱按同站租还、甲租乙还、门市租赁、公务车、租车券专项与共用管理分类，点选需求后查看直接关系、管理功能和原文依据。完整业务交互、跨文档冲突、图谱未核对资料与生产验证继续单独记录。实际阶段证据见[开发记录](docs/原生原型平台/原生原型平台-开发记录.md)，当前待办见[协作接续](docs/原生原型平台/原生原型平台-协作接续.md)，不把框架代码或静态检查等同整个平台业务已完成。
 
 工程入口按职责命名：scripts/dev.mjs、build-runtime.mjs、release.mjs、deploy.mjs；构建产物统一在 output/web、runtime、tools、ui、core。运行数据和备份在被忽略的 .preview-data。`npm run structure:check` 检查自有源码命名及根目录，禁止回填旧模板、历史版本目录或临时文件。原始资料与固定来源资源保留原始文件名。
 

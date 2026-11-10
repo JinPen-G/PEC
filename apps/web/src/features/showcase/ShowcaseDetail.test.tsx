@@ -37,7 +37,7 @@ const page = {
   access: 'public' as const,
   allowed: true,
 };
-function mount(markdown: string, allowed = true) {
+function mount(markdown: string, allowed = true, summaryMarkdown?: string) {
   request.mockImplementation((url: string) =>
     Promise.resolve(
       url.endsWith('/source')
@@ -47,6 +47,8 @@ function mount(markdown: string, allowed = true) {
             entry: 'sample',
             styles: [],
             markdown,
+            summaryMarkdown,
+            summaryPath: summaryMarkdown ? 'requirements/page-summary.md' : null,
             documents: [],
             contentRevision: 'sample-revision',
           },
@@ -62,6 +64,15 @@ function mount(markdown: string, allowed = true) {
   );
 }
 describe('page PRD tabs and authorization', () => {
+  it('puts page-specific key rules below the preview and reserves the full specification for the document tab', async () => {
+    mount('# 调拨完整说明\n\n## 库存计算\n完整的库存计算规则。', true, '仅空闲车辆可调拨。');
+    const documentTab = await screen.findByRole('tab', { name: '文档' });
+    expect(await screen.findByText('仅空闲车辆可调拨。')).toBeInTheDocument();
+    expect(screen.queryByText('完整的库存计算规则。')).not.toBeInTheDocument();
+    fireEvent.click(documentTab);
+    expect(await screen.findByText('完整的库存计算规则。')).toBeInTheDocument();
+    expect(screen.queryByText('仅空闲车辆可调拨。')).not.toBeInTheDocument();
+  });
   beforeEach(() => {
     request.mockReset();
     vi.stubGlobal(
@@ -85,16 +96,20 @@ describe('page PRD tabs and authorization', () => {
     expect(await screen.findByRole('link', { name: '范围' })).toBeInTheDocument();
     expect(screen.getAllByRole('tab').map((tab) => tab.textContent)).toEqual(['预览', '文档', '页面源码']);
     const input = screen.getByRole('textbox', { name: '原型筛选' });
+    expect(input.closest('[data-prototype-canvas]')).not.toBeNull();
     fireEvent.change(input, { target: { value: 'Tesla' } });
     fireEvent.click(documentTab);
+    expect(document.querySelector('[data-prototype-canvas]')).toBeNull();
     expect(await screen.findByRole('link', { name: '字段11' })).toBeInTheDocument();
     fireEvent.keyDown(documentTab, { key: 'ArrowLeft' });
     await waitFor(() =>
       expect(screen.getByRole('tab', { name: '预览' })).toHaveAttribute('aria-selected', 'true'),
     );
     expect(screen.getByRole('textbox', { name: '原型筛选' })).toHaveValue('Tesla');
+    expect(input.closest('[data-prototype-canvas]')).not.toBeNull();
     expect(screen.queryByRole('link', { name: '字段11' })).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole('tab', { name: '页面源码' }));
+    expect(document.querySelector('[data-prototype-canvas]')).toBeNull();
     expect(await screen.findByText('Page.tsx')).toBeInTheDocument();
   });
   it('keeps short documents beneath the preview and does not fetch restricted PRD content', async () => {

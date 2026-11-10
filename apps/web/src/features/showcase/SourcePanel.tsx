@@ -6,7 +6,15 @@ import { useShowcaseText } from './showcase-locale';
 
 const tokenPattern =
   /(\/\*[^]*?\*\/|\/\/[^\n]*|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`|\b(?:import|export|from|const|let|function|return|if|else|new|type|interface|true|false|null|async|await|default)\b|\b\d+(?:\.\d+)?\b)/g;
-export function SourcePanel({ source, fileName }: { source: string; fileName: string }) {
+export function SourcePanel({
+  source,
+  fileName,
+  plain = false,
+}: {
+  source: string;
+  fileName: string;
+  plain?: boolean;
+}) {
   const [expanded, setExpanded] = useState(false),
     [copied, setCopied] = useState(false),
     [error, setError] = useState('');
@@ -20,10 +28,11 @@ export function SourcePanel({ source, fileName }: { source: string; fileName: st
   );
   const lines = useMemo(() => {
     const rendered: { text: string; className?: string }[][] = [[]];
-    for (const segment of source.split(tokenPattern)) {
+    for (const segment of plain ? [source] : source.split(tokenPattern)) {
       if (!segment) continue;
-      const className =
-        segment.startsWith('//') || segment.startsWith('/*')
+      const className = plain
+        ? undefined
+        : segment.startsWith('//') || segment.startsWith('/*')
           ? 'docs_tokenComment__ZIOcz'
           : /^["'`]/.test(segment)
             ? 'docs_tokenString__d8XRm'
@@ -40,7 +49,7 @@ export function SourcePanel({ source, fileName }: { source: string; fileName: st
       });
     }
     return rendered;
-  }, [source]);
+  }, [source, plain]);
   return (
     <div className="docs_code__X6QfU">
       <div className="docs_codeHead__XMuij">
@@ -75,7 +84,9 @@ export function SourcePanel({ source, fileName }: { source: string; fileName: st
           </button>
         </div>
       </div>
-      <div className={`docs_codeBody__TFHtG${expanded ? '' : ' docs_codeCollapsed__Zv72M'}`}>
+      <div
+        className={`docs_codeBody__TFHtG${!expanded && lines.length > 24 ? ' docs_codeCollapsed__Zv72M' : ''}`}
+      >
         <pre tabIndex={0}>
           <code>
             {(expanded ? lines : lines.slice(0, 24)).map((line, index) => (

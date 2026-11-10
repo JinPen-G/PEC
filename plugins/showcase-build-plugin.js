@@ -2,21 +2,56 @@
  * exported explicitly, and runtime files remain behind server authorization. */
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { SHOWCASE_MODULES } from '../packages/platform-contracts/src/showcase.js';
+import { createHash } from 'node:crypto';
+import { showcaseModules } from '../packages/platform-contracts/src/showcase.js';
 import { NATIVE_MODULES } from '../packages/platform-contracts/src/platform.js';
+import { COMPONENT_REGISTRY } from '../packages/platform-contracts/src/component-registry.js';
+import { loadComponentRegistryItem } from '../packages/project-core/src/platform/component-registry.js';
 import { loadPrototypeRevisions } from '../packages/project-core/src/platform/project-content.js';
+export function protectedLibraryChunk(id) {
+  const normalized = id.replaceAll('\\', '/').split('?')[0];
+  const library = /\/component-library\/src\/([^/]+)\/(.+)$/.exec(normalized);
+  if (!library) return undefined;
+  const item = /^(components|blocks)\/([^/]+)\//.exec(library[2]);
+  if (item) return `page-library-${library[1]}-${item[1]}-${item[2]}`;
+  return `page-library-${library[1]}-shared-${createHash('sha256').update(library[2]).digest('hex').slice(0, 12)}`;
+}
+export function protectedPageAssets(bundle, entry) {
+  const assets = new Set();
+  const visit = (fileName) => {
+    if (assets.has(fileName) || !fileName.startsWith('page-assets/')) return;
+    const chunk = bundle[fileName];
+    if (!chunk) throw new Error(`Missing protected page asset: ${fileName}`);
+    assets.add(fileName);
+    if (chunk.type !== 'chunk') return;
+    for (const dependency of [...chunk.imports, ...(chunk.dynamicImports ?? [])]) visit(dependency);
+    for (const css of chunk.viteMetadata?.importedCss ?? []) {
+      if (!css.startsWith('page-assets/')) throw new Error('Page CSS escaped authorization boundary');
+      if (!bundle[css]) throw new Error(`Missing protected page asset: ${css}`);
+      assets.add(css);
+    }
+  };
+  visit(entry);
+  return [...assets];
+}
 export function assertPublicBundleIsolation(bundle) {
   for (const item of Object.values(bundle)) {
     if (item.type !== 'chunk' || item.fileName.startsWith('page-assets/')) continue;
     if ([...item.imports, ...(item.dynamicImports ?? [])].some((file) => file.startsWith('page-assets/')))
       throw new Error(`Public bundle depends on protected page: ${item.fileName}`);
     if (
-      Object.keys(item.modules ?? {}).some((id) => id.replaceAll('\\', '/').includes('/src/project-modules/'))
+      Object.keys(item.modules ?? {}).some((id) =>
+        /\/(?:src\/project-modules|component-library\/src)\//.test(id.replaceAll('\\', '/')),
+      )
     )
       throw new Error(`Project source escaped protected bundle: ${item.fileName}`);
   }
 }
-export function showcaseBuildPlugin(root) {
+export function showcaseBuildPlugin(
+  root,
+  { moduleCatalog = NATIVE_MODULES, componentRegistry = COMPONENT_REGISTRY } = {},
+) {
+  const pageModules = showcaseModules(moduleCatalog);
   let building = false;
   return {
     name: 'preview-showcase-build',
@@ -34,13 +69,49 @@ export function showcaseBuildPlugin(root) {
           return;
         }
         const match = /\/(?:src\/)?project-modules\/([^/]+)\/([^/]+)\//.exec(pathname);
+        const libraryIndex = pathname.indexOf('/packages/component-library/src/');
+        if (libraryIndex >= 0) {
+          const source = pathname.slice(libraryIndex + 1);
+          const items = componentRegistry.filter((item) => item.files.some((file) => file.path === source));
+          try {
+            for (const item of items) {
+              const check = await fetch(
+                `http://127.0.0.1:5190/api/native/showcase/registry-permission?name=${encodeURIComponent(item.name)}`,
+                { headers: { cookie: request.headers.cookie ?? '' } },
+              );
+              if (check.ok) {
+                next();
+                return;
+              }
+              if (![401, 403].includes(check.status)) {
+                response.statusCode = check.status;
+                response.end('Component authorization unavailable');
+                return;
+              }
+            }
+            response.statusCode = 403;
+            response.end('Component authorization required');
+          } catch {
+            response.statusCode = 503;
+            response.end('Preview API unavailable');
+          }
+          return;
+        }
         if (!match) {
           next();
           return;
         }
+        const registered = Object.entries(pageModules).find(
+          ([, pages]) => pages[match[2]]?.root === `apps/web/src/project-modules/${match[1]}/${match[2]}`,
+        );
+        if (!registered) {
+          response.statusCode = 403;
+          response.end('Page authorization required');
+          return;
+        }
         try {
           const check = await fetch(
-            `http://127.0.0.1:5190/api/native/showcase/module-permission?moduleKey=${encodeURIComponent(match[1])}&pageKey=${encodeURIComponent(match[2])}`,
+            `http://127.0.0.1:5190/api/native/showcase/module-permission?moduleKey=${encodeURIComponent(registered[0])}&pageKey=${encodeURIComponent(match[2])}`,
             { headers: { cookie: request.headers.cookie ?? '' } },
           );
           if (!check.ok) {
@@ -57,7 +128,7 @@ export function showcaseBuildPlugin(root) {
     },
     async buildStart() {
       if (!building) return;
-      for (const [moduleKey, pages] of Object.entries(SHOWCASE_MODULES))
+      for (const [moduleKey, pages] of Object.entries(pageModules))
         for (const [pageKey, descriptor] of Object.entries(pages))
           this.emitFile({
             type: 'chunk',
@@ -123,9 +194,17 @@ export function showcaseBuildPlugin(root) {
         source: notices.join('\n\n---\n\n'),
       });
       const entries = [];
-      for (const [moduleKey, pages] of Object.entries(SHOWCASE_MODULES)) {
+      for (const item of componentRegistry) {
+        const source = await loadComponentRegistryItem(root, componentRegistry, item.name);
+        this.emitFile({
+          type: 'asset',
+          fileName: `page-source/registry/${item.name}.json`,
+          source: JSON.stringify(source),
+        });
+      }
+      for (const [moduleKey, pages] of Object.entries(pageModules)) {
         const prototypeRevisions = await loadPrototypeRevisions({
-          moduleCatalog: NATIVE_MODULES,
+          moduleCatalog,
           moduleKey,
           pageSourceRoot: root,
         });
@@ -141,27 +220,12 @@ export function showcaseBuildPlugin(root) {
             throw new Error(`Page source escaped protected bundle: ${pageKey}`);
           const source = await fs.readFile(path.join(root, suffix), 'utf8');
           this.emitFile({ type: 'asset', fileName: `page-source/${moduleKey}/${pageKey}.tsx`, source });
-          const runtimeAssets = new Set();
-          const visit = (fileName) => {
-            if (runtimeAssets.has(fileName) || !fileName.startsWith('page-assets/')) return;
-            runtimeAssets.add(fileName);
-            const chunk = bundle[fileName];
-            if (chunk?.type === 'chunk') {
-              for (const dependency of chunk.imports) visit(dependency);
-              for (const css of chunk.viteMetadata?.importedCss ?? []) {
-                if (!css.startsWith('page-assets/'))
-                  throw new Error('Page CSS escaped authorization boundary');
-                runtimeAssets.add(css);
-              }
-            }
-          };
-          visit(chunks[0].fileName);
           entries.push({
             moduleKey,
             pageKey,
             entry: chunks[0].fileName,
             source: `page-source/${moduleKey}/${pageKey}.tsx`,
-            assets: [...runtimeAssets],
+            assets: protectedPageAssets(bundle, chunks[0].fileName),
             prototypeRevision: prototypeRevisions[pageKey],
           });
         }

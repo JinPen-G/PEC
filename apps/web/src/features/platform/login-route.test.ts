@@ -22,3 +22,14 @@ it('keeps the original destination through a required password change', () => {
     '/login?returnTo=%2Fpages%2Fsample%2Fadmin%2Fexample',
   );
 });
+it('returns to the demo after sign-in and required password changes', () => {
+  const route = '/demo/sample/operation/vehicle-groups';
+  expect(safeReturnTo(route)).toBe(route);
+  expect(loginRoute('/demo?project=sample')).toBe('/login?returnTo=%2Fdemo%3Fproject%3Dsample');
+  expect(loginAfterPasswordChange('/login', `?returnTo=${encodeURIComponent(route)}`)).toBe(
+    loginRoute(route),
+  );
+  expect(loginAfterPasswordChange(route, '')).toBe(loginRoute(route));
+  for (const value of ['/demolition', '/demo\\other', '/demo\nother', '//demo'])
+    expect(safeReturnTo(value)).toBeNull();
+});

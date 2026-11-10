@@ -9,7 +9,15 @@ export const NATIVE_MODULES: readonly {
   clientId?: string;
   contentKey?: string;
   surface?: 'showcase';
-  pages: readonly { key: string; label: string; source?: string; kind?: 'page' | 'component' }[];
+  initialClients?: NativeClient[];
+  pages: readonly {
+    key: string;
+    label: string;
+    source?: string;
+    kind?: 'page' | 'component' | 'block';
+    registryItem?: string;
+    sourceFiles?: readonly string[];
+  }[];
 }[];
 export function nativePageUrl(
   project: { id: string; moduleKey: string },

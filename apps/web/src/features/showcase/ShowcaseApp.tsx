@@ -47,14 +47,17 @@ import {
 import { useAppearancePreferences } from '@/features/appearance/appearance-preferences';
 import { usePlatformTheme } from '@/features/theme/platform-theme';
 import { NativeAuthProvider, useNativeAuth } from '@/features/platform/platform-api';
+import { useCollaboration, usePresentation } from '@/features/platform/CollaborationRoom';
 import { safeReturnTo, loginRoute } from '@/features/platform/login-route';
 import { createNativeClient } from '../../../../../packages/platform-client/src/client';
+import type { ComponentRegistryReference } from '../../../../../packages/platform-contracts/src/component-registry';
 import type { MarkdownHeading } from '@/features/docs/markdown';
 import { prepareShowcaseRoute, useTocNavigation } from './toc-navigation';
 import { siteGuides } from './site-guides';
 import { LocalizedView, useShowcaseText } from './showcase-locale';
 import { PageActions } from './PageActions';
 import { SourcePanel } from './SourcePanel';
+import { RegistryPanel } from './RegistryPanel';
 import { FullscreenPreview } from './FullscreenPreview';
 import { SiteLanding } from './SiteLanding';
 import { CatalogFilters } from './CatalogFilters';
@@ -67,16 +70,20 @@ import { SiteAccountMenu } from './SiteAccountMenu';
 import { SiteLanguageMenu } from './SiteLanguageMenu';
 import { SITE_CHANGELOG } from './site-changelog';
 import { SiteProjectMenu } from './SiteProjectMenu';
+import { SiteCollaboration, SiteCollaborationControls } from './SiteCollaboration';
 import { changeSiteTheme, type ThemeTransitionState } from './site-theme-transition';
 import { flushSync } from 'react-dom';
 import { AnimatedPanel } from './AnimatedPanel';
 import { documentDisplay } from './document-display';
 import { DevicePreview } from './DevicePreview';
+import { useShowcaseProjects, useShowcasePages, type CatalogPage } from './showcase-catalog';
+import { isDemoRoute } from '@/features/demo/demo-routes';
 
 const Reader = lazy(() =>
   import('@/features/docs/MarkdownReader').then((module) => ({ default: module.MarkdownReader })),
 );
 const Login = lazy(() => import('./SiteLogin').then((module) => ({ default: module.SiteLogin })));
+const DemoApp = lazy(() => import('@/features/demo/DemoApp'));
 const NativeAdministration = lazy(() =>
   import('@/features/platform/PlatformApp').then((module) => ({
     default: module.NativeAdministration,
@@ -87,21 +94,13 @@ const Password = lazy(() =>
 );
 const publicClient = createNativeClient();
 const RequirementGraphPage = lazy(() => import('./RequirementGraphPage'));
-interface CatalogPage {
-  projectId: string;
-  projectName: string;
-  clientId: string;
-  clientName: string;
-  pageKey: string;
-  title: string;
-  category: string;
-  access: 'public' | 'restricted';
-  allowed: boolean;
-}
 interface PageDetail extends CatalogPage {
+  registry?: ComponentRegistryReference | null;
   entry: string;
   styles: string[];
   markdown: string;
+  summaryMarkdown?: string;
+  summaryPath?: string | null;
   contentRevision: string;
   documents: { id: string; title: string; path: string }[];
 }
@@ -190,6 +189,13 @@ function CopyActions({ detail }: { detail: PageDetail }) {
 }
 export function Detail({ page }: { page: CatalogPage }) {
   const text = useShowcaseText();
+  const route = useLocation();
+  const routeKey = route.key;
+  const parameters = new URLSearchParams(route.search);
+  const [documentSelection, setDocumentSelection] = useState<{ route: string; path: string | null; anchor?: string } | null>(null);
+  const requestedDocument = documentSelection?.route === route.key ? documentSelection.path : parameters.get('document');
+  const documentAnchor = documentSelection?.route === route.key ? documentSelection.anchor : parameters.get('anchor') ?? undefined;
+  const clearDocument = () => setDocumentSelection({ route: route.key, path: null });
   const [linkCopied, setLinkCopied] = useState(false);
   const reduced = useReducedMotion();
   const enterPart = (delay: number) => ({
@@ -214,8 +220,10 @@ export function Detail({ page }: { page: CatalogPage }) {
     retry: false,
     refetchInterval: 5000,
   });
-  const [requestedTab, setTab] = useState<'preview' | 'document' | 'source'>('preview'),
-    [mobile, setMobile] = useState(false),
+  const [tabSelection, setTabSelection] = useState<{ route: string; tab: 'preview' | 'document' | 'source' } | null>(null);
+  const requestedTab = tabSelection?.route === route.key ? tabSelection.tab : parameters.has('document') ? 'document' : 'preview';
+  const setTab = (tab: 'preview' | 'document' | 'source') => setTabSelection({ route: route.key, tab });
+  const [mobile, setMobile] = useState(false),
     [expanded, setExpanded] = useState(false);
   const nativePreview = useRef<HTMLDivElement | null>(null);
   const [fullscreenBounds, setFullscreenBounds] = useState<{
@@ -259,10 +267,33 @@ export function Detail({ page }: { page: CatalogPage }) {
   });
   const detail = query.data;
   const permitted = page.allowed && !query.error;
-  const display = useMemo(() => documentDisplay(detail?.markdown ?? ''), [detail?.markdown]);
+  const display = useMemo(
+    () => documentDisplay(detail?.markdown ?? '', detail?.summaryMarkdown),
+    [detail?.markdown, detail?.summaryMarkdown],
+  );
   const documentTab = display.long && permitted;
-  const tab = !permitted || (requestedTab === 'document' && !documentTab) ? 'preview' : requestedTab;
+  const collaboration = useCollaboration();
+  const following = usePresentation()?.following;
+  const tab =
+    !permitted || following || (requestedTab === 'document' && !documentTab) ? 'preview' : requestedTab;
   const readingFullDocument = documentTab && tab === 'document';
+  const linkedDocument = useQuery<{ path: string; title: string; markdown: string }>({
+    queryKey: ['showcase-linked-document', session?.user?.id, session?.user?.revision, pageLink(page), requestedDocument, detail?.contentRevision],
+    queryFn: () => publicClient.request(`${pageApi(page)}/document?path=${encodeURIComponent(requestedDocument!)}`),
+    enabled: permitted && readingFullDocument && Boolean(requestedDocument),
+    retry: false,
+  });
+  const readDocument = useCallback((path: string, anchor?: string) => {
+    setDocumentSelection({ route: routeKey, path, anchor });
+    setTabSelection({ route: routeKey, tab: 'document' });
+  }, [routeKey, setDocumentSelection, setTabSelection]);
+  const detailPath = pageLink(page);
+  const documentUrl = useCallback((path: string, anchor?: string) =>
+    `#${detailPath}?document=${encodeURIComponent(path)}${anchor ? `&anchor=${encodeURIComponent(anchor)}` : ''}`,
+  [detailPath]);
+  useEffect(() => {
+    if (tab !== 'preview' || !permitted) collaboration?.room.pointer(null);
+  }, [tab, permitted, collaboration?.room]);
   const authError = page.allowed
     ? query.error?.message
     : session?.user
@@ -364,6 +395,7 @@ export function Detail({ page }: { page: CatalogPage }) {
                     <button
                       role="tab"
                       aria-selected={tab === 'document'}
+                      disabled={following}
                       tabIndex={tab === 'document' ? 0 : -1}
                       onClick={() => setTab('document')}
                     >
@@ -384,7 +416,7 @@ export function Detail({ page }: { page: CatalogPage }) {
                     role="tab"
                     aria-selected={tab === 'source'}
                     tabIndex={tab === 'source' ? 0 : -1}
-                    disabled={!permitted}
+                    disabled={!permitted || following}
                     onClick={() => setTab('source')}
                   >
                     <span>
@@ -401,7 +433,7 @@ export function Detail({ page }: { page: CatalogPage }) {
                   </button>
                 </div>
                 <div className="docs_viewTools___VpV2">
-                  <span className="docs_viewHint__W7wgE">交互原型</span>
+                  {permitted && <SiteCollaborationControls />}
                   {tab === 'preview' && (
                     <div className="preview-shell_tools___wPkm">
                       <div className="preview-shell_switch__v2Veh" role="radiogroup" aria-label="预览尺寸">
@@ -478,11 +510,13 @@ export function Detail({ page }: { page: CatalogPage }) {
                       ) : query.isPending ? (
                         <LoadingStage label="读取页面…" />
                       ) : detail ? (
-                        <RuntimePage
-                          key={detail.contentRevision}
-                          entry={detail.entry}
-                          styles={detail.styles}
-                        />
+                        <div data-prototype-canvas={tab === 'preview' || undefined}>
+                          <RuntimePage
+                            key={detail.contentRevision}
+                            entry={detail.entry}
+                            styles={detail.styles}
+                          />
+                        </div>
                       ) : null}
                     </DevicePreview>
                   </div>
@@ -491,7 +525,17 @@ export function Detail({ page }: { page: CatalogPage }) {
                   (source.error ? (
                     <p className="showcase-error">{source.error.message}</p>
                   ) : source.data ? (
-                    <SourcePanel source={source.data.source} fileName={source.data.fileName} />
+                    <>
+                      {detail?.registry && (
+                        <RegistryPanel
+                          key={detail.registry.url}
+                          url={detail.registry.url}
+                          kind={detail.registry.kind}
+                          restricted={page.access === 'restricted'}
+                        />
+                      )}
+                      <SourcePanel source={source.data.source} fileName={source.data.fileName} />
+                    </>
                   ) : (
                     <LoadingStage label="读取页面源码…" />
                   ))}
@@ -503,12 +547,22 @@ export function Detail({ page }: { page: CatalogPage }) {
                   role="tabpanel"
                   aria-label={text('文档')}
                 >
+                  {requestedDocument && <div className="showcase-document-summary-head">
+                    <button onClick={clearDocument}>
+                      <ArrowUp size={14} />{text('返回本页需求')}
+                    </button>
+                    <span>{linkedDocument.data?.title}</span>
+                  </div>}
                   <Suspense fallback={<LoadingStage label="加载业务需求…" />}>
                     <Reader
-                      source={detail.markdown}
-                      loading={false}
+                      source={requestedDocument ? linkedDocument.data?.markdown ?? '' : detail.markdown}
+                      loading={Boolean(requestedDocument) && linkedDocument.isPending}
+                      error={requestedDocument ? linkedDocument.error?.message : undefined}
                       layout="site"
-                      documentPath={detail.documents[0]?.path ?? 'overview.md'}
+                      documentPath={requestedDocument ?? detail.documents[0]?.path ?? 'overview.md'}
+                      resolveDocumentUrl={documentUrl}
+                      onDocumentNavigate={readDocument}
+                      activeAnchor={documentAnchor}
                       onHeadings={updateHeadings}
                       privateAssets
                       resolveAssetUrl={resolveAsset}
@@ -523,18 +577,20 @@ export function Detail({ page }: { page: CatalogPage }) {
                   title={text(page.title)}
                   mobile={mobile}
                   nativeRef={nativePreview}
+                  toolbar={<SiteCollaborationControls />}
                   initialBounds={fullscreenBounds}
                   onExitComplete={() => setReservedHeight(undefined)}
                 />
               )}
             </motion.section>
             {detail && permitted && !readingFullDocument && (
-              <motion.section id="prd" className="showcase-document" {...enterPart(0.17)}>
+              <motion.section id="prd" className={`showcase-document${detail.summaryMarkdown ? ' showcase-page-brief' : ''}`} {...enterPart(0.17)}>
                 {documentTab && (
                   <div className="showcase-document-summary-head">
                     <span>关键需求</span>
                     <button
                       onClick={() => {
+                        clearDocument();
                         setTab('document');
                         scrollTo('preview');
                       }}
@@ -549,7 +605,9 @@ export function Detail({ page }: { page: CatalogPage }) {
                       source={display.summary}
                       loading={false}
                       layout="site"
-                      documentPath={detail.documents[0]?.path ?? 'overview.md'}
+                      documentPath={detail.summaryPath ?? detail.documents[0]?.path ?? 'overview.md'}
+                      resolveDocumentUrl={documentUrl}
+                      onDocumentNavigate={readDocument}
                       onHeadings={updateHeadings}
                       privateAssets
                       resolveAssetUrl={resolveAsset}
@@ -679,7 +737,8 @@ function Site() {
     location.pathname === '/documents' ||
     /^\/center(?:\/|$)/.test(location.pathname) ||
     location.pathname.startsWith('/p/') ||
-    location.pathname === '/login';
+    location.pathname === '/login' ||
+    isDemoRoute(location.pathname);
   useLayoutEffect(() => {
     if (!administration) prepareShowcaseRoute();
   }, [location.pathname, administration]);
@@ -708,25 +767,15 @@ function Site() {
   }, []);
   const navigationTrigger = useRef<HTMLButtonElement>(null),
     appearanceTrigger = useRef<HTMLButtonElement>(null);
-  const projectCatalog = useQuery<{ projects: { id: string; name: string }[] }>({
-    queryKey: ['showcase-catalog', session?.user?.id, session?.user?.revision, 'projects'],
-    queryFn: () => publicClient.request('/showcase/projects'),
-    retry: false,
-    refetchInterval: 5000,
-  });
+  const projectCatalog = useShowcaseProjects(!administration);
   const displayedProject =
     /^\/pages\/([a-z0-9-]+)\//.exec(location.pathname)?.[1] ??
     new URLSearchParams(location.search).get('project') ??
     projectCatalog.data?.projects[0]?.id ??
     '';
-  const catalog = useQuery<{ pages: CatalogPage[] }>({
-    queryKey: ['showcase-catalog', session?.user?.id, session?.user?.revision, displayedProject],
-    queryFn: () => publicClient.request(`/showcase?projectId=${displayedProject}`),
-    enabled: Boolean(displayedProject),
-    retry: false,
-    refetchInterval: 5000,
-  });
+  const catalog = useShowcasePages(displayedProject, !administration);
   useEffect(() => {
+    if (administration) return;
     const shortcut = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
         event.preventDefault();
@@ -735,7 +784,7 @@ function Site() {
     };
     document.addEventListener('keydown', shortcut);
     return () => document.removeEventListener('keydown', shortcut);
-  }, []);
+  }, [administration]);
   const pages = catalog.data?.pages ?? [];
   const selected = pages.find((page) => pageLink(page) === location.pathname);
   const visible = pages.filter(
@@ -748,6 +797,16 @@ function Site() {
   const first = visible[0] ?? pages[0];
   const isDocs = location.pathname.startsWith('/docs');
   const home = location.pathname === '/';
+  const changeProject = (value: string) => {
+    setFilter('');
+    setMobileOpen(false);
+    const params = new URLSearchParams(location.search);
+    params.set('project', value);
+    navigate(`${home || isDocs ? location.pathname : '/pages'}?${params}`);
+  };
+  const demoLogin = loginRoute(
+    `/demo${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`,
+  );
   const header = (
     <>
       <button
@@ -762,17 +821,9 @@ function Site() {
         <Layers3 size={26} />
         <span>Preview</span>
       </Link>
-      <SiteProjectMenu
-        projects={projectCatalog.data?.projects ?? []}
-        value={displayedProject}
-        onChange={(value) => {
-          setFilter('');
-          navigate(`/pages?project=${value}`);
-        }}
-      />
       <nav className={home ? 'site-nav_desktopNav__a6XFI' : 'page_topNav__z05cm'} aria-label="主导航">
         <Link to={first ? pageLink(first) : '/pages'} aria-current={!home && !isDocs ? 'page' : undefined}>
-          原型页面
+          产品
         </Link>
         <Link
           to={`/docs${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}
@@ -783,6 +834,7 @@ function Site() {
         <Link to={`/docs/ai${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}>
           AI 接入
         </Link>
+        <Link to={demoLogin}>Try the demo</Link>
         {session?.user?.role === 'admin' && <Link to="/manage/projects">管理后台</Link>}
       </nav>
       <div className={home ? 'site-nav_headerActions__pddgO' : 'page_topActions__2fJLa'}>
@@ -824,6 +876,14 @@ function Site() {
   );
   const sidebar = (
     <div className="library-sidebar_panel__R3xBf">
+      <SiteProjectMenu
+        projects={projectCatalog.data?.projects ?? []}
+        value={displayedProject}
+        onChange={changeProject}
+      />
+      <Link className="showcase-demo-navigation" to={demoLogin}>
+        Try the demo
+      </Link>
       <CatalogFilters
         inputRef={searchInput}
         search={filter}
@@ -897,6 +957,12 @@ function Site() {
       </div>
     </div>
   );
+  if (isDemoRoute(location.pathname))
+    return (
+      <Suspense fallback={<LoadingStage scope="screen" />}>
+        <DemoApp />
+      </Suspense>
+    );
   if (
     location.pathname.startsWith('/manage') ||
     location.pathname.startsWith('/projects') ||
@@ -951,16 +1017,16 @@ function Site() {
       >
         <SiteFrame
           header={header}
-          sidebar={home ? undefined : sidebar}
+          sidebar={home || location.pathname === '/docs/graph' ? undefined : sidebar}
           dark={resolvedMode === 'dark'}
           accent={accent}
           themeColor={preferences.themeColor}
           landing={home}
           announcement={
-            <Link to="/docs" className="site-nav_announcementLink__Uxe3e">
-              <span>{text('公开页面直接浏览，重要页面由管理员授权。')}</span>
+            <Link to="/docs/ai" className="site-nav_announcementLink__Uxe3e">
+              <span>{text('全新 AI 工程治理：Agent 接入即遵循规范。')}</span>
               <span className="site-nav_announcementExplore___RJ2f">
-                {text('查看业务说明')}
+                {text('了解更多')}
                 <ChevronRight size={14} />
               </span>
             </Link>
@@ -1053,48 +1119,70 @@ function Site() {
             text={text}
             restoreFocus={() => appearanceTrigger.current?.focus()}
           />
-          <div className="showcase-route-view" key={location.pathname}>
-            {home ? (
-              <SiteLanding pages={pages} />
-            ) : location.pathname === '/docs/changelog' ? (
-              <SiteChangelog />
-            ) : location.pathname === '/docs/graph' ? (
-              <RequirementGraphPage key={displayedProject} projectId={displayedProject} />
-            ) : isDocs ? (
-              <SiteDocumentation key={location.pathname} path={location.pathname} pages={pages} />
-            ) : selected ? (
-              <Detail key={`${pageLink(selected)}/${session?.user?.id ?? 'anonymous'}`} page={selected} />
-            ) : /^\/pages\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+$/.test(location.pathname) ? (
-              <DirectPage path={location.pathname} />
-            ) : (catalog.isPending && Boolean(displayedProject)) || projectCatalog.isPending || loading ? (
-              <LoadingStage label="读取原型目录…" />
-            ) : catalog.error || projectCatalog.error ? (
-              <main className="showcase-error">{(catalog.error ?? projectCatalog.error)?.message}</main>
-            ) : first && location.pathname === '/pages' ? (
-              <Navigate to={pageLink(first)} replace />
-            ) : (
-              <main className="showcase-docs-intro">
-                <h1>{location.pathname.startsWith('/pages/') ? '页面不存在或已下架' : '暂无可展示页面'}</h1>
-                <p>
-                  {location.pathname.startsWith('/pages/')
-                    ? '请从左侧选择可用页面，或联系管理员核对页面状态。'
-                    : '管理员可在现有后台创建项目、配置页面及访问范围。'}
-                </p>
-                {session?.user?.role === 'admin' && (
-                  <Link
-                    className="showcase-button"
-                    to={
-                      displayedProject
-                        ? `/projects/${displayedProject}/settings?tab=menus`
-                        : '/manage/projects'
-                    }
-                  >
-                    菜单管理
-                  </Link>
-                )}
-              </main>
-            )}
-          </div>
+          <SiteCollaboration page={catalog.error ? undefined : selected}>
+            <div className="showcase-route-view" key={location.pathname}>
+              {home ? (
+                <SiteLanding
+                  pages={pages}
+                  projectMenu={
+                    <SiteProjectMenu
+                      projects={projectCatalog.data?.projects ?? []}
+                      value={displayedProject}
+                      onChange={changeProject}
+                      placement="inline"
+                    />
+                  }
+                />
+              ) : location.pathname === '/docs/changelog' ? (
+                <SiteChangelog />
+              ) : location.pathname === '/docs/graph' ? (
+                <RequirementGraphPage
+                  key={displayedProject}
+                  projectId={displayedProject}
+                  projectMenu={
+                    <SiteProjectMenu
+                      projects={projectCatalog.data?.projects ?? []}
+                      value={displayedProject}
+                      onChange={changeProject}
+                    />
+                  }
+                />
+              ) : isDocs ? (
+                <SiteDocumentation key={location.pathname} path={location.pathname} pages={pages} />
+              ) : selected ? (
+                <Detail key={`${pageLink(selected)}/${session?.user?.id ?? 'anonymous'}`} page={selected} />
+              ) : /^\/pages\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+$/.test(location.pathname) ? (
+                <DirectPage path={location.pathname} />
+              ) : (catalog.isPending && Boolean(displayedProject)) || projectCatalog.isPending || loading ? (
+                <LoadingStage label="读取原型目录…" />
+              ) : catalog.error || projectCatalog.error ? (
+                <main className="showcase-error">{(catalog.error ?? projectCatalog.error)?.message}</main>
+              ) : first && location.pathname === '/pages' ? (
+                <Navigate to={pageLink(first)} replace />
+              ) : (
+                <main className="showcase-docs-intro">
+                  <h1>{location.pathname.startsWith('/pages/') ? '页面不存在或已下架' : '暂无可展示页面'}</h1>
+                  <p>
+                    {location.pathname.startsWith('/pages/')
+                      ? '请从左侧选择可用页面，或联系管理员核对页面状态。'
+                      : '管理员可在现有后台创建项目、配置页面及访问范围。'}
+                  </p>
+                  {session?.user?.role === 'admin' && (
+                    <Link
+                      className="showcase-button"
+                      to={
+                        displayedProject
+                          ? `/projects/${displayedProject}/settings?tab=menus`
+                          : '/manage/projects'
+                      }
+                    >
+                      菜单管理
+                    </Link>
+                  )}
+                </main>
+              )}
+            </div>
+          </SiteCollaboration>
         </SiteFrame>
       </div>
     </LocalizedView>

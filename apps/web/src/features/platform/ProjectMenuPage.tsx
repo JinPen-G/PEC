@@ -238,7 +238,8 @@ function ProjectMenus({ projectId }: { projectId: string }) {
             rowKey="key"
             size="middle"
             pagination={false}
-            scroll={{ x: 960 }}
+            tableLayout="fixed"
+            scroll={{ x: 1120 }}
             locale={{
               emptyText: <Empty description="还没有菜单。页面在工程中完成后，可在这里添加并设置访问权限。" />,
             }}
@@ -248,6 +249,7 @@ function ProjectMenus({ projectId }: { projectId: string }) {
             columns={[
               {
                 title: '菜单 / 页面地址',
+                width: 270,
                 render: (_, p: Page) => (
                   <>
                     <strong>{p.label}</strong>
@@ -257,9 +259,10 @@ function ProjectMenus({ projectId }: { projectId: string }) {
                   </>
                 ),
               },
-              { title: '功能分组', dataIndex: 'group' },
+              { title: '功能分组', dataIndex: 'group', width: 140 },
               {
                 title: '状态',
+                width: 170,
                 render: (_, p: Page) => (
                   <>
                     <Tag>{p.visible && current.enabled ? '已上架' : '已下架'}</Tag>
@@ -270,6 +273,7 @@ function ProjectMenus({ projectId }: { projectId: string }) {
               },
               {
                 title: '关联 PRD',
+                width: 200,
                 render: (_, p: Page) =>
                   query
                     .data!.pages.find((x) => x.clientId === current.id && x.pageKey === p.key)
@@ -278,9 +282,9 @@ function ProjectMenus({ projectId }: { projectId: string }) {
               },
               {
                 title: '排序',
-                width: 86,
+                width: 110,
                 render: (_, p: Page) => (
-                  <div className="native-actions">
+                  <div className="native-actions native-table-actions">
                     <Button
                       size="small"
                       aria-label={`上移 ${p.label}`}
@@ -302,8 +306,11 @@ function ProjectMenus({ projectId }: { projectId: string }) {
               },
               {
                 title: '操作',
+                key: 'actions',
+                width: 230,
+                fixed: false,
                 render: (_, p: Page) => (
-                  <div className="native-actions">
+                  <div className="native-actions native-table-actions">
                     <Button size="small" onClick={() => openPage(p)} disabled={pending}>
                       编辑
                     </Button>
