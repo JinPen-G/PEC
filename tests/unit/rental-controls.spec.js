@@ -1,9 +1,11 @@
 // @vitest-environment node
 import { afterEach, expect, test } from 'vitest';
+import { execFileSync } from 'node:child_process';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 import { checkRentalControls } from '../../scripts/check-rental-controls.mjs';
 const fixtures = [];
 afterEach(async () => {
@@ -50,4 +52,23 @@ test('fixed controls reject changed raw files, runtime copies, styles and escapi
   manifest.files[0].source = '../../outside';
   await fs.writeFile(path.join(root, 'controls-source-manifest.json'), JSON.stringify(manifest));
   expect(checkRentalControls(root).errors[0]).toContain('Invalid control source path');
+});
+
+test('Git preserves fixed runtime control bytes across newline settings', () => {
+  const options = {
+    cwd: fileURLToPath(new URL('../../', import.meta.url)),
+    input: 'body {\r\n  display: block;\r\n}\r\n',
+    encoding: 'utf8',
+  };
+  const original = execFileSync('git', ['hash-object', '--stdin', '--no-filters'], options).trim();
+  const runtime =
+    'packages/preview-ui/src/admin-controls/runtime/apps/admin/src/components/selection-toolbar/archive/original.css';
+  for (const autocrlf of ['false', 'true']) {
+    const stored = execFileSync(
+      'git',
+      ['-c', `core.autocrlf=${autocrlf}`, 'hash-object', '--stdin', '--path', runtime],
+      options,
+    ).trim();
+    expect(stored).toBe(original);
+  }
 });

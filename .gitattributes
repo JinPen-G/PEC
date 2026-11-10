@@ -20,6 +20,7 @@ projects/** -text
 
 packages/preview-ui/upstream/** -text
 packages/preview-ui/src/animate-sidebar/runtime/** -text
+packages/preview-ui/src/admin-controls/runtime/** -text
 packages/preview-ui/src/animate-sidebar/animate-sidebar.css -text
 plugins/sidebar-styles.js -text
 resources/** -text
