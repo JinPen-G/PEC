@@ -19,6 +19,7 @@
       "@preview/library/*": ["../../packages/component-library/src/*"],
       "@preview/ui/admin": ["../../packages/preview-ui/src/admin.tsx"],
       "@preview/ui/loading": ["../../packages/preview-ui/src/LoadingState.tsx"],
+      "@preview/ui/rest-player": ["../../packages/preview-ui/src/rest-player.ts"],
       "@/registry/*": ["../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/*"],
       "@preview/ui": ["../../packages/preview-ui/src/index.ts"],
       "@/registry/components/button/button": [

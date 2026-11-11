@@ -22,6 +22,7 @@ import {
 } from '../../project-core/src/platform/project-content.js';
 import { createProjectContextHandler } from './project-context.js';
 import { createShowcaseHandler } from './showcase-server.js';
+import { sendAudioAsset } from './audio-response.js';
 import { COMPONENT_REGISTRY } from '../../platform-contracts/src/component-registry.js';
 import { createAgentContext } from '../../project-core/src/platform/agent-context.js';
 import { requirementGraphView } from '../../project-core/src/platform/requirement-graph.js';
@@ -48,6 +49,7 @@ const mime = {
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',
   '.woff2': 'font/woff2',
+  '.mp3': 'audio/mpeg',
 };
 function cookies(request) {
   const value = String(request.headers.cookie || '')
@@ -569,6 +571,7 @@ export function createNativeServer({
         }
       }
       if (!file) fail(404, '静态资源不存在', 'NOT_FOUND');
+      if (path.extname(file) === '.mp3') return await sendAudioAsset(request, response, file);
       response.writeHead(200, { 'Content-Type': mime[path.extname(file)] });
       response.end(request.method === 'HEAD' ? undefined : await fs.readFile(file));
     } catch (error) {

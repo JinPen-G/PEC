@@ -75,6 +75,8 @@ import { documentDisplay } from './document-display';
 import { DevicePreview } from './DevicePreview';
 import { useShowcaseProject, useShowcaseProjects, useShowcasePages, type CatalogPage } from './showcase-catalog';
 import { isDemoRoute } from '@/features/demo/demo-routes';
+import { RestIdentityScope } from '@/features/rest/RestIdentityScope';
+import { RestEntry } from '@/features/rest/RestEntry';
 
 const Reader = lazy(() =>
   import('@/features/docs/MarkdownReader').then((module) => ({ default: module.MarkdownReader })),
@@ -811,6 +813,7 @@ function Site() {
         {session?.user?.role === 'admin' && <Link to="/manage/projects">管理后台</Link>}
       </nav>
       <div className={home ? 'site-nav_headerActions__pddgO' : 'page_topActions__2fJLa'}>
+        <RestEntry surface="site" />
         <SiteLanguageMenu />
         <button
           className="global-command-menu_launcher__grAw_ showcase-search-launch"
@@ -1094,6 +1097,7 @@ function Site() {
               {home ? (
                 <SiteLanding
                   pages={pages}
+                  projectId={displayedProject}
                   projectMenu={
                     <SiteProjectMenu
                       projects={projectCatalog.data?.projects ?? []}
@@ -1152,7 +1156,7 @@ function Site() {
 export function ShowcaseApp() {
   return (
     <NativeAuthProvider>
-      <Site />
+      <RestIdentityScope><Site /></RestIdentityScope>
     </NativeAuthProvider>
   );
 }

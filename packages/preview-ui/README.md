@@ -24,6 +24,8 @@ Tailwind 4 由 [Vite](../../vite.config.js)编译，[范围插件](../../plugins
 
 原版动效适配器在 Preview 内转译为 motion-preference-plugin.js，仅替换共享偏好 hook 的路径；保留 Motion 原始出口。它将原控件的减少动效 hook 与独立 CSS 媒体查询接到同一浏览器设置，使完整动效能够覆盖系统偏好，减少动效能够立即更新已挂载控件。
 
+休息播放器通过`@preview/ui/rest-player`导出MediaPlayer与NowPlaying。来源为负责人提供的[UIARC公开预览独立重建组件](upstream/uiarc-rest/README.md)，不是官方Pro TSX；12份实现保持冻结字节及来源清单，不进入组件Registry。宿主负责真实音频、倒计时与全屏/悬浮位置，原组件的减少动效hook通过构建适配器读取平台偏好。来源完整性与适配边界由`tests/unit/uiarc-rest-source.spec.js`验证。
+
 ## 使用与验证
 
 应用从 `@preview/ui` 导入公共出口；主题和语言仍由 Preview 提供。当前只是前端演示，管理与订单画布为空，文档展示平台说明样例，不代表项目授权或真实项目文档已接入。

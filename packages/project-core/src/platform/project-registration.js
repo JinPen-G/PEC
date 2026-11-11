@@ -52,8 +52,9 @@ export function validateProjectRegistration(input, existingModules = [], existin
   requireValue(!module.contentKey || id(module.contentKey), '业务资料标识无效');
   requireValue(Array.isArray(module.pages) && module.pages.length <= 128, '项目页面清单无效');
   const keys = new Set();
+  const featuredOrders = new Set();
   for (const page of module.pages) {
-    allowedKeys(page, ['key', 'label', 'source', 'kind', 'registryItem']);
+    allowedKeys(page, ['key', 'label', 'source', 'kind', 'registryItem', 'featuredOrder']);
     requireValue(id(page.key) && !keys.has(page.key), '页面标识重复或无效');
     keys.add(page.key);
     requireValue(typeof page.label === 'string' && page.label.trim(), '页面名称缺失');
@@ -62,6 +63,16 @@ export function validateProjectRegistration(input, existingModules = [], existin
       '页面需要独立React入口',
     );
     requireValue(['page', 'component', 'block'].includes(page.kind ?? 'page'), '页面类型无效');
+    if (page.featuredOrder !== undefined) {
+      requireValue(
+        Number.isInteger(page.featuredOrder) &&
+          page.featuredOrder >= 1 &&
+          page.featuredOrder <= 6 &&
+          !featuredOrders.has(page.featuredOrder),
+        '首页精选序号须为不重复的1–6',
+      );
+      featuredOrders.add(page.featuredOrder);
+    }
     requireValue(page.sourceFiles === undefined, '依赖源码由Registry统一推导，请勿另写sourceFiles');
   }
   const registry = input.registry ?? [];

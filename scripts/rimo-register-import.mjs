@@ -96,6 +96,10 @@ const definition = {
 const registrationsPath = path.join(workspace, 'packages/platform-contracts/src/registered-projects.json');
 const registrations = JSON.parse(await fs.readFile(registrationsPath, 'utf8'));
 const index = registrations.findIndex(item => item.module.projectId === 'rimo-rental');
+for (const page of definition.module.pages) {
+  const previous = registrations[index]?.module.pages.find(item => item.key === page.key);
+  if (previous?.featuredOrder !== undefined) page.featuredOrder = previous.featuredOrder;
+}
 if (index < 0) registrations.push(definition); else registrations[index] = definition;
 await writeFileAtomic(registrationsPath, JSON.stringify(registrations, null, 2));
 await write('output/rimo-import/pages.json', JSON.stringify(pages, null, 2));

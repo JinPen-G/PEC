@@ -153,6 +153,7 @@
           "key": "enterprise-official-order",
           "label": "公务订单管理",
           "source": "EnterpriseOfficialOrderPage.tsx",
+          "featuredOrder": 5,
           "kind": "block",
           "registryItem": "rimo-enterprise-official-order"
         },
@@ -244,6 +245,7 @@
           "key": "channel-ticket-batches",
           "label": "合作通路租车券",
           "source": "ChannelTicketBatchesPage.tsx",
+          "featuredOrder": 6,
           "kind": "block",
           "registryItem": "rimo-channel-ticket-batches"
         },
@@ -279,6 +281,7 @@
           "key": "dispatch",
           "label": "车辆排程看板",
           "source": "DispatchPage.tsx",
+          "featuredOrder": 3,
           "kind": "block",
           "registryItem": "rimo-dispatch"
         },
@@ -384,6 +387,7 @@
           "key": "pricing",
           "label": "动态调价策略",
           "source": "PricingPage.tsx",
+          "featuredOrder": 4,
           "kind": "block",
           "registryItem": "rimo-pricing"
         },
@@ -426,6 +430,7 @@
           "key": "store-orders",
           "label": "门市租赁订单",
           "source": "StoreOrdersPage.tsx",
+          "featuredOrder": 2,
           "kind": "block",
           "registryItem": "rimo-store-orders"
         },
@@ -468,6 +473,7 @@
           "key": "vehicle-groups",
           "label": "车型组管理",
           "source": "VehicleGroupsPage.tsx",
+          "featuredOrder": 1,
           "kind": "block",
           "registryItem": "rimo-vehicle-groups"
         },

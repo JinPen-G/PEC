@@ -642,6 +642,8 @@ const english: Record<string, string> = {
   业务说明: 'Business docs',
   产品与业务逻辑: 'Products and business logic',
   查看全部产品: 'View all products',
+  预览暂不可用: 'Preview is temporarily unavailable',
+  '暂无公开精选，请前往产品目录查看。': 'No public highlights yet. Browse the product catalog.',
   浏览全部页面: 'Explore all pages',
   组件库: 'Component library',
   需求库: 'Requirement library',

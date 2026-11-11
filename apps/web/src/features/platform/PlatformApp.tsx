@@ -59,6 +59,8 @@ const AppearancePage = lazy(() =>
 import { ProjectDocumentReader, ProjectDocuments } from './ProjectDocuments';
 import { CollaborationRoom, CollaborationControls } from './CollaborationRoom';
 import { VersionNotice } from './VersionNotice';
+import { RestIdentityScope } from '@/features/rest/RestIdentityScope';
+import { RestEntry } from '@/features/rest/RestEntry';
 
 function entry(project: NativeProject, chosen?: string) {
   const clients = project.clients.filter((client) => client.enabled).sort((a, b) => a.position - b.position);
@@ -397,6 +399,7 @@ function Workspace() {
         onPasswordChange={() => setPasswordOpen(true)}
         contextControls={
           <>
+            <RestEntry />
             <CollaborationControls />
             {project && !configuring && !centerMode && (
               <Select
@@ -498,7 +501,7 @@ export function NativeIdentityGate() {
   if (error) return <QueryFailure message={error} retry={() => void refresh()} />;
   if (!session?.user) return <Navigate to={loginRoute(location.pathname + location.search)} replace />;
   if (session.user.mustChangePassword) return <PasswordForm required />;
-  return <Workspace key={`${session.user.id}/${session.user.role}/${session.user.revision}`} />;
+  return <Workspace />;
 }
 export function NativeAdministration() {
   const { session } = useNativeAuth();
@@ -520,7 +523,7 @@ export function NativeAdministration() {
 export function PlatformApp() {
   return (
     <NativeAuthProvider>
-      <NativeAdministration />
+      <RestIdentityScope><NativeAdministration /></RestIdentityScope>
     </NativeAuthProvider>
   );
 }

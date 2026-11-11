@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-li
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import type { ReactNode } from 'react';
+import { PlatformLocaleProvider } from '@/features/locale/platform-locale';
 
 const graphCatalog = vi.hoisted(() => vi.fn());
 vi.mock('./graph-catalog', () => ({ loadGraphCatalog: graphCatalog }));
@@ -69,7 +70,7 @@ function mount(route: string) {
   return render(
     <QueryClientProvider client={client}>
       <MemoryRouter initialEntries={[route]}>
-        <ShowcaseApp />
+        <PlatformLocaleProvider><ShowcaseApp /></PlatformLocaleProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   );
@@ -153,6 +154,14 @@ describe('showcase graph navigation', () => {
     mount('/');
     expect(screen.getByRole('heading', { name: '网站首页' })).toBeInTheDocument();
     expect(screen.queryByRole('complementary', { name: '项目页面导航' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '选择休息时长' })).toBeInTheDocument();
+  });
+
+  it('offers the same break durations from public Docs without signing in', async () => {
+    mount('/docs?project=rental');
+    fireEvent.click(screen.getByRole('button', { name: '选择休息时长' }));
+    expect(await screen.findByRole('button', { name: '休息 10 分钟' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '休息 30 分钟' })).toBeInTheDocument();
   });
 
   it('opens the current project demo directly from the site navigation', () => {

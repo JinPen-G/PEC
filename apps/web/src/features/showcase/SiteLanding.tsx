@@ -1,8 +1,8 @@
 /** Original landing-page region classes and motion, with only current project
  * content. No fabricated customer logos, purchase statistics or other projects. */
-import { useState, type ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion, useInView, useReducedMotion } from 'motion/react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -21,15 +21,7 @@ import { useShowcaseText } from './showcase-locale';
 import { useQuery } from '@tanstack/react-query';
 import { createNativeClient } from '../../../../../packages/platform-client/src/client';
 import { RuntimePage } from './RuntimePage';
-
-export interface LandingPage {
-  projectId: string;
-  clientId: string;
-  pageKey: string;
-  title: string;
-  category: string;
-  access: string;
-}
+import { selectLandingPages, type LandingPage } from './landing-pages';
 const link = (page: LandingPage) => `/pages/${page.projectId}/${page.clientId}/${page.pageKey}`;
 const client = createNativeClient();
 const principles: [string, string, ReactNode][] = [
@@ -57,29 +49,35 @@ const questions = [
   ['产品演示中的数据是真实的吗？', '演示数据均为模拟，任何操作都不会影响真实业务。'],
 ];
 function LandingPreview({ page }: { page: LandingPage }) {
+  const host = useRef<HTMLSpanElement>(null);
+  const visible = useInView(host, { margin: '120px 0px' });
+  const text = useShowcaseText();
   const query = useQuery<{ entry: string; styles: string[] }>({
     queryKey: ['landing-preview', page.projectId, page.clientId, page.pageKey],
-    queryFn: () => client.request(`/showcase/${page.projectId}/${page.clientId}/${page.pageKey}`),
-    enabled: page.access === 'public',
+    queryFn: ({ signal }) =>
+      client.request(`/showcase/${page.projectId}/${page.clientId}/${page.pageKey}`, { signal }),
+    enabled: visible && page.access === 'public',
     retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: 60_000,
   });
-  if (page.access !== 'public')
-    return (
-      <span className="showcase-landing-locked">
-        <LockKeyhole size={32} />
-      </span>
-    );
-  if (!query.data)
-    return (
-      <span className="showcase-landing-locked">
-        <Layers3 size={32} />
-      </span>
-    );
   return (
-    <span className="showcase-landing-native" inert aria-hidden="true">
-      <span className="showcase-landing-native-inner">
-        <RuntimePage entry={query.data.entry} styles={query.data.styles} />
-      </span>
+    <span ref={host} className="showcase-landing-native" inert aria-hidden="true">
+      {visible && query.data ? (
+        <span className="showcase-landing-native-inner">
+          <RuntimePage entry={query.data.entry} styles={query.data.styles} />
+        </span>
+      ) : (
+        <span className="showcase-landing-locked">
+          {query.error ? (
+            text('预览暂不可用')
+          ) : page.access === 'public' ? (
+            <Layers3 size={32} />
+          ) : (
+            <LockKeyhole size={32} />
+          )}
+        </span>
+      )}
     </span>
   );
 }
@@ -120,12 +118,20 @@ function FeatureSection({
     </section>
   );
 }
-export function SiteLanding({ pages, projectMenu }: { pages: LandingPage[]; projectMenu?: ReactNode }) {
+export function SiteLanding({
+  pages,
+  projectId = pages[0]?.projectId ?? '',
+  projectMenu,
+}: {
+  pages: LandingPage[];
+  projectId?: string;
+  projectMenu?: ReactNode;
+}) {
   const text = useShowcaseText(),
     reduced = useReducedMotion();
   const [question, setQuestion] = useState(0);
-  const first = pages[0];
-  const explore = first ? link(first) : '/pages';
+  const featured = selectLandingPages(pages, projectId);
+  const explore = `/pages${projectId ? `?project=${encodeURIComponent(projectId)}` : ''}`;
   return (
     <main id="main">
       <section className="page_hero__7KFOs">
@@ -164,10 +170,13 @@ export function SiteLanding({ pages, projectMenu }: { pages: LandingPage[]; proj
         items={principles}
         spaced
       />
-      <section className="page_container__jZF7q landing_clips__26AfS">
+      <section
+        className="page_container__jZF7q landing_clips__26AfS"
+        aria-labelledby="featured-products-heading"
+      >
         <div className="clip-sections_head__E7FqN">
           <div>
-            <h2>{text('产品与业务逻辑')}</h2>
+            <h2 id="featured-products-heading">{text('产品与业务逻辑')}</h2>
             <p>{text('从行业场景到每条规则的前因后果，一图看清。产品可直接体验，逻辑逐条溯源。')}</p>
           </div>
           <div className="showcase-product-section-actions">
@@ -179,17 +188,17 @@ export function SiteLanding({ pages, projectMenu }: { pages: LandingPage[]; proj
           </div>
         </div>
         <div className="clip-sections_grid__Vaqr3">
-          {pages.map((page) => (
+          {featured.map((page) => (
             <motion.div
               key={link(page)}
-              className="clip-sections_tile__HQsJ8"
+              className="clip-sections_tile__HQsJ8 showcase-landing-tile"
               initial={false}
               whileInView={{ opacity: 1 }}
             >
-              <Link className="clip-sections_link__ywcUR" to={link(page)}>
-                <span className="clip-sections_stage__fnaUL showcase-landing-preview">
-                  <LandingPreview page={page} />
-                </span>
+              <span className="clip-sections_stage__fnaUL showcase-landing-preview">
+                <LandingPreview page={page} />
+              </span>
+              <Link className="clip-sections_link__ywcUR showcase-landing-page-link" to={link(page)}>
                 <span className="clip-sections_caption__BDu4x">
                   <span className="clip-sections_nameRow__oti5a">
                     <span className="clip-sections_name__mnc5h">{text(page.title)}</span>
@@ -209,6 +218,7 @@ export function SiteLanding({ pages, projectMenu }: { pages: LandingPage[]; proj
             </motion.div>
           ))}
         </div>
+        {!featured.length && <p className="showcase-muted">{text('暂无公开精选，请前往产品目录查看。')}</p>}
       </section>
       <FeatureSection title="构建所需，一应俱全" action="阅读文档" to="/docs" items={toolkit} />
       <section className="page_container__jZF7q page_faqSection__mfM8r">

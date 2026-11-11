@@ -24,6 +24,7 @@ import {
 import { useShowcaseText } from '@/features/showcase/showcase-locale';
 import { RuntimePage } from '@/features/showcase/RuntimePage';
 import { demoPageRoute, demoPageUrl } from './demo-routes';
+import { RestEntry } from '@/features/rest/RestEntry';
 import './demo.css';
 
 const PasswordForm = lazy(() =>
@@ -125,6 +126,7 @@ export function DemoWorkspace() {
         onPasswordChange={user ? () => setPasswordOpen(true) : undefined}
         contextControls={
           <>
+            <RestEntry />
             <CollaborationControls />
             <Button
               icon={<ArrowLeft size={15} />}
@@ -156,7 +158,7 @@ function DemoIdentityGate() {
   if (loading) return <LoadingStage scope="screen" />;
   if (error) return <QueryFailure message={error} retry={() => void refresh()} />;
   if (session?.user?.mustChangePassword) return <PasswordForm required />;
-  return <DemoWorkspace key={`${session?.user?.id ?? 'anonymous'}/${session?.user?.revision ?? 0}`} />;
+  return <DemoWorkspace />;
 }
 export default function DemoApp() {
   const { resolvedMode } = usePlatformTheme();

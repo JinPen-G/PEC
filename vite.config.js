@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@preview/library': fileURLToPath(new URL('./packages/component-library/src/', import.meta.url)),
         '@preview/ui/admin': fileURLToPath(new URL('./packages/preview-ui/src/admin.tsx', import.meta.url)),
+        '@preview/ui/rest-player': fileURLToPath(new URL('./packages/preview-ui/src/rest-player.ts', import.meta.url)),
         '@preview/ui/loading': fileURLToPath(
           new URL('./packages/preview-ui/src/LoadingState.tsx', import.meta.url),
         ),

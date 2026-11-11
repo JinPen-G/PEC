@@ -14,3 +14,7 @@ exports/
 *.local
 /.playwright-cli/
 /.preview-data/
+apps/web/src/features/rest/media/*.mp3
+apps/web/src/features/rest/media/*.jpg
+apps/web/src/features/rest/media/*.png
+apps/web/src/features/rest/media/*.webp

@@ -19,6 +19,7 @@ export { Pagination } from './admin-controls/runtime/apps/admin/src/components/u
 export { Switch } from './admin-controls/runtime/apps/admin/src/components/ui/Switch';
 export { Checkbox } from './admin-controls/runtime/apps/admin/src/components/ui/Checkbox';
 export { Dropdown } from './admin-controls/runtime/apps/admin/src/components/ui/Dropdown';
+export { Popover, PopoverContent, PopoverTrigger } from './admin-controls/runtime/packages/ui-arc/vendor/registry/components/popover/popover';
 export { DatePicker } from './admin-controls/runtime/apps/admin/src/components/ui/DatePicker';
 export { TableRefreshProvider } from './admin-controls/runtime/apps/admin/src/components/ui/data-table/TableRefreshContext';
 export { ListFilterItem } from './admin-controls/runtime/apps/admin/src/components/ui/ListFilterBar';

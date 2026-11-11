@@ -14,6 +14,7 @@ export interface CatalogPage {
   category: string;
   access: 'public' | 'restricted';
   allowed: boolean;
+  featuredOrder?: number;
 }
 export interface ShowcaseProject {
   id: string;

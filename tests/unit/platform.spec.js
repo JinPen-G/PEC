@@ -49,6 +49,22 @@ function member(store, admin, username) {
   store.changePassword(user, { currentPassword: password, password: `${password}-changed` });
   return store.login(username, `${password}-changed`).user;
 }
+test('homepage selection metadata preserves menu permissions and does not rewrite projects', async () => {
+  const {store,admin}=await fixture({moduleCatalog:[{key:'demo-module',pages:[
+    {key:'public-page',featuredOrder:2},{key:'private-page',featuredOrder:1},{key:'hidden-page',featuredOrder:3},
+  ]}]});
+  const project=store.createProject(admin,{id:'curated-project',name:'Curated',moduleKey:'demo-module',clients:[{
+    ...configuration.clients[0],defaultPage:'public-page',pages:[
+      {key:'public-page',label:'Public',visible:true,position:0,access:'public'},
+      {key:'private-page',label:'Private',visible:true,position:1,access:'restricted'},
+      {key:'hidden-page',label:'Hidden',visible:false,position:2,access:'public'},
+    ],
+  }]});
+  expect(store.pageCatalog()).toMatchObject([{pageKey:'public-page',featuredOrder:2}]);
+  expect(store.pageCatalog()).toHaveLength(1);
+  expect(store.pageCatalog(admin).map(page=>[page.pageKey,page.featuredOrder])).toEqual([['public-page',2],['private-page',1]]);
+  expect(store.getProject(admin,project.id).revision).toBe(project.revision);
+});
 test('collaboration uses visible page grants and admits logged-in public viewers without backend membership', async () => {
   const { store, admin } = await fixture({
     moduleCatalog: [{ key: 'demo-module', pages: [{ key: 'public-page' }, { key: 'private-page' }] }],

@@ -21,6 +21,24 @@ import { NATIVE_MODULES } from '../../packages/platform-contracts/src/platform.j
 import registeredProjects from '../../packages/platform-contracts/src/registered-projects.json' with { type: 'json' };
 
 const fixtures = [];
+test('homepage highlights are optional and limited to six unique editorial positions', () => {
+  const definition = {
+    schemaVersion:1,
+    module:{key:'test-library',projectId:'test-library',clientId:'web',label:'Library',surface:'showcase',pages:[
+      {key:'first-page',label:'First',source:'FirstPage.tsx',featuredOrder:1},
+      {key:'second-page',label:'Second',source:'SecondPage.tsx',featuredOrder:6},
+    ]},
+    registry:[],
+  };
+  expect(()=>validateProjectRegistration(definition)).not.toThrow();
+  for (const featuredOrder of [0,7,1.5,'2',null,1]) {
+    const invalid=structuredClone(definition);
+    invalid.module.pages[1].featuredOrder=featuredOrder;
+    expect(()=>validateProjectRegistration(invalid)).toThrow('精选序号');
+  }
+  delete definition.module.pages[1].featuredOrder;
+  expect(()=>validateProjectRegistration(definition)).not.toThrow();
+});
 test('RIMO follows the same replaceable project definition while keeping its stable page identities', () => {
   const definition = registeredProjects.find((item) => item.module.projectId === 'rimo-rental');
   expect(definition.module.key).toBe('rimo-native');

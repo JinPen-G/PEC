@@ -3,13 +3,18 @@ import { fileURLToPath } from "node:url";
  * let original components read the same browser setting as the workspace. */
 export function motionPreferenceAdapter() {
     const id = "\0rental-motion-preference";
+    const restId = "\0preview-rest-motion-preference";
+    const restMotion = fileURLToPath(new URL("../packages/preview-ui/upstream/uiarc-rest/primitives/motion.ts", import.meta.url)).replaceAll("\\", "/");
     const upstream = fileURLToPath(import.meta.resolve("motion/react")).replaceAll("\\", "/");
     const hook = fileURLToPath(new URL("../apps/web/src/features/motion/use-motion-preference.ts", import.meta.url)).replaceAll("\\", "/");
     return {
         name: "rental-motion-preference", enforce: "pre",
-        resolveId(source) { if (source === "motion/react")
-            return id; },
+        resolveId(source, importer) {
+            if (source === "../primitives/motion" && importer?.replaceAll("\\", "/").includes("/upstream/uiarc-rest/")) return restId;
+            if (source === "motion/react") return id;
+        },
         load(source) {
+            if (source === restId) return `export { motionTokens, springFromDuration, useHydrated } from ${JSON.stringify(restMotion)}; export { usePrefersReducedMotion as useReducedMotion } from ${JSON.stringify(hook)};`;
             if (source !== id)
                 return;
             return `export * from ${JSON.stringify(upstream)}; export { usePrefersReducedMotion as useReducedMotion } from ${JSON.stringify(hook)};`;

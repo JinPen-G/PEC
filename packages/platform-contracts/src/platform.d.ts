@@ -16,6 +16,7 @@ export const NATIVE_MODULES: readonly {
     source?: string;
     kind?: 'page' | 'component' | 'block';
     registryItem?: string;
+    featuredOrder?: number;
     sourceFiles?: readonly string[];
   }[];
 }[];

@@ -72,6 +72,13 @@ export function createNativeStore({
   const modules = Object.fromEntries(
     moduleCatalog.map((module) => [module.key, module.pages.map((page) => page.key)]),
   );
+  const featuredPages = new Map(
+    moduleCatalog.flatMap((module) =>
+      module.pages
+        .filter((page) => page.featuredOrder !== undefined)
+        .map((page) => [`${module.key}/${page.key}`, page.featuredOrder]),
+    ),
+  );
   if (Object.keys(modules).length !== moduleCatalog.length) fail(500, '原生模块重复注册', 'REGISTRY_INVALID');
   const directory = path.resolve(dataDirectory);
   mkdirSync(directory, { recursive: true });
@@ -676,6 +683,7 @@ export function createNativeStore({
             }
             // Restricted menu metadata is private until a user has page access.
             if (!allowed) continue;
+            const featuredOrder = featuredPages.get(`${row.module_key}/${page.key}`);
             result.push({
               projectId: row.id,
               projectName: row.name,
@@ -686,6 +694,7 @@ export function createNativeStore({
               category: page.group,
               access: page.access ?? 'restricted',
               allowed,
+              ...(featuredOrder === undefined ? {} : { featuredOrder }),
             });
           }
       }
