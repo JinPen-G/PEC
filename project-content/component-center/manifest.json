@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "contentKey": "component-center",
+  "moduleKey": "rimo-native",
+  "title": "组件中心",
+  "overview": "overview.md",
+  "requirements": [],
+  "assets": [],
+  "guides": [
+    { "id": "introduction", "title": "介绍", "description": "了解组件中心、组件与区块的组织方式，以及如何阅读和安装一个示例。", "path": "guides/introduction.md", "access": "public" },
+    { "id": "usage", "title": "使用指南", "description": "准备 React 项目、连接 Registry，并安装第一个页面区块。", "path": "guides/usage.md", "access": "public" },
+    { "id": "theming", "title": "主题设置", "description": "语义颜色变量、圆角与字体、深色模式，以及如何接入目标项目的品牌。", "path": "guides/theming.md", "access": "public" },
+    { "id": "motion", "title": "动效", "description": "共享弹簧预设、缓动与时长变量，以及减少动态效果的实现。", "path": "guides/motion.md", "access": "public" },
+    { "id": "ai", "title": "AI 和 MCP", "description": "让 Agent 查找组件、读取源码与依赖，并将区块接入目标项目。", "path": "guides/ai.md", "access": "public" },
+    { "id": "changelog", "title": "更新日志", "description": "组件示例、安装方式与文档的更新。", "path": "guides/changelog.md", "access": "public" }
+  ]
+}

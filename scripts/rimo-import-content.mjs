@@ -9,6 +9,7 @@ const report = JSON.parse(await fs.readFile(path.join(workspace, 'output/rimo-im
 const pages = JSON.parse(await fs.readFile(path.join(workspace, 'output/rimo-import/pages.json'), 'utf8'));
 const archive = path.join(workspace, '.preview-data/archives/rimo-rental/2026-11-09/source');
 const root = path.join(workspace, 'project-content/rimo-rental');
+const previousManifest = JSON.parse(await fs.readFile(path.join(root, 'manifest.json'), 'utf8').catch((error) => { if (error.code === 'ENOENT') return '{}'; throw error; }));
 const hash = value => createHash('sha256').update(value).digest('hex');
 const categories = { '公务车': 'official-vehicles', '合作通路': 'channel-tickets', '会员管理': 'members', '接口文档': 'interfaces', '门市租赁': 'store-rental', '车辆管理': 'vehicles', '分时租赁': 'time-share', '平台架构': 'platform' };
 const bindings = {
@@ -100,6 +101,7 @@ for (const document of report.documents.filter(item => ['knowledge','requirement
 const manifest = {
   schemaVersion: 1, contentKey: 'rimo-rental', moduleKey: 'rimo-native', title: 'RIMO Rental 产品与业务知识',
   overview: 'overview.md', graph: 'graph.json',
+  ...(previousManifest.guides ? { guides: previousManifest.guides } : {}),
   requirements: [
     { id: 'vehicle-groups', title: '车型组管理 · 页面说明', category: '车辆管理', status: 'draft', path: 'requirements/vehicle-groups.md', pages: [{ clientId: 'operation', pageKey: 'vehicle-groups' }] },
     { id: 'vehicle-transfer', title: '车辆调拨管理 · 页面说明', category: '车辆管理', status: 'draft', path: 'requirements/vehicle-transfer.md', pages: [{ clientId: 'operation', pageKey: 'vehicle-transfer' }] },
@@ -124,6 +126,10 @@ for (const page of pages) {
   if (!title) throw new Error(`Page requirement needs an authored title: ${page.pageKey}`);
   manifest.requirements.push({ id: `page-${page.pageKey}`, title, category: `${page.clientId} · 页面需求`, status: 'draft', path: full, summary, assets: [...new Set(Object.values(page.assetMap ?? {}))], pages: [{ clientId: page.clientId, pageKey: page.pageKey }] });
   authoredPages++;
+}
+for (const requirement of manifest.requirements) {
+  const previous = previousManifest.requirements?.find(item => item.id === requirement.id);
+  if (previous?.access) requirement.access = previous.access;
 }
 const overview = '# RIMO Rental\n\nRIMO Rental 面向租车营运商和企业客户，涵盖分时租赁、公务用车与门市租赁。合作通路租車券是分时租赁的跨模式功能，当前一期 PRD 仅定义同站租还。\n\n## 浏览产品\n\n营运端、企业端、移动端、公开教程和通知信件按客户端组织。页面提供模拟交互，业务逻辑以关联 PRD 和业务知识库原文为依据。\n\n## 业务资料\n\n' + imported.filter(item => item.category === '业务知识库').map(item => `- [${item.title}](${item.path})`).join('\n') + '\n\n正式 PRD 按公务车、门市租赁、分时租赁、合作通路、会员与车机接口分类。历史材料、测试执行产物和平台研发资料不作为现行业务规则发布。\n\n## 访问与 AI\n\n公开页面直接浏览；受限资料按项目和菜单授权。AI 通过项目 MCP 读取同一份知识库、PRD、需求关系和组件源码。演示页面的账号、订单和费用操作使用模拟数据，不调用真实租赁服务。\n';
 await fs.writeFile(path.join(root, 'overview.md'), overview);

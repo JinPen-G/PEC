@@ -7,6 +7,7 @@ import { fail } from './store.js';
 import { resolveExistingPathInsideRoot } from '../filesystem.js';
 import { GRAPH_TOOL_NAMES } from '../../../project-shared/src/requirement-graph.js';
 import { requirementGraphView, queryRequirementGraph, graphHash } from './requirement-graph.js';
+import { PROJECT_GUIDE_IDS } from '../../../project-shared/src/project-guides.js';
 
 const identifier = /^[a-z0-9][a-z0-9-]{1,63}$/;
 const validId = (value) => typeof value === 'string' && identifier.test(value);
@@ -55,6 +56,7 @@ export function validateContentManifest(input, moduleCatalog) {
     'assets',
     'graph',
     'governance',
+    'guides',
   ]);
   requireValue(input.schemaVersion === 1 && validId(input.contentKey) && validId(input.moduleKey));
   const module = moduleCatalog.find((item) => item.key === input.moduleKey);
@@ -123,6 +125,19 @@ export function validateContentManifest(input, moduleCatalog) {
     return { id: item.id, title: text(item.title), path: file };
   });
   requireValue(input.graph === undefined || input.graph === 'graph.json', '图谱只允许登记graph.json');
+  const guideIds = new Set();
+  const guides = input.guides ?? [];
+  requireValue(Array.isArray(guides) && guides.length <= PROJECT_GUIDE_IDS.length, '项目指南清单无效');
+  const projectGuides = guides.map((item) => {
+    object(item, ['id', 'title', 'description', 'path', 'access']);
+    requireValue(PROJECT_GUIDE_IDS.includes(item.id) && !guideIds.has(item.id), '项目指南标识无效或重复');
+    requireValue(['public', 'project'].includes(item.access), '项目指南必须明确访问范围');
+    const file = filePath(item.path, 'guides');
+    requireValue(!paths.has(file), '业务文件重复声明');
+    guideIds.add(item.id);
+    paths.add(file);
+    return { id: item.id, title: text(item.title), description: text(item.description, 512), path: file, access: item.access };
+  });
   return {
     schemaVersion: 1,
     contentKey: input.contentKey,
@@ -133,6 +148,7 @@ export function validateContentManifest(input, moduleCatalog) {
     assets,
     ...(input.graph ? { graph: input.graph } : {}),
     ...(input.governance ? { governance: rules } : {}),
+    ...(input.guides ? { guides: projectGuides } : {}),
   };
 }
 async function regularFiles(root, relative = '', depth = 0) {
@@ -175,6 +191,7 @@ export async function loadContentPackage(root, contentKey, moduleCatalog) {
     ...manifest.requirements.map((item) => item.path),
     ...manifest.requirements.filter((item) => item.summary).map((item) => item.summary),
     ...(manifest.governance ?? []).map((item) => item.path),
+    ...(manifest.guides ?? []).map((item) => item.path),
     ...manifest.assets,
   ];
   const actual = await regularFiles(directory);

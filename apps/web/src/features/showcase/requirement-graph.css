@@ -39,7 +39,124 @@
 }
 .requirement-graph-workspace {
   position: relative;
+  container: requirement-graph / inline-size;
 }
+.requirement-graph-viewbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 16px;
+  padding: 0 0 16px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.requirement-graph-viewbar > small {
+  margin-left: auto;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.requirement-graph-view-switch {
+  display: flex;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-muted);
+}
+.requirement-graph-view-switch button {
+  min-width: 48px;
+  height: 30px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.requirement-graph-view-switch button[aria-selected='true'] {
+  background: var(--surface);
+  color: var(--foreground);
+}
+.requirement-graph-legend {
+  flex: none;
+  margin-bottom: 16px;
+  font-size: 12px;
+}
+.requirement-graph-legend summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  cursor: pointer;
+  list-style: none;
+  color: var(--foreground);
+}
+.requirement-graph-legend summary > span {
+  margin-left: 8px;
+  color: var(--text-secondary);
+}
+.requirement-graph-legend summary::-webkit-details-marker { display: none; }
+.requirement-graph-legend:not([open]) summary > svg { transform: rotate(-90deg); }
+.requirement-graph-legend > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 8px;
+}
+.requirement-graph-legend > div > small {
+  min-width: 30px;
+  margin-right: 4px;
+  color: var(--text-secondary);
+}
+.requirement-graph-legend button {
+  gap: 7px;
+  min-height: 30px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+}
+.requirement-graph-legend button[aria-pressed='false'] {
+  border-style: dashed;
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+.requirement-graph-legend button[aria-pressed='false'] > i { opacity: 0.3; }
+.requirement-graph-legend button:hover { background: var(--surface-muted); }
+.requirement-graph-legend button > i,
+.requirement-graph-result-list button > i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.requirement-graph-legend button > .requirement-graph-legend-line {
+  width: 16px;
+  height: 0;
+  border-top: 2px solid currentColor;
+  border-radius: 0;
+}
+.requirement-graph-legend-line.dashed { border-top-style: dashed !important; }
+.requirement-graph-legend .requirement-graph-legend-reset { border-color: transparent; text-decoration: underline; }
+.requirement-graph-result-count { margin: 8px 10px; color: var(--text-secondary); font-size: 12px; }
+.requirement-graph-result-list { display: grid; gap: 2px; }
+.requirement-graph-result-list button {
+  justify-content: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 9px 10px;
+  border-radius: 7px;
+  text-align: left;
+  font-size: 13px;
+}
+.requirement-graph-result-list button:hover,
+.requirement-graph-result-list button[aria-pressed='true'] { background: var(--surface-muted); }
+.requirement-graph-result-list button[aria-pressed='true'] { font-weight: 500; }
+.requirement-graph-result-list button > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.requirement-graph-result-list button small { display: block; margin-top: 3px; font-size: 11px; font-weight: 400; color: var(--text-secondary); }
+.requirement-graph-page .requirement-graph-more { width: 100%; margin-top: 10px; padding: 8px; font-size: 12px; color: var(--text-secondary); }
+.requirement-graph-sphere-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.requirement-graph-sphere-label { position: absolute; top: 0; left: 0; max-width: 156px; padding: 3px 5px; border-radius: 4px; color: var(--foreground); background: var(--surface); font-size: 12px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.requirement-graph-sphere-label[data-selected='true'] { font-weight: 600; }
+.requirement-graph-canvas[data-view='3d'] { touch-action: none; }
+.requirement-graph-canvas[data-view='3d'] .graph-tooltip { max-width: 280px; padding: 10px 12px; white-space: normal; overflow-wrap: anywhere; color: var(--foreground); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font: inherit; font-size: 12px; }
 /* Find | graph | detail. The detail column only exists while a node is selected. */
 .requirement-graph-frame {
   display: grid;
@@ -59,10 +176,6 @@
   min-height: 0;
   border-right: 1px solid var(--border);
   background: var(--surface);
-}
-.requirement-graph-finder > .showcase-project-menu {
-  flex: none;
-  margin: 12px 12px 0;
 }
 .requirement-graph-search {
   display: flex;
@@ -196,7 +309,7 @@
 .requirement-graph-scope-bar small {
   color: var(--text-muted);
 }
-@media (max-width: 640px) {
+@container requirement-graph-visual (max-width: 640px) {
   .requirement-graph-overview {
     padding: 20px;
   }
@@ -362,7 +475,7 @@
   flex: none;
   color: var(--text-secondary);
 }
-@media (max-width: 640px) {
+@container requirement-graph-visual (max-width: 640px) {
   .requirement-graph-topic-start {
     padding: 18px;
   }
@@ -372,6 +485,7 @@
 }
 .requirement-graph-visual {
   position: relative;
+  container: requirement-graph-visual / inline-size;
   min-width: 0;
   min-height: 0;
 }
@@ -388,6 +502,7 @@
 .requirement-graph-canvas {
   position: absolute;
   inset: 0;
+  background: var(--surface);
 }
 .requirement-graph-canvas canvas {
   display: block;
@@ -429,6 +544,30 @@
 .requirement-graph-tools button:hover {
   background: var(--surface-muted);
   color: var(--foreground);
+}
+.requirement-graph-tools button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.requirement-graph-tools .requirement-graph-zoom {
+  width: 52px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.requirement-graph-tooltip {
+  max-width: 320px;
+  color: var(--foreground);
+  background: var(--surface);
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.requirement-graph-tooltip strong {
+  font-weight: 600;
+}
+.requirement-graph-tooltip p {
+  margin: 6px 0 0;
+  white-space: pre-line;
 }
 .requirement-graph-detail {
   min-height: 0;
@@ -489,6 +628,8 @@
   flex-wrap: wrap;
   gap: 6px 12px;
   margin-top: 10px;
+  color: var(--text-secondary);
+  font-size: 11px;
 }
 .requirement-graph-page .requirement-graph-memberships button {
   padding: 0;
@@ -761,8 +902,9 @@
   border-radius: 16px;
   background: var(--surface);
 }
-@media (max-width: 1180px) {
-  .requirement-graph-frame[data-detail] {
+@container requirement-graph (max-width: 1180px) {
+  .requirement-graph-frame[data-detail],
+  .requirement-graph-workspace.expanded .requirement-graph-frame[data-detail] {
     grid-template-columns: 200px minmax(0, 1fr) 290px;
   }
 }
@@ -770,8 +912,11 @@
   .requirement-graph-page {
     padding: 32px 30px;
   }
+}
+@container requirement-graph (max-width: 1000px) {
   .requirement-graph-frame,
-  .requirement-graph-frame[data-detail] {
+  .requirement-graph-frame[data-detail],
+  .requirement-graph-workspace.expanded .requirement-graph-frame[data-detail] {
     grid-template-columns: 200px minmax(0, 1fr);
     grid-template-rows: 520px auto;
     height: auto;
@@ -782,8 +927,15 @@
     border-top: 1px solid var(--border);
     border-left: 0;
   }
+  .requirement-graph-workspace.expanded .requirement-graph-frame {
+    overflow: auto;
+  }
 }
 @media (max-width: 720px) {
+  .requirement-graph-viewbar { gap: 10px; flex-wrap: wrap; }
+  .requirement-graph-viewbar > small { margin-left: 0; }
+  .requirement-graph-legend > div { gap: 4px; }
+  .requirement-graph-legend summary > span { margin-left: 0; font-size: 11px; }
   .requirement-graph-page {
     padding: 28px 16px;
   }
@@ -796,6 +948,12 @@
   .requirement-graph-heading p {
     font-size: 13px;
   }
+  .requirement-graph-workspace.expanded {
+    inset: 8px;
+    padding: 12px;
+  }
+}
+@container requirement-graph (max-width: 720px) {
   .requirement-graph-frame,
   .requirement-graph-frame[data-detail],
   .requirement-graph-workspace.expanded .requirement-graph-frame[data-detail] {
@@ -837,10 +995,6 @@
   .requirement-graph-tools button {
     width: 36px;
     height: 36px;
-  }
-  .requirement-graph-workspace.expanded {
-    inset: 8px;
-    padding: 12px;
   }
   .requirement-graph-document {
     padding: 24px 0;

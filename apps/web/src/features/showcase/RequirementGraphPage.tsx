@@ -1,6 +1,6 @@
 /** Read-only graph: find on the left, explore in the centre, understand on the right.
  * Publication, evidence and access belong to the service; key points are AI reading aids. */
-import { lazy, Suspense, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Search, X, ArrowUpRight, RefreshCw, FileText, ChevronDown, ChevronRight } from 'lucide-react';
@@ -8,23 +8,25 @@ import { Link } from 'react-router-dom';
 import { LoadingStage } from '@preview/ui/loading';
 import { siteMotionTokens } from '@preview/ui';
 import type {
-  RequirementGraph,
   GraphImpact,
   GraphNode,
   GraphEdge,
-  GraphTopic,
+  GraphNodeType,
+  GraphRelation,
 } from '../../../../../packages/platform-contracts/src/requirement-graph';
 import { useNativeAuth } from '@/features/platform/platform-api';
 import { useShowcaseText } from './showcase-locale';
-import { scopeColor } from './graph-presentation';
+import { scopeColor, graphNodeLegend, graphRelationLegend, graphNodeColor, graphVisibility } from './graph-presentation';
+import type { GraphViewMemory } from './graph-view';
+import { loadGraphCatalog } from './graph-catalog';
 import {
   graphReadingRelations,
   graphReadingScope,
-  graphReadingGroups,
   graphSourceAnchor,
 } from './graph-reading';
 import './requirement-graph.css';
 const Canvas = lazy(() => import('./RequirementGraphCanvas'));
+const Sphere = lazy(() => import('./RequirementGraphSphere'));
 const Markdown = lazy(() =>
   import('@/features/docs/MarkdownReader').then((m) => ({ default: m.MarkdownReader })),
 );
@@ -51,18 +53,19 @@ const typeLabels: Record<string, string> = {
 };
 export default function RequirementGraphPage({
   projectId,
-  projectMenu,
 }: {
   projectId: string;
-  projectMenu?: ReactNode;
 }) {
   const text = useShowcaseText(),
     { client, session } = useNativeAuth(),
     reduced = useReducedMotion();
   const [query, setQuery] = useState('');
-  const [topic, setTopic] = useState<string | null>(null);
-  const [openTopics, setOpenTopics] = useState<Set<string>>(() => new Set());
-  const [collapsedSearchTopics, setCollapsedSearchTopics] = useState<Set<string>>(() => new Set());
+  const [view, setView] = useState<'2d' | '3d'>('2d');
+  const [hiddenTypes, setHiddenTypes] = useState<GraphNodeType[]>([]);
+  const [hiddenRelations, setHiddenRelations] = useState<GraphRelation[]>([]);
+  const [resultLimit, setResultLimit] = useState(40);
+  const planarMemory = useRef<GraphViewMemory>({});
+  const sphereMemory = useRef<GraphViewMemory>({});
   const [selected, setSelected] = useState<string | null>(null),
     [expanded, setExpanded] = useState(false);
   const [showImpact, setShowImpact] = useState(false),
@@ -77,8 +80,7 @@ export default function RequirementGraphPage({
   // Content changes only with a release; focus refetch keeps it current without polling.
   const graphQuery = useQuery({
     queryKey: ['requirement-graph', projectId, identity],
-    queryFn: ({ signal }) =>
-      client.request(`/showcase/${projectId}/graph?limit=500`, { signal }) as Promise<RequirementGraph>,
+    queryFn: ({ signal }) => loadGraphCatalog(client.request, projectId, signal),
     enabled: !!projectId,
     retry: false,
     staleTime: 30_000,
@@ -87,45 +89,25 @@ export default function RequirementGraphPage({
   const nodes = useMemo(() => graph?.nodes ?? [], [graph]);
   const edges = useMemo(() => graph?.edges ?? [], [graph]);
   const topicIndex = useMemo(() => new Map((graph?.topics ?? []).map((t, i) => [t.id, i])), [graph]);
+  const visibility = useMemo(() => graphVisibility(nodes, edges, hiddenTypes, hiddenRelations), [nodes, edges, hiddenTypes, hiddenRelations]);
+  const visibleNodes = useMemo(() => nodes.filter((item) => visibility.nodeIds.has(item.id)), [nodes, visibility]);
   const term = query.trim().toLocaleLowerCase();
   const matches = useMemo(() => {
     if (!term) return null;
-    return nodes.filter((n) =>
+    return visibleNodes.filter((n) =>
       [n.label, n.summary, ...n.aliases, ...n.keyPoints.map((p) => p.text)].some((v) =>
-        text(v).toLocaleLowerCase().includes(term),
+        v.toLocaleLowerCase().includes(term) || text(v).toLocaleLowerCase().includes(term),
       ),
     );
-  }, [nodes, term, text]);
+  }, [visibleNodes, term, text]);
   const matchIds = useMemo(() => matches?.map((n) => n.id) ?? null, [matches]);
-  const groups = useMemo(
-    () =>
-      (graph?.topics ?? [])
-        .map((t) => ({ topic: t, nodes: (matches ?? nodes).filter((n) => n.topics.includes(t.id)) }))
-        .filter((g) => g.nodes.length),
-    [graph, matches, nodes],
-  );
+  const results = matches ?? visibleNodes;
   const node = nodes.find((n) => n.id === selected);
-  const topicSections = useMemo(
-    () =>
-      [
-        { category: 'business', label: '业务线' },
-        { category: 'management', label: '共用管理' },
-        { category: undefined, label: '其他主题' },
-      ]
-        .map((section) => ({
-          ...section,
-          groups: groups.filter((group) => group.topic.category === section.category),
-        }))
-        .filter((section) => section.groups.length),
-    [groups],
-  );
   const scope = useMemo(
-    () => graphReadingScope(nodes, edges, selected, topic),
-    [nodes, edges, selected, topic],
+    () => graphReadingScope(visibleNodes, edges.filter((edge) => visibility.edgeIds.has(edge.id)), node?.id ?? null, null),
+    [visibleNodes, edges, node, visibility],
   );
-  const overview = !selected && !topic && nodes.length > 40;
-  const largeTopic = !selected && topic && scope.nodes.length > 28;
-  const selectedTopic = graph?.topics.find((item) => item.id === topic);
+  const GraphView = view === '2d' ? Canvas : Sphere;
   const nodeLabel = (id: string) => text(nodes.find((n) => n.id === id)?.label ?? id);
   const impact = useQuery({
     queryKey: ['graph-impact', projectId, identity, selected, graph?.graphRevision],
@@ -140,7 +122,7 @@ export default function RequirementGraphPage({
         })}`,
         { signal },
       ) as Promise<GraphImpact>,
-    enabled: !!selected && showImpact && !!graph,
+    enabled: !!node && showImpact && !!graph,
     retry: false,
     staleTime: 30_000,
   });
@@ -164,9 +146,8 @@ export default function RequirementGraphPage({
     setOpenQuotes(new Set());
     const target = nodes.find((n) => n.id === id);
     if (target) {
-      setOpenTopics((current) =>
-        current.has(target.primaryTopic) ? current : new Set(current).add(target.primaryTopic),
-      );
+      setHiddenTypes((previous) => previous.filter((type) => type !== target.type));
+      setResultLimit((previous) => Math.max(previous, nodes.indexOf(target) + 1));
       if (matches && !matches.some((n) => n.id === id)) setQuery('');
     }
   };
@@ -174,18 +155,6 @@ export default function RequirementGraphPage({
     setDocumentQuote(quote);
     setDocumentId(id);
   };
-  const selectTopic = (id: string | null) => {
-    select(null);
-    setTopic(id);
-    if (id) setOpenTopics(new Set([id]));
-  };
-  const toggleTopic = (id: string) =>
-    setOpenTopics((current) => {
-      const next = new Set(current);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
   const toggleQuote = (key: string) =>
     setOpenQuotes((current) => {
       const next = new Set(current);
@@ -320,68 +289,6 @@ export default function RequirementGraphPage({
         </div>
       </section>
     );
-  const renderTopicGroup = ({ topic: item, nodes: members }: { topic: GraphTopic; nodes: GraphNode[] }) => {
-    const open = matches ? !collapsedSearchTopics.has(item.id) : openTopics.has(item.id);
-    const renderMember = (member: GraphNode) => (
-      <button
-        type="button"
-        key={member.id}
-        title={text(member.label)}
-        data-node={member.id}
-        aria-pressed={selected === member.id}
-        onClick={() => select(selected === member.id ? null : member.id)}
-      >
-        <span>{text(member.label)}</span>
-        <small>{text(typeLabels[member.type] ?? '')}</small>
-      </button>
-    );
-    return (
-      <section key={item.id} className="requirement-graph-group">
-        <button
-          type="button"
-          className="requirement-graph-group-head"
-          aria-expanded={open}
-          aria-current={topic === item.id ? 'true' : undefined}
-          onClick={() => {
-            if (matches) {
-              setCollapsedSearchTopics((current) => {
-                const next = new Set(current);
-                if (next.has(item.id)) next.delete(item.id);
-                else next.add(item.id);
-                return next;
-              });
-            } else if (open) toggleTopic(item.id);
-            else selectTopic(item.id);
-          }}
-        >
-          <ChevronRight size={13} />
-          <i style={{ background: scopeColor(topicIndex.get(item.id) ?? 0) }} />
-          <span>{text(item.label)}</span>
-          <small>{members.length}</small>
-        </button>
-        {open && (
-          <div className="requirement-graph-group-items">
-            {members.length > 12 && !matches
-              ? graphReadingGroups(members).map((group) => (
-                  <details
-                    key={`${item.id}:${group.label}:${selected ?? ''}`}
-                    open={group.nodes.some((member) => member.id === selected)}
-                    className="requirement-graph-node-group"
-                  >
-                    <summary>
-                      {text(group.label)}
-                      <small>{group.nodes.length}</small>
-                      <ChevronDown size={12} />
-                    </summary>
-                    {group.nodes.map(renderMember)}
-                  </details>
-                ))
-              : members.map(renderMember)}
-          </div>
-        )}
-      </section>
-    );
-  };
   const renderDetail = (target: GraphNode) => {
     const triggers = target.keyPoints.flatMap((p, i) => (p.kind === 'trigger' ? [i] : []));
     const rules = target.keyPoints.flatMap((p, i) => (p.kind === 'rule' ? [i] : []));
@@ -414,14 +321,14 @@ export default function RequirementGraphPage({
         <h2>{text(target.label)}</h2>
         <p className="requirement-graph-summary">{text(target.summary)}</p>
         {target.requirementStatus === 'draft' && (
-          <p className="requirement-graph-footnote">{text('包含待确认的页面说明，请以已确认 PRD 为准。')}</p>
+          <p className="requirement-graph-footnote">{text('包含规划或待确认资料，请以已确认 PRD 为准。')}</p>
         )}
         {target.topics.length > 1 && (
           <div className="requirement-graph-memberships">
             {target.topics.map((id) => (
-              <button type="button" key={id} onClick={() => selectTopic(id)}>
+              <span key={id}>
                 {text(graph?.topics.find((item) => item.id === id)?.label ?? id)}
-              </button>
+              </span>
             ))}
           </div>
         )}
@@ -533,7 +440,7 @@ export default function RequirementGraphPage({
       ) : graphQuery.isError ? (
         <div className="requirement-graph-empty" role="alert">
           <p>{text('图谱读取失败')}</p>
-          <small>{graphQuery.error.message}</small>
+          <small>{text(graphQuery.error.message)}</small>
           <button type="button" onClick={() => void graphQuery.refetch()}>
             <RefreshCw size={14} />
             {text('重试')}
@@ -553,15 +460,36 @@ export default function RequirementGraphPage({
             aria-modal={expanded || undefined}
             aria-label={text('需求关系图谱')}
           >
-            {expanded && (overview || largeTopic) && (
-              <button type="button" className="requirement-graph-exit" onClick={() => setExpanded(false)}>
-                {text('退出全屏')}
-                <X size={15} />
-              </button>
-            )}
+            <div className="requirement-graph-viewbar">
+              <div role="tablist" aria-label={text('图谱视图')} className="requirement-graph-view-switch" onKeyDown={(event) => {
+                if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+                event.preventDefault();
+                const next = event.key === 'Home' ? '2d' : event.key === 'End' ? '3d' : view === '2d' ? '3d' : '2d';
+                setView(next);
+                event.currentTarget.querySelector<HTMLButtonElement>(`[data-view="${next}"]`)?.focus();
+              }}>
+                {(['2d', '3d'] as const).map((mode) => <button key={mode} type="button" role="tab" data-view={mode} aria-selected={view === mode} aria-controls="requirement-graph-visual" tabIndex={view === mode ? 0 : -1} onClick={() => setView(mode)}>{mode.toUpperCase()}</button>)}
+              </div>
+              <span>{text(view === '3d' ? '拖拽旋转 · 滚轮缩放' : '拖拽移动 · 滚轮缩放')}</span>
+              <small>{visibility.nodeIds.size} {text('个需求点')} · {visibility.edgeIds.size} {text('条关联')}</small>
+            </div>
+            <details className="requirement-graph-legend" open>
+              <summary>{text('图例')}<span>{text('点击显示或隐藏，不改变点位')}</span><ChevronDown size={13} /></summary>
+              <div role="group" aria-label={text('节点图例')}>
+                <small>{text('节点')}</small>
+                {graphNodeLegend.filter((item) => nodes.some((member) => member.type === item.type)).map((item) => <button type="button" key={item.type} aria-pressed={!hiddenTypes.includes(item.type)} onClick={() => {
+                  if (node?.type === item.type && !hiddenTypes.includes(item.type)) select(null);
+                  setHiddenTypes((previous) => previous.includes(item.type) ? previous.filter((type) => type !== item.type) : [...previous, item.type]);
+                }}><i style={{ background: item.color }} />{text(item.label)}</button>)}
+              </div>
+              <div role="group" aria-label={text('关系图例')}>
+                <small>{text('关系')}</small>
+                {graphRelationLegend.filter((item) => edges.some((edge) => edge.relation === item.relation)).map((item) => <button type="button" key={item.relation} aria-pressed={!hiddenRelations.includes(item.relation)} onClick={() => setHiddenRelations((previous) => previous.includes(item.relation) ? previous.filter((relation) => relation !== item.relation) : [...previous, item.relation])}><i className={`requirement-graph-legend-line${item.relation === 'references' || item.relation === 'similar_to' ? ' dashed' : ''}`} style={{ color: item.color }} />{text(item.label)}</button>)}
+                {(hiddenTypes.length > 0 || hiddenRelations.length > 0) && <button type="button" className="requirement-graph-legend-reset" onClick={() => { setHiddenTypes([]); setHiddenRelations([]); }}>{text('显示全部')}</button>}
+              </div>
+            </details>
             <div className="requirement-graph-frame" data-detail={node ? 'open' : undefined}>
               <aside className="requirement-graph-finder" aria-label={text('查找需求点')}>
-                {projectMenu}
                 <label className="requirement-graph-search">
                   <Search size={14} />
                   <input
@@ -570,7 +498,7 @@ export default function RequirementGraphPage({
                     value={query}
                     onChange={(e) => {
                       setQuery(e.target.value);
-                      setCollapsedSearchTopics(new Set());
+                      setResultLimit(40);
                     }}
                   />
                   {query && (
@@ -579,26 +507,28 @@ export default function RequirementGraphPage({
                     </button>
                   )}
                 </label>
-                {(topic || selected) && (
+                {selected && (
                   <button
                     type="button"
                     className="requirement-graph-overview-link"
                     onClick={() => {
                       setQuery('');
-                      selectTopic(null);
+                      select(null);
                     }}
                   >
-                    {text('全部主题')}
+                    {text('清除选中')}
                   </button>
                 )}
                 <div ref={list} className="requirement-graph-finder-list">
-                  {topicSections.map((section) => (
-                    <section key={section.category ?? 'general'} className="requirement-graph-category">
-                      {section.category && <h2>{text(section.label)}</h2>}
-                      {section.groups.map(renderTopicGroup)}
-                    </section>
-                  ))}
-                  {!groups.length && (
+                  <p className="requirement-graph-result-count">{results.length} {text('个需求点')}</p>
+                  <div className="requirement-graph-result-list">
+                    {results.slice(0, resultLimit).map((member) => <button type="button" key={member.id} title={text(member.label)} data-node={member.id} aria-pressed={selected === member.id} onClick={() => select(member.id)}>
+                      <i style={{ background: graphNodeColor(member.type) }} />
+                      <span>{text(member.label)}<small>{text(typeLabels[member.type] ?? '')}</small></span>
+                    </button>)}
+                  </div>
+                  {results.length > resultLimit && <button type="button" className="requirement-graph-more" onClick={() => setResultLimit((previous) => previous + 40)}>{text('显示更多')}</button>}
+                  {!results.length && (
                     <p className="requirement-graph-finder-empty">
                       {text(
                         graph.availability === 'ready'
@@ -613,61 +543,13 @@ export default function RequirementGraphPage({
                   )}
                 </div>
               </aside>
-              <div className="requirement-graph-visual">
-                {overview ? (
-                  <section className="requirement-graph-overview" aria-label={text('全部主题')}>
-                    <h2>{text('按业务查找需求')}</h2>
-                    <p>{text('先选择业务线或管理分类，再查看流程、规则与关联。')}</p>
-                    {topicSections.map((section) => (
-                      <section
-                        key={section.category ?? 'general'}
-                        className="requirement-graph-overview-section"
-                      >
-                        {section.category && <h3>{text(section.label)}</h3>}
-                        <div>
-                          {section.groups.map(({ topic: item, nodes: members }) => (
-                            <button type="button" key={item.id} onClick={() => selectTopic(item.id)}>
-                              <i style={{ background: scopeColor(topicIndex.get(item.id) ?? 0) }} />
-                              <span>
-                                {text(item.label)}
-                                <em>{text(item.description)}</em>
-                              </span>
-                              <small>{members.length}</small>
-                              <ChevronRight size={14} />
-                            </button>
-                          ))}
-                        </div>
-                      </section>
-                    ))}
-                  </section>
-                ) : largeTopic ? (
-                  <section className="requirement-graph-topic-start">
-                    <h2>{text(selectedTopic?.label ?? '')}</h2>
-                    <p>{text('选择需求查看业务逻辑和管理功能关联，全部条目可在左侧查找。')}</p>
-                    {graphReadingGroups(scope.nodes).map((group) => (
-                      <details key={`${topic}:${group.label}`} open={group.label === '业务流程与状态'}>
-                        <summary>
-                          {text(group.label)}
-                          <small>{group.nodes.length}</small>
-                          <ChevronDown size={14} />
-                        </summary>
-                        <div>
-                          {group.nodes.map((member) => (
-                            <button type="button" key={member.id} onClick={() => select(member.id)}>
-                              <span>{text(member.label)}</span>
-                              <ChevronRight size={13} />
-                            </button>
-                          ))}
-                        </div>
-                      </details>
-                    ))}
-                  </section>
-                ) : nodes.length ? (
+              <div className="requirement-graph-visual" id="requirement-graph-visual" role="tabpanel" aria-label={view.toUpperCase()}>
+                {nodes.length ? (
                   <>
-                    {(topic || selected) && (
+                    {selected && (
                       <div className="requirement-graph-scope-bar">
                         <span>
-                          {selected ? text('当前节点与直接关联') : text(selectedTopic?.label ?? '')}
+                          {text('当前节点与直接关联')}
                         </span>
                         <small>
                           {scope.nodes.length} {text('个需求点')}
@@ -681,16 +563,17 @@ export default function RequirementGraphPage({
                         </div>
                       }
                     >
-                      <Canvas
-                        nodes={scope.nodes}
-                        edges={scope.edges}
-                        topics={graph.topics}
-                        topic={selected ? null : topic}
-                        selected={selected}
+                      <GraphView
+                        nodes={nodes}
+                        edges={edges}
+                        selected={node?.id ?? null}
                         onSelect={select}
                         expanded={expanded}
                         onExpand={() => setExpanded((v) => !v)}
                         focus={matchIds}
+                        hiddenTypes={hiddenTypes}
+                        hiddenRelations={hiddenRelations}
+                        memory={view === '2d' ? planarMemory : sphereMemory}
                       />
                     </Suspense>
                   </>

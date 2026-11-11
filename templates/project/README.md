@@ -87,6 +87,8 @@ PRD是实际项目的业务规则，逐页整理用途、权限、流程、字�
 
 Preview 研发四册、个人开发记录和 AI 接续存入 docs 专项，不得进入 project-content 发布清单。项目介绍写 overview.md，功能需求写 requirements；AI 工具通过受控业务接口读取。页面/需求修改是否进入公开更新日志由负责人决定，不把内部开发记录自动发布。
 
+网站Docs可在资料清单内增加`guides`，每项包含`id`、`title`、`description`、`path`和明确的`access: public|project`。ID限定为`introduction`、`usage`、`theming`、`motion`、`ai`、`changelog`，正文放在`guides/*.md`，使用Markdown章节、列表和必要表格，沿用网站UIARC排版。内容要介绍当前项目本身，而不是重复平台说明；未发布的篇目显示真实空状态。指南随同一受控资料快照发布，但不自动作为业务规则纳入需求图谱；原PRD授权不因公开指南而降低。
+
 当前RIMO完整接入按上述规则进行，工程登记与实际逐页验收分开记录；状态见原生专项接续，不能以文件齐全或模板说明冒充业务验收。
 
 ## 需求图谱维护

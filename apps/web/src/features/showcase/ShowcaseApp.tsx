@@ -20,7 +20,6 @@ import {
   ChevronDown,
   ChevronRight,
   Code2,
-  Copy,
   Eye,
   FileText,
   Layers3,
@@ -32,7 +31,6 @@ import {
   Smartphone,
   X,
   Scan,
-  Check,
   ArrowUp,
 } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
@@ -58,6 +56,7 @@ import { LocalizedView, useShowcaseText } from './showcase-locale';
 import { PageActions } from './PageActions';
 import { SourcePanel } from './SourcePanel';
 import { RegistryPanel } from './RegistryPanel';
+import { QuickInstall } from './QuickInstall';
 import { FullscreenPreview } from './FullscreenPreview';
 import { SiteLanding } from './SiteLanding';
 import { CatalogFilters } from './CatalogFilters';
@@ -65,10 +64,8 @@ import { SiteDocumentation } from './SiteDocumentation';
 import { RuntimePage } from './RuntimePage';
 import { SidebarSelection } from './SidebarSelection';
 import { TocSelection } from './TocSelection';
-import { SiteChangelog } from './SiteChangelog';
 import { SiteAccountMenu } from './SiteAccountMenu';
 import { SiteLanguageMenu } from './SiteLanguageMenu';
-import { SITE_CHANGELOG } from './site-changelog';
 import { SiteProjectMenu } from './SiteProjectMenu';
 import { SiteCollaboration, SiteCollaborationControls } from './SiteCollaboration';
 import { changeSiteTheme, type ThemeTransitionState } from './site-theme-transition';
@@ -76,7 +73,7 @@ import { flushSync } from 'react-dom';
 import { AnimatedPanel } from './AnimatedPanel';
 import { documentDisplay } from './document-display';
 import { DevicePreview } from './DevicePreview';
-import { useShowcaseProjects, useShowcasePages, type CatalogPage } from './showcase-catalog';
+import { useShowcaseProject, useShowcaseProjects, useShowcasePages, type CatalogPage } from './showcase-catalog';
 import { isDemoRoute } from '@/features/demo/demo-routes';
 
 const Reader = lazy(() =>
@@ -196,7 +193,6 @@ export function Detail({ page }: { page: CatalogPage }) {
   const requestedDocument = documentSelection?.route === route.key ? documentSelection.path : parameters.get('document');
   const documentAnchor = documentSelection?.route === route.key ? documentSelection.anchor : parameters.get('anchor') ?? undefined;
   const clearDocument = () => setDocumentSelection({ route: route.key, path: null });
-  const [linkCopied, setLinkCopied] = useState(false);
   const reduced = useReducedMotion();
   const enterPart = (delay: number) => ({
     initial: reduced ? (false as const) : { opacity: 0, y: 10 },
@@ -323,29 +319,7 @@ export function Detail({ page }: { page: CatalogPage }) {
                 <p>
                   {page.clientName} · {page.category || '功能页面'}
                 </p>
-                <div className="docs_headerRow__PPJjT">
-                  <div className="docs_quickInstall__r3nha">
-                    <span className="docs_prompt__CWFJA" aria-hidden="true">
-                      ›
-                    </span>
-                    <code>
-                      {page.clientId}/{page.pageKey}
-                    </code>
-                    <button
-                      type="button"
-                      className="docs_copy__At0Np docs_copyIconOnly__X5yic"
-                      aria-label={text('复制页面链接')}
-                      onClick={() =>
-                        void navigator.clipboard.writeText(`${location.origin}/#${pageLink(page)}`).then(
-                          () => setLinkCopied(true),
-                          () => setLinkCopied(false),
-                        )
-                      }
-                    >
-                      {linkCopied ? <Check size={14} /> : <Copy size={14} />}
-                    </button>
-                  </div>
-                </div>
+                {permitted && <QuickInstall registry={detail?.registry} publicPage={page.access === 'public' && detail?.access === 'public'} />}
               </div>
               {detail && permitted && <CopyActions detail={detail} />}
             </motion.header>
@@ -768,11 +742,12 @@ function Site() {
   const navigationTrigger = useRef<HTMLButtonElement>(null),
     appearanceTrigger = useRef<HTMLButtonElement>(null);
   const projectCatalog = useShowcaseProjects(!administration);
-  const displayedProject =
+  const displayedProject = useShowcaseProject(
     /^\/pages\/([a-z0-9-]+)\//.exec(location.pathname)?.[1] ??
-    new URLSearchParams(location.search).get('project') ??
-    projectCatalog.data?.projects[0]?.id ??
-    '';
+      new URLSearchParams(location.search).get('project'),
+    projectCatalog.data?.projects,
+    !administration,
+  );
   const catalog = useShowcasePages(displayedProject, !administration);
   useEffect(() => {
     if (administration) return;
@@ -804,9 +779,7 @@ function Site() {
     params.set('project', value);
     navigate(`${home || isDocs ? location.pathname : '/pages'}?${params}`);
   };
-  const demoLogin = loginRoute(
-    `/demo${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`,
-  );
+  const demoDestination = `/demo${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`;
   const header = (
     <>
       <button
@@ -834,7 +807,7 @@ function Site() {
         <Link to={`/docs/ai${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}>
           AI 接入
         </Link>
-        <Link to={demoLogin}>Try the demo</Link>
+        <Link to={demoDestination}>Try the demo</Link>
         {session?.user?.role === 'admin' && <Link to="/manage/projects">管理后台</Link>}
       </nav>
       <div className={home ? 'site-nav_headerActions__pddgO' : 'page_topActions__2fJLa'}>
@@ -881,7 +854,7 @@ function Site() {
         value={displayedProject}
         onChange={changeProject}
       />
-      <Link className="showcase-demo-navigation" to={demoLogin}>
+      <Link className="showcase-demo-navigation" to={demoDestination}>
         Try the demo
       </Link>
       <CatalogFilters
@@ -946,12 +919,9 @@ function Site() {
         {!catalog.isPending && !visible.length && <p className="showcase-muted">没有匹配页面</p>}
       </SidebarSelection>
       <div className="library-sidebar_footer__92pu1">
-        <Link className="library-sidebar_whatsNew__j_D2O" to="/docs/changelog">
+        <Link className="library-sidebar_whatsNew__j_D2O" to={`/docs/changelog${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}>
           <span className="library-sidebar_whatsNewDot__vCkUh" />
           <span className="library-sidebar_whatsNewLabel__dPHge">更新日志</span>
-          <span className="library-sidebar_whatsNewCount__RXAuH">
-            {SITE_CHANGELOG[0].changes.length} {text('项更新')}
-          </span>
           <ChevronRight size={14} className="library-sidebar_whatsNewArrow__yV6fC" />
         </Link>
       </div>
@@ -1017,7 +987,7 @@ function Site() {
       >
         <SiteFrame
           header={header}
-          sidebar={home || location.pathname === '/docs/graph' ? undefined : sidebar}
+          sidebar={home ? undefined : sidebar}
           dark={resolvedMode === 'dark'}
           accent={accent}
           themeColor={preferences.themeColor}
@@ -1133,22 +1103,13 @@ function Site() {
                     />
                   }
                 />
-              ) : location.pathname === '/docs/changelog' ? (
-                <SiteChangelog />
               ) : location.pathname === '/docs/graph' ? (
                 <RequirementGraphPage
                   key={displayedProject}
                   projectId={displayedProject}
-                  projectMenu={
-                    <SiteProjectMenu
-                      projects={projectCatalog.data?.projects ?? []}
-                      value={displayedProject}
-                      onChange={changeProject}
-                    />
-                  }
                 />
               ) : isDocs ? (
-                <SiteDocumentation key={location.pathname} path={location.pathname} pages={pages} />
+                <SiteDocumentation key={`${displayedProject}/${location.pathname}`} projectId={displayedProject} path={location.pathname} pages={pages} />
               ) : selected ? (
                 <Detail key={`${pageLink(selected)}/${session?.user?.id ?? 'anonymous'}`} page={selected} />
               ) : /^\/pages\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+$/.test(location.pathname) ? (

@@ -44,6 +44,11 @@ export function readableDocuments(store, user, project, snapshot) {
     ),
   );
 }
+export function readableProjectGuides(store, user, project, snapshot) {
+  return (snapshot?.manifest.guides ?? [])
+    .filter((guide) => canReadDocument(store, user, project, { ...guide, pages: [] }))
+    .map((guide) => ({ id: guide.id, title: guide.title, description: guide.description, path: guide.path, markdown: snapshot.files.get(guide.path).toString('utf8') }));
+}
 export function requireDocumentAccess(store, user, project, snapshot, file) {
   if (typeof file !== 'string' || !file) fail(400, '需要文档路径', 'BAD_REQUEST');
   const allowed = readableDocuments(store, user, project, snapshot);

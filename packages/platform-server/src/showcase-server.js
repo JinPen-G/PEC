@@ -17,6 +17,7 @@ import {
   pageDocuments,
   requireDocumentAccess,
   readableDocuments,
+  readableProjectGuides,
 } from '../../project-core/src/platform/page-documents.js';
 import {
   requirementGraphView,
@@ -181,7 +182,7 @@ export function createShowcaseHandler({
       json(response, { allowed: true });
       return true;
     }
-    const graphRoute = /^\/api\/native\/showcase\/([a-z0-9-]+)\/(graph|graph-query|graph-document)$/.exec(
+    const graphRoute = /^\/api\/native\/showcase\/([a-z0-9-]+)\/(graph|graph-query|graph-document|guides)$/.exec(
       url.pathname,
     );
     if (graphRoute) {
@@ -213,6 +214,19 @@ export function createShowcaseHandler({
           return false;
         }
       };
+      if (resource === 'guides') {
+        const current = requireCurrentAccess();
+        const guides = readableProjectGuides(store, current, project, snapshot);
+        json(response, {
+          projectId,
+          projectName: project.name,
+          availability: snapshot?.manifest.guides?.length ? 'ready' : 'unconfigured',
+          contentRevision: snapshot?.revision ?? null,
+          guides,
+          restrictedGuideIds: (snapshot?.manifest.guides ?? []).filter((guide) => !guides.some((allowedGuide) => allowedGuide.id === guide.id)).map((guide) => guide.id),
+        });
+        return true;
+      }
       if (resource === 'graph-document') {
         const document = allowed.find((item) => item.id === url.searchParams.get('id'));
         if (!document) fail(404, '需求不存在或无权访问', 'NOT_FOUND');

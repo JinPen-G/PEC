@@ -4,6 +4,12 @@ import { contractFlowNodes, contractFlowEdges } from './rimo-graph-contracts.mjs
 import { voucherFlowNodes, voucherFlowEdges } from './rimo-graph-vouchers.mjs';
 import { operationFlowNodes, operationFlowEdges } from './rimo-graph-operations.mjs';
 import { telematicsFlowNodes, telematicsFlowEdges } from './rimo-graph-telematics.mjs';
+import { sharingFlowNodes, sharingFlowEdges } from './rimo-graph-sharing.mjs';
+import {
+  lifecycleFlowNodes,
+  lifecycleFlowEdges,
+  lifecycleSupportingSources,
+} from './rimo-graph-lifecycle.mjs';
 
 const official = 'official-vehicles/00_全局口径与角色权限.md';
 const orders = 'official-vehicles/02_公务订单管理.md';
@@ -599,6 +605,8 @@ export function appendRimoFlowGraph({ nodes, edges, resolveEvidence }) {
     ...voucherFlowNodes,
     ...operationFlowNodes,
     ...telematicsFlowNodes,
+    ...sharingFlowNodes,
+    ...lifecycleFlowNodes,
   ]) {
     const existing = nodes.find((node) => node.id === definition.id);
     if (existing && definition.id !== 'official-station-source')
@@ -610,7 +618,7 @@ export function appendRimoFlowGraph({ nodes, edges, resolveEvidence }) {
       type: definition.type,
       summary: definition.summary,
       aliases: [],
-      topics: [definition.topic],
+      topics: definition.topics ?? [definition.topic],
       primaryTopic: definition.topic,
       status: 'active',
       requirements: [...new Set(evidence.map((item) => item.requirementId))],
@@ -638,6 +646,8 @@ export function appendRimoFlowGraph({ nodes, edges, resolveEvidence }) {
     ...voucherFlowEdges,
     ...operationFlowEdges,
     ...telematicsFlowEdges,
+    ...sharingFlowEdges,
+    ...lifecycleFlowEdges,
   ]) {
     if (![source, target].every((id) => nodes.some((node) => node.id === id)))
       throw new Error(`Missing authored flow endpoint: ${source} -> ${target}`);
@@ -656,6 +666,7 @@ export function appendRimoFlowGraph({ nodes, edges, resolveEvidence }) {
     });
   }
   const supportingSources = [
+    ...lifecycleSupportingSources,
     [
       'feature-vehicle-groups',
       'requirements/vehicle-groups.md',

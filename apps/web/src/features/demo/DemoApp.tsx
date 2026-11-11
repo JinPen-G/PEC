@@ -1,4 +1,4 @@
-/** Authenticated viewing shell. Menus come from the public catalog; every page
+/** Viewing shell for the current readable catalog; every page
  * still loads through the existing authorized preview and runtime services. */
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
@@ -8,7 +8,6 @@ import { ControlIdentityScope, FrameworkShell, UiEnvironmentProvider, type Shell
 import { AdminFeedbackProvider, Alert, Button, Empty } from '@preview/ui/admin';
 import { LoadingStage } from '@preview/ui/loading';
 import { useNativeAuth } from '@/features/platform/platform-api';
-import { loginRoute } from '@/features/platform/login-route';
 import { QueryFailure } from '@/features/platform/PageLayout';
 import { CollaborationRoom, CollaborationControls } from '@/features/platform/CollaborationRoom';
 import { VersionNotice } from '@/features/platform/VersionNotice';
@@ -18,6 +17,7 @@ import { usePrefersReducedMotion } from '@/features/motion/use-motion-preference
 import { useShellLabels } from '@/features/shell/shell-labels';
 import {
   useShowcasePages,
+  useShowcaseProject,
   useShowcaseProjects,
   type CatalogPage,
 } from '@/features/showcase/showcase-catalog';
@@ -45,7 +45,7 @@ function DemoPage({ page }: { page: CatalogPage }) {
 }
 export function DemoWorkspace() {
   const { session, logout } = useNativeAuth();
-  const user = session!.user!;
+  const user = session?.user;
   const location = useLocation();
   const navigate = useNavigate();
   const text = useShowcaseText();
@@ -55,7 +55,7 @@ export function DemoWorkspace() {
   const projects = projectsQuery.error ? [] : (projectsQuery.data?.projects ?? []);
   const route = demoPageRoute(location.pathname);
   const requestedProject = route?.projectId ?? new URLSearchParams(location.search).get('project');
-  const projectId = requestedProject ?? projects[0]?.id ?? '';
+  const projectId = useShowcaseProject(requestedProject, projectsQuery.error ? undefined : projectsQuery.data?.projects);
   const project = projects.find((item) => item.id === projectId);
   const pagesQuery = useShowcasePages(projectId, Boolean(project));
   const pages = project && !pagesQuery.error ? (pagesQuery.data?.pages ?? []) : [];
@@ -99,7 +99,7 @@ export function DemoWorkspace() {
     content = <DemoPage key={demoPageUrl(selected)} page={selected} />;
   }
   return (
-    <CollaborationRoom project={project} enabled={Boolean(selected)} routePrefix="/demo">
+    <CollaborationRoom project={project} enabled={Boolean(user && selected)} routePrefix="/demo">
       <FrameworkShell
         title="Preview"
         subtitle={project?.name ?? 'Demo'}
@@ -112,8 +112,8 @@ export function DemoWorkspace() {
         showNavigationModeSwitch={false}
         showAppearanceLink={false}
         showDocumentControl={false}
-        account={user.displayName}
-        accountDescription={user.username}
+        account={user?.displayName ?? text('访客')}
+        accountDescription={user?.username ?? text('公开浏览')}
         sections={sections}
         selectedKey={selected ? demoPageUrl(selected) : ''}
         onNavigate={navigate}
@@ -121,8 +121,8 @@ export function DemoWorkspace() {
         onThemeChange={(value) => setMode(value as PlatformThemeMode)}
         locale={locale}
         onLocaleChange={(value) => setLocale(value as PlatformLocale)}
-        onLogout={() => void logout().catch((error: Error) => setLogoutError(error.message))}
-        onPasswordChange={() => setPasswordOpen(true)}
+        onLogout={user ? () => void logout().catch((error: Error) => setLogoutError(error.message)) : undefined}
+        onPasswordChange={user ? () => setPasswordOpen(true) : undefined}
         contextControls={
           <>
             <CollaborationControls />
@@ -142,7 +142,7 @@ export function DemoWorkspace() {
         <VersionNotice />
         <main className="preview-native-content demo-content" data-admin-content data-prototype-canvas>
           {logoutError && <Alert type="error" title={logoutError} />}
-          <ControlIdentityScope identity={JSON.stringify([user.id, location.pathname])}>
+          <ControlIdentityScope identity={JSON.stringify([user?.id ?? 'anonymous', location.pathname])}>
             {content}
           </ControlIdentityScope>
         </main>
@@ -153,12 +153,10 @@ export function DemoWorkspace() {
 }
 function DemoIdentityGate() {
   const { session, loading, error, refresh } = useNativeAuth();
-  const location = useLocation();
   if (loading) return <LoadingStage scope="screen" />;
   if (error) return <QueryFailure message={error} retry={() => void refresh()} />;
-  if (!session?.user) return <Navigate to={loginRoute(location.pathname + location.search)} replace />;
-  if (session.user.mustChangePassword) return <PasswordForm required />;
-  return <DemoWorkspace key={`${session.user.id}/${session.user.revision}`} />;
+  if (session?.user?.mustChangePassword) return <PasswordForm required />;
+  return <DemoWorkspace key={`${session?.user?.id ?? 'anonymous'}/${session?.user?.revision ?? 0}`} />;
 }
 export default function DemoApp() {
   const { resolvedMode } = usePlatformTheme();

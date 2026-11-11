@@ -5,6 +5,7 @@ import type { ComponentRegistryItem } from '../../../../../packages/platform-con
 import { useNativeAuth } from '@/features/platform/platform-api';
 import { SourcePanel } from './SourcePanel';
 import { useShowcaseText } from './showcase-locale';
+import { registryInstallCommand } from './registry-command';
 import './registry-panel.css';
 
 const client = createNativeClient({ baseUrl: '' });
@@ -33,7 +34,7 @@ export function RegistryPanel({
     );
   if (!query.data)
     return <LoadingStage label={text(kind === 'component' ? '读取组件源码…' : '读取区块源码…')} />;
-  const command = `pnpm dlx shadcn@latest add ${new URL(url, window.location.origin).href}`;
+  const command = registryInstallCommand(url);
   return (
     <section className="showcase-registry" aria-label={text('安装与源码')}>
       <h2>{text('安装')}</h2>

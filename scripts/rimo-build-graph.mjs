@@ -14,6 +14,7 @@ import { graphHeadingId } from '../packages/project-shared/src/requirement-graph
 import { writeFileAtomic } from '../packages/project-core/src/filesystem.js';
 import { appendRimoFlowGraph } from './rimo-graph-flows.mjs';
 import { rimoGraphTopics, applyRimoGraphCategories } from './rimo-graph-categories.mjs';
+import { rimoGraphQuote } from './rimo-graph-evidence.mjs';
 
 const workspace = fileURLToPath(new URL('..', import.meta.url));
 const root = path.join(workspace, 'project-content/rimo-rental');
@@ -41,14 +42,19 @@ const find = (suffix) => {
 };
 const evidence = (document, quote) => {
   const markdown = source(document);
-  const position = markdown.indexOf(quote);
-  if (position < 0) throw new Error(`Graph quote missing from ${document.path}: ${quote}`);
+  let match;
+  try {
+    match = rimoGraphQuote(markdown, quote);
+  } catch {
+    throw new Error(`Graph quote missing from ${document.path}: ${quote}`);
+  }
+  const { position } = match;
   const headings = [...markdown.slice(0, position).matchAll(/^#{1,6}\s+(.+)$/gm)];
   if (!headings.length) throw new Error(`Graph quote has no section: ${document.path}`);
   return {
     requirementId: document.id,
     anchor: graphHeadingId(headings.at(-1)[1]),
-    quote,
+    quote: match.quote,
     revision: graphHash(snapshot.files.get(document.path)),
   };
 };

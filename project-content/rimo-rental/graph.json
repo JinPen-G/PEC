@@ -3427,7 +3427,8 @@
       "primaryTopic": "dispatch",
       "status": "active",
       "requirements": [
-        "store-rental-4d8dad7d9e"
+        "store-rental-4d8dad7d9e",
+        "store-rental-d195923f5d"
       ],
       "evidence": [
         {
@@ -3435,6 +3436,12 @@
           "anchor": "22-车组库存与具体车辆占用关系",
           "quote": "每笔有效门市租赁订单固定占用 1 个车组库存名额。",
           "revision": "41c505ecff99b08db8908cf27f4e0198f802d7a0a005c3199dd41a853d8cbeed"
+        },
+        {
+          "requirementId": "store-rental-d195923f5d",
+          "anchor": "31-客户预订对象",
+          "quote": "门市租赁订单默认按**车组**预订，不在下单时锁定具体车牌。",
+          "revision": "7c0af80d30d6a63a464a2941c4f3ad52646e15579f718ecb900e886e5e64ec90"
         }
       ],
       "keyPoints": [
@@ -3497,7 +3504,8 @@
       "primaryTopic": "dispatch",
       "status": "active",
       "requirements": [
-        "store-rental-2b53a79cb4"
+        "store-rental-2b53a79cb4",
+        "store-rental-d195923f5d"
       ],
       "evidence": [
         {
@@ -3505,6 +3513,12 @@
           "anchor": "63-硬锁定要求",
           "quote": "未锁定车辆时，不允许确认发车。",
           "revision": "99b4a5e04054356f5aad09a079211cc8ff6816b2a2a3bc475c935fc9810476bf"
+        },
+        {
+          "requirementId": "store-rental-d195923f5d",
+          "anchor": "33-调度边界",
+          "quote": "取车前必须存在已硬锁车辆。",
+          "revision": "7c0af80d30d6a63a464a2941c4f3ad52646e15579f718ecb900e886e5e64ec90"
         }
       ],
       "keyPoints": [
@@ -4422,7 +4436,8 @@
       "primaryTopic": "official",
       "status": "active",
       "requirements": [
-        "official-vehicles-ef9fa9eea9"
+        "official-vehicles-ef9fa9eea9",
+        "knowledge-31ba3c835b"
       ],
       "evidence": [
         {
@@ -4430,6 +4445,12 @@
           "anchor": "2-核心业务口径",
           "quote": "员工所属分公司决定订单归属、审批归属、统计归属。",
           "revision": "4d39878dc9cb23da44a39e90c3f868516a7b58ffe0ba736fafc2f2e878c1a323"
+        },
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "6-公务车预约",
+          "quote": "公务车预约归属按员工所属分公司判断。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
         }
       ],
       "keyPoints": [
@@ -5708,7 +5729,8 @@
       "primaryTopic": "contracts",
       "status": "active",
       "requirements": [
-        "official-vehicles-ef9fa9eea9"
+        "official-vehicles-ef9fa9eea9",
+        "knowledge-31ba3c835b"
       ],
       "evidence": [
         {
@@ -5716,6 +5738,12 @@
           "anchor": "2-核心业务口径",
           "quote": "车辆合约到期或配额失效后，不开放新预约；已预约订单保留，由企业内部自行处理。",
           "revision": "4d39878dc9cb23da44a39e90c3f868516a7b58ffe0ba736fafc2f2e878c1a323"
+        },
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "8-合约到期处理",
+          "quote": "合约到期或车辆被强制下架前已经创建的预约继续有效，不自动取消、不自动改派。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
         }
       ],
       "keyPoints": [
@@ -6287,6 +6315,7 @@
       "requirements": [
         "official-vehicles-383fce8cf4",
         "official-vehicles-479690039b",
+        "knowledge-31ba3c835b",
         "official-vehicles-a3f963d0b7"
       ],
       "evidence": [
@@ -6301,6 +6330,12 @@
           "anchor": "5-页面规则",
           "quote": "历史订单中的员工、车辆、据点、审批结果按订单快照展示。",
           "revision": "c74943fdca9ddbde1e06dcd699580bb76fd2933035bf311507fdafe7a48ae78a"
+        },
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "9-数据快照与历史记录",
+          "quote": "历史预约、历史合约和历史账单展示时，读取历史快照，不读取当前基础资料重新解释。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
         },
         {
           "requirementId": "official-vehicles-a3f963d0b7",
@@ -6986,7 +7021,8 @@
       "primaryTopic": "store-rental",
       "status": "active",
       "requirements": [
-        "store-rental-4f9aac6a08"
+        "store-rental-4f9aac6a08",
+        "store-rental-d195923f5d"
       ],
       "evidence": [
         {
@@ -6994,6 +7030,12 @@
           "anchor": "22-本期资金口径",
           "quote": "企业月结订单不进入客户支付链路，不生成预授权押金，不要求取车尾款收款；系统在还车结算确认、取消/爽约/拒绝履约确认、完成后追缴确认时生成 `monthly_bill`，相关费用统一进入企业月结账单。",
           "revision": "3fb0d63f2f83b247fb34830cf3b3e12792959ffe736e8d2a4bf8c3893c8cd21e"
+        },
+        {
+          "requirementId": "store-rental-d195923f5d",
+          "anchor": "34-资金与结算边界",
+          "quote": "企业月结订单不发起客户支付或预授权，最终费用进入企业账单。",
+          "revision": "7c0af80d30d6a63a464a2941c4f3ad52646e15579f718ecb900e886e5e64ec90"
         }
       ],
       "keyPoints": [
@@ -7464,7 +7506,8 @@
       "primaryTopic": "pricing",
       "status": "active",
       "requirements": [
-        "store-rental-56ec4d91d4"
+        "store-rental-56ec4d91d4",
+        "store-rental-d195923f5d"
       ],
       "evidence": [
         {
@@ -7478,6 +7521,12 @@
           "anchor": "34-订单快照",
           "quote": "门市租赁采用“订单级基线快照 + 事件级增量快照”模型。",
           "revision": "a5045f75a343ea5d532068cdbb301dec53a5093ee09fd6701745fd30db60df36"
+        },
+        {
+          "requirementId": "store-rental-d195923f5d",
+          "anchor": "35-快照与历史追溯边界",
+          "quote": "续租、改租期、改车组、取车现场改行销方案、逾时重计费等商业变化，按事件级增量快照处理。",
+          "revision": "7c0af80d30d6a63a464a2941c4f3ad52646e15579f718ecb900e886e5e64ec90"
         }
       ],
       "keyPoints": [
@@ -8844,7 +8893,8 @@
       "primaryTopic": "contracts",
       "status": "active",
       "requirements": [
-        "official-vehicles-c113eae3d0"
+        "official-vehicles-c113eae3d0",
+        "knowledge-31ba3c835b"
       ],
       "evidence": [
         {
@@ -8858,6 +8908,12 @@
           "anchor": "3-数据范围",
           "quote": "历史账单按账单生成时快照展示。",
           "revision": "0f46d6200b3baff7e53d63d818f23115228448f4549b76dcaf65880f7d42e4e1"
+        },
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "7-公务车账单",
+          "quote": "公务车账单来源于企业公务车合约，不来源于员工每笔预约订单。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
         }
       ],
       "keyPoints": [
@@ -12682,6 +12738,2084 @@
           "text": "执行状态1继续轮询，2成功，3失败。",
           "evidence": [
             2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-identity-selection",
+      "label": "选择租赁身份",
+      "type": "process",
+      "summary": "个人身份匹配个人会员方案；已加入并通过企业审核的员工，按企业签约范围使用企业身份。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "41-个人身份",
+          "quote": "个人身份下单时，系统使用用户当前绑定的个人会员方案匹配可用行销方案。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "42-企业身份",
+          "quote": "用户加入企业并审核通过后，可以使用企业身份下单。企业身份是否可用于分时租赁，取决于企业签约服务类型。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "个人身份下单时，系统使用用户当前绑定的个人会员方案匹配可用行销方案。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "用户加入企业并审核通过后，可以使用企业身份下单。企业身份是否可用于分时租赁，取决于企业签约服务类型。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-vehicle-query",
+      "label": "查询具体可租车辆",
+      "type": "process",
+      "summary": "选择业务模式、据点和租期后查询具体车辆；分时不采用门市租赁的车组先占库存模式。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "53-车组",
+          "quote": "分时租赁用户下单时不选择车组，也不选择车型，而是直接选择具体车辆。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "52-车辆",
+          "quote": "车辆需要具备当前分时租赁服务类型，并归属到对应据点后，才能在 APP 中展示给用户选择。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "分时租赁用户下单时不选择车组，也不选择车型，而是直接选择具体车辆。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "车辆需要具备当前分时租赁服务类型，并归属到对应据点后，才能在 APP 中展示给用户选择。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-vehicle-availability",
+      "label": "分时车辆预约校验",
+      "type": "rule",
+      "summary": "同时校验据点、车辆状态、服务类型、时间窗、会员方案和载具资格；特殊车辆另校验可见会员方案。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-f7be5a9a91",
+        "knowledge-a61b45e6b2",
+        "knowledge-58cb66beac"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-f7be5a9a91",
+          "anchor": "31-分时租赁---同站租还",
+          "quote": "同站租还车辆查询需要按据点、车辆状态、服务类型、时间窗占用、会员方案和载具类型校验。",
+          "revision": "6bfcf21245aa62a86f675c4a1e3d80d6dd198caf4b32bc507374dfc28c8607f6"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "52-车辆",
+          "quote": "特殊车辆需要配置允许查看和预约的会员方案，只有命中对应会员方案的用户才能在 APP 中看到并预约该车辆。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-58cb66beac",
+          "anchor": "6-分时租赁订单与资金关系",
+          "quote": "VehicleCheck[\"车辆状态 + 时间窗 + 据点 + 载具资格校验\"]",
+          "revision": "6aacc17c1af4b7035cd0b6a9e50fbf1196da2bbd62d6768d4e9d6475367180e2"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "同站租还车辆查询需要按据点、车辆状态、服务类型、时间窗占用、会员方案和载具类型校验。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "特殊车辆需要配置允许查看和预约的会员方案，只有命中对应会员方案的用户才能在 APP 中看到并预约该车辆。",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "按车辆状态、时间窗、据点和载具资格校验候选车辆。",
+          "evidence": [
+            2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-price-selection",
+      "label": "匹配分时价格与方案",
+      "type": "process",
+      "summary": "按身份和会员方案匹配当前模式的价格及增值服务；默认最低可用方案，最终只选一个，不自动叠加。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "53-车组",
+          "quote": "同站租还和甲租乙还虽然共用车组基础资料，但标准价、行销方案和增值服务按业务模式独立配置。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "71-当前口径",
+          "quote": "用户下单时，系统先判断用户使用个人身份还是企业身份，再根据对应会员方案匹配可用行销方案。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "71-当前口径",
+          "quote": "有可用行销方案时，APP 展示所有可用方案给用户选择，默认选中最终价格最低的方案。订单最终使用一个行销方案，不自动叠加多个行销方案。没有可用行销方案时，使用标准价。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "同站租还和甲租乙还虽然共用车组基础资料，但标准价、行销方案和增值服务按业务模式独立配置。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "用户下单时，系统先判断用户使用个人身份还是企业身份，再根据对应会员方案匹配可用行销方案。",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "有可用行销方案时，APP 展示所有可用方案给用户选择，默认选中最终价格最低的方案。订单最终使用一个行销方案，不自动叠加多个行销方案。没有可用行销方案时，使用标准价。",
+          "evidence": [
+            2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-order-confirmation",
+      "label": "确认分时订单",
+      "type": "process",
+      "summary": "确认车辆、租期、取还据点与价格后，按个人自付、企业非月结或企业月结分别确认预约。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "8. 用户确认订单\r\n9. 个人自付和企业非月结订单发起预授权\r\n10. 企业月结订单确认月结资格\r\n11. 订单预约成功",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "8. 用户确认订单\n9. 个人自付和企业非月结订单发起预授权\n10. 企业月结订单确认月结资格\n11. 订单预约成功",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-order-snapshot",
+      "label": "分时订单历史快照",
+      "type": "object",
+      "summary": "创建时保存身份、车辆、据点、价格版本、预授权及费用归属；历史查询和退款追溯不能读取当前配置重算。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "10-订单快照与历史版本",
+          "quote": "分时租赁订单创建时必须保存订单快照，不能只通过 ID 关联当前配置和基础资料。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "10-订单快照与历史版本",
+          "quote": "历史订单展示、企业端查询、财务核对和退款追溯时，需要读取订单快照和订单绑定的历史版本，不读取当前主数据名称或当前规则重新计算。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "分时租赁订单创建时必须保存订单快照，不能只通过 ID 关联当前配置和基础资料。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "历史订单展示、企业端查询、财务核对和退款追溯时，需要读取订单快照和订单绑定的历史版本，不读取当前主数据名称或当前规则重新计算。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-preauthorization",
+      "label": "分时下单预授权",
+      "type": "process",
+      "summary": "个人自付及企业非月结按预计租金和预授权倍率冻结额度，成功后预约生效。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "1. 用户预约时，系统按订单预计租金和预授权倍率计算预授权金额\r\n2. 用户完成预授权后，订单预约成功",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "预授权倍率由营运商在后台配置。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "1. 用户预约时，系统按订单预计租金和预授权倍率计算预授权金额\n2. 用户完成预授权后，订单预约成功",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "预授权倍率由营运商在后台配置。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-monthly-qualification",
+      "label": "确认分时企业月结资格",
+      "type": "process",
+      "summary": "企业身份月结资格确认后直接预约，不进行个人预授权、付款或退款。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "1. 用户使用企业身份下单\r\n2. 系统确认企业月结资格\r\n3. 不收取个人预授权\r\n4. 订单预约成功",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "43-企业月结",
+          "quote": "企业月结订单不走个人支付链路。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "1. 用户使用企业身份下单\n2. 系统确认企业月结资格\n3. 不收取个人预授权\n4. 订单预约成功",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "企业月结订单不走个人支付链路。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-reserved",
+      "label": "分时订单已预订",
+      "type": "state",
+      "summary": "预约确认并占用具体车辆资源，等待取车；不是单纯已提交订单。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 预约阶段 | 已预订 | 订单已确认并占用车辆资源，等待客户取车。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "预约阶段 · 已预订 · 订单已确认并占用车辆资源，等待客户取车。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-pending-payment",
+      "label": "分时订单待支付",
+      "type": "state",
+      "summary": "订单已建立但支付或预授权尚未完成，不能视为预约确认。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 预约阶段 | 待支付 | 订单已建立，但下单所需支付或预授权尚未完成。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "预约阶段 · 待支付 · 订单已建立，但下单所需支付或预授权尚未完成。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-pickup",
+      "label": "APP 自助取车",
+      "type": "process",
+      "summary": "预约成功后在 APP 取车，完成后进入用车中；车机异常应进入人工处理，不能视为已经取车。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2",
+        "knowledge-c22311b728"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "11. 订单预约成功\r\n12. 用户在 APP 中自助取车\r\n13. 订单进入用车中",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "11. 订单预约成功\n12. 用户在 APP 中自助取车\n13. 订单进入用车中",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-in-use",
+      "label": "分时订单用车中",
+      "type": "state",
+      "summary": "已完成取车并实际租用车辆，可继续正常用车及还车；延长、事故和逾期分别表达状态。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 履约阶段 | 用车中 | 已完成取车，车辆正在租用中。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "履约阶段 · 用车中 · 已完成取车，车辆正在租用中。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-return",
+      "label": "APP 自助还车",
+      "type": "process",
+      "summary": "用户还车后按实际用车计算最终费用，再走对应支付或企业挂账流程。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "13. 订单进入用车中\r\n14. 用户在 APP 中自助还车\r\n15. 系统按实际用车情况结算",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "13. 订单进入用车中\n14. 用户在 APP 中自助还车\n15. 系统按实际用车情况结算",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-final-cost",
+      "label": "分时最终费用结算",
+      "type": "process",
+      "summary": "还车后按实际用车及订单历史依据核算，区分预授权扣款、企业月结和租车券企业费用。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "3. 用户还车后，系统按实际用车情况计算最终费用\r\n4. 系统从预授权额度中扣款",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "5. 还车后计算最终费用\r\n6. 最终费用进入企业月结账单",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "3. 用户还车后，系统按实际用车情况计算最终费用\n4. 系统从预授权额度中扣款",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "5. 还车后计算最终费用\n6. 最终费用进入企业月结账单",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-preauthorization-charge",
+      "label": "分时预授权扣款与差额",
+      "type": "process",
+      "summary": "个人自付和企业非月结优先从预授权扣款，不足、到期或特殊退款仍按资金规则补缴、追缴或处理退款。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "4. 系统从预授权额度中扣款\r\n5. 如需补缴或特殊退款，按分时租赁现有资金规则处理；同站租还提前还车默认退积分，不走现金退款",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "分时租赁预授权到期后，订单仍按实际费用生成扣款、补缴或追缴记录；预授权主要用于预约兜底，降低用户无可用额度却占用车辆资源的风险，不作为唯一收款手段。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "4. 系统从预授权额度中扣款\n5. 如需补缴或特殊退款，按分时租赁现有资金规则处理；同站租还提前还车默认退积分，不走现金退款",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "分时租赁预授权到期后，订单仍按实际费用生成扣款、补缴或追缴记录；预授权主要用于预约兜底，降低用户无可用额度却占用车辆资源的风险，不作为唯一收款手段。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-monthly-posting",
+      "label": "分时费用进入企业月结",
+      "type": "process",
+      "summary": "有月结资格的企业身份订单最终费用和追加费用进入企业账单，不向员工收款。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2",
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "5. 还车后计算最终费用\r\n6. 最终费用进入企业月结账单",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        },
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "4-金额下方标签",
+          "quote": "企业月结订单始终展示“企业月结”，追加费用统一进入企业账单。",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "5. 还车后计算最终费用\n6. 最终费用进入企业月结账单",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "企业月结订单始终展示“企业月结”，追加费用统一进入企业账单。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-completed",
+      "label": "分时订单已完成",
+      "type": "state",
+      "summary": "车辆已归还且费用处理完成后，订单正式结束；追加费用进度另行展示。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已完成 | 车辆已归还且费用处理完成，订单正式结束。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        },
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "4-金额下方标签",
+          "quote": "金额下方标签用于区分订单当前结算进度和后续追加费用处理进度",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "终态 · 已完成 · 车辆已归还且费用处理完成，订单正式结束。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "金额下方标签用于区分订单当前结算进度和后续追加费用处理进度",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-early-return-points",
+      "label": "同站提前还车退积分",
+      "type": "rule",
+      "summary": "同站提前还车不退租金，按后台规则退积分；不能套用门市提前还车的退款规则。",
+      "aliases": [],
+      "topics": [
+        "same-station"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "同站租还提前还车不退租金，按后台规则退还积分；甲租乙还和其他分时场景如发生特殊退款，按现有资金规则由后台处理。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "同站租还提前还车不退租金，按后台规则退还积分；甲租乙还和其他分时场景如发生特殊退款，按现有资金规则由后台处理。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-return-api",
+      "label": "甲租乙还可还据点接口",
+      "type": "interface",
+      "summary": "旧版 APP 依赖空闲车位字段；多服务据点改造不能把无车位的据点放入还车可选范围。",
+      "aliases": [],
+      "topics": [
+        "one-way",
+        "sites"
+      ],
+      "primaryTopic": "one-way",
+      "status": "active",
+      "requirements": [
+        "knowledge-f7be5a9a91",
+        "knowledge-a61b45e6b2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-f7be5a9a91",
+          "anchor": "32-分时租赁---甲租乙还",
+          "quote": "旧版 APP 已依赖可还车据点接口中的空闲车位字段，后端不得改变该字段含义、扣减时机和空位为 0 的判断逻辑。",
+          "revision": "6bfcf21245aa62a86f675c4a1e3d80d6dd198caf4b32bc507374dfc28c8607f6"
+        },
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "22-甲租乙还",
+          "quote": "当前可还车空闲车位为 0 时，APP 不得允许用户选择该据点还车。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "旧版 APP 已依赖可还车据点接口中的空闲车位字段，后端不得改变该字段含义、扣减时机和空位为 0 的判断逻辑。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "当前可还车空闲车位为 0 时，APP 不得允许用户选择该据点还车。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-post-charge",
+      "label": "分时追加费用追缴",
+      "type": "process",
+      "summary": "非月结订单追加费用优先显示追缴进度与金额；企业月结追加费用仍挂企业账。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "4-金额下方标签",
+          "quote": "非月结订单产生追加费用后，优先展示追缴状态和追缴金额。",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        },
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "4-金额下方标签",
+          "quote": "企业月结订单始终展示“企业月结”，追加费用统一进入企业账单。",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "非月结订单产生追加费用后，优先展示追缴状态和追缴金额。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "企业月结订单始终展示“企业月结”，追加费用统一进入企业账单。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-pickup-overdue",
+      "label": "分时订单逾期未取",
+      "type": "state",
+      "summary": "已超过预约取车时间，订单仍未完成取车且尚未判定爽约。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 预约阶段 | 逾期未取 | 已超过预约取车时间，订单仍未完成取车且尚未判定爽约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "预约阶段 · 逾期未取 · 已超过预约取车时间，订单仍未完成取车且尚未判定爽约。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-inspecting",
+      "label": "分时订单验车中",
+      "type": "state",
+      "summary": "已开始办理取车，车辆检查或交车资料尚未提交完成。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 履约阶段 | 验车中 | 已开始办理取车，车辆检查或交车资料尚未提交完成。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "履约阶段 · 验车中 · 已开始办理取车，车辆检查或交车资料尚未提交完成。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-renewing",
+      "label": "分时订单续租中",
+      "type": "state",
+      "summary": "订单已进入续租状态，新的预约还车时间已经生效。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 履约阶段 | 续租中 | 订单已进入续租状态，新的预约还车时间已经生效。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "履约阶段 · 续租中 · 订单已进入续租状态，新的预约还车时间已经生效。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-overdue",
+      "label": "分时订单逾期未还",
+      "type": "state",
+      "summary": "已超过预约还车时间，车辆仍未归还。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 异常阶段 | 逾期未还 | 已超过预约还车时间，车辆仍未归还。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "异常阶段 · 逾期未还 · 已超过预约还车时间，车辆仍未归还。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-accident",
+      "label": "分时订单出险处理中",
+      "type": "state",
+      "summary": "订单已登记事故或出险，正在处理事故、保险或定损。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 异常阶段 | 出险处理中 | 订单已登记事故或出险，正在处理事故、保险或定损。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "异常阶段 · 出险处理中 · 订单已登记事故或出险，正在处理事故、保险或定损。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-settlement",
+      "label": "分时订单待结算",
+      "type": "state",
+      "summary": "车辆已归还或还车资料已提交，最终费用尚未确认完成。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 结算阶段 | 待结算 | 车辆已归还或还车资料已提交，最终费用尚未确认完成。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "结算阶段 · 待结算 · 车辆已归还或还车资料已提交，最终费用尚未确认完成。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-payment-due",
+      "label": "分时订单待补缴",
+      "type": "state",
+      "summary": "最终结算存在应收差额，等待补缴。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 结算阶段 | 待补缴 | 最终结算存在应收差额，等待补缴。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "结算阶段 · 待补缴 · 最终结算存在应收差额，等待补缴。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-refund-pending",
+      "label": "分时订单待退款",
+      "type": "state",
+      "summary": "最终结算存在应退差额，等待退款。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 结算阶段 | 待退款 | 最终结算存在应退差额，等待退款。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "结算阶段 · 待退款 · 最终结算存在应退差额，等待退款。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-cancelled",
+      "label": "分时订单已取消",
+      "type": "state",
+      "summary": "订单在履约前被客户或营运人员取消。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已取消 | 订单在履约前被客户或营运人员取消。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "终态 · 已取消 · 订单在履约前被客户或营运人员取消。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-no-show",
+      "label": "分时订单爽约",
+      "type": "state",
+      "summary": "客户超过取车保留时间仍未取车，并已被确认爽约。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 爽约 | 客户超过取车保留时间仍未取车，并已被确认爽约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "终态 · 爽约 · 客户超过取车保留时间仍未取车，并已被确认爽约。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-rejected",
+      "label": "分时订单已拒绝",
+      "type": "state",
+      "summary": "因风控、证件或资格问题拒绝继续履约。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已拒绝 | 因风控、证件或资格问题拒绝继续履约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "终态 · 已拒绝 · 因风控、证件或资格问题拒绝继续履约。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "sharing-closed",
+      "label": "分时订单已关闭",
+      "type": "state",
+      "summary": "订单因异常原因终止并完成关闭处理，不再继续履约。",
+      "aliases": [],
+      "topics": [
+        "same-station",
+        "one-way"
+      ],
+      "primaryTopic": "same-station",
+      "status": "active",
+      "requirements": [
+        "time-share-45b30a4381"
+      ],
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已关闭 | 订单因异常原因终止并完成关闭处理，不再继续履约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "终态 · 已关闭 · 订单因异常原因终止并完成关闭处理，不再继续履约。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "official-order-submit",
+      "label": "提交公务车预约",
+      "type": "process",
+      "summary": "重新校验员工、车辆、时间和必填资料，保存快照，再按员工分公司审批设定进入待审批或已预约。",
+      "aliases": [],
+      "topics": [
+        "official"
+      ],
+      "primaryTopic": "official",
+      "status": "active",
+      "requirements": [
+        "official-vehicles-383fce8cf4"
+      ],
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "提交时系统重新校验车辆是否仍可预约。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        },
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "员工所属分公司未开启预约审批时，订单创建后直接进入已预约。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        },
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "员工所属分公司开启预约审批时，订单创建后进入待审批。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        },
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "订单创建后保存员工、车辆、据点、预约时间、目的地、用车事由和审批规则快照。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "提交时系统重新校验车辆是否仍可预约。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "trigger",
+          "text": "员工所属分公司未开启预约审批时，订单创建后直接进入已预约。",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "trigger",
+          "text": "员工所属分公司开启预约审批时，订单创建后进入待审批。",
+          "evidence": [
+            2
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "订单创建后保存员工、车辆、据点、预约时间、目的地、用车事由和审批规则快照。",
+          "evidence": [
+            3
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "official-pickup",
+      "label": "公务车开始用车",
+      "type": "process",
+      "summary": "有效预约进入取车并开始用车后，记录实际取车时间；不套用公开租赁个人支付流程。",
+      "aliases": [],
+      "topics": [
+        "official"
+      ],
+      "primaryTopic": "official",
+      "status": "active",
+      "requirements": [
+        "official-vehicles-479690039b",
+        "official-vehicles-5787bcb2e2",
+        "knowledge-31ba3c835b"
+      ],
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-479690039b",
+          "anchor": "4-订单状态规则",
+          "quote": "| 用车中 | 已到取车流程并开始用车 | 查看详情 |",
+          "revision": "c74943fdca9ddbde1e06dcd699580bb76fd2933035bf311507fdafe7a48ae78a"
+        },
+        {
+          "requirementId": "official-vehicles-5787bcb2e2",
+          "anchor": "3-时间轴显示规则",
+          "quote": "| 用车中 | 实际取车时间 | 预约还车时间 |",
+          "revision": "919a5a4691f1fa35a0a2b77b41103a5ab313de87cc2eb73c3e0807f0f7bc28f8"
+        },
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "6-公务车预约",
+          "quote": "公务车预约不产生员工个人支付，不走个人预授权，不进入分时租赁或门市租赁的订单支付链路。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "用车中 · 已到取车流程并开始用车 · 查看详情",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "用车中 · 实际取车时间 · 预约还车时间",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "公务车预约不产生员工个人支付，不走个人预授权，不进入分时租赁或门市租赁的订单支付链路。",
+          "evidence": [
+            2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "official-return",
+      "label": "公务车完成还车",
+      "type": "process",
+      "summary": "完成还车后订单完成，实际取还时间进入历史排程；不按每次预约生成个人应付账单。",
+      "aliases": [],
+      "topics": [
+        "official"
+      ],
+      "primaryTopic": "official",
+      "status": "active",
+      "requirements": [
+        "official-vehicles-479690039b",
+        "official-vehicles-5787bcb2e2"
+      ],
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-479690039b",
+          "anchor": "4-订单状态规则",
+          "quote": "| 已完成 | 已完成还车 | 查看详情 |",
+          "revision": "c74943fdca9ddbde1e06dcd699580bb76fd2933035bf311507fdafe7a48ae78a"
+        },
+        {
+          "requirementId": "official-vehicles-5787bcb2e2",
+          "anchor": "4-排程占用规则",
+          "quote": "已完成订单按实际取还车时间保留历史排程。",
+          "revision": "919a5a4691f1fa35a0a2b77b41103a5ab313de87cc2eb73c3e0807f0f7bc28f8"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "已完成 · 已完成还车 · 查看详情",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "已完成订单按实际取还车时间保留历史排程。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "official-approval-timeout",
+      "label": "公务预约审批超时",
+      "type": "process",
+      "summary": "仅启用限时审批时生效：超时未处理自动取消，审批结果记为过期，释放预约时间窗。",
+      "aliases": [],
+      "topics": [
+        "official"
+      ],
+      "primaryTopic": "official",
+      "status": "active",
+      "requirements": [
+        "knowledge-31ba3c835b"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "6-公务车预约",
+          "quote": "启用限时审批时，系统按分公司审批设置中的审批时限判断超时。超过审批时限仍未通过或驳回的预约自动取消，审核状态显示为审批超时（过期），车辆预约时间窗释放，不再阻塞后续新预约。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "启用限时审批时，系统按分公司审批设置中的审批时限判断超时。超过审批时限仍未通过或驳回的预约自动取消，审核状态显示为审批超时（过期），车辆预约时间窗释放，不再阻塞后续新预约。",
+          "evidence": [
+            0
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "official-approval-notification",
+      "label": "公务预约审批通知",
+      "type": "process",
+      "summary": "申请提交推送部门主管，审批结果通知预约员工；与管理员的员工入企、合约提醒区分。",
+      "aliases": [],
+      "topics": [
+        "notifications",
+        "official"
+      ],
+      "primaryTopic": "notifications",
+      "status": "active",
+      "requirements": [
+        "official-vehicles-9ff5f46de9",
+        "knowledge-31ba3c835b"
+      ],
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-9ff5f46de9",
+          "anchor": "5-通知规则",
+          "quote": "员工提交申请后，推送给员工部门主管。",
+          "revision": "a2a7385b78cbfad7ca6b13af579578aac2fd7c32c74924418088e958623b137c"
+        },
+        {
+          "requirementId": "official-vehicles-9ff5f46de9",
+          "anchor": "5-通知规则",
+          "quote": "审批通过或驳回后，通知预约员工。",
+          "revision": "a2a7385b78cbfad7ca6b13af579578aac2fd7c32c74924418088e958623b137c"
+        },
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "6-公务车预约",
+          "quote": "管理员后台主要接收员工申请加入企业的审批提醒、合约续费提醒和合约到期提醒。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "员工提交申请后，推送给员工部门主管。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "trigger",
+          "text": "审批通过或驳回后，通知预约员工。",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "管理员后台主要接收员工申请加入企业的审批提醒、合约续费提醒和合约到期提醒。",
+          "evidence": [
+            2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "store-return-transfer",
+      "label": "申请改还车门市或据点",
+      "type": "process",
+      "summary": "后台在履约阶段发起；跨门市只限同车行，同门市换据点不产生异地费，进入结算或终态后不可转单。",
+      "aliases": [],
+      "topics": [
+        "store-rental"
+      ],
+      "primaryTopic": "store-rental",
+      "status": "active",
+      "requirements": [
+        "knowledge-1864f917f1"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "客户或门店需要调整还车门市时，必须先执行“改还车门市/转单”。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单允许状态为 `reserved`、`pickup_overdue`、`inspecting`、`renting`、`renewing`、`overdue`、`accident_processing`；进入 `settlement_pending`、`payment_due`、`refund_pending` 或终态后不允许转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "门市租车改还车门市和 24 小时自助租车改还车据点当前均由后台处理，APP 自助申请入口当前不做，也暂无规划。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "客户或门店需要调整还车门市时，必须先执行“改还车门市/转单”。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "转单允许状态为 reserved、pickup_overdue、inspecting、renting、renewing、overdue、accident_processing；进入 settlement_pending、payment_due、refund_pending 或终态后不允许转单。",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "门市租车改还车门市和 24 小时自助租车改还车据点当前均由后台处理，APP 自助申请入口当前不做，也暂无规划。",
+          "evidence": [
+            2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "store-return-transfer-conflict",
+      "label": "转单后续预约冲突",
+      "type": "rule",
+      "summary": "确认转单前检查原还车门市的后续预约、待取车及硬锁占用；有冲突先改派后续订单。",
+      "aliases": [],
+      "topics": [
+        "dispatch"
+      ],
+      "primaryTopic": "dispatch",
+      "status": "active",
+      "requirements": [
+        "knowledge-1864f917f1"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "改还车门市确认前，系统必须检查当前车辆在原订单当前还车门市是否已经有后续预约、待取车或硬锁订单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "改还车门市确认前，系统必须检查当前车辆在原订单当前还车门市是否已经有后续预约、待取车或硬锁订单。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "store-followup-reassignment",
+      "label": "改派受影响的后续订单",
+      "type": "process",
+      "summary": "续租或转单命中后续预约时处理被影响订单；不把当前订单的延长或转单当作已经完成。",
+      "aliases": [],
+      "topics": [
+        "dispatch",
+        "store-rental"
+      ],
+      "primaryTopic": "dispatch",
+      "status": "active",
+      "requirements": [
+        "store-rental-351353f602",
+        "knowledge-1864f917f1",
+        "store-rental-e71c38e00d"
+      ],
+      "evidence": [
+        {
+          "requirementId": "store-rental-351353f602",
+          "anchor": "3-改派场景",
+          "quote": "| 后续订单改派 | 当前订单延长用车导致后续订单库存冲突 | 改派被影响的后续订单，不改变当前订单费用。 |",
+          "revision": "2b14c7f40734c67c97056e05f42cbda84c22c3a02301809ff4b3bb336560b987"
+        },
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "store-rental-e71c38e00d",
+          "anchor": "23-改派后续订单",
+          "quote": "改派成功后，当前订单可继续确认延长；改派失败时，当前订单仍不能超过最迟可延长时间。",
+          "revision": "be6376231c0add828a35522a3073b1906e0e480e5e4ce40818d5b64b3e67feb2"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "后续订单改派 · 当前订单延长用车导致后续订单库存冲突 · 改派被影响的后续订单，不改变当前订单费用。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "改派成功后，当前订单可继续确认延长；改派失败时，当前订单仍不能超过最迟可延长时间。",
+          "evidence": [
+            2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "store-return-transfer-applied",
+      "label": "确认转单与交接权限",
+      "type": "process",
+      "summary": "确认后更新当前还车门市，新门市获得操作权限，原门市仅可查看；同步费用差额和后续排程。",
+      "aliases": [],
+      "topics": [
+        "store-rental"
+      ],
+      "primaryTopic": "store-rental",
+      "status": "active",
+      "requirements": [
+        "knowledge-1864f917f1"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单完成后，新门市获得订单列表、订单详情和还车操作权限；原门市仅保留查看，不再具备还车、转单、改派等操作权限。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单费用按“新异地还车费 - 旧异地还车费”计算差额。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "转单完成后，新门市获得订单列表、订单详情和还车操作权限；原门市仅保留查看，不再具备还车、转单、改派等操作权限。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "转单费用按“新异地还车费 - 旧异地还车费”计算差额。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "store-return-transfer-fee",
+      "label": "转单异地费用差额",
+      "type": "object",
+      "summary": "按取车门市到新旧还车门市计算差额，客户自付进尾款或还车结算，企业月结进企业账单。",
+      "aliases": [],
+      "topics": [
+        "pricing",
+        "store-rental"
+      ],
+      "primaryTopic": "pricing",
+      "status": "active",
+      "requirements": [
+        "knowledge-1864f917f1",
+        "store-rental-d195923f5d"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "旧异地还车费按取车门市到原订单当前还车门市计算，新异地还车费按取车门市到新订单当前还车门市计算。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "客户自付订单差额进入取车尾款或还车结算，企业月结订单差额进入企业月结账单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "store-rental-d195923f5d",
+          "anchor": "32-门市与据点口径",
+          "quote": "门市租车的异地还车费和调度费按门市判断，不按据点判断。",
+          "revision": "7c0af80d30d6a63a464a2941c4f3ad52646e15579f718ecb900e886e5e64ec90"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "旧异地还车费按取车门市到原订单当前还车门市计算，新异地还车费按取车门市到新订单当前还车门市计算。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "客户自付订单差额进入取车尾款或还车结算，企业月结订单差额进入企业月结账单。",
+          "evidence": [
+            1
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "门市租车的异地还车费和调度费按门市判断，不按据点判断。",
+          "evidence": [
+            2
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "store-return-authority",
+      "label": "当前还车门市办理权限",
+      "type": "rule",
+      "summary": "还车操作按订单当前还车门市控制；停车据点只决定归还位置，不自动授予其他门市办理权限。",
+      "aliases": [],
+      "topics": [
+        "platform"
+      ],
+      "primaryTopic": "platform",
+      "status": "active",
+      "requirements": [
+        "knowledge-1864f917f1"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "订单只能由订单当前还车门市办理还车，其他门市默认没有该订单的还车操作入口。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        },
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "同一还车门市下不同归还据点不触发异地还车费或调度费。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "订单只能由订单当前还车门市办理还车，其他门市默认没有该订单的还车操作入口。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "同一还车门市下不同归还据点不触发异地还车费或调度费。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "store-design-outline",
+      "label": "门市方案说明（规划稿）",
+      "type": "object",
+      "summary": "用于业务讲解的方案材料，不代替明细 PRD，不作为已上线或已验收的依据；仅提供相关需求入口。",
+      "aliases": [],
+      "topics": [
+        "store-rental"
+      ],
+      "primaryTopic": "store-rental",
+      "status": "active",
+      "requirements": [
+        "store-rental-905742b896"
+      ],
+      "evidence": [
+        {
+          "requirementId": "store-rental-905742b896",
+          "anchor": "第-01-页封面门市租赁业务方案",
+          "quote": "本方案重点说明门市租赁与现有分时租赁、公务车业务的边界关系，以及门市租车和 24 小时自助租车如何共用同一套基础规则、价格体系、订单能力和后台管理能力。",
+          "revision": "067eef86eccf9f7ee943f5b52549062054b6a0dada482e2394db445c44247135"
+        },
+        {
+          "requirementId": "store-rental-905742b896",
+          "anchor": "第-05-页端到端主链路",
+          "quote": "本页用完整链路说明门市租赁从下单到完成的业务闭环。主流程包括用户预约、订单创建、押金预授权、派车或改派、取车办理、用车中、还车验车、费用结算和订单完成。",
+          "revision": "067eef86eccf9f7ee943f5b52549062054b6a0dada482e2394db445c44247135"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "本方案重点说明门市租赁与现有分时租赁、公务车业务的边界关系，以及门市租车和 24 小时自助租车如何共用同一套基础规则、价格体系、订单能力和后台管理能力。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "本页用完整链路说明门市租赁从下单到完成的业务闭环。主流程包括用户预约、订单创建、押金预授权、派车或改派、取车办理、用车中、还车验车、费用结算和订单完成。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "vehicle-device-allocation",
+      "label": "车机分配与车辆绑定",
+      "type": "process",
+      "summary": "客服先分配车机给租户，营运端再绑定车辆；不能自行新增设备或退回客服库存。",
+      "aliases": [],
+      "topics": [
+        "fleet"
+      ],
+      "primaryTopic": "fleet",
+      "status": "active",
+      "requirements": [
+        "knowledge-c22311b728"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "1. 客服系统将车机设备分配给租户\r\n2. 租户在营运平台中看到可用车机\r\n3. 租户将车机绑定到具体车辆",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        },
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "营运平台不能将车机设备退回客服系统库存。只有客服系统删除或取消分配该车机后，营运平台才不再显示该车机。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "trigger",
+          "text": "1. 客服系统将车机设备分配给租户\n2. 租户在营运平台中看到可用车机\n3. 租户将车机绑定到具体车辆",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "营运平台不能将车机设备退回客服系统库存。只有客服系统删除或取消分配该车机后，营运平台才不再显示该车机。",
+          "evidence": [
+            1
+          ]
+        }
+      ],
+      "coverage": "none",
+      "prototypes": []
+    },
+    {
+      "id": "vehicle-device-rental-boundary",
+      "label": "各模式车机依赖边界",
+      "type": "rule",
+      "summary": "分时与自助租车上架前必须绑定车机；有人门市及公务预约可不绑定。离线不取消预约，但可阻断取还车。",
+      "aliases": [],
+      "topics": [
+        "fleet"
+      ],
+      "primaryTopic": "fleet",
+      "status": "active",
+      "requirements": [
+        "knowledge-c22311b728"
+      ],
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "分时租赁和 24 小时自助租车必须绑定车机后才允许上架给用户预约。门市租车由店员服务取还车，可以无车机运行；公务用车可以不绑定车机，仅作为预约管理使用。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        },
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "车辆已绑定车机但车机离线、低电或指令失败时，不阻断新预约。已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ],
+      "keyPoints": [
+        {
+          "kind": "rule",
+          "text": "分时租赁和 24 小时自助租车必须绑定车机后才允许上架给用户预约。门市租车由店员服务取还车，可以无车机运行；公务用车可以不绑定车机，仅作为预约管理使用。",
+          "evidence": [
+            0
+          ]
+        },
+        {
+          "kind": "rule",
+          "text": "车辆已绑定车机但车机离线、低电或指令失败时，不阻断新预约。已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "evidence": [
+            1
           ]
         }
       ],
@@ -19095,6 +21229,1770 @@
           "anchor": "46-车机资料历史记录",
           "quote": "速查表操作区提供“历史记录”，以近全屏弹窗分页查看。",
           "revision": "1ed61798dbc0c34a76df29634711911189873c31cd95ad673669a0426adb93e5"
+        }
+      ]
+    },
+    {
+      "id": "flow-290b973c585d7260",
+      "source": "sharing-identity-selection",
+      "target": "sharing-vehicle-query",
+      "relation": "precedes",
+      "label": "选择身份后查询车辆",
+      "reason": "Identity --> Query[\"查询车辆\"]",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-58cb66beac",
+          "anchor": "6-分时租赁订单与资金关系",
+          "quote": "Identity --> Query[\"查询车辆\"]",
+          "revision": "6aacc17c1af4b7035cd0b6a9e50fbf1196da2bbd62d6768d4e9d6475367180e2"
+        }
+      ]
+    },
+    {
+      "id": "flow-dd673d294c73857d",
+      "source": "sharing-same-station",
+      "target": "sharing-vehicle-query",
+      "relation": "precedes",
+      "label": "按该模式选择具体车辆",
+      "reason": "分时租赁用户下单时不选择车组，也不选择车型，而是直接选择具体车辆。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "53-车组",
+          "quote": "分时租赁用户下单时不选择车组，也不选择车型，而是直接选择具体车辆。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-451e3b77e8872e98",
+      "source": "sharing-one-way",
+      "target": "sharing-vehicle-query",
+      "relation": "precedes",
+      "label": "按该模式选择具体车辆",
+      "reason": "分时租赁用户下单时不选择车组，也不选择车型，而是直接选择具体车辆。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "53-车组",
+          "quote": "分时租赁用户下单时不选择车组，也不选择车型，而是直接选择具体车辆。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-735e16aaa36ce1f2",
+      "source": "sharing-vehicle-availability",
+      "target": "sharing-vehicle-query",
+      "relation": "constrains",
+      "label": "候选车辆须通过校验",
+      "reason": "同站租还车辆查询需要按据点、车辆状态、服务类型、时间窗占用、会员方案和载具类型校验。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-f7be5a9a91",
+          "anchor": "31-分时租赁---同站租还",
+          "quote": "同站租还车辆查询需要按据点、车辆状态、服务类型、时间窗占用、会员方案和载具类型校验。",
+          "revision": "6bfcf21245aa62a86f675c4a1e3d80d6dd198caf4b32bc507374dfc28c8607f6"
+        }
+      ]
+    },
+    {
+      "id": "flow-deeefe99f8234dd0",
+      "source": "member-vehicle-qualification",
+      "target": "sharing-vehicle-availability",
+      "relation": "provides_data",
+      "label": "载具资格参与预约校验",
+      "reason": "VehicleQualification --> Check[\"预约载具类型校验\"]",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-58cb66beac",
+          "anchor": "5-会员企业身份与载具资格关系",
+          "quote": "VehicleQualification --> Check[\"预约载具类型校验\"]",
+          "revision": "6aacc17c1af4b7035cd0b6a9e50fbf1196da2bbd62d6768d4e9d6475367180e2"
+        }
+      ]
+    },
+    {
+      "id": "flow-350526d8e659199d",
+      "source": "sharing-vehicle-query",
+      "target": "sharing-price-selection",
+      "relation": "precedes",
+      "label": "选车后匹配价格和服务",
+      "reason": "5. 用户选择据点、车辆和租期\n6. 甲租乙还订单选择取车据点和还车据点\n7. 系统匹配会员方案、标准价、行销方案和增值服务",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "5. 用户选择据点、车辆和租期\r\n6. 甲租乙还订单选择取车据点和还车据点\r\n7. 系统匹配会员方案、标准价、行销方案和增值服务",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-3cc80f2f25879748",
+      "source": "sharing-identity-selection",
+      "target": "sharing-price-selection",
+      "relation": "provides_data",
+      "label": "身份决定会员方案匹配",
+      "reason": "用户下单时，系统先判断用户使用个人身份还是企业身份，再根据对应会员方案匹配可用行销方案。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "71-当前口径",
+          "quote": "用户下单时，系统先判断用户使用个人身份还是企业身份，再根据对应会员方案匹配可用行销方案。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-2c364a2321cd13ec",
+      "source": "sharing-price-selection",
+      "target": "sharing-order-confirmation",
+      "relation": "precedes",
+      "label": "选定方案后确认订单",
+      "reason": "7. 系统匹配会员方案、标准价、行销方案和增值服务\n8. 用户确认订单",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "7. 系统匹配会员方案、标准价、行销方案和增值服务\r\n8. 用户确认订单",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-98e744314c1934d4",
+      "source": "sharing-order-confirmation",
+      "target": "sharing-order-snapshot",
+      "relation": "triggers",
+      "label": "创建时固化历史依据",
+      "reason": "分时租赁订单创建时必须保存订单快照，不能只通过 ID 关联当前配置和基础资料。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "10-订单快照与历史版本",
+          "quote": "分时租赁订单创建时必须保存订单快照，不能只通过 ID 关联当前配置和基础资料。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-6f2caa8811b0f132",
+      "source": "sharing-order-confirmation",
+      "target": "sharing-preauthorization",
+      "relation": "precedes",
+      "label": "个人自付或企业非月结",
+      "reason": "8. 用户确认订单\n9. 个人自付和企业非月结订单发起预授权",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "8. 用户确认订单\r\n9. 个人自付和企业非月结订单发起预授权",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-2b49c7d12b00f657",
+      "source": "sharing-order-confirmation",
+      "target": "sharing-monthly-qualification",
+      "relation": "precedes",
+      "label": "企业月结验证资格",
+      "reason": "8. 用户确认订单\n9. 个人自付和企业非月结订单发起预授权\n10. 企业月结订单确认月结资格",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "8. 用户确认订单\r\n9. 个人自付和企业非月结订单发起预授权\r\n10. 企业月结订单确认月结资格",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-a566a2dd4918c68d",
+      "source": "sharing-pending-payment",
+      "target": "sharing-preauthorization",
+      "relation": "precedes",
+      "label": "尚未完成预授权时继续处理",
+      "reason": "| 预约阶段 | 待支付 | 订单已建立，但下单所需支付或预授权尚未完成。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 预约阶段 | 待支付 | 订单已建立，但下单所需支付或预授权尚未完成。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-883fc2e2645f80fb",
+      "source": "sharing-preauthorization",
+      "target": "sharing-reserved",
+      "relation": "triggers",
+      "label": "预授权成功才确认预约",
+      "reason": "2. 用户完成预授权后，订单预约成功",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "2. 用户完成预授权后，订单预约成功",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-264aaa9fa09e0356",
+      "source": "sharing-monthly-qualification",
+      "target": "sharing-reserved",
+      "relation": "triggers",
+      "label": "月结资格确认直接预约",
+      "reason": "2. 系统确认企业月结资格\n3. 不收取个人预授权\n4. 订单预约成功",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "2. 系统确认企业月结资格\r\n3. 不收取个人预授权\r\n4. 订单预约成功",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-e99f14d2cba9ca7f",
+      "source": "sharing-reserved",
+      "target": "sharing-pickup",
+      "relation": "precedes",
+      "label": "预约成功后自助取车",
+      "reason": "11. 订单预约成功\n12. 用户在 APP 中自助取车",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "11. 订单预约成功\r\n12. 用户在 APP 中自助取车",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-37edef3420d65a82",
+      "source": "sharing-pickup",
+      "target": "sharing-in-use",
+      "relation": "triggers",
+      "label": "完成取车进入用车中",
+      "reason": "12. 用户在 APP 中自助取车\n13. 订单进入用车中",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "12. 用户在 APP 中自助取车\r\n13. 订单进入用车中",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-cf99b26970843252",
+      "source": "sharing-in-use",
+      "target": "sharing-return",
+      "relation": "precedes",
+      "label": "用车后发起还车",
+      "reason": "13. 订单进入用车中\n14. 用户在 APP 中自助还车",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "13. 订单进入用车中\r\n14. 用户在 APP 中自助还车",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-d30ef8360b42d846",
+      "source": "sharing-return",
+      "target": "sharing-final-cost",
+      "relation": "precedes",
+      "label": "还车后按实际用车结算",
+      "reason": "14. 用户在 APP 中自助还车\n15. 系统按实际用车情况结算",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "14. 用户在 APP 中自助还车\r\n15. 系统按实际用车情况结算",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-43ea7080186e2dfc",
+      "source": "sharing-return",
+      "target": "sharing-settlement",
+      "relation": "triggers",
+      "label": "已还车但费用未确认",
+      "reason": "| 结算阶段 | 待结算 | 车辆已归还或还车资料已提交，最终费用尚未确认完成。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 结算阶段 | 待结算 | 车辆已归还或还车资料已提交，最终费用尚未确认完成。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-5194880960b83028",
+      "source": "sharing-settlement",
+      "target": "sharing-final-cost",
+      "relation": "precedes",
+      "label": "待结算继续确认最终费用",
+      "reason": "| 结算阶段 | 待结算 | 车辆已归还或还车资料已提交，最终费用尚未确认完成。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 结算阶段 | 待结算 | 车辆已归还或还车资料已提交，最终费用尚未确认完成。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-ba091ed31b58288e",
+      "source": "sharing-order-snapshot",
+      "target": "sharing-final-cost",
+      "relation": "provides_data",
+      "label": "结算核对读取历史版本",
+      "reason": "历史订单展示、企业端查询、财务核对和退款追溯时，需要读取订单快照和订单绑定的历史版本，不读取当前主数据名称或当前规则重新计算。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "10-订单快照与历史版本",
+          "quote": "历史订单展示、企业端查询、财务核对和退款追溯时，需要读取订单快照和订单绑定的历史版本，不读取当前主数据名称或当前规则重新计算。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-67db29bbbdffd08e",
+      "source": "sharing-final-cost",
+      "target": "sharing-preauthorization-charge",
+      "relation": "precedes",
+      "label": "个人自付及企业非月结扣款",
+      "reason": "15. 系统按实际用车情况结算\n16. 个人自付和企业非月结订单从预授权扣款",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "15. 系统按实际用车情况结算\r\n16. 个人自付和企业非月结订单从预授权扣款",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-23a078e0eb1e5e35",
+      "source": "sharing-final-cost",
+      "target": "sharing-monthly-posting",
+      "relation": "precedes",
+      "label": "月结订单挂企业账",
+      "reason": "5. 还车后计算最终费用\n6. 最终费用进入企业月结账单",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "5. 还车后计算最终费用\r\n6. 最终费用进入企业月结账单",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-8c91b2074df71631",
+      "source": "sharing-preauthorization-charge",
+      "target": "sharing-completed",
+      "relation": "precedes",
+      "label": "还车且费用闭合后完成",
+      "reason": "| 终态 | 已完成 | 车辆已归还且费用处理完成，订单正式结束。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已完成 | 车辆已归还且费用处理完成，订单正式结束。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-50f68b51167057eb",
+      "source": "sharing-monthly-posting",
+      "target": "sharing-completed",
+      "relation": "precedes",
+      "label": "企业费用入账后完成",
+      "reason": "17. 企业月结订单费用进入企业月结账单\n18. 订单完成",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "17. 企业月结订单费用进入企业月结账单\r\n18. 订单完成",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-5643f6aeb75cb039",
+      "source": "sharing-final-cost",
+      "target": "sharing-payment-due",
+      "relation": "triggers",
+      "label": "最终应收仍存在差额",
+      "reason": "| 结算阶段 | 待补缴 | 最终结算存在应收差额，等待补缴。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 结算阶段 | 待补缴 | 最终结算存在应收差额，等待补缴。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-a819516e76597b54",
+      "source": "sharing-final-cost",
+      "target": "sharing-refund-pending",
+      "relation": "triggers",
+      "label": "特殊退款仍存在应退差额",
+      "reason": "| 结算阶段 | 待退款 | 最终结算存在应退差额，等待退款。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 结算阶段 | 待退款 | 最终结算存在应退差额，等待退款。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-37533c8fd9c7395c",
+      "source": "sharing-payment-due",
+      "target": "sharing-completed",
+      "relation": "precedes",
+      "label": "车辆已还且差额处理完成",
+      "reason": "| 终态 | 已完成 | 车辆已归还且费用处理完成，订单正式结束。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已完成 | 车辆已归还且费用处理完成，订单正式结束。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-b27f0d378714de18",
+      "source": "sharing-refund-pending",
+      "target": "sharing-completed",
+      "relation": "precedes",
+      "label": "车辆已还且差额处理完成",
+      "reason": "| 终态 | 已完成 | 车辆已归还且费用处理完成，订单正式结束。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已完成 | 车辆已归还且费用处理完成，订单正式结束。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-13654e51a423ff4a",
+      "source": "sharing-early-return-points",
+      "target": "sharing-final-cost",
+      "relation": "constrains",
+      "label": "同站提前归还按积分规则",
+      "reason": "同站租还提前还车不退租金，按后台规则退还积分；甲租乙还和其他分时场景如发生特殊退款，按现有资金规则由后台处理。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "同站租还提前还车不退租金，按后台规则退还积分；甲租乙还和其他分时场景如发生特殊退款，按现有资金规则由后台处理。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-4597a8d8efa33589",
+      "source": "sharing-return-capacity",
+      "target": "sharing-return-api",
+      "relation": "constrains",
+      "label": "空闲车位决定可还列表",
+      "reason": "旧版 APP 已依赖可还车据点接口中的空闲车位字段，后端不得改变该字段含义、扣减时机和空位为 0 的判断逻辑。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-f7be5a9a91",
+          "anchor": "32-分时租赁---甲租乙还",
+          "quote": "旧版 APP 已依赖可还车据点接口中的空闲车位字段，后端不得改变该字段含义、扣减时机和空位为 0 的判断逻辑。",
+          "revision": "6bfcf21245aa62a86f675c4a1e3d80d6dd198caf4b32bc507374dfc28c8607f6"
+        }
+      ]
+    },
+    {
+      "id": "flow-30352c39e7824e02",
+      "source": "sharing-return-api",
+      "target": "sharing-one-way",
+      "relation": "provides_data",
+      "label": "提供可选还车据点",
+      "reason": "只有具备甲租乙还服务能力、服务状态为启用且可还车空闲车位大于 0 的据点，才能在 APP 中作为可还车据点展示给用户。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "22-甲租乙还",
+          "quote": "只有具备甲租乙还服务能力、服务状态为启用且可还车空闲车位大于 0 的据点，才能在 APP 中作为可还车据点展示给用户。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-5932ddf69e56ceaa",
+      "source": "sharing-regional-fee",
+      "target": "sharing-order-snapshot",
+      "relation": "provides_data",
+      "label": "地区费用计入明细与快照",
+      "reason": "调度费用可以是加收，也可以是减免。费用结果需要进入订单费用明细，并在订单快照中保存。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "63-甲租乙还调度费用",
+          "quote": "调度费用可以是加收，也可以是减免。费用结果需要进入订单费用明细，并在订单快照中保存。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-dd88a80d73382cdd",
+      "source": "sharing-regional-fee",
+      "target": "sharing-final-cost",
+      "relation": "provides_data",
+      "label": "甲租乙还计入地区费用",
+      "reason": "甲租乙还订单需要根据取车据点和还车据点所属地区计算调度费用。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "63-甲租乙还调度费用",
+          "quote": "甲租乙还订单需要根据取车据点和还车据点所属地区计算调度费用。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-1b6d68b8554bb70e",
+      "source": "sharing-reserved",
+      "target": "sharing-pickup-overdue",
+      "relation": "precedes",
+      "label": "到取车时间仍未取车",
+      "reason": "| 预约阶段 | 逾期未取 | 已超过预约取车时间，订单仍未完成取车且尚未判定爽约。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 预约阶段 | 逾期未取 | 已超过预约取车时间，订单仍未完成取车且尚未判定爽约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-3694ef8df803e3cd",
+      "source": "sharing-pickup-overdue",
+      "target": "sharing-no-show",
+      "relation": "precedes",
+      "label": "超过保留时间且确认爽约",
+      "reason": "| 终态 | 爽约 | 客户超过取车保留时间仍未取车，并已被确认爽约。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 爽约 | 客户超过取车保留时间仍未取车，并已被确认爽约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-d67316908aae625a",
+      "source": "sharing-pickup",
+      "target": "sharing-inspecting",
+      "relation": "precedes",
+      "label": "取车检查尚未提交",
+      "reason": "| 履约阶段 | 验车中 | 已开始办理取车，车辆检查或交车资料尚未提交完成。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 履约阶段 | 验车中 | 已开始办理取车，车辆检查或交车资料尚未提交完成。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-618b089c36162eb6",
+      "source": "sharing-inspecting",
+      "target": "sharing-in-use",
+      "relation": "precedes",
+      "label": "取车办理完成开始租用",
+      "reason": "| 履约阶段 | 用车中 | 已完成取车，车辆正在租用中。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 履约阶段 | 用车中 | 已完成取车，车辆正在租用中。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-2f7066cc93565531",
+      "source": "sharing-in-use",
+      "target": "sharing-renewing",
+      "relation": "precedes",
+      "label": "延长确认且新还车时间生效",
+      "reason": "| 履约阶段 | 续租中 | 订单已进入续租状态，新的预约还车时间已经生效。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 履约阶段 | 续租中 | 订单已进入续租状态，新的预约还车时间已经生效。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-911c7d5a4941f164",
+      "source": "sharing-in-use",
+      "target": "sharing-overdue",
+      "relation": "precedes",
+      "label": "超过预计还车仍未归还",
+      "reason": "| 异常阶段 | 逾期未还 | 已超过预约还车时间，车辆仍未归还。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 异常阶段 | 逾期未还 | 已超过预约还车时间，车辆仍未归还。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-6b2f8da66617353c",
+      "source": "sharing-in-use",
+      "target": "sharing-accident",
+      "relation": "precedes",
+      "label": "履约中登记事故或出险",
+      "reason": "| 异常阶段 | 出险处理中 | 订单已登记事故或出险，正在处理事故、保险或定损。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 异常阶段 | 出险处理中 | 订单已登记事故或出险，正在处理事故、保险或定损。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-d693ed2351f88441",
+      "source": "sharing-renewing",
+      "target": "sharing-return",
+      "relation": "precedes",
+      "label": "实际归还后进入结算",
+      "reason": "用户还车后，系统按实际用车情况计算最终费用",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "用户还车后，系统按实际用车情况计算最终费用",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-9345d582778f45cd",
+      "source": "sharing-overdue",
+      "target": "sharing-return",
+      "relation": "precedes",
+      "label": "实际归还后进入结算",
+      "reason": "用户还车后，系统按实际用车情况计算最终费用",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "用户还车后，系统按实际用车情况计算最终费用",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-152bb8417e080b59",
+      "source": "sharing-reserved",
+      "target": "sharing-cancelled",
+      "relation": "precedes",
+      "label": "客户或营运在履约前取消",
+      "reason": "| 终态 | 已取消 | 订单在履约前被客户或营运人员取消。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已取消 | 订单在履约前被客户或营运人员取消。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-dabca31c0f5469dc",
+      "source": "sharing-inspecting",
+      "target": "sharing-rejected",
+      "relation": "precedes",
+      "label": "资格或风控拒绝履约",
+      "reason": "| 终态 | 已拒绝 | 因风控、证件或资格问题拒绝继续履约。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已拒绝 | 因风控、证件或资格问题拒绝继续履约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-c0dfbabc52a19926",
+      "source": "sharing-accident",
+      "target": "sharing-closed",
+      "relation": "precedes",
+      "label": "异常终止并完成关闭处理",
+      "reason": "| 终态 | 已关闭 | 订单因异常原因终止并完成关闭处理，不再继续履约。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "5-订单主状态",
+          "quote": "| 终态 | 已关闭 | 订单因异常原因终止并完成关闭处理，不再继续履约。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-e7899126ff69a10a",
+      "source": "sharing-preauthorization-charge",
+      "target": "sharing-post-charge",
+      "relation": "precedes",
+      "label": "预授权到期仍可按实追缴",
+      "reason": "分时租赁预授权到期后，订单仍按实际费用生成扣款、补缴或追缴记录；预授权主要用于预约兜底，降低用户无可用额度却占用车辆资源的风险，不作为唯一收款手段。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "62-后付费机制",
+          "quote": "分时租赁预授权到期后，订单仍按实际费用生成扣款、补缴或追缴记录；预授权主要用于预约兜底，降低用户无可用额度却占用车辆资源的风险，不作为唯一收款手段。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-f8c3230c478b209e",
+      "source": "sharing-post-charge",
+      "target": "sharing-monthly-posting",
+      "relation": "provides_data",
+      "label": "企业月结追加费用仍挂账",
+      "reason": "企业月结订单始终展示“企业月结”，追加费用统一进入企业账单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "4-金额下方标签",
+          "quote": "企业月结订单始终展示“企业月结”，追加费用统一进入企业账单。",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-f569ee384042ed01",
+      "source": "voucher-create-order",
+      "target": "sharing-pickup",
+      "relation": "precedes",
+      "label": "用券订单复用分时取还",
+      "reason": "10. 用券人按分时租赁流程自助取车、用车和还车",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "10. 用券人按分时租赁流程自助取车、用车和还车",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-5d448e285522e680",
+      "source": "sharing-final-cost",
+      "target": "voucher-enterprise-settlement",
+      "relation": "provides_data",
+      "label": "用券费用归合作通路企业",
+      "reason": "11. 还车后系统计算最终费用\n12. 票内覆盖费用、逾时费用和额外费用复用企业月结挂账能力记录到合作通路企业名下",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "11. 还车后系统计算最终费用\r\n12. 票内覆盖费用、逾时费用和额外费用复用企业月结挂账能力记录到合作通路企业名下",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-36a12b9f59badcff",
+      "source": "voucher-enterprise-settlement",
+      "target": "sharing-completed",
+      "relation": "precedes",
+      "label": "用券企业费用记录后完成",
+      "reason": "12. 票内覆盖费用、逾时费用和额外费用复用企业月结挂账能力记录到合作通路企业名下\n13. 订单完成",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "9-订单主流程",
+          "quote": "12. 票内覆盖费用、逾时费用和额外费用复用企业月结挂账能力记录到合作通路企业名下\r\n13. 订单完成",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-0748864d358bb7e0",
+      "source": "sharing-order-snapshot",
+      "target": "feature-enterprise-time-share-orders",
+      "relation": "provides_data",
+      "label": "企业查询读取订单快照",
+      "reason": "历史订单展示、企业端查询、财务核对和退款追溯时，需要读取订单快照和订单绑定的历史版本，不读取当前主数据名称或当前规则重新计算。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-a61b45e6b2",
+          "anchor": "10-订单快照与历史版本",
+          "quote": "历史订单展示、企业端查询、财务核对和退款追溯时，需要读取订单快照和订单绑定的历史版本，不读取当前主数据名称或当前规则重新计算。",
+          "revision": "e9d59e19735145844dee9913b43ee6a76fc151bbb9cfa4514d0d0099d8a74101"
+        }
+      ]
+    },
+    {
+      "id": "flow-33bf2b0efccfc6e1",
+      "source": "sharing-completed",
+      "target": "sharing-stats-scope",
+      "relation": "provides_data",
+      "label": "已完成仍按有权范围统计",
+      "reason": "| 已完成 | 主状态为“已完成”。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "time-share-45b30a4381",
+          "anchor": "72-运营总览",
+          "quote": "| 已完成 | 主状态为“已完成”。 |",
+          "revision": "90a1f60c3bf2b63ee4b95e39c2cb021f64e184471a1eb4359686e88e3eab5482"
+        }
+      ]
+    },
+    {
+      "id": "flow-d39a3cc588cd9256",
+      "source": "official-employee-eligible",
+      "target": "official-order-submit",
+      "relation": "constrains",
+      "label": "仅已审核且未停用员工可下单",
+      "reason": "只能选择已审核通过且未停用的员工。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "43-选择规则",
+          "quote": "只能选择已审核通过且未停用的员工。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        }
+      ]
+    },
+    {
+      "id": "flow-af3d5358e6953f80",
+      "source": "official-vehicle-availability",
+      "target": "official-order-submit",
+      "relation": "constrains",
+      "label": "提交时重新校验车辆",
+      "reason": "提交时系统重新校验车辆是否仍可预约。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "提交时系统重新校验车辆是否仍可预约。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        }
+      ]
+    },
+    {
+      "id": "flow-c058e1f48f05fa1d",
+      "source": "official-order-submit",
+      "target": "official-order-reserved",
+      "relation": "triggers",
+      "label": "未开启审批直接预约",
+      "reason": "员工所属分公司未开启预约审批时，订单创建后直接进入已预约。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "员工所属分公司未开启预约审批时，订单创建后直接进入已预约。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        }
+      ]
+    },
+    {
+      "id": "flow-054e2d7f2d0d9c39",
+      "source": "official-order-submit",
+      "target": "official-order-pending",
+      "relation": "triggers",
+      "label": "开启审批进入待审批",
+      "reason": "员工所属分公司开启预约审批时，订单创建后进入待审批。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "员工所属分公司开启预约审批时，订单创建后进入待审批。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        }
+      ]
+    },
+    {
+      "id": "flow-37fd394093accb89",
+      "source": "official-order-submit",
+      "target": "official-order-snapshot",
+      "relation": "triggers",
+      "label": "保存员工与审批等快照",
+      "reason": "订单创建后保存员工、车辆、据点、预约时间、目的地、用车事由和审批规则快照。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "6-提交规则",
+          "quote": "订单创建后保存员工、车辆、据点、预约时间、目的地、用车事由和审批规则快照。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        }
+      ]
+    },
+    {
+      "id": "flow-a7a9cdc59fa70652",
+      "source": "official-order-reserved",
+      "target": "official-pickup",
+      "relation": "precedes",
+      "label": "有效预约开始取车用车",
+      "reason": "| 用车中 | 已到取车流程并开始用车 | 查看详情 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-479690039b",
+          "anchor": "4-订单状态规则",
+          "quote": "| 用车中 | 已到取车流程并开始用车 | 查看详情 |",
+          "revision": "c74943fdca9ddbde1e06dcd699580bb76fd2933035bf311507fdafe7a48ae78a"
+        }
+      ]
+    },
+    {
+      "id": "flow-90c1698177b02c07",
+      "source": "official-pickup",
+      "target": "official-order-in-use",
+      "relation": "triggers",
+      "label": "实际开始用车",
+      "reason": "| 用车中 | 已到取车流程并开始用车 | 查看详情 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-479690039b",
+          "anchor": "4-订单状态规则",
+          "quote": "| 用车中 | 已到取车流程并开始用车 | 查看详情 |",
+          "revision": "c74943fdca9ddbde1e06dcd699580bb76fd2933035bf311507fdafe7a48ae78a"
+        }
+      ]
+    },
+    {
+      "id": "flow-ec059e7160e621cc",
+      "source": "official-order-in-use",
+      "target": "official-return",
+      "relation": "precedes",
+      "label": "归还后结束用车",
+      "reason": "| 已完成 | 已完成还车 | 查看详情 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-479690039b",
+          "anchor": "4-订单状态规则",
+          "quote": "| 已完成 | 已完成还车 | 查看详情 |",
+          "revision": "c74943fdca9ddbde1e06dcd699580bb76fd2933035bf311507fdafe7a48ae78a"
+        }
+      ]
+    },
+    {
+      "id": "flow-8ba126180526d71b",
+      "source": "official-return",
+      "target": "official-order-completed",
+      "relation": "triggers",
+      "label": "完成还车进入完成",
+      "reason": "| 已完成 | 已完成还车 | 查看详情 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-479690039b",
+          "anchor": "4-订单状态规则",
+          "quote": "| 已完成 | 已完成还车 | 查看详情 |",
+          "revision": "c74943fdca9ddbde1e06dcd699580bb76fd2933035bf311507fdafe7a48ae78a"
+        }
+      ]
+    },
+    {
+      "id": "flow-52cb5188781dc20b",
+      "source": "official-return-early",
+      "target": "official-return",
+      "relation": "precedes",
+      "label": "提前归还以实际时间结束",
+      "reason": "提前还车后，时间轴结束时间使用实际还车时间，避免继续显示车辆被占用。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-5787bcb2e2",
+          "anchor": "4-排程占用规则",
+          "quote": "提前还车后，时间轴结束时间使用实际还车时间，避免继续显示车辆被占用。",
+          "revision": "919a5a4691f1fa35a0a2b77b41103a5ab313de87cc2eb73c3e0807f0f7bc28f8"
+        }
+      ]
+    },
+    {
+      "id": "flow-44952d5f5a4c0e23",
+      "source": "official-order-pending",
+      "target": "official-approval-timeout",
+      "relation": "precedes",
+      "label": "启用限时审批且超过时限",
+      "reason": "启用限时审批时，系统按分公司审批设置中的审批时限判断超时。超过审批时限仍未通过或驳回的预约自动取消，审核状态显示为审批超时（过期），车辆预约时间窗释放，不再阻塞后续新预约。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "6-公务车预约",
+          "quote": "启用限时审批时，系统按分公司审批设置中的审批时限判断超时。超过审批时限仍未通过或驳回的预约自动取消，审核状态显示为审批超时（过期），车辆预约时间窗释放，不再阻塞后续新预约。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
+        }
+      ]
+    },
+    {
+      "id": "flow-2869138ce276c7e1",
+      "source": "official-approval-timeout",
+      "target": "official-order-cancelled",
+      "relation": "triggers",
+      "label": "自动取消并保留过期审批结果",
+      "reason": "超过审批时限仍未通过或驳回的预约自动取消，审核状态显示为审批超时（过期），车辆预约时间窗释放，不再阻塞后续新预约。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-31ba3c835b",
+          "anchor": "6-公务车预约",
+          "quote": "超过审批时限仍未通过或驳回的预约自动取消，审核状态显示为审批超时（过期），车辆预约时间窗释放，不再阻塞后续新预约。",
+          "revision": "2d13c537bcbdeeb9b9141ceb4ae5ced68a7bf0a58f0b69f2962b8fcaddc66b7a"
+        }
+      ]
+    },
+    {
+      "id": "flow-2c5c22207ba7f449",
+      "source": "official-order-pending",
+      "target": "official-approval-notification",
+      "relation": "triggers",
+      "label": "申请提交推送部门主管",
+      "reason": "员工提交申请后，推送给员工部门主管。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-9ff5f46de9",
+          "anchor": "5-通知规则",
+          "quote": "员工提交申请后，推送给员工部门主管。",
+          "revision": "a2a7385b78cbfad7ca6b13af579578aac2fd7c32c74924418088e958623b137c"
+        }
+      ]
+    },
+    {
+      "id": "flow-b23585d2a28a71c3",
+      "source": "official-review-approved",
+      "target": "official-approval-notification",
+      "relation": "triggers",
+      "label": "审批结果通知预约员工",
+      "reason": "审批通过或驳回后，通知预约员工。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-9ff5f46de9",
+          "anchor": "5-通知规则",
+          "quote": "审批通过或驳回后，通知预约员工。",
+          "revision": "a2a7385b78cbfad7ca6b13af579578aac2fd7c32c74924418088e958623b137c"
+        }
+      ]
+    },
+    {
+      "id": "flow-b94cfc41ffef6336",
+      "source": "official-review-rejected",
+      "target": "official-approval-notification",
+      "relation": "triggers",
+      "label": "审批结果通知预约员工",
+      "reason": "审批通过或驳回后，通知预约员工。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-9ff5f46de9",
+          "anchor": "5-通知规则",
+          "quote": "审批通过或驳回后，通知预约员工。",
+          "revision": "a2a7385b78cbfad7ca6b13af579578aac2fd7c32c74924418088e958623b137c"
+        }
+      ]
+    },
+    {
+      "id": "flow-e282b78b7fe3fdd1",
+      "source": "official-order-submit",
+      "target": "feature-enterprise-official-order-add",
+      "relation": "references",
+      "label": "管理员代员工预约入口",
+      "reason": "页面用途：企业管理员代员工建立公务车预约单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "official-vehicles-383fce8cf4",
+          "anchor": "1-页面范围",
+          "quote": "页面用途：企业管理员代员工建立公务车预约单。",
+          "revision": "24a93886350763a920ecdf011675592d51126bef8ffee3cbe3592da720c43624"
+        }
+      ]
+    },
+    {
+      "id": "flow-f0ca1d781d7561c7",
+      "source": "store-return-transfer",
+      "target": "store-return-transfer-conflict",
+      "relation": "precedes",
+      "label": "确认前检查后续占用",
+      "reason": "改还车门市确认前，系统必须检查当前车辆在原订单当前还车门市是否已经有后续预约、待取车或硬锁订单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "改还车门市确认前，系统必须检查当前车辆在原订单当前还车门市是否已经有后续预约、待取车或硬锁订单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-77ba71480fcd7ed4",
+      "source": "store-return-transfer-conflict",
+      "target": "store-followup-reassignment",
+      "relation": "precedes",
+      "label": "有冲突先快捷改派",
+      "reason": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-070cf77a7644f86a",
+      "source": "store-followup-reassignment",
+      "target": "store-return-transfer-applied",
+      "relation": "precedes",
+      "label": "转单冲突解决后才确认",
+      "reason": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-a66e492d4fe1814a",
+      "source": "store-return-transfer-conflict",
+      "target": "store-return-transfer-applied",
+      "relation": "constrains",
+      "label": "未处理冲突不得确认转单",
+      "reason": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "冲突未处理前不能确认转单；快捷改派成功后释放原车辆在原还车门市的后续占用，再允许完成转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-0e76250df4bc2d4a",
+      "source": "extension-conflict",
+      "target": "store-followup-reassignment",
+      "relation": "precedes",
+      "label": "延长命中后续预约先处理",
+      "reason": "门店可选择“改派后续订单”，系统先进入后续订单改派校验。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-e71c38e00d",
+          "anchor": "22-有冲突",
+          "quote": "门店可选择“改派后续订单”，系统先进入后续订单改派校验。",
+          "revision": "be6376231c0add828a35522a3073b1906e0e480e5e4ce40818d5b64b3e67feb2"
+        }
+      ]
+    },
+    {
+      "id": "flow-2ef0a5e9ab091089",
+      "source": "store-followup-reassignment",
+      "target": "store-extension-confirm",
+      "relation": "precedes",
+      "label": "续租冲突解决后继续确认",
+      "reason": "改派成功后，当前订单可继续确认延长；改派失败时，当前订单仍不能超过最迟可延长时间。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-e71c38e00d",
+          "anchor": "23-改派后续订单",
+          "quote": "改派成功后，当前订单可继续确认延长；改派失败时，当前订单仍不能超过最迟可延长时间。",
+          "revision": "be6376231c0add828a35522a3073b1906e0e480e5e4ce40818d5b64b3e67feb2"
+        }
+      ]
+    },
+    {
+      "id": "flow-486a31e3ec7bd7c0",
+      "source": "store-followup-reassignment",
+      "target": "store-reassignment",
+      "relation": "references",
+      "label": "处理被影响订单的改派",
+      "reason": "| 后续订单改派 | 当前订单延长用车导致后续订单库存冲突 | 改派被影响的后续订单，不改变当前订单费用。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-351353f602",
+          "anchor": "3-改派场景",
+          "quote": "| 后续订单改派 | 当前订单延长用车导致后续订单库存冲突 | 改派被影响的后续订单，不改变当前订单费用。 |",
+          "revision": "2b14c7f40734c67c97056e05f42cbda84c22c3a02301809ff4b3bb336560b987"
+        }
+      ]
+    },
+    {
+      "id": "flow-bebf36efb59ca69d",
+      "source": "dealer-dispatch-boundary",
+      "target": "store-return-transfer-applied",
+      "relation": "constrains",
+      "label": "只在同一车行内转单",
+      "reason": "改还车门市/转单本期仅支持同车行范围内处理。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "改还车门市/转单本期仅支持同车行范围内处理。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-7dff3f9890fbba03",
+      "source": "store-return-transfer-applied",
+      "target": "store-return-authority",
+      "relation": "triggers",
+      "label": "权限随当前还车门市交接",
+      "reason": "转单完成后，新门市获得订单列表、订单详情和还车操作权限；原门市仅保留查看，不再具备还车、转单、改派等操作权限。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单完成后，新门市获得订单列表、订单详情和还车操作权限；原门市仅保留查看，不再具备还车、转单、改派等操作权限。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-6bec9addf42b95a1",
+      "source": "store-return-authority",
+      "target": "store-return-inspection",
+      "relation": "constrains",
+      "label": "只能由当前还车门市办理",
+      "reason": "订单只能由订单当前还车门市办理还车，其他门市默认没有该订单的还车操作入口。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "订单只能由订单当前还车门市办理还车，其他门市默认没有该订单的还车操作入口。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-8a1d4f9a4b2f38ea",
+      "source": "store-return-transfer-applied",
+      "target": "store-return-transfer-fee",
+      "relation": "provides_data",
+      "label": "计算新旧异地费用差额",
+      "reason": "转单费用按“新异地还车费 - 旧异地还车费”计算差额。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单费用按“新异地还车费 - 旧异地还车费”计算差额。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-8094dd359aa2f66b",
+      "source": "store-return-transfer-fee",
+      "target": "store-return-snapshot",
+      "relation": "provides_data",
+      "label": "变更费用进入还车结算",
+      "reason": "客户自付订单差额进入取车尾款或还车结算，企业月结订单差额进入企业月结账单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "客户自付订单差额进入取车尾款或还车结算，企业月结订单差额进入企业月结账单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-06d3b56ad54cf639",
+      "source": "store-return-transfer-fee",
+      "target": "store-monthly-billing",
+      "relation": "provides_data",
+      "label": "企业差额进入月结账单",
+      "reason": "客户自付订单差额进入取车尾款或还车结算，企业月结订单差额进入企业月结账单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "客户自付订单差额进入取车尾款或还车结算，企业月结订单差额进入企业月结账单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-98ad1a146eb2b1be",
+      "source": "store-return-transfer",
+      "target": "feature-order-detail",
+      "relation": "references",
+      "label": "在订单内办理转单",
+      "reason": "改还车门市/转单命中原还车门市后续预约冲突时，转单弹窗提供“快捷改派后续订单”入口。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-351353f602",
+          "anchor": "13-页面入口",
+          "quote": "改还车门市/转单命中原还车门市后续预约冲突时，转单弹窗提供“快捷改派后续订单”入口。",
+          "revision": "2b14c7f40734c67c97056e05f42cbda84c22c3a02301809ff4b3bb336560b987"
+        }
+      ]
+    },
+    {
+      "id": "flow-657e21f709dcf2a9",
+      "source": "store-return-inspection",
+      "target": "store-return-authority",
+      "relation": "references",
+      "label": "区分办理门市与停车据点",
+      "reason": "订单当前还车门市用于判断是否异地还车，最终停放据点用于车辆资产位置、后续整备和再次派车。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "订单当前还车门市用于判断是否异地还车，最终停放据点用于车辆资产位置、后续整备和再次派车。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-d8ac87910192b7a5",
+      "source": "store-design-outline",
+      "target": "group-inventory",
+      "relation": "references",
+      "label": "规划说明的车组预约范围",
+      "reason": "门市租赁按车组预约，用户下单时不直接锁定具体车辆，系统后续通过派车或调度确定实际车辆。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-905742b896",
+          "anchor": "第-06-页核心对象",
+          "quote": "门市租赁按车组预约，用户下单时不直接锁定具体车辆，系统后续通过派车或调度确定实际车辆。",
+          "revision": "067eef86eccf9f7ee943f5b52549062054b6a0dada482e2394db445c44247135"
+        }
+      ]
+    },
+    {
+      "id": "flow-8b96210c5908f9a1",
+      "source": "store-design-outline",
+      "target": "store-self-lock",
+      "relation": "references",
+      "label": "规划说明的自助取还范围",
+      "reason": "24 小时自助租车由用户在 APP 完成取还车，系统需要依赖车机回传里程、油量或电量、车门控制和车辆状态。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-905742b896",
+          "anchor": "第-04-页服务模式门市租车与-24-小时自助租车",
+          "quote": "24 小时自助租车由用户在 APP 完成取还车，系统需要依赖车机回传里程、油量或电量、车门控制和车辆状态。",
+          "revision": "067eef86eccf9f7ee943f5b52549062054b6a0dada482e2394db445c44247135"
+        }
+      ]
+    },
+    {
+      "id": "flow-a011affe1f06729e",
+      "source": "vehicle-device-allocation",
+      "target": "feature-tbox-management",
+      "relation": "provides_data",
+      "label": "营运端管理已分配设备",
+      "reason": "租户在营运平台中看到可用车机",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "租户在营运平台中看到可用车机",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ]
+    },
+    {
+      "id": "flow-3c07dba4331be114",
+      "source": "vehicle-device-allocation",
+      "target": "vehicle-device-rental-boundary",
+      "relation": "precedes",
+      "label": "设备绑定决定可上架模式",
+      "reason": "分时租赁和 24 小时自助租车必须绑定车机后才允许上架给用户预约。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "分时租赁和 24 小时自助租车必须绑定车机后才允许上架给用户预约。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ]
+    },
+    {
+      "id": "flow-2800cd0ce240dd2d",
+      "source": "vehicle-device-rental-boundary",
+      "target": "sharing-vehicle-availability",
+      "relation": "constrains",
+      "label": "分时上架须绑定但离线不禁约",
+      "reason": "车辆已绑定车机但车机离线、低电或指令失败时，不阻断新预约。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "车辆已绑定车机但车机离线、低电或指令失败时，不阻断新预约。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ]
+    },
+    {
+      "id": "flow-25127eba1f88924e",
+      "source": "vehicle-device-rental-boundary",
+      "target": "sharing-pickup",
+      "relation": "constrains",
+      "label": "车机异常阻断取还并转人工",
+      "reason": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ]
+    },
+    {
+      "id": "flow-91d05b616f52353a",
+      "source": "vehicle-device-rental-boundary",
+      "target": "sharing-return",
+      "relation": "constrains",
+      "label": "车机异常阻断取还并转人工",
+      "reason": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ]
+    },
+    {
+      "id": "flow-d5969d26dc5cca5a",
+      "source": "vehicle-device-rental-boundary",
+      "target": "store-self-unlock",
+      "relation": "constrains",
+      "label": "车机异常阻断取还并转人工",
+      "reason": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ]
+    },
+    {
+      "id": "flow-89ec2ab87af8021e",
+      "source": "vehicle-device-rental-boundary",
+      "target": "store-self-lock",
+      "relation": "constrains",
+      "label": "车机异常阻断取还并转人工",
+      "reason": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-c22311b728",
+          "anchor": "34-车机设备分配",
+          "quote": "已预约订单继续保留，但取车或还车环节会因车机异常被阻断，需要提示营运人员处理。",
+          "revision": "a5908bd53d3da94963d31180440737752283d23f01af6fc42a14602d84ee03d7"
+        }
+      ]
+    },
+    {
+      "id": "flow-e9cc7e9ac7bbf352",
+      "source": "store-renting",
+      "target": "store-return-transfer",
+      "relation": "precedes",
+      "label": "履约阶段可申请转单",
+      "reason": "转单允许状态为 `reserved`、`pickup_overdue`、`inspecting`、`renting`、`renewing`、`overdue`、`accident_processing`；进入 `settlement_pending`、`payment_due`、`refund_pending` 或终态后不允许转单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单允许状态为 `reserved`、`pickup_overdue`、`inspecting`、`renting`、`renewing`、`overdue`、`accident_processing`；进入 `settlement_pending`、`payment_due`、`refund_pending` 或终态后不允许转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-4b19eaa33bfd6ba4",
+      "source": "store-renewing",
+      "target": "store-return-transfer",
+      "relation": "precedes",
+      "label": "履约阶段可申请转单",
+      "reason": "转单允许状态为 `reserved`、`pickup_overdue`、`inspecting`、`renting`、`renewing`、`overdue`、`accident_processing`；进入 `settlement_pending`、`payment_due`、`refund_pending` 或终态后不允许转单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单允许状态为 `reserved`、`pickup_overdue`、`inspecting`、`renting`、`renewing`、`overdue`、`accident_processing`；进入 `settlement_pending`、`payment_due`、`refund_pending` 或终态后不允许转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-a9a63bb2e9ea8b41",
+      "source": "store-overdue",
+      "target": "store-return-transfer",
+      "relation": "precedes",
+      "label": "履约阶段可申请转单",
+      "reason": "转单允许状态为 `reserved`、`pickup_overdue`、`inspecting`、`renting`、`renewing`、`overdue`、`accident_processing`；进入 `settlement_pending`、`payment_due`、`refund_pending` 或终态后不允许转单。",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "knowledge-1864f917f1",
+          "anchor": "81-进入待结算",
+          "quote": "转单允许状态为 `reserved`、`pickup_overdue`、`inspecting`、`renting`、`renewing`、`overdue`、`accident_processing`；进入 `settlement_pending`、`payment_due`、`refund_pending` 或终态后不允许转单。",
+          "revision": "255ae1dc66bb5c9d99604e1b5d9514913ba806009968f50a41d9520b09667fd6"
+        }
+      ]
+    },
+    {
+      "id": "flow-84db1133e78629a1",
+      "source": "store-renewing",
+      "target": "store-extension-confirm",
+      "relation": "precedes",
+      "label": "续租或逾期补办重新校验",
+      "reason": "| 允许延长用车 | 订单主状态为 `renting`、`renewing`。 |\n| 允许补办续租 | 订单主状态为 `overdue`，且门店具备逾期续租处理权限。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-e71c38e00d",
+          "anchor": "2-状态与入口规则",
+          "quote": "| 允许延长用车 | 订单主状态为 `renting`、`renewing`。 |\r\n| 允许补办续租 | 订单主状态为 `overdue`，且门店具备逾期续租处理权限。 |",
+          "revision": "be6376231c0add828a35522a3073b1906e0e480e5e4ce40818d5b64b3e67feb2"
+        }
+      ]
+    },
+    {
+      "id": "flow-14bab62cdeed67cb",
+      "source": "store-overdue",
+      "target": "store-extension-confirm",
+      "relation": "precedes",
+      "label": "续租或逾期补办重新校验",
+      "reason": "| 允许延长用车 | 订单主状态为 `renting`、`renewing`。 |\n| 允许补办续租 | 订单主状态为 `overdue`，且门店具备逾期续租处理权限。 |",
+      "basis": "explicit",
+      "status": "active",
+      "evidence": [
+        {
+          "requirementId": "store-rental-e71c38e00d",
+          "anchor": "2-状态与入口规则",
+          "quote": "| 允许延长用车 | 订单主状态为 `renting`、`renewing`。 |\r\n| 允许补办续租 | 订单主状态为 `overdue`，且门店具备逾期续租处理权限。 |",
+          "revision": "be6376231c0add828a35522a3073b1906e0e480e5e4ce40818d5b64b3e67feb2"
         }
       ]
     }

@@ -5,6 +5,14 @@
   "title": "RIMO Rental 产品与业务知识",
   "overview": "overview.md",
   "graph": "graph.json",
+  "guides": [
+    { "id": "introduction", "title": "介绍", "description": "了解 RIMO Rental、内容的组织方式，以及如何阅读一个功能页面。", "path": "guides/introduction.md", "access": "public" },
+    { "id": "usage", "title": "使用指南", "description": "浏览业务页面、体验 Demo，并将页面区块接入自己的 React 项目。", "path": "guides/usage.md", "access": "public" },
+    { "id": "theming", "title": "主题设置", "description": "语义颜色变量、圆角与字体、深色模式，以及如何使用自己的品牌色。", "path": "guides/theming.md", "access": "public" },
+    { "id": "motion", "title": "动效", "description": "弹簧预设、缓动与时长变量，以及减少动态效果的处理方式。", "path": "guides/motion.md", "access": "public" },
+    { "id": "ai", "title": "AI 和 MCP", "description": "让 Agent 读取 RIMO 的业务需求、功能关系、页面源码与已发布的工程规则。", "path": "guides/ai.md", "access": "public" },
+    { "id": "changelog", "title": "更新日志", "description": "RIMO 页面、需求关系与项目文档的更新。", "path": "guides/changelog.md", "access": "public" }
+  ],
   "requirements": [
     {
       "id": "vehicle-groups",
@@ -47,6 +55,7 @@
     },
     {
       "id": "knowledge-c22311b728",
+      "access": "public",
       "title": "RIMO租赁平台业务全局说明",
       "category": "业务知识库",
       "status": "confirmed",
@@ -55,6 +64,7 @@
     },
     {
       "id": "knowledge-58cb66beac",
+      "access": "public",
       "title": "RIMO 租赁平台功能业务关系图表",
       "category": "业务知识库",
       "status": "confirmed",
@@ -63,6 +73,7 @@
     },
     {
       "id": "knowledge-f7be5a9a91",
+      "access": "public",
       "title": "RIMO 租赁平台功能模块清单",
       "category": "业务知识库",
       "status": "confirmed",
@@ -71,6 +82,7 @@
     },
     {
       "id": "knowledge-31ba3c835b",
+      "access": "public",
       "title": "公务车业务说明",
       "category": "业务知识库",
       "status": "confirmed",
@@ -79,6 +91,7 @@
     },
     {
       "id": "knowledge-a61b45e6b2",
+      "access": "public",
       "title": "分时租赁业务说明",
       "category": "业务知识库",
       "status": "confirmed",
@@ -579,6 +592,7 @@
     },
     {
       "id": "store-rental-905742b896",
+      "access": "public",
       "title": "门市租赁业务方案说明 - 逐页说明稿",
       "category": "门市租赁",
       "status": "planned",

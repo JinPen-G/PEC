@@ -1,0 +1,22 @@
+.uiarc-showcase .showcase-guide-body :is(h2, h3, h4) {
+  scroll-margin-top: 88px;
+}
+.uiarc-showcase .showcase-guide-body :is(dt, dd, [role='cell']) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.uiarc-showcase .showcase-guide-body .library-docs_row__lJECr {
+  align-items: start;
+}
+.uiarc-showcase .showcase-guide-body .library-docs_row__lJECr [role='cell'] > code {
+  box-decoration-break: clone;
+}
+.uiarc-showcase .showcase-guide-body .docs_code__X6QfU + p {
+  margin-top: 16px;
+}
+.uiarc-showcase .showcase-guide-body .library-docs_steps___R3KD h3 {
+  color: var(--foreground);
+}
+.uiarc-showcase .showcase-guide-body .library-docs_steps___R3KD .docs_code__X6QfU {
+  margin-bottom: 12px;
+}

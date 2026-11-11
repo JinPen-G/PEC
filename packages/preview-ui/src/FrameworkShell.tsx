@@ -87,7 +87,7 @@ export interface FrameworkShellProps {
   onThemeChange: (theme: string) => void;
   locale: string;
   onLocaleChange: (locale: string) => void;
-  onLogout: () => void;
+  onLogout?: () => void;
   onPasswordChange?: () => void;
   contextControls?: ReactNode;
   documentAvailable: boolean;
@@ -358,13 +358,17 @@ function AccountMenu(props: FrameworkShellProps) {
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={props.onLogout}>
-                <HugeiconsIcon icon={Logout01Icon} strokeWidth={2} />
-                {labels.logout}
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
+            {props.onLogout && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem onClick={props.onLogout}>
+                    <HugeiconsIcon icon={Logout01Icon} strokeWidth={2} />
+                    {labels.logout}
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

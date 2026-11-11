@@ -1,181 +1,127 @@
-/** Read-only site guides use the same original detail/outline layout. They
- * describe viewing and AI access, never expose internal development records. */
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowUp, ArrowLeft, ArrowRight, FileText, Link2 } from 'lucide-react';
+import { ArrowUp, ArrowLeft, ArrowRight, RefreshCw } from 'lucide-react';
+import { LoadingStage } from '@preview/ui/loading';
+import type { MarkdownHeading } from '@/features/docs/markdown';
 import { useShowcaseText } from './showcase-locale';
-import type { LandingPage } from './SiteLanding';
-import { SourcePanel } from './SourcePanel';
-import { guideContent, siteGuides } from './site-guides';
+import { GuideBody } from './GuideBody';
+import { siteGuides } from './site-guides';
+import { useProjectGuides } from './project-guide-query';
 import { useTocNavigation } from './toc-navigation';
 import { TocSelection } from './TocSelection';
-import { CONTEXT_TOOLS, AGENT_TOOLS } from '../../../../../packages/platform-contracts/src/context';
+import type { CatalogPage } from './showcase-catalog';
 
-function SectionHeading({
-  id,
-  title,
-  scrollTo,
+export function SiteDocumentation({
+  path,
+  projectId,
+  pages,
 }: {
-  id: string;
-  title: string;
-  scrollTo: (id: string) => void;
+  path: string;
+  projectId: string;
+  pages: CatalogPage[];
 }) {
-  return (
-    <h2 id={`${id}-title`}>
-      <a
-        className="library-docs_anchor__0uC_o"
-        href={`#${id}`}
-        onClick={(event) => {
-          event.preventDefault();
-          scrollTo(id);
-        }}
-      >
-        {title}
-        <Link2 size={13} strokeWidth={1.8} aria-hidden="true" />
-      </a>
-    </h2>
-  );
-}
-
-export function SiteDocumentation({ path, pages }: { path: string; pages: LandingPage[] }) {
   const text = useShowcaseText();
-  const projectId = new URLSearchParams(useLocation().search).get('project');
-  const guidePath = (path: string) =>
-    `${path}${projectId ? `?project=${encodeURIComponent(projectId)}` : ''}`;
-  const ai = path === '/docs/ai';
-  const content = guideContent[path] ?? guideContent['/docs'];
+  const location = useLocation();
+  const query = useProjectGuides(projectId);
   const guideIndex = Math.max(
     0,
-    siteGuides.findIndex((guide) => guide.path === path),
+    siteGuides.findIndex((item) => item.path === path),
   );
-  const title = ai ? 'AI 和 MCP' : siteGuides[guideIndex].title;
-  const sections = ai
-    ? [
-        ['context', '业务上下文'],
-        ['connection', '连接 MCP'],
-        ['permission', '访问范围'],
-      ]
-    : content.sections.map((section) => [section.id, section.title]);
-  const { active, scrollTo } = useTocNavigation(
-    sections.map(([id]) => id),
-    150,
+  const navigation = siteGuides[guideIndex];
+  const catalog = query.isError ? undefined : query.data;
+  useEffect(() => {
+    document.title = [text(navigation.title), catalog?.projectName, 'Preview'].filter(Boolean).join(' · ');
+  }, [navigation.title, catalog?.projectName, text]);
+  const guide = catalog?.guides.find((item) => item.id === navigation.id);
+  const restricted = catalog?.restrictedGuideIds?.some((identifier) => identifier === navigation.id);
+  const [headings, setHeadings] = useState<MarkdownHeading[]>([]);
+  const updateHeadings = useCallback(
+    (next: MarkdownHeading[]) =>
+      setHeadings((previous) =>
+        previous.length === next.length &&
+        previous.every((heading, index) => heading.id === next[index].id && heading.text === next[index].text)
+          ? previous
+          : next,
+      ),
+    [],
   );
+  const sectionIds = headings.filter((heading) => heading.level <= 2).map((heading) => heading.id);
+  const { active, scrollTo } = useTocNavigation(sectionIds, 150);
+  const guidePath = useCallback((pathname: string, anchor?: string) =>
+    `${pathname}?${new URLSearchParams({ project: projectId, ...(anchor ? { anchor } : {}) })}`, [projectId]);
+  const resolveDocumentUrl = useCallback((file: string, anchor?: string) => {
+    const target = catalog?.guides.find((item) => item.path === file);
+    const route = siteGuides.find((item) => item.id === target?.id);
+    return route ? `#${guidePath(route.path, anchor)}` : '#';
+  }, [catalog?.guides, guidePath]);
+  const firstPage = pages.find((page) => page.projectId === projectId && page.allowed);
   return (
     <main className="page_content__xGn__">
       <div className="docs_docLayout__YK0uB">
         <article className="docs_docMain__jK5Ve showcase-guide">
-          <nav className="docs_breadcrumb__JFHCC">
+          <nav className="docs_breadcrumb__JFHCC" aria-label={text('文档')}>
             <Link to={guidePath('/docs')}>{text('文档')}</Link>
-            <span>›</span>
-            <span>{text(title)}</span>
+            <span aria-hidden="true">›</span>
+            <span aria-current="page">{text(navigation.title)}</span>
           </nav>
           <header className="library-docs_hero__Sm4D7">
             <div className="docs_headerCopy__ZDQWU">
               <div className="docs_titleRow__nNp4A">
-                <h1>{text(title)}</h1>
+                <h1>{text(navigation.title)}</h1>
               </div>
-              <p>{text(ai ? '按项目授权读取业务概况、具体需求与页面关联。' : content.description)}</p>
+              {guide && <p data-preserve-language>{guide.description}</p>}
             </div>
           </header>
-          {ai ? (
-            <>
-              <section className="library-docs_section__WJnkm" id="context" aria-labelledby="context-title">
-                <SectionHeading id="context" title={text('业务上下文')} scrollTo={scrollTo} />
-                <p>{text('AI 使用管理员签发的只读凭证，按需读取项目概况、需求目录、业务原文与页面关联。')}</p>
-                <ul className="docs_notes__6jcWA">
-                  {[...AGENT_TOOLS, ...CONTEXT_TOOLS].map((tool) => (
-                    <li key={tool.name}>
-                      <code>{tool.name}</code>
-                    </li>
-                  ))}
-                </ul>
-                <p>
-                  {text(
-                    '修改功能前，先读取图谱的维护状态，再核对节点依据与变更影响。主题归属不代表业务依赖。',
-                  )}
-                </p>
-              </section>
-              <section
-                className="library-docs_section__WJnkm"
-                id="connection"
-                aria-labelledby="connection-title"
-              >
-                <SectionHeading id="connection" title={text('连接 MCP')} scrollTo={scrollTo} />
-                <p>{text('在支持 Streamable HTTP 的客户端中，私下配置管理员签发的项目凭证。')}</p>
-                <p>
-                  {text(
-                    '在后台项目的“AI 接入”中检查资料、选择读取范围并复制 MCP 配置。连接后先调用 get_project_context，再读取已发布治理规则、相关需求和组件源码。',
-                  )}
-                </p>
-                <SourcePanel
-                  fileName="mcp.json"
-                  source={JSON.stringify(
-                    {
-                      mcpServers: {
-                        preview: {
-                          url: `${location.origin}/api/project-context/mcp`,
-                          headers: { Authorization: 'Bearer <project-read-only-token>' },
-                        },
-                      },
-                    },
-                    null,
-                    2,
-                  )}
-                />
-              </section>
-              <section
-                className="library-docs_section__WJnkm"
-                id="permission"
-                aria-labelledby="permission-title"
-              >
-                <SectionHeading id="permission" title={text('访问范围')} scrollTo={scrollTo} />
-                <p>
-                  {text(
-                    '读取范围由后台授权控制。凭证过期或撤销后停止访问；凭证不写入页面网址，不共享管理员密码。',
-                  )}
-                </p>
-              </section>
-            </>
+          {!projectId ? (
+            <p>{text('尚未配置项目')}</p>
+          ) : query.isPending ? (
+            <LoadingStage label={text('读取项目指南…')} />
+          ) : query.isError ? (
+            <div className="showcase-error" role="alert">
+              <p>{text('项目指南读取失败')}</p>
+              <p>{query.error.message}</p>
+              <button className="showcase-button" type="button" onClick={() => void query.refetch()}>
+                <RefreshCw size={14} />
+                {text('重试')}
+              </button>
+            </div>
+          ) : !guide && restricted ? (
+            <div className="showcase-muted" role="alert"><p>{text('此指南需要项目授权。')}</p><p>{text('请联系管理员获取当前项目的资料访问权限。')}</p></div>
+          ) : !guide ? (
+            <div className="showcase-muted" role="status">
+              <p>{text('此项目尚未发布这篇指南。')}</p>
+              {firstPage && (
+                <Link to={`/pages/${firstPage.projectId}/${firstPage.clientId}/${firstPage.pageKey}`}>
+                  {text('浏览当前项目')}
+                </Link>
+              )}
+            </div>
           ) : (
-            content.sections.map((section) => (
-              <section
-                className="library-docs_section__WJnkm"
-                id={section.id}
-                key={section.id}
-                aria-labelledby={`${section.id}-title`}
-              >
-                <SectionHeading id={section.id} title={text(section.title)} scrollTo={scrollTo} />
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph}>{text(paragraph)}</p>
-                ))}
-                {section.id === 'pages' && (
-                  <ul className="showcase-doc-page-list">
-                    {pages.map((page) => (
-                      <li key={`${page.projectId}/${page.clientId}/${page.pageKey}`}>
-                        <Link to={`/pages/${page.projectId}/${page.clientId}/${page.pageKey}`}>
-                          <FileText size={15} />
-                          {text(page.title)}
-                        </Link>
-                        <span>{text(page.access === 'public' ? '公开' : '需授权')}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))
+            <div className="library-docs_body__P7yx7" data-preserve-language>
+              <GuideBody
+                source={guide.markdown}
+                documentPath={guide.path}
+                projectId={projectId}
+                resolveDocumentUrl={resolveDocumentUrl}
+                onHeadings={updateHeadings}
+                activeAnchor={new URLSearchParams(location.search).get('anchor') ?? undefined}
+              />
+            </div>
           )}
           <nav className="docs_pager__7frTG" aria-label={text('文档导航')}>
-            {guideIndex > 0 && (
-              <Link to={guidePath(siteGuides[guideIndex - 1].path)} className="docs_pagerPrev__1lFr8">
+            {guideIndex > 0 ? (
+              <Link className="docs_pagerPrev__1lFr8" to={guidePath(siteGuides[guideIndex - 1].path)}>
                 <ArrowLeft size={16} />
                 <span>
                   <small>{text('上一篇')}</small>
                   {text(siteGuides[guideIndex - 1].title)}
                 </span>
               </Link>
+            ) : (
+              <span aria-hidden="true" />
             )}
-            {guideIndex === 0 && <span aria-hidden="true" />}
             {siteGuides[guideIndex + 1] && (
-              <Link to={guidePath(siteGuides[guideIndex + 1].path)} className="docs_pagerNext__s5UpM">
+              <Link className="docs_pagerNext__s5UpM" to={guidePath(siteGuides[guideIndex + 1].path)}>
                 <span>
                   <small>{text('下一篇')}</small>
                   {text(siteGuides[guideIndex + 1].title)}
@@ -186,19 +132,27 @@ export function SiteDocumentation({ path, pages }: { path: string; pages: Landin
           </nav>
         </article>
         <aside className="docs_tocRail__mVzSm">
-          <nav className="docs_toc__4bz2v" aria-label={text('本页目录')}>
+          <nav aria-label={text('本页目录')} className="docs_toc__4bz2v">
             <p className="docs_tocTitle__v_VlL">{text('本页目录')}</p>
             <TocSelection activeKey={active}>
-              {sections.map(([id, title]) => (
-                <li key={id}>
-                  <button aria-current={active === id ? 'location' : undefined} onClick={() => scrollTo(id)}>
-                    {text(title)}
-                  </button>
-                </li>
-              ))}
+              {headings
+                .filter((heading) => heading.level <= 2)
+                .map((heading) => (
+                  <li key={heading.id}>
+                    <button
+                      type="button"
+                      data-toc-key={heading.id}
+                      aria-current={active === heading.id ? 'location' : undefined}
+                      onClick={() => scrollTo(heading.id)}
+                    >
+                      {heading.text}
+                    </button>
+                  </li>
+                ))}
             </TocSelection>
             <div className="docs_tocFooter__8MA86">
               <button
+                type="button"
                 onClick={() =>
                   window.scrollTo({
                     top: 0,

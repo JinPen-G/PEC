@@ -103,6 +103,7 @@ beforeEach(() => {
     },
   );
   localStorage.clear();
+  sessionStorage.clear();
   roomStreams.length = 0;
   vi.stubGlobal('EventSource', RoomStream);
   auth.session.user = {
@@ -162,13 +163,34 @@ it('removes a hidden or revoked selected page on catalog refresh and stops displ
   });
   expect(screen.getByText('暂无可体验的页面')).toBeInTheDocument();
 });
-it('routes unauthenticated visitors to login with the requested demo destination', async () => {
+it('lets visitors open public demo pages without signing in or joining collaboration', async () => {
   auth.session.user = null;
+  auth.client.request.mockClear();
   mount('/demo?project=sample', true);
-  await waitFor(() =>
-    expect(screen.getByTestId('route')).toHaveTextContent('/login?returnTo=%2Fdemo%3Fproject%3Dsample'),
-  );
-  expect(auth.client.request).not.toHaveBeenCalled();
+  expect(await screen.findByTestId('runtime')).toHaveTextContent('vehicle-groups');
+  expect(screen.getByTestId('route')).toHaveTextContent('/demo/sample/operation/vehicle-groups');
+  expect(screen.getByText('访客')).toBeInTheDocument();
+  expect(screen.queryByRole('combobox', { name: '主动跟随' })).not.toBeInTheDocument();
+  expect(roomStreams).toHaveLength(0);
+  expect(auth.client.request.mock.calls.some(([route]) => route.startsWith('/collaboration'))).toBe(false);
+});
+it('prefers the current front-end project over the first available project', async () => {
+  auth.session.user = null;
+  projects.unshift({ id: 'components', name: '组件中心' });
+  sessionStorage.setItem('preview:showcase-project:anonymous', 'sample');
+  auth.client.request.mockClear();
+  mount('/demo', true);
+  expect(await screen.findByTestId('runtime')).toHaveTextContent('vehicle-groups');
+  expect(screen.getByTestId('route')).toHaveTextContent('/demo/sample/operation/vehicle-groups');
+  expect(auth.client.request.mock.calls.some(([route]) => route === '/showcase?projectId=components')).toBe(false);
+});
+it('honors the explicit project even when another project was remembered', async () => {
+  auth.session.user = null;
+  projects.unshift({ id: 'components', name: '组件中心' });
+  sessionStorage.setItem('preview:showcase-project:anonymous', 'components');
+  mount('/demo?project=sample', true);
+  expect(await screen.findByTestId('runtime')).toHaveTextContent('vehicle-groups');
+  expect(screen.getByTestId('route')).toHaveTextContent('/demo/sample/operation/vehicle-groups');
 });
 it('keeps required password changes ahead of the demo', async () => {
   auth.session.user!.mustChangePassword = true;

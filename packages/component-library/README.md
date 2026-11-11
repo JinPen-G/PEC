@@ -31,7 +31,7 @@ pnpm dlx shadcn@latest add https://your-preview-site.example/r/your-project/rimo
 
 目标项目先初始化 shadcn，使用 React 19 与 TypeScript。CLI 自动复制声明的源码及样式，安装 npm 依赖，并通过项目范围的 Registry URL 获取其他组件依赖。安装后从 components 别名下引用，例如 `@/components/preview/rimo-rental/blocks/vehicle-groups/VehicleGroupsBlock`；全局变量缺失时 RIMO 样式使用自身回退值。
 
-网站页面的“页面源码”Tab 提供安装命令、区块全部文件和展示入口源码。受限内容支持授权浏览器会话，以及管理员签发的 `components:read` 项目凭证；Registry 请求使用 `Authorization: Bearer`。MCP 提供组件搜索、依赖清单和分页源码读取。下架、撤权、停用客户端、归档项目后，Registry 和每个依赖都拒绝新请求。已经下载到使用者项目的源码无法远程撤回。
+公开项在页面标题下提供快捷安装命令，“页面源码”Tab提供同一命令、区块全部文件和展示入口源码。命令使用当前页面返回的项目Registry地址，按登记类型标识组件或区块；复制失败会提示，不用页面编码或分享链接代替安装命令。未登记或受限内容不显示匿名快捷命令。受限内容支持授权浏览器会话，以及管理员签发的 `components:read` 项目凭证；Registry请求使用 `Authorization: Bearer`。MCP提供组件搜索、依赖清单和分页源码读取。下架、撤权、停用客户端、归档项目后，Registry和每个依赖都拒绝新请求。已经下载到使用者项目的源码无法远程撤回。
 
 在支持自定义 registry headers 的 shadcn 客户端中配置项目命名空间；凭证使用客户端环境变量，不写入网址或提交到仓库：
 

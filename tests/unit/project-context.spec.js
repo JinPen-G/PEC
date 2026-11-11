@@ -16,6 +16,37 @@ import { NATIVE_MODULES } from '../../packages/platform-contracts/src/platform.j
 import { packageRelease, verifyRelease, activateRelease } from '../../scripts/release.mjs';
 
 const fixtures = [];
+test('project guides publish only their declared scope without opening requirement files', async () => {
+  const item = await fixture({ server: true });
+  const manifest = baseManifest();
+  manifest.guides = [
+    { id: 'introduction', title: 'Fixture product', description: 'Public product introduction', path: 'guides/introduction.md', access: 'public' },
+    { id: 'usage', title: 'Project workflow', description: 'Authorized guide', path: 'guides/usage.md', access: 'project' },
+  ];
+  await fs.mkdir(path.join(item.packageRoot, 'guides'));
+  await fs.writeFile(path.join(item.packageRoot, 'guides/introduction.md'), '## Product\nPUBLIC-GUIDE-CANARY');
+  await fs.writeFile(path.join(item.packageRoot, 'guides/usage.md'), '## Workflow\nPROJECT-GUIDE-CANARY');
+  await fs.writeFile(path.join(item.packageRoot, 'manifest.json'), JSON.stringify(manifest));
+  const endpoint = `${item.base}/api/native/showcase/${item.project.id}/guides`;
+  const anonymous = await fetch(endpoint);
+  expect(anonymous.status).toBe(200);
+  const publicResult = await anonymous.json();
+  expect(publicResult.projectId).toBe(item.project.id);
+  expect(publicResult.guides.map((guide) => guide.id)).toEqual(['introduction']);
+  expect(publicResult.restrictedGuideIds).toEqual(['usage']);
+  expect(JSON.stringify(publicResult)).toContain('PUBLIC-GUIDE-CANARY');
+  expect(JSON.stringify(publicResult)).not.toContain('PROJECT-GUIDE-CANARY');
+  expect(JSON.stringify(publicResult)).not.toContain('重要机密字段');
+  const admin = item.store.login(item.admin.username, 'fixture-password');
+  const authorized = await fetch(endpoint, { headers: { cookie: `preview_session=${admin.token}` } });
+  expect((await authorized.json()).guides).toHaveLength(2);
+  expect((await fetch(`${item.base}/api/native/showcase/nonexistent/guides`)).ok).toBe(false);
+  expect((await fetch(`${item.base}/api/native/showcase/${item.project.id}/graph-document?id=usage`)).status).toBe(404);
+  for (const override of [{ id: 'private-notes' }, { path: '../private.md' }, { path: 'guides/开发记录.md' }, { access: undefined }]) {
+    expect(() => validateContentManifest({ ...manifest, guides: [{ ...manifest.guides[0], ...override }] }, NATIVE_MODULES)).toThrow();
+  }
+  expect(() => validateContentManifest({ ...manifest, guides: [manifest.guides[0], manifest.guides[0]] }, NATIVE_MODULES)).toThrow('重复');
+});
 test('project menu grants are atomic, discoverable, isolated and removed from every page reader', async () => {
   const item = await fixture({ server: true });
   const store = item.store;
