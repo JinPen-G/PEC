@@ -329,7 +329,7 @@ export default function MembershipPlansBlock() {
 <RimoElement kind="el-button" type="primary" onClick={event => {
           view.savePlan?.(event);
         }}>{text("保存")}</RimoElement></>
-    }}>{() => <><RimoElement kind="el-form" model={view.currentPlan} labelPosition="top"><div className="grid grid-cols-2 gap-6" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="方案名稱" required={true}><RimoElement kind="el-input" modelValue={view.currentPlan.name} onModelChange={value => {
+    }}>{() => <><RimoElement kind="el-form" model={view.currentPlan} labelPosition="top"><div className="grid grid-cols-2 gap-6" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="方案名稱" required={true}><RimoElement kind="el-input" modelValue={view.currentPlan.name} onModelChange={value => {
                 model.write(["currentPlan", "name"], value);
               }} placeholder="例如: 金牌會員"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="等級層級" required={true}><RimoElement kind="el-input-number" modelValue={view.currentPlan.tier} onModelChange={value => {
@@ -343,7 +343,7 @@ export default function MembershipPlansBlock() {
 {view.currentPlan.type === 'paid' ? <><div className="col-span-2 bg-blue-50 p-4 rounded-lg border border-blue-100"><div className="font-bold text-gray-800 mb-4 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-blue-600"><RimoIcon name="Money" /></RimoElement>
 {text("\n                            繳費週期與價格\n                        ")}</div>
 <div className="text-xs text-gray-500 mb-4">{text("勾選啓用的繳費週期，並設置對應價格")}</div>
-<div className="grid grid-cols-2 gap-4">{rimoEntries(view.pricingCycles).map(([cycle], _itemIndex) => <Fragment key={cycle.key}><div key={cycle.key} className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200"><RimoElement kind="el-checkbox" modelValue={view.currentPlan.pricing[cycle.key + 'Enabled']} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2">{rimoEntries(view.pricingCycles).map(([cycle], _itemIndex) => <Fragment key={cycle.key}><div key={cycle.key} className="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200" data-rimo-layout="field-row"><RimoElement kind="el-checkbox" modelValue={view.currentPlan.pricing[cycle.key + 'Enabled']} onModelChange={value => {
                         model.write(["currentPlan", "pricing", cycle.key + 'Enabled'], value);
                       }}>{text("\n                                    ")}{rimoText(cycle.label)}{text("\n                                ")}</RimoElement>
 <RimoElement kind="el-input-number" modelValue={view.currentPlan.pricing[cycle.key]} onModelChange={value => {

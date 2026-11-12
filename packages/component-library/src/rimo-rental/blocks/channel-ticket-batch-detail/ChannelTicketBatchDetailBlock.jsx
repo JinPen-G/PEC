@@ -821,7 +821,7 @@ export default function ChannelTicketBatchDetailBlock() {
   const {
     text
   } = useRimoEnvironment();
-  return <RimoRoot model={model} pageKey="channel-ticket-batch-detail" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="mb-5 flex items-start justify-between gap-4"><div><div className="flex items-center gap-3"><RimoElement kind="el-button" plain={true} onClick={event => {
+  return <RimoRoot model={model} pageKey="channel-ticket-batch-detail" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="mb-5 flex items-start justify-between gap-4" data-rimo-layout="toolbar"><div><div className="flex items-center gap-3"><RimoElement kind="el-button" plain={true} onClick={event => {
               view.goBack?.(event);
             }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Back" /></RimoElement>
 {text("返回列表\n                            ")}</RimoElement></div>
@@ -835,7 +835,7 @@ export default function ChannelTicketBatchDetailBlock() {
 <RimoElement kind="el-button" plain={true} onClick={event => {
             view.editBatchMock?.(event);
           }}>{text("編輯批次")}</RimoElement></div></div>
-<div className="grid grid-cols-5 gap-4 mb-5"><div className="stat-card"><div className="text-xs text-gray-500">{text("租車券總數")}</div>
+<div className="grid grid-cols-5 gap-4 mb-5" data-rimo-grid="5"><div className="stat-card"><div className="text-xs text-gray-500">{text("租車券總數")}</div>
 <div className="text-2xl font-bold text-gray-900 mt-2">{rimoText(view.currentBatch.totalCount)}</div></div>
 <div className="stat-card"><div className="text-xs text-gray-500">{rimoText(view.currentBatch.issueMode === 'QUANTITY' ? '已領取' : '已發放')}</div>
 <div className="text-2xl font-bold text-emerald-600 mt-2">{rimoText(view.currentBatch.issuedCount)}</div></div>
@@ -875,7 +875,7 @@ export default function ChannelTicketBatchDetailBlock() {
 <td>{rimoText(view.formatIssueSummary(view.currentBatch))}{text(" / 失敗 ")}{rimoText(view.currentBatch.issueFailedCount)}</td>
 <th>{text("使用統計")}</th>
 <td>{text("未使用 ")}{rimoText(view.currentBatch.unusedCount)}{text(" / 已使用 ")}{rimoText(view.currentBatch.usedCount)}{text(" / 已過期 ")}{rimoText(view.currentBatch.expiredCount)}{text(" / 已作廢 ")}{rimoText(view.currentBatch.voidCount || 0)}</td></tr></tbody></RimoTable></section>
-<section className="section-card p-5 mb-5"><div className="flex items-center justify-between gap-4"><h2 className="text-lg font-bold text-gray-900">{text("車輛庫存提醒")}</h2>
+<section className="section-card p-5 mb-5"><div className="flex items-center justify-between gap-4" data-rimo-layout="toolbar"><h2 className="text-lg font-bold text-gray-900">{text("車輛庫存提醒")}</h2>
 <div className="flex items-center gap-3 shrink-0"><RimoElement kind="el-button-group"><RimoElement kind="el-button" size="small" type={view.capacityDemoMode === 'SAFE' ? 'primary' : 'default'} onClick={_event => {
                 model.write(["capacityDemoMode"], 'SAFE');
               }}>{text("無庫存風險")}</RimoElement>
@@ -891,7 +891,7 @@ export default function ChannelTicketBatchDetailBlock() {
 <b className="text-gray-800">{rimoText(view.capacityInfo.relatedMaxOccupancy)}{text(" 臺")}</b></span>
 <span>{text("預計剩餘 ")}
 <b className={rimoClass(view.capacityInfo.hasRisk ? 'text-amber-700' : 'text-emerald-700')}>{rimoText(view.capacityInfo.remainingVehicleCount)}{text(" 臺")}</b></span></div></section>
-<section className="section-card p-5 mb-5"><div className="flex items-center justify-between mb-4"><div><h2 className="text-lg font-bold text-gray-900">{text("租車券列表")}</h2>
+<section className="section-card p-5 mb-5"><div className="flex items-center justify-between mb-4" data-rimo-layout="toolbar"><div><h2 className="text-lg font-bold text-gray-900">{text("租車券列表")}</h2>
 <p className="text-sm text-gray-500 mt-1">{text("創建訂單即已使用；訂單取消後未過期前恢復未使用，可重新預約。作廢爲時間充裕時開發的可選能力。")}</p></div>
 <div className="flex gap-2">{view.currentBatch.issueMode === 'LIST' ? <><RimoElement kind="el-button" type="primary" plain={true} onClick={event => {
                 view.openAppendListDialog?.(event);
@@ -995,7 +995,7 @@ export default function ChannelTicketBatchDetailBlock() {
 <RimoElement kind="el-form-item" label="導入原因" required={true}><RimoElement kind="el-input" modelValue={view.appendListForm.reason} onModelChange={value => {
                 model.write(["appendListForm", "reason"], value);
               }} type="textarea" rows={3} placeholder="例如：合作企業補名單、現場追加名額、首次導入名單"></RimoElement></RimoElement>
-<RimoElement kind="el-form-item" label="名單文件"><div className="w-full rounded-lg border border-slate-200 bg-slate-50 p-4"><div className="flex items-center justify-between gap-3"><div><div className="text-sm font-semibold text-gray-900">{text("用券人名單模板")}</div>
+<RimoElement kind="el-form-item" label="名單文件"><div className="w-full rounded-lg border border-slate-200 bg-slate-50 p-4"><div className="flex items-center justify-between gap-3" data-rimo-layout="toolbar"><div><div className="text-sm font-semibold text-gray-900">{text("用券人名單模板")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("字段：用券人姓名、證件號碼，不包含證件類型。證件號碼不得與本次文件或當前批次已有名單重複。")}</div></div>
 <div className="flex gap-2"><RimoElement kind="el-button" size="small" plain={true} onClick={event => {
                       view.downloadAppendTemplateMock?.(event);
@@ -1009,7 +1009,7 @@ export default function ChannelTicketBatchDetailBlock() {
 {view.appendImportPreviewReady ? <><div className="rounded-lg border border-blue-100 bg-blue-50 p-4"><RimoElement kind="el-alert" title={view.appendImportSummary.status === 'success' ? '導入成功' : '導入異常'} type={view.appendImportSummary.status === 'success' ? 'success' : 'error'} closable={false} showIcon={true} slots={{
                 "default": _slot => <>{rimoText(view.appendImportSummary.message)}</>
               }}></RimoElement>
-{view.appendImportSummary.status === 'success' ? <><div className="grid grid-cols-3 gap-3 mt-3 text-sm"><div className="rounded bg-white border border-blue-100 p-3"><div className="text-xs text-gray-500">{text("本次名單行數")}</div>
+{view.appendImportSummary.status === 'success' ? <><div className="grid grid-cols-3 gap-3 mt-3 text-sm" data-rimo-grid="3"><div className="rounded bg-white border border-blue-100 p-3"><div className="text-xs text-gray-500">{text("本次名單行數")}</div>
 <div className="font-semibold text-gray-900">{rimoText(view.appendImportSummary.total)}{text(" 行")}</div></div>
 <div className="rounded bg-white border border-blue-100 p-3"><div className="text-xs text-gray-500">{text("已匹配會員")}</div>
 <div className="font-semibold text-emerald-700">{rimoText(view.appendImportSummary.matched)}{text(" 行")}</div></div>

@@ -15,6 +15,8 @@ import { writeFileAtomic } from '../packages/project-core/src/filesystem.js';
 import { appendRimoFlowGraph } from './rimo-graph-flows.mjs';
 import { rimoGraphTopics, applyRimoGraphCategories } from './rimo-graph-categories.mjs';
 import { rimoGraphQuote } from './rimo-graph-evidence.mjs';
+import { focusRimoGraph } from './rimo-graph-focus.mjs';
+import { rimoTelemetryCore } from './rimo-graph-telemetry-core.mjs';
 
 const workspace = fileURLToPath(new URL('..', import.meta.url));
 const root = path.join(workspace, 'project-content/rimo-rental');
@@ -583,46 +585,9 @@ rule(
   '公务车账单来自企业合约和配额，不来自单笔员工公务车订单。',
 );
 
-const nodes = [
-  ...existing.nodes.filter((node) =>
-    [
-      'telemetry-upload',
-      'latest-telemetry',
-      'received-at',
-      'telemetry-freshness',
-      'device-online',
-      'vehicle-control',
-      'vehicle-quick-view',
-      'telemetry-history',
-    ].includes(node.id),
-  ),
-  ...features.values(),
-  ...rules,
-];
-for (const node of nodes.slice(0, 8))
-  node.evidence = node.evidence.map((item) =>
-    evidence(
-      documents.find((document) => document.id === item.requirementId),
-      item.quote,
-    ),
-  );
-const originalEdges = new Set([
-  'upload-latest',
-  'upload-time',
-  'time-freshness',
-  'freshness-online',
-  'online-control',
-  'freshness-reminder',
-  'upload-history',
-]);
-const edges = existing.edges.filter((edge) => originalEdges.has(edge.id));
-for (const edge of edges)
-  edge.evidence = edge.evidence.map((item) =>
-    evidence(
-      documents.find((document) => document.id === item.requirementId),
-      item.quote,
-    ),
-  );
+const telemetry = rimoTelemetryCore(quote => evidence(documents.find(document => document.id === 'vehicle-status'), quote));
+const nodes = [...telemetry.nodes, ...features.values(), ...rules];
+const edges = [...telemetry.edges];
 const constrain = (sourceId, targets, label) => {
   const node = nodes.find((node) => node.id === sourceId);
   for (const pageKey of targets) {
@@ -781,17 +746,33 @@ constrain('contract-billing-source', ['enterprise-official-car-bill'], '按合�
 
 appendRimoFlowGraph({ nodes, edges, resolveEvidence: (suffix, quote) => evidence(find(suffix), quote) });
 applyRimoGraphCategories(nodes, documents);
-const graph = { schemaVersion: 1, topics, nodes, edges, review: existing.review };
+const focused = focusRimoGraph({ schemaVersion: 1, topics, nodes, edges, review: existing.review });
+const graph = focused.graph;
+const prototypeIndex = new Map([...features.values()].flatMap(node => node.prototypes.map(page => [`${page.clientId}/${page.pageKey}`, page])));
+for (const node of graph.nodes) {
+  if (node.prototypes.length) continue;
+  const related = documents.filter(document => node.requirements.includes(document.id)).flatMap(document => document.pages);
+  node.prototypes = [...new Map(related.map(page => {
+    const key = `${page.clientId}/${page.pageKey}`;
+    const prototype = prototypeIndex.get(key);
+    if (!prototype) throw new Error(`Graph document references an unknown prototype: ${key}`);
+    return [key, prototype];
+  })).values()];
+  node.coverage = node.prototypes.length ? 'partial' : 'none';
+}
 validateRequirementGraph(graph);
 await writeFileAtomic(path.join(root, 'graph.json'), `${JSON.stringify(graph, null, 2)}\n`);
+await writeFileAtomic(path.join(workspace, 'output/rimo-import/graph-focus.json'), `${JSON.stringify({ mapping: focused.mapping, internalEdges: focused.internalEdges }, null, 2)}\n`);
 const unrepresented = documents
   .filter((document) => !nodes.some((node) => node.requirements.includes(document.id)))
   .map((document) => document.path);
 console.log(
   JSON.stringify({
     topics: topics.length,
-    nodes: nodes.length,
-    edges: edges.length,
+    nodes: graph.nodes.length,
+    edges: graph.edges.length,
+    authoredNodes: nodes.length,
+    authoredEdges: edges.length,
     requirements: documents.length,
     prototypes: pages.length,
     unrepresented,

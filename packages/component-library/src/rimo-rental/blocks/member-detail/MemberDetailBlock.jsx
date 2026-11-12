@@ -405,7 +405,7 @@ export default function MemberDetailBlock() {
 <span className="flex items-center gap-1.5"><RimoElement kind="el-icon" className="text-gray-400"><RimoIcon name="User" /></RimoElement>
 <span className="text-gray-400">{text("ID:")}</span>
 <span className="font-mono">{rimoText(view.member.id)}</span></span></div></div></div></div>
-<div className="grid grid-cols-4 gap-4 mt-4"><div className="metric-card"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center"><RimoElement kind="el-icon" className="text-blue-500" size={20}><RimoIcon name="Document" /></RimoElement></div>
+<div className="grid grid-cols-4 gap-4 mt-4" data-rimo-grid="4"><div className="metric-card"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center"><RimoElement kind="el-icon" className="text-blue-500" size={20}><RimoIcon name="Document" /></RimoElement></div>
 <div><div className="text-xs text-gray-400 mb-0.5">{text("累計訂單")}</div>
 <div className="text-xl font-bold text-gray-900">{rimoText(view.memberStats.totalOrders)}</div></div></div>
 <div className="text-xs text-gray-400 mt-2 flex items-center gap-1">{text("\n                            本月 ")}
@@ -460,7 +460,7 @@ export default function MemberDetailBlock() {
 <dd>{rimoText(view.member.mailingAddress)}</dd></div></div></div>
 <div><h3 className="text-base font-bold text-gray-900 mb-4 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-gray-400"><RimoIcon name="PhoneFilled" /></RimoElement>
 {text(" 緊急聯絡人\n                                        ")}</h3>
-<div className="bg-gray-50 rounded-lg p-5 border border-gray-100 space-y-4 info-desc-list"><div className="grid grid-cols-2 gap-4"><div><dt>{text("姓名")}</dt>
+<div className="bg-gray-50 rounded-lg p-5 border border-gray-100 space-y-4 info-desc-list"><div className="grid grid-cols-2 gap-4" data-rimo-grid="2"><div><dt>{text("姓名")}</dt>
 <dd>{rimoText(view.member.emergencyContact.name)}</dd></div>
 <div><dt>{text("關係")}</dt>
 <dd>{rimoText(view.member.emergencyContact.relationship)}</dd></div></div>
@@ -476,7 +476,7 @@ export default function MemberDetailBlock() {
 <div className="mt-2 text-xs font-medium text-gray-600">{rimoText(label)}</div></div></Fragment>)}</div></div></div>
 <div className="grid grid-cols-1 md:grid-cols-2 gap-8"><div><h3 className="text-base font-bold text-gray-900 mb-4 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-gray-400"><RimoIcon name="Van" /></RimoElement>
 {text(" 駕駛執照\n                                        ")}</h3>
-<div className="bg-gray-50 rounded-lg p-5 border border-gray-100 grid grid-cols-2 gap-y-4 gap-x-6 info-desc-list"><div><dt>{text("駕照類型")}</dt>
+<div className="bg-gray-50 rounded-lg p-5 border border-gray-100 grid grid-cols-2 gap-y-4 gap-x-6 info-desc-list" data-rimo-grid="2"><div><dt>{text("駕照類型")}</dt>
 <dd>{rimoText(view.member.driverLicense.type)}</dd></div>
 <div><dt>{text("簽發地")}</dt>
 <dd>{rimoText(view.member.driverLicense.issuePlace)}</dd></div>
@@ -489,7 +489,7 @@ export default function MemberDetailBlock() {
 <div className="text-xs text-gray-400 mt-1">{text("微電車默認不要求駕照。")}</div></div></div></div>
 <div><h3 className="text-base font-bold text-gray-900 mb-4 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-gray-400"><RimoIcon name="Timer" /></RimoElement>
 {text(" 租車統計與偏好\n                                        ")}</h3>
-<div className="bg-gray-50 rounded-lg p-5 border border-gray-100 grid grid-cols-2 gap-y-4 gap-x-6 info-desc-list"><div><dt>{text("上次租借時間")}</dt>
+<div className="bg-gray-50 rounded-lg p-5 border border-gray-100 grid grid-cols-2 gap-y-4 gap-x-6 info-desc-list" data-rimo-grid="2"><div><dt>{text("上次租借時間")}</dt>
 <dd className="font-mono">{rimoText(view.member.lastRentalTime)}</dd></div>
 <div><dt>{text("累計未租借時長")}</dt>
 <dd>{rimoText(view.member.nonRentalDuration)}</dd></div>
@@ -582,7 +582,7 @@ export default function MemberDetailBlock() {
 <RimoElement kind="el-tab-pane" name="points" slots={{
             "label": _slot => <><span>{text("積分記錄 ")}
 <RimoElement kind="el-badge" value={view.points.length} type="primary" className="ml-1"></RimoElement></span></>
-          }}><div className="py-4" data-rimo-layout="list"><div className="flex items-center justify-between mb-4 bg-orange-50 p-3 rounded-lg border border-orange-100"><span className="text-orange-800 font-bold flex items-center"><RimoElement kind="el-icon" className="mr-2"><RimoIcon name="Coin" /></RimoElement>
+          }}><div className="py-4"><div className="flex items-center justify-between mb-4 bg-orange-50 p-3 rounded-lg border border-orange-100" data-rimo-layout="toolbar"><span className="text-orange-800 font-bold flex items-center"><RimoElement kind="el-icon" className="mr-2"><RimoIcon name="Coin" /></RimoElement>
 {text(" 當前可用積分：2,450\n                                    ")}</span>
 <RimoElement kind="el-button" size="small" type="primary" plain={true}>{text("手動調整積分")}</RimoElement></div>
 <RimoElement kind="el-table" data={view.points} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="變動時間" width="180"></RimoElement>
@@ -602,7 +602,7 @@ export default function MemberDetailBlock() {
 <RimoElement kind="el-tab-pane" name="invites" slots={{
             "label": _slot => <><span>{text("邀請記錄 ")}
 <RimoElement kind="el-badge" value={view.invites.length} type="primary" className="ml-1"></RimoElement></span></>
-          }}><div className="py-4" data-rimo-layout="list"><div className="grid grid-cols-3 gap-4 mb-6"><div className="bg-gray-50 p-3 rounded text-center"><div className="text-xs text-gray-500">{text("已邀請人數")}</div>
+          }}><div className="py-4"><div className="grid grid-cols-3 gap-4 mb-6" data-rimo-grid="3"><div className="bg-gray-50 p-3 rounded text-center"><div className="text-xs text-gray-500">{text("已邀請人數")}</div>
 <div className="text-xl font-bold text-gray-800">{text("12")}</div></div>
 <div className="bg-gray-50 p-3 rounded text-center"><div className="text-xs text-gray-500">{text("成功註冊")}</div>
 <div className="text-xl font-bold text-green-600">{text("8")}</div></div>
@@ -620,7 +620,7 @@ export default function MemberDetailBlock() {
 <RimoElement kind="el-tab-pane" name="service" slots={{
             "label": _slot => <><span>{text("客服記錄 ")}
 <RimoElement kind="el-badge" value={view.serviceLogs.length} type="primary" className="ml-1"></RimoElement></span></>
-          }}><div className="py-4" data-rimo-layout="list"><div className="flex justify-end mb-4"><RimoElement kind="el-button" type="primary" size="small">{text("新建客服工單")}</RimoElement></div>
+          }}><div className="py-4"><div className="flex justify-end mb-4"><RimoElement kind="el-button" type="primary" size="small">{text("新建客服工單")}</RimoElement></div>
 <RimoElement kind="el-table" data={view.serviceLogs} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="聯絡時間" width="180"></RimoElement>
 <RimoElement kind="el-table-column" prop="channel" label="渠道" width="100" slots={{
                   "default": ({
@@ -635,7 +635,7 @@ export default function MemberDetailBlock() {
                   }) => <><RimoElement kind="el-tag" size="small" type={row.status === 'closed' ? 'success' : 'warning'}>{text("\n                                                ")}{rimoText(row.status === 'closed' ? '已關閉' : '處理中')}{text("\n                                            ")}</RimoElement></>
                 }}></RimoElement>
 <RimoElement kind="el-table-column" prop="operator" label="處理人" width="120"></RimoElement></RimoElement></div></RimoElement>
-<RimoElement kind="el-tab-pane" label="方案變更" name="plan_history"><div className="py-4" data-rimo-layout="list"><RimoElement kind="el-table" data={view.planHistory} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="變更時間" width="180"></RimoElement>
+<RimoElement kind="el-tab-pane" label="方案變更" name="plan_history"><div className="py-4"><RimoElement kind="el-table" data={view.planHistory} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="變更時間" width="180"></RimoElement>
 <RimoElement kind="el-table-column" prop="oldPlan" label="原方案" width="140"></RimoElement>
 <RimoElement kind="el-table-column" prop="newPlan" label="新方案" width="140"></RimoElement>
 <RimoElement kind="el-table-column" prop="type" label="變更類型" width="120" slots={{
@@ -645,7 +645,7 @@ export default function MemberDetailBlock() {
                 }}></RimoElement>
 <RimoElement kind="el-table-column" prop="reason" label="變更原因"></RimoElement>
 <RimoElement kind="el-table-column" prop="operator" label="操作人" width="120"></RimoElement></RimoElement></div></RimoElement>
-<RimoElement kind="el-tab-pane" label="登錄日誌" name="login_logs"><div className="py-4" data-rimo-layout="list"><RimoElement kind="el-table" data={view.loginLogs} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="登錄時間" width="180"></RimoElement>
+<RimoElement kind="el-tab-pane" label="登錄日誌" name="login_logs"><div className="py-4"><RimoElement kind="el-table" data={view.loginLogs} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="登錄時間" width="180"></RimoElement>
 <RimoElement kind="el-table-column" prop="method" label="登錄方式" width="120"></RimoElement>
 <RimoElement kind="el-table-column" prop="ip" label="IP地址" width="140"></RimoElement>
 <RimoElement kind="el-table-column" prop="device" label="設備信息"></RimoElement>
@@ -654,7 +654,7 @@ export default function MemberDetailBlock() {
                     row
                   }) => <><RimoElement kind="el-tag" size="small" type={row.status === 'success' ? 'success' : 'danger'}>{text("\n                                                ")}{rimoText(row.status === 'success' ? '成功' : '失敗')}{text("\n                                            ")}</RimoElement></>
                 }}></RimoElement></RimoElement></div></RimoElement>
-<RimoElement kind="el-tab-pane" label="賬號日誌" name="account_logs"><div className="py-4" data-rimo-layout="list"><RimoElement kind="el-table" data={view.accountLogs} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="操作時間" width="180"></RimoElement>
+<RimoElement kind="el-tab-pane" label="賬號日誌" name="account_logs"><div className="py-4"><RimoElement kind="el-table" data={view.accountLogs} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="time" label="操作時間" width="180"></RimoElement>
 <RimoElement kind="el-table-column" prop="action" label="操作類型" width="140"></RimoElement>
 <RimoElement kind="el-table-column" prop="detail" label="詳情"></RimoElement>
 <RimoElement kind="el-table-column" prop="ip" label="IP地址" width="140"></RimoElement>

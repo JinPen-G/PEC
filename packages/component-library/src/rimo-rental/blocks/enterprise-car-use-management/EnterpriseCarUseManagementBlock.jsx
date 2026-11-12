@@ -238,8 +238,7 @@ export default function EnterpriseCarUseManagementBlock() {
                 }} placeholder="部門/員工" clearable={true} style={rimoStyle("width: 240px")}></RimoElement>
 <RimoElement kind="el-tooltip" content="重置" placement="top"><RimoElement kind="el-button" circle={true} icon={view.Refresh} onClick={event => {
                     view.refreshHandel?.(event);
-                  }}></RimoElement></RimoElement></div>
-<div className="car-use-page__summary">{text("總數量 ")}{rimoText(view.tableData.length)}</div></>
+                  }}></RimoElement></RimoElement></div></>
           }}><RimoElement kind="el-table-column" type="index" label="序號" align="center" width="70"></RimoElement>
 <RimoElement kind="el-table-column" minWidth="180" prop="companyName" align="center" label="分公司"></RimoElement>
 <RimoElement kind="el-table-column" minWidth="180" prop="title" label="標題"></RimoElement>
@@ -269,7 +268,7 @@ export default function EnterpriseCarUseManagementBlock() {
             view.submitCreateDialog?.(event);
           }}>{text("保存")}</RimoElement></div></>
     }}>{() => <><div className="car-use-dialog__hint">{text("建立限定用車設定後，指定車輛僅會對被設定的員工或部門開放使用。")}</div>
-<RimoElement kind="el-form" labelPosition="top" model={view.createForm}><div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="分公司" required={true}><RimoElement kind="el-select" modelValue={view.createForm.companyName} onModelChange={value => {
+<RimoElement kind="el-form" labelPosition="top" model={view.createForm}><div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="分公司" required={true}><RimoElement kind="el-select" modelValue={view.createForm.companyName} onModelChange={value => {
                 model.write(["createForm", "companyName"], value);
               }} placeholder="請選擇" className="w-full" onChange={event => {
                 view.handleCompanyChange?.(event);

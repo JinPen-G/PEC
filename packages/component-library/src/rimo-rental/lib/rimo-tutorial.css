@@ -16,5 +16,6 @@
 .rimo-tutorial-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; }
 .rimo-tutorial-tools > input { flex: 1 1 160px; min-width: 0; }
 .rimo-tutorial-editor-head label { display: grid; gap: 8px; }
+.rimo-tutorial-editor-head input[type='file'] { width: 100%; max-width: 100%; min-width: 0; }
 .rimo-tutorial.documentation .rimo-tutorial-article { font-size: 15px; line-height: 1.8; }
 @media (max-width: 760px) { .rimo-tutorial-layout { grid-template-columns: 1fr; gap: 24px; } .rimo-tutorial-heading { flex-wrap: wrap; } }

@@ -966,6 +966,14 @@ export const rentalFlowEdges = [
     '完成、取消、爽约、拒绝履约、关闭等终态订单后，如果产生违章、ETC、停车费、车损、清洁费或其他延迟费用，按追缴处理。',
   ],
   [
+    'store-terminal-release',
+    'store-post-charge',
+    'precedes',
+    '终止后新增费用仍走追缴',
+    flow,
+    '完成、取消、爽约、拒绝履约、关闭等终态订单后，如果产生违章、ETC、停车费、车损、清洁费或其他延迟费用，按追缴处理。',
+  ],
+  [
     'order-terminal-collection',
     'store-post-charge',
     'constrains',

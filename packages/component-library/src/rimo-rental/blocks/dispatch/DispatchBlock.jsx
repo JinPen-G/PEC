@@ -1403,9 +1403,9 @@ export default function DispatchBlock() {
   const {
     text
   } = useRimoEnvironment();
-  return <RimoRoot model={model} pageKey="dispatch" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="px-6 pt-6 pb-2 flex justify-between items-end"><div data-rimo-layout="heading"><div className="flex items-center gap-3"><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("車輛排程看板")}</h1></div>
+  return <RimoRoot model={model} pageKey="dispatch" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="px-6 pt-6 pb-2 flex justify-between items-end" data-rimo-layout="heading"><div><div className="flex items-center gap-3"><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("車輛排程看板")}</h1></div>
 <p className="text-gray-500 text-sm mt-1">{text("可視化管理車輛排班、調度與衝突處理。")}</p></div>
-<div className="flex items-center gap-3"><RimoElement kind="el-button-group" className="shadow-sm"><RimoElement kind="el-button" type={view.viewMode === 'day' ? 'primary' : ''} onClick={_event => {
+<div className="flex items-center gap-3" data-rimo-layout="field-row"><RimoElement kind="el-button-group" className="shadow-sm"><RimoElement kind="el-button" type={view.viewMode === 'day' ? 'primary' : ''} onClick={_event => {
               model.write(["viewMode"], 'day');
             }}>{text("日")}</RimoElement>
 <RimoElement kind="el-button" type={view.viewMode === 'week' ? 'primary' : ''} onClick={_event => {
@@ -1427,7 +1427,7 @@ export default function DispatchBlock() {
             view.openAiDispatchAnalysis?.(event);
           }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Connection" /></RimoElement>
 {text(" AI分析\n                        ")}</RimoElement></div></div>
-<div className="px-6 pt-1 pb-1" data-rimo-layout="filters"><div className="bg-white rounded-lg border border-gray-200 p-2 flex items-center justify-between shadow-sm"><div className="flex items-center space-x-4 pl-2"><span className="text-sm text-gray-500">{text("篩選:")}</span>
+<div className="px-6 pt-1 pb-1" data-rimo-layout="filters"><div className="bg-white rounded-lg border border-gray-200 p-2 flex items-center justify-between shadow-sm" data-rimo-layout="toolbar"><div className="flex items-center space-x-4 pl-2" data-rimo-layout="field-row"><span className="text-sm text-gray-500">{text("篩選:")}</span>
 <RimoElement kind="el-cascader" modelValue={view.filterLocation} onModelChange={value => {
               model.write(["filterLocation"], value);
             }} options={view.locationOptions} placeholder="選擇車行/門店" style={rimoStyle("width: 220px")} clearable={true} showAllLevels={false}></RimoElement>
@@ -1501,7 +1501,7 @@ export default function DispatchBlock() {
       "header": _slot => <><div className="pr-8"><div className="flex items-start gap-4"><div className="w-11 h-11 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600"><RimoElement kind="el-icon" size="20"><RimoIcon name="Operation" /></RimoElement></div>
 <div><div className="text-[22px] font-bold text-gray-800 tracking-tight">{text("智能優化排班")}</div>
 <div className="text-sm text-gray-500 mt-1">{text("對未硬鎖定訂單進行全局重排，生成更優的車輛預分配結果")}</div></div></div></div></>,
-      "footer": _slot => <>{!view.isCalculating ? <><div className="w-full flex items-center justify-between"><div className="text-sm">{!view.hasOptimizableOrders ? <><span className="text-amber-600">{text("當前無可優化訂單")}</span></> : null}</div>
+      "footer": _slot => <>{!view.isCalculating ? <><div className="w-full flex items-center justify-between" data-rimo-layout="toolbar"><div className="text-sm">{!view.hasOptimizableOrders ? <><span className="text-amber-600">{text("當前無可優化訂單")}</span></> : null}</div>
 <div className="flex items-center gap-3"><RimoElement kind="el-button" onClick={event => {
                 view.closeStrategyConfig?.(event);
               }}>{text("取消")}</RimoElement>
@@ -1519,7 +1519,7 @@ export default function DispatchBlock() {
 <div className="text-xs text-gray-500 mt-1 leading-5">{rimoText(rule.desc)}</div></div></Fragment>)}</div></div></section>
 <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5"><div className="flex items-center justify-between mb-4"><div className="text-sm font-semibold text-gray-800">{text("優化範圍概覽")}</div>
 <RimoElement kind="el-tag" type="info" effect="plain" round={true}>{text("預分配重排")}</RimoElement></div>
-<div className="grid grid-cols-3 gap-3">{rimoEntries(view.optimizationOverviewCards).map(([card], _itemIndex) => <Fragment key={card.label}><div key={card.label} className={rimoClass(["rounded-xl border p-4", rimoClass(card.tone === 'muted' ? 'border-slate-200 bg-slate-100/80' : 'border-white bg-white shadow-sm')])}><div className="flex items-center justify-between"><div className="text-xs text-gray-400 uppercase tracking-wider">{rimoText(card.label)}</div>
+<div className="grid grid-cols-3 gap-3" data-rimo-grid="3">{rimoEntries(view.optimizationOverviewCards).map(([card], _itemIndex) => <Fragment key={card.label}><div key={card.label} className={rimoClass(["rounded-xl border p-4", rimoClass(card.tone === 'muted' ? 'border-slate-200 bg-slate-100/80' : 'border-white bg-white shadow-sm')])}><div className="flex items-center justify-between"><div className="text-xs text-gray-400 uppercase tracking-wider">{rimoText(card.label)}</div>
 {card.tag ? <><RimoElement kind="el-tag" size="small" effect="plain" type={card.tagType || 'info'}>{rimoText(card.tag)}</RimoElement></> : null}</div>
 <div className="text-2xl font-bold text-gray-800 mt-3">{rimoText(card.value)}</div>
 <div className="text-xs text-gray-500 mt-2 leading-5">{rimoText(card.hint)}</div></div></Fragment>)}</div>
@@ -1547,7 +1547,7 @@ export default function DispatchBlock() {
           }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Check" /></RimoElement>
 {text(" 確認應用優化結果\n                    ")}</RimoElement></div></>
     }}>{() => <><div className="space-y-5 max-h-[70vh] overflow-y-auto pr-2"><section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5"><div className="text-sm font-semibold text-gray-800 mb-4">{text("結果總覽")}</div>
-<div className="grid grid-cols-3 gap-3">{rimoEntries(view.optimizationResultCards).map(([card], _itemIndex) => <Fragment key={card.label}><div key={card.label} className={rimoClass(["rounded-xl border p-4", rimoClass(card.cardClass)])}><div className="flex items-center justify-between"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(card.label)}</div>
+<div className="grid grid-cols-3 gap-3" data-rimo-grid="3">{rimoEntries(view.optimizationResultCards).map(([card], _itemIndex) => <Fragment key={card.label}><div key={card.label} className={rimoClass(["rounded-xl border p-4", rimoClass(card.cardClass)])}><div className="flex items-center justify-between"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(card.label)}</div>
 <span className={rimoClass(["text-xs font-medium", rimoClass(card.deltaClass)])}>{rimoText(card.delta)}</span></div>
 <div className={rimoClass(["text-[28px] font-bold mt-3", rimoClass(card.valueClass)])}>{rimoText(card.value)}</div>
 <div className="text-xs text-gray-500 mt-2">{rimoText(card.hint)}</div></div></Fragment>)}</div></section>
@@ -1584,7 +1584,7 @@ export default function DispatchBlock() {
 <div className="flex items-center gap-2"><RimoElement kind="el-tag" type="success" effect="plain" round={true}>{rimoText(view.aiModelInfo.provider)}</RimoElement>
 <RimoElement kind="el-tag" type="warning" effect="plain" round={true}>{rimoText(view.aiModelInfo.promptSourceText)}</RimoElement>
 <RimoElement kind="el-tag" type="info" effect="plain" round={true}>{rimoText(view.aiModelInfo.promptVersion)}</RimoElement></div></div></>,
-      "footer": _slot => <><div className="w-full flex items-center justify-between gap-3"><div className="text-xs text-gray-500">{text("AI 推薦應用前仍執行訂單狀態、車輛狀態、時間窗、人工保護和權限二次校驗。")}</div>
+      "footer": _slot => <><div className="w-full flex items-center justify-between gap-3" data-rimo-layout="toolbar"><div className="text-xs text-gray-500">{text("AI 推薦應用前仍執行訂單狀態、車輛狀態、時間窗、人工保護和權限二次校驗。")}</div>
 <div className="flex items-center gap-3"><RimoElement kind="el-button" plain={true} onClick={_event => {
               model.write(["aiDispatchActiveTab"], 'requestLog');
             }}>{text("查看請求日誌")}</RimoElement>
@@ -1600,17 +1600,17 @@ export default function DispatchBlock() {
         }}><RimoElement kind="el-tab-pane" label="分析結果" name="result"><div className="space-y-5 max-h-[70vh] overflow-y-auto pr-2"><section className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between mb-4"><div><div className="text-sm font-semibold text-gray-800">{text("模型接入狀態")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("API Key 由租戶管理員在系統通用參數中維護，前端不回顯明文。")}</div></div>
 <RimoElement kind="el-tag" type="success" effect="dark" round={true}>{text("已配置")}</RimoElement></div>
-<div className="grid grid-cols-5 gap-3">{rimoEntries(view.aiModelSummaryCards).map(([item], _itemIndex) => <Fragment key={item.label}><div key={item.label} className="rounded-xl border border-slate-200 bg-slate-50/80 p-4"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(item.label)}</div>
+<div className="grid grid-cols-5 gap-3" data-rimo-grid="5">{rimoEntries(view.aiModelSummaryCards).map(([item], _itemIndex) => <Fragment key={item.label}><div key={item.label} className="rounded-xl border border-slate-200 bg-slate-50/80 p-4"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(item.label)}</div>
 <div className="text-sm font-semibold text-gray-800 mt-2">{rimoText(item.value)}</div>
 <div className="text-xs text-gray-500 mt-2 leading-5">{rimoText(item.hint)}</div></div></Fragment>)}</div></section>
 <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5"><div className="flex items-center justify-between mb-4"><div><div className="text-sm font-semibold text-gray-800">{text("分析範圍與調用上限")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("初版只允許在系統候選池過濾完成後發起模型分析，超出範圍不調用模型。")}</div></div>
 <RimoElement kind="el-tag" type="info" effect="plain" round={true}>{text("當前窗口 ")}{rimoText(view.optimizationDays)}{text(" 天")}</RimoElement></div>
-<div className="grid grid-cols-4 gap-3">{rimoEntries(view.aiScopeCards).map(([item], _itemIndex) => <Fragment key={item.label}><div key={item.label} className="rounded-xl border border-slate-200 bg-white p-4"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(item.label)}</div>
+<div className="grid grid-cols-4 gap-3" data-rimo-grid="4">{rimoEntries(view.aiScopeCards).map(([item], _itemIndex) => <Fragment key={item.label}><div key={item.label} className="rounded-xl border border-slate-200 bg-white p-4"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(item.label)}</div>
 <div className="text-sm font-semibold text-gray-800 mt-2">{rimoText(item.value)}</div>
 <div className="text-xs text-gray-500 mt-2 leading-5">{rimoText(item.hint)}</div></div></Fragment>)}</div></section>
 <section className="rounded-2xl border border-slate-200 bg-slate-50/80 p-5"><div className="text-sm font-semibold text-gray-800 mb-4">{text("AI風險總覽")}</div>
-<div className="grid grid-cols-4 gap-3">{rimoEntries(view.aiRiskCards).map(([card], _itemIndex) => <Fragment key={card.label}><div key={card.label} className={rimoClass(["rounded-xl border p-4", rimoClass(card.cardClass)])}><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(card.label)}</div>
+<div className="grid grid-cols-4 gap-3" data-rimo-grid="4">{rimoEntries(view.aiRiskCards).map(([card], _itemIndex) => <Fragment key={card.label}><div key={card.label} className={rimoClass(["rounded-xl border p-4", rimoClass(card.cardClass)])}><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(card.label)}</div>
 <div className={rimoClass(["text-[28px] font-bold mt-3", rimoClass(card.valueClass)])}>{rimoText(card.value)}</div>
 <div className="text-xs text-gray-500 mt-2">{rimoText(card.hint)}</div></div></Fragment>)}</div></section>
 <section className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between mb-4"><div><div className="text-sm font-semibold text-gray-800">{text("風險診斷明細")}</div>
@@ -1643,19 +1643,19 @@ export default function DispatchBlock() {
 <RimoElement kind="el-tab-pane" label="請求日誌" name="requestLog"><div className="space-y-5 max-h-[70vh] overflow-y-auto pr-2"><section className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-start justify-between gap-4 mb-4"><div><div className="text-sm font-semibold text-gray-800">{text("本次模型請求日誌")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("展示本次實際提交給模型的提示詞和調度數據包，不展示 API Key 和鑑權 Header。")}</div></div>
 <RimoElement kind="el-tag" type="success" effect="plain">{text("已完成隱私過濾")}</RimoElement></div>
-<div className="grid grid-cols-4 gap-3">{rimoEntries(view.aiRequestLogCards).map(([item], _itemIndex) => <Fragment key={item.label}><div key={item.label} className="rounded-xl border border-slate-200 bg-slate-50/80 p-4"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(item.label)}</div>
+<div className="grid grid-cols-4 gap-3" data-rimo-grid="4">{rimoEntries(view.aiRequestLogCards).map(([item], _itemIndex) => <Fragment key={item.label}><div key={item.label} className="rounded-xl border border-slate-200 bg-slate-50/80 p-4"><div className="text-xs uppercase tracking-wider text-gray-400">{rimoText(item.label)}</div>
 <div className="text-sm font-semibold text-gray-800 mt-2">{rimoText(item.value)}</div>
 <div className="text-xs text-gray-500 mt-2 leading-5">{rimoText(item.hint)}</div></div></Fragment>)}</div></section>
-<section className="grid grid-cols-2 gap-4"><div className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between mb-3"><div className="text-sm font-semibold text-gray-800">{text("完整提示詞正文")}</div>
+<section className="grid grid-cols-2 gap-4" data-rimo-grid="2"><div className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between mb-3" data-rimo-layout="toolbar"><div className="text-sm font-semibold text-gray-800">{text("完整提示詞正文")}</div>
 <RimoElement kind="el-button" size="small" plain={true}>{text("複製提示詞")}</RimoElement></div>
 <pre className="h-[320px] overflow-auto rounded-xl bg-slate-900 p-4 text-xs leading-5 text-slate-100 whitespace-pre-wrap">{rimoText(view.aiRequestPromptText)}</pre></div>
-<div className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between mb-3"><div className="text-sm font-semibold text-gray-800">{text("完整請求數據包")}</div>
+<div className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between mb-3" data-rimo-layout="toolbar"><div className="text-sm font-semibold text-gray-800">{text("完整請求數據包")}</div>
 <RimoElement kind="el-button" size="small" plain={true}>{text("導出 JSON")}</RimoElement></div>
 <pre className="h-[320px] overflow-auto rounded-xl bg-slate-900 p-4 text-xs leading-5 text-slate-100 whitespace-pre-wrap">{rimoText(view.aiRequestPayload)}</pre></div></section>
 <section className="rounded-2xl border border-slate-200 bg-white p-5"><div className="flex items-center justify-between mb-4"><div><div className="text-sm font-semibold text-gray-800">{text("隱私過濾與模型返回")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("用於讓調度員確認本次請求未提交手機號、證件號、支付資料和 API Key。")}</div></div>
 <RimoElement kind="el-tag" type="info" effect="plain">{rimoText(view.aiRequestLog.filteredFields.length)}{text(" 類資料已排除")}</RimoElement></div>
-<div className="grid grid-cols-3 gap-4"><div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4"><div className="text-xs uppercase tracking-wider text-gray-400 mb-3">{text("已排除資料")}</div>
+<div className="grid grid-cols-3 gap-4" data-rimo-grid="3"><div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4"><div className="text-xs uppercase tracking-wider text-gray-400 mb-3">{text("已排除資料")}</div>
 <div className="flex flex-wrap gap-2">{rimoEntries(view.aiRequestLog.filteredFields).map(([item], _itemIndex) => <Fragment key={item}><RimoElement kind="el-tag" key={item} size="small" type="info" effect="plain">{rimoText(item)}</RimoElement></Fragment>)}</div></div>
 <div className="col-span-2 rounded-xl border border-slate-200 bg-slate-50/80 p-4"><div className="text-xs uppercase tracking-wider text-gray-400 mb-3">{text("模型原始返回摘要")}</div>
 <pre className="h-[160px] overflow-auto rounded-lg bg-white p-3 text-xs leading-5 text-gray-700 whitespace-pre-wrap">{rimoText(view.aiResponsePayload)}</pre></div></div></section></div></RimoElement></RimoElement></>}</RimoElement>
@@ -1675,7 +1675,7 @@ export default function DispatchBlock() {
 <RimoElement kind="el-timeline"><RimoElement kind="el-timeline-item" timestamp={view.selectedOrder.startTime} type="primary" hube="dot"><div className="font-medium">{text("取車 (門店)")}</div></RimoElement>
 <RimoElement kind="el-timeline-item" timestamp={view.selectedOrder.endTime} type="success" hube="dot"><div className="font-medium">{text("還車 (門店)")}</div></RimoElement></RimoElement></div>
 <div className="pt-4 border-t border-gray-100"><h4 className="text-sm font-bold text-gray-500 mb-4 uppercase">{text("調度操作")}</h4>
-<div className="grid grid-cols-2 gap-3"><RimoElement kind="el-button" type="primary" plain={true} onClick={event => {
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2"><RimoElement kind="el-button" type="primary" plain={true} onClick={event => {
                     view.showReassignDialog?.(event);
                   }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Refresh" /></RimoElement>
 {text(" 改派車輛\n                            ")}</RimoElement>

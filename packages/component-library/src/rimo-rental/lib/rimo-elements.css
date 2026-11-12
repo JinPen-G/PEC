@@ -87,7 +87,7 @@
   min-width: 0;
 }
 .rimo-business-page .el-select {
-  min-width: 140px;
+  min-width: 0;
 }
 .rimo-business-page .el-form-item {
   margin-bottom: 18px;
@@ -209,9 +209,6 @@
   outline-offset: 2px;
 }
 @media (max-width: 640px) {
-  .rimo-business-page .el-select {
-    min-width: 120px;
-  }
   .rimo-business-page h1 {
     font-size: 22px;
   }

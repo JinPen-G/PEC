@@ -170,8 +170,7 @@ export default function EnterpriseBranchCompanyManagementBlock() {
 <RimoElement kind="el-button" type="primary" plain={true}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Download" /></RimoElement>
 {text("\n                                    導出數據\n                                ")}</RimoElement>
 <RimoElement kind="el-button" type="warning" plain={true}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Operation" /></RimoElement>
-{text("\n                                    設置狀態\n                                ")}</RimoElement></div>
-<div className="branch-company-page__summary">{text("總數量 ")}{rimoText(view.tableData.length)}</div></>
+{text("\n                                    設置狀態\n                                ")}</RimoElement></div></>
           }}><RimoElement kind="el-table-column" type="selection" align="center" width="55"></RimoElement>
 <RimoElement kind="el-table-column" minWidth="180" prop="companyName" align="center" label="分公司"></RimoElement>
 <RimoElement kind="el-table-column" minWidth="120" prop="departmentCount" align="right" label="部門數" slots={{
@@ -209,7 +208,7 @@ export default function EnterpriseBranchCompanyManagementBlock() {
             view.submitCreateDialog?.(event);
           }}>{text("保存")}</RimoElement></div></>
     }}>{() => <><div className="branch-company-dialog__hint">{text("建立分公司資料並同時建立該分公司的管理員賬號。")}</div>
-<RimoElement kind="el-form" labelPosition="top" model={view.createForm}><div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="分公司名稱" required={true}><RimoElement kind="el-input" modelValue={view.createForm.companyName} onModelChange={value => {
+<RimoElement kind="el-form" labelPosition="top" model={view.createForm}><div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="分公司名稱" required={true}><RimoElement kind="el-input" modelValue={view.createForm.companyName} onModelChange={value => {
                 model.write(["createForm", "companyName"], value);
               }} placeholder="請輸入"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="管理員姓名" required={true}><RimoElement kind="el-input" modelValue={view.createForm.adminName} onModelChange={value => {

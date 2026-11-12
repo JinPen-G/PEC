@@ -252,7 +252,7 @@
             margin-bottom: 12px;
         }
 
-        @media (max-width: 1080px) {
+        @container (max-width: 1080px) {
             :where([data-rimo-page="enterprise-official-vehicle-add"], [data-rimo-overlay="enterprise-official-vehicle-add"]) .vehicle-grid,
             :where([data-rimo-page="enterprise-official-vehicle-add"], [data-rimo-overlay="enterprise-official-vehicle-add"]) .photo-block,
             :where([data-rimo-page="enterprise-official-vehicle-add"], [data-rimo-overlay="enterprise-official-vehicle-add"]) .photo-list {
@@ -272,7 +272,7 @@
                 width: 100%;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-official-vehicle-add"], [data-rimo-overlay="enterprise-official-vehicle-add"]) .el-pagination .el-pagination__jump {
           display: none;
         }

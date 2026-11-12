@@ -621,7 +621,7 @@ export default function ServicesBlock() {
       }} className="rimo-page-tabs bg-white rounded-xl shadow-sm border border-gray-100 min-h-[500px]">{view.hasStoreBusinessPermission ? <><RimoElement kind="el-tab-pane" name="store" slots={{
             "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Shop" /></RimoElement>
 <span>{text("門市租賃")}</span></span></>
-          }}><div className="p-6" data-rimo-layout="list"><div className="flex justify-between items-center mb-6"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
+          }}><div className="p-6"><div className="flex justify-between items-center mb-6" data-rimo-layout="toolbar"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
 {text(" 管理門市業務下的實物設備庫存及基礎保險服務。\n                                ")}</div>
 <div className="flex items-center gap-3"><RimoElement kind="el-button" plain={true} onClick={_event => {
                     view.openServiceVersion();
@@ -682,7 +682,7 @@ export default function ServicesBlock() {
 {view.hasSharingBusinessPermission ? <><RimoElement kind="el-tab-pane" name="sharing" slots={{
             "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Clock" /></RimoElement>
 <span>{text("分時租賃")}</span></span></>
-          }}><div className="p-6" data-rimo-layout="list"><div className="flex justify-between items-center mb-6"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
+          }}><div className="p-6"><div className="flex justify-between items-center mb-6" data-rimo-layout="toolbar"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
 {text(" 分時租車服務支持同站與異地差異化定價，且無實物庫存概念。\n                                ")}</div>
 <RimoElement kind="el-button" type="primary" size="large" className="shadow-md shadow-[color:var(--app-color-primary-shadow)]" onClick={_event => {
                   view.openServiceDialog(null);
@@ -827,7 +827,7 @@ export default function ServicesBlock() {
 <RimoElement kind="el-dialog" modelValue={view.inventoryDialogVisible} onModelChange={value => {
       model.write(["inventoryDialogVisible"], value);
     }} title={'門店庫存管理'} width="720px" className="inventory-dialog services-overlay" slots={{
-      "footer": _slot => <><div className="flex justify-between items-center"><span className="text-sm text-gray-400">{text("提示：修改後請點擊保存以生效")}</span>
+      "footer": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><span className="text-sm text-gray-400">{text("提示：修改後請點擊保存以生效")}</span>
 <div><RimoElement kind="el-button" onClick={_event => {
               model.write(["inventoryDialogVisible"], false);
             }}>{text("取消")}</RimoElement>
@@ -857,7 +857,7 @@ export default function ServicesBlock() {
       "footer": _slot => <><RimoElement kind="el-button" onClick={_event => {
           model.write(["serviceVersionDialogVisible"], false);
         }}>{text("關閉")}</RimoElement></>
-    }}>{() => <>{view.selectedServiceVersion ? <><div className="grid grid-cols-3 gap-4"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
+    }}>{() => <>{view.selectedServiceVersion ? <><div className="grid grid-cols-3 gap-4" data-rimo-grid="3"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
 <div className="divide-y divide-gray-100 max-h-[420px] overflow-y-auto">{rimoEntries(view.filteredServiceVersionRecords).map(([version], _itemIndex) => <Fragment key={version.version}><button key={version.version} className={rimoClass(["w-full text-left px-3 py-3 hover:bg-[color:var(--app-color-primary-light-9)] transition-colors", rimoClass(view.selectedServiceVersion.version === version.version ? 'bg-[color:var(--app-color-primary-light-9)]' : 'bg-white')])} onClick={_event => {
                     model.write(["selectedServiceVersion"], version);
                   }}><div className="font-mono text-xs text-[color:var(--app-color-primary)] font-bold">{rimoText(version.version)}</div>

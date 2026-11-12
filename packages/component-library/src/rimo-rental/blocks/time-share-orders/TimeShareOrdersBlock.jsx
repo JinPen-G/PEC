@@ -2174,7 +2174,7 @@ export default function TimeShareOrdersBlock() {
 {view.hasOneWayPermission ? <><RimoElement kind="el-dropdown-item" command="one_way">{text("新建甲租乙還訂單")}</RimoElement></> : null}</RimoElement></>
         }}><span className="flex items-center"><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 新建訂單\n                        ")}</span></RimoElement></div>
-<div className="bg-white rounded-xl border border-gray-200 p-3 mb-4"><div className="flex items-center justify-between gap-4 mb-3"><div className="text-sm font-semibold text-gray-700">{text("統計視角")}</div>
+<div className="bg-white rounded-xl border border-gray-200 p-3 mb-4"><div className="flex items-center justify-between gap-4 mb-3" data-rimo-layout="toolbar"><div className="text-sm font-semibold text-gray-700">{text("統計視角")}</div>
 <div className="inline-flex items-center rounded-lg border border-gray-200 bg-gray-50 p-1"><button className={rimoClass(["px-3 py-1.5 text-sm rounded-md transition-colors", rimoClass(view.statsView === 'overview' ? 'bg-white text-[color:var(--app-color-primary)] shadow-sm font-medium' : 'text-gray-500 hover:text-gray-700')])} onClick={_event => {
               view.switchStatsView('overview');
             }}>{text("\n                                運營總覽\n                            ")}</button>
@@ -2207,22 +2207,22 @@ export default function TimeShareOrdersBlock() {
           color: '#4b5563',
           fontWeight: '600'
         }} slots={{
-          "toolbar": _slot => <><div ref={model.ref("filterToolbar")} className="adaptive-filter-toolbar flex flex-wrap items-center gap-4"><div className="adaptive-filter-controls flex flex-wrap items-center gap-4"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
+          "toolbar": _slot => <><div className="adaptive-filter-toolbar flex flex-wrap items-center gap-4"><div className="adaptive-filter-controls flex flex-wrap items-center gap-4"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
                   model.write(["filters", "keyword"], value);
                 }} placeholder="訂單號 / 客戶 / 企業名" prefixIcon="Search" clearable={true} style={rimoStyle("width: 280px")}></RimoElement>
 <RimoElement kind="el-input" modelValue={view.filters.vehiclePlate} onModelChange={value => {
                   model.write(["filters", "vehiclePlate"], value);
                 }} placeholder="車牌號" prefixIcon="Search" clearable={true} style={rimoStyle("width: 160px")}></RimoElement>
-{view.filterLayoutTier >= 2 ? <><RimoElement kind="el-select" modelValue={view.filters.clientType} onModelChange={value => {
-                    model.write(["filters", "clientType"], value);
-                  }} placeholder="客戶類型" clearable={true} style={rimoStyle("width: 120px")}><RimoElement kind="el-option" label="全部客戶" value=""></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.clientType} onModelChange={value => {
+                  model.write(["filters", "clientType"], value);
+                }} placeholder="客戶類型" clearable={true} style={rimoStyle("width: 120px")}><RimoElement kind="el-option" label="全部客戶" value=""></RimoElement>
 <RimoElement kind="el-option" label="個人客戶" value="personal"></RimoElement>
-<RimoElement kind="el-option" label="企業客戶" value="corporate"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier >= 3 ? <><RimoElement kind="el-select" modelValue={view.filters.billingMode} onModelChange={value => {
-                    model.write(["filters", "billingMode"], value);
-                  }} placeholder="結算方式" clearable={true} style={rimoStyle("width: 130px")}><RimoElement kind="el-option" label="全部結算" value=""></RimoElement>
+<RimoElement kind="el-option" label="企業客戶" value="corporate"></RimoElement></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.billingMode} onModelChange={value => {
+                  model.write(["filters", "billingMode"], value);
+                }} placeholder="結算方式" clearable={true} style={rimoStyle("width: 130px")}><RimoElement kind="el-option" label="全部結算" value=""></RimoElement>
 <RimoElement kind="el-option" label="客戶自付" value="customer_pay"></RimoElement>
-<RimoElement kind="el-option" label="企業月結" value="monthly"></RimoElement></RimoElement></> : null}
+<RimoElement kind="el-option" label="企業月結" value="monthly"></RimoElement></RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.status} onModelChange={value => {
                   model.write(["filters", "status"], value);
                 }} placeholder="訂單狀態" multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} style={rimoStyle("width: 180px")}><RimoElement kind="el-option-group" label="待處理"><RimoElement kind="el-option" label="【全部待處理】" value="group_todo" className="font-bold text-blue-600 bg-blue-50"></RimoElement>
@@ -2246,38 +2246,22 @@ export default function TimeShareOrdersBlock() {
 <RimoElement kind="el-option" label="爽約" value="no_show"></RimoElement>
 <RimoElement kind="el-option" label="已拒絕" value="rejected"></RimoElement>
 <RimoElement kind="el-option" label="已關閉" value="closed"></RimoElement></RimoElement></RimoElement>
-{view.filterLayoutTier >= 4 ? <><RimoElement kind="el-date-picker" modelValue={view.filters.createTimeRange} onModelChange={value => {
-                    model.write(["filters", "createTimeRange"], value);
-                  }} type="daterange" rangeSeparator="至" startPlaceholder="創建開始" endPlaceholder="創建結束" style={rimoStyle("width: 260px")} title="訂單創建時間" format="YYYY/MM/DD" valueFormat="YYYY-MM-DD"></RimoElement></> : null}
-<RimoElement kind="el-button" type="primary" icon="Filter" plain={true} onClick={_event => {
-                  model.write(["searchPanelExpanded"], !view.searchPanelExpanded);
-                }}>{text("\n                                ")}{rimoText(view.searchPanelExpanded ? '收起篩選' : '更多篩選')}{text("\n                            ")}</RimoElement>
+<RimoElement kind="el-date-picker" modelValue={view.filters.createTimeRange} onModelChange={value => {
+                  model.write(["filters", "createTimeRange"], value);
+                }} type="daterange" rangeSeparator="至" startPlaceholder="創建開始" endPlaceholder="創建結束" style={rimoStyle("width: 260px")} title="訂單創建時間" format="YYYY/MM/DD" valueFormat="YYYY-MM-DD"></RimoElement>
 <RimoElement kind="el-button" icon="Refresh" circle={true} onClick={event => {
                   view.resetFilters?.(event);
-                }}></RimoElement>
+                }} data-rimo-filter-reset="true" aria-label="重置筛选"></RimoElement>
 <RimoElement kind="el-button" type="primary" plain={true} icon="Download">{text("導出")}</RimoElement></div></div>
-<div hidden={!view.searchPanelExpanded} className="pt-4 mt-4 border-t border-gray-100"><div className="flex flex-wrap items-center gap-4">{view.filterLayoutTier < 2 ? <><RimoElement kind="el-select" modelValue={view.filters.clientType} onModelChange={value => {
-                    model.write(["filters", "clientType"], value);
-                  }} placeholder="客戶類型" clearable={true} style={rimoStyle("width: 120px")}><RimoElement kind="el-option" label="全部客戶" value=""></RimoElement>
-<RimoElement kind="el-option" label="個人客戶" value="personal"></RimoElement>
-<RimoElement kind="el-option" label="企業客戶" value="corporate"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier < 3 ? <><RimoElement kind="el-select" modelValue={view.filters.billingMode} onModelChange={value => {
-                    model.write(["filters", "billingMode"], value);
-                  }} placeholder="結算方式" clearable={true} style={rimoStyle("width: 130px")}><RimoElement kind="el-option" label="全部結算" value=""></RimoElement>
-<RimoElement kind="el-option" label="客戶自付" value="customer_pay"></RimoElement>
-<RimoElement kind="el-option" label="企業月結" value="monthly"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier < 4 ? <><RimoElement kind="el-date-picker" modelValue={view.filters.createTimeRange} onModelChange={value => {
-                    model.write(["filters", "createTimeRange"], value);
-                  }} type="daterange" rangeSeparator="至" startPlaceholder="創建開始" endPlaceholder="創建結束" style={rimoStyle("width: 260px")} title="訂單創建時間" format="YYYY/MM/DD" valueFormat="YYYY-MM-DD"></RimoElement></> : null}
-<RimoElement kind="el-date-picker" modelValue={view.filters.pickupTimeRange} onModelChange={value => {
+<div className="pt-4 mt-4 border-t border-gray-100"><div className="flex flex-wrap items-center gap-4"><RimoElement kind="el-date-picker" modelValue={view.filters.pickupTimeRange} onModelChange={value => {
                   model.write(["filters", "pickupTimeRange"], value);
-                }} type="daterange" rangeSeparator="至" startPlaceholder="取車開始" endPlaceholder="取車結束" style={rimoStyle("width: 260px")} title="預約取車時間" format="YYYY/MM/DD" valueFormat="YYYY-MM-DD"></RimoElement>
+                }} type="daterange" rangeSeparator="至" startPlaceholder="取車開始" endPlaceholder="取車結束" style={rimoStyle("width: 260px")} title="預約取車時間" format="YYYY/MM/DD" valueFormat="YYYY-MM-DD" data-rimo-secondary="true"></RimoElement>
 <RimoElement kind="el-date-picker" modelValue={view.filters.returnTimeRange} onModelChange={value => {
                   model.write(["filters", "returnTimeRange"], value);
-                }} type="daterange" rangeSeparator="至" startPlaceholder="還車開始" endPlaceholder="還車結束" style={rimoStyle("width: 260px")} title="預約還車時間" format="YYYY/MM/DD" valueFormat="YYYY-MM-DD"></RimoElement>
+                }} type="daterange" rangeSeparator="至" startPlaceholder="還車開始" endPlaceholder="還車結束" style={rimoStyle("width: 260px")} title="預約還車時間" format="YYYY/MM/DD" valueFormat="YYYY-MM-DD" data-rimo-secondary="true"></RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.postChargeStatus} onModelChange={value => {
                   model.write(["filters", "postChargeStatus"], value);
-                }} placeholder="追繳狀態" clearable={true} style={rimoStyle("width: 140px")}><RimoElement kind="el-option" label="全部追繳" value=""></RimoElement>
+                }} placeholder="追繳狀態" clearable={true} style={rimoStyle("width: 140px")} data-rimo-secondary="true"><RimoElement kind="el-option" label="全部追繳" value=""></RimoElement>
 <RimoElement kind="el-option" label="存在追繳" value="any"></RimoElement>
 <RimoElement kind="el-option" label="追繳待通知" value="pending_notify"></RimoElement>
 <RimoElement kind="el-option" label="追繳已通知" value="notified"></RimoElement>
@@ -2286,7 +2270,7 @@ export default function TimeShareOrdersBlock() {
 <RimoElement kind="el-option" label="追繳已結清" value="paid"></RimoElement></RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.riskFlag} onModelChange={value => {
                   model.write(["filters", "riskFlag"], value);
-                }} placeholder="風險標記" clearable={true} style={rimoStyle("width: 130px")}><RimoElement kind="el-option" label="全部風險" value=""></RimoElement>
+                }} placeholder="風險標記" clearable={true} style={rimoStyle("width: 130px")} data-rimo-secondary="true"><RimoElement kind="el-option" label="全部風險" value=""></RimoElement>
 <RimoElement kind="el-option" label="黑名單" value="blacklist"></RimoElement>
 <RimoElement kind="el-option" label="證件異常" value="license_issue"></RimoElement>
 <RimoElement kind="el-option" label="需聯繫客戶" value="pickup_overdue_contact"></RimoElement>
@@ -2294,13 +2278,13 @@ export default function TimeShareOrdersBlock() {
 <RimoElement kind="el-option" label="違章待處理" value="violation_pending"></RimoElement></RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.pickupStore} onModelChange={value => {
                   model.write(["filters", "pickupStore"], value);
-                }} placeholder="取車據點" multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} filterable={true} className="location-filter-select" style={rimoStyle("width: 190px")}>{rimoEntries(view.stores).map(([store], _itemIndex) => <Fragment key={store}><RimoElement kind="el-option" key={store} label={store} value={store}></RimoElement></Fragment>)}</RimoElement>
+                }} placeholder="取車據點" multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} filterable={true} className="location-filter-select" style={rimoStyle("width: 190px")} data-rimo-secondary="true">{rimoEntries(view.stores).map(([store], _itemIndex) => <Fragment key={store}><RimoElement kind="el-option" key={store} label={store} value={store}></RimoElement></Fragment>)}</RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.returnStore} onModelChange={value => {
                   model.write(["filters", "returnStore"], value);
-                }} placeholder="還車據點" multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} filterable={true} className="location-filter-select" style={rimoStyle("width: 190px")}>{rimoEntries(view.stores).map(([store], _itemIndex) => <Fragment key={store}><RimoElement kind="el-option" key={store} label={store} value={store}></RimoElement></Fragment>)}</RimoElement>
+                }} placeholder="還車據點" multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} filterable={true} className="location-filter-select" style={rimoStyle("width: 190px")} data-rimo-secondary="true">{rimoEntries(view.stores).map(([store], _itemIndex) => <Fragment key={store}><RimoElement kind="el-option" key={store} label={store} value={store}></RimoElement></Fragment>)}</RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.vehicleGroup} onModelChange={value => {
                   model.write(["filters", "vehicleGroup"], value);
-                }} placeholder="車型/車組" clearable={true} filterable={true} style={rimoStyle("width: 160px")}><RimoElement kind="el-option" label="全部車輛" value=""></RimoElement>
+                }} placeholder="車型/車組" clearable={true} filterable={true} style={rimoStyle("width: 160px")} data-rimo-secondary="true"><RimoElement kind="el-option" label="全部車輛" value=""></RimoElement>
 {rimoEntries(view.vehicleTree).map(([item], _itemIndex) => <Fragment key={item.group}><><RimoElement kind="el-option" label={'【' + item.group + '】'} value={'group:' + item.group} className="font-bold"></RimoElement>
 {rimoEntries(item.models).map(([model], _itemIndex) => <Fragment key={model}><RimoElement kind="el-option" key={model} label={'    ' + model} value={'model:' + model}></RimoElement></Fragment>)}</></Fragment>)}</RimoElement></div></div></>
         }}><RimoElement kind="el-table-column" label="訂單信息" minWidth="180" slots={{

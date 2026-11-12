@@ -2,11 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { documentDisplay } from './document-display';
 
 describe('PRD reading mode', () => {
-  it('uses an authored page brief without heuristically cutting the full specification', () => {
+  it('keeps a short structured document intact even when a separate brief exists', () => {
     const full = '# 调拨\n\n## 规则\n跨站点与调度排程的完整规则。';
     const summary = '仅空闲车辆可调拨。目标据点必须适用所选服务。';
-    expect(documentDisplay(full, summary)).toEqual({ long: true, summary });
+    expect(documentDisplay(full, summary)).toEqual({ long: false, summary: full });
     expect(documentDisplay(full, '')).toEqual({ long: false, summary: full });
+  });
+  it('accepts a structured overview only for a genuinely long document', () => {
+    const full = '# 文档\n\n## 范围\n实际范围。\n\n## 接口\n' + '详细资料。'.repeat(1500);
+    const summary = '## 使用场景\n明确用途。\n\n## 主要流程\n1. 读取\n2. 处理';
+    expect(documentDisplay(full, summary)).toEqual({long:true,summary});
+    expect(documentDisplay(full, '一句话摘要。').summary).toContain('## 范围');
   });
   it('keeps short PRDs complete and ignores heading-like code when counting chapters', () => {
     const source = '# 车辆管理\n\n## 用途\n管理车辆。\n\n```md\n' + '## example\n'.repeat(15) + '```';

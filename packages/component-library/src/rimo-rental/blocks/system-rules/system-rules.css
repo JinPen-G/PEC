@@ -642,7 +642,7 @@
             background: #eef8fc;
             color: var(--app-color-primary);
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="system-rules"], [data-rimo-overlay="system-rules"]) .el-pagination .el-pagination__jump {
           display: none;
         }

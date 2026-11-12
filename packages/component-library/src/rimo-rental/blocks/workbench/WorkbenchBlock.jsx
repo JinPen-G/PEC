@@ -877,10 +877,10 @@ export default function WorkbenchBlock() {
 <strong className="text-yellow-600">{rimoText(view.assetHealth.idle)}{text("臺")}</strong></span></div></div>
 <div className="px-4 shrink-0"><RimoElement kind="el-button" link={true} type="danger" size="small">{text("立即處置 ")}
 <RimoElement kind="el-icon" className="ml-1"><RimoIcon name="ArrowRight" /></RimoElement></RimoElement></div></div>
-<div className="flex flex-col xl:flex-row gap-6"><div className="xl:w-[22%] space-y-6 flex flex-col min-w-0"><div className="bg-white rounded-2xl p-5 card-shadow"><div className="flex items-center justify-between mb-4"><h3 className="font-bold text-gray-800 flex items-center"><span className="w-1 h-4 bg-[color:var(--app-color-primary)] rounded-full mr-2"></span>
+<div className="flex flex-col xl:flex-row gap-6"><div className="xl:w-[22%] space-y-6 flex flex-col min-w-0"><div className="bg-white rounded-2xl p-5 card-shadow"><div className="flex items-center justify-between mb-4" data-rimo-layout="toolbar"><h3 className="font-bold text-gray-800 flex items-center"><span className="w-1 h-4 bg-[color:var(--app-color-primary)] rounded-full mr-2"></span>
 {text("\n                                    常用功能\n                                ")}</h3>
 <RimoElement kind="el-button" link={true} type="primary" size="small">{text("編輯")}</RimoElement></div>
-<div className="grid grid-cols-2 gap-3" data-rimo-layout="summary"><div onClick={_event => {
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2" data-rimo-layout="summary"><div onClick={_event => {
                   model.assign(window.location, "href", 'new_order.html');
                 }} className="flex flex-col items-center justify-center p-4 py-5 rounded-xl bg-gray-50/50 hover:bg-gray-100 border border-transparent hover:border-gray-200 cursor-pointer transition-all group" data-rimo-layout="stat"><div className="w-10 h-10 rounded-xl icon-blue flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="Ticket" /></RimoElement></div>
 <span className="text-xs text-gray-700 font-medium">{text("新建訂單")}</span></div>
@@ -926,7 +926,7 @@ export default function WorkbenchBlock() {
 <RimoElement kind="el-tab-pane" label={`車況/車機異常 (${view.todoDialogCounts.exception})`} name="exception"></RimoElement>
 <RimoElement kind="el-tab-pane" label={`調度/整備 (${view.todoDialogCounts.dispatch})`} name="dispatch"></RimoElement>
 <RimoElement kind="el-tab-pane" label={`超期提醒 (${view.todoDialogCounts.overdue})`} name="overdue"></RimoElement></RimoElement></div>
-<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'pending')}><div className="border border-blue-100 bg-gradient-to-br from-blue-50/50 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="absolute right-3 top-3"><RimoElement kind="el-tag" size="small" type="primary" effect="plain">{text("新進")}</RimoElement></div>
+<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'pending')} data-rimo-grid="2"><div className="border border-blue-100 bg-gradient-to-br from-blue-50/50 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="absolute right-3 top-3"><RimoElement kind="el-tag" size="small" type="primary" effect="plain">{text("新進")}</RimoElement></div>
 <div className="flex items-center gap-3 mb-3 mt-1"><div className="w-10 h-10 rounded-full bg-[color:var(--app-color-primary-light-8)] flex items-center justify-center text-[color:var(--app-color-primary)]"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="UserFilled" /></RimoElement></div>
 <div className="flex-1"><div className="text-sm font-bold text-gray-800">{text("企業資質審覈 - 和運科技")}</div>
 <div className="text-xs text-gray-500 mt-0.5">{text("申請人: 李經理 | 10分鐘前")}</div></div></div>
@@ -961,7 +961,7 @@ export default function WorkbenchBlock() {
 <div className="text-sm text-gray-600 mb-4 bg-white p-2 border border-gray-100 rounded text-xs">{text("\n                                        [客服主管-張明] 剛剛提交了一筆 [緊急] 工單要求減免超時費，限時2小時內處理！\n                                    ")}</div>
 <div className="flex gap-2"><RimoElement kind="el-button" type="danger" size="small" className="flex-1">{text("立即處理")}</RimoElement>
 <RimoElement kind="el-button" plain={true} size="small" className="flex-1">{text("查看工單")}</RimoElement></div></div></div>
-<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'exception')}><div className="border border-red-100 bg-gradient-to-br from-red-50/50 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="absolute right-3 top-3"><RimoElement kind="el-tag" size="small" type="danger" effect="plain">{text("緊急")}</RimoElement></div>
+<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'exception')} data-rimo-grid="2"><div className="border border-red-100 bg-gradient-to-br from-red-50/50 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="absolute right-3 top-3"><RimoElement kind="el-tag" size="small" type="danger" effect="plain">{text("緊急")}</RimoElement></div>
 <div className="flex items-center gap-3 mb-3 mt-1"><div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="WarningFilled" /></RimoElement></div>
 <div className="flex-1"><div className="text-sm font-bold text-gray-800">{text("車輛事故上報")}</div>
 <div className="text-xs text-gray-500 mt-0.5">{text("車牌: 浙A·88888 | 2小時前")}</div></div></div>
@@ -1010,7 +1010,7 @@ export default function WorkbenchBlock() {
 <div className="text-sm text-gray-600 mb-4 bg-white p-2 border border-gray-100 rounded text-xs">{text("\n                                        RDC-1234, 車機發生異常斷電，疑似蓄電池故障，請指派維保！\n                                    ")}</div>
 <div className="flex gap-2"><RimoElement kind="el-button" type="danger" plain={true} size="small" className="flex-1">{text("指派維保")}</RimoElement>
 <RimoElement kind="el-button" plain={true} size="small" className="flex-1">{text("查看電池")}</RimoElement></div></div></div>
-<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'dispatch')} style={rimoStyle("display: none;")}><div className="border border-blue-100 bg-gradient-to-br from-blue-50/50 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="flex items-center gap-3 mb-3 mt-1"><div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="Van" /></RimoElement></div>
+<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'dispatch')} style={rimoStyle("display: none;")} data-rimo-grid="2"><div className="border border-blue-100 bg-gradient-to-br from-blue-50/50 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="flex items-center gap-3 mb-3 mt-1"><div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="Van" /></RimoElement></div>
 <div className="flex-1"><div className="text-sm font-bold text-gray-800">{text("人工調度確認")}</div>
 <div className="text-xs text-gray-500 mt-0.5">{text("門店: 虹橋高鐵站店 | 1小時前")}</div></div></div>
 <div className="text-sm text-gray-600 mb-4 bg-white p-2 border border-gray-100 rounded text-xs">{text("\n                                        虹橋高鐵站店週末預訂高峯，需要確認本店可交付車輛和人工派車方案。\n                                    ")}</div>
@@ -1071,7 +1071,7 @@ export default function WorkbenchBlock() {
 <div className="text-sm text-gray-600 mb-4 bg-white p-2 border border-gray-100 rounded text-xs">{text("\n                                        [預警] 重慶江北T3網點，已停入12輛車，剩餘0車位，即將引發還車阻塞！\n                                    ")}</div>
 <div className="flex gap-2"><RimoElement kind="el-button" type="danger" plain={true} size="small" className="flex-1">{text("安排移庫")}</RimoElement>
 <RimoElement kind="el-button" plain={true} size="small" className="flex-1">{text("查看網點")}</RimoElement></div></div></div>
-<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'overdue')} style={rimoStyle("display: none;")}><div className="border border-red-100 bg-gradient-to-br from-red-50/60 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="absolute right-3 top-3"><RimoElement kind="el-tag" size="small" type="danger" effect="plain">{text("嚴重逾期")}</RimoElement></div>
+<div className="p-5 pt-2 grid grid-cols-2 gap-4 todo-panel custom-scroll" hidden={!(view.todoTab === 'overdue')} style={rimoStyle("display: none;")} data-rimo-grid="2"><div className="border border-red-100 bg-gradient-to-br from-red-50/60 to-white rounded-xl p-4 hover:shadow-md transition-shadow relative group"><div className="absolute right-3 top-3"><RimoElement kind="el-tag" size="small" type="danger" effect="plain">{text("嚴重逾期")}</RimoElement></div>
 <div className="flex items-center gap-3 mb-3 mt-1"><div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="Timer" /></RimoElement></div>
 <div className="flex-1"><div className="text-sm font-bold text-gray-800">{text("訂單嚴重逾期")}</div>
 <div className="text-xs text-gray-500 mt-0.5">{text("訂單: ZT24050500001 | 2024/05/05\n                                                11:11")}</div></div></div>
@@ -1113,12 +1113,12 @@ export default function WorkbenchBlock() {
 <div className="text-sm text-gray-600 mb-4 bg-white p-2 border border-gray-100 rounded text-xs">{text("\n                                        5月對賬結算單 152,000元 逾期未支付，系統已暫停新單配額白名單。\n                                    ")}</div>
 <div className="flex gap-2"><RimoElement kind="el-button" type="warning" plain={true} size="small" className="flex-1">{text("發送催繳單")}</RimoElement>
 <RimoElement kind="el-button" plain={true} size="small" className="flex-1">{text("線下電聯溝通")}</RimoElement></div></div></div></div>
-<div className="bg-white rounded-2xl p-5 card-shadow flex-1"><div className="flex items-center justify-between mb-4"><h3 className="font-bold text-gray-800 flex items-center"><span className="w-1 h-4 bg-[color:var(--app-color-primary)] rounded-full mr-2"></span>
+<div className="bg-white rounded-2xl p-5 card-shadow flex-1"><div className="flex items-center justify-between mb-4" data-rimo-layout="toolbar"><h3 className="font-bold text-gray-800 flex items-center"><span className="w-1 h-4 bg-[color:var(--app-color-primary)] rounded-full mr-2"></span>
 {text("\n                                    今日排車日程 (")}{rimoText(view.scheduleDate)}{text(" ")}{rimoText(view.weekDay)}{text(")\n                                ")}</h3>
 <div className="flex gap-2"><RimoElement kind="el-button" size="small" circle={true} icon="ArrowLeft"></RimoElement>
 <RimoElement kind="el-button" size="small" plain={true}>{text("今天")}</RimoElement>
 <RimoElement kind="el-button" size="small" circle={true} icon="ArrowRight"></RimoElement></div></div>
-<div className="grid grid-cols-4 gap-2 h-[180px]"><div className="bg-gray-50 rounded-lg p-2 flex flex-col"><div className="text-xs font-bold text-gray-400 text-center mb-2 pb-2 border-b">{text("08:00 -\n                                        12:00")}</div>
+<div className="grid grid-cols-4 gap-2 h-[180px]" data-rimo-grid="4"><div className="bg-gray-50 rounded-lg p-2 flex flex-col"><div className="text-xs font-bold text-gray-400 text-center mb-2 pb-2 border-b">{text("08:00 -\n                                        12:00")}</div>
 <div className="space-y-2 overflow-y-auto custom-scroll flex-1 pr-1"><div className="bg-blue-100/50 border-l-4 border-blue-500 p-2 rounded text-xs cursor-pointer hover:bg-blue-100"><div className="font-bold text-blue-700">{text("交車 10臺")}</div>
 <div className="text-gray-500 mt-1">{text("2024年度商務用...")}</div>
 <div className="text-gray-400 mt-1">{text("09:30 虹橋店")}</div></div>
@@ -1144,20 +1144,20 @@ export default function WorkbenchBlock() {
 <div className="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-white/10 blur-xl"></div>
 <div className="absolute -left-4 -top-4 w-24 h-24 rounded-full bg-white/20 blur-xl"></div>
 <div className="absolute right-2 top-4 text-7xl opacity-10 group-hover:scale-110 transition-transform group-hover:rotate-12 duration-500"><RimoElement kind="el-icon"><RimoIcon name={banner.icon} /></RimoElement></div></div></RimoElement></Fragment>)}</RimoElement>
-<div className="bg-white rounded-2xl p-5 card-shadow flex-1"><div className="flex items-center justify-between mb-5"><h3 className="font-bold text-gray-800 flex items-center"><span className="w-1 h-4 bg-teal-500 rounded-full mr-2"></span>
+<div className="bg-white rounded-2xl p-5 card-shadow flex-1"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><h3 className="font-bold text-gray-800 flex items-center"><span className="w-1 h-4 bg-teal-500 rounded-full mr-2"></span>
 {text("\n                                    業務支撐模塊\n                                ")}</h3>
 <div className="flex gap-2"><RimoElement kind="el-button" circle={true} size="small" icon="Setting" onClick={_event => {
                     model.write(["settingDialogVisible"], true);
                   }} title="自定義模塊佈局"></RimoElement>
 <a href="#" className="text-xs text-gray-400 hover:text-[color:var(--app-color-primary)] leading-loose">{text("更多應用\n                                        >")}</a></div></div>
-<div className="grid grid-cols-3 gap-y-6 gap-x-2">{rimoEntries(view.selectedApps).map(([app], _itemIndex) => <Fragment key={app.id}><a key={app.id} href={app.href} className="flex flex-col items-center cursor-pointer group" style={rimoStyle("text-decoration: none;")}><div className={rimoClass(["w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center mb-2 group-hover:shadow-md group-hover:-translate-y-1 transition-all", rimoClass(app.color)])}><RimoElement kind="el-icon" className="text-2xl"><RimoIcon name={app.icon} /></RimoElement></div>
+<div className="grid grid-cols-3 gap-y-6 gap-x-2" data-rimo-grid="3">{rimoEntries(view.selectedApps).map(([app], _itemIndex) => <Fragment key={app.id}><a key={app.id} href={app.href} className="flex flex-col items-center cursor-pointer group" style={rimoStyle("text-decoration: none;")}><div className={rimoClass(["w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center mb-2 group-hover:shadow-md group-hover:-translate-y-1 transition-all", rimoClass(app.color)])}><RimoElement kind="el-icon" className="text-2xl"><RimoIcon name={app.icon} /></RimoElement></div>
 <span className="text-xs text-gray-600 font-medium">{rimoText(app.name)}</span></a></Fragment>)}
 {view.selectedApps.length === 0 ? <><div className="col-span-3 text-xs text-gray-400 text-center py-4">{text("\n                                    暫無模塊，請點擊右上角齒輪進行配置。\n                                ")}</div></> : null}</div>
 <div className="mt-8 border-t border-dashed border-gray-200 pt-4"><div className="text-xs text-gray-400 mb-3 font-medium">{text("最近訪問")}</div>
 <div className="flex gap-2 flex-wrap">{rimoEntries(view.recentPages).map(([page], _itemIndex) => <Fragment key={page.href}><a key={page.href} href={page.href} style={rimoStyle("text-decoration: none;")}><RimoElement kind="el-tag" size="small" type="info" className="cursor-pointer hover:bg-gray-200">{rimoText(page.name)}</RimoElement></a></Fragment>)}</div></div></div></div></div></div></div><RimoElement kind="el-dialog" modelValue={view.todoDialogVisible} onModelChange={value => {
       model.write(["todoDialogVisible"], value);
     }} width="980px" className="todo-dialog workbench-overlay" appendToBody={true} slots={{
-      "header": _slot => <><div className="flex items-center justify-between gap-3"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-xl bg-[color:var(--app-color-primary-light-9)] text-[color:var(--app-color-primary)] flex items-center justify-center"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="List" /></RimoElement></div>
+      "header": _slot => <><div className="flex items-center justify-between gap-3" data-rimo-layout="toolbar"><div className="flex items-center gap-3"><div className="w-10 h-10 rounded-xl bg-[color:var(--app-color-primary-light-9)] text-[color:var(--app-color-primary)] flex items-center justify-center"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="List" /></RimoElement></div>
 <div><div className="text-base font-semibold text-gray-800">{text("待辦事項總覽")}</div>
 <div className="text-xs text-gray-500">{text("集中處理異常、調度與超期提醒")}</div></div></div>
 <div className="flex items-center gap-2"><RimoElement kind="el-button" size="small" plain={true} onClick={_event => {
@@ -1179,7 +1179,7 @@ export default function WorkbenchBlock() {
 <RimoElement kind="el-tab-pane" label={`車況/車機異常 (${view.todoDialogCounts.exception})`} name="exception"></RimoElement>
 <RimoElement kind="el-tab-pane" label={`調度/整備 (${view.todoDialogCounts.dispatch})`} name="dispatch"></RimoElement>
 <RimoElement kind="el-tab-pane" label={`超期提醒 (${view.todoDialogCounts.overdue})`} name="overdue"></RimoElement></RimoElement></div>
-<div className="mt-3 max-h-[520px] overflow-y-auto custom-scroll pr-1"><div className="grid grid-cols-2 gap-4">{rimoEntries(view.filteredTodoDialogItems).map(([item], _itemIndex) => <Fragment key={item.id}><div key={item.id} className="border border-gray-100 rounded-xl p-4 hover:shadow-md transition-shadow bg-white"><div className="flex items-start justify-between gap-3 mb-2"><div className="flex-1"><div className="flex items-center gap-2 flex-wrap"><span className="text-sm font-semibold text-gray-800">{rimoText(item.title)}</span>
+<div className="mt-3 max-h-[520px] overflow-y-auto custom-scroll pr-1"><div className="grid grid-cols-2 gap-4" data-rimo-grid="2">{rimoEntries(view.filteredTodoDialogItems).map(([item], _itemIndex) => <Fragment key={item.id}><div key={item.id} className="border border-gray-100 rounded-xl p-4 hover:shadow-md transition-shadow bg-white"><div className="flex items-start justify-between gap-3 mb-2"><div className="flex-1"><div className="flex items-center gap-2 flex-wrap"><span className="text-sm font-semibold text-gray-800">{rimoText(item.title)}</span>
 {item.badge ? <><RimoElement kind="el-tag" size="small" type={item.badgeType} effect="plain">{rimoText(item.badge)}</RimoElement></> : null}</div>
 <div className="text-xs text-gray-500 mt-1">{rimoText(item.meta)}</div></div></div>
 <div className="text-xs text-gray-600 bg-gray-50 border border-gray-100 rounded p-2">{text("\n                                    ")}{rimoText(item.desc)}{text("\n                                ")}</div>
@@ -1228,7 +1228,7 @@ export default function WorkbenchBlock() {
             view.saveAppSelection?.(event);
           }}>{text("保存配置")}</RimoElement></span></>
     }}>{() => <><div className="text-sm text-gray-500 mb-4">{text("您可以從系統應用池中，拖拽或勾選最多 8 個功能模塊到您的個人工作臺。")}</div>
-<div className="bg-gray-50 border border-gray-200 rounded-xl p-3 mb-4"><div className="flex items-center justify-between mb-2"><div className="text-xs text-gray-500">{text("已選模塊 (")}{rimoText(view.selectedApps.length)}{text("/")}{rimoText(view.maxSelectedApps)}{text(")\n                            ")}</div>
+<div className="bg-gray-50 border border-gray-200 rounded-xl p-3 mb-4"><div className="flex items-center justify-between mb-2" data-rimo-layout="toolbar"><div className="text-xs text-gray-500">{text("已選模塊 (")}{rimoText(view.selectedApps.length)}{text("/")}{rimoText(view.maxSelectedApps)}{text(")\n                            ")}</div>
 <RimoElement kind="el-button" link={true} size="small" type="primary" onClick={event => {
               view.resetAppSelection?.(event);
             }}>{text("恢復默認")}</RimoElement></div>
@@ -1247,7 +1247,7 @@ export default function WorkbenchBlock() {
                     view.removeApp(app.id);
                   }}><RimoIcon name="Close" /></RimoElement></div></Fragment>)}</div></> : <><div className="text-xs text-gray-400 py-2">{text("尚未選擇模塊。")}</div></>}</div>
 <div><div className="text-xs text-gray-500 mb-3">{text("系統應用池")}</div>
-<div className="grid grid-cols-2 gap-3">{rimoEntries(view.allApps).map(([app], _itemIndex) => <Fragment key={app.id}><div key={app.id} className={rimoClass(["flex items-center justify-between p-3 rounded-lg border cursor-pointer transition", rimoClass(view.selectedAppIds.includes(app.id) ? 'border-[color:var(--app-color-primary)] bg-[color:var(--app-color-primary-light-9)]' : 'border-gray-200 hover:border-gray-300')])} onClick={_event => {
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2">{rimoEntries(view.allApps).map(([app], _itemIndex) => <Fragment key={app.id}><div key={app.id} className={rimoClass(["flex items-center justify-between p-3 rounded-lg border cursor-pointer transition", rimoClass(view.selectedAppIds.includes(app.id) ? 'border-[color:var(--app-color-primary)] bg-[color:var(--app-color-primary-light-9)]' : 'border-gray-200 hover:border-gray-300')])} onClick={_event => {
                 view.toggleAppSelection(app.id);
               }}><div className="flex items-center gap-3"><div className={rimoClass(["w-9 h-9 rounded-lg flex items-center justify-center", rimoClass(app.color)])}><RimoElement kind="el-icon" className="text-lg"><RimoIcon name={app.icon} /></RimoElement></div>
 <div><div className="text-sm font-medium text-gray-700">{rimoText(app.name)}</div>

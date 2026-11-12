@@ -29,6 +29,8 @@ export function createRimoModel(environment) {
   const storage = new Map();
   const timers = new Set();
   const intervals = new Set();
+  const charts = new Set();
+  const colours = new Map();
   const refs = new Map();
   const referenceValues = {};
   const flush = () => {
@@ -62,9 +64,16 @@ export function createRimoModel(environment) {
       return value;
     if (proxies.has(value)) return proxies.get(value);
     const proxy = new Proxy(value, {
-      get(target, key, receiver) { return record(Reflect.get(target, key, receiver)); },
+      get(target, key, receiver) {
+        const current = Reflect.get(target, key, receiver);
+        return record(Array.isArray(target) ? current : scalar(current));
+      },
       set(target, key, next) {
         const previous = target[key];
+        if (!Array.isArray(target) && cells.has(previous) && !cells.has(next)) {
+          previous.value = next;
+          return true;
+        }
         const accepted = Reflect.set(target, key, next);
         if (!Object.is(previous, next)) changed();
         return accepted;
@@ -173,13 +182,33 @@ export function createRimoModel(environment) {
     assign(target, key, value) { target[key] = value; return value; },
     theme(level) {
       const property = level == null ? '--app-color-primary' : `--app-color-primary-light-${level}`;
-      return getComputedStyle(root ?? document.documentElement).getPropertyValue(property).trim() || (level == null ? '#3b82f6' : '#dbeafe');
+      const colour = getComputedStyle(root ?? document.documentElement).getPropertyValue(property).trim() || (level == null ? '#3b82f6' : '#dbeafe');
+      if (/^#|^rgba?\(/i.test(colour) || typeof CanvasRenderingContext2D === 'undefined') return colour;
+      if (colours.has(colour)) return colours.get(colour);
+      const canvas = document.createElement('canvas');
+      canvas.width = canvas.height = 1;
+      const context = canvas.getContext('2d', { willReadFrequently: true });
+      if (!context) return colour;
+      context.fillStyle = colour;
+      context.fillRect(0, 0, 1, 1);
+      const pixel = context.getImageData(0, 0, 1, 1).data;
+      const resolved = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+      colours.set(colour, resolved);
+      return resolved;
     },
     themeAlpha(alpha) {
       const colour = this.theme();
+      const channels = /^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/.exec(colour);
+      if (channels) return `rgba(${channels[1]}, ${channels[2]}, ${channels[3]}, ${Math.min(1, Math.max(0, alpha))})`;
       if (!/^#[a-f\d]{6}$/i.test(colour)) return colour;
       const number = Number.parseInt(colour.slice(1), 16);
       return `rgba(${number >> 16 & 255}, ${number >> 8 & 255}, ${number & 255}, ${alpha})`;
+    },
+    chart(engine, element, ...options) {
+      const chart = engine.getInstanceByDom(element) ?? engine.init(element, ...options);
+      rawValues.add(chart);
+      charts.add(chart);
+      return chart;
     },
     write(path, value) {
       let target = view;
@@ -216,7 +245,15 @@ export function createRimoModel(environment) {
       active = true;
       mounted.forEach(callback => { const cleanup = callback(); if (typeof cleanup === 'function') cleanups.push(cleanup); });
       changed();
-      return () => { active = false; cleanups.splice(0).forEach(callback => callback()); timers.forEach(clearTimeout); intervals.forEach(clearInterval); };
+      return () => {
+        active = false;
+        cleanups.splice(0).forEach(callback => callback());
+        timers.forEach(clearTimeout);
+        intervals.forEach(clearInterval);
+        charts.forEach(chart => { if (!chart.isDisposed()) chart.dispose(); });
+        charts.clear();
+        colours.clear();
+      };
     },
     subscribe(callback) { listeners.add(callback); return () => listeners.delete(callback); },
     snapshot() { return revision; },

@@ -537,7 +537,7 @@
     background-color: var(--color-white);
   }
 }
-@media (width >= 48rem) {
+@container (width >= 48rem) {
   :where([data-rimo-page="stations"], [data-rimo-overlay="stations"]) .md\:grid-cols-\[minmax\(0\,1fr\)_minmax\(0\,1fr\)_180px_120px\] {
     grid-template-columns: minmax(0,1fr) minmax(0,1fr) 180px 120px;
   }
@@ -869,7 +869,7 @@
             min-width: 82px;
         }
 
-        @media (max-width: 720px) {
+        @container (max-width: 720px) {
             :where([data-rimo-page="stations"], [data-rimo-overlay="stations"]) .stations-main-grid {
                 grid-template-columns: 1fr;
             }
@@ -898,7 +898,7 @@
                 overflow-x: auto;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="stations"], [data-rimo-overlay="stations"]) .el-pagination .el-pagination__jump {
           display: none;
         }

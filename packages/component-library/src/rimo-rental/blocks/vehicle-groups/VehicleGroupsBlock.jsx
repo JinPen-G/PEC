@@ -307,7 +307,6 @@ export default function VehicleGroupsBlock() {
         dataSource={[...view.filteredGroups]}
         pagination={false}
         scroll={{ x: 850 }}
-        toolbarNote={`${view.filteredGroups.length} ${text('個車型組')}`}
         toolbar={
           <SearchField
             className="rimo-toolbar-search"

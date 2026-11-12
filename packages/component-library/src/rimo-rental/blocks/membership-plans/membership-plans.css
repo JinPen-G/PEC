@@ -299,17 +299,17 @@
     --tw-shadow-color: color-mix(in oklab, var(--app-color-primary-shadow) var(--tw-shadow-alpha), transparent);
   }
 }
-@media (width >= 48rem) {
+@container (width >= 48rem) {
   :where([data-rimo-page="membership-plans"], [data-rimo-overlay="membership-plans"]) .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (width >= 64rem) {
+@container (width >= 64rem) {
   :where([data-rimo-page="membership-plans"], [data-rimo-overlay="membership-plans"]) .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-@media (width >= 80rem) {
+@container (width >= 80rem) {
   :where([data-rimo-page="membership-plans"], [data-rimo-overlay="membership-plans"]) .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -520,7 +520,7 @@
             color: white;
             font-weight: bold;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="membership-plans"], [data-rimo-overlay="membership-plans"]) .el-pagination .el-pagination__jump {
           display: none;
         }

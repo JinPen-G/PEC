@@ -575,7 +575,7 @@
             line-height: 16px;
         }
 
-        @media (max-width: 1080px) {
+        @container (max-width: 1080px) {
 
             :where([data-rimo-page="enterprise-official-vehicles"], [data-rimo-overlay="enterprise-official-vehicles"]) .vehicle-create-photo,
             :where([data-rimo-page="enterprise-official-vehicles"], [data-rimo-overlay="enterprise-official-vehicles"]) .vehicle-create-photo-list {
@@ -588,7 +588,7 @@
             background: var(--app-color-surface-subtle);
             color: var(--app-color-text-secondary);
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-official-vehicles"], [data-rimo-overlay="enterprise-official-vehicles"]) .el-pagination .el-pagination__jump {
           display: none;
         }

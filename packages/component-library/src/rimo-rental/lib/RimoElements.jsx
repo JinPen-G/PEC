@@ -1,5 +1,6 @@
 /** Native React controls for the imported page contracts; the host supplies its standard UI. */
-import { Children, Fragment, createContext, isValidElement, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, Fragment, cloneElement, createContext, isValidElement, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Ellipsis } from 'lucide-react';
 import dayjs from 'dayjs';
 import DOMPurify from 'dompurify';
 import { useRimoEnvironment, useRimoPageKey, RimoIcon, RimoImage } from './RimoEnvironment.jsx';
@@ -7,18 +8,22 @@ import { clockText, clockValue, hierarchicalOptions, pickerValue } from './rimo-
 
 const Group = createContext(null);
 const FormContext = createContext(null);
+const FormItemContext = createContext(false);
 const TabsContext = createContext(null);
+const ListContext = createContext(null);
 const emptyForm = Object.freeze({});
 const slot = (value, argument) => typeof value === 'function' ? value(argument) : value;
 const nodes = value => Children.toArray(value).flatMap(child =>
   isValidElement(child) && child.type === Fragment ? nodes(child.props.children) : [child],
 );
+const nodeText = value => nodes(value).map(child => isValidElement(child) ? nodeText(child.props.children) : typeof child === 'string' || typeof child === 'number' ? String(child) : '').join('').trim();
 const optionValues = children => nodes(children).flatMap(child => {
   if (!isValidElement(child)) return [];
   if (child.props.kind === 'el-option') return [{ value: child.props.value, label: child.props.label ?? child.props.children, disabled: child.props.disabled }];
   return optionValues(child.props.children);
 });
 const base = props => ({
+  ref: props.ref,
   className: `el-${props.kind.slice(3)}${props.className ? ` ${props.className}` : ''}`,
   style: props.hidden ? { ...props.style, display: 'none' } : props.style,
   disabled: props.disabled,
@@ -35,12 +40,13 @@ export function RimoMarkup({ html, as: Tag = 'span', children: _children, ...pro
   return <Tag {...props} dangerouslySetInnerHTML={{ __html: markup }} />;
 }
 
-export function RimoTable({ children, className, style }) {
+export function RimoTable({ children, className, style, ...props }) {
   const { controls } = useRimoEnvironment();
+  const toolbar = useRimoToolbar(props);
   const collectRows = value => nodes(value).flatMap(child => !isValidElement(child) ? [] : child.type === 'tr' ? [child] : collectRows(child.props.children));
   const head = nodes(children).find(child => isValidElement(child) && child.type === 'thead');
   const headers = head ? collectRows(head.props.children) : [];
-  const body = nodes(children).filter(child => child !== head && !(isValidElement(child) && ['caption', 'colgroup'].includes(child.type)));
+  const body = nodes(children).filter(child => !(isValidElement(child) && ['thead', 'caption', 'colgroup'].includes(child.type)));
   const rows = collectRows(body);
   const cells = row => nodes(row.props.children).filter(child => isValidElement(child) && ['td', 'th'].includes(child.type));
   const width = row => cells(row).reduce((count, cell) => count + Number(cell.props.colSpan ?? 1), 0);
@@ -67,34 +73,107 @@ export function RimoTable({ children, className, style }) {
   const data = rows.map((row, index) => ({ key: row.key ?? index, cells: expand(row), props: row.props }));
   const columns = Array.from({ length: count }, (_, index) => ({
     key: `column-${index}`,
-    title: <>{headerRows.map((row, rowIndex) => row[index]?.children ? <span key={rowIndex}>{row[index].children}{rowIndex < headerRows.length - 1 ? ' ' : ''}</span> : null)}</>,
+    title: <span>{headerRows.map((row, rowIndex) => row[index]?.children ? <span key={rowIndex}>{row[index].children}{rowIndex < headerRows.length - 1 ? ' ' : ''}</span> : null)}</span>,
     render: (_value, row) => row.cells[index]?.children ?? null,
     onCell: row => ({ className: row.cells[index]?.className, style: row.cells[index]?.style, onClick: row.cells[index]?.onClick, onDoubleClick: row.cells[index]?.onDoubleClick, colSpan: row.cells[index]?.hidden ? 0 : row.cells[index]?.colSpan, rowSpan: row.cells[index]?.rowSpan }),
   }));
-  return <controls.Table className={className} style={style} components={{}} columns={columns} dataSource={data} pagination={false} rowKey="key" showHeader={Boolean(headers.length)} scroll={{ x: 'max-content' }} rowClassName={row => row.props.className ?? ''} onRow={row => Object.fromEntries(Object.entries(row.props).filter(([key]) => !['children', 'key', 'className'].includes(key)))} />;
+  const merged = [...headerRows, ...data.map(row => row.cells)].some(row => row.some(cell => cell?.colSpan > 1 || cell?.rowSpan > 1));
+  const standard = toolbar.length > 0 && !merged;
+  return <>
+    {!standard && toolbar.length > 0 && (controls.ListFilterBar ? <controls.ListFilterBar>{toolbar}</controls.ListFilterBar> : <div className="rimo-portable-toolbar">{toolbar}</div>)}
+    <controls.Table className={className} style={style} components={standard ? undefined : {}} toolbar={standard ? <>{toolbar}</> : undefined} columns={columns} dataSource={data} pagination={false} rowKey="key" showHeader={Boolean(headers.length)} scroll={{ x: 'max-content' }} rowClassName={row => row.props.className ?? ''} onRow={row => Object.fromEntries(Object.entries(row.props).filter(([key]) => !['children', 'key', 'className'].includes(key)))} />
+  </>;
 }
 
 function toolbarNodes(value) {
-  return nodes(value).flatMap((child) => {
+  return nodes(value).filter(child => typeof child !== 'string' || child.trim()).flatMap((child) => {
     if (!isValidElement(child) || child.type !== 'div' || child.props.hidden || child.props.id || Object.keys(child.props).some((key) => key.startsWith('on')))
       return [child];
-    const descendants = nodes(child.props.children);
+    const descendants = nodes(child.props.children).filter(child => typeof child !== 'string' || child.trim());
     return descendants.every(isValidElement) ? toolbarNodes(descendants) : [child];
   });
+}
+
+export function RimoList({ slots, children, ...props }) {
+  return <ListContext.Provider value={slots?.toolbar}><div {...props}>{children}</div></ListContext.Provider>;
+}
+
+export function RimoCheckbox({ type: _type, ...props }) {
+  const { controls } = useRimoEnvironment();
+  return <controls.Checkbox {...props} title={props.title ?? props['aria-label']} />;
+}
+
+const toolbarControl = child => child.props.kind === 'el-tooltip' ? nodes(child.props.children).find(isValidElement) ?? child : child;
+
+function RimoToolbarActions({ children }) {
+  const { controls, text } = useRimoEnvironment();
+  const root = useRef(null);
+  const [compact, setCompact] = useState(false);
+  useLayoutEffect(() => {
+    const toolbar = root.current?.closest('[data-table-tools]') ?? root.current?.parentElement;
+    if (!toolbar) return;
+    const resize = () => { const width = toolbar.getBoundingClientRect().width; if (width > 0) setCompact(width < 640); };
+    resize();
+    const observer = new ResizeObserver(resize);
+    observer.observe(toolbar);
+    return () => observer.disconnect();
+  }, []);
+  const items = children.map((child, index) => {
+    const field = toolbarControl(child).props;
+    const trigger = field.kind === 'el-dropdown' ? nodes(field.children).find(isValidElement)?.props : field;
+    const label = field['aria-label'] ?? child.props.content ?? trigger?.['aria-label'] ?? nodeText(field.children);
+    const entry = { key: String(index), label: text(label || '更多操作'), disabled: Boolean(field.disabled || field.loading || trigger?.disabled) };
+    if (field.kind !== 'el-dropdown') return { ...entry, ...(field.type === 'danger' ? { danger: true } : {}), onClick: ({ domEvent }) => field.onClick?.(domEvent) };
+    const options = nodes(slot(field.slots?.dropdown)).flatMap(menu => isValidElement(menu) ? nodes(menu.props.children) : []).filter(isValidElement);
+    return { ...entry, children: options.map((option, optionIndex) => ({
+      key: `${index}/${optionIndex}`, label: option.props.children, disabled: option.props.disabled,
+      onClick: () => { field.onCommand?.(option.props.command ?? optionIndex); option.props.onClick?.(); },
+    })) };
+  });
+  const getPopupContainer = trigger => trigger.closest('[role="dialog"]') ?? trigger.ownerDocument.body;
+  return <span ref={root} className="rimo-toolbar-actions">
+    {compact ? <controls.Dropdown menu={{ items, getPopupContainer, triggerSubMenuAction: 'click' }} trigger={['click']}
+      getPopupContainer={getPopupContainer}>
+      <controls.Button size="small" aria-label={text('更多操作')} title={text('更多操作')} icon={<Ellipsis size={16} />} />
+    </controls.Dropdown> : children}
+  </span>;
+}
+
+function useRimoToolbar(props) {
+  const { controls, text } = useRimoEnvironment();
+  const FilterItem = controls.ListFilterItem;
+  const sharedToolbar = useContext(ListContext);
+  const items = toolbarNodes(slot(props.slots?.toolbar ?? (props['data-rimo-shared-toolbar'] ? sharedToolbar : null)));
+  const searches = items.filter(child => isValidElement(child) && child.props.kind === 'el-input' && (!child.props.type || ['text', 'search'].includes(child.props.type)) && !child.props.showPassword && child.props['data-rimo-secondary'] !== 'true');
+  const primary = searches.find(child => child.props.prefixIcon) ?? searches[0];
+  const actions = [];
+  const filters = items.flatMap((child, index) => {
+    if (!FilterItem || !isValidElement(child)) return child;
+    const inner = toolbarControl(child);
+    const field = inner?.props ?? child.props;
+    const secondary = field['data-rimo-secondary'] === 'true';
+    const kind = field['data-rimo-filter-reset'] === 'true' ? 'reset'
+      : field.kind === 'el-button' || field.kind === 'el-dropdown' ? 'action'
+      : child === primary ? 'search' : 'filter';
+    const label = field['aria-label'] ?? field.placeholder ?? field.title ?? field.startPlaceholder ?? field.label ?? child.props.content ?? (kind === 'action' ? nodeText(field.children) : undefined);
+    if (kind === 'action' && controls.Dropdown) {
+      actions.push(cloneElement(child, { key: `${index}/${child.key ?? 'action'}` }));
+      return [];
+    }
+    const content = kind === 'search' && child.props.kind === 'el-input' ? cloneElement(child, { 'data-rimo-query': true }) : child;
+    return <FilterItem key={`${index}/${child.key ?? 'field'}`} kind={kind} label={typeof label === 'string' ? text(label) : undefined}
+      collapsed={secondary} width={/date-picker|cascader/.test(field.kind ?? '') ? 'wide' : undefined}
+      active={Array.isArray(field.modelValue) ? field.modelValue.length > 0 : field.modelValue != null && !['', 'ALL', 'all'].includes(field.modelValue)}>{content}</FilterItem>;
+  });
+  if (actions.length) filters.push(<FilterItem key="actions" kind="action" label={text('更多操作')}><RimoToolbarActions>{actions}</RimoToolbarActions></FilterItem>);
+  return filters;
 }
 
 function TableElement(props) {
   const { controls, text } = useRimoEnvironment();
   const Table = controls.Table;
-  const FilterItem = controls.ListFilterItem;
-  const toolbar = toolbarNodes(slot(props.slots?.toolbar)).map((child, index) => {
-    if (!FilterItem || !isValidElement(child)) return child;
-    const field = child.props;
-    const kind = field.kind === 'el-button' || field.kind === 'el-dropdown' ? 'action' : field.kind === 'el-input' && field.prefixIcon === 'Search' ? 'search' : 'filter';
-    const label = field['aria-label'] ?? field.placeholder ?? field.label;
-    return <FilterItem key={child.key ?? index} kind={kind} label={typeof label === 'string' ? text(label) : undefined}
-      active={Array.isArray(field.modelValue) ? field.modelValue.length > 0 : field.modelValue != null && !['', 'ALL', 'all'].includes(field.modelValue)}>{child}</FilterItem>;
-  });
+  const tableProps = base(props);
+  const toolbar = useRimoToolbar(props);
   const definitions = nodes(props.children).filter(child => isValidElement(child) && child.props.kind === 'el-table-column');
   const selection = definitions.find(child => child.props.type === 'selection')?.props;
   const expanded = definitions.find(child => child.props.type === 'expand')?.props;
@@ -116,7 +195,7 @@ function TableElement(props) {
     };
   });
   return <Table
-    {...base(props)} tableLayout="fixed" dataSource={data} rowKey={props.rowKey ?? ((row, index) => row.id ?? row.key ?? index)}
+    {...tableProps} style={{ ...tableProps.style, minWidth: 0, maxWidth: '100%', width: '100%' }} tableLayout="fixed" dataSource={data} rowKey={props.rowKey ?? ((row, index) => row.id ?? row.key ?? index)}
     columns={columns} pagination={false} loading={props.loading} scroll={{ x: 'max-content' }}
     toolbar={toolbar.length ? <>{toolbar}</> : undefined}
     showHeader={props.showHeader}
@@ -160,30 +239,38 @@ function FormItemElement(props) {
   const inherited = useContext(FormContext);
   const name = props.prop ? String(props.prop).split('.') : undefined;
   const rules = props.rules ?? inherited?.rules?.[props.prop];
-  const children = nodes(props.children);
+  const children = nodes(props.children).filter(child => typeof child !== 'string' || child.trim());
   const split = name && children.length > 1;
   const binding = { valuePropName: 'modelValue', trigger: 'onModelChange', validateTrigger: 'onModelChange', getValueProps: () => ({}) };
-  return <controls.Form.Item {...base(props)} {...binding} name={split ? undefined : name} rules={split ? undefined : rules} label={slot(props.slots?.label) ?? props.label} required={props.required}>
-    {split ? <><controls.Form.Item noStyle {...binding} name={name} rules={rules}>{children[0]}</controls.Form.Item>{children.slice(1)}</> : props.children}
-  </controls.Form.Item>;
+  return <FormItemContext.Provider value><controls.Form.Item {...base(props)} {...binding} name={split ? undefined : name} rules={split ? undefined : rules} label={slot(props.slots?.label) ?? props.label} required={props.required}>
+    {split ? <><controls.Form.Item noStyle {...binding} name={name} rules={rules}>{children[0]}</controls.Form.Item>{children.slice(1)}</> : children.length === 1 ? children[0] : props.children}
+  </controls.Form.Item></FormItemContext.Provider>;
+}
+
+function FieldFeedback({ children }) {
+  const { controls } = useRimoEnvironment();
+  const field = useContext(FormItemContext);
+  return field ? children : <controls.Form.Item noStyle>{children}</controls.Form.Item>;
 }
 
 function InputElement(props) {
   const { controls } = useRimoEnvironment();
   const form = useContext(FormContext);
   const change = (value) => { props.onModelChange?.(value); props.onInput?.(value); props.onChange?.(value); };
-  if (!form && props.prefixIcon === 'Search' && controls.SearchField)
+  if (!form && (props.prefixIcon === 'Search' || props['data-rimo-query']) && controls.SearchField)
     return <controls.SearchField {...base(props)} label={props['aria-label'] ?? props.placeholder} placeholder={props.placeholder}
-      value={props.modelValue ?? ''} onValueChange={change} onKeyDown={props.onKeyDown} onKeyUp={props.onKeyUp} />;
+      value={props.modelValue ?? ''} onValueChange={change} onKeyDown={props.onKeyDown} onKeyUp={props.onKeyUp}
+      readOnly={props.readOnly} maxLength={props.maxLength ? Number(props.maxLength) : undefined} onClear={props.onClear} onBlur={props.onBlur} onFocus={props.onFocus} />;
   const Input = props.type === 'textarea' ? controls.Input.TextArea : props.showPassword ? controls.Input.Password : controls.Input;
-  return <Input {...base(props)}
+  const field = <Input {...base(props)}
     value={props.modelValue ?? ''} placeholder={props.placeholder} type={props.type === 'textarea' ? undefined : props.type}
     maxLength={props.maxLength ? Number(props.maxLength) : undefined} rows={props.rows ? Number(props.rows) : undefined}
     allowClear={props.clearable} readOnly={props.readOnly} prefix={slot(props.slots?.prefix) ?? (props.prefixIcon ? <RimoIcon name={props.prefixIcon} /> : undefined)}
-    addonAfter={slot(props.slots?.append)}
     onChange={event => change(event.target.value)}
     onKeyDown={props.onKeyDown} onKeyUp={props.onKeyUp} onBlur={props.onBlur} onFocus={props.onFocus} onPressEnter={props.onKeyDown ? undefined : props.onEnter}
   />;
+  const append = slot(props.slots?.append);
+  return <FieldFeedback>{append ? <controls.Space.Compact block className="rimo-input-group">{field}<span className="rimo-input-unit">{append}</span></controls.Space.Compact> : field}</FieldFeedback>;
 }
 
 function SelectElement(props) {
@@ -203,14 +290,14 @@ function SelectElement(props) {
     }
   }
   if (value === '' && !options.some((option) => option.value === '')) value = undefined;
-  return <Select {...base(props)}
+  return <FieldFeedback><Select {...base(props)}
     value={props.allowCreate && !multiple ? value ? [value] : [] : value ?? undefined}
     options={options} placeholder={props.placeholder} allowClear={props.clearable}
     mode={props.allowCreate ? 'tags' : multiple ? 'multiple' : undefined}
     showSearch={props.filterable || multiple ? { optionFilterProp: 'label' } : false}
     onChange={selected => { const next = decode(props.allowCreate && !multiple ? selected.at(-1) ?? '' : selected ?? (multiple ? [] : selected)); props.onModelChange?.(next); props.onChange?.(next); }}
     onClear={props.onClear}
-  />;
+  /></FieldFeedback>;
 }
 
 function OverlayElement(props) {
@@ -224,7 +311,7 @@ function OverlayElement(props) {
   return <Modal title={props.title} open={Boolean(visible)} onCancel={close}
     footer={visible ? slot(props.slots?.footer) ?? null : null} width={width}
     presentation={props.kind === 'el-drawer' ? 'side' : undefined}
-    maskClosable={props.closeOnClickModal} keyboard={props.closeOnPressEscape} closable={props.showClose}
+    mask={props.closeOnClickModal === undefined ? undefined : { closable: props.closeOnClickModal }} keyboard={props.closeOnPressEscape} closable={props.showClose}
     afterClose={props.onClosed}
     className={props.className} destroyOnHidden={false}>
     <div className="rimo-business-page rimo-dialog-content" data-rimo-overlay={pageKey}>{visible ? slot(props.children) : null}</div>
@@ -342,12 +429,12 @@ function DateElement(props) {
   const DatePicker = range ? controls.DatePicker.RangePicker : controls.DatePicker;
   const value = range ? (Array.isArray(props.modelValue) ? props.modelValue.map(value => dayjs(value)) : null)
     : props.modelValue ? dayjs(props.modelValue) : null;
-  return <DatePicker {...base(props)} value={value} allowClear={props.clearable ?? true}
+  return <FieldFeedback><DatePicker {...base(props)} value={value} allowClear={props.clearable ?? true}
     picker={props.type === 'month' ? 'month' : props.type === 'year' ? 'year' : undefined}
     disabledDate={props.disabledDate ? (date) => props.disabledDate(date.toDate()) : undefined}
     format={props.format ?? props.valueFormat}
     showTime={String(props.type).includes('time')} placeholder={range ? [props.startPlaceholder, props.endPlaceholder] : props.placeholder}
-    onChange={next => { const value = range ? next?.map(item => pickerValue(item, props.valueFormat)) ?? [] : pickerValue(next, props.valueFormat); props.onModelChange?.(value); props.onChange?.(value); }} />;
+    onChange={next => { const value = range ? next?.map(item => pickerValue(item, props.valueFormat)) ?? [] : pickerValue(next, props.valueFormat); props.onModelChange?.(value); props.onChange?.(value); }} /></FieldFeedback>;
 }
 
 function TimeElement(props) {
@@ -360,14 +447,33 @@ function TimeElement(props) {
     const value = range ? [index === 0 ? next : values[0] ?? null, index === 1 ? next : values[1] ?? null] : next;
     props.onModelChange?.(value); props.onChange?.(value);
   };
-  return <div className="rimo-time-range" role="group" aria-label={props['aria-label']}>
+  return <FieldFeedback><div className="rimo-time-range" role="group" aria-label={props['aria-label']}>
     {(range ? [0, 1] : [0]).map((index) => <Fragment key={index}>
       {index === 1 && <span>{props.rangeSeparator ?? text('至')}</span>}
       <controls.Input {...base(props)} id={index ? undefined : props.id} type="time" min={props.start} max={props.end} step={interval}
         aria-label={range ? (index ? props.endPlaceholder ?? text('结束时间') : props.startPlaceholder ?? text('开始时间')) : props.placeholder}
         value={clockText(values[index])} onChange={(event) => change(event.target.value, index)} />
     </Fragment>)}
-  </div>;
+  </div></FieldFeedback>;
+}
+
+function DescriptionsElement(props) {
+  const { controls } = useRimoEnvironment();
+  const root = useRef(null);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const element = root.current;
+    if (!element) return;
+    setWidth(element.clientWidth);
+    if (typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+  const columns = Math.max(1, Math.min(Number(props.column ?? 3), Math.floor(width / 260) || 1));
+  return <div ref={root} className="rimo-descriptions"><controls.Descriptions {...base(props)} title={props.title} column={columns}>
+    {nodes(props.children).filter(isValidElement).map((child, index) => <controls.Descriptions.Item key={index} label={child.props.label}>{child.props.children}</controls.Descriptions.Item>)}
+  </controls.Descriptions></div>;
 }
 
 export function RimoElement(inputProps) {
@@ -426,11 +532,11 @@ export function RimoElement(inputProps) {
     case 'el-badge': return <span className="el-badge">{children}{props.value ? <controls.Tag>{props.value}</controls.Tag> : null}</span>;
     case 'el-pagination': return <div className="el-pagination"><controls.Pagination current={Number(props.currentPage ?? 1)} pageSize={Number(props.pageSize ?? 10)} total={Number(props.total ?? 0)} showSizeChanger pageSizeOptions={props.pageSizes}
       onChange={(page, size) => { props.onCurrentPageChange?.(page); props.onPageSizeChange?.(size); props.onCurrentChange?.(page); if (size !== props.pageSize) props.onSizeChange?.(size); }} /></div>;
-    case 'el-descriptions': return <controls.Descriptions {...base(props)} title={props.title} column={Number(props.column ?? 3)}>{nodes(children).filter(isValidElement).map((child, index) => <controls.Descriptions.Item key={index} label={child.props.label}>{child.props.children}</controls.Descriptions.Item>)}</controls.Descriptions>;
+    case 'el-descriptions': return <DescriptionsElement {...props} />;
     case 'el-descriptions-item': return children;
     case 'el-dropdown': {
       const items = nodes(slot(props.slots?.dropdown)).flatMap(child => isValidElement(child) ? nodes(child.props.children) : []);
-      return <controls.Dropdown menu={{ items: items.filter(isValidElement).map((child, index) => ({ key: String(child.props.command ?? index), label: child.props.children, disabled: child.props.disabled, onClick: () => { props.onCommand?.(child.props.command ?? index); child.props.onClick?.(); } })) }} trigger={['click']}>{children}</controls.Dropdown>;
+      return <controls.Dropdown menu={{ items: items.filter(isValidElement).map((child, index) => ({ key: String(child.props.command ?? index), label: child.props.children, disabled: child.props.disabled, onClick: () => { props.onCommand?.(child.props.command ?? index); child.props.onClick?.(); } })) }} trigger={['click']}><span className="rimo-menu-trigger">{children}</span></controls.Dropdown>;
     }
     case 'el-dropdown-menu': case 'el-dropdown-item': return <span>{children}</span>;
     case 'el-popconfirm': return <span onClick={() => environment.confirm(props.title).then(() => props.onConfirm?.()).catch((error) => { if (error?.message !== 'cancel') environment.notify('error', text('操作未完成，请重试。')); })}>{slot(props.slots?.reference) ?? children}</span>;

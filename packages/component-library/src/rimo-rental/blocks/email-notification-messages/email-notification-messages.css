@@ -240,7 +240,7 @@
         outline: 2px solid var(--app-color-primary);
         outline-offset: 2px;
       }
-      @media (max-width: 1180px) {
+      @container (max-width: 1180px) {
         :where([data-rimo-page="email-notification-messages"], [data-rimo-overlay="email-notification-messages"]) .notification-workspace {
           grid-template-columns: minmax(0, 1fr);
         }
@@ -249,7 +249,7 @@
           min-height: 220px;
         }
       }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="email-notification-messages"], [data-rimo-overlay="email-notification-messages"]) .channel-bar {
           flex-direction: column;
           align-items: flex-start;

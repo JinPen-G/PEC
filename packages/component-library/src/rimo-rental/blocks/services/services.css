@@ -596,7 +596,7 @@
             min-width: 72px;
         }
 
-        @media (max-width: 860px) {
+        @container (max-width: 860px) {
             :where([data-rimo-page="services"], [data-rimo-overlay="services"]) .prototype-permission-switcher {
                 right: 12px;
                 bottom: 12px;
@@ -604,7 +604,7 @@
                 overflow-x: auto;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="services"], [data-rimo-overlay="services"]) .el-pagination .el-pagination__jump {
           display: none;
         }

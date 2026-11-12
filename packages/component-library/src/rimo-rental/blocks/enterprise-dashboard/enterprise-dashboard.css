@@ -1013,7 +1013,7 @@
             white-space: nowrap;
         }
 
-        @media (max-width: 1440px) {
+        @container (max-width: 1440px) {
             :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .metrics-grid {
                 grid-template-columns: repeat(3, minmax(0, 1fr));
             }
@@ -1023,7 +1023,7 @@
             }
         }
 
-        @media (max-width: 1200px) {
+        @container (max-width: 1200px) {
             :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .dashboard-main {
                 grid-template-columns: 1fr;
             }
@@ -1040,13 +1040,13 @@
             }
         }
 
-        @media (max-width: 900px) {
+        @container (max-width: 900px) {
             :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .metrics-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
             }
         }
 
-        @media (max-width: 768px) {
+        @container (max-width: 768px) {
             :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .dashboard-page {
                 padding-top: 0;
             }
@@ -1070,7 +1070,7 @@
             }
         }
 
-        @media (max-width: 640px) {
+        @container (max-width: 640px) {
             :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .metrics-grid {
                 grid-template-columns: 1fr;
                 gap: 12px;
@@ -1122,7 +1122,7 @@
         :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .usage-detail-dialog .el-table .el-table__cell { padding: 6px 0; }
         :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .usage-detail-dialog .el-table .cell { padding: 0 8px; line-height: 22px; overflow-wrap: anywhere; }
         :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .usage-detail-dialog .el-table .el-button.is-link { padding: 0; min-height: 22px; }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-dashboard"], [data-rimo-overlay="enterprise-dashboard"]) .el-pagination .el-pagination__jump {
           display: none;
         }

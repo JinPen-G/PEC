@@ -202,7 +202,7 @@
             font-weight: 500;
         }
 
-        @media (max-width: 960px) {
+        @container (max-width: 960px) {
             :where([data-rimo-page="enterprise-employee-review"], [data-rimo-overlay="enterprise-employee-review"]) .review-page {
                 padding: 16px;
             }
@@ -211,7 +211,7 @@
                 min-height: calc(100vh - 180px);
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-employee-review"], [data-rimo-overlay="enterprise-employee-review"]) .el-pagination .el-pagination__jump {
           display: none;
         }

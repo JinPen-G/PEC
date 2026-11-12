@@ -140,8 +140,7 @@ export default function EnterpriseDepartmentManagementBlock() {
 <RimoElement kind="el-button" type="primary" plain={true}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Download" /></RimoElement>
 {text("\n                                    導出數據\n                                ")}</RimoElement>
 <RimoElement kind="el-button" type="warning" plain={true}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Operation" /></RimoElement>
-{text("\n                                    設置狀態\n                                ")}</RimoElement></div>
-<div className="department-page__summary">{text("總數量 ")}{rimoText(view.tableData.length)}</div></>
+{text("\n                                    設置狀態\n                                ")}</RimoElement></div></>
           }}><RimoElement kind="el-table-column" type="selection" align="center" width="55"></RimoElement>
 <RimoElement kind="el-table-column" minWidth="180" prop="companyName" align="center" label="分公司"></RimoElement>
 <RimoElement kind="el-table-column" minWidth="180" prop="departmentName" align="center" label="部門名稱"></RimoElement>
@@ -177,7 +176,7 @@ export default function EnterpriseDepartmentManagementBlock() {
             view.submitCreateDialog?.(event);
           }}>{text("保存")}</RimoElement></div></>
     }}>{() => <><div className="department-dialog__hint">{text("建立分公司下的新部門資料。")}</div>
-<RimoElement kind="el-form" labelPosition="top" model={view.createForm}><div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="分公司" required={true}><RimoElement kind="el-select" modelValue={view.createForm.companyName} onModelChange={value => {
+<RimoElement kind="el-form" labelPosition="top" model={view.createForm}><div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="分公司" required={true}><RimoElement kind="el-select" modelValue={view.createForm.companyName} onModelChange={value => {
                 model.write(["createForm", "companyName"], value);
               }} placeholder="請選擇" className="w-full">{rimoEntries(view.companyOptions).map(([company], _itemIndex) => <Fragment key={company}><RimoElement kind="el-option" key={company} label={company} value={company}></RimoElement></Fragment>)}</RimoElement></RimoElement>
 <div></div>

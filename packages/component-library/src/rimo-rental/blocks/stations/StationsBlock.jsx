@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useRimoModel, rimoEntries } from '../../lib/rimo-model.js';
 import { RimoRoot, RimoIcon, useRimoEnvironment } from '../../lib/RimoEnvironment.jsx';
-import { RimoElement, rimoClass, rimoStyle, rimoText } from '../../lib/RimoElements.jsx';
+import { RimoElement, RimoList, rimoClass, rimoStyle, rimoText } from '../../lib/RimoElements.jsx';
 import './stations.css';
 function createPageState(model) {
   const _document = model.document;
@@ -2632,7 +2632,7 @@ export default function StationsBlock() {
             view.openStationDialog(null);
           }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 新增據點\n                            ")}</RimoElement></> : null}</div>
-<div className="stations-main-grid"><div className="stations-scope-panel bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col"><div className="p-4 border-b border-gray-100 bg-gray-50 rounded-t-xl flex justify-between items-center"><span className="font-bold text-gray-700">{text("車行 / 門市範圍")}</span>
+<div className="stations-main-grid" data-rimo-layout="columns"><div className="stations-scope-panel bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col"><div className="p-4 border-b border-gray-100 bg-gray-50 rounded-t-xl flex justify-between items-center" data-rimo-layout="toolbar"><span className="font-bold text-gray-700">{text("車行 / 門市範圍")}</span>
 <RimoElement kind="el-button" size="small" type={!view.currentNode ? 'primary' : 'default'} onClick={event => {
               view.setAllScope?.(event);
             }}>{text("全部")}</RimoElement></div>
@@ -2647,23 +2647,8 @@ export default function StationsBlock() {
                     'font-bold': data.level === 'company'
                   })])}>{rimoText(node.label)}</span></div></>
             }}></RimoElement></div></div>
-<div className="stations-list-panel bg-white rounded-xl shadow-sm border border-gray-100"><div><div className="stations-view-tabs" role="tablist" aria-label="服務據點視圖">{view.canViewStationOverview ? <><button type="button" role="tab" className={rimoClass(["stations-view-tab", rimoClass({
-                  'is-active': view.stationViewMode === 'overview'
-                })])} aria-selected={view.stationViewMode === 'overview'} onClick={_event => {
-                  view.switchStationView('overview');
-                }}><RimoElement kind="el-icon"><RimoIcon name="Location" /></RimoElement>
-<span>{text("據點總覽")}</span>
-<span className="stations-view-tab__count">{rimoText(view.visibleStations.length)}</span></button></> : null}
-{view.canViewAnyService ? <><button type="button" role="tab" className={rimoClass(["stations-view-tab", rimoClass({
-                  'is-active': view.stationViewMode === 'capabilities'
-                })])} aria-selected={view.stationViewMode === 'capabilities'} onClick={_event => {
-                  view.switchStationView('capabilities');
-                }}><RimoElement kind="el-icon"><RimoIcon name="Operation" /></RimoElement>
-<span>{text("服務能力管理")}</span>
-<span className="stations-view-tab__count">{rimoText(view.availableServiceCapabilityCount)}</span></button></> : null}
-<span className="stations-permission-scope"><RimoElement kind="el-icon"><RimoIcon name="Lock" /></RimoElement>
-{rimoText(view.permissionScopeText)}{text("\n                                        ")}</span></div>
-<div className="stations-filter-toolbar p-4 border-b border-gray-100 bg-gray-50 flex flex-wrap items-center gap-3"><div className="stations-filter-controls flex items-center gap-3 flex-wrap min-w-0"><div style={rimoStyle("width: 240px")}><RimoElement kind="el-input" modelValue={view.searchQuery} onModelChange={value => {
+<div className="stations-list-panel bg-white rounded-xl shadow-sm border border-gray-100"><RimoList data-rimo-layout="list" data-rimo-list="true" slots={{
+            "toolbar": _slot => <><div className="stations-filter-controls flex items-center gap-3 flex-wrap min-w-0" data-rimo-layout="field-row"><div style={rimoStyle("width: 240px")}><RimoElement kind="el-input" modelValue={view.searchQuery} onModelChange={value => {
                     model.write(["searchQuery"], value);
                   }} placeholder="搜索據點名稱/地址..." prefixIcon="Search" clearable={true}></RimoElement></div>
 {view.stationViewMode === 'capabilities' && view.permittedServiceFilterOptions.length > 1 ? <><RimoElement kind="el-select" modelValue={view.capabilityModeFilter} onModelChange={value => {
@@ -2695,10 +2680,26 @@ export default function StationsBlock() {
 <svg className="ml-1.5 h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"></path></svg></RimoElement></RimoElement></> : null}
 {view.stationViewMode === 'overview' && view.selectedStationRows.length ? <><span className="text-xs text-blue-600 font-medium whitespace-nowrap bg-blue-50 px-2 py-1 rounded border border-blue-100">{text("\n                                                已選 ")}{rimoText(view.selectedStationRows.length)}{text(" 項\n                                            ")}</span></> : null}</div>
 <div className="ml-auto text-sm text-gray-500 whitespace-nowrap">{text("\n                                            ")}{rimoText(view.stationViewMode === 'overview' ? `共 ${view.visibleStations.length} 個據點` : `共
-                                            ${view.visibleServiceCapabilities.length} 項服務能力`)}{text("\n                                        ")}</div></div>
+                                            ${view.visibleServiceCapabilities.length} 項服務能力`)}{text("\n                                        ")}</div></>
+          }}><div className="stations-view-tabs" role="tablist" aria-label="服務據點視圖">{view.canViewStationOverview ? <><button type="button" role="tab" className={rimoClass(["stations-view-tab", rimoClass({
+                  'is-active': view.stationViewMode === 'overview'
+                })])} aria-selected={view.stationViewMode === 'overview'} onClick={_event => {
+                  view.switchStationView('overview');
+                }}><RimoElement kind="el-icon"><RimoIcon name="Location" /></RimoElement>
+<span>{text("據點總覽")}</span>
+<span className="stations-view-tab__count">{rimoText(view.visibleStations.length)}</span></button></> : null}
+{view.canViewAnyService ? <><button type="button" role="tab" className={rimoClass(["stations-view-tab", rimoClass({
+                  'is-active': view.stationViewMode === 'capabilities'
+                })])} aria-selected={view.stationViewMode === 'capabilities'} onClick={_event => {
+                  view.switchStationView('capabilities');
+                }}><RimoElement kind="el-icon"><RimoIcon name="Operation" /></RimoElement>
+<span>{text("服務能力管理")}</span>
+<span className="stations-view-tab__count">{rimoText(view.availableServiceCapabilityCount)}</span></button></> : null}
+<span className="stations-permission-scope"><RimoElement kind="el-icon"><RimoIcon name="Lock" /></RimoElement>
+{rimoText(view.permissionScopeText)}{text("\n                                        ")}</span></div>
 {view.stationViewMode === 'overview' && view.canViewStationOverview ? <><><RimoElement kind="el-table" modelRef={model.ref("stationTableRef")} data={view.pagedStations} rowKey="id" style={rimoStyle("width: 100%")} onSelectionChange={event => {
                   view.handleStationSelectionChange?.(event);
-                }}>{view.canManageStationBase ? <><RimoElement kind="el-table-column" type="selection" reserveSelection={true} width="52" align="center"></RimoElement></> : null}
+                }} data-rimo-shared-toolbar="true">{view.canManageStationBase ? <><RimoElement kind="el-table-column" type="selection" reserveSelection={true} width="52" align="center"></RimoElement></> : null}
 <RimoElement kind="el-table-column" prop="name" label="據點名稱" minWidth="200" slots={{
                     "default": ({
                       row
@@ -2756,7 +2757,7 @@ export default function StationsBlock() {
                     model.write(["stationPage"], value);
                   }} pageSize={view.stationPageSize} onPageSizeChange={value => {
                     model.write(["stationPageSize"], value);
-                  }} pageSizes={[10, 20, 50, 100]} total={view.visibleStations.length} layout="total, sizes, prev, pager, next, jumper" background={true} small={true}></RimoElement></div></></> : view.stationViewMode === 'capabilities' && view.canViewAnyService ? <><><RimoElement kind="el-table" data={view.pagedServiceCapabilities} rowKey="rowKey" style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" label="據點名稱" minWidth="210" slots={{
+                  }} pageSizes={[10, 20, 50, 100]} total={view.visibleStations.length} layout="total, sizes, prev, pager, next, jumper" background={true} small={true}></RimoElement></div></></> : view.stationViewMode === 'capabilities' && view.canViewAnyService ? <><><RimoElement kind="el-table" data={view.pagedServiceCapabilities} rowKey="rowKey" style={rimoStyle("width: 100%")} data-rimo-shared-toolbar="true"><RimoElement kind="el-table-column" label="據點名稱" minWidth="210" slots={{
                     "default": ({
                       row
                     }) => <><div className="font-medium text-gray-900">{rimoText(row.station.name)}</div>
@@ -2800,10 +2801,10 @@ export default function StationsBlock() {
                     model.write(["capabilityPage"], value);
                   }} pageSize={view.capabilityPageSize} onPageSizeChange={value => {
                     model.write(["capabilityPageSize"], value);
-                  }} pageSizes={[10, 20, 50, 100]} total={view.visibleServiceCapabilities.length} layout="total, sizes, prev, pager, next, jumper" background={true} small={true}></RimoElement></div></></> : <><RimoElement kind="el-empty" description="當前賬號沒有可查看的據點權限"></RimoElement></>}</div></div></div></div><RimoElement kind="el-dialog" modelValue={view.dialogVisible} onModelChange={value => {
+                  }} pageSizes={[10, 20, 50, 100]} total={view.visibleServiceCapabilities.length} layout="total, sizes, prev, pager, next, jumper" background={true} small={true}></RimoElement></div></></> : <><RimoElement kind="el-empty" description="當前賬號沒有可查看的據點權限"></RimoElement></>}</RimoList></div></div></div><RimoElement kind="el-dialog" modelValue={view.dialogVisible} onModelChange={value => {
       model.write(["dialogVisible"], value);
     }} title={view.isEdit ? '編輯據點' : '新增據點'} width="1280px" top="3vh" destroyOnClose={true} appendToBody={true} className="stations-overlay" slots={{
-      "footer": _slot => <><div className="flex items-center justify-between"><div className="text-sm"><span className="text-gray-500">{text("已佔用預留車位：")}</span>
+      "footer": _slot => <><div className="flex items-center justify-between" data-rimo-layout="toolbar"><div className="text-sm"><span className="text-gray-500">{text("已佔用預留車位：")}</span>
 <span className={rimoClass(view.totalReservedSpots > view.currentStation.totalCapacity ? 'text-red-500 font-bold' : 'text-green-600 font-bold')}>{text("\n                                ")}{rimoText(view.totalReservedSpots)}{text(" / ")}{rimoText(view.currentStation.totalCapacity)}{text("\n                            ")}</span>
 {view.totalReservedSpots > view.currentStation.totalCapacity ? <><span className="text-red-500 ml-2 text-xs">{text("\n                                預留車位數已超過據點總車位數\n                            ")}</span></> : null}</div>
 <div><RimoElement kind="el-button" onClick={_event => {
@@ -2814,7 +2815,7 @@ export default function StationsBlock() {
             }}>{text("保存")}</RimoElement></div></div></>
     }}>{() => <><div className="flex gap-6" style={rimoStyle("height: 78vh;")}><div className="w-[56%] flex flex-col gap-4 overflow-y-auto pr-2 custom-scroll"><div><h3 className="font-bold text-gray-800 border-l-4 border-[color:var(--app-color-primary)] pl-3">{text("基礎資料")}</h3>
 <p className="text-xs text-gray-500 mt-2">{text("用於配置據點檔案、座標、電子圍欄與現場聯絡資訊。")}</p></div>
-<RimoElement kind="el-form" model={view.currentStation} labelPosition="top"><div className="grid grid-cols-1 gap-4 mb-4"><RimoElement kind="el-form-item" label="據點類型" className="!mb-0"><div className="flex items-center gap-3 w-full"><RimoElement kind="el-select" modelValue={view.currentStation.stationType} onModelChange={value => {
+<RimoElement kind="el-form" model={view.currentStation} labelPosition="top"><div className="grid grid-cols-1 gap-4 mb-4"><RimoElement kind="el-form-item" label="據點類型" className="!mb-0"><div className="flex items-center gap-3 w-full" data-rimo-layout="field-row"><RimoElement kind="el-select" modelValue={view.currentStation.stationType} onModelChange={value => {
                       model.write(["currentStation", "stationType"], value);
                     }} placeholder="請選擇據點類型" className="flex-1">{rimoEntries(view.stationTypeOptions).map(([option], _itemIndex) => <Fragment key={option.value}><RimoElement kind="el-option" key={option.value} label={option.label} value={option.value}><div className="flex items-center justify-between gap-3 w-full"><span>{rimoText(option.label)}</span>
 <RimoElement kind="el-tag" size="small" type={view.getStationTypeEntryTagType(option)} effect="plain">{text("\n                                                        ")}{rimoText(view.getStationTypeEntryText(option))}{text("\n                                                    ")}</RimoElement></div></RimoElement></Fragment>)}</RimoElement>
@@ -2822,13 +2823,13 @@ export default function StationsBlock() {
                       model.write(["stationTypeManagerVisible"], true);
                     }}>{text("選擇項管理")}</RimoElement></div>
 <div className="mt-1 text-xs text-gray-500">{text("據點類型由選擇項管理維護，可控制該類型是否開放一般預約。")}</div></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="所屬門市" required={true}><RimoElement kind="el-cascader" modelValue={view.currentStation.parentId} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="所屬門市" required={true}><RimoElement kind="el-cascader" modelValue={view.currentStation.parentId} onModelChange={value => {
                     model.write(["currentStation", "parentId"], value);
                   }} options={view.stationParentOptions} props={view.stationParentProps} filterable={true} clearable={true} className="w-full" placeholder="請先選擇車行，再選擇門市"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="據點名稱" required={true}><RimoElement kind="el-input" modelValue={view.currentStation.name} onModelChange={value => {
                     model.write(["currentStation", "name"], value);
                   }} placeholder="例如：金門水頭碼頭遊客服務站"></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="停車場類型"><RimoElement kind="el-select" modelValue={view.currentStation.parkingLotType} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="停車場類型"><RimoElement kind="el-select" modelValue={view.currentStation.parkingLotType} onModelChange={value => {
                     model.write(["currentStation", "parkingLotType"], value);
                   }} placeholder="請選擇停車場類型" className="w-full"><RimoElement kind="el-option" label="露天停車場" value="露天停車場"></RimoElement>
 <RimoElement kind="el-option" label="室內停車場" value="室內停車場"></RimoElement>
@@ -2837,19 +2838,19 @@ export default function StationsBlock() {
 <RimoElement kind="el-form-item" label="停車場公司"><RimoElement kind="el-input" modelValue={view.currentStation.parkingCompany} onModelChange={value => {
                     model.write(["currentStation", "parkingCompany"], value);
                   }} placeholder="請輸入停車場公司"></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="聯絡人"><RimoElement kind="el-input" modelValue={view.currentStation.contactName} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="聯絡人"><RimoElement kind="el-input" modelValue={view.currentStation.contactName} onModelChange={value => {
                     model.write(["currentStation", "contactName"], value);
                   }} placeholder="請輸入聯絡人"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="聯絡電話"><RimoElement kind="el-input" modelValue={view.currentStation.contactPhone} onModelChange={value => {
                     model.write(["currentStation", "contactPhone"], value);
                   }} placeholder="請輸入聯絡電話"></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="Email"><RimoElement kind="el-input" modelValue={view.currentStation.email} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="Email"><RimoElement kind="el-input" modelValue={view.currentStation.email} onModelChange={value => {
                     model.write(["currentStation", "email"], value);
                   }} placeholder="例如：station@rimo.com"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="傳真"><RimoElement kind="el-input" modelValue={view.currentStation.fax} onModelChange={value => {
                     model.write(["currentStation", "fax"], value);
                   }} placeholder="請輸入傳真"></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="地址選擇"><RimoElement kind="el-cascader" modelValue={view.currentStation.addressRegion} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="地址選擇"><RimoElement kind="el-cascader" modelValue={view.currentStation.addressRegion} onModelChange={value => {
                     model.write(["currentStation", "addressRegion"], value);
                   }} options={view.addressOptions} clearable={true} filterable={true} className="w-full" placeholder="請選擇行政區"></RimoElement>
 <div className="mt-2 text-xs text-gray-400">{text("原型示意臺灣模式；實際按租戶地址模式渲染。")}</div></RimoElement>
@@ -2871,7 +2872,7 @@ export default function StationsBlock() {
 <div className="rounded-xl border border-gray-200 overflow-hidden bg-white"><div className="px-4 py-3 border-b bg-gray-50 flex items-center justify-between"><div><div className="font-medium text-gray-800">{text("地圖座標同步")}</div>
 <p className="text-xs text-gray-500 mt-1">{text("點擊地圖可寫入當前選中的定位對象，也可直接修改下方經緯度。")}</p></div>
 <RimoElement kind="el-tag" type="primary" effect="plain">{rimoText(view.getCoordinateTargetLabel(view.activeCoordinateTarget))}</RimoElement></div>
-<div className="p-4"><div className="grid grid-cols-3 gap-2 mb-3"><RimoElement kind="el-button" size="small" type={view.activeCoordinateTarget === 'station' ? 'primary' : 'default'} onClick={_event => {
+<div className="p-4"><div className="grid grid-cols-3 gap-2 mb-3" data-rimo-grid="3"><RimoElement kind="el-button" size="small" type={view.activeCoordinateTarget === 'station' ? 'primary' : 'default'} onClick={_event => {
                     view.setActiveCoordinateTarget('station');
                   }}>{text("據點主座標")}</RimoElement>
 {rimoEntries(view.currentStation.geofences).map(([fence, index], _itemIndex) => <Fragment key={fence.key}><RimoElement kind="el-button" key={fence.key} size="small" type={view.activeCoordinateTarget === 'geofence-' + index ? 'primary' : 'default'} onClick={_event => {
@@ -2884,9 +2885,9 @@ export default function StationsBlock() {
 <div className="self-end rounded-lg border border-white/80 bg-white/90 px-3 py-2 shadow-sm text-xs text-slate-600">{text("\n                                            當前座標：")}{rimoText(view.formatCoordinateDisplay(view.activeCoordinateTarget))}{text("\n                                        ")}</div></div>
 {view.isValidCoordinate(view.currentStation.longitude, view.currentStation.latitude) ? <><div className="absolute -translate-x-1/2 -translate-y-1/2" style={rimoStyle(view.getMarkerStyle('station'))}><div className="h-4 w-4 rounded-full bg-[color:var(--app-color-primary)] border-2 border-white shadow-lg"></div></div></> : null}
 {rimoEntries(view.currentStation.geofences).map(([fence, index], _itemIndex) => <Fragment key={'marker-' + fence.key}><>{fence && fence.enabled && view.isValidCoordinate(fence.longitude, fence.latitude) ? <><div className="absolute -translate-x-1/2 -translate-y-1/2" style={rimoStyle(view.getMarkerStyle('geofence-' + index))}><div className={rimoClass(["h-3.5 w-3.5 rounded-full border-2 border-white shadow-md", rimoClass(view.getFenceMarkerClass(index))])}></div></div></> : null}</></Fragment>)}</div>
-<div className="grid grid-cols-2 gap-3 mt-3"><div className="rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-500">{text("\n                                        主座標：")}{rimoText(view.formatCoordinateDisplay('station'))}{text("\n                                    ")}</div>
+<div className="grid grid-cols-2 gap-3 mt-3" data-rimo-grid="2"><div className="rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-500">{text("\n                                        主座標：")}{rimoText(view.formatCoordinateDisplay('station'))}{text("\n                                    ")}</div>
 <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-500">{text("\n                                        主圍欄半徑：")}{rimoText(view.currentStation.fenceRadius || 0)}{text(" m\n                                    ")}</div></div></div></div>
-<div className="flex items-start justify-between gap-4"><div><div className="font-bold text-gray-800 border-l-4 border-emerald-500 pl-3">{text("電子圍欄配置")}</div>
+<div className="flex items-start justify-between gap-4" data-rimo-layout="toolbar"><div><div className="font-bold text-gray-800 border-l-4 border-emerald-500 pl-3">{text("電子圍欄配置")}</div>
 <p className="text-xs text-gray-500 mt-2">{text("默認保留第 1 組，可按需新增至 4 組電子圍欄。")}</p></div>
 <RimoElement kind="el-button" disabled={view.currentStation.geofences.length >= 4} onClick={event => {
                 view.addGeofence?.(event);
@@ -2911,7 +2912,7 @@ export default function StationsBlock() {
 <RimoElement kind="el-form-item" label=" " className="!mb-0"><RimoElement kind="el-button" className="w-full" onClick={_event => {
                         view.openMapPicker('geofence-' + index);
                       }}>{text("選點")}</RimoElement></RimoElement></div></div></Fragment>)}</div>
-<RimoElement kind="el-form" model={view.currentStation} labelPosition="top"><div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="租賃押金"><RimoElement kind="el-input-number" modelValue={view.currentStation.rentalDeposit} onModelChange={value => {
+<RimoElement kind="el-form" model={view.currentStation} labelPosition="top"><div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="租賃押金"><RimoElement kind="el-input-number" modelValue={view.currentStation.rentalDeposit} onModelChange={value => {
                     model.write(["currentStation", "rentalDeposit"], value);
                   }} min={0} step={100} className="w-full"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="月租成本"><RimoElement kind="el-input-number" modelValue={view.currentStation.monthlyRentCost} onModelChange={value => {
@@ -2940,7 +2941,7 @@ export default function StationsBlock() {
 <div className="flex flex-wrap gap-2 mt-3">{rimoEntries(view.getParsedParkingSlots()).map(([slot], _itemIndex) => <Fragment key={slot}><RimoElement kind="el-tag" key={slot} type="info" effect="plain">{text("\n                                            ")}{rimoText(slot)}{text("\n                                        ")}</RimoElement></Fragment>)}</div></div></> : null}</div>
 <RimoElement kind="el-form-item" label="據點照片" className="mt-4"><RimoElement kind="el-upload" listType="picture-card" autoUpload={false} fileList={view.currentStation.photos} onChange={view.handleStationPhotoChange} onRemove={view.removeStationPhoto} multiple={true}><RimoElement kind="el-icon"><RimoIcon name="Plus" /></RimoElement></RimoElement>
 <div className="text-xs text-gray-400 mt-2">{text("支持多張圖片上傳預覽，僅用於原型展示。")}</div></RimoElement>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="總車位數"><RimoElement kind="el-input-number" modelValue={view.currentStation.totalCapacity} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="總車位數"><RimoElement kind="el-input-number" modelValue={view.currentStation.totalCapacity} onModelChange={value => {
                     model.write(["currentStation", "totalCapacity"], value);
                   }} min={0} className="w-full"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="停車費規則"><RimoElement kind="el-input" modelValue={view.currentStation.parkingFeeRule} onModelChange={value => {
@@ -3106,7 +3107,7 @@ export default function StationsBlock() {
 <b className="text-gray-800">{rimoText(view.orgData.reduce((s, c) => s + (c.children ? c.children.length : 0), 0))}</b>
 {text(" 個門店")}</span>
 {view.hierarchyCurrentCompany ? <><span className="text-gray-500">{text("當前車行：")}{rimoText(view.hierarchyCurrentCompany.label)}{text("（")}{rimoText(view.hierarchyCurrentCompany.children?.length || 0)}{text(" 個門店）")}</span></> : null}</div>
-<div className="flex border rounded border-gray-200" style={rimoStyle("height: 78vh;")}><div className="w-1/2 border-r border-gray-200 flex flex-col"><div className="p-3 bg-gray-50 font-bold text-gray-700 flex justify-between items-center border-b"><span>{text("車行列表 (Company) · ")}{rimoText(view.orgData.length)}</span>
+<div className="flex border rounded border-gray-200" style={rimoStyle("height: 78vh;")}><div className="w-1/2 border-r border-gray-200 flex flex-col"><div className="p-3 bg-gray-50 font-bold text-gray-700 flex justify-between items-center border-b" data-rimo-layout="toolbar"><span>{text("車行列表 (Company) · ")}{rimoText(view.orgData.length)}</span>
 <RimoElement kind="el-button" type="primary" size="small" link={true} onClick={event => {
                 view.addCompany?.(event);
               }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
@@ -3115,7 +3116,7 @@ export default function StationsBlock() {
                   'bg-blue-50': view.hierarchyCurrentCompany?.id === comp.id
                 })])} onClick={_event => {
                   model.write(["hierarchyCurrentCompany"], comp);
-                }}><div className="flex-1 min-w-0 pr-3"><div className="flex items-center text-sm font-medium text-gray-800"><RimoElement kind="el-icon" className="mr-2 text-gray-500"><RimoIcon name="OfficeBuilding" /></RimoElement>
+                }} data-rimo-layout="toolbar"><div className="flex-1 min-w-0 pr-3"><div className="flex items-center text-sm font-medium text-gray-800"><RimoElement kind="el-icon" className="mr-2 text-gray-500"><RimoIcon name="OfficeBuilding" /></RimoElement>
 <span className="truncate">{rimoText(comp.label)}</span>
 {comp.providerType ? <><RimoElement kind="el-tag" size="small" type="info" effect="plain" className="ml-2">{text("\n                                            ")}{rimoText(comp.providerType)}{text("\n                                        ")}</RimoElement></> : null}</div>
 <div className="mt-2 text-xs text-gray-500 space-y-1"><div>{text("聯絡人：")}{rimoText(comp.contactName || '未填寫')}</div>
@@ -3129,12 +3130,12 @@ export default function StationsBlock() {
                       event.stopPropagation();
                       view.deleteCompany(comp);
                     }}>{text("刪除")}</RimoElement></div></div></Fragment>)}</div></div>
-<div className="w-1/2 flex flex-col bg-gray-50"><div className="p-3 bg-gray-100 font-bold text-gray-700 flex justify-between items-center border-b"><span>{text("門店列表 (Store) · ")}{rimoText(view.hierarchyCurrentCompany?.children?.length || 0)}</span>
+<div className="w-1/2 flex flex-col bg-gray-50"><div className="p-3 bg-gray-100 font-bold text-gray-700 flex justify-between items-center border-b" data-rimo-layout="toolbar"><span>{text("門店列表 (Store) · ")}{rimoText(view.hierarchyCurrentCompany?.children?.length || 0)}</span>
 <RimoElement kind="el-button" type="primary" size="small" link={true} onClick={event => {
                 view.addStore?.(event);
               }} disabled={!view.hierarchyCurrentCompany}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text("新增\n                            ")}</RimoElement></div>
-{view.hierarchyCurrentCompany ? <><div className="flex-1 overflow-y-auto p-2">{rimoEntries(view.hierarchyCurrentCompany.children).map(([store], _itemIndex) => <Fragment key={store.id}><div key={store.id} className="flex justify-between items-start p-3 hover:bg-white cursor-pointer rounded mb-1 bg-white border border-gray-100"><div className="flex-1 min-w-0 pr-3"><div className="flex items-center text-sm font-medium text-gray-800"><RimoElement kind="el-icon" className="mr-2 text-gray-500"><RimoIcon name="Shop" /></RimoElement>
+{view.hierarchyCurrentCompany ? <><div className="flex-1 overflow-y-auto p-2">{rimoEntries(view.hierarchyCurrentCompany.children).map(([store], _itemIndex) => <Fragment key={store.id}><div key={store.id} className="flex justify-between items-start p-3 hover:bg-white cursor-pointer rounded mb-1 bg-white border border-gray-100" data-rimo-layout="toolbar"><div className="flex-1 min-w-0 pr-3"><div className="flex items-center text-sm font-medium text-gray-800"><RimoElement kind="el-icon" className="mr-2 text-gray-500"><RimoIcon name="Shop" /></RimoElement>
 <span className="truncate">{rimoText(store.label)}</span></div>
 <div className="mt-2 text-xs text-gray-500 space-y-1"><div>{text("聯絡人：")}{rimoText(store.contactName || '未填寫')}</div>
 <div>{text("聯絡電話：")}{rimoText(store.contactPhone || '未填寫')}</div>
@@ -3157,7 +3158,7 @@ export default function StationsBlock() {
 <RimoElement kind="el-button" type="primary" onClick={event => {
           view.saveCompany?.(event);
         }}>{text("保存")}</RimoElement></>
-    }}>{() => <><RimoElement kind="el-form" model={view.companyForm} labelPosition="top"><div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="車行名稱" required={true}><RimoElement kind="el-input" modelValue={view.companyForm.label} onModelChange={value => {
+    }}>{() => <><RimoElement kind="el-form" model={view.companyForm} labelPosition="top"><div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="車行名稱" required={true}><RimoElement kind="el-input" modelValue={view.companyForm.label} onModelChange={value => {
                 model.write(["companyForm", "label"], value);
               }} placeholder="請輸入車行名稱"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="類型"><RimoElement kind="el-select" modelValue={view.companyForm.providerType} onModelChange={value => {
@@ -3166,7 +3167,7 @@ export default function StationsBlock() {
 <RimoElement kind="el-option" label="加盟" value="加盟"></RimoElement>
 <RimoElement kind="el-option" label="車廠" value="車廠"></RimoElement>
 <RimoElement kind="el-option" label="旅館" value="旅館"></RimoElement></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="聯絡人"><RimoElement kind="el-input" modelValue={view.companyForm.contactName} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="聯絡人"><RimoElement kind="el-input" modelValue={view.companyForm.contactName} onModelChange={value => {
                 model.write(["companyForm", "contactName"], value);
               }} placeholder="請輸入聯絡人"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="聯絡電話"><RimoElement kind="el-input" modelValue={view.companyForm.contactPhone} onModelChange={value => {
@@ -3190,13 +3191,13 @@ export default function StationsBlock() {
     }}>{() => <><RimoElement kind="el-form" model={view.storeForm} labelPosition="top"><RimoElement kind="el-form-item" label="門市名稱" required={true}><RimoElement kind="el-input" modelValue={view.storeForm.label} onModelChange={value => {
               model.write(["storeForm", "label"], value);
             }} placeholder="請輸入門市名稱"></RimoElement></RimoElement>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="聯絡人"><RimoElement kind="el-input" modelValue={view.storeForm.contactName} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="聯絡人"><RimoElement kind="el-input" modelValue={view.storeForm.contactName} onModelChange={value => {
                 model.write(["storeForm", "contactName"], value);
               }} placeholder="請輸入聯絡人"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="聯絡電話"><RimoElement kind="el-input" modelValue={view.storeForm.contactPhone} onModelChange={value => {
                 model.write(["storeForm", "contactPhone"], value);
               }} placeholder="請輸入聯絡電話"></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="Email"><RimoElement kind="el-input" modelValue={view.storeForm.email} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="Email"><RimoElement kind="el-input" modelValue={view.storeForm.email} onModelChange={value => {
                 model.write(["storeForm", "email"], value);
               }} placeholder="請輸入 Email"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="地址選擇"><RimoElement kind="el-cascader" modelValue={view.storeForm.addressRegion} onModelChange={value => {

@@ -7,6 +7,7 @@ import {
 import {
   adaptRimoBusinessLayout,
   rimoEventProperty,
+  rimoContainerQuery,
   rimoScopedSelector,
   rimoTemplateContract,
   rimoThemeColors,
@@ -30,6 +31,21 @@ const source = `<body>
 </body>`;
 
 describe('RIMO template layout adaptation', () => {
+  it('retains authored responsive column choices and adapts only fixed grids', () => {
+    const surface = extractRimoBusinessSurface('<body><!-- PAGE_CONTENT_START --><div data-business-content><div class="responsive grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"><h2>客户和用车资料</h2><el-input v-model="customer"/></div><div class="fixed grid grid-cols-4"><span>统计</span></div></div><!-- PAGE_CONTENT_END --></body>', page);
+    adaptRimoBusinessLayout(surface, page);
+    expect(surface.content.querySelector('.responsive').hasAttribute('data-rimo-grid')).toBe(false);
+    expect(surface.content.querySelector('.fixed').getAttribute('data-rimo-grid')).toBe('4');
+  });
+
+  it('adapts width breakpoints to the preview container without changing print or user preferences', () => {
+    expect(rimoContainerQuery('screen and (max-width: 960px)')).toBe('(max-width: 960px)');
+    expect(rimoContainerQuery('(width >= 48rem)')).toBe('(width >= 48rem)');
+    expect(rimoContainerQuery('(min-width: 400px) and (max-width: 800px)')).toBe('(min-width: 400px) and (max-width: 800px)');
+    expect(rimoContainerQuery('(prefers-color-scheme: dark)')).toBeNull();
+    expect(rimoContainerQuery('print and (max-width: 960px)')).toBeNull();
+    expect(rimoContainerQuery('(prefers-reduced-motion: reduce)')).toBeNull();
+  });
   it('moves shared filters into the host table toolbar without changing any business contract', () => {
     const surface = extractRimoBusinessSurface(source, page);
     const before = rimoTemplateContract(surface);
@@ -80,6 +96,50 @@ describe('RIMO template layout adaptation', () => {
     expect(surface.content.querySelector('[ref="chart"]')).not.toBeNull();
   });
 
+  it('collects nested section filters and removes only their standalone count', () => {
+    const markup = source.replace('<div class="filter-toolbar">', '<section class="filter-toolbar"><div><span>共 {{ count }} 条记录</span>')
+      .replace('</el-button></div>\n<el-table', '</el-button></div></section>\n<div><el-table')
+      .replace('</el-table>\n<el-pagination', '</el-table></div>\n<el-pagination')
+      .replace('<h1>车辆资料</h1>', '<h1>车辆资料</h1><span>共 {{ companies }} 家企业</span>');
+    const surface = extractRimoBusinessSurface(markup, page);
+    const before = rimoTemplateContract(surface);
+    expect(adaptRimoBusinessLayout(surface, page)).toMatchObject({ tableToolbars: 1, listNotes: 1 });
+    expect(surface.content.textContent).not.toContain('条记录');
+    expect(surface.content.textContent).toContain('家企业');
+    expect(surface.content.textContent).toContain('营运中 {{ count }}');
+    expect(surface.content.querySelector('el-pagination').getAttribute(':total')).toBe('count');
+    expect(rimoTemplateContract(surface)).toEqual(before);
+  });
+
+  it('replaces paired width conditions with one controlled field and leaves business conditions intact', () => {
+    const surface = extractRimoBusinessSurface(source.replace('<el-select v-model="status">', '<el-select v-if="filterLayoutTier >= 2" v-model="status">')
+      .replace('<el-button @click="reset">', '<el-button @click="moreFiltersVisible = !moreFiltersVisible">更多筛选</el-button><div v-show="moreFiltersVisible"><el-select v-if="filterLayoutTier < 2" v-model="status"><el-option label="全部" value=""/></el-select><el-input v-model="owner"/></div><el-button @click="reset">'), page);
+    const result = adaptRimoBusinessLayout(surface, page);
+    const fields = surface.content.querySelectorAll('el-select');
+    expect(fields).toHaveLength(1);
+    expect(fields[0].hasAttribute('v-if')).toBe(false);
+    expect(surface.content.querySelector('[v-model="owner"]').getAttribute('data-rimo-secondary')).toBe('true');
+    expect(surface.content.querySelector('[v-if="row.enabled"]')).not.toBeNull();
+    expect(surface.content.textContent).not.toContain('更多筛选');
+    expect(result.presentationChanges.length).toBeGreaterThan(0);
+  });
+
+  it('rejects responsive copies with different business options', () => {
+    const surface = extractRimoBusinessSurface(source.replace('<el-select v-model="status">', '<el-select v-if="filterLayoutTier >= 2" v-model="status">')
+      .replace('<el-button @click="reset">', '<div v-show="moreFiltersVisible"><el-select v-if="filterLayoutTier < 2" v-model="status"><el-option label="审核" value="review"/></el-select></div><el-button @click="reset">'), page);
+    expect(() => adaptRimoBusinessLayout(surface, page)).toThrow('Unmatched responsive filter');
+  });
+
+  it('shares filters across mutually exclusive tables without changing their conditions', () => {
+    const surface = extractRimoBusinessSurface(source.replace('<el-table :data="rows"', '<template v-if="mode === \'list\'"><el-table :data="rows"')
+      .replace('</el-table>\n<el-pagination', '</el-table></template><template v-else><el-table :data="grouped"><el-table-column label="分组" prop="group"/></el-table></template>\n<el-pagination'), page);
+    const before = rimoTemplateContract(surface);
+    expect(adaptRimoBusinessLayout(surface, page).tableToolbars).toBe(2);
+    expect(surface.content.querySelectorAll('[data-rimo-shared-toolbar]')).toHaveLength(2);
+    expect(surface.content.querySelectorAll('[data-rimo-list]')).toHaveLength(1);
+    expect(rimoTemplateContract(surface)).toEqual(before);
+  });
+
   it.each([
     ['<el-slider v-model="value"/>', 'unsupported control'],
     ['<el-input v-mystery="draft"/>', 'unsupported directive'],
@@ -95,6 +155,35 @@ describe('RIMO template layout adaptation', () => {
     const before = surface.content.toString();
     expect(adaptRimoBusinessLayout(surface, email).preserved).toBe(true);
     expect(surface.content.toString()).toBe(before);
+  });
+
+  it('marks wide mail layout tables without changing branding or icon dimensions', () => {
+    const email = { pageKey: 'email', clientId: 'email' };
+    const surface = extractRimoBusinessSurface('<body><table width="918" class="mail-frame"><tbody><tr><td><table width="818"><tbody><tr><td><table><tbody><tr><td><div class="support-title">联系客服</div><img width="34" src="support.png"/></td></tr></tbody></table></td></tr></tbody></table><table width="30"><tbody><tr><td>图标</td></tr></tbody></table></td></tr></tbody></table></body>', email);
+    adaptRimoBusinessLayout(surface, email);
+    expect(surface.content.querySelectorAll('[data-rimo-mail-fluid]')).toHaveLength(2);
+    expect(surface.content.querySelector('.mail-frame').hasAttribute('data-rimo-mail-stack')).toBe(false);
+    expect(surface.content.querySelector('table[width="818"]').getAttribute('data-rimo-mail-stack')).toBe('true');
+    expect(surface.content.querySelector('table[width="30"]').hasAttribute('data-rimo-mail-fluid')).toBe(false);
+    expect(surface.content.querySelector('img').attributes).toMatchObject({ width: '34', src: 'support.png' });
+  });
+
+  it('lets fixed-width inline fields wrap while keeping their model and action contracts', () => {
+    const surface = extractRimoBusinessSurface(source.replace('<h1>车辆资料</h1>', '<h1>车辆资料</h1><div class="flex min-w-[360px]"><el-select v-model="insurance"><el-option label="基础方案" value="basic"/></el-select><el-button @click="quote">试算</el-button></div>'), page);
+    const before = rimoTemplateContract(surface);
+    adaptRimoBusinessLayout(surface, page);
+    expect(surface.content.querySelector('[data-rimo-layout="field-row"] el-select').getAttribute('v-model')).toBe('insurance');
+    expect(rimoTemplateContract(surface)).toEqual(before);
+  });
+
+  it('stacks form panels and nested date rows without changing the business controls', () => {
+    const surface = extractRimoBusinessSurface(source.replace('<h1>车辆资料</h1>', '<h1>车辆资料</h1><div class="grid grid-cols-2"><el-card><el-select v-model="customer"/></el-card><el-card><div class="grid grid-cols-2"><div><el-select v-model="station"/></div><div><el-date-picker v-model="pickup" @change="quote"/></div></div></el-card></div>'), page);
+    const before = rimoTemplateContract(surface);
+    adaptRimoBusinessLayout(surface, page);
+    expect(surface.content.querySelectorAll('[data-rimo-layout="form-grid"]')).toHaveLength(2);
+    expect(surface.overlays[0].querySelector('.form-grid').getAttribute('data-rimo-layout')).toBe('form-grid');
+    expect(surface.content.querySelector('el-date-picker').getAttribute('v-model')).toBe('pickup');
+    expect(rimoTemplateContract(surface)).toEqual(before);
   });
 
   it.each([

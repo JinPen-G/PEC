@@ -40,12 +40,11 @@ export default function StoresBlock() {
 <RimoElement kind="el-option" label="已停用" value="INACTIVE"></RimoElement></RimoElement>
 <RimoElement kind="el-tooltip" content="重置篩選" placement="top"><RimoElement kind="el-button" circle={true} aria-label="重置篩選" onClick={event => {
                 view.resetFilters?.(event);
-              }}><RimoElement kind="el-icon"><RimoIcon name="Refresh" /></RimoElement></RimoElement></RimoElement>
+              }} icon="Refresh" data-rimo-filter-reset="true"></RimoElement></RimoElement>
 <RimoElement kind="el-button" type="primary" plain={true} onClick={event => {
               view.exportData?.(event);
             }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Download" /></RimoElement>
-{text("導出")}</RimoElement>
-<span className="ml-auto text-sm text-gray-500">{text("共 ")}{rimoText(view.filteredRows.length)}{text(" 家門市")}</span></>
+{text("導出")}</RimoElement></>
         }}><RimoElement kind="el-table-column" label="門市編號與名稱" minWidth="230" slots={{
             "default": ({
               row
@@ -120,7 +119,7 @@ export default function StoresBlock() {
 <RimoElement kind="el-button" type="primary" onClick={event => {
           view.save?.(event);
         }}>{text("保存")}</RimoElement></>
-    }}>{() => <><RimoElement kind="el-form" modelRef={model.ref("formRef")} model={view.form} rules={view.rules} labelPosition="top"><div className="grid grid-cols-2 gap-x-5" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="所屬車行" prop="companyId"><RimoElement kind="el-select" modelValue={view.form.companyId} onModelChange={value => {
+    }}>{() => <><RimoElement kind="el-form" modelRef={model.ref("formRef")} model={view.form} rules={view.rules} labelPosition="top"><div className="grid grid-cols-2 gap-x-5" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="所屬車行" prop="companyId"><RimoElement kind="el-select" modelValue={view.form.companyId} onModelChange={value => {
                 model.write(["form", "companyId"], value);
               }} filterable={true} className="w-full" disabled={!!view.editingId || view.permissionDemoMode !== 'TENANT_MANAGE'}>{rimoEntries(view.editableCompanyOptions).map(([item], _itemIndex) => <Fragment key={item.value}><RimoElement kind="el-option" key={item.value} label={item.label} value={item.value}></RimoElement></Fragment>)}</RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="門市編號" prop="code"><RimoElement kind="el-input" modelValue={view.form.code} onModelChange={value => {

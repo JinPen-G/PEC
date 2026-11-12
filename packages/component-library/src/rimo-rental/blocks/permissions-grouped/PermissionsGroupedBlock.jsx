@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { useRimoModel, rimoEntries } from '../../lib/rimo-model.js';
 import { RimoRoot, RimoIcon, useRimoEnvironment } from '../../lib/RimoEnvironment.jsx';
-import { RimoElement, rimoClass, rimoStyle, rimoText } from '../../lib/RimoElements.jsx';
+import { RimoElement, RimoCheckbox, rimoClass, rimoStyle, rimoText } from '../../lib/RimoElements.jsx';
 import './permissions-grouped.css';
 function createPageState(model) {
   const _document = model.document;
@@ -432,24 +432,24 @@ export default function PermissionsGroupedBlock() {
                 model.write(["visibleGroupIds"], value);
               }} className="scope-group" aria-label="顯示業務分組">{rimoEntries(view.businessGroups).map(([group], _itemIndex) => <Fragment key={group.id}><RimoElement kind="el-checkbox" key={group.id} value={group.id}>{rimoText(group.name)}</RimoElement></Fragment>)}</RimoElement></div></div>
 <div className="grouped-scroll" role="region" aria-label="分組權限配置" tabIndex="0">{rimoEntries(view.visibleBusinessMenus).map(([menu], _itemIndex) => <Fragment key={menu.id}><section key={menu.id} className="route-section" data-menu={menu.id}><div className="route-heading"><h3>{rimoText(menu.name)}</h3>
-<label className="permission-check"><input type="checkbox" aria-label={menu.name + '全部權限'} checked={view.isAllSelected(view.menuPermissionIds(menu))} indeterminate={view.isPartiallySelected(view.menuPermissionIds(menu))} onChange={event => {
+<label className="permission-check"><RimoCheckbox type="checkbox" aria-label={menu.name + '全部權限'} checked={view.isAllSelected(view.menuPermissionIds(menu))} indeterminate={view.isPartiallySelected(view.menuPermissionIds(menu))} onChange={event => {
                       view.togglePermissions(view.menuPermissionIds(menu), event.target.checked);
                     }} />
 <span>{text("全選")}</span></label></div>
 <div className="route-permissions">{rimoEntries(view.visibleBusinesses).map(([business], _itemIndex) => <Fragment key={business.id}><>{menu.permissions[business.id] ? <><section className="business-permission-group" data-business={business.id}>{business.group !== 'GOV' ? <><h4 className="business-title"><label className="permission-check"><span>{rimoText(business.name)}</span>
-<input type="checkbox" aria-label={business.name + '・' + menu.name + '全選'} checked={view.isAllSelected(view.permissionIds(menu.permissions[business.id]))} indeterminate={view.isPartiallySelected(view.permissionIds(menu.permissions[business.id]))} onChange={event => {
+<RimoCheckbox type="checkbox" aria-label={business.name + '・' + menu.name + '全選'} checked={view.isAllSelected(view.permissionIds(menu.permissions[business.id]))} indeterminate={view.isPartiallySelected(view.permissionIds(menu.permissions[business.id]))} onChange={event => {
                                   view.togglePermissions(view.permissionIds(menu.permissions[business.id]), event.target.checked);
                                 }} /></label></h4></> : null}
-<div className="permission-grid">{rimoEntries(menu.permissions[business.id]).map(([permission], _itemIndex) => <Fragment key={permission.id}><label key={permission.id} className="permission-check permission-option"><input type="checkbox" data-permission={permission.id} aria-label={business.name + '・' + menu.name + '・' + permission.name} checked={view.currentRole.permissions.includes(permission.id)} onChange={event => {
+<div className="permission-grid">{rimoEntries(menu.permissions[business.id]).map(([permission], _itemIndex) => <Fragment key={permission.id}><label key={permission.id} className="permission-check permission-option"><RimoCheckbox type="checkbox" data-permission={permission.id} aria-label={business.name + '・' + menu.name + '・' + permission.name} checked={view.currentRole.permissions.includes(permission.id)} onChange={event => {
                                   view.togglePermission(permission, event.target.checked);
                                 }} />
 <span>{rimoText(permission.name)}</span></label></Fragment>)}</div></section></> : null}</></Fragment>)}</div></section></Fragment>)}
 {rimoEntries(view.sharedMenus).map(([menu], _itemIndex) => <Fragment key={menu.id}><section key={menu.id} className="route-section" data-menu={menu.id}><div className="route-heading"><h3>{rimoText(menu.name)}</h3>
-<label className="permission-check"><input type="checkbox" aria-label={menu.name + '全選'} checked={view.isAllSelected(view.permissionIds(menu.shared))} indeterminate={view.isPartiallySelected(view.permissionIds(menu.shared))} onChange={event => {
+<label className="permission-check"><RimoCheckbox type="checkbox" aria-label={menu.name + '全選'} checked={view.isAllSelected(view.permissionIds(menu.shared))} indeterminate={view.isPartiallySelected(view.permissionIds(menu.shared))} onChange={event => {
                       view.togglePermissions(view.permissionIds(menu.shared), event.target.checked);
                     }} />
 <span>{text("全選")}</span></label></div>
-<div className="route-permissions"><div className="permission-grid">{rimoEntries(menu.shared).map(([permission], _itemIndex) => <Fragment key={permission.id}><label key={permission.id} className="permission-check permission-option"><input type="checkbox" data-permission={permission.id} aria-label={menu.name + '・' + permission.name} checked={view.currentRole.permissions.includes(permission.id)} onChange={event => {
+<div className="route-permissions"><div className="permission-grid">{rimoEntries(menu.shared).map(([permission], _itemIndex) => <Fragment key={permission.id}><label key={permission.id} className="permission-check permission-option"><RimoCheckbox type="checkbox" data-permission={permission.id} aria-label={menu.name + '・' + permission.name} checked={view.currentRole.permissions.includes(permission.id)} onChange={event => {
                           view.togglePermission(permission, event.target.checked);
                         }} />
 <span>{rimoText(permission.name)}</span></label></Fragment>)}</div></div></section></Fragment>)}</div>

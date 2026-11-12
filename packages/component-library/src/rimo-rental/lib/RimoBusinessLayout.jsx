@@ -33,11 +33,15 @@ export function RimoSection({ title, description, actions, children }) {
   );
 }
 
-export function RimoDialog({ pageKey, children, ...props }) {
+export function RimoDialog({ pageKey, children, mask, maskClosable, ...props }) {
   const { controls, text } = useRimoEnvironment();
+  const backdrop = mask === false || maskClosable === undefined
+    ? mask
+    : { ...(typeof mask === 'object' ? mask : {}), closable: maskClosable };
   return (
     <controls.Modal
       {...props}
+      mask={backdrop}
       title={text(props.title ?? '详情')}
       okText={props.okText ?? text('保存')}
       cancelText={props.cancelText ?? text('取消')}

@@ -165,9 +165,6 @@
 :where([data-rimo-page="enterprise-official-vehicle-reminders"], [data-rimo-overlay="enterprise-official-vehicle-reminders"]) .bg-white {
   background-color: var(--color-white);
 }
-:where([data-rimo-page="enterprise-official-vehicle-reminders"], [data-rimo-overlay="enterprise-official-vehicle-reminders"]) .p-4 {
-  padding: calc(var(--spacing) * 4);
-}
 :where([data-rimo-page="enterprise-official-vehicle-reminders"], [data-rimo-overlay="enterprise-official-vehicle-reminders"]) .p-5 {
   padding: calc(var(--spacing) * 5);
 }
@@ -424,7 +421,7 @@
             background: var(--app-color-surface-subtle);
             color: var(--app-color-text-secondary);
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-official-vehicle-reminders"], [data-rimo-overlay="enterprise-official-vehicle-reminders"]) .el-pagination .el-pagination__jump {
           display: none;
         }

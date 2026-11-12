@@ -737,7 +737,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
             view.openAddVehicleModal?.(event);
           }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 新增車輛\n                                ")}</RimoElement></div></div>
-<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl shadow-sm border p-5 flex flex-col cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'total' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} onClick={_event => {
+<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-grid="4" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl shadow-sm border p-5 flex flex-col cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'total' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} onClick={_event => {
           view.applySummaryFilter('total');
         }} data-rimo-layout="stat"><span className="text-sm text-gray-500 font-medium mb-1">{text("總車輛數")}</span>
 <span className="card-value text-gray-800">{rimoText(view.stats.total)}</span></div>
@@ -862,7 +862,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
             model.write(["activeAddVehicleTab"], value);
           }} className="flex-1 overflow-hidden"><RimoElement kind="el-tab-pane" label="基礎資料" name="BASIC" className="h-full overflow-y-auto custom-scroll pr-2"><RimoElement kind="el-divider" contentPosition="left"><RimoElement kind="el-icon"><RimoIcon name="Tickets" /></RimoElement>
 {text(" 車輛識別")}</RimoElement>
-<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="車牌號碼" required={true}><div className="flex items-end gap-2"><RimoElement kind="el-input" modelValue={view.addVehicleForm.plateNo} onModelChange={value => {
+<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="車牌號碼" required={true}><div className="flex items-end gap-2"><RimoElement kind="el-input" modelValue={view.addVehicleForm.plateNo} onModelChange={value => {
                       model.write(["addVehicleForm", "plateNo"], value);
                     }} placeholder="請輸入車牌號碼" className="flex-1"></RimoElement>
 <RimoElement kind="el-button" type="primary" plain={true} onClick={event => {
@@ -895,7 +895,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
                   }} placeholder="請輸入引擎編號" className="w-full"></RimoElement></RimoElement></div>
 <RimoElement kind="el-divider" contentPosition="left"><RimoElement kind="el-icon"><RimoIcon name="OfficeBuilding" /></RimoElement>
 {text(" 資產歸屬與位置")}</RimoElement>
-<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="資產歸屬分公司" required={true}><RimoElement kind="el-select" modelValue={view.addVehicleForm.assetBranch} onModelChange={value => {
+<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="資產歸屬分公司" required={true}><RimoElement kind="el-select" modelValue={view.addVehicleForm.assetBranch} onModelChange={value => {
                     model.write(["addVehicleForm", "assetBranch"], value);
                   }} placeholder="請選擇資產歸屬分公司" className="w-full" onChange={event => {
                     view.handleAddVehicleBranchChange?.(event);
@@ -921,7 +921,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
 <RimoElement kind="el-radio" label="archived">{text("封存")}</RimoElement></RimoElement></RimoElement></div></RimoElement>
 <RimoElement kind="el-tab-pane" label="規格資料" name="SPEC" className="h-full overflow-y-auto custom-scroll pr-2"><RimoElement kind="el-divider" contentPosition="left"><RimoElement kind="el-icon"><RimoIcon name="Van" /></RimoElement>
 {text(" 車輛規格")}</RimoElement>
-<div className="grid grid-cols-3 gap-x-6 gap-y-2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="是否國產"><RimoElement kind="el-select" modelValue={view.addVehicleForm.domesticFlag} onModelChange={value => {
+<div className="grid grid-cols-3 gap-x-6 gap-y-2" data-rimo-grid="3" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="是否國產"><RimoElement kind="el-select" modelValue={view.addVehicleForm.domesticFlag} onModelChange={value => {
                     model.write(["addVehicleForm", "domesticFlag"], value);
                   }} placeholder="請選擇" className="w-full"><RimoElement kind="el-option" label="國產" value="domestic"></RimoElement>
 <RimoElement kind="el-option" label="進口" value="imported"></RimoElement></RimoElement></RimoElement>
@@ -959,7 +959,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
                   }} placeholder="請輸入行李箱容量" className="w-full"></RimoElement></RimoElement></div></RimoElement>
 <RimoElement kind="el-tab-pane" label="運營配置" name="OPS" className="h-full overflow-y-auto custom-scroll pr-2"><RimoElement kind="el-divider" contentPosition="left"><RimoElement kind="el-icon"><RimoIcon name="PriceTag" /></RimoElement>
 {text(" 標籤與設備")}</RimoElement>
-<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="車輛標籤"><RimoElement kind="el-select" modelValue={view.addVehicleForm.tagIds} onModelChange={value => {
+<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="車輛標籤"><RimoElement kind="el-select" modelValue={view.addVehicleForm.tagIds} onModelChange={value => {
                     model.write(["addVehicleForm", "tagIds"], value);
                   }} multiple={true} collapseTags={true} collapseTagsTooltip={true} filterable={true} placeholder="請選擇車輛標籤" className="w-full">{rimoEntries(view.addVehicleTagOptions).map(([item], _itemIndex) => <Fragment key={item.value}><RimoElement kind="el-option" key={item.value} label={item.label} value={item.value}></RimoElement></Fragment>)}</RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="車機編號"><RimoElement kind="el-select" modelValue={view.addVehicleForm.deviceCode} onModelChange={value => {
@@ -989,7 +989,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
 <div className="text-gray-400 mt-1">{text("第 ")}{rimoText(index + 1)}{text(" 張")}</div></div></div></Fragment>)}</div></div></RimoElement>
 <RimoElement kind="el-tab-pane" label="維保保險" name="HEALTH" className="h-full overflow-y-auto custom-scroll pr-2"><RimoElement kind="el-divider" contentPosition="left"><RimoElement kind="el-icon"><RimoIcon name="Tools" /></RimoElement>
 {text(" 維保資料")}</RimoElement>
-<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="上次保養里程"><RimoElement kind="el-input" modelValue={view.addVehicleForm.lastMaintenanceMileage} onModelChange={value => {
+<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="上次保養里程"><RimoElement kind="el-input" modelValue={view.addVehicleForm.lastMaintenanceMileage} onModelChange={value => {
                     model.write(["addVehicleForm", "lastMaintenanceMileage"], value);
                   }} placeholder="請輸入上次保養里程" className="w-full" slots={{
                     "append": _slot => <>{text("km")}</>
@@ -1002,7 +1002,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
                   }} type="date" placeholder="請選擇日期" format="YYYY/MM/DD" valueFormat="YYYY/MM/DD" style={rimoStyle("width: 100%")}></RimoElement></RimoElement></div>
 <RimoElement kind="el-divider" contentPosition="left"><RimoElement kind="el-icon"><RimoIcon name="Document" /></RimoElement>
 {text(" 保險資料")}</RimoElement>
-<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="保單號碼"><RimoElement kind="el-input" modelValue={view.addVehicleForm.policyNo} onModelChange={value => {
+<div className="grid grid-cols-2 gap-x-6 gap-y-2" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="保單號碼"><RimoElement kind="el-input" modelValue={view.addVehicleForm.policyNo} onModelChange={value => {
                     model.write(["addVehicleForm", "policyNo"], value);
                   }} placeholder="請輸入保單號碼" className="w-full"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="保險類型"><RimoElement kind="el-select" modelValue={view.addVehicleForm.insuranceType} onModelChange={value => {
@@ -1042,7 +1042,7 @@ export default function EnterpriseOfficialVehiclesBlock() {
 <RimoElement kind="el-dialog" modelValue={view.modals.contract} onModelChange={value => {
       model.write(["modals", "contract"], value);
     }} title="更換綁定合約" width="500px" className="official-vehicles-overlay" slots={{
-      "footer": _slot => <><div className="flex justify-between items-center w-full">{view.hasBoundContractsInSelection ? <><RimoElement kind="el-button" type="danger" plain={true} onClick={event => {
+      "footer": _slot => <><div className="flex justify-between items-center w-full" data-rimo-layout="toolbar">{view.hasBoundContractsInSelection ? <><RimoElement kind="el-button" type="danger" plain={true} onClick={event => {
               view.unbindContract?.(event);
             }}>{text("解綁當前合約")}</RimoElement></> : null}
 <div className={rimoClass({

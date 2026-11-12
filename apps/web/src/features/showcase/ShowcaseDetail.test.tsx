@@ -38,19 +38,20 @@ const page = {
   access: 'public' as const,
   allowed: true,
 };
-function mount(markdown: string, allowed = true, summaryMarkdown?: string, registry?: ComponentRegistryReference) {
+function mount(markdown: string, allowed = true, summaryMarkdown?: string, registry?: ComponentRegistryReference, documentPath?: string, category = page.category) {
   request.mockImplementation((url: string) =>
     Promise.resolve(
       url.endsWith('/source')
         ? { source: 'export const page = true;', fileName: 'Page.tsx' }
         : {
             ...page,
+            category,
             entry: 'sample',
             styles: [],
             markdown,
             summaryMarkdown,
             summaryPath: summaryMarkdown ? 'requirements/page-summary.md' : null,
-            documents: [],
+            documents: documentPath ? [{ path: documentPath, title: '当前页面说明' }] : [],
             contentRevision: 'sample-revision',
             registry,
           },
@@ -60,12 +61,18 @@ function mount(markdown: string, allowed = true, summaryMarkdown?: string, regis
   return render(
     <QueryClientProvider client={client}>
       <MemoryRouter>
-        <Detail page={{ ...page, allowed }} />
+        <Detail page={{ ...page, category, allowed }} />
       </MemoryRouter>
     </QueryClientProvider>,
   );
 }
 describe('page PRD tabs and authorization', () => {
+  it('uses the full category without repeating its client prefix in the subtitle', async () => {
+    mount('页面说明。', true, undefined, undefined, undefined, '营运端 · 车辆管理');
+    expect(await screen.findByText('页面说明。')).toBeInTheDocument();
+    expect(screen.getByText('营运端 · 车辆管理', { selector: 'header p' })).toBeInTheDocument();
+    expect(screen.queryByText('营运端 · 营运端 · 车辆管理')).not.toBeInTheDocument();
+  });
   it('uses the page registry in the header and omits a fabricated install command when access is denied', async () => {
     const registry: ComponentRegistryReference = { name: 'vehicle-groups', kind: 'block', url: '/r/sample/vehicle-groups.json' };
     const view = mount('页面说明。', true, undefined, registry);
@@ -75,14 +82,28 @@ describe('page PRD tabs and authorization', () => {
     mount('页面说明。', false, undefined, registry);
     expect(screen.queryByRole('group', { name: '安装区块' })).toBeNull();
   });
-  it('puts page-specific key rules below the preview and reserves the full specification for the document tab', async () => {
+  it('renders a short page document with headings below the preview instead of replacing it with bullets', async () => {
     mount('# 调拨完整说明\n\n## 库存计算\n完整的库存计算规则。', true, '仅空闲车辆可调拨。');
-    const documentTab = await screen.findByRole('tab', { name: '文档' });
-    expect(await screen.findByText('仅空闲车辆可调拨。')).toBeInTheDocument();
-    expect(screen.queryByText('完整的库存计算规则。')).not.toBeInTheDocument();
-    fireEvent.click(documentTab);
     expect(await screen.findByText('完整的库存计算规则。')).toBeInTheDocument();
+    expect(screen.getByRole('heading', {name:'库存计算'})).toBeInTheDocument();
+    expect(screen.queryByRole('tab', {name:'文档'})).not.toBeInTheDocument();
     expect(screen.queryByText('仅空闲车辆可调拨。')).not.toBeInTheDocument();
+  });
+  it('opens a linked full PRD from a short page document and preserves the preview state', async () => {
+    mount('# 车辆\n\n## 使用规则\n[查看专项规则](../rules.md)', true, '简单摘要。', undefined, 'requirements/pages/vehicles.md');
+    const input = await screen.findByRole('textbox', { name: '原型筛选' });
+    fireEvent.change(input, { target: { value: 'RIMO-001' } });
+    const original = request.getMockImplementation()!;
+    request.mockImplementation((url: string) => url.includes('/document?')
+      ? Promise.resolve({ path: 'requirements/rules.md', title: '专项规则', markdown: '# 专项规则\n\n## 车辆可用性\n启用和营运状态分别校验。' })
+      : original(url));
+    fireEvent.click(await screen.findByRole('link', { name: '查看专项规则' }));
+    expect(await screen.findByText('启用和营运状态分别校验。')).toBeInTheDocument();
+    expect(request).toHaveBeenCalledWith(expect.stringContaining('/document?path=requirements%2Frules.md'));
+    expect(screen.getByRole('tab', { name: '文档' })).toHaveAttribute('aria-selected', 'true');
+    fireEvent.click(screen.getByRole('tab', { name: '预览' }));
+    expect(screen.getByRole('textbox', { name: '原型筛选' })).toHaveValue('RIMO-001');
+    expect(await screen.findByRole('heading', { name: '使用规则' })).toBeInTheDocument();
   });
   beforeEach(() => {
     request.mockReset();

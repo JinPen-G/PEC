@@ -924,7 +924,7 @@ export default function ChannelTicketBatchesBlock() {
             view.openBatchDialog();
           }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 新增批次\n                        ")}</RimoElement></div></div>
-<div className="grid grid-cols-4 gap-4 mb-5"><button type="button" onClick={_event => {
+<div className="grid grid-cols-4 gap-4 mb-5" data-rimo-grid="4"><button type="button" onClick={_event => {
           view.toggleBatchCard('ALL');
         }} className={rimoClass(["text-left bg-white rounded-lg border p-5 transition-all", rimoClass(view.activeBatchCard === 'ALL' ? 'border-[color:var(--app-color-primary)] ring-2 ring-[color:var(--app-color-primary-light-8)]' : 'border-gray-200 hover:border-[color:var(--app-color-primary-light-7)]')])}><div className="text-sm text-gray-500">{text("全部批次")}</div>
 <div className="text-[28px] leading-tight font-bold text-gray-800 mt-1">{rimoText(view.batchStats.total)}</div></button>
@@ -940,56 +940,43 @@ export default function ChannelTicketBatchesBlock() {
           view.toggleBatchCard('待導入名單');
         }} className={rimoClass(["text-left bg-white rounded-lg border p-5 transition-all", rimoClass(view.activeBatchCard === '待導入名單' ? 'border-[color:var(--app-color-primary)] ring-2 ring-[color:var(--app-color-primary-light-8)]' : 'border-gray-200 hover:border-[color:var(--app-color-primary-light-7)]')])}><div className="text-sm text-gray-500">{text("待導入名單")}</div>
 <div className="text-[28px] leading-tight font-bold text-amber-500 mt-1">{rimoText(view.batchStats.pendingImport)}</div></button></div>
-<section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"><div className="p-4 border-b border-gray-100 bg-gray-50"><div ref={model.ref("filterToolbar")} className="adaptive-filter-toolbar flex flex-wrap items-center justify-between gap-3"><div className="adaptive-filter-controls flex flex-wrap items-center gap-3"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
-                model.write(["filters", "keyword"], value);
-              }} placeholder="批次名稱 / 批次編號" clearable={true} className="w-56"></RimoElement>
-{view.filterLayoutTier >= 2 ? <><RimoElement kind="el-select" modelValue={view.filters.enterprise} onModelChange={value => {
+<section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden" data-rimo-layout="list"><RimoElement kind="el-table" data={view.filteredBatches} className="w-full" rowKey="id" slots={{
+          "toolbar": _slot => <><div className="adaptive-filter-toolbar flex flex-wrap items-center justify-between gap-3"><div className="adaptive-filter-controls flex flex-wrap items-center gap-3"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
+                  model.write(["filters", "keyword"], value);
+                }} placeholder="批次名稱 / 批次編號" clearable={true} className="w-56"></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.enterprise} onModelChange={value => {
                   model.write(["filters", "enterprise"], value);
                 }} placeholder="合作通路企業" clearable={true} className="w-52"><RimoElement kind="el-option" label="金門風獅爺旅行社" value="金門風獅爺旅行社"></RimoElement>
 <RimoElement kind="el-option" label="金門藍灣旅行社" value="金門藍灣旅行社"></RimoElement>
 <RimoElement kind="el-option" label="海峽科技股份有限公司" value="海峽科技股份有限公司"></RimoElement>
-<RimoElement kind="el-option" label="金門環島假期" value="金門環島假期"></RimoElement></RimoElement></> : null}
+<RimoElement kind="el-option" label="金門環島假期" value="金門環島假期"></RimoElement></RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.status} onModelChange={value => {
-                model.write(["filters", "status"], value);
-              }} placeholder="批次狀態" clearable={true} className="w-36" onChange={event => {
-                view.syncBatchCard?.(event);
-              }}><RimoElement kind="el-option" label="待導入名單" value="待導入名單"></RimoElement>
+                  model.write(["filters", "status"], value);
+                }} placeholder="批次狀態" clearable={true} className="w-36" onChange={event => {
+                  view.syncBatchCard?.(event);
+                }}><RimoElement kind="el-option" label="待導入名單" value="待導入名單"></RimoElement>
 <RimoElement kind="el-option" label="啓用" value="啓用"></RimoElement>
 <RimoElement kind="el-option" label="停用" value="停用"></RimoElement></RimoElement>
-{view.filterLayoutTier >= 3 ? <><RimoElement kind="el-select" modelValue={view.filters.issueMode} onModelChange={value => {
+<RimoElement kind="el-select" modelValue={view.filters.issueMode} onModelChange={value => {
                   model.write(["filters", "issueMode"], value);
                 }} placeholder="發券方式" clearable={true} className="w-40"><RimoElement kind="el-option" label="名單發放" value="LIST"></RimoElement>
-<RimoElement kind="el-option" label="數量生成" value="QUANTITY"></RimoElement></RimoElement></> : null}
-<RimoElement kind="el-button" type="primary" icon="Filter" plain={true} onClick={_event => {
-                model.write(["moreFiltersVisible"], !view.moreFiltersVisible);
-              }}>{text("\n                                    ")}{rimoText(view.moreFiltersVisible ? '收起篩選' : '更多篩選')}{text("\n                                ")}</RimoElement>
+<RimoElement kind="el-option" label="數量生成" value="QUANTITY"></RimoElement></RimoElement>
 <RimoElement kind="el-tooltip" content="重置篩選" placement="top"><RimoElement kind="el-button" circle={true} onClick={event => {
-                  view.resetFilters?.(event);
-                }}><RimoElement kind="el-icon"><RimoIcon name="Refresh" /></RimoElement></RimoElement></RimoElement></div>
-<div className="text-sm text-gray-500">{text("共 ")}{rimoText(view.filteredBatches.length)}{text(" 個批次")}</div></div>
-<div hidden={!view.moreFiltersVisible} className="mt-3 border-t border-gray-200 pt-3"><div className="adaptive-filter-controls flex flex-wrap items-center gap-3">{view.filterLayoutTier < 2 ? <><RimoElement kind="el-select" modelValue={view.filters.enterprise} onModelChange={value => {
-                  model.write(["filters", "enterprise"], value);
-                }} placeholder="合作通路企業" clearable={true} className="w-52"><RimoElement kind="el-option" label="金門風獅爺旅行社" value="金門風獅爺旅行社"></RimoElement>
-<RimoElement kind="el-option" label="金門藍灣旅行社" value="金門藍灣旅行社"></RimoElement>
-<RimoElement kind="el-option" label="海峽科技股份有限公司" value="海峽科技股份有限公司"></RimoElement>
-<RimoElement kind="el-option" label="金門環島假期" value="金門環島假期"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier < 3 ? <><RimoElement kind="el-select" modelValue={view.filters.issueMode} onModelChange={value => {
-                  model.write(["filters", "issueMode"], value);
-                }} placeholder="發券方式" clearable={true} className="w-40"><RimoElement kind="el-option" label="名單發放" value="LIST"></RimoElement>
-<RimoElement kind="el-option" label="數量生成" value="QUANTITY"></RimoElement></RimoElement></> : null}
-<RimoElement kind="el-select" modelValue={view.filters.stationTypes} onModelChange={value => {
-                model.write(["filters", "stationTypes"], value);
-              }} placeholder="適用據點類型" clearable={true} filterable={true} multiple={true} collapseTags={true} collapseTagsTooltip={true} className="w-64" onChange={event => {
-                view.handleFilterStationTypeChange?.(event);
-              }}>{rimoEntries(view.stationTypeOptions).map(([option], _itemIndex) => <Fragment key={option.value}><RimoElement kind="el-option" key={option.value} label={option.label} value={option.value}><div className="flex items-center justify-between gap-3 w-full"><span>{rimoText(option.label)}</span>
+                    view.resetFilters?.(event);
+                  }} icon="Refresh" data-rimo-filter-reset="true" aria-label="重置筛选"></RimoElement></RimoElement></div></div>
+<div className="mt-3 border-t border-gray-200 pt-3"><div className="adaptive-filter-controls flex flex-wrap items-center gap-3"><RimoElement kind="el-select" modelValue={view.filters.stationTypes} onModelChange={value => {
+                  model.write(["filters", "stationTypes"], value);
+                }} placeholder="適用據點類型" clearable={true} filterable={true} multiple={true} collapseTags={true} collapseTagsTooltip={true} className="w-64" onChange={event => {
+                  view.handleFilterStationTypeChange?.(event);
+                }} data-rimo-secondary="true">{rimoEntries(view.stationTypeOptions).map(([option], _itemIndex) => <Fragment key={option.value}><RimoElement kind="el-option" key={option.value} label={option.label} value={option.value}><div className="flex items-center justify-between gap-3 w-full"><span>{rimoText(option.label)}</span>
 <RimoElement kind="el-tag" size="small" type={view.getStationTypeEntryTagType(option)} effect="plain">{text("\n                                                ")}{rimoText(view.getStationTypeEntryText(option))}{text("\n                                            ")}</RimoElement></div></RimoElement></Fragment>)}</RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.station} onModelChange={value => {
-                model.write(["filters", "station"], value);
-              }} placeholder="適用據點" clearable={true} filterable={true} className="w-56">{rimoEntries(view.filterStationOptions).map(([option], _itemIndex) => <Fragment key={option.value}><RimoElement kind="el-option" key={option.value} label={option.label} value={option.value}></RimoElement></Fragment>)}</RimoElement>
+                  model.write(["filters", "station"], value);
+                }} placeholder="適用據點" clearable={true} filterable={true} className="w-56" data-rimo-secondary="true">{rimoEntries(view.filterStationOptions).map(([option], _itemIndex) => <Fragment key={option.value}><RimoElement kind="el-option" key={option.value} label={option.label} value={option.value}></RimoElement></Fragment>)}</RimoElement>
 <div className="ticket-filter-daterange-wrap"><RimoElement kind="el-date-picker" modelValue={view.filters.pickupRange} onModelChange={value => {
-                  model.write(["filters", "pickupRange"], value);
-                }} type="datetimerange" rangeSeparator="至" startPlaceholder="取車開始" endPlaceholder="取車結束" valueFormat="YYYY-MM-DD HH:mm:ss" className="ticket-filter-daterange"></RimoElement></div></div></div></div>
-<RimoElement kind="el-table" data={view.filteredBatches} className="w-full" rowKey="id"><RimoElement kind="el-table-column" prop="batchNo" label="批次編號" width="170"></RimoElement>
+                    model.write(["filters", "pickupRange"], value);
+                  }} type="datetimerange" rangeSeparator="至" startPlaceholder="取車開始" endPlaceholder="取車結束" valueFormat="YYYY-MM-DD HH:mm:ss" className="ticket-filter-daterange" data-rimo-secondary="true"></RimoElement></div></div></div></>
+        }}><RimoElement kind="el-table-column" prop="batchNo" label="批次編號" width="170"></RimoElement>
 <RimoElement kind="el-table-column" label="批次名稱" minWidth="180" slots={{
             "default": ({
               row
@@ -1081,7 +1068,7 @@ export default function ChannelTicketBatchesBlock() {
 <td>{text("未使用 ")}{rimoText(view.currentBatch.unusedCount)}{text(" / 已使用 ")}{rimoText(view.currentBatch.usedCount)}{text(" / 已過期 ")}{rimoText(view.currentBatch.expiredCount)}</td>
 <th>{text("庫存口徑")}</th>
 <td>{text("不保留車輛，按實時可用車輛查詢")}</td></tr></tbody></RimoTable>
-<div><div className="flex items-center justify-between mb-3"><h3 className="font-semibold text-gray-900">{text("租車券列表")}</h3>
+<div><div className="flex items-center justify-between mb-3" data-rimo-layout="toolbar"><h3 className="font-semibold text-gray-900">{text("租車券列表")}</h3>
 <div className="flex items-center gap-3"><span className="text-xs text-gray-500">{text("創建訂單即已使用；訂單取消後未過期前恢復未使用，可重新預約")}</span>
 <RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={event => {
                     view.openAddTicketDialog?.(event);
@@ -1167,7 +1154,7 @@ export default function ChannelTicketBatchesBlock() {
 <RimoElement kind="el-button" type="primary" onClick={event => {
           view.saveBatchMock?.(event);
         }}>{text("保存")}</RimoElement></>
-    }}>{() => <><RimoElement kind="el-form" labelWidth="120px"><div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="批次名稱" required={true}><RimoElement kind="el-input" modelValue={view.batchForm.name} onModelChange={value => {
+    }}>{() => <><RimoElement kind="el-form" labelWidth="120px"><div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="批次名稱" required={true}><RimoElement kind="el-input" modelValue={view.batchForm.name} onModelChange={value => {
                 model.write(["batchForm", "name"], value);
               }} placeholder="例如：海峽科技員工活動租車券"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="所屬合作企業" required={true}><RimoElement kind="el-select" modelValue={view.batchForm.enterprise} onModelChange={value => {
@@ -1186,7 +1173,7 @@ export default function ChannelTicketBatchesBlock() {
             }}><RimoElement kind="el-radio-button" label="FIXED_PERIOD">{text("固定取還車時間")}</RimoElement>
 <RimoElement kind="el-radio-button" label="FIXED_DURATION" disabled={true}>{text("固定租用時長（預留）")}</RimoElement></RimoElement>
 <div className="mt-1 text-xs text-gray-500">{text("固定租用時長用於金門後續迭代及臺灣市場擴展，本期不可選擇。")}</div></RimoElement>
-<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="適用據點類型" required={true}><RimoElement kind="el-select" modelValue={view.batchForm.stationTypes} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="適用據點類型" required={true}><RimoElement kind="el-select" modelValue={view.batchForm.stationTypes} onModelChange={value => {
                 model.write(["batchForm", "stationTypes"], value);
               }} placeholder="請選擇適用據點類型" filterable={true} className="w-full" multiple={true} collapseTags={true} collapseTagsTooltip={true} onChange={event => {
                 view.handleStationTypeChange?.(event);
@@ -1197,13 +1184,13 @@ export default function ChannelTicketBatchesBlock() {
                 model.write(["batchForm", "stations"], value);
               }} placeholder="請選擇適用據點" filterable={true} className="w-full" multiple={true} collapseTags={true} collapseTagsTooltip={true}>{rimoEntries(view.availableStationOptions).map(([option], _itemIndex) => <Fragment key={option.value}><RimoElement kind="el-option" key={option.value} label={option.label} value={option.value}></RimoElement></Fragment>)}</RimoElement>
 <div className="mt-1 text-xs text-gray-500">{text("用券人只能在本批次選定的據點範圍內查詢車輛和預約訂單。")}</div></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="取車時間" required={true}><RimoElement kind="el-date-picker" modelValue={view.batchForm.pickupAt} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="取車時間" required={true}><RimoElement kind="el-date-picker" modelValue={view.batchForm.pickupAt} onModelChange={value => {
                 model.write(["batchForm", "pickupAt"], value);
               }} type="datetime" placeholder="選擇取車時間" className="w-full" style={rimoStyle("width: 100%;")}></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="還車時間" required={true}><RimoElement kind="el-date-picker" modelValue={view.batchForm.returnAt} onModelChange={value => {
                 model.write(["batchForm", "returnAt"], value);
               }} type="datetime" placeholder="選擇還車時間" className="w-full" style={rimoStyle("width: 100%;")}></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="可用開始時間"><RimoElement kind="el-date-picker" modelValue={view.batchForm.availableStartAt} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="可用開始時間"><RimoElement kind="el-date-picker" modelValue={view.batchForm.availableStartAt} onModelChange={value => {
                 model.write(["batchForm", "availableStartAt"], value);
               }} type="datetime" placeholder="正式批次建立時自動生成" className="w-full" style={rimoStyle("width: 100%;")} disabled={true}></RimoElement>
 <div className="mt-1 text-xs text-gray-500">{text("系統固定取正式批次建立成功時間，不提供人工選擇。")}</div></RimoElement>
@@ -1216,7 +1203,7 @@ export default function ChannelTicketBatchesBlock() {
             }}><RimoElement kind="el-radio-button" label="LIST">{text("名單發放")}</RimoElement>
 <RimoElement kind="el-radio-button" label="QUANTITY">{text("數量生成")}</RimoElement></RimoElement>
 <div className="mt-1 text-xs text-gray-500">{text("兩種方式都固定取還車時間；數量生成後由合作企業對外發放兌換碼，用戶在 APP 主動兌換。")}</div></RimoElement>
-<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-layout="form-grid">{view.batchForm.issueMode === 'QUANTITY' ? <><RimoElement kind="el-form-item" label="租車券數量" required={true}><RimoElement kind="el-input-number" modelValue={view.batchForm.totalCount} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" style={rimoStyle("align-items: flex-start;")} data-rimo-grid="2" data-rimo-layout="form-grid">{view.batchForm.issueMode === 'QUANTITY' ? <><RimoElement kind="el-form-item" label="租車券數量" required={true}><RimoElement kind="el-input-number" modelValue={view.batchForm.totalCount} onModelChange={value => {
                   model.write(["batchForm", "totalCount"], value);
                 }} min={0} max={999} className="w-full"></RimoElement>
 <div className="mt-1 text-xs text-gray-500">{text("數量生成時由營運人員填寫。")}</div></RimoElement></> : null}
@@ -1225,7 +1212,7 @@ export default function ChannelTicketBatchesBlock() {
                   model.write(["batchForm", "status"], value);
                 }}><RimoElement kind="el-radio-button" label="啓用"></RimoElement>
 <RimoElement kind="el-radio-button" label="停用"></RimoElement></RimoElement></>}</RimoElement></div>
-{view.batchForm.issueMode === 'LIST' ? <><RimoElement kind="el-form-item" label="用券人名單"><div className="w-full"><div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-4"><div className="flex items-center justify-between gap-3"><div><div className="text-sm font-semibold text-gray-900">{text("名單發放")}</div>
+{view.batchForm.issueMode === 'LIST' ? <><RimoElement kind="el-form-item" label="用券人名單"><div className="w-full"><div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-4"><div className="flex items-center justify-between gap-3" data-rimo-layout="toolbar"><div><div className="text-sm font-semibold text-gray-900">{text("名單發放")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("支持創建時導入，也可先保存批次後在詳情頁導入 / 追加名單；不支持覆蓋原名單。")}</div></div>
 <RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={event => {
                       view.openImportDialog?.(event);
@@ -1262,7 +1249,7 @@ export default function ChannelTicketBatchesBlock() {
 <RimoElement kind="el-button" type="primary" disabled={!view.importPreviewReady || view.importSummary.status !== 'success'} onClick={event => {
           view.confirmImportVisitors?.(event);
         }}>{text("確認匯入")}</RimoElement></>
-    }}>{() => <><div className="space-y-4"><div className="rounded-lg border border-slate-200 bg-slate-50 p-4"><div className="flex items-center justify-between gap-3"><div><div className="text-sm font-semibold text-gray-900">{text("名單模板")}</div>
+    }}>{() => <><div className="space-y-4"><div className="rounded-lg border border-slate-200 bg-slate-50 p-4"><div className="flex items-center justify-between gap-3" data-rimo-layout="toolbar"><div><div className="text-sm font-semibold text-gray-900">{text("名單模板")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("模板字段：用券人姓名、證件號碼，不包含證件類型。同一批次證件號碼不得重複；後續只允許追加導入。")}</div></div>
 <RimoElement kind="el-button" plain={true} size="small" onClick={event => {
                 view.downloadTemplateMock?.(event);
@@ -1280,7 +1267,7 @@ export default function ChannelTicketBatchesBlock() {
 {view.importPreviewReady ? <><div className="rounded-lg border border-blue-100 bg-blue-50 p-4"><RimoElement kind="el-alert" title={view.importSummary.status === 'success' ? '導入成功' : '導入異常'} type={view.importSummary.status === 'success' ? 'success' : 'error'} showIcon={true} closable={false} slots={{
                 "default": _slot => <>{rimoText(view.importSummary.message)}</>
               }}></RimoElement>
-{view.importSummary.status === 'success' ? <><div className="grid grid-cols-3 gap-3 mt-3 text-sm"><div className="bg-white rounded-lg border border-blue-100 p-3"><div className="text-gray-500 text-xs">{text("名單行數")}</div>
+{view.importSummary.status === 'success' ? <><div className="grid grid-cols-3 gap-3 mt-3 text-sm" data-rimo-grid="3"><div className="bg-white rounded-lg border border-blue-100 p-3"><div className="text-gray-500 text-xs">{text("名單行數")}</div>
 <div className="font-semibold text-gray-900">{rimoText(view.importSummary.total)}{text(" 行")}</div></div>
 <div className="bg-white rounded-lg border border-blue-100 p-3"><div className="text-gray-500 text-xs">{text("已匹配會員")}</div>
 <div className="font-semibold text-emerald-700">{rimoText(view.importSummary.matched)}{text(" 行")}</div></div>

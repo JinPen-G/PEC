@@ -428,9 +428,6 @@
 :where([data-rimo-page="marketing"], [data-rimo-overlay="marketing"]) .py-3 {
   padding-block: calc(var(--spacing) * 3);
 }
-:where([data-rimo-page="marketing"], [data-rimo-overlay="marketing"]) .py-4 {
-  padding-block: calc(var(--spacing) * 4);
-}
 :where([data-rimo-page="marketing"], [data-rimo-overlay="marketing"]) .pt-0 {
   padding-top: 0px;
 }
@@ -942,7 +939,7 @@
             min-width: 72px;
         }
 
-        @media (max-width: 860px) {
+        @container (max-width: 860px) {
             :where([data-rimo-page="marketing"], [data-rimo-overlay="marketing"]) .prototype-permission-switcher {
                 right: 12px;
                 bottom: 12px;
@@ -950,7 +947,7 @@
                 overflow-x: auto;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="marketing"], [data-rimo-overlay="marketing"]) .el-pagination .el-pagination__jump {
           display: none;
         }

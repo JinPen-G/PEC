@@ -351,14 +351,14 @@ export default function EnterpriseChannelTicketBatchDetailBlock() {
   const {
     text
   } = useRimoEnvironment();
-  return <RimoRoot model={model} pageKey="enterprise-channel-ticket-batch-detail" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="flex justify-between items-end mb-6"><div><div className="flex items-center gap-3 mb-2"><RimoElement kind="el-button" plain={true} onClick={event => {
+  return <RimoRoot model={model} pageKey="enterprise-channel-ticket-batch-detail" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="flex justify-between items-end mb-6" data-rimo-layout="toolbar"><div><div className="flex items-center gap-3 mb-2"><RimoElement kind="el-button" plain={true} onClick={event => {
               view.goBack?.(event);
             }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Back" /></RimoElement>
 {text(" 返回列表\n                            ")}</RimoElement></div>
 <div className="flex items-center gap-3" data-rimo-layout="heading"><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{rimoText(view.currentBatch.name)}</h1>
 <RimoElement kind="el-tag" type={view.getBatchStatusType(view.currentBatch.status)} effect="plain">{rimoText(view.currentBatch.status)}</RimoElement></div>
 <p className="text-gray-500 text-sm mt-1">{rimoText(view.currentBatch.batchNo)}{text(" ｜ 企業端只讀查看，不支持新增、編輯、啓停、導入或作廢。")}</p></div></div>
-<div className="grid grid-cols-5 gap-4 mb-6"><div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5"><span className="text-sm text-gray-500 font-medium mb-1 block">{text("租車券總數")}</span>
+<div className="grid grid-cols-5 gap-4 mb-6" data-rimo-grid="5"><div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5"><span className="text-sm text-gray-500 font-medium mb-1 block">{text("租車券總數")}</span>
 <span className="card-value text-gray-800">{rimoText(view.currentBatch.totalCount)}</span></div>
 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5"><span className="text-sm text-gray-500 font-medium mb-1 block">{rimoText(view.currentBatch.issueMode === 'LIST' ? '已發放' : '已領取')}</span>
 <span className="card-value text-emerald-600">{rimoText(view.currentBatch.issuedCount)}</span></div>
@@ -398,7 +398,7 @@ export default function EnterpriseChannelTicketBatchDetailBlock() {
 <div>{rimoText(view.formatIssueSummary(view.currentBatch))}{text(" / 失敗 ")}{rimoText(view.currentBatch.issueFailedCount || 0)}</div>
 <div className="detail-label">{text("使用統計")}</div>
 <div>{text("未使用 ")}{rimoText(view.currentBatch.unusedCount)}{text(" / 已使用 ")}{rimoText(view.currentBatch.usedCount)}{text(" / 已過期 ")}{rimoText(view.currentBatch.expiredCount)}{text(" / 已作廢 ")}{rimoText(view.currentBatch.voidCount || 0)}</div></div></section>
-<section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6"><div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between"><div><h2 className="text-lg font-bold text-gray-800">{text("租車券列表")}</h2>
+<section className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6"><div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between" data-rimo-layout="toolbar"><div><h2 className="text-lg font-bold text-gray-800">{text("租車券列表")}</h2>
 <p className="text-xs text-gray-500 mt-1">{text("證件號碼完整展示；不展示證件影像、駕駛證影像和支付記錄等其他敏感信息。")}</p></div>
 <RimoElement kind="el-button" type="primary" plain={true} title="導出 Excel：租車券列表 + 訂單完整數據" onClick={event => {
             view.exportBatch?.(event);

@@ -316,7 +316,7 @@
             color: var(--app-color-text-secondary);
             font-weight: 600;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-channel-ticket-batch-detail"], [data-rimo-overlay="enterprise-channel-ticket-batch-detail"]) .el-pagination .el-pagination__jump {
           display: none;
         }

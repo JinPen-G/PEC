@@ -487,11 +487,10 @@ export default function CorporatesBlock() {
 <RimoElement kind="el-option" label="停權" value="suspended"></RimoElement></RimoElement>
 <RimoElement kind="el-tooltip" content="重置篩選" placement="top"><RimoElement kind="el-button" circle={true} onClick={event => {
                   view.resetFilters?.(event);
-                }}><RimoElement kind="el-icon"><RimoIcon name="Refresh" /></RimoElement></RimoElement></RimoElement>
+                }} icon="Refresh" data-rimo-filter-reset="true" aria-label="重置筛选"></RimoElement></RimoElement>
 <RimoElement kind="el-button" type="primary" plain={true} icon="Download" onClick={event => {
                 view.exportData?.(event);
-              }}>{text("導出")}</RimoElement></div>
-<div className="text-sm text-gray-500">{text("共 ")}{rimoText(view.filteredMembers.length)}{text(" 家企業")}</div></>
+              }}>{text("導出")}</RimoElement></div></>
         }}><RimoElement kind="el-table-column" prop="id" label="企業編號" width="120" slots={{
             "default": ({
               row
@@ -747,11 +746,11 @@ export default function CorporatesBlock() {
                   }}>{text("手動續約")}</RimoElement></div></div></div>
 <div><h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-gray-500"><RimoIcon name="Star" /></RimoElement>
 {text(" 當前權益\n                    ")}</h3>
-<div className="grid grid-cols-2 gap-2">{rimoEntries(view.getPlanBenefits(view.currentMember.membership?.planId)).map(([benefit], _itemIndex) => <Fragment key={benefit}><div key={benefit} className="bg-gray-50 rounded px-3 py-2 text-xs text-gray-600 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-green-500"><RimoIcon name="Check" /></RimoElement>
+<div className="grid grid-cols-2 gap-2" data-rimo-grid="2">{rimoEntries(view.getPlanBenefits(view.currentMember.membership?.planId)).map(([benefit], _itemIndex) => <Fragment key={benefit}><div key={benefit} className="bg-gray-50 rounded px-3 py-2 text-xs text-gray-600 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-green-500"><RimoIcon name="Check" /></RimoElement>
 {text(" ")}{rimoText(benefit)}{text("\n                        ")}</div></Fragment>)}</div></div>
 <div className="border-t border-gray-100 pt-6"><h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-gray-500"><RimoIcon name="Warning" /></RimoElement>
 {text(" 危險操作\n                    ")}</h3>
-<div className="bg-red-50 rounded-lg p-4 border border-red-100 flex items-center justify-between"><div><div className="text-sm font-bold text-red-800">{text("解約方案")}</div>
+<div className="bg-red-50 rounded-lg p-4 border border-red-100 flex items-center justify-between" data-rimo-layout="toolbar"><div><div className="text-sm font-bold text-red-800">{text("解約方案")}</div>
 <div className="text-xs text-red-500 mt-1">{text("退回到免費普通會員，立即失效")}</div></div>
 <RimoElement kind="el-button" type="danger" plain={true} size="small" onClick={event => {
                   view.handleTerminatePlan?.(event);

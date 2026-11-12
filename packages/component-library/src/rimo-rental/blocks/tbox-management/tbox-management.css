@@ -38,9 +38,6 @@
   --default-transition-duration: 150ms;
   --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-:where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .relative {
-  position: relative;
-}
 :where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .z-10 {
   z-index: 10;
 }
@@ -134,9 +131,6 @@
 :where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .gap-3 {
   gap: calc(var(--spacing) * 3);
 }
-:where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .gap-6 {
-  gap: calc(var(--spacing) * 6);
-}
 :where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .gap-8 {
   gap: calc(var(--spacing) * 8);
 }
@@ -190,9 +184,6 @@
 }
 :where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .p-4 {
   padding: calc(var(--spacing) * 4);
-}
-:where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .p-5 {
-  padding: calc(var(--spacing) * 5);
 }
 :where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .pb-2 {
   padding-bottom: calc(var(--spacing) * 2);
@@ -442,7 +433,7 @@
             flex-direction: column;
             gap: 16px;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="tbox-management"], [data-rimo-overlay="tbox-management"]) .el-pagination .el-pagination__jump {
           display: none;
         }

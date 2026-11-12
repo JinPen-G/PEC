@@ -85,19 +85,19 @@
 }
 :where([data-rimo-page="dispatch"], [data-rimo-overlay="dispatch"]) .container {
   width: 100%;
-  @media (width >= 40rem) {
+  @container (width >= 40rem) {
     max-width: 40rem;
   }
-  @media (width >= 48rem) {
+  @container (width >= 48rem) {
     max-width: 48rem;
   }
-  @media (width >= 64rem) {
+  @container (width >= 64rem) {
     max-width: 64rem;
   }
-  @media (width >= 80rem) {
+  @container (width >= 80rem) {
     max-width: 80rem;
   }
-  @media (width >= 96rem) {
+  @container (width >= 96rem) {
     max-width: 96rem;
   }
 }
@@ -694,7 +694,7 @@
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
 }
-@media (width >= 80rem) {
+@container (width >= 80rem) {
   :where([data-rimo-page="dispatch"], [data-rimo-overlay="dispatch"]) .xl\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -875,7 +875,7 @@
             padding: 8px;
             font-size: 0.875rem;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="dispatch"], [data-rimo-overlay="dispatch"]) .el-pagination .el-pagination__jump {
           display: none;
         }

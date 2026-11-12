@@ -1005,12 +1005,12 @@
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
 }
-@media (width >= 48rem) {
+@container (width >= 48rem) {
   :where([data-rimo-page="workbench"], [data-rimo-overlay="workbench"]) .md\:block {
     display: block;
   }
 }
-@media (width >= 64rem) {
+@container (width >= 64rem) {
   :where([data-rimo-page="workbench"], [data-rimo-overlay="workbench"]) .lg\:mb-0 {
     margin-bottom: 0px;
   }
@@ -1018,7 +1018,7 @@
     flex-direction: row;
   }
 }
-@media (width >= 80rem) {
+@container (width >= 80rem) {
   :where([data-rimo-page="workbench"], [data-rimo-overlay="workbench"]) .xl\:w-\[22\%\] {
     width: 22%;
   }
@@ -1583,7 +1583,7 @@
             line-height: 1.9;
             white-space: pre-line;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="workbench"], [data-rimo-overlay="workbench"]) .el-pagination .el-pagination__jump {
           display: none;
         }

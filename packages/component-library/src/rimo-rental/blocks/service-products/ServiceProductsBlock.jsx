@@ -687,7 +687,7 @@ export default function ServiceProductsBlock() {
       }} className="service-product-tabs rimo-page-tabs bg-white rounded-xl shadow-sm border border-gray-100 min-h-[500px]">{view.hasSharingBusinessPermission ? <><RimoElement kind="el-tab-pane" name="SHARING" slots={{
             "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Clock" /></RimoElement>
 <span>{text("分時租車")}</span></span></>
-          }}><div className="p-6"><div className="flex justify-between items-center mb-6"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
+          }}><div className="p-6"><div className="flex justify-between items-center mb-6" data-rimo-layout="toolbar"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
 {text(" 分時租車模式下，支持獨立配置")}
 <span className="text-blue-600 font-bold">{text("同站/異站")}</span>
 {text("業務與定價；里程費支持")}
@@ -730,7 +730,7 @@ export default function ServiceProductsBlock() {
 {text("/天\n                                                        ")}</div></> : null}</div></div></div></> : <><div className="text-center py-3 text-xs text-slate-400 bg-slate-50 rounded border border-slate-100">{text("\n                                                當前授權狀態下暫無可配置的分時業務線\n                                            ")}</div></>}</div>
 {group.isUnifiedMileage ? <><div className="bg-slate-50/80 rounded-lg px-3 py-2 border border-slate-100"><div className="text-xs font-bold text-slate-600 mb-1.5 uppercase flex items-center"><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Odometer" /></RimoElement>
 {text(" 統一里程費規則\n                                            ")}</div>
-<div className="grid grid-cols-3 gap-2 text-xs"><div><div className="text-slate-400">{text("免費里程")}</div>
+<div className="grid grid-cols-3 gap-2 text-xs" data-rimo-grid="3"><div><div className="text-slate-400">{text("免費里程")}</div>
 <div className="font-mono font-medium text-slate-700">{rimoText(group.mileageRule.freeKm)}{text(" km")}</div></div>
 <div><div className="text-slate-400">{text("超程單價")}</div>
 <div className="font-mono font-medium text-slate-700">{text("¥")}{rimoText(group.mileageRule.pricePerKm)}{text("/km")}</div></div>
@@ -751,7 +751,7 @@ export default function ServiceProductsBlock() {
 {view.hasStoreBusinessPermission ? <><RimoElement kind="el-tab-pane" name="STORE" slots={{
             "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Shop" /></RimoElement>
 <span>{text("門市租賃")}</span></span></>
-          }}><div className="p-6"><div className="flex justify-between items-center mb-6"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
+          }}><div className="p-6"><div className="flex justify-between items-center mb-6" data-rimo-layout="toolbar"><div className="text-sm text-gray-500"><span className="font-bold text-gray-700">{text("說明：")}</span>
 {text(" 門市租賃模式下，車組統一標準價基於")}
 <span className="text-blue-600 font-bold">{text("產品組層級")}</span>
 {text("設定且不區分平假日；里程費支持")}
@@ -776,7 +776,7 @@ export default function ServiceProductsBlock() {
 <span className="text-xs text-gray-400 font-normal">{text("/天")}</span></span></div>
 {group.isUnifiedMileage ? <><div className="bg-slate-50/80 rounded-lg px-3 py-2 border border-slate-100"><div className="text-xs font-bold text-slate-600 mb-1.5 uppercase flex items-center"><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Odometer" /></RimoElement>
 {text(" 統一里程費規則\n                                            ")}</div>
-<div className="grid grid-cols-3 gap-2 text-xs"><div><div className="text-slate-400">{text("免費里程")}</div>
+<div className="grid grid-cols-3 gap-2 text-xs" data-rimo-grid="3"><div><div className="text-slate-400">{text("免費里程")}</div>
 <div className="font-mono font-medium text-gray-700">{rimoText(group.mileageRule.freeKm)}{text(" km")}</div></div>
 <div><div className="text-slate-400">{text("超程單價")}</div>
 <div className="font-mono font-medium text-gray-700">{text("¥")}{rimoText(group.mileageRule.pricePerKm)}{text("/km")}</div></div>
@@ -802,7 +802,7 @@ export default function ServiceProductsBlock() {
 <RimoElement kind="el-button" type="primary" onClick={event => {
           view.saveGroup?.(event);
         }}>{text("保存配置")}</RimoElement></>
-    }}>{() => <><RimoElement kind="el-form" model={view.currentGroup} labelPosition="top"><div className="grid grid-cols-2 gap-6"><div className="col-span-2 md:col-span-1"><RimoElement kind="el-form-item" label="產品組名稱" required={true}><RimoElement kind="el-input" modelValue={view.currentGroup.name} onModelChange={value => {
+    }}>{() => <><RimoElement kind="el-form" model={view.currentGroup} labelPosition="top"><div className="grid grid-cols-2 gap-6" data-rimo-grid="2"><div className="col-span-2 md:col-span-1"><RimoElement kind="el-form-item" label="產品組名稱" required={true}><RimoElement kind="el-input" modelValue={view.currentGroup.name} onModelChange={value => {
                   model.write(["currentGroup", "name"], value);
                 }} placeholder="例如: 經濟型, 豪華型"></RimoElement></RimoElement></div>
 <div className="col-span-2 md:col-span-1"><RimoElement kind="el-form-item" label="產品組別名 (如英文名)"><RimoElement kind="el-input" modelValue={view.currentGroup.aliasName} onModelChange={value => {
@@ -814,7 +814,7 @@ export default function ServiceProductsBlock() {
 {view.currentType === 'SHARING' ? <><div className="col-span-2 rounded-lg border border-slate-200 bg-slate-50/40 p-4"><div className="font-bold text-slate-800 flex items-center justify-between text-sm mb-4"><span className="flex items-center"><RimoElement kind="el-icon" className="mr-2 text-slate-500"><RimoIcon name="Money" /></RimoElement>
 {text(" 基準租金費率\n                            ")}</span>
 <span className="text-xs font-normal text-slate-400">{rimoText(view.sharingAuthLabel)}</span></div>
-<div className="rounded-lg border border-slate-200 bg-white divide-y divide-slate-100">{view.hasSameStationAuth ? <><div className="p-3"><div className="grid grid-cols-12 gap-3 items-end" data-rimo-layout="form-grid"><div className="col-span-12 md:col-span-2 flex items-center justify-between md:block"><div className="text-sm font-semibold text-slate-800">{text("\n                                            同站租還\n                                        ")}</div></div>
+<div className="rounded-lg border border-slate-200 bg-white divide-y divide-slate-100">{view.hasSameStationAuth ? <><div className="p-3"><div className="grid grid-cols-12 gap-3 items-end" data-rimo-grid="12" data-rimo-layout="form-grid"><div className="col-span-12 md:col-span-2 flex items-center justify-between md:block"><div className="text-sm font-semibold text-slate-800">{text("\n                                            同站租還\n                                        ")}</div></div>
 <RimoElement kind="el-form-item" label="平日時租" className="col-span-6 md:col-span-2 mb-0"><RimoElement kind="el-input-number" modelValue={view.currentGroup.sameStationHourlyPrice} onModelChange={value => {
                             model.write(["currentGroup", "sameStationHourlyPrice"], value);
                           }} min={0} step={1} className="w-full" controlsPosition="right"></RimoElement></RimoElement>
@@ -827,7 +827,7 @@ export default function ServiceProductsBlock() {
 <RimoElement kind="el-form-item" label="假日日租" className="col-span-6 md:col-span-2 mb-0"><RimoElement kind="el-input-number" modelValue={view.currentGroup.sameStationHolidayDailyPrice} onModelChange={value => {
                             model.write(["currentGroup", "sameStationHolidayDailyPrice"], value);
                           }} min={0} step={10} className="w-full" controlsPosition="right"></RimoElement></RimoElement></div></div></> : null}
-{view.hasDiffStationAuth ? <><div className="p-3"><div className="grid grid-cols-12 gap-3 items-end" data-rimo-layout="form-grid"><div className="col-span-12 md:col-span-2 flex items-center justify-between md:block"><div className="text-sm font-semibold text-slate-800">{text("\n                                            甲租乙還\n                                        ")}</div></div>
+{view.hasDiffStationAuth ? <><div className="p-3"><div className="grid grid-cols-12 gap-3 items-end" data-rimo-grid="12" data-rimo-layout="form-grid"><div className="col-span-12 md:col-span-2 flex items-center justify-between md:block"><div className="text-sm font-semibold text-slate-800">{text("\n                                            甲租乙還\n                                        ")}</div></div>
 <RimoElement kind="el-form-item" label="平日時租" className="col-span-6 md:col-span-2 mb-0"><RimoElement kind="el-input-number" modelValue={view.currentGroup.diffStationHourlyPrice} onModelChange={value => {
                             model.write(["currentGroup", "diffStationHourlyPrice"], value);
                           }} min={0} step={1} className="w-full" controlsPosition="right"></RimoElement></RimoElement>
@@ -848,7 +848,7 @@ export default function ServiceProductsBlock() {
               }} onChange={event => {
                 view.normalizeMileageLockFields?.(event);
               }} activeText="統一配置 (所有車型使用相同規則)" inactiveText="單獨配置 (按車型分別設置)"></RimoElement></div>
-{view.currentGroup.isUnifiedMileage ? <><div className="grid grid-cols-3 gap-4 animate-fade-in" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="每日免費里程 (km)"><RimoElement kind="el-input-number" modelValue={view.currentGroup.mileageRule.freeKm} onModelChange={value => {
+{view.currentGroup.isUnifiedMileage ? <><div className="grid grid-cols-3 gap-4 animate-fade-in" data-rimo-grid="3" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="每日免費里程 (km)"><RimoElement kind="el-input-number" modelValue={view.currentGroup.mileageRule.freeKm} onModelChange={value => {
                     model.write(["currentGroup", "mileageRule", "freeKm"], value);
                   }} min={0} step={100} disabled={view.currentType === 'SHARING'} className="w-full"></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="超程單價 (元/km)"><RimoElement kind="el-input-number" modelValue={view.currentGroup.mileageRule.pricePerKm} onModelChange={value => {
@@ -864,7 +864,7 @@ export default function ServiceProductsBlock() {
 <div className="flex items-center"><RimoElement kind="el-checkbox" modelValue={view.currentGroup.isSpecial} onModelChange={value => {
                 model.write(["currentGroup", "isSpecial"], value);
               }} className="mr-4" disabled={!view.isEdit}>{text("標記爲特殊產品組")}</RimoElement>
-{view.currentGroup.isSpecial ? <><div className="flex items-center animate-fade-in"><span className="text-sm text-gray-600 mr-2">{text("限制會員等級:")}</span>
+{view.currentGroup.isSpecial ? <><div className="flex items-center animate-fade-in" data-rimo-layout="field-row"><span className="text-sm text-gray-600 mr-2">{text("限制會員等級:")}</span>
 <RimoElement kind="el-select" modelValue={view.currentGroup.specialMembershipRequired} onModelChange={value => {
                     model.write(["currentGroup", "specialMembershipRequired"], value);
                   }} placeholder="請選擇最低會員等級" disabled={!view.isEdit} size="small" className="w-48"><RimoElement kind="el-option" label="白銀會員及以上" value="SILVER"></RimoElement>
@@ -923,7 +923,7 @@ export default function ServiceProductsBlock() {
       "footer": _slot => <><RimoElement kind="el-button" onClick={_event => {
           model.write(["productVersionDialogVisible"], false);
         }}>{text("關閉")}</RimoElement></>
-    }}>{() => <>{view.selectedProductVersion ? <><div className="grid grid-cols-3 gap-4"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
+    }}>{() => <>{view.selectedProductVersion ? <><div className="grid grid-cols-3 gap-4" data-rimo-grid="3"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
 <div className="divide-y divide-gray-100 max-h-[420px] overflow-y-auto">{rimoEntries(view.productVersionRecords).map(([version], _itemIndex) => <Fragment key={version.version}><button key={version.version} className={rimoClass(["w-full text-left px-3 py-3 hover:bg-[color:var(--app-color-primary-light-9)] transition-colors", rimoClass(view.selectedProductVersion.version === version.version ? 'bg-[color:var(--app-color-primary-light-9)]' : 'bg-white')])} onClick={_event => {
                     model.write(["selectedProductVersion"], version);
                   }}><div className="font-mono text-xs text-[color:var(--app-color-primary)] font-bold">{rimoText(version.version)}</div>

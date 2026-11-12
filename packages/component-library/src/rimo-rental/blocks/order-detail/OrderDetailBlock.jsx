@@ -6409,7 +6409,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-dropdown-item" icon="Printer">{text("打印單據")}</RimoElement></RimoElement></>
             }}><RimoElement kind="el-button" plain={true}>{text("\n                                    更多操作")}
 <RimoElement kind="el-icon" className="el-icon--right"><RimoIcon name="ArrowDown" /></RimoElement></RimoElement></RimoElement></div></div>
-<div className="grid grid-cols-12 gap-6 mb-6"><div className="col-span-8"><RimoElement kind="el-card" shadow="never" className="border-gray-200 h-full" bodyStyle={{
+<div className="grid grid-cols-12 gap-6 mb-6" data-rimo-grid="12"><div className="col-span-8"><RimoElement kind="el-card" shadow="never" className="border-gray-200 h-full" bodyStyle={{
               padding: '0px',
               height: '100%'
             }} slots={{
@@ -6438,7 +6438,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-tag" size="small" type="info" effect="light">{rimoText(view.orderView.vehicle.seats)}</RimoElement>
 <RimoElement kind="el-tag" size="small" type="info" effect="light">{rimoText(view.orderView.vehicle.transmission)}</RimoElement>
 <RimoElement kind="el-tag" size="small" type="info" effect="light">{rimoText(view.orderView.vehicle.energy)}</RimoElement></div></div></div></div></RimoElement></div></div>
-<div className="grid grid-cols-12 gap-6"><div className="col-span-8 space-y-6"><RimoElement kind="el-card" shadow="never" className="border-gray-200" bodyStyle={{
+<div className="grid grid-cols-12 gap-6" data-rimo-grid="12"><div className="col-span-8 space-y-6"><RimoElement kind="el-card" shadow="never" className="border-gray-200" bodyStyle={{
               padding: '0px'
             }} slots={{
               "header": _slot => <><div className="flex justify-between items-center"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Calendar" /></RimoElement>
@@ -6467,7 +6467,7 @@ export default function OrderDetailBlock() {
             }} slots={{
               "header": _slot => <><div className="flex justify-between items-center"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Connection" /></RimoElement>
 {text(" 取還車明細\n                                        ")}</span></div></>
-            }}><div className="p-4" data-rimo-layout="list"><RimoElement kind="el-table" data={view.pickupReturnData} style={rimoStyle("width: 100%")} border={false} rowClassName={view.tableRowClassName}><RimoElement kind="el-table-column" prop="type" label="項目" width="70" slots={{
+            }}><div className="p-4"><RimoElement kind="el-table" data={view.pickupReturnData} style={rimoStyle("width: 100%")} border={false} rowClassName={view.tableRowClassName}><RimoElement kind="el-table-column" prop="type" label="項目" width="70" slots={{
                     "default": scope => <><span className="font-medium text-gray-800">{rimoText(scope.row.type)}</span></>
                   }}></RimoElement>
 <RimoElement kind="el-table-column" prop="time" label="時間" minWidth="150" slots={{
@@ -6538,7 +6538,7 @@ export default function OrderDetailBlock() {
 <div className="flex flex-wrap gap-2 justify-end">{view.eventCounts.openAccident > 0 ? <><RimoElement kind="el-tag" size="small" type="danger" effect="plain" round={true}>{text("\n                                                未結案事故 ")}{rimoText(view.eventCounts.openAccident)}{text("\n                                            ")}</RimoElement></> : null}
 {view.eventCounts.redirection > 0 ? <><RimoElement kind="el-tag" size="small" type="warning" effect="plain" round={true}>{text("\n                                                改派 ")}{rimoText(view.eventCounts.redirection)}{text("\n                                            ")}</RimoElement></> : null}
 <RimoElement kind="el-tag" size="small" effect="plain" round={true}>{text("關鍵事件 ")}{rimoText(view.eventCounts.all)}</RimoElement></div></div></>
-            }}><div className="px-4 pt-3 pb-3">{view.eventCounts.openAccident > 0 ? <><div className="mb-3 rounded-lg border border-red-100 bg-red-50 px-4 py-2.5 flex items-start justify-between gap-4"><div className="flex items-start gap-3"><div className="w-8 h-8 rounded-lg bg-white text-red-500 flex items-center justify-center shrink-0 border border-red-100"><RimoElement kind="el-icon"><RimoIcon name="Warning" /></RimoElement></div>
+            }}><div className="px-4 pt-3 pb-3">{view.eventCounts.openAccident > 0 ? <><div className="mb-3 rounded-lg border border-red-100 bg-red-50 px-4 py-2.5 flex items-start justify-between gap-4" data-rimo-layout="toolbar"><div className="flex items-start gap-3"><div className="w-8 h-8 rounded-lg bg-white text-red-500 flex items-center justify-center shrink-0 border border-red-100"><RimoElement kind="el-icon"><RimoIcon name="Warning" /></RimoElement></div>
 <div><div className="font-bold text-red-700 text-sm">{text("當前訂單存在未結案事故")}</div>
 <div className="text-xs text-red-600 mt-1">{text("\n                                                    事故費用、責任歸屬和處理狀態需要在還車結算或追繳前完成核對。\n                                                ")}</div></div></div>
 <RimoElement kind="el-button" size="small" type="danger" plain={true} onClick={event => {
@@ -6553,7 +6553,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-tab-pane" label={'操作日誌 ' + view.eventCounts.audit} name="audit"></RimoElement></RimoElement>
 <div className="flex items-center justify-between text-xs text-gray-400 -mt-1 mb-2"><span>{rimoText(view.fulfillmentEventTab === 'audit' ? view.operationRecords.length : view.filteredFulfillmentEvents.length)}{text(" 條記錄")}</span>
 <span>{text("列表區域內滾動查看更多")}</span></div>
-{view.fulfillmentEventTab === 'audit' ? <><div className="pt-1" data-rimo-layout="list"><RimoElement kind="el-table" data={view.operationRecords} style={rimoStyle("width: 100%")} size="small" maxHeight="420" rowClassName={({
+{view.fulfillmentEventTab === 'audit' ? <><div className="pt-1"><RimoElement kind="el-table" data={view.operationRecords} style={rimoStyle("width: 100%")} size="small" maxHeight="420" rowClassName={({
                       row
                     }) => row.type === 'danger' ? 'bg-red-50/50' : ''}><RimoElement kind="el-table-column" prop="timestamp" label="時間" width="150" slots={{
                         "default": ({
@@ -6587,7 +6587,7 @@ export default function OrderDetailBlock() {
 <span className="font-bold text-gray-900 text-sm">{rimoText(event.title)}</span></div>
 <div className="text-xs text-gray-500 mt-1">{rimoText(event.summary)}</div></div>
 <div className="text-right text-xs text-gray-400 font-mono">{rimoText(event.time)}</div></div>
-{event.kind === 'redirection' && view.fulfillmentEventTab === 'redirection' ? <><div className="mt-2 grid grid-cols-11 gap-2 items-stretch text-xs"><div className="col-span-5 bg-white/80 border border-orange-100 rounded-lg p-3"><div className="text-gray-400 mb-1">{text("原車輛")}</div>
+{event.kind === 'redirection' && view.fulfillmentEventTab === 'redirection' ? <><div className="mt-2 grid grid-cols-11 gap-2 items-stretch text-xs" data-rimo-grid="11"><div className="col-span-5 bg-white/80 border border-orange-100 rounded-lg p-3"><div className="text-gray-400 mb-1">{text("原車輛")}</div>
 <div className="font-medium text-gray-700">{rimoText(event.record.fromVehicle)}</div></div>
 <div className="col-span-1 flex items-center justify-center text-orange-400"><RimoElement kind="el-icon"><RimoIcon name="Right" /></RimoElement></div>
 <div className="col-span-5 bg-white/90 border border-orange-100 rounded-lg p-3"><div className="text-gray-400 mb-1">{text("新車輛")}</div>
@@ -6595,14 +6595,14 @@ export default function OrderDetailBlock() {
 {event.kind === 'redirection' ? <><div className="mt-2 flex flex-wrap gap-2"><RimoElement kind="el-tag" size="small" type={event.record.priceChange > 0 ? 'danger' : event.record.priceChange < 0 ? 'success' : 'info'} effect="plain">{text("\n                                                        ")}{rimoText(view.formatSignedAmount(event.record.priceChange))}{text("\n                                                    ")}</RimoElement>
 <RimoElement kind="el-tag" size="small" type="info" effect="plain">{text("\n                                                        ")}{rimoText(view.getRedirectionSettlementText(event.record))}{text("\n                                                    ")}</RimoElement>
 {event.record.priceHandling === 'free' ? <><RimoElement kind="el-tag" size="small" type="success" effect="plain">{text("\n                                                        免費升等\n                                                    ")}</RimoElement></> : null}</div></> : null}
-{event.kind === 'accident' && view.fulfillmentEventTab === 'accident' ? <><div className="mt-2 grid grid-cols-3 gap-2 text-xs"><div className="bg-white/80 border border-red-100 rounded-lg p-3"><div className="text-gray-400 mb-1">{text("責任歸屬")}</div>
+{event.kind === 'accident' && view.fulfillmentEventTab === 'accident' ? <><div className="mt-2 grid grid-cols-3 gap-2 text-xs" data-rimo-grid="3"><div className="bg-white/80 border border-red-100 rounded-lg p-3"><div className="text-gray-400 mb-1">{text("責任歸屬")}</div>
 <div className="font-medium text-gray-800">{text("\n                                                            ")}{rimoText(view.getAccidentResponsibilityText(event.record.responsibility))}{text("\n                                                        ")}</div></div>
 <div className="bg-white/80 border border-red-100 rounded-lg p-3"><div className="text-gray-400 mb-1">{text("處理狀態")}</div>
 <div className="font-medium text-gray-800">{text("\n                                                            ")}{rimoText(view.getAccidentStatusText(event.record.status))}{text("\n                                                        ")}</div></div>
 <div className="bg-white/80 border border-red-100 rounded-lg p-3"><div className="text-gray-400 mb-1">{text("預估費用")}</div>
 <div className={rimoClass(["font-mono font-bold", rimoClass(event.record.amount > 0 ? 'text-red-600' : 'text-gray-500')])}>{text("\n                                                            ")}{rimoText(event.record.amount > 0 ? '¥' + view.formatNumber(event.record.amount) : '待定損')}{text("\n                                                        ")}</div></div></div></> : null}
 {event.kind === 'accident' && view.fulfillmentEventTab === 'accident' && event.record.photos && event.record.photos.length ? <><div className="mt-2 flex gap-2">{rimoEntries(event.record.photos).map(([_photo, pIdx], _itemIndex) => <Fragment key={pIdx}><div key={pIdx} className="w-12 h-12 bg-white rounded border border-red-100 flex items-center justify-center cursor-pointer hover:border-red-300 transition-colors shrink-0"><RimoElement kind="el-icon" className="text-gray-300 text-lg"><RimoIcon name="Picture" /></RimoElement></div></Fragment>)}</div></> : null}
-<div className="mt-2 pt-2 border-t border-white/70 flex flex-wrap justify-between items-center gap-2 text-xs"><div className="flex flex-wrap items-center gap-3 text-gray-500"><span className="flex items-center gap-1"><RimoElement kind="el-icon"><RimoIcon name="User" /></RimoElement>
+<div className="mt-2 pt-2 border-t border-white/70 flex flex-wrap justify-between items-center gap-2 text-xs" data-rimo-layout="toolbar"><div className="flex flex-wrap items-center gap-3 text-gray-500"><span className="flex items-center gap-1"><RimoElement kind="el-icon"><RimoIcon name="User" /></RimoElement>
 {text(" ")}{rimoText(event.operator)}{text("\n                                                        ")}</span>
 {event.memo ? <><span className="text-gray-400">{rimoText(event.memo)}</span></> : null}</div>
 <div className="flex gap-2">{event.kind === 'accident' ? <><RimoElement kind="el-button" size="small" text={true} type="danger" onClick={event => {
@@ -6620,7 +6620,7 @@ export default function OrderDetailBlock() {
               "header": _slot => <><div className="flex justify-between items-center"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="DataLine" /></RimoElement>
 {text(" 賬務總覽\n                                        ")}</span>
 <RimoElement kind="el-tag" size="small" type={view.isMonthlyBilling ? 'primary' : 'success'} effect="plain">{text("\n                                            ")}{rimoText(view.isMonthlyBilling ? '企業月結' : '客戶自付')}{text("\n                                        ")}</RimoElement></div></>
-            }}><div className="p-4"><div className="grid grid-cols-2 gap-3"><div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("合計應收")}</div>
+            }}><div className="p-4"><div className="grid grid-cols-2 gap-3" data-rimo-grid="2"><div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("合計應收")}</div>
 <div className="font-mono text-lg font-bold text-gray-900">{text("¥")}{rimoText(view.formatNumber(view.financeOverview.totalReceivable))}</div></div>
 <div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{rimoText(view.isMonthlyBilling ? '企業掛賬' : '客戶實收')}</div>
 <div className={rimoClass(["font-mono text-lg font-bold", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary)]' : 'text-green-600')])}>{text("\n                                                ¥")}{rimoText(view.formatNumber(view.isMonthlyBilling ? view.financeOverview.monthlyBillAmount : view.financeOverview.customerPaid))}{text("\n                                            ")}</div></div>
@@ -6653,7 +6653,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-card" shadow="never" className="border-gray-200" bodyStyle={{
               padding: '0px'
             }} slots={{
-              "header": _slot => <><div className="flex justify-between items-center"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Receipt" /></RimoElement>
+              "header": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Receipt" /></RimoElement>
 {text(" 收費明細")}</span>
 <RimoElement kind="el-button" type="primary" link={true} onClick={_event => {
                     model.write(["feeModalVisible"], true);
@@ -6671,7 +6671,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-card" shadow="never" className="border-gray-200" bodyStyle={{
               padding: '0px'
             }} slots={{
-              "header": _slot => <><div className="flex justify-between items-center"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="CreditCard" /></RimoElement>
+              "header": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="CreditCard" /></RimoElement>
 {text(" 資金記錄")}</span>
 <RimoElement kind="el-button" type="primary" link={true} onClick={event => {
                     view.openTransactionsDialog?.(event);
@@ -6686,7 +6686,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-card" shadow="never" className="border-gray-200" bodyStyle={{
               padding: '0px'
             }} slots={{
-              "header": _slot => <><div className="flex justify-between items-center"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Tickets" /></RimoElement>
+              "header": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Tickets" /></RimoElement>
 {text(" 發票記錄")}</span>
 <RimoElement kind="el-button" type="primary" size="small" plain={true} icon="Plus">{text("\n                                            ")}{rimoText(view.isMonthlyBilling ? '月結開票' : '申請開票')}{text("\n                                        ")}</RimoElement></div></>
             }}><div className="px-4 py-3 bg-gray-50 border-b border-gray-100 text-xs text-gray-500">{text("\n                                    已開票 ¥")}{rimoText(view.formatNumber(view.invoiceSummary.issuedAmount))}{text(" · 待開票 ¥")}{rimoText(view.formatNumber(view.invoiceSummary.pendingAmount))}{text(" · 未開票 ¥")}{rimoText(view.formatNumber(view.invoiceSummary.uninvoicedAmount))}{text("\n                                ")}</div>
@@ -6702,14 +6702,14 @@ export default function OrderDetailBlock() {
                               'rotate-90': invoice.showDetails
                             })])}><RimoIcon name="CaretRight" /></RimoElement>
 <span>{rimoText(invoice.items.length)}{text("項")}</span></div></div></div>
-<div hidden={!invoice.showDetails} className="bg-gray-50 rounded-lg p-2.5 border border-gray-100 mt-2 animate__animated animate__fadeIn ml-10"><div className="grid grid-cols-2 gap-x-4 gap-y-0.5 mb-2">{rimoEntries(invoice.items).map(([item, i], _itemIndex) => <Fragment key={i}><div key={i} className="flex justify-between text-xs"><span className="text-gray-500">{rimoText(item.name)}</span>
+<div hidden={!invoice.showDetails} className="bg-gray-50 rounded-lg p-2.5 border border-gray-100 mt-2 animate__animated animate__fadeIn ml-10"><div className="grid grid-cols-2 gap-x-4 gap-y-0.5 mb-2" data-rimo-grid="2">{rimoEntries(invoice.items).map(([item, i], _itemIndex) => <Fragment key={i}><div key={i} className="flex justify-between text-xs"><span className="text-gray-500">{rimoText(item.name)}</span>
 <span className="font-mono text-gray-700">{text("¥")}{rimoText(view.formatNumber(item.amount))}</span></div></Fragment>)}</div>
 <div className="flex gap-2 pt-2 border-t border-gray-200"><RimoElement kind="el-button" size="small" plain={true} icon="View">{text("查看發票")}</RimoElement>
 <RimoElement kind="el-button" size="small" plain={true} icon="Download">{text("下載PDF")}</RimoElement></div></div></div></Fragment>)}</div></>}</RimoElement>
 <RimoElement kind="el-card" shadow="never" className="border-gray-200" bodyStyle={{
               padding: '0px'
             }} slots={{
-              "header": _slot => <><div className="flex justify-between items-center"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="List" /></RimoElement>
+              "header": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><span className="font-bold text-gray-800 flex items-center gap-2"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="List" /></RimoElement>
 {text(" 費用審計\n                                        ")}</span>
 <RimoElement kind="el-button" type="primary" link={true} onClick={event => {
                     view.openFeeAuditLog?.(event);
@@ -6742,7 +6742,7 @@ export default function OrderDetailBlock() {
               model.write(["accidentDialogVisible"], false);
             }}>{text("關閉")}</RimoElement></div></>}</>
     }}>{() => <><div className={rimoClass(["mb-4 rounded-lg border px-4 py-3 text-sm", rimoClass(view.isMonthlyBilling ? 'bg-[color:var(--app-color-primary-light-9)] border-[color:var(--app-color-primary-light-8)] text-[color:var(--app-color-primary-hover)]' : 'bg-red-50 border-red-100 text-red-700')])}><div className="font-bold">{rimoText(view.accidentContextHint.title)}</div>
-<div className="grid grid-cols-3 gap-2 mt-2 text-xs"><div className="bg-white/80 border border-gray-200 rounded px-2 py-1"><span className="opacity-70">{text("訂單影響")}</span>
+<div className="grid grid-cols-3 gap-2 mt-2 text-xs" data-rimo-grid="3"><div className="bg-white/80 border border-gray-200 rounded px-2 py-1"><span className="opacity-70">{text("訂單影響")}</span>
 <span className="font-bold ml-1">{rimoText(view.accidentContextHint.status)}</span></div>
 <div className="bg-white/80 border border-gray-200 rounded px-2 py-1"><span className="opacity-70">{text("費用處理")}</span>
 <span className="font-bold ml-1">{rimoText(view.accidentContextHint.fee)}</span></div>
@@ -6753,7 +6753,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-button" type="primary" size="small" icon="Plus" onClick={_event => {
                 model.write(["isAddingAccident"], true);
               }}>{text("新增記錄")}</RimoElement></div>
-<div className="space-y-3 max-h-[300px] overflow-y-auto custom-scroll pr-1">{rimoEntries(view.accidentRecords).map(([record, index], _itemIndex) => <Fragment key={record.id}><div key={record.id} className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex justify-between items-start gap-3"><div className="flex-1"><div className="flex items-center gap-2 mb-1"><div className="font-bold text-sm text-gray-800">{rimoText(record.description)}</div>
+<div className="space-y-3 max-h-[300px] overflow-y-auto custom-scroll pr-1">{rimoEntries(view.accidentRecords).map(([record, index], _itemIndex) => <Fragment key={record.id}><div key={record.id} className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex justify-between items-start gap-3" data-rimo-layout="toolbar"><div className="flex-1"><div className="flex items-center gap-2 mb-1"><div className="font-bold text-sm text-gray-800">{rimoText(record.description)}</div>
 <RimoElement kind="el-tag" size="small" type={record.status === 'closed' ? 'success' : 'danger'} effect="plain">{text("\n                                    ")}{rimoText(view.getAccidentStatusText(record.status))}{text("\n                                ")}</RimoElement></div>
 <div className="text-xs text-gray-500 mb-2 flex gap-3"><span>{rimoText(record.time)}</span>
 <span>{rimoText(record.operator)}</span>
@@ -6777,13 +6777,13 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-form" model={view.newAccidentForm} labelPosition="top"><RimoElement kind="el-form-item" label="事故詳情描述"><RimoElement kind="el-input" modelValue={view.newAccidentForm.description} onModelChange={value => {
                   model.write(["newAccidentForm", "description"], value);
                 }} type="textarea" rows={3} placeholder="請詳細描述事故部位、程度及原因..."></RimoElement></RimoElement>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="事故時間"><RimoElement kind="el-date-picker" modelValue={view.newAccidentForm.accidentTime} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="事故時間"><RimoElement kind="el-date-picker" modelValue={view.newAccidentForm.accidentTime} onModelChange={value => {
                     model.write(["newAccidentForm", "accidentTime"], value);
                   }} type="datetime" placeholder="選擇事故時間" className="w-full" style={rimoStyle("width: 100%")}></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="事故地點"><RimoElement kind="el-input" modelValue={view.newAccidentForm.location} onModelChange={value => {
                     model.write(["newAccidentForm", "location"], value);
                   }} placeholder="事故發生地點或停車位置"></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="責任歸屬"><RimoElement kind="el-select" modelValue={view.newAccidentForm.responsibility} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="責任歸屬"><RimoElement kind="el-select" modelValue={view.newAccidentForm.responsibility} onModelChange={value => {
                     model.write(["newAccidentForm", "responsibility"], value);
                   }} placeholder="請選擇責任歸屬" className="w-full"><RimoElement kind="el-option" label="客戶責任" value="customer"></RimoElement>
 <RimoElement kind="el-option" label="門店責任" value="store"></RimoElement>
@@ -6792,7 +6792,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-form-item" label="預估費用"><RimoElement kind="el-input-number" modelValue={view.newAccidentForm.estimatedAmount} onModelChange={value => {
                     model.write(["newAccidentForm", "estimatedAmount"], value);
                   }} min={0} step={100} className="!w-full" controlsPosition="right"></RimoElement></RimoElement></div>
-<div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="處理狀態"><RimoElement kind="el-select" modelValue={view.newAccidentForm.handlingStatus} onModelChange={value => {
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="處理狀態"><RimoElement kind="el-select" modelValue={view.newAccidentForm.handlingStatus} onModelChange={value => {
                     model.write(["newAccidentForm", "handlingStatus"], value);
                   }} className="w-full"><RimoElement kind="el-option" label="待定損" value="pending_assessment"></RimoElement>
 <RimoElement kind="el-option" label="保險處理中" value="insurance_processing"></RimoElement>
@@ -6814,7 +6814,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-button" type="primary" onClick={event => {
             view.confirmReturnStoreChange?.(event);
           }} disabled={view.returnStoreConflict.hasConflict && !view.returnStoreConflict.resolved}>{text("確認轉單")}</RimoElement></div></>
-    }}>{() => <><div className="space-y-4"><div className="grid grid-cols-2 gap-3 text-sm"><div className="rounded border border-gray-200 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("取車門市")}</div>
+    }}>{() => <><div className="space-y-4"><div className="grid grid-cols-2 gap-3 text-sm" data-rimo-grid="2"><div className="rounded border border-gray-200 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("取車門市")}</div>
 <div className="font-bold text-gray-800">{rimoText(view.pickupStoreName)}</div></div>
 <div className="rounded border border-gray-200 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("當前還車門市")}</div>
 <div className="font-bold text-gray-800">{rimoText(view.currentReturnStoreName)}</div></div></div>
@@ -6835,7 +6835,7 @@ export default function OrderDetailBlock() {
 <div className="flex-1"><div className="flex items-center justify-between gap-3"><div><h4 className="font-bold text-gray-800 text-sm mb-1">{text("\n                                        ")}{rimoText(view.returnStoreConflict.resolved ? '後續訂單已快捷改派' : '原還車門市存在後續預約')}{text("\n                                    ")}</h4>
 <p className={rimoClass(["text-xs", rimoClass(view.returnStoreConflict.resolved ? 'text-green-700' : 'text-red-600')])}>{text("\n                                        ")}{rimoText(view.orderView.vehicle.plate)}{text(" 轉到 ")}{rimoText(view.returnStoreConflict.targetStoreName)}{text(" 後，原還車門市\n                                        ")}{rimoText(view.returnStoreConflict.originalStoreName)}{text(" 的後續訂單需要先釋放車輛佔用。\n                                    ")}</p></div>
 <RimoElement kind="el-tag" size="small" type={view.returnStoreConflict.resolved ? 'success' : 'danger'}>{text("\n                                    ")}{rimoText(view.returnStoreConflict.resolved ? '已處理' : '需處理')}{text("\n                                ")}</RimoElement></div>
-<div className="grid grid-cols-4 gap-2 mt-3 text-xs"><div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("後續訂單")}</div>
+<div className="grid grid-cols-4 gap-2 mt-3 text-xs" data-rimo-grid="4"><div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("後續訂單")}</div>
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStoreConflict.orderId)}</div></div>
 <div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("取車時間")}</div>
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStoreConflict.pickupTime)}</div></div>
@@ -6843,11 +6843,11 @@ export default function OrderDetailBlock() {
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStoreConflict.customerName)}</div></div>
 <div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("派車狀態")}</div>
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStoreConflict.status)}</div></div></div>
-<div className="flex items-center justify-between mt-3"><div className="text-xs text-gray-600">{text("\n                                    ")}{rimoText(view.returnStoreConflict.currentVehicle)}{text(" -> ")}{rimoText(view.returnStoreConflict.targetVehicle)}{text("\n                                ")}</div>
+<div className="flex items-center justify-between mt-3" data-rimo-layout="toolbar"><div className="text-xs text-gray-600">{text("\n                                    ")}{rimoText(view.returnStoreConflict.currentVehicle)}{text(" -> ")}{rimoText(view.returnStoreConflict.targetVehicle)}{text("\n                                ")}</div>
 {!view.returnStoreConflict.resolved ? <><RimoElement kind="el-button" type="danger" size="small" plain={true} onClick={event => {
                         view.quickRedirectReturnStoreConflict?.(event);
                       }}>{text("快捷改派後續訂單")}</RimoElement></> : null}</div></div></div></div></> : null}
-<div className="grid grid-cols-3 gap-3 text-sm"><div className="rounded border border-gray-200 p-3"><div className="text-xs text-gray-500 mb-1">{text("當前異地費")}</div>
+<div className="grid grid-cols-3 gap-3 text-sm" data-rimo-grid="3"><div className="rounded border border-gray-200 p-3"><div className="text-xs text-gray-500 mb-1">{text("當前異地費")}</div>
 <div className="font-bold text-gray-800">{text("¥")}{rimoText(view.formatNumber(view.returnStoreCurrentFee))}</div></div>
 <div className="rounded border border-gray-200 p-3"><div className="text-xs text-gray-500 mb-1">{text("新異地費")}</div>
 <div className="font-bold text-gray-800">{text("¥")}{rimoText(view.formatNumber(view.returnStoreNewFee))}</div></div>
@@ -6862,7 +6862,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-button" type="primary" onClick={event => {
             view.confirmReturnStationChange?.(event);
           }} disabled={view.returnStationConflict.hasConflict && !view.returnStationConflict.resolved}>{text("確認改還車據點")}</RimoElement></div></>
-    }}>{() => <><div className="space-y-4"><div className="grid grid-cols-2 gap-3 text-sm"><div className="rounded border border-gray-200 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("當前還車門市")}</div>
+    }}>{() => <><div className="space-y-4"><div className="grid grid-cols-2 gap-3 text-sm" data-rimo-grid="2"><div className="rounded border border-gray-200 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("當前還車門市")}</div>
 <div className="font-bold text-gray-800">{rimoText(view.currentReturnStoreName)}</div></div>
 <div className="rounded border border-gray-200 bg-gray-50 p-3"><div className="text-xs text-gray-500 mb-1">{text("當前還車據點")}</div>
 <div className="font-bold text-gray-800">{rimoText(view.currentReturnStationName)}</div></div></div>
@@ -6883,7 +6883,7 @@ export default function OrderDetailBlock() {
 <div className="flex-1"><div className="flex items-center justify-between gap-3"><div><h4 className="font-bold text-gray-800 text-sm mb-1">{text("\n                                        ")}{rimoText(view.returnStationConflict.resolved ? '後續訂單已快捷改派' : '原還車門市存在後續預約')}{text("\n                                    ")}</h4>
 <p className={rimoClass(["text-xs", rimoClass(view.returnStationConflict.resolved ? 'text-green-700' : 'text-red-600')])}>{text("\n                                        ")}{rimoText(view.orderView.vehicle.plate)}{text(" 改到 ")}{rimoText(view.returnStationConflict.targetStoreName)}{text(" / ")}{rimoText(view.returnStationConflict.targetStationName)}{text(" 後，原還車門市\n                                        ")}{rimoText(view.returnStationConflict.originalStoreName)}{text(" 的後續訂單需要先釋放車輛佔用。\n                                    ")}</p></div>
 <RimoElement kind="el-tag" size="small" type={view.returnStationConflict.resolved ? 'success' : 'danger'}>{text("\n                                    ")}{rimoText(view.returnStationConflict.resolved ? '已處理' : '需處理')}{text("\n                                ")}</RimoElement></div>
-<div className="grid grid-cols-4 gap-2 mt-3 text-xs"><div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("後續訂單")}</div>
+<div className="grid grid-cols-4 gap-2 mt-3 text-xs" data-rimo-grid="4"><div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("後續訂單")}</div>
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStationConflict.orderId)}</div></div>
 <div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("取車時間")}</div>
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStationConflict.pickupTime)}</div></div>
@@ -6891,14 +6891,14 @@ export default function OrderDetailBlock() {
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStationConflict.customerName)}</div></div>
 <div className="bg-white/80 border rounded p-2"><div className="text-gray-400">{text("派車狀態")}</div>
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.returnStationConflict.status)}</div></div></div>
-<div className="flex items-center justify-between mt-3"><div className="text-xs text-gray-600">{text("\n                                    ")}{rimoText(view.returnStationConflict.currentVehicle)}{text(" -> ")}{rimoText(view.returnStationConflict.targetVehicle)}{text("\n                                ")}</div>
+<div className="flex items-center justify-between mt-3" data-rimo-layout="toolbar"><div className="text-xs text-gray-600">{text("\n                                    ")}{rimoText(view.returnStationConflict.currentVehicle)}{text(" -> ")}{rimoText(view.returnStationConflict.targetVehicle)}{text("\n                                ")}</div>
 {!view.returnStationConflict.resolved ? <><RimoElement kind="el-button" type="danger" size="small" plain={true} onClick={event => {
                         view.quickRedirectReturnStationConflict?.(event);
                       }}>{text("快捷改派後續訂單")}</RimoElement></> : null}</div></div></div></div></> : null}</div></>}</RimoElement>
 <RimoElement kind="el-dialog" modelValue={view.pickupModalVisible} onModelChange={value => {
       model.write(["pickupModalVisible"], value);
     }} title="車輛取車作業" width="1000px" destroyOnClose={true} top="5vh" className="rounded-xl overflow-hidden custom-modal order-detail-overlay" beforeClose={view.handlePickupDialogClose} slots={{
-      "footer": _slot => <><div className="flex justify-between items-center"><div className="flex gap-2"><RimoElement kind="el-button" onClick={event => {
+      "footer": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><div className="flex gap-2"><RimoElement kind="el-button" onClick={event => {
               view.requestClosePickupModal?.(event);
             }} disabled={view.pickupStep === 3}>{text("暫停辦理")}</RimoElement>
 {view.orderStatus === 'inspecting' && view.pickupStep < 3 ? <><RimoElement kind="el-button" type="danger" plain={true} onClick={event => {
@@ -6943,17 +6943,17 @@ export default function OrderDetailBlock() {
             })])}><div className={rimoClass(["w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ring-4", rimoClass(view.pickupStep >= 3 ? 'bg-[color:var(--app-color-primary)] text-white ring-[color:var(--app-color-primary-light-9)]' : 'bg-gray-100 text-gray-400 ring-transparent')])}>{view.pickupStep > 3 ? <><RimoElement kind="el-icon"><RimoIcon name="Check" /></RimoElement></> : <><span>{text("4")}</span></>}</div>
 <div className="flex flex-col"><span className="text-xs font-bold uppercase tracking-wider text-gray-500">{text("Step 04")}</span>
 <span className="text-sm font-bold text-gray-800">{text("發車完成")}</span></div></div></div>
-{view.orderStatus === 'inspecting' ? <><div className="px-6 py-2 bg-amber-50 border-b border-amber-100 flex items-center justify-between gap-3 text-xs text-amber-700"><div className="flex items-center gap-2 min-w-0"><RimoElement kind="el-icon" className="text-base shrink-0"><RimoIcon name="Warning" /></RimoElement>
+{view.orderStatus === 'inspecting' ? <><div className="px-6 py-2 bg-amber-50 border-b border-amber-100 flex items-center justify-between gap-3 text-xs text-amber-700" data-rimo-layout="toolbar"><div className="flex items-center gap-2 min-w-0"><RimoElement kind="el-icon" className="text-base shrink-0"><RimoIcon name="Warning" /></RimoElement>
 <span className="font-bold shrink-0">{rimoText(view.pickupInterrupted ? '取車草稿已保留' : '取車辦理中')}</span>
 <span className="truncate">{text("當前驗車中，確認發車後進入用車中；操作鎖 ")}{rimoText(view.pickupLock.operator)}{text("，")}{rimoText(view.pickupLock.expiresAt)}{text(" 到期。")}</span></div>
 {view.pickupInterrupted ? <><RimoElement kind="el-button" size="small" text={true} type="warning" onClick={event => {
                   view.releasePickupLock?.(event);
                 }}>{text("\n                        釋放操作鎖\n                    ")}</RimoElement></> : null}</div></> : null}
-<div className="flex-1 overflow-y-auto p-6">{view.pickupStep === 0 ? <><div className="animate__animated animate__fadeIn"><div className="grid grid-cols-12 gap-6 h-full min-h-[480px]"><div className="col-span-5 bg-white border border-slate-200/80 rounded-xl shadow-[0_2px_8px_rgb(0,0,0,0.02)] overflow-hidden flex flex-col h-full"><div className="px-6 py-4 bg-slate-50/80 border-b border-gray-100 flex items-center justify-between shrink-0"><div className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-[color:var(--app-color-primary-light-9)] text-[color:var(--app-color-primary)] flex flex-col items-center justify-center shadow-sm border border-[color:var(--app-color-primary-light-8)]"><RimoElement kind="el-icon" className="text-sm"><RimoIcon name="UserFilled" /></RimoElement></div>
+<div className="flex-1 overflow-y-auto p-6">{view.pickupStep === 0 ? <><div className="animate__animated animate__fadeIn"><div className="grid grid-cols-12 gap-6 h-full min-h-[480px]" data-rimo-grid="12"><div className="col-span-5 bg-white border border-slate-200/80 rounded-xl shadow-[0_2px_8px_rgb(0,0,0,0.02)] overflow-hidden flex flex-col h-full"><div className="px-6 py-4 bg-slate-50/80 border-b border-gray-100 flex items-center justify-between shrink-0"><div className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-[color:var(--app-color-primary-light-9)] text-[color:var(--app-color-primary)] flex flex-col items-center justify-center shadow-sm border border-[color:var(--app-color-primary-light-8)]"><RimoElement kind="el-icon" className="text-sm"><RimoIcon name="UserFilled" /></RimoElement></div>
 <div><h4 className="font-bold text-gray-900 text-sm">{text("駕駛人身份")}</h4>
 <p className="text-[11px] text-gray-500 mt-0.5">{text("覈對證件與本人一致")}</p></div></div>
 <RimoElement kind="el-tag" type="info" effect="plain" className="!border-gray-200 !text-gray-500 !bg-white shadow-sm">{text("駕照有效")}</RimoElement></div>
-<div className="p-6 flex-1 flex flex-col"><div className="grid grid-cols-2 gap-3 mb-8 basis-auto"><div className="bg-gray-50/70 p-3 rounded-lg border border-gray-200/60 shadow-sm transition-colors hover:bg-white hover:border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-1"><RimoElement kind="el-icon"><RimoIcon name="User" /></RimoElement>
+<div className="p-6 flex-1 flex flex-col"><div className="grid grid-cols-2 gap-3 mb-8 basis-auto" data-rimo-grid="2"><div className="bg-gray-50/70 p-3 rounded-lg border border-gray-200/60 shadow-sm transition-colors hover:bg-white hover:border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-1"><RimoElement kind="el-icon"><RimoIcon name="User" /></RimoElement>
 {text(" 駕駛人\n                                            ")}</div>
 <div className="font-bold text-gray-900 text-sm">{rimoText(view.pickupData.driverName)}</div></div>
 <div className="bg-gray-50/70 p-3 rounded-lg border border-gray-200/60 shadow-sm transition-colors hover:bg-white hover:border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-1"><RimoElement kind="el-icon"><RimoIcon name="Phone" /></RimoElement>
@@ -6965,7 +6965,7 @@ export default function OrderDetailBlock() {
 <div className="bg-gray-50/70 p-3 rounded-lg border border-gray-200/60 shadow-sm transition-colors hover:bg-white hover:border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center gap-1.5 text-[11px] text-gray-400 mb-1"><RimoElement kind="el-icon"><RimoIcon name="Calendar" /></RimoElement>
 {text(" 駕照有效期\n                                            ")}</div>
 <div className="font-mono font-medium text-gray-800 text-sm">{rimoText(view.pickupData.licenseExp)}</div></div></div>
-<div className="grid grid-cols-2 gap-4 mb-6 relative"><div className="border border-gray-200 rounded-xl p-4 bg-white hover:border-[color:var(--app-color-primary-light-7)] hover:shadow-md transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between"><div className="absolute -right-2 -bottom-2 opacity-5 scale-150 rotate-12 transition-transform group-hover:rotate-0"><RimoElement kind="el-icon" className="text-6xl"><RimoIcon name="Postcard" /></RimoElement></div>
+<div className="grid grid-cols-2 gap-4 mb-6 relative" data-rimo-grid="2"><div className="border border-gray-200 rounded-xl p-4 bg-white hover:border-[color:var(--app-color-primary-light-7)] hover:shadow-md transition-all group cursor-pointer relative overflow-hidden flex flex-col justify-between"><div className="absolute -right-2 -bottom-2 opacity-5 scale-150 rotate-12 transition-transform group-hover:rotate-0"><RimoElement kind="el-icon" className="text-6xl"><RimoIcon name="Postcard" /></RimoElement></div>
 <div className="flex items-center justify-between mb-3 relative z-10"><div className="text-sm font-bold text-gray-800 group-hover:text-[color:var(--app-color-primary)] transition-colors">{text("身份證人像面")}</div>
 <RimoElement kind="el-tag" size="small" type="info" effect="plain" className="opacity-0 group-hover:opacity-100 transition-opacity !bg-white">{text("查看")}</RimoElement></div>
 <div className="h-20 rounded-lg bg-gray-50 border border-dashed border-gray-200 flex items-center justify-center text-gray-300 shadow-inner relative z-10"><RimoElement kind="el-icon" className="text-3xl"><RimoIcon name="Postcard" /></RimoElement></div></div>
@@ -6997,11 +6997,11 @@ export default function OrderDetailBlock() {
 <span className="text-red-500">{text("*")}</span></div>
 <div className="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 font-bold">{text("\n                                                    已上傳 ")}{rimoText(view.uploadedQualificationCount)}{text("/3\n                                                ")}</div></div>
 <div className="text-[11px] text-gray-500 mb-4">{rimoText(view.currentPickupMarketingPlan.requiredDocText)}</div>
-<div className="grid grid-cols-3 gap-4">{rimoEntries(view.pickupData.qualificationFiles).map(([doc], _itemIndex) => <Fragment key={doc.index}><RimoElement kind="el-upload" key={doc.index} className="block" action="#" accept="image/*,.pdf" autoUpload={false} showFileList={false} onChange={() => view.markQualificationFileUploaded(doc)}><div className={rimoClass(["group h-[110px] rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all duration-300", rimoClass(doc.uploaded ? 'border-blue-300 bg-blue-50/50 text-blue-600 hover:bg-blue-100 hover:border-blue-400' : 'border-gray-200 bg-gray-50/50 text-gray-400 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-500 hover:shadow-sm')])}><RimoElement kind="el-icon" className="text-[28px] mb-2 transition-transform group-hover:scale-110"><RimoIcon name={doc.uploaded ? 'CircleCheckFilled' : 'UploadFilled'} /></RimoElement>
+<div className="grid grid-cols-3 gap-4" data-rimo-grid="3">{rimoEntries(view.pickupData.qualificationFiles).map(([doc], _itemIndex) => <Fragment key={doc.index}><RimoElement kind="el-upload" key={doc.index} className="block" action="#" accept="image/*,.pdf" autoUpload={false} showFileList={false} onChange={() => view.markQualificationFileUploaded(doc)}><div className={rimoClass(["group h-[110px] rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all duration-300", rimoClass(doc.uploaded ? 'border-blue-300 bg-blue-50/50 text-blue-600 hover:bg-blue-100 hover:border-blue-400' : 'border-gray-200 bg-gray-50/50 text-gray-400 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-500 hover:shadow-sm')])}><RimoElement kind="el-icon" className="text-[28px] mb-2 transition-transform group-hover:scale-110"><RimoIcon name={doc.uploaded ? 'CircleCheckFilled' : 'UploadFilled'} /></RimoElement>
 <div className="text-[13px] font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{text("證明文件 ")}{rimoText(doc.index)}</div>
 <div className="text-[10px] mt-1 text-gray-400 group-hover:text-blue-500 transition-colors">{rimoText(doc.uploaded ? '點擊重新上傳' : '上傳照片或PDF')}</div></div></RimoElement></Fragment>)}</div></div>
 <div className="h-px bg-gray-100 mb-6"></div>
-<div className="mt-auto grid grid-cols-12 gap-6 items-start"><div className={rimoClass(view.pickupData.promoQualificationStatus === 'failed' ? 'col-span-5' : 'col-span-12')}><div className="text-[13px] font-bold text-gray-800 mb-3 flex items-center gap-1.5">{text("\n                                                    最終覈驗結果 ")}
+<div className="mt-auto grid grid-cols-12 gap-6 items-start" data-rimo-grid="12"><div className={rimoClass(view.pickupData.promoQualificationStatus === 'failed' ? 'col-span-5' : 'col-span-12')}><div className="text-[13px] font-bold text-gray-800 mb-3 flex items-center gap-1.5">{text("\n                                                    最終覈驗結果 ")}
 <span className="text-red-500">{text("*")}</span></div>
 <RimoElement kind="el-radio-group" modelValue={view.pickupData.promoQualificationStatus} onModelChange={value => {
                                 model.write(["pickupData", "promoQualificationStatus"], value);
@@ -7059,7 +7059,7 @@ export default function OrderDetailBlock() {
 <div className="text-xs text-gray-400">{text("本期按規則配置凍結")}</div></div></div>
 <RimoElement kind="el-tag" type="info" size="small" effect="plain">{rimoText(view.preAuthStatusText)}{text("\n                                                ¥")}{rimoText(view.formatNumber(view.paymentData.preAuthAmount))}</RimoElement></div>
 <div className="mb-3"><div className="text-xs text-gray-500 mb-2 font-medium">{text("處理方式")}</div>
-<div className="grid grid-cols-2 gap-2" data-rimo-layout="summary"><div className={rimoClass(["p-3 rounded-lg border-2 bg-white shadow-sm text-center cursor-pointer transition-all", rimoClass(view.paymentData.preAuthMode === 'guarantee' ? 'border-blue-500 ring-2 ring-blue-50' : 'border-gray-200 hover:border-blue-200')])} onClick={_event => {
+<div className="grid grid-cols-2 gap-2" data-rimo-grid="2" data-rimo-layout="summary"><div className={rimoClass(["p-3 rounded-lg border-2 bg-white shadow-sm text-center cursor-pointer transition-all", rimoClass(view.paymentData.preAuthMode === 'guarantee' ? 'border-blue-500 ring-2 ring-blue-50' : 'border-gray-200 hover:border-blue-200')])} onClick={_event => {
                                 view.selectPreAuthMode('guarantee');
                               }} data-rimo-layout="stat"><div className={rimoClass(["text-sm font-medium", rimoClass(view.paymentData.preAuthMode === 'guarantee' ? 'text-blue-600' : 'text-gray-700')])}>{text("\n                                                        履約擔保")}</div>
 <div className="text-xs text-gray-400 mt-0.5">{text("僅凍結，發車後釋放")}</div></div>
@@ -7128,7 +7128,7 @@ export default function OrderDetailBlock() {
 {text("\n                                    車輛查驗\n                                ")}</h4>
 <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden"><div className="bg-gradient-to-r from-slate-50 to-gray-50 border-b border-gray-100 p-4"><div className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-3"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="InfoFilled" /></RimoElement>
 {text("\n                                            基礎交接信息\n                                        ")}</div>
-<div className="grid grid-cols-3 gap-5"><div><div className="text-xs text-gray-500 mb-1.5 font-medium">{text("車輛所在據點")}</div>
+<div className="grid grid-cols-3 gap-5" data-rimo-grid="3"><div><div className="text-xs text-gray-500 mb-1.5 font-medium">{text("車輛所在據點")}</div>
 <div className="h-10 flex items-center px-3 rounded border border-gray-200 bg-gray-50 text-sm font-medium text-gray-700">{text("\n                                                    ")}{rimoText(view.pickupVehicleStationText)}{text("\n                                                ")}</div></div>
 <div><div className="text-xs text-gray-500 mb-1.5 font-medium">{text("交付位置")}</div>
 <RimoElement kind="el-input" modelValue={view.pickupData.deliveryLocation} onModelChange={value => {
@@ -7159,13 +7159,13 @@ export default function OrderDetailBlock() {
 {text("\n                                            驗車影像記錄\n                                        ")}</div>
 <div className="flex gap-4 mb-5"><div className="flex-[2] min-w-0"><div className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-2"><span className="w-5 h-5 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs">{text("外")}</span>
 {text("\n                                                    外觀照片 (6張)\n                                                ")}</div>
-<div className="grid grid-cols-6 gap-2">{rimoEntries(['前方', '後方', '左側', '右側', '左前角', '右前角']).map(([label, i], _itemIndex) => <Fragment key={'ext' + i}><div key={'ext' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-[color:var(--app-color-primary-light-5)] hover:text-[color:var(--app-color-primary)] hover:bg-[color:var(--app-color-primary-light-9)] transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
+<div className="grid grid-cols-6 gap-2" data-rimo-grid="6">{rimoEntries(['前方', '後方', '左側', '右側', '左前角', '右前角']).map(([label, i], _itemIndex) => <Fragment key={'ext' + i}><div key={'ext' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-[color:var(--app-color-primary-light-5)] hover:text-[color:var(--app-color-primary)] hover:bg-[color:var(--app-color-primary-light-9)] transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
 <span className="text-[10px] font-medium">{rimoText(label)}</span></div></Fragment>)}</div></div>
 <div className="flex-1 min-w-0"><div className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-2"><span className="w-5 h-5 bg-green-100 text-green-600 rounded flex items-center justify-center text-xs">{text("內")}</span>
 {text("\n                                                    內飾照片 (3張)\n                                                ")}</div>
-<div className="grid grid-cols-3 gap-2">{rimoEntries(['儀表', '座椅', '後排']).map(([label, i], _itemIndex) => <Fragment key={'int' + i}><div key={'int' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-green-400 hover:text-green-500 hover:bg-green-50 transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
+<div className="grid grid-cols-3 gap-2" data-rimo-grid="3">{rimoEntries(['儀表', '座椅', '後排']).map(([label, i], _itemIndex) => <Fragment key={'int' + i}><div key={'int' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-green-400 hover:text-green-500 hover:bg-green-50 transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
 <span className="text-[10px] font-medium">{rimoText(label)}</span></div></Fragment>)}</div></div></div>
-<div className="border-t border-gray-100 pt-4"><div className="flex items-center justify-between mb-3"><div className="text-xs font-bold text-gray-500 flex items-center gap-2"><span className="w-5 h-5 bg-orange-100 text-orange-600 rounded flex items-center justify-center text-xs">{text("損")}</span>
+<div className="border-t border-gray-100 pt-4"><div className="flex items-center justify-between mb-3" data-rimo-layout="toolbar"><div className="text-xs font-bold text-gray-500 flex items-center gap-2"><span className="w-5 h-5 bg-orange-100 text-orange-600 rounded flex items-center justify-center text-xs">{text("損")}</span>
 {text("\n                                                    異常/損傷記錄 (")}{rimoText(view.damagePhotos.length)}{text(")\n                                                ")}</div>
 <RimoElement kind="el-button" type="warning" size="small" onClick={_event => {
                               model.write(["showDamageTypeDialog"], true);
@@ -7173,7 +7173,7 @@ export default function OrderDetailBlock() {
 {text("添加異常\n                                                ")}</RimoElement></div>
 {view.damagePhotos.length === 0 ? <><div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 flex items-center gap-4"><RimoElement kind="el-icon" className="text-3xl text-green-500"><RimoIcon name="CircleCheck" /></RimoElement>
 <div><div className="font-medium text-green-700">{text("車況良好")}</div>
-<div className="text-xs text-green-500">{text("交接檢查未發現異常或損傷")}</div></div></div></> : <><div className="grid grid-cols-2 gap-4">{rimoEntries(view.damagePhotos).map(([damage], _itemIndex) => <Fragment key={damage.id}><div key={damage.id} className="bg-orange-50 rounded-xl p-4 border border-orange-200"><div className="flex justify-between items-start mb-3"><div className="flex items-center gap-2"><RimoElement kind="el-tag" type={damage.category === 'exterior' ? 'warning' : 'info'} size="small">{text("\n                                                                ")}{rimoText(damage.category === 'exterior' ? '外觀損傷' : damage.category === 'interior' ? '內飾異常' : '其他異常')}{text("\n                                                            ")}</RimoElement>
+<div className="text-xs text-green-500">{text("交接檢查未發現異常或損傷")}</div></div></div></> : <><div className="grid grid-cols-2 gap-4" data-rimo-grid="2">{rimoEntries(view.damagePhotos).map(([damage], _itemIndex) => <Fragment key={damage.id}><div key={damage.id} className="bg-orange-50 rounded-xl p-4 border border-orange-200"><div className="flex justify-between items-start mb-3"><div className="flex items-center gap-2"><RimoElement kind="el-tag" type={damage.category === 'exterior' ? 'warning' : 'info'} size="small">{text("\n                                                                ")}{rimoText(damage.category === 'exterior' ? '外觀損傷' : damage.category === 'interior' ? '內飾異常' : '其他異常')}{text("\n                                                            ")}</RimoElement>
 <span className="text-sm text-orange-700 font-medium">{rimoText(damage.type)}</span></div>
 <RimoElement kind="el-icon" className="text-gray-400 cursor-pointer hover:text-red-500" onClick={_event => {
                                       view.removeDamagePhoto(damage.id);
@@ -7205,7 +7205,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-dialog" modelValue={view.returnModalVisible} onModelChange={value => {
       model.write(["returnModalVisible"], value);
     }} title="車輛還車結算" width="1000px" destroyOnClose={true} top="5vh" className="rounded-xl overflow-hidden custom-modal order-detail-overlay" beforeClose={view.handleReturnDialogClose} slots={{
-      "footer": _slot => <><div className="flex justify-between items-center"><RimoElement kind="el-button" onClick={event => {
+      "footer": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><RimoElement kind="el-button" onClick={event => {
             view.requestCloseReturnModal?.(event);
           }} disabled={view.returnStep === 2}>{text("暫停辦理")}</RimoElement>
 <div>{view.returnStep > 0 && view.returnStep < 2 ? <><RimoElement kind="el-button" onClick={_event => {
@@ -7241,14 +7241,14 @@ export default function OrderDetailBlock() {
 {view.returnStep < 2 ? <><div className="px-6 py-2 bg-gray-50 border-b border-gray-100 flex items-center justify-between gap-3 text-xs text-gray-600"><div className="flex items-center gap-2 min-w-0"><RimoElement kind="el-icon" className="text-base shrink-0"><RimoIcon name="InfoFilled" /></RimoElement>
 <span className="font-bold shrink-0">{rimoText(view.returnStep === 0 ? '還車辦理中' : '費用結算中')}</span>
 <span className="truncate">{text("\n                            ")}{rimoText(view.returnStep === 0 ? '錄入驗車、歸還據點和客戶簽字後進入費用結算。' : view.isMonthlyBilling ? '確認企業月結金額後完成還車。' : '完成補繳或退款確認後完成還車。')}{text("\n                        ")}</span></div></div></> : null}
-<div className="flex-1 overflow-y-auto p-6">{view.returnStep === 0 ? <><div className="animate-fade-in-up space-y-5"><div className="grid grid-cols-2 gap-5"><div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm"><h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2 text-sm"><span className="w-7 h-7 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Timer" /></RimoElement></span>
+<div className="flex-1 overflow-y-auto p-6">{view.returnStep === 0 ? <><div className="animate-fade-in-up space-y-5"><div className="grid grid-cols-2 gap-5" data-rimo-grid="2" data-rimo-layout="form-grid"><div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm"><h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2 text-sm"><span className="w-7 h-7 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="Timer" /></RimoElement></span>
 {text("\n                                    還車時間與地點\n                                ")}</h3>
 <div className="space-y-4"><div><div className="text-xs font-medium text-gray-500 mb-1.5">{text("實際還車時間")}</div>
 <RimoElement kind="el-date-picker" modelValue={view.returnData.returnTime} onModelChange={value => {
                           model.write(["returnData", "returnTime"], value);
                         }} type="datetime" placeholder="選擇時間" className="w-full" size="default"></RimoElement></div>
-<div className="grid grid-cols-2 gap-3"><div><div className="text-xs font-medium text-gray-500 mb-1.5">{text("還車門市")}</div>
-<div className="min-h-[32px] flex items-center justify-between gap-2 rounded border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm"><span className="font-medium text-gray-700">{rimoText(view.currentReturnStoreName)}</span>
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2"><div><div className="text-xs font-medium text-gray-500 mb-1.5">{text("還車門市")}</div>
+<div className="min-h-[32px] flex items-center justify-between gap-2 rounded border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm" data-rimo-layout="toolbar"><span className="font-medium text-gray-700">{rimoText(view.currentReturnStoreName)}</span>
 <div className="flex items-center gap-2">{view.canChangeReturnStore && !view.isSelfServiceOrder ? <><RimoElement kind="el-button" type="primary" link={true} size="small" onClick={event => {
                                   view.openReturnStoreChangeDialog?.(event);
                                 }}>{text("轉單")}</RimoElement></> : null}
@@ -7260,7 +7260,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-select" modelValue={view.returnData.parking.station} onModelChange={value => {
                             model.write(["returnData", "parking", "station"], value);
                           }} className="w-full" size="default">{rimoEntries(view.returnStations).map(([station], _itemIndex) => <Fragment key={station.id}><RimoElement kind="el-option" key={station.id} label={station.name} value={station.id}></RimoElement></Fragment>)}</RimoElement></div></div>
-<div className="grid grid-cols-2 gap-3"><div><div className="text-xs font-medium text-gray-500 mb-1.5">{text("停車樓層")}</div>
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2" data-rimo-layout="form-grid"><div><div className="text-xs font-medium text-gray-500 mb-1.5">{text("停車樓層")}</div>
 <RimoElement kind="el-input" modelValue={view.returnData.parking.floor} onModelChange={value => {
                             model.write(["returnData", "parking", "floor"], value);
                           }} placeholder="B3" size="default"></RimoElement></div>
@@ -7299,13 +7299,13 @@ export default function OrderDetailBlock() {
 {text("\n                                驗車影像記錄\n                            ")}</h3>
 <div className="flex gap-4 mb-5"><div className="flex-[2] min-w-0"><div className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-2"><span className="w-5 h-5 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs">{text("外")}</span>
 {text("外觀照片\n                                        (6張)")}</div>
-<div className="grid grid-cols-6 gap-2">{rimoEntries(['前方', '後方', '左側', '右側', '左前角', '右前角']).map(([label, i], _itemIndex) => <Fragment key={'retext' + i}><div key={'retext' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-[color:var(--app-color-primary-light-5)] hover:text-[color:var(--app-color-primary)] hover:bg-[color:var(--app-color-primary-light-9)] transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
+<div className="grid grid-cols-6 gap-2" data-rimo-grid="6">{rimoEntries(['前方', '後方', '左側', '右側', '左前角', '右前角']).map(([label, i], _itemIndex) => <Fragment key={'retext' + i}><div key={'retext' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-[color:var(--app-color-primary-light-5)] hover:text-[color:var(--app-color-primary)] hover:bg-[color:var(--app-color-primary-light-9)] transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
 <span className="text-[10px] font-medium">{rimoText(label)}</span></div></Fragment>)}</div></div>
 <div className="flex-1 min-w-0"><div className="text-xs font-bold text-gray-500 mb-2 flex items-center gap-2"><span className="w-5 h-5 bg-green-100 text-green-600 rounded flex items-center justify-center text-xs">{text("內")}</span>
 {text("內飾照片\n                                        (3張)")}</div>
-<div className="grid grid-cols-3 gap-2">{rimoEntries(['儀表', '座椅', '後排']).map(([label, i], _itemIndex) => <Fragment key={'retint' + i}><div key={'retint' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-green-400 hover:text-green-500 hover:bg-green-50 transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
+<div className="grid grid-cols-3 gap-2" data-rimo-grid="3">{rimoEntries(['儀表', '座椅', '後排']).map(([label, i], _itemIndex) => <Fragment key={'retint' + i}><div key={'retint' + i} className="aspect-square bg-gradient-to-br from-gray-50 to-slate-100 rounded-lg border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 cursor-pointer hover:border-green-400 hover:text-green-500 hover:bg-green-50 transition-all group"><RimoElement kind="el-icon" className="text-xl mb-1 group-hover:scale-110 transition-transform"><RimoIcon name="Plus" /></RimoElement>
 <span className="text-[10px] font-medium">{rimoText(label)}</span></div></Fragment>)}</div></div></div>
-<div className="border-t border-gray-100 pt-4"><div className="flex items-center justify-between mb-3"><div className="text-xs font-bold text-gray-500 flex items-center gap-2"><span className="w-5 h-5 bg-orange-100 text-orange-600 rounded flex items-center justify-center text-xs">{text("損")}</span>
+<div className="border-t border-gray-100 pt-4"><div className="flex items-center justify-between mb-3" data-rimo-layout="toolbar"><div className="text-xs font-bold text-gray-500 flex items-center gap-2"><span className="w-5 h-5 bg-orange-100 text-orange-600 rounded flex items-center justify-center text-xs">{text("損")}</span>
 {text("異常/損傷記錄\n                                        (")}{rimoText(view.returnDamagePhotos.length)}{text(")")}</div>
 <RimoElement kind="el-button" type="warning" size="small" onClick={_event => {
                         view.openDamageDialog('return');
@@ -7313,7 +7313,7 @@ export default function OrderDetailBlock() {
 {text("添加異常")}</RimoElement></div>
 {view.returnDamagePhotos.length === 0 ? <><div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-200 flex items-center gap-4"><RimoElement kind="el-icon" className="text-3xl text-green-500"><RimoIcon name="CircleCheck" /></RimoElement>
 <div><div className="font-medium text-green-700">{text("車況良好")}</div>
-<div className="text-xs text-green-500">{text("交接檢查未發現異常或損傷")}</div></div></div></> : <><div className="grid grid-cols-2 gap-4">{rimoEntries(view.returnDamagePhotos).map(([damage], _itemIndex) => <Fragment key={damage.id}><div key={damage.id} className="bg-orange-50 rounded-xl p-4 border border-orange-200"><div className="flex justify-between items-start mb-3"><div className="flex items-center gap-2"><RimoElement kind="el-tag" type={damage.category === 'exterior' ? 'warning' : 'info'} size="small">{rimoText(damage.category === 'exterior' ? '外觀損傷' : '其他異常')}</RimoElement>
+<div className="text-xs text-green-500">{text("交接檢查未發現異常或損傷")}</div></div></div></> : <><div className="grid grid-cols-2 gap-4" data-rimo-grid="2">{rimoEntries(view.returnDamagePhotos).map(([damage], _itemIndex) => <Fragment key={damage.id}><div key={damage.id} className="bg-orange-50 rounded-xl p-4 border border-orange-200"><div className="flex justify-between items-start mb-3"><div className="flex items-center gap-2"><RimoElement kind="el-tag" type={damage.category === 'exterior' ? 'warning' : 'info'} size="small">{rimoText(damage.category === 'exterior' ? '外觀損傷' : '其他異常')}</RimoElement>
 <span className="text-sm text-orange-700 font-medium">{rimoText(damage.type)}</span></div>
 <RimoElement kind="el-icon" className="text-gray-400 cursor-pointer hover:text-red-500" onClick={_event => {
                                 view.removeDamagePhoto(damage.id, 'return');
@@ -7324,12 +7324,12 @@ export default function OrderDetailBlock() {
                             }} type="textarea" rows={2} placeholder="描述損傷情況..." size="small"></RimoElement></div></Fragment>)}</div></>}</div></div>
 <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm"><h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2 text-sm"><span className="w-7 h-7 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="EditPen" /></RimoElement></span>
 {text("\n                                客戶簽字確認\n                            ")}</h3>
-{view.returnSignatureStatus === 'initial' ? <><div className="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-200"><div><div className="font-bold text-gray-800">{text("發送簽名請求")}</div>
+{view.returnSignatureStatus === 'initial' ? <><div className="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-200" data-rimo-layout="toolbar"><div><div className="font-bold text-gray-800">{text("發送簽名請求")}</div>
 <div className="text-xs text-gray-500">{text("將推送簽名通知至客戶APP")}</div></div>
 <RimoElement kind="el-button" type="primary" plain={true} onClick={event => {
                         view.requestReturnSignature?.(event);
                       }}>{text("立即推送 ")}
-<RimoElement kind="el-icon" className="ml-1"><RimoIcon name="Position" /></RimoElement></RimoElement></div></> : view.returnSignatureStatus === 'pushed' ? <><div className="p-4 bg-blue-50 rounded-lg border border-blue-200 flex items-center justify-between"><div><div className="text-sm text-blue-700 font-bold mb-1 flex items-center gap-1"><RimoElement kind="el-icon" className="animate-pulse"><RimoIcon name="Bell" /></RimoElement>
+<RimoElement kind="el-icon" className="ml-1"><RimoIcon name="Position" /></RimoElement></RimoElement></div></> : view.returnSignatureStatus === 'pushed' ? <><div className="p-4 bg-blue-50 rounded-lg border border-blue-200 flex items-center justify-between" data-rimo-layout="toolbar"><div><div className="text-sm text-blue-700 font-bold mb-1 flex items-center gap-1"><RimoElement kind="el-icon" className="animate-pulse"><RimoIcon name="Bell" /></RimoElement>
 {text(" 已推送簽名請求")}</div>
 <div className="text-xs text-blue-600">{text("客戶APP正在簽署中...")}</div></div>
 <RimoElement kind="el-button" type="primary" size="small" loading={view.processing} onClick={event => {
@@ -7338,7 +7338,7 @@ export default function OrderDetailBlock() {
 {text(" 已完成簽署")}</div>
 <div className="text-xs text-green-600">{text("簽署時間: ")}{rimoText(view.returnSignatureTime)}</div></div>
 <div className="text-3xl font-cursive text-gray-800 rotate-[-5deg] opacaity-80 px-4">{text("Wang\n                                    Xiao\n                                    Ming")}</div></div></>}</div></div></> : null}
-{view.returnStep === 1 ? <><div className="max-w-4xl mx-auto space-y-6 animate-fade-in-up"><div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm"><div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center"><div><h4 className="font-bold text-gray-800">{text("費用明細")}</h4>
+{view.returnStep === 1 ? <><div className="max-w-4xl mx-auto space-y-6 animate-fade-in-up"><div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm"><div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center" data-rimo-layout="toolbar"><div><h4 className="font-bold text-gray-800">{text("費用明細")}</h4>
 <p className="text-xs text-gray-500 mt-0.5">{text("\n                                        ")}{rimoText(view.isMonthlyBilling ? '企業月結訂單按最終應收進入企業賬單' : '還車階段只處理租期結束後的差額費用')}{text("\n                                    ")}</p></div>
 <RimoElement kind="el-button" type="primary" plain={true} size="small" icon="Plus" onClick={event => {
                       view.openAddFeeDialog?.(event);
@@ -7390,7 +7390,7 @@ export default function OrderDetailBlock() {
                             })])}>{text("\n                                            ")}{rimoText(record.type === 'refund' ? '-' : record.type === 'waiver' ? '-' : '+')}{text("\n                                            ")}{rimoText(view.formatNumber(Math.abs(record.amount)))}{text("\n                                        ")}</div>
 {record.remark ? <><div className="text-xs text-gray-500 mt-0.5 max-w-[200px] truncate" title={record.remark}>{text("\n                                            ")}{rimoText(record.remark)}{text("\n                                        ")}</div></> : null}</div></div></Fragment>)}</div></div></> : null}
 <div className={rimoClass(["rounded-xl p-6 shadow-lg border transition-all relative overflow-hidden", rimoClass(view.isMonthlyBilling ? 'bg-gradient-to-br from-[color:var(--app-color-primary-light-9)] to-[color:var(--app-color-primary-light-9)] border-[color:var(--app-color-primary-light-7)]' : view.returnBalanceDue !== 0 ? 'bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200' : 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-200')])}><RimoElement kind="el-icon" className={rimoClass(["absolute -right-4 -bottom-4 text-9xl opacity-10", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary)]' : view.returnBalanceDue !== 0 ? 'text-orange-500' : 'text-green-500')])}><RimoIcon name="Money" /></RimoElement>
-<div className="flex justify-between items-center relative z-10"><div><div className={rimoClass(["text-xs font-bold uppercase tracking-wider mb-1 flex items-center gap-1", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary)]' : view.returnBalanceDue !== 0 ? 'text-orange-600' : 'text-green-600')])}><RimoElement kind="el-icon"><RimoIcon name="Wallet" /></RimoElement>
+<div className="flex justify-between items-center relative z-10" data-rimo-layout="toolbar"><div><div className={rimoClass(["text-xs font-bold uppercase tracking-wider mb-1 flex items-center gap-1", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary)]' : view.returnBalanceDue !== 0 ? 'text-orange-600' : 'text-green-600')])}><RimoElement kind="el-icon"><RimoIcon name="Wallet" /></RimoElement>
 {text("\n                                        ")}{rimoText(view.isMonthlyBilling ? '企業掛賬金額' : '還車待結金額')}{text("\n                                    ")}</div>
 <div className={rimoClass(["text-4xl font-bold font-mono heading-font tracking-tight", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary-hover)]' : view.returnBalanceDue !== 0 ? 'text-red-600' : 'text-green-600')])}>{view.isMonthlyBilling ? <><span>{text("¥ ")}{rimoText(view.formatNumber(view.monthlyReturnBillAmount))}</span></> : view.returnBalanceDue > 0 ? <><span>{text("¥ ")}{rimoText(view.formatNumber(Math.abs(view.returnBalanceDue)))}</span></> : view.returnBalanceDue < 0 ? <><span>{text("退 ¥ ")}{rimoText(view.formatNumber(Math.abs(view.returnBalanceDue)))}</span></> : <><span>{text("已結清")}</span></>}</div>
 <div className={rimoClass(["text-xs mt-2 flex gap-4 font-medium opacity-80", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary-hover)]' : view.returnBalanceDue !== 0 ? 'text-orange-800' : 'text-green-800')])}><span>{rimoText(view.isMonthlyBilling ? '企業應收總額' : '還車差額')}{text(": ")}{rimoText(!view.isMonthlyBilling && view.returnFees.total < 0 ? '-' : '')}{rimoText(view.formatNumber(view.isMonthlyBilling ? view.monthlyReturnBillAmount : view.returnFees.total))}</span>
@@ -7492,7 +7492,7 @@ export default function OrderDetailBlock() {
     }}>{() => <><div className="space-y-4"><div className="rounded-xl border border-red-100 bg-red-50 p-4 flex gap-3"><div className="w-9 h-9 rounded-full bg-white text-red-500 flex items-center justify-center shrink-0"><RimoElement kind="el-icon" className="text-xl"><RimoIcon name="RefreshLeft" /></RimoElement></div>
 <div><div className="font-bold text-red-700">{text("本次將執行原路退款")}</div>
 <div className="text-xs text-red-600 mt-1">{text("退款成功後會寫入結算記錄，並抵消當前應退金額。")}</div></div></div>
-<div className="grid grid-cols-2 gap-3 text-sm"><div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="text-xs text-gray-400 mb-1">{text("退款金額")}</div>
+<div className="grid grid-cols-2 gap-3 text-sm" data-rimo-grid="2"><div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="text-xs text-gray-400 mb-1">{text("退款金額")}</div>
 <div className="text-2xl font-bold text-red-600 font-mono">{text("¥ ")}{rimoText(view.formatNumber(view.returnRefundAmount))}</div></div>
 <div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="text-xs text-gray-400 mb-1">{text("退款方式")}</div>
 <div className="font-bold text-gray-800">{text("原路退回")}</div></div></div>
@@ -7554,7 +7554,7 @@ export default function OrderDetailBlock() {
 {text(" 線下收款\n                    ")}</div></> : null}</div>
 {view.newPayment.context === 'booking' ? <><div className="mb-5 rounded-lg border border-blue-100 bg-blue-50 text-blue-700 text-xs px-3 py-2">{text("\n                    本期下單預授權押金僅支持線上預授權，不支持現金押金、線下押金或僅登記線下憑證。\n                ")}</div></> : null}
 {view.paymentDialogType === 'online' ? <><div className="space-y-4"><div className="text-sm font-medium text-gray-700 mb-2">{text("選擇支付渠道")}</div>
-<div className="grid grid-cols-2 gap-3" data-rimo-layout="summary"><div className={rimoClass(["p-4 rounded-xl border-2 cursor-pointer transition-all relative", rimoClass(view.newPayment.gateway === 'jiekou' ? 'border-orange-500 bg-orange-50 shadow-sm' : 'border-gray-200 hover:border-gray-300')])} onClick={_event => {
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2" data-rimo-layout="summary"><div className={rimoClass(["p-4 rounded-xl border-2 cursor-pointer transition-all relative", rimoClass(view.newPayment.gateway === 'jiekou' ? 'border-orange-500 bg-orange-50 shadow-sm' : 'border-gray-200 hover:border-gray-300')])} onClick={_event => {
                   model.write(["newPayment", "gateway"], 'jiekou');
                 }} data-rimo-layout="stat"><div className="flex items-center gap-3"><div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center"><span className="text-orange-500 text-lg font-bold">{text("街")}</span></div>
 <div><div className="font-medium text-gray-800">{text("街口支付")}</div>
@@ -7574,7 +7574,7 @@ export default function OrderDetailBlock() {
 <div className="text-xs text-gray-400">{text("有效期: ")}{rimoText(card.expiry)}</div></div></div>
 <div className="flex items-center gap-2">{card.isDefault ? <><RimoElement kind="el-tag" size="small" type="success" effect="plain">{text("默認卡")}</RimoElement></> : null}
 {view.selectedCreditCard === card.id ? <><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)]"><RimoIcon name="CircleCheck" /></RimoElement></> : null}</div></div></Fragment>)}</div></div></> : null}</div></> : <><div className="space-y-4"><div className="text-sm font-medium text-gray-700 mb-2">{text("選擇收款方式")}</div>
-<div className="grid grid-cols-3 gap-3" data-rimo-layout="summary"><div className={rimoClass(["p-4 rounded-xl border-2 cursor-pointer transition-all text-center", rimoClass(view.newPayment.gateway === 'cash' ? 'border-green-500 bg-green-50 shadow-sm' : 'border-gray-200 hover:border-gray-300')])} onClick={_event => {
+<div className="grid grid-cols-3 gap-3" data-rimo-grid="3" data-rimo-layout="summary"><div className={rimoClass(["p-4 rounded-xl border-2 cursor-pointer transition-all text-center", rimoClass(view.newPayment.gateway === 'cash' ? 'border-green-500 bg-green-50 shadow-sm' : 'border-gray-200 hover:border-gray-300')])} onClick={_event => {
                   model.write(["newPayment", "gateway"], 'cash');
                 }} data-rimo-layout="stat"><RimoElement kind="el-icon" className={rimoClass(["text-2xl mb-2", rimoClass(view.newPayment.gateway === 'cash' ? 'text-green-500' : 'text-gray-400')])}><RimoIcon name="Money" /></RimoElement>
 <div className={rimoClass(["text-sm font-medium", rimoClass(view.newPayment.gateway === 'cash' ? 'text-green-700' : 'text-gray-600')])}>{text("現金")}</div></div>
@@ -7605,7 +7605,7 @@ export default function OrderDetailBlock() {
 <span className="font-normal text-gray-400">{text("ABC-1234")}</span></div></div></div>
 <div className="text-right"><div className="text-xs text-gray-500">{text("日租金")}</div>
 <div className="font-bold text-gray-800">{text("1,920")}</div></div></div>
-<div className="grid grid-cols-2 bg-gray-100 rounded-lg p-1 mb-4 shrink-0" data-rimo-layout="summary"><div className={rimoClass(["text-center py-2 text-sm font-medium rounded-md cursor-pointer transition-all", rimoClass(view.activeTab === 'manual' ? 'bg-white text-[color:var(--app-color-primary)] shadow-sm' : 'text-gray-500 hover:text-gray-700')])} onClick={_event => {
+<div className="grid grid-cols-2 bg-gray-100 rounded-lg p-1 mb-4 shrink-0" data-rimo-grid="2" data-rimo-layout="summary"><div className={rimoClass(["text-center py-2 text-sm font-medium rounded-md cursor-pointer transition-all", rimoClass(view.activeTab === 'manual' ? 'bg-white text-[color:var(--app-color-primary)] shadow-sm' : 'text-gray-500 hover:text-gray-700')])} onClick={_event => {
                 model.write(["activeTab"], 'manual');
               }} data-rimo-layout="stat">{text("\n                            手動選擇\n                        ")}</div>
 <div className={rimoClass(["text-center py-2 text-sm font-medium rounded-md cursor-pointer transition-all", rimoClass(view.activeTab === 'auto' ? 'bg-white text-[color:var(--app-color-primary)] shadow-sm' : 'text-gray-500 hover:text-gray-700')])} onClick={_event => {
@@ -7613,7 +7613,7 @@ export default function OrderDetailBlock() {
               }} data-rimo-layout="stat">{text("\n                            系統推薦 (智能)\n                        ")}</div></div>
 <div className="flex-1 overflow-y-auto custom-scroll pr-2"><div hidden={!(view.activeTab === 'manual')} className="space-y-5 pb-2"><div><div className="text-sm font-bold text-gray-700 mb-2 flex items-center gap-2"><span className="bg-[color:var(--app-color-primary-light-8)] text-[color:var(--app-color-primary)] w-5 h-5 rounded-full flex items-center justify-center text-xs">{text("1")}</span>
 {text("\n                                    選擇車組\n                                ")}</div>
-<div className="grid grid-cols-3 gap-3">{rimoEntries(view.vehicleGroups).map(([group], _itemIndex) => <Fragment key={group.key}><div key={group.key} className={rimoClass(["vehicle-select-card p-3 rounded-lg text-center border border-gray-200", rimoClass({
+<div className="grid grid-cols-3 gap-3" data-rimo-grid="3">{rimoEntries(view.vehicleGroups).map(([group], _itemIndex) => <Fragment key={group.key}><div key={group.key} className={rimoClass(["vehicle-select-card p-3 rounded-lg text-center border border-gray-200", rimoClass({
                         'selected': view.selectedGroup === group.key
                       })])} onClick={_event => {
                         view.handleGroupSelect(group.key);
@@ -7693,7 +7693,7 @@ export default function OrderDetailBlock() {
           }} size="large" className="flex-1 shadow-lg shadow-orange-500/20">{text("\n                        確認添加\n                    ")}</RimoElement></div></>
     }}>{() => <><div className="space-y-5 px-1"><div><div className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2"><span className="w-1 h-4 bg-orange-500 rounded-full"></span>
 {text("\n                        選擇異常類型\n                    ")}</div>
-<div className="grid grid-cols-2 gap-3">{rimoEntries(view.damageCategories).map(([cat], _itemIndex) => <Fragment key={cat.value}><div key={cat.value} className={rimoClass(["relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-2 group", rimoClass(view.newDamage.category === cat.value ? 'border-orange-500 bg-orange-50/50 text-orange-600 shadow-sm' : 'border-gray-100 bg-white text-gray-500 hover:border-orange-200 hover:bg-orange-50/30')])} onClick={_event => {
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2">{rimoEntries(view.damageCategories).map(([cat], _itemIndex) => <Fragment key={cat.value}><div key={cat.value} className={rimoClass(["relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex flex-col items-center justify-center gap-2 group", rimoClass(view.newDamage.category === cat.value ? 'border-orange-500 bg-orange-50/50 text-orange-600 shadow-sm' : 'border-gray-100 bg-white text-gray-500 hover:border-orange-200 hover:bg-orange-50/30')])} onClick={_event => {
                   model.write(["newDamage", "category"], cat.value);
                 }}><div className={rimoClass(["w-10 h-10 rounded-full flex items-center justify-center transition-colors", rimoClass(view.newDamage.category === cat.value ? 'bg-orange-100 text-orange-600' : 'bg-gray-100 text-gray-400 group-hover:bg-orange-100 group-hover:text-orange-500')])}><RimoElement kind="el-icon" className="text-xl"><RimoIcon name={cat.icon} /></RimoElement></div>
 <span className="text-sm font-medium">{rimoText(cat.label)}</span>
@@ -7707,13 +7707,13 @@ export default function OrderDetailBlock() {
             }}></RimoElement></div></div></>}</RimoElement>
 <RimoElement kind="el-dialog" modelValue={view.feeModalVisible} onModelChange={value => {
       model.write(["feeModalVisible"], value);
-    }} title="費用管理" width="1180px" destroyOnClose={true} top="2vh" className="rounded-xl overflow-hidden custom-modal order-detail-overlay">{() => <><div className="p-5"><div className="flex justify-between items-center mb-4"><div className="flex items-center gap-3"><div><div className="font-bold text-gray-900">{text("訂單費用臺賬")}</div>
+    }} title="費用管理" width="1180px" destroyOnClose={true} top="2vh" className="rounded-xl overflow-hidden custom-modal order-detail-overlay">{() => <><div className="p-5"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><div className="flex items-center gap-3"><div><div className="font-bold text-gray-900">{text("訂單費用臺賬")}</div>
 <div className="text-xs text-gray-500">{text("統一查看費用項、資金記錄、追繳、減免與審計日誌")}</div></div></div>
 <RimoElement kind="el-button" type="primary" icon="Plus" onClick={event => {
               view.openNewFeeDialog?.(event);
             }}>{text("添加費用")}</RimoElement></div>
 <div className={rimoClass(["mb-4 rounded-lg border px-4 py-3 text-sm", rimoClass(view.isMonthlyBilling ? 'bg-[color:var(--app-color-primary-light-9)] border-[color:var(--app-color-primary-light-8)] text-[color:var(--app-color-primary-hover)]' : 'bg-gray-50 border-gray-100 text-gray-600')])}>{text("\n                    ")}{rimoText(view.isMonthlyBilling ? '企業月結訂單：費用統一進入企業賬單，不展示客戶通知支付、收款、退款和催收提醒。' : '客戶自付訂單：待收費用可收款，已收費用可退款，完成後追繳先通知客戶。')}{text("\n                ")}</div>
-<div className="grid grid-cols-4 gap-3 mb-4"><div className="rounded-lg border border-gray-200 bg-white px-4 py-3"><div className="text-xs text-gray-500">{text("費用合計")}</div>
+<div className="grid grid-cols-4 gap-3 mb-4" data-rimo-grid="4"><div className="rounded-lg border border-gray-200 bg-white px-4 py-3"><div className="text-xs text-gray-500">{text("費用合計")}</div>
 <div className="mt-1 font-mono text-lg font-bold text-gray-900">{text("¥")}{rimoText(view.formatNumber(view.feeSummary.total))}</div></div>
 <div className="rounded-lg border border-gray-200 bg-white px-4 py-3"><div className="text-xs text-gray-500">{rimoText(view.isMonthlyBilling ? '企業掛賬' : '已收金額')}</div>
 <div className={rimoClass(["mt-1 font-mono text-lg font-bold", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary)]' : 'text-green-600')])}>{text("\n                            ¥")}{rimoText(view.formatNumber(view.isMonthlyBilling ? view.feeSummary.monthly : view.feeSummary.paid))}{text("\n                        ")}</div></div>
@@ -7808,7 +7808,7 @@ export default function OrderDetailBlock() {
 <div className="text-right"><span className={rimoClass(["font-mono font-semibold", rimoClass(txn.type === 'refund' ? 'text-red-500' : txn.type === 'pre_auth' ? 'text-blue-500' : txn.type === 'monthly_bill' ? 'text-[color:var(--app-color-primary)]' : 'text-green-600')])}>{text("\n                                                ")}{rimoText(txn.type === 'refund' ? '-' : txn.type === 'pre_auth' ? '' : '+')}{text("¥")}{rimoText(view.formatNumber(txn.amount))}{text("\n                                            ")}</span></div></div></Fragment>)}</div></div></> : <><div className="text-xs text-gray-400 text-center py-2 mb-3">{text("暫無交易記錄")}</div></>}</div></div></Fragment>)}
 {view.filteredFeeItems.length === 0 ? <><div className="text-center py-8 text-gray-400"><RimoElement kind="el-icon" className="text-4xl mb-2"><RimoIcon name="Wallet" /></RimoElement>
 <div>{text("暫無費用記錄")}</div></div></> : null}</div></div>
-<div className="mt-4 pt-4 border-t border-gray-200"><div className="flex justify-between items-center mb-3"><div className="text-xs text-gray-500">{text("\n                            當前篩選 ")}{rimoText(view.filteredFeeItems.length)}{text(" 項 / 全部 ")}{rimoText(view.feeItems.length)}{text(" 項；點擊費用行查看關聯交易記錄。\n                        ")}</div>
+<div className="mt-4 pt-4 border-t border-gray-200"><div className="flex justify-between items-center mb-3" data-rimo-layout="toolbar"><div className="text-xs text-gray-500">{text("\n                            當前篩選 ")}{rimoText(view.filteredFeeItems.length)}{text(" 項 / 全部 ")}{rimoText(view.feeItems.length)}{text(" 項；點擊費用行查看關聯交易記錄。\n                        ")}</div>
 <div className="flex gap-2"><RimoElement kind="el-button" size="small" plain={true} icon="List" onClick={_event => {
                   model.write(["showAuditLog"], !view.showAuditLog);
                 }}>{text("\n                                ")}{rimoText(view.showAuditLog ? '隱藏日誌' : '操作日誌')}{text("\n                            ")}</RimoElement>
@@ -7866,7 +7866,7 @@ export default function OrderDetailBlock() {
               model.write(["paymentChannelType"], value);
             }} className="w-full"><RimoElement kind="el-radio-button" value="online" className="flex-1">{text("線上支付")}</RimoElement>
 <RimoElement kind="el-radio-button" value="offline" className="flex-1">{text("線下收款")}</RimoElement></RimoElement></div>
-{view.paymentChannelType === 'online' ? <><div className="grid grid-cols-3 gap-3">{rimoEntries(view.onlineChannels).map(([ch], _itemIndex) => <Fragment key={ch.value}><div key={ch.value} className={rimoClass(["border-2 rounded-lg p-3 text-center cursor-pointer transition-all", rimoClass(view.selectedPaymentChannel === ch.value ? 'border-[color:var(--app-color-primary)] bg-[color:var(--app-color-primary-light-9)]' : 'border-gray-200 hover:border-[color:var(--app-color-primary-light-7)]')])} onClick={_event => {
+{view.paymentChannelType === 'online' ? <><div className="grid grid-cols-3 gap-3" data-rimo-grid="3">{rimoEntries(view.onlineChannels).map(([ch], _itemIndex) => <Fragment key={ch.value}><div key={ch.value} className={rimoClass(["border-2 rounded-lg p-3 text-center cursor-pointer transition-all", rimoClass(view.selectedPaymentChannel === ch.value ? 'border-[color:var(--app-color-primary)] bg-[color:var(--app-color-primary-light-9)]' : 'border-gray-200 hover:border-[color:var(--app-color-primary-light-7)]')])} onClick={_event => {
                   model.write(["selectedPaymentChannel"], ch.value);
                 }}><RimoElement kind="el-icon" className={rimoClass(["text-2xl mb-1", rimoClass(ch.color)])}><RimoIcon name={ch.icon} /></RimoElement>
 <div className="text-sm font-medium">{rimoText(ch.label)}</div></div></Fragment>)}</div></> : null}
@@ -7933,7 +7933,7 @@ export default function OrderDetailBlock() {
 <RimoElement kind="el-dialog" modelValue={view.transactionsDialogVisible} onModelChange={value => {
       model.write(["transactionsDialogVisible"], value);
     }} title="交易記錄明細" width="900px" center={true} destroyOnClose={true} appendToBody={true} className="rounded-xl order-detail-overlay" slots={{
-      "footer": _slot => <><div className="flex justify-between items-center"><div className="text-xs text-gray-400">{text("共 ")}{rimoText(view.enhancedTransactions.length)}{text(" 條交易記錄")}</div>
+      "footer": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><div className="text-xs text-gray-400">{text("共 ")}{rimoText(view.enhancedTransactions.length)}{text(" 條交易記錄")}</div>
 <div className="flex gap-3"><RimoElement kind="el-button" onClick={_event => {
               model.write(["transactionsDialogVisible"], false);
             }}>{text("關閉")}</RimoElement>
@@ -7941,7 +7941,7 @@ export default function OrderDetailBlock() {
               view.exportTransactions?.(event);
             }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Download" /></RimoElement>
 {text(" 導出 Excel\n                        ")}</RimoElement></div></div></>
-    }}>{() => <><div className="space-y-4"><div className="grid grid-cols-3 gap-4"><div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-100"><div className="text-xs text-gray-500 mb-1">{rimoText(view.isMonthlyBilling ? '月結掛賬 (Monthly Bill)' : '總收入 (Total Revenue)')}</div>
+    }}>{() => <><div className="space-y-4"><div className="grid grid-cols-3 gap-4" data-rimo-grid="3"><div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-100"><div className="text-xs text-gray-500 mb-1">{rimoText(view.isMonthlyBilling ? '月結掛賬 (Monthly Bill)' : '總收入 (Total Revenue)')}</div>
 <div className={rimoClass(["text-xl font-bold font-mono", rimoClass(view.isMonthlyBilling ? 'text-[color:var(--app-color-primary)]' : 'text-green-600')])}>{text("¥")}{rimoText(view.formatNumber(view.isMonthlyBilling ? view.txnSummary.totalMonthlyBill : view.txnSummary.totalIncome))}</div></div>
 <div className="bg-gray-50 rounded-lg p-4 text-center border border-gray-100"><div className="text-xs text-gray-500 mb-1">{text("總退款 (Total Refund)")}</div>
 <div className="text-xl font-bold text-red-500 font-mono">{text("¥")}{rimoText(view.formatNumber(view.txnSummary.totalRefund))}</div></div>
@@ -8009,7 +8009,7 @@ export default function OrderDetailBlock() {
 <div className="text-sm text-gray-700">{text("按當前訂單費率 ")}{rimoText(view.formatNumber(view.planData.hourlyRate))}{text(" 元/小時計算")}</div></div>
 <div className="text-right"><div className="text-xl font-bold text-[color:var(--app-color-primary)] font-mono">{text("¥")}{rimoText(view.formatNumber(view.estimatedExtendFee))}{text("\n                            ")}</div>
 <div className="text-xs text-[color:var(--app-color-primary-light-5)]">{text("約 ")}{rimoText(view.extendDurationText)}</div></div></div>
-<div className="grid grid-cols-3 gap-2 mt-3 text-xs"><div className="bg-white/70 border border-[color:var(--app-color-primary-light-8)] rounded-lg p-2"><div className="text-gray-400">{text("計費時長")}</div>
+<div className="grid grid-cols-3 gap-2 mt-3 text-xs" data-rimo-grid="3"><div className="bg-white/70 border border-[color:var(--app-color-primary-light-8)] rounded-lg p-2"><div className="text-gray-400">{text("計費時長")}</div>
 <div className="font-bold text-gray-800 mt-1">{rimoText(view.extendDurationText)}</div></div>
 <div className="bg-white/70 border border-[color:var(--app-color-primary-light-8)] rounded-lg p-2"><div className="text-gray-400">{text("費用類型")}</div>
 <div className="font-bold text-gray-800 mt-1">{text("續租租金")}</div></div>
@@ -8022,7 +8022,7 @@ export default function OrderDetailBlock() {
                 }} className="w-full"><RimoElement kind="el-radio-button" label="immediate">{text("立即收款")}</RimoElement>
 <RimoElement kind="el-radio-button" label="return_settlement" disabled={view.extendRequiresImmediatePay}>{text("還車時結算")}</RimoElement></RimoElement></>}
 {!view.isMonthlyBilling && view.extendRequiresImmediatePay ? <><div className="text-xs text-orange-600 mt-2">{text("\n                        觸發原因：")}{rimoText(view.extendImmediateReason)}{text("\n                    ")}</div></> : !view.isMonthlyBilling ? <><div className="text-xs text-gray-500 mt-2">{text("\n                        還車時結算會生成待收續租費用項，最終在還車賬單中統一處理。\n                    ")}</div></> : null}
-{!view.isMonthlyBilling && view.extendData.settlementMode === 'immediate' ? <><div className="mt-3 bg-green-50 border border-green-100 rounded-lg p-3 flex justify-between items-center"><div><div className="text-sm font-bold text-green-700">{text("本次應收 ¥")}{rimoText(view.formatNumber(view.estimatedExtendFee))}</div>
+{!view.isMonthlyBilling && view.extendData.settlementMode === 'immediate' ? <><div className="mt-3 bg-green-50 border border-green-100 rounded-lg p-3 flex justify-between items-center" data-rimo-layout="toolbar"><div><div className="text-sm font-bold text-green-700">{text("本次應收 ¥")}{rimoText(view.formatNumber(view.estimatedExtendFee))}</div>
 <div className="text-xs text-green-600 mt-1">{text("\n                                ")}{rimoText(view.extendData.paymentPaid ? '已完成續租收款，可確認延長。' : '確認延長前需先完成續租收款。')}{text("\n                            ")}</div></div>
 <RimoElement kind="el-button" type="success" size="small" disabled={view.extendData.paymentPaid || view.estimatedExtendFee <= 0} onClick={event => {
                     view.confirmExtendPayment?.(event);
@@ -8040,7 +8040,7 @@ export default function OrderDetailBlock() {
 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div></div></Fragment>)}</div></RimoElement>
 <RimoElement kind="el-tab-pane" label="內部照片 (3)" name="interior"><div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-2">{rimoEntries(3).map(([i], _itemIndex) => <Fragment key={i}><div key={i} className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 relative group overflow-hidden cursor-pointer"><RimoElement kind="el-icon" className="text-3xl"><RimoIcon name="Picture" /></RimoElement>
 <span className="absolute bottom-2 left-2 text-xs bg-black/50 text-white px-2 py-1 rounded">{text("內飾-")}{rimoText(i)}</span></div></Fragment>)}</div></RimoElement>
-<RimoElement kind="el-tab-pane" label="異常標註 (2)" name="damage"><div className="grid grid-cols-2 gap-4 p-2"><div className="bg-red-50 border border-red-100 rounded-lg p-3 flex gap-3"><div className="w-24 h-24 bg-gray-200 rounded flex-shrink-0 flex items-center justify-center text-gray-400"><RimoElement kind="el-icon" className="text-2xl"><RimoIcon name="Warning" /></RimoElement></div>
+<RimoElement kind="el-tab-pane" label="異常標註 (2)" name="damage"><div className="grid grid-cols-2 gap-4 p-2" data-rimo-grid="2"><div className="bg-red-50 border border-red-100 rounded-lg p-3 flex gap-3"><div className="w-24 h-24 bg-gray-200 rounded flex-shrink-0 flex items-center justify-center text-gray-400"><RimoElement kind="el-icon" className="text-2xl"><RimoIcon name="Warning" /></RimoElement></div>
 <div className="flex-1"><div className="font-bold text-red-600 text-sm mb-1">{text("左前保險槓刮擦")}</div>
 <div className="text-xs text-gray-500 mb-2">{text("長約 5cm 劃痕，底漆露出")}</div>
 <RimoElement kind="el-tag" size="small" type="danger">{text("外觀")}</RimoElement></div></div>
@@ -8153,7 +8153,7 @@ export default function OrderDetailBlock() {
     }}>{() => <><div className="space-y-5"><div className="bg-red-50 rounded-lg p-4 border border-red-100 flex gap-3"><RimoElement kind="el-icon" className="text-red-500 text-xl mt-0.5"><RimoIcon name="WarningFilled" /></RimoElement>
 <div><div className="font-bold text-red-700 text-sm mb-1">{text("取車資質不通過，拒絕交車")}</div>
 <div className="text-xs text-red-600">{text("確認後將釋放車輛資源，訂單進入“已拒絕”終態。")}</div></div></div>
-<div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-2"><div className="flex items-center justify-between text-xs gap-3"><span className="text-gray-500">{text("拒絕履約費用")}</span>
+<div className="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-2"><div className="flex items-center justify-between text-xs gap-3" data-rimo-layout="field-row"><span className="text-gray-500">{text("拒絕履約費用")}</span>
 <RimoElement kind="el-input-number" modelValue={view.rejectOrderData.feeAmount} onModelChange={value => {
                 model.write(["rejectOrderData", "feeAmount"], value);
               }} min={0} step={50} controlsPosition="right" size="small" className="!w-36" onChange={event => {

@@ -310,7 +310,7 @@
     color: var(--color-gray-500);
   }
 }
-@media (width >= 40rem) {
+@container (width >= 40rem) {
   :where([data-rimo-page="enterprise-corporate-login"], [data-rimo-overlay="enterprise-corporate-login"]) .sm\:px-10 {
     padding-inline: calc(var(--spacing) * 10);
   }
@@ -322,7 +322,7 @@
     line-height: var(--tw-leading, var(--text-3xl--line-height));
   }
 }
-@media (width >= 64rem) {
+@container (width >= 64rem) {
   :where([data-rimo-page="enterprise-corporate-login"], [data-rimo-overlay="enterprise-corporate-login"]) .lg\:flex {
     display: flex;
   }
@@ -554,7 +554,7 @@
             background-position: center;
             background-repeat: no-repeat;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-corporate-login"], [data-rimo-overlay="enterprise-corporate-login"]) .el-pagination .el-pagination__jump {
           display: none;
         }

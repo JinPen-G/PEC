@@ -136,10 +136,6 @@
   border-top-style: var(--tw-border-style);
   border-top-width: 1px;
 }
-:where([data-rimo-page="enterprise-channel-ticket-batches"], [data-rimo-overlay="enterprise-channel-ticket-batches"]) .border-b {
-  border-bottom-style: var(--tw-border-style);
-  border-bottom-width: 1px;
-}
 :where([data-rimo-page="enterprise-channel-ticket-batches"], [data-rimo-overlay="enterprise-channel-ticket-batches"]) .border-dashed {
   --tw-border-style: dashed;
   border-style: dashed;
@@ -161,9 +157,6 @@
 }
 :where([data-rimo-page="enterprise-channel-ticket-batches"], [data-rimo-overlay="enterprise-channel-ticket-batches"]) .bg-white {
   background-color: var(--color-white);
-}
-:where([data-rimo-page="enterprise-channel-ticket-batches"], [data-rimo-overlay="enterprise-channel-ticket-batches"]) .p-4 {
-  padding: calc(var(--spacing) * 4);
 }
 :where([data-rimo-page="enterprise-channel-ticket-batches"], [data-rimo-overlay="enterprise-channel-ticket-batches"]) .p-5 {
   padding: calc(var(--spacing) * 5);
@@ -427,7 +420,7 @@
         :where([data-rimo-page="enterprise-channel-ticket-batches"], [data-rimo-overlay="enterprise-channel-ticket-batches"]) .adaptive-filter-actions > .el-button + .el-button {
             margin-left: 0 !important;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-channel-ticket-batches"], [data-rimo-overlay="enterprise-channel-ticket-batches"]) .el-pagination .el-pagination__jump {
           display: none;
         }

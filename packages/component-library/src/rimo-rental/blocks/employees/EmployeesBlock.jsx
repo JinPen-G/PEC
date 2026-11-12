@@ -906,8 +906,7 @@ export default function EmployeesBlock() {
 {text("批量禁用")}</RimoElement></RimoElement></>
                 }}><RimoElement kind="el-button" type="warning" plain={true} disabled={view.selectedEmployees.length === 0}>{text("\n                                        批量設置\n                                        ")}
 <svg className="ml-1.5 h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"></path></svg></RimoElement></RimoElement>
-{view.selectedEmployees.length > 0 ? <><span className="text-xs text-blue-600 font-medium whitespace-nowrap bg-blue-50 px-2 py-1 rounded border border-blue-100">{text("\n                                    已選 ")}{rimoText(view.selectedEmployees.length)}{text(" 項\n                                ")}</span></> : null}</div>
-<div className="search-result-summary text-sm text-gray-500 whitespace-nowrap">{text("共 ")}{rimoText(view.filteredEmployees.length)}{text(" 人員")}</div></>
+{view.selectedEmployees.length > 0 ? <><span className="text-xs text-blue-600 font-medium whitespace-nowrap bg-blue-50 px-2 py-1 rounded border border-blue-100">{text("\n                                    已選 ")}{rimoText(view.selectedEmployees.length)}{text(" 項\n                                ")}</span></> : null}</div></>
           }}><RimoElement kind="el-table-column" type="selection" width="55" align="center"></RimoElement>
 <RimoElement kind="el-table-column" prop="name" label="姓名" width="300" slots={{
               "default": ({

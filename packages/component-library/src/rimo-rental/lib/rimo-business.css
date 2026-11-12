@@ -65,6 +65,188 @@
   color: var(--muted-foreground, var(--text-secondary));
   font-size: 14px;
 }
+.rimo-business-page [data-rimo-layout='heading'] > * {
+  min-width: 0;
+}
+.rimo-business-page [data-rimo-layout='list-summary'] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
+.rimo-business-page .layout-container > *,
+.rimo-business-page .detail-card .flex > * {
+  min-width: 0;
+}
+.rimo-business-page .detail-card .flex {
+  flex-wrap: wrap;
+}
+@container (max-width: 900px) {
+  .rimo-business-page [data-rimo-grid='12'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rimo-business-page [data-rimo-grid='12'] > * {
+    min-width: 0;
+    grid-column: 1;
+  }
+  .rimo-business-page .layout-container,
+  .rimo-business-page [data-rimo-layout='columns'] {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+  .rimo-business-page .layout-container > *,
+  .rimo-business-page [data-rimo-layout='columns'] > * {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+.rimo-menu-trigger {
+  display: inline-flex;
+  max-width: 100%;
+}
+.rimo-toolbar-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.rimo-business-page .el-card {
+  min-width: 0;
+  max-width: 100%;
+}
+.rimo-business-page .employee-preview > *,
+.rimo-business-page .el-form .flex > .flex-1 {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.rimo-business-page .arc-date-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+}
+.rimo-business-page .arc-date-field > div {
+  flex: 1 1 180px;
+  min-width: 0;
+  max-width: 100%;
+}
+.rimo-business-page .arc-date-field .arc-time-fields {
+  flex-wrap: wrap;
+}
+.rimo-input-group {
+  min-width: 0;
+}
+.rimo-input-unit {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 12px;
+  white-space: nowrap;
+  color: var(--app-color-text-secondary);
+  background: var(--app-color-surface-muted);
+  border: 1px solid var(--app-color-border);
+  border-radius: 0 var(--app-radius-control) var(--app-radius-control) 0;
+}
+@container (max-width: 980px) {
+  .rimo-business-page .mail-frame,
+  .rimo-business-page .mail-frame :is(.hero, .card-shell, .account-frame, .warning-strip, .app-panel, .divider) {
+    width: 100%;
+    max-width: 100%;
+  }
+  .rimo-business-page .mail-frame,
+  .rimo-business-page .mail-frame :is(.hero, .card-shell, .account-table) {
+    table-layout: fixed;
+  }
+  .rimo-business-page .mail-frame table[data-rimo-mail-fluid] {
+    width: 100%;
+    max-width: 100%;
+    table-layout: fixed;
+  }
+  .rimo-business-page .mail-frame .hero > tbody > tr > td {
+    width: auto !important;
+  }
+  .rimo-business-page .mail-frame :is(.cell-label, .cell-value) {
+    width: 50%;
+    overflow-wrap: anywhere;
+  }
+  .rimo-business-page .mail-frame .cta-button {
+    max-width: 100%;
+  }
+  .rimo-business-page .mail-frame table:has(> tbody > tr > td > .step-badge) {
+    width: 100%;
+  }
+  .rimo-business-page .mail-frame table:has(> tbody > tr > td > .step-badge) > tbody > tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .rimo-business-page .mail-frame td:has(> .step-badge) {
+    flex: 1 1 120px;
+  }
+  .rimo-business-page .mail-frame td:has(> .step-line) {
+    display: none;
+  }
+  .rimo-business-page .mail-frame [data-rimo-mail-stack],
+  .rimo-business-page .mail-frame [data-rimo-mail-stack] > tbody {
+    display: block;
+  }
+  .rimo-business-page .mail-frame [data-rimo-mail-stack] > tbody > tr {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .rimo-business-page .mail-frame [data-rimo-mail-stack] > tbody > tr > td {
+    width: auto !important;
+    min-width: 0;
+    max-width: 100%;
+    flex: 1 1 220px;
+    overflow-wrap: anywhere;
+  }
+  .rimo-business-page .mail-frame [data-rimo-mail-stack] > tbody > tr > td:has(> img) {
+    flex: 0 1 auto;
+  }
+}
+@container (max-width: 620px) {
+  .rimo-business-page .mail-frame > tbody > tr > td:not(:has(> .hero)),
+  .rimo-business-page .mail-frame .card-shell > tbody > tr > td {
+    padding-inline: 16px !important;
+  }
+  .rimo-business-page .mail-frame .hero > tbody > tr > td {
+    padding-inline: 20px !important;
+  }
+  .rimo-business-page .mail-frame :is(.greeting, .intro, .cell-value, .label-text) {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .rimo-business-page .mail-frame :is(.headline, .section-heading) {
+    font-size: 22px;
+    line-height: 1.45;
+  }
+  .rimo-business-page .mail-frame .account-table > tbody > tr > td {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 8px 12px;
+  }
+  .rimo-business-page .mail-frame .account-table > tbody > tr > .cell-label {
+    border-bottom: 0;
+  }
+  .rimo-business-page .mail-frame .label-inner td {
+    height: auto;
+  }
+  .rimo-business-page .mail-frame .label-icon-slot {
+    width: 38px;
+    padding-left: 0 !important;
+  }
+  .rimo-business-page .mail-frame .app-panel > tbody > tr {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .rimo-business-page .mail-frame .app-panel > tbody > tr > td {
+    flex: 1 1 200px;
+    max-width: 100%;
+  }
+}
 .rimo-business-page [data-rimo-layout='list'] {
   min-width: 0;
   background: transparent;
@@ -144,6 +326,42 @@
   backdrop-filter: none;
 }
 @container (max-width: 640px) {
+  .rimo-business-page .detail-grid {
+    grid-template-columns: minmax(96px, 0.6fr) minmax(0, 1fr);
+  }
+  .rimo-business-page .detail-grid > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .rimo-business-page [data-rimo-layout='field-row'],
+  .rimo-business-page .flex:has(> [data-rimo-layout='field-row']),
+  .rimo-business-page .employee-search-row {
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
+    gap: 12px;
+  }
+  .rimo-business-page .employee-search-row > :first-child {
+    flex: 1 1 160px;
+  }
+  .rimo-business-page [data-rimo-layout='toolbar'] {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .rimo-business-page [data-rimo-layout='toolbar'] > :first-child {
+    min-width: min(100%, 220px);
+    flex: 1 1 220px;
+  }
+  .rimo-business-page [data-rimo-layout='toolbar'] > .flex {
+    flex-wrap: wrap;
+  }
+  .rimo-business-page [data-rimo-grid]:not([data-rimo-grid='12']) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .rimo-business-page [data-rimo-grid] > * {
+    min-width: 0;
+    grid-column: auto;
+  }
   .rimo-business-page [data-rimo-layout='form-grid'] {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -153,11 +371,23 @@
   .rimo-business-page [data-rimo-layout='heading'] {
     flex-direction: column;
   }
+  .rimo-business-page [data-rimo-layout='heading'] .flex {
+    flex-wrap: wrap;
+  }
   .rimo-business-page [data-rimo-layout='filters'] > div {
     flex-basis: 100%;
   }
   .rimo-business-page .permission-layout {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+@container (max-width: 420px) {
+  .rimo-business-page [data-rimo-grid='2'],
+  .rimo-business-page [data-rimo-layout='form-grid'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rimo-business-page [data-rimo-layout='heading'] .flex {
+    flex-wrap: wrap;
   }
 }
 .rimo-field-grid {

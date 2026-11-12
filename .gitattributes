@@ -1,5 +1,6 @@
 * text=auto
 *.js text eol=lf
+*.jsx text eol=lf
 *.mjs text eol=lf
 *.sh text eol=lf
 *.cjs text eol=lf
@@ -24,3 +25,6 @@ packages/preview-ui/src/admin-controls/runtime/** -text
 packages/preview-ui/src/animate-sidebar/animate-sidebar.css -text
 plugins/sidebar-styles.js -text
 resources/** -text
+
+# PRD fingerprints must survive checkout with their original line endings.
+project-content/rimo-rental/requirements/** -text

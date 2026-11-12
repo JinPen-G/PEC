@@ -183,7 +183,7 @@ export default function EnterpriseEmployeeManagementBlock() {
   } = useRimoEnvironment();
   return <RimoRoot model={model} pageKey="enterprise-employee-management" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="employee-page"><div className="employee-page__header mb-6"><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("員工管理")}</h1>
 <p className="text-gray-500 text-sm mt-1">{text("管理員工資料、所屬組織、賬號狀態與用車記錄。")}</p></div>
-<div className="employee-layout"><div className="employee-org-panel custom-scroll"><div className="mb-3 flex items-center justify-between"><div><div className="text-sm font-bold text-gray-800">{text("組織架構")}</div>
+<div className="employee-layout" data-rimo-layout="columns"><div className="employee-org-panel custom-scroll"><div className="mb-3 flex items-center justify-between" data-rimo-layout="toolbar"><div><div className="text-sm font-bold text-gray-800">{text("組織架構")}</div>
 <div className="mt-1 text-xs text-gray-400">{text("分公司 / 部門 / 據點")}</div></div>
 <RimoElement kind="el-button" circle={true} plain={true} size="small"><RimoElement kind="el-icon"><RimoIcon name="Refresh" /></RimoElement></RimoElement></div>
 <div className="rounded-xl border border-gray-100 bg-gray-50/70 p-2"><RimoElement kind="el-tree" data={view.organizationTreeData} className="employee-org-tree" nodeKey="id" defaultExpandAll={true} highlightCurrent={true} currentNodeKey={'all'} slots={{
@@ -192,7 +192,9 @@ export default function EnterpriseEmployeeManagementBlock() {
                 }) => <><div className="flex items-center w-full py-1"><span className="employee-tree-icon mr-2 inline-flex h-6 w-6 items-center justify-center rounded-md">{data.level === 'company' ? <><RimoElement kind="el-icon"><RimoIcon name="House" /></RimoElement></> : data.level === 'department' ? <><RimoElement kind="el-icon"><RimoIcon name="Connection" /></RimoElement></> : <><RimoElement kind="el-icon"><RimoIcon name="Location" /></RimoElement></>}</span>
 <span className="truncate text-[13px]">{rimoText(data.label)}</span></div></>
               }}></RimoElement></div></div>
-<div className="employee-table-panel" data-rimo-layout="list"><RimoElement kind="el-table" modelRef={model.ref("tableRef")} data={view.tableData} stripe={true} className="employee-table flex-1" style={rimoStyle("width: 100%")} scrollbarAlwaysOn={true} headerCellStyle={{
+<div className="employee-table-panel" data-rimo-layout="list"><div className="search-result-summary" data-rimo-layout="list-summary"><span>{text("租用次數：")}{rimoText(view.rentalsNumber)}</span>
+<span className="ml-4">{text("租用金額：")}{rimoText(view.rentalAmount)}</span></div>
+<RimoElement kind="el-table" modelRef={model.ref("tableRef")} data={view.tableData} stripe={true} className="employee-table flex-1" style={rimoStyle("width: 100%")} scrollbarAlwaysOn={true} headerCellStyle={{
               backgroundColor: '#f9fafb',
               color: '#374151',
               fontWeight: 'bold'
@@ -219,9 +221,7 @@ export default function EnterpriseEmployeeManagementBlock() {
                   }}><RimoElement kind="el-button" type="warning" plain={true}>{text("\n                                            批量設置\n                                            ")}
 <RimoElement kind="el-icon" className="ml-1"><RimoIcon name="ArrowDown" /></RimoElement></RimoElement></RimoElement>
 {view.multipleSelection.length ? <><span className="text-sm text-gray-500">{text("\n                                        已選擇\n                                        ")}
-<span className="font-semibold text-[color:var(--app-color-primary)]">{rimoText(view.multipleSelection.length)}</span></span></> : null}</div>
-<div className="search-result-summary"><span>{text("租用次數：")}{rimoText(view.rentalsNumber)}</span>
-<span className="ml-4">{text("租用金額：")}{rimoText(view.rentalAmount)}</span></div></>
+<span className="font-semibold text-[color:var(--app-color-primary)]">{rimoText(view.multipleSelection.length)}</span></span></> : null}</div></>
             }}><RimoElement kind="el-table-column" type="selection" width="52" align="center"></RimoElement>
 <RimoElement kind="el-table-column" label="員工資料" minWidth="220" fixed="left" slots={{
                 "default": ({

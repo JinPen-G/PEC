@@ -12,31 +12,7 @@ export default function VehicleConsoleBlock() {
   } = useRimoEnvironment();
   return <RimoRoot model={model} pageKey="vehicle-console" assets={{}}><div className="console-business" data-business-content="" data-rimo-layout="page"><div className="flex justify-between items-end shrink-0" data-rimo-layout="heading"><div><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("車輛控制台")}</h1>
 <p className="text-gray-500 text-sm mt-1">{text("遠程實時操作車輛硬件接口，監控底盤、門鎖、網絡終端與微電動車電池狀態。")}</p></div></div>
-<div className="console-layout"><div className="vehicle-selector bg-white rounded-xl shadow-sm border border-gray-100"><div className="p-4 border-b border-gray-100 bg-gray-50"><div className="font-bold text-gray-800 mb-3 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-blue-600"><RimoIcon name="Van" /></RimoElement>
-{text("\n                                        目標車輛檢索\n                                    ")}</div>
-<div className="filter-controls"><RimoElement kind="el-cascader" modelValue={view.filters.stationIds} onModelChange={value => {
-                model.write(["filters", "stationIds"], value);
-              }} options={view.orgData} props={view.stationCascaderProps} placeholder="請選擇車行 / 門市 / 據點（支持多選）" className="w-full" clearable={true} filterable={true} collapseTags={true} collapseTagsTooltip={true}></RimoElement>
-<div className="type-filter-row"><RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
-                  model.write(["filters", "vehicleType"], value);
-                }} aria-label="車輛類型" className="w-full"><RimoElement kind="el-option" label="全部車輛類型" value="ALL"></RimoElement>
-<RimoElement kind="el-option" label="汽車" value="Vehicle"></RimoElement>
-<RimoElement kind="el-option" label="微電動車" value="MicroEV"></RimoElement></RimoElement></div>
-<RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
-                model.write(["filters", "keyword"], value);
-              }} placeholder="搜索車牌號/VIN/車型/CID" prefixIcon="Search" clearable={true} className="filter-search filter-full"></RimoElement></div></div>
-<div className="vehicle-list custom-scroll p-2">{view.filteredVehicles.length === 0 ? <><div className="flex flex-col items-center justify-center h-40 text-gray-400"><RimoElement kind="el-icon" className="text-3xl mb-2"><RimoIcon name="DataLine" /></RimoElement>
-<span className="text-sm">{text("未找到匹配車輛")}</span></div></> : null}
-{rimoEntries(view.filteredVehicles).map(([v], _itemIndex) => <Fragment key={v.id}><div key={v.id} onClick={_event => {
-                view.selectVehicle(v);
-              }} className={rimoClass(["vehicle-card rounded-lg border cursor-pointer transition-all duration-200", rimoClass(view.activeVehicle?.id === v.id ? 'bg-blue-50 border-blue-300 shadow-sm' : 'bg-white border-transparent hover:border-gray-200 hover:bg-gray-50')])}><div className="vehicle-card-body"><div className="vehicle-card-copy"><div className="flex items-center gap-2 flex-wrap"><div className="vehicle-card-title font-bold text-gray-800">{rimoText(v.licensePlate)}</div>
-<RimoElement kind="el-tag" size="small" type={v.vehicleType === 'MicroEV' ? 'warning' : 'info'} effect="plain">{text("\n                                                        ")}{rimoText(view.getVehicleTypeName(v.vehicleType))}{text("\n                                                    ")}</RimoElement></div>
-<div className="vehicle-card-model text-gray-500 truncate">{rimoText(v.model)}{text("\n                                                ")}</div>
-<div className="vehicle-card-meta text-gray-400 font-mono">{text("CID ")}{rimoText(v.iduId)}{text("\n                                                ")}</div></div>
-<div className="vehicle-card-side flex flex-col items-end shrink-0"><RimoElement kind="el-tag" size="small" type={v.isDriving ? 'primary' : 'info'} effect="light" round={true}><span className={rimoClass(["status-dot mr-1", rimoClass(v.isDriving ? 'driving' : 'offline')])} style={rimoStyle("width: 6px; height: 6px;")}></span>
-{text("\n                                                    ")}{rimoText(v.isDriving ? '行駛中' : '靜止')}{text("\n                                                ")}</RimoElement>
-{v.isOnline ? <><span className="text-[10px] text-gray-400">{text("在線")}</span></> : <><span className="text-[10px] text-red-400">{text("離線")}</span></>}</div></div></div></Fragment>)}</div></div>
-{view.activeVehicle ? <><div className="console-main"><div className="vehicle-summary bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-4 shrink-0"><div className="vehicle-summary-main"><div className="vehicle-summary-photo"><RimoElement kind="el-image" src={view.getVehiclePhoto(view.activeVehicle)} fit="cover" alt={view.activeVehicle.model} slots={{
+<div className="console-layout" data-rimo-layout="list">{view.activeVehicle ? <><div className="console-main"><div className="vehicle-summary bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-4 shrink-0"><div className="vehicle-summary-main"><div className="vehicle-summary-photo"><RimoElement kind="el-image" src={view.getVehiclePhoto(view.activeVehicle)} fit="cover" alt={view.activeVehicle.model} slots={{
                     "error": _slot => <><div className="vehicle-photo-fallback">{rimoText(view.activeVehicle.vehicleType === 'MicroEV' ? '微電動車' : '汽車')}</div></>
                   }}></RimoElement></div>
 <div className="vehicle-summary-copy"><div className="vehicle-title-row"><h2 className="text-2xl font-bold text-gray-800">{rimoText(view.activeVehicle.licensePlate)}</h2>
@@ -182,7 +158,32 @@ export default function VehicleConsoleBlock() {
 <RimoElement kind="el-button" size="small" plain={true} icon="Refresh" onClick={event => {
                       view.fetchHistory?.(event);
                     }}>{text("刷新日誌")}</RimoElement></div></div>
-<div className="p-0 overflow-hidden" data-rimo-layout="list"><RimoElement kind="el-table" data={view.historyLogs} height="100%" stripe={true} size="small" className="w-full"><RimoElement kind="el-table-column" prop="time" label="下發時間" width="150" slots={{
+<div className="p-0 overflow-hidden"><RimoElement kind="el-table" data={view.historyLogs} height="100%" stripe={true} size="small" className="w-full" slots={{
+                    "toolbar": _slot => <><div className="p-4 border-b border-gray-100 bg-gray-50"><div className="font-bold text-gray-800 mb-3 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-blue-600"><RimoIcon name="Van" /></RimoElement>
+{text("\n                                        目標車輛檢索\n                                    ")}</div>
+<div className="filter-controls"><RimoElement kind="el-cascader" modelValue={view.filters.stationIds} onModelChange={value => {
+                            model.write(["filters", "stationIds"], value);
+                          }} options={view.orgData} props={view.stationCascaderProps} placeholder="請選擇車行 / 門市 / 據點（支持多選）" className="w-full" clearable={true} filterable={true} collapseTags={true} collapseTagsTooltip={true}></RimoElement>
+<div className="type-filter-row"><RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
+                              model.write(["filters", "vehicleType"], value);
+                            }} aria-label="車輛類型" className="w-full"><RimoElement kind="el-option" label="全部車輛類型" value="ALL"></RimoElement>
+<RimoElement kind="el-option" label="汽車" value="Vehicle"></RimoElement>
+<RimoElement kind="el-option" label="微電動車" value="MicroEV"></RimoElement></RimoElement></div>
+<RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
+                            model.write(["filters", "keyword"], value);
+                          }} placeholder="搜索車牌號/VIN/車型/CID" prefixIcon="Search" clearable={true} className="filter-search filter-full"></RimoElement></div></div>
+<div className="vehicle-list custom-scroll p-2">{view.filteredVehicles.length === 0 ? <><div className="flex flex-col items-center justify-center h-40 text-gray-400"><RimoElement kind="el-icon" className="text-3xl mb-2"><RimoIcon name="DataLine" /></RimoElement>
+<span className="text-sm">{text("未找到匹配車輛")}</span></div></> : null}
+{rimoEntries(view.filteredVehicles).map(([v], _itemIndex) => <Fragment key={v.id}><div key={v.id} onClick={_event => {
+                            view.selectVehicle(v);
+                          }} className={rimoClass(["vehicle-card rounded-lg border cursor-pointer transition-all duration-200", rimoClass(view.activeVehicle?.id === v.id ? 'bg-blue-50 border-blue-300 shadow-sm' : 'bg-white border-transparent hover:border-gray-200 hover:bg-gray-50')])}><div className="vehicle-card-body"><div className="vehicle-card-copy"><div className="flex items-center gap-2 flex-wrap"><div className="vehicle-card-title font-bold text-gray-800">{rimoText(v.licensePlate)}</div>
+<RimoElement kind="el-tag" size="small" type={v.vehicleType === 'MicroEV' ? 'warning' : 'info'} effect="plain">{text("\n                                                        ")}{rimoText(view.getVehicleTypeName(v.vehicleType))}{text("\n                                                    ")}</RimoElement></div>
+<div className="vehicle-card-model text-gray-500 truncate">{rimoText(v.model)}{text("\n                                                ")}</div>
+<div className="vehicle-card-meta text-gray-400 font-mono">{text("CID ")}{rimoText(v.iduId)}{text("\n                                                ")}</div></div>
+<div className="vehicle-card-side flex flex-col items-end shrink-0"><RimoElement kind="el-tag" size="small" type={v.isDriving ? 'primary' : 'info'} effect="light" round={true}><span className={rimoClass(["status-dot mr-1", rimoClass(v.isDriving ? 'driving' : 'offline')])} style={rimoStyle("width: 6px; height: 6px;")}></span>
+{text("\n                                                    ")}{rimoText(v.isDriving ? '行駛中' : '靜止')}{text("\n                                                ")}</RimoElement>
+{v.isOnline ? <><span className="text-[10px] text-gray-400">{text("在線")}</span></> : <><span className="text-[10px] text-red-400">{text("離線")}</span></>}</div></div></div></Fragment>)}</div></>
+                  }}><RimoElement kind="el-table-column" prop="time" label="下發時間" width="150" slots={{
                       "default": ({
                         row
                       }) => <><span className="font-mono text-xs text-gray-600">{rimoText(row.time)}</span></>

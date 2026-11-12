@@ -613,7 +613,7 @@
     background-color: var(--app-color-primary-light-9);
   }
 }
-@media (width >= 48rem) {
+@container (width >= 48rem) {
   :where([data-rimo-page="settings"], [data-rimo-overlay="settings"]) .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -862,7 +862,7 @@
             min-width: 72px;
         }
 
-        @media (max-width: 860px) {
+        @container (max-width: 860px) {
             :where([data-rimo-page="settings"], [data-rimo-overlay="settings"]) .prototype-permission-switcher {
                 right: 12px;
                 bottom: 12px;
@@ -870,7 +870,7 @@
                 overflow-x: auto;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="settings"], [data-rimo-overlay="settings"]) .el-pagination .el-pagination__jump {
           display: none;
         }

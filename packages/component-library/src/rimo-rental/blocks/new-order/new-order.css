@@ -906,7 +906,7 @@
             min-height: 0 !important;
             border-bottom: none !important;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="new-order"], [data-rimo-overlay="new-order"]) .el-pagination .el-pagination__jump {
           display: none;
         }

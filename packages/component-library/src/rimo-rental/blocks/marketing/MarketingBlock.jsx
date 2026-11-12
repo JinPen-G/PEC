@@ -1020,7 +1020,7 @@ export default function MarketingBlock() {
                 "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Clock" /></RimoElement>
 <span>{text("分時租賃")}</span></span></>
               }}></RimoElement></> : null}</RimoElement>
-<div className="px-6 py-3"><div className="flex justify-between items-center mb-3"><RimoElement kind="el-date-picker" modelValue={view.currentMonth} onModelChange={value => {
+<div className="px-6 py-3"><div className="flex justify-between items-center mb-3" data-rimo-layout="field-row"><RimoElement kind="el-date-picker" modelValue={view.currentMonth} onModelChange={value => {
                 model.write(["currentMonth"], value);
               }} type="month" format="YYYY年 M月" clearable={false} className="!w-40 font-bold border-none shadow-none" size="large"></RimoElement>
 <div className="flex items-center gap-4"><div className="flex items-center gap-4 text-xs text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-100">{view.activeBusinessTab === 'STORE' ? <><><div className="flex items-center select-none" title="同時適用標準門市和自助"><span className="w-2.5 h-2.5 rounded-full mr-1.5 bg-[color:var(--app-color-primary)]"></span>
@@ -1057,7 +1057,7 @@ export default function MarketingBlock() {
                       view.startCreateCampaign('SHARING');
                     }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 新建分時方案\n                                    ")}</RimoElement></></> : null}</div></div></div>
-<div className="border rounded-lg overflow-hidden"><div className="grid grid-cols-7 gap-1 bg-gray-50 border-b p-2 text-center text-sm font-bold text-gray-600"><div>{text("週日")}</div>
+<div className="border rounded-lg overflow-hidden"><div className="grid grid-cols-7 gap-1 bg-gray-50 border-b p-2 text-center text-sm font-bold text-gray-600" data-rimo-grid="7"><div>{text("週日")}</div>
 <div>{text("週一")}</div>
 <div>{text("週二")}</div>
 <div>{text("週三")}</div>
@@ -1070,7 +1070,7 @@ export default function MarketingBlock() {
                         "reference": _slot => <><div className="text-xs text-gray-400 cursor-pointer pl-1 hover:text-[color:var(--app-color-primary)] transition-colors font-medium">{text("\n                                                +")}{rimoText(view.getEventsForDay(day).length - 3)}{text(" 更多...\n                                            ")}</div></>
                       }}><div className="space-y-2">{rimoEntries(view.getEventsForDay(day)).map(([evt], _itemIndex) => <Fragment key={evt.title}><div key={evt.title} className="text-xs p-2 rounded bg-gray-50 border border-gray-100"><div className="flex items-center mb-1"><span className={rimoClass(["inline-block w-2 h-2 rounded-full mr-1.5", rimoClass(view.getBusinessStyle(evt).dot)])}></span>
 <span className="font-bold text-gray-700">{rimoText(evt.title)}</span></div>
-<div className="flex flex-wrap gap-1 pl-3.5">{rimoEntries(evt.scopes).map(([scope], _itemIndex) => <Fragment key={scope}><span key={scope} className="bg-white border px-1 rounded text-[10px] text-gray-500 scale-90 origin-left">{text("\n                                                        ")}{rimoText(view.getScopeName(scope))}{text("\n                                                    ")}</span></Fragment>)}</div></div></Fragment>)}</div></RimoElement></> : null}</div></div></Fragment>)}</div></div></div></> : <><div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden"><RimoElement kind="el-tabs" modelValue={view.listFilter} onModelChange={value => {
+<div className="flex flex-wrap gap-1 pl-3.5">{rimoEntries(evt.scopes).map(([scope], _itemIndex) => <Fragment key={scope}><span key={scope} className="bg-white border px-1 rounded text-[10px] text-gray-500 scale-90 origin-left">{text("\n                                                        ")}{rimoText(view.getScopeName(scope))}{text("\n                                                    ")}</span></Fragment>)}</div></div></Fragment>)}</div></RimoElement></> : null}</div></div></Fragment>)}</div></div></div></> : <><div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden" data-rimo-layout="list"><RimoElement kind="el-tabs" modelValue={view.listFilter} onModelChange={value => {
             model.write(["listFilter"], value);
           }} className="rimo-page-tabs">{view.hasStoreBusinessPermission ? <><RimoElement kind="el-tab-pane" name="store" slots={{
                 "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Shop" /></RimoElement>
@@ -1080,29 +1080,30 @@ export default function MarketingBlock() {
                 "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Clock" /></RimoElement>
 <span>{text("分時租賃")}</span></span></>
               }}></RimoElement></> : null}</RimoElement>
-<div className="px-6 py-4 bg-white border-b border-gray-100 flex items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="relative"><RimoElement kind="el-input" placeholder="搜索方案名稱" prefixIcon="Search" clearable={true} style={rimoStyle("width: 240px")} size="default"></RimoElement></div>
+<div><RimoElement kind="el-table" data={view.filteredCampaigns} style={rimoStyle("width: 100%")} size="large" slots={{
+              "toolbar": _slot => <><div className="flex items-center gap-3"><div className="relative"><RimoElement kind="el-input" placeholder="搜索方案名稱" prefixIcon="Search" clearable={true} style={rimoStyle("width: 240px")} size="default"></RimoElement></div>
 <div className="w-[1px] h-4 bg-gray-200 mx-2"></div>
 {view.listFilter === 'store' ? <><><RimoElement kind="el-select" modelValue={view.listScopeFilters.store} onModelChange={value => {
-                    model.write(["listScopeFilters", "store"], value);
-                  }} multiple={true} collapseTags={true} placeholder="全部適用場景" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.scopeOptions.STORE).map(([opt], _itemIndex) => <Fragment key={opt.id}><RimoElement kind="el-option" key={opt.id} label={opt.name} value={opt.id}></RimoElement></Fragment>)}</RimoElement></></> : view.listFilter === 'sharing' ? <><><RimoElement kind="el-select" modelValue={view.listScopeFilters.sharing} onModelChange={value => {
-                    model.write(["listScopeFilters", "sharing"], value);
-                  }} multiple={true} collapseTags={true} placeholder="全部適用場景" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.scopeOptions.SHARING).map(([opt], _itemIndex) => <Fragment key={opt.id}><RimoElement kind="el-option" key={opt.id} label={opt.name} value={opt.id}></RimoElement></Fragment>)}</RimoElement></></> : null}
+                        model.write(["listScopeFilters", "store"], value);
+                      }} multiple={true} collapseTags={true} placeholder="全部適用場景" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.scopeOptions.STORE).map(([opt], _itemIndex) => <Fragment key={opt.id}><RimoElement kind="el-option" key={opt.id} label={opt.name} value={opt.id}></RimoElement></Fragment>)}</RimoElement></></> : view.listFilter === 'sharing' ? <><><RimoElement kind="el-select" modelValue={view.listScopeFilters.sharing} onModelChange={value => {
+                        model.write(["listScopeFilters", "sharing"], value);
+                      }} multiple={true} collapseTags={true} placeholder="全部適用場景" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.scopeOptions.SHARING).map(([opt], _itemIndex) => <Fragment key={opt.id}><RimoElement kind="el-option" key={opt.id} label={opt.name} value={opt.id}></RimoElement></Fragment>)}</RimoElement></></> : null}
 {view.listFilter === 'store' ? <><><RimoElement kind="el-select" modelValue={view.listScopeFilters.storeCarGroups} onModelChange={value => {
-                    model.write(["listScopeFilters", "storeCarGroups"], value);
-                  }} multiple={true} collapseTags={true} placeholder="全部車型組" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.storeCarGroups).map(([g], _itemIndex) => <Fragment key={g.id}><RimoElement kind="el-option" key={g.id} label={g.name} value={g.id}></RimoElement></Fragment>)}</RimoElement></></> : view.listFilter === 'sharing' ? <><><RimoElement kind="el-select" modelValue={view.listScopeFilters.sharingCarGroups} onModelChange={value => {
-                    model.write(["listScopeFilters", "sharingCarGroups"], value);
-                  }} multiple={true} collapseTags={true} placeholder="全部車型組" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.sharingCarGroups).map(([g], _itemIndex) => <Fragment key={g.id}><RimoElement kind="el-option" key={g.id} label={g.name} value={g.id}></RimoElement></Fragment>)}</RimoElement></></> : null}</div>
+                        model.write(["listScopeFilters", "storeCarGroups"], value);
+                      }} multiple={true} collapseTags={true} placeholder="全部車型組" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.storeCarGroups).map(([g], _itemIndex) => <Fragment key={g.id}><RimoElement kind="el-option" key={g.id} label={g.name} value={g.id}></RimoElement></Fragment>)}</RimoElement></></> : view.listFilter === 'sharing' ? <><><RimoElement kind="el-select" modelValue={view.listScopeFilters.sharingCarGroups} onModelChange={value => {
+                        model.write(["listScopeFilters", "sharingCarGroups"], value);
+                      }} multiple={true} collapseTags={true} placeholder="全部車型組" style={rimoStyle("width: 200px")} size="default" clearable={true}>{rimoEntries(view.sharingCarGroups).map(([g], _itemIndex) => <Fragment key={g.id}><RimoElement kind="el-option" key={g.id} label={g.name} value={g.id}></RimoElement></Fragment>)}</RimoElement></></> : null}</div>
 {view.listFilter === 'store' ? <><><div className="flex items-center gap-2"><RimoElement kind="el-button" plain={true} onClick={_event => {
-                    view.openMarketingVersion();
-                  }}>{text("歷史版本")}</RimoElement>
+                        view.openMarketingVersion();
+                      }}>{text("歷史版本")}</RimoElement>
 <RimoElement kind="el-button" type="primary" size="large" className="shadow-md shadow-[color:var(--app-color-primary-shadow)]" onClick={_event => {
-                    view.startCreateCampaign('STORE');
-                  }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
+                        view.startCreateCampaign('STORE');
+                      }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 新建門市方案\n                                ")}</RimoElement></div></></> : view.listFilter === 'sharing' ? <><><RimoElement kind="el-button" type="primary" size="large" className="shadow-md shadow-[color:var(--app-color-primary-shadow)]" onClick={_event => {
-                  view.startCreateCampaign('SHARING');
-                }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
-{text(" 新建分時方案\n                            ")}</RimoElement></></> : null}</div>
-<div data-rimo-layout="list"><RimoElement kind="el-table" data={view.filteredCampaigns} style={rimoStyle("width: 100%")} size="large"><RimoElement kind="el-table-column" prop="name" label="方案名稱" minWidth="200" slots={{
+                      view.startCreateCampaign('SHARING');
+                    }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
+{text(" 新建分時方案\n                            ")}</RimoElement></></> : null}</>
+            }}><RimoElement kind="el-table-column" prop="name" label="方案名稱" minWidth="200" slots={{
                 "default": ({
                   row
                 }) => <><div className="font-bold text-gray-800">{rimoText(row.name)}</div>
@@ -1209,7 +1210,7 @@ export default function MarketingBlock() {
                             model.write(["currentScheme", "requiredDocText"], value);
                           }} placeholder="例如：學生證、在學證明等" disabled={!view.currentScheme.manualVerification}></RimoElement></RimoElement></RimoElement></RimoElement></> : null}
 {view.wizardMode === 'STORE' ? <><div className={rimoClass(["text-xs rounded border px-3 py-2", rimoClass(view.currentScheme.manualVerification ? 'bg-amber-50 border-amber-100 text-amber-700' : 'bg-gray-50 border-gray-100 text-gray-600')])}>{text("\n                                ")}{rimoText(view.currentScheme.manualVerification ? '本方案在基礎適用條件命中後，還要求門店取車時覈驗證明文件；24h 自助租車不開放選擇該方案。' : '本方案只按上方基礎條件和規則明細匹配，不要求門店額外上傳證明文件。')}{text("\n                            ")}</div></> : null}</RimoElement></div>
-<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100"><div className="flex justify-between items-center mb-5 pb-4 border-b"><div className="flex items-center gap-2"><div className="w-1 h-5 bg-orange-500 rounded"></div>
+<div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100"><div className="flex justify-between items-center mb-5 pb-4 border-b" data-rimo-layout="toolbar"><div className="flex items-center gap-2"><div className="w-1 h-5 bg-orange-500 rounded"></div>
 <h2 className="text-base font-bold text-gray-800">{text("規則明細 (")}{rimoText(view.currentScheme.rules.length)}{text(")\n                                ")}</h2></div>
 <RimoElement kind="el-button" type="primary" onClick={_event => {
                     view.openRuleDialog(null);
@@ -1250,7 +1251,7 @@ export default function MarketingBlock() {
 <RimoElement kind="el-dialog" modelValue={view.ruleDialogVisible} onModelChange={value => {
       model.write(["ruleDialogVisible"], value);
     }} title={view.isEditRule ? '編輯優惠規則' : '添加優惠規則'} width="1100px" appendToBody={true} className="rule-dialog" slots={{
-      "footer": _slot => <><div className="flex justify-between items-center"><div className="text-xs text-gray-400"><RimoElement kind="el-icon" className="mr-1 relative top-0.5"><RimoIcon name="InfoFilled" /></RimoElement>
+      "footer": _slot => <><div className="flex justify-between items-center" data-rimo-layout="toolbar"><div className="text-xs text-gray-400"><RimoElement kind="el-icon" className="mr-1 relative top-0.5"><RimoIcon name="InfoFilled" /></RimoElement>
 {text("所有修改僅在點擊保存後生效\n                    ")}</div>
 <div><RimoElement kind="el-button" onClick={_event => {
               model.write(["ruleDialogVisible"], false);
@@ -1288,7 +1289,7 @@ export default function MarketingBlock() {
                   }} multiple={true} collapseTags={true} placeholder="不限" size="default"><RimoElement kind="el-option" label="普通會員" value="normal"></RimoElement>
 <RimoElement kind="el-option" label="銀卡會員" value="silver"></RimoElement>
 <RimoElement kind="el-option" label="金卡會員" value="gold"></RimoElement></RimoElement></RimoElement>
-<RimoElement kind="el-form-item" label="租期限制" className="mb-0"><div className="flex items-center"><RimoElement kind="el-input-number" modelValue={view.currentRule.minDays} onModelChange={value => {
+<RimoElement kind="el-form-item" label="租期限制" className="mb-0"><div className="flex items-center" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.currentRule.minDays} onModelChange={value => {
                       model.write(["currentRule", "minDays"], value);
                     }} min={1} controlsPosition="right" size="default" style={rimoStyle("width: 100px")} placeholder={'不限'}></RimoElement>
 <span className="mx-2 text-gray-400">{text("-")}</span>
@@ -1320,12 +1321,12 @@ export default function MarketingBlock() {
                     }} size="small" className="mb-3"><RimoElement kind="el-radio" label="discount">{text("折扣比率")}</RimoElement>
 <RimoElement kind="el-radio" label="minus">{text("固定立減")}</RimoElement>
 <RimoElement kind="el-radio" label="fixed">{text("一口價")}</RimoElement></RimoElement>
-<div className="flex items-center"><RimoElement kind="el-input-number" modelValue={view.currentRule.value} onModelChange={value => {
+<div className="flex items-center" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.currentRule.value} onModelChange={value => {
                         model.write(["currentRule", "value"], value);
                       }} min={0} precision={view.currentRule.type === 'discount' ? 1 : 0} size="large" style={rimoStyle("width: 160px")}></RimoElement>
 <span className="ml-2 font-bold text-orange-600 text-lg">{rimoText(view.currentRule.type === 'discount' ? '折' : '元')}</span></div></div></> : null}
-{view.wizardMode === 'STORE' && view.currentRule.priceMode === 'split' ? <><div className="grid grid-cols-2 gap-3"><div className="bg-white p-3 rounded-md border border-gray-200 shadow-sm"><div className="text-xs text-gray-500 font-bold mb-2">{text("常規平日")}</div>
-<div className="flex items-center gap-2"><RimoElement kind="el-select" modelValue={view.currentRule.type} onModelChange={value => {
+{view.wizardMode === 'STORE' && view.currentRule.priceMode === 'split' ? <><div className="grid grid-cols-2 gap-3" data-rimo-grid="2" data-rimo-layout="form-grid"><div className="bg-white p-3 rounded-md border border-gray-200 shadow-sm"><div className="text-xs text-gray-500 font-bold mb-2">{text("常規平日")}</div>
+<div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-select" modelValue={view.currentRule.type} onModelChange={value => {
                           model.write(["currentRule", "type"], value);
                         }} size="small" style={rimoStyle("width: 80px")}><RimoElement kind="el-option" label="折扣" value="discount"></RimoElement>
 <RimoElement kind="el-option" label="立減" value="minus"></RimoElement>
@@ -1335,7 +1336,7 @@ export default function MarketingBlock() {
                         }} min={0} size="small" style={rimoStyle("width: 90px")} controls={false}></RimoElement>
 <span className="text-xs font-medium">{rimoText(view.currentRule.type === 'discount' ? '折' : '元')}</span></div></div>
 <div className="bg-white p-3 rounded-md border border-orange-200 shadow-sm"><div className="text-xs text-orange-500 font-bold mb-2">{text("常規假日")}</div>
-<div className="flex items-center gap-2"><RimoElement kind="el-select" modelValue={view.currentRule.weekendType} onModelChange={value => {
+<div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-select" modelValue={view.currentRule.weekendType} onModelChange={value => {
                           model.write(["currentRule", "weekendType"], value);
                         }} size="small" style={rimoStyle("width: 80px")}><RimoElement kind="el-option" label="折扣" value="discount"></RimoElement>
 <RimoElement kind="el-option" label="立減" value="minus"></RimoElement>
@@ -1345,7 +1346,7 @@ export default function MarketingBlock() {
                         }} min={0} size="small" style={rimoStyle("width: 90px")} controls={false}></RimoElement>
 <span className="text-xs font-medium">{rimoText(view.currentRule.weekendType === 'discount' ? '折' : '元')}</span></div></div>
 <div className="bg-white p-3 rounded-md border border-blue-200 shadow-sm"><div className="text-xs text-blue-500 font-bold mb-2">{text("調休平日")}</div>
-<div className="flex items-center gap-2"><RimoElement kind="el-select" modelValue={view.currentRule.adjustedWeekdayType} onModelChange={value => {
+<div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-select" modelValue={view.currentRule.adjustedWeekdayType} onModelChange={value => {
                           model.write(["currentRule", "adjustedWeekdayType"], value);
                         }} size="small" style={rimoStyle("width: 80px")}><RimoElement kind="el-option" label="折扣" value="discount"></RimoElement>
 <RimoElement kind="el-option" label="立減" value="minus"></RimoElement>
@@ -1355,7 +1356,7 @@ export default function MarketingBlock() {
                         }} min={0} size="small" style={rimoStyle("width: 90px")} controls={false}></RimoElement>
 <span className="text-xs font-medium">{rimoText(view.currentRule.adjustedWeekdayType === 'discount' ? '折' : '元')}</span></div></div>
 <div className="bg-white p-3 rounded-md border border-red-200 shadow-sm"><div className="text-xs text-red-500 font-bold mb-2">{text("法定假日")}</div>
-<div className="flex items-center gap-2"><RimoElement kind="el-select" modelValue={view.currentRule.legalHolidayType} onModelChange={value => {
+<div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-select" modelValue={view.currentRule.legalHolidayType} onModelChange={value => {
                           model.write(["currentRule", "legalHolidayType"], value);
                         }} size="small" style={rimoStyle("width: 80px")}><RimoElement kind="el-option" label="折扣" value="discount"></RimoElement>
 <RimoElement kind="el-option" label="立減" value="minus"></RimoElement>
@@ -1388,12 +1389,12 @@ export default function MarketingBlock() {
                     model.write(["currentRule", "enableGift"], value);
                   }} size="default" style={rimoStyle("--el-switch-on-color: var(--app-color-primary);")}></RimoElement></div>
 <div hidden={!view.currentRule.enableGift} className="bg-white p-4 rounded-md border border-[color:var(--app-color-primary-light-7)] shadow-sm"><div className="flex items-center justify-between mb-3 border-b border-gray-100 pb-3"><span className="text-gray-600">{text("租用天數")}</span>
-<div className="flex items-center"><RimoElement kind="el-input-number" modelValue={view.currentRule.giftBuy} onModelChange={value => {
+<div className="flex items-center" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.currentRule.giftBuy} onModelChange={value => {
                         model.write(["currentRule", "giftBuy"], value);
                       }} min={1} size="default" style={rimoStyle("width: 100px")}></RimoElement>
 <span className="ml-2 font-bold text-gray-800">{text("天")}</span></div></div>
 <div className="flex items-center justify-between"><span className="text-gray-600">{text("贈送天數")}</span>
-<div className="flex items-center"><RimoElement kind="el-input-number" modelValue={view.currentRule.giftOne} onModelChange={value => {
+<div className="flex items-center" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.currentRule.giftOne} onModelChange={value => {
                         model.write(["currentRule", "giftOne"], value);
                       }} min={1} size="default" style={rimoStyle("width: 100px")}></RimoElement>
 <span className="ml-2 font-bold text-[color:var(--app-color-primary)]">{text("天")}</span></div></div></div></div></div></div></RimoElement></>}</RimoElement>
@@ -1403,7 +1404,7 @@ export default function MarketingBlock() {
       "footer": _slot => <><RimoElement kind="el-button" onClick={_event => {
           model.write(["marketingVersionDialogVisible"], false);
         }}>{text("關閉")}</RimoElement></>
-    }}>{() => <>{view.selectedMarketingVersion ? <><div className="grid grid-cols-3 gap-4"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
+    }}>{() => <>{view.selectedMarketingVersion ? <><div className="grid grid-cols-3 gap-4" data-rimo-grid="3"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
 <div className="divide-y divide-gray-100 max-h-[420px] overflow-y-auto">{rimoEntries(view.marketingVersionRecords).map(([version], _itemIndex) => <Fragment key={version.version}><button key={version.version} className={rimoClass(["w-full text-left px-3 py-3 hover:bg-[color:var(--app-color-primary-light-9)] transition-colors", rimoClass(view.selectedMarketingVersion.version === version.version ? 'bg-[color:var(--app-color-primary-light-9)]' : 'bg-white')])} onClick={_event => {
                     model.write(["selectedMarketingVersion"], version);
                   }}><div className="font-mono text-xs text-[color:var(--app-color-primary)] font-bold">{rimoText(version.version)}</div>

@@ -235,7 +235,7 @@ export default function CorporateLoginBlock() {
                 }} placeholder={view.texts.passwordPlaceholder} showPassword={true} type="password" autoComplete="current-password" slots={{
                   "prefix": _slot => <><RimoElement kind="el-icon"><RimoIcon name="Lock" /></RimoElement></>
                 }}></RimoElement></RimoElement>
-<div className="grid grid-cols-3 gap-3"><RimoElement kind="el-form-item" className="col-span-2" label={view.texts.captchaLabel} prop="captcha" rules={[{
+<div className="grid grid-cols-3 gap-3" data-rimo-grid="3"><RimoElement kind="el-form-item" className="col-span-2" label={view.texts.captchaLabel} prop="captcha" rules={[{
                   required: true,
                   message: view.texts.captchaRequired,
                   trigger: 'blur'

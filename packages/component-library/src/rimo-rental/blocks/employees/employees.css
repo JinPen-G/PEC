@@ -671,7 +671,7 @@
         :where([data-rimo-page="employees"], [data-rimo-overlay="employees"]) .employee-org-tree .el-tree-node.is-current>.el-tree-node__content .employee-tree-icon {
             color: var(--app-color-primary);
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="employees"], [data-rimo-overlay="employees"]) .el-pagination .el-pagination__jump {
           display: none;
         }

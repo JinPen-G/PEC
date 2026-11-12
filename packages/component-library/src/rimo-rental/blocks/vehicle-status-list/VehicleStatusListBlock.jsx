@@ -10,79 +10,77 @@ export default function VehicleStatusListBlock() {
   const {
     text
   } = useRimoEnvironment();
-  return <RimoRoot model={model} pageKey="vehicle-status-list" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="vehicle-status-header flex justify-between items-end shrink-0" data-rimo-layout="heading"><div><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("車輛速查表")}</h1>
-<p className="text-gray-500 text-sm mt-1">{text("全局查詢車輛實時運行工況、調度定位與當前訂單當前分配。")}</p></div></div>
-<div className="vehicle-status-filter-card bg-white rounded-xl shadow-sm border border-gray-100 shrink-0 flex flex-col relative overflow-hidden" data-rimo-layout="filters"><div className="vehicle-status-filter-row flex justify-between items-center gap-6"><div className="vehicle-status-filter-controls flex gap-3 z-10 w-2/3 items-center flex-wrap"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
-              model.write(["filters", "keyword"], value);
-            }} placeholder="搜索車牌號/廠牌/車款..." prefixIcon="Search" clearable={true} className="w-64"></RimoElement>
-<RimoElement kind="el-select" modelValue={view.filters.station} onModelChange={value => {
-              model.write(["filters", "station"], value);
-            }} placeholder="據點/門店" style={rimoStyle("width: 140px;")} clearable={true}><RimoElement kind="el-option" label="臺北車站門店" value="S-TPE"></RimoElement>
-<RimoElement kind="el-option" label="松山機場門店" value="S-TSA"></RimoElement>
-<RimoElement kind="el-option" label="左營高鐵站門店" value="S-KHH"></RimoElement></RimoElement>
-<RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
-              model.write(["filters", "vehicleType"], value);
-            }} placeholder="載具類型" style={rimoStyle("width: 120px;")} clearable={true}><RimoElement kind="el-option" label="汽車" value="Vehicle"></RimoElement>
-<RimoElement kind="el-option" label="微電車" value="MicroEV"></RimoElement></RimoElement>
-<RimoElement kind="el-select" modelValue={view.filters.status} onModelChange={value => {
-              model.write(["filters", "status"], value);
-            }} placeholder="當前狀態" style={rimoStyle("width: 120px;")} clearable={true}><RimoElement kind="el-option" label="空閒" value="IDLE"></RimoElement>
-<RimoElement kind="el-option" label="出租中" value="RENTED"></RimoElement>
-<RimoElement kind="el-option" label="調度中" value="DISPATCHING"></RimoElement>
-<RimoElement kind="el-option" label="維修保養" value="MAINTENANCE"></RimoElement></RimoElement>
-<RimoElement kind="el-button" type="primary" icon="Filter" plain={true} onClick={_event => {
-              model.write(["searchPanelExpanded"], !view.searchPanelExpanded);
-            }}>{text("\n                                        ")}{rimoText(view.searchPanelExpanded ? '收起篩選' : '更多篩選')}{text("\n                                    ")}</RimoElement>
-<RimoElement kind="el-tooltip" content="重置篩選" placement="top"><RimoElement kind="el-button" circle={true} onClick={event => {
-                view.resetFilters?.(event);
-              }}><RimoElement kind="el-icon"><RimoIcon name="Refresh" /></RimoElement></RimoElement></RimoElement></div>
-<div className="vehicle-status-summary-actions flex gap-3 z-10"><button type="button" className={rimoClass(["vehicle-status-summary-card text-right", rimoClass({
-              'is-active': view.isSummaryFilterActive('pool')
-            })])} onClick={_event => {
-              view.toggleSummaryFilter('pool');
-            }}><div className="text-xs text-gray-500 font-medium mb-1">{text("監控車輛池")}</div>
+  return <RimoRoot model={model} pageKey="vehicle-status-list" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="vehicle-status-summary-actions flex gap-3 z-10" data-rimo-layout="list-summary"><button type="button" className={rimoClass(["vehicle-status-summary-card text-right", rimoClass({
+          'is-active': view.isSummaryFilterActive('pool')
+        })])} onClick={_event => {
+          view.toggleSummaryFilter('pool');
+        }}><div className="text-xs text-gray-500 font-medium mb-1">{text("監控車輛池")}</div>
 <div className="text-2xl font-bold text-gray-800">{rimoText(view.tableData.length)}{text(" ")}
 <span className="text-sm font-normal text-gray-400">{text("臺")}</span></div></button>
 <div className="w-px bg-gray-200"></div>
 <button type="button" className={rimoClass(["vehicle-status-summary-card text-right", rimoClass({
-              'is-active': view.isSummaryFilterActive('rented')
-            })])} onClick={_event => {
-              view.toggleSummaryFilter('rented');
-            }}><div className="text-xs text-gray-500 font-medium mb-1">{text("營運中 (在途)")}</div>
+          'is-active': view.isSummaryFilterActive('rented')
+        })])} onClick={_event => {
+          view.toggleSummaryFilter('rented');
+        }}><div className="text-xs text-gray-500 font-medium mb-1">{text("營運中 (在途)")}</div>
 <div className="text-2xl font-bold text-blue-600">{rimoText(view.tableData.filter(v => v.status === 'RENTED').length)}{text(" ")}
 <span className="text-sm font-normal text-gray-400">{text("臺")}</span></div></button>
 <div className="w-px bg-gray-200"></div>
 <button type="button" className={rimoClass(["vehicle-status-summary-card text-right", rimoClass({
-              'is-active': view.isSummaryFilterActive('attention')
-            })])} onClick={_event => {
-              view.toggleSummaryFilter('attention');
-            }}><div className="text-xs text-gray-500 font-medium mb-1">{text("異常待關注")}</div>
+          'is-active': view.isSummaryFilterActive('attention')
+        })])} onClick={_event => {
+          view.toggleSummaryFilter('attention');
+        }}><div className="text-xs text-gray-500 font-medium mb-1">{text("異常待關注")}</div>
 <div className="text-2xl font-bold text-amber-500">{rimoText(view.attentionVehicleCount)}{text(" ")}
-<span className="text-sm font-normal text-gray-400">{text("臺")}</span></div></button></div></div>
-<div hidden={!view.searchPanelExpanded} className="pt-4 mt-1 border-t border-gray-100"><div className="flex flex-wrap items-center gap-3"><RimoElement kind="el-select" modelValue={view.advancedFilters.group} onModelChange={value => {
-              model.write(["advancedFilters", "group"], value);
-            }} placeholder="車組" clearable={true} style={rimoStyle("width: 140px;")}>{rimoEntries(view.groupOptions).map(([group], _itemIndex) => <Fragment key={group}><RimoElement kind="el-option" key={group} label={group} value={group}></RimoElement></Fragment>)}</RimoElement>
+<span className="text-sm font-normal text-gray-400">{text("臺")}</span></div></button></div>
+<div className="vehicle-status-header flex justify-between items-end shrink-0" data-rimo-layout="heading"><div><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("車輛速查表")}</h1>
+<p className="text-gray-500 text-sm mt-1">{text("全局查詢車輛實時運行工況、調度定位與當前訂單當前分配。")}</p></div></div>
+<div className="vehicle-status-table-card flex-1 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden"><RimoElement kind="el-table" className="vehicle-status-table" data={view.pagedData} style={rimoStyle("width: 100%; height: 100%;")} tableLayout="fixed" scrollbarAlwaysOn={true} stripe={true} border={true} size="small" slots={{
+          "toolbar": _slot => <><div className="vehicle-status-filter-row flex justify-between items-center gap-6"><div className="vehicle-status-filter-controls flex gap-3 z-10 w-2/3 items-center flex-wrap"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
+                  model.write(["filters", "keyword"], value);
+                }} placeholder="搜索車牌號/廠牌/車款..." prefixIcon="Search" clearable={true} className="w-64"></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.station} onModelChange={value => {
+                  model.write(["filters", "station"], value);
+                }} placeholder="據點/門店" style={rimoStyle("width: 140px;")} clearable={true}><RimoElement kind="el-option" label="臺北車站門店" value="S-TPE"></RimoElement>
+<RimoElement kind="el-option" label="松山機場門店" value="S-TSA"></RimoElement>
+<RimoElement kind="el-option" label="左營高鐵站門店" value="S-KHH"></RimoElement></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
+                  model.write(["filters", "vehicleType"], value);
+                }} placeholder="載具類型" style={rimoStyle("width: 120px;")} clearable={true}><RimoElement kind="el-option" label="汽車" value="Vehicle"></RimoElement>
+<RimoElement kind="el-option" label="微電車" value="MicroEV"></RimoElement></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.status} onModelChange={value => {
+                  model.write(["filters", "status"], value);
+                }} placeholder="當前狀態" style={rimoStyle("width: 120px;")} clearable={true}><RimoElement kind="el-option" label="空閒" value="IDLE"></RimoElement>
+<RimoElement kind="el-option" label="出租中" value="RENTED"></RimoElement>
+<RimoElement kind="el-option" label="調度中" value="DISPATCHING"></RimoElement>
+<RimoElement kind="el-option" label="維修保養" value="MAINTENANCE"></RimoElement></RimoElement>
+<RimoElement kind="el-tooltip" content="重置篩選" placement="top"><RimoElement kind="el-button" circle={true} onClick={event => {
+                    view.resetFilters?.(event);
+                  }} icon="Refresh" data-rimo-filter-reset="true" aria-label="重置筛选"></RimoElement></RimoElement></div></div>
+<div className="pt-4 mt-1 border-t border-gray-100"><div className="flex flex-wrap items-center gap-3"><RimoElement kind="el-select" modelValue={view.advancedFilters.group} onModelChange={value => {
+                  model.write(["advancedFilters", "group"], value);
+                }} placeholder="車組" clearable={true} style={rimoStyle("width: 140px;")} data-rimo-secondary="true">{rimoEntries(view.groupOptions).map(([group], _itemIndex) => <Fragment key={group}><RimoElement kind="el-option" key={group} label={group} value={group}></RimoElement></Fragment>)}</RimoElement>
 <RimoElement kind="el-select" modelValue={view.advancedFilters.fuelType} onModelChange={value => {
-              model.write(["advancedFilters", "fuelType"], value);
-            }} placeholder="能源類型" clearable={true} style={rimoStyle("width: 130px;")}><RimoElement kind="el-option" label="汽油" value="Gasoline"></RimoElement>
+                  model.write(["advancedFilters", "fuelType"], value);
+                }} placeholder="能源類型" clearable={true} style={rimoStyle("width: 130px;")} data-rimo-secondary="true"><RimoElement kind="el-option" label="汽油" value="Gasoline"></RimoElement>
 <RimoElement kind="el-option" label="柴油" value="Diesel"></RimoElement>
 <RimoElement kind="el-option" label="純電" value="EV"></RimoElement>
 <RimoElement kind="el-option" label="油電" value="Hybrid"></RimoElement></RimoElement>
 <RimoElement kind="el-select" modelValue={view.advancedFilters.orderState} onModelChange={value => {
-              model.write(["advancedFilters", "orderState"], value);
-            }} placeholder="訂單佔用" clearable={true} style={rimoStyle("width: 130px;")}><RimoElement kind="el-option" label="無訂單" value="none"></RimoElement>
+                  model.write(["advancedFilters", "orderState"], value);
+                }} placeholder="訂單佔用" clearable={true} style={rimoStyle("width: 130px;")} data-rimo-secondary="true"><RimoElement kind="el-option" label="無訂單" value="none"></RimoElement>
 <RimoElement kind="el-option" label="有訂單" value="occupied"></RimoElement></RimoElement>
 <RimoElement kind="el-select" modelValue={view.advancedFilters.attentionState} onModelChange={value => {
-              model.write(["advancedFilters", "attentionState"], value);
-            }} placeholder="關注狀態" multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} style={rimoStyle("width: 190px;")}><RimoElement kind="el-option" label="通訊異常" value="communication"></RimoElement>
+                  model.write(["advancedFilters", "attentionState"], value);
+                }} placeholder="關注狀態" multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} style={rimoStyle("width: 190px;")} data-rimo-secondary="true"><RimoElement kind="el-option" label="通訊異常" value="communication"></RimoElement>
 <RimoElement kind="el-option" label="定位異常" value="location"></RimoElement>
 <RimoElement kind="el-option" label="低電量" value="lowEnergy"></RimoElement>
 <RimoElement kind="el-option" label="低電壓" value="lowVoltage"></RimoElement>
 <RimoElement kind="el-option" label="防盜未上鎖" value="securityUnlocked"></RimoElement>
 <RimoElement kind="el-option" label="中控未上鎖" value="centralUnlocked"></RimoElement>
 <RimoElement kind="el-option" label="車門未全關" value="doorOpen"></RimoElement>
-<RimoElement kind="el-option" label="電子鑰匙未回位" value="keyNotReturned"></RimoElement></RimoElement></div></div></div>
-<div className="vehicle-status-table-card flex-1 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden" data-rimo-layout="list"><RimoElement kind="el-table" className="vehicle-status-table" data={view.pagedData} style={rimoStyle("width: 100%; height: 100%;")} tableLayout="fixed" scrollbarAlwaysOn={true} stripe={true} border={true} size="small"><RimoElement kind="el-table-column" label="車輛狀態" width="180" fixed="left" align="left" slots={{
+<RimoElement kind="el-option" label="電子鑰匙未回位" value="keyNotReturned"></RimoElement></RimoElement></div></div></>
+        }}><RimoElement kind="el-table-column" label="車輛狀態" width="180" fixed="left" align="left" slots={{
             "default": ({
               row
             }) => <><div className="vehicle-status-inline"><div className={rimoClass(["vehicle-status-primary tracking-wide", rimoClass({

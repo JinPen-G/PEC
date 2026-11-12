@@ -569,7 +569,7 @@ export default function EnterpriseOfficialOrderAddBlock() {
     }}>{() => <><div className="space-y-4"><div className="text-center"><div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600"><RimoElement kind="el-icon" className="text-3xl"><RimoIcon name="CircleCheck" /></RimoElement></div>
 <div className="text-lg font-bold text-gray-900">{rimoText(view.createdOrder.orderNo)}</div>
 <div className="mt-1 text-xs text-gray-500">{text("訂單已寫入公務車訂單列表，並保留員工、車輛、據點與預定時間快照。")}</div></div>
-<div className="grid grid-cols-2 gap-3"><div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="mb-1 text-xs text-gray-400">{text("訂單狀態")}</div>
+<div className="grid grid-cols-2 gap-3" data-rimo-grid="2"><div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="mb-1 text-xs text-gray-400">{text("訂單狀態")}</div>
 <div className="font-bold text-gray-800">{rimoText(view.createdOrder.statusText)}</div></div>
 <div className="rounded-lg border border-gray-100 bg-gray-50 p-3"><div className="mb-1 text-xs text-gray-400">{text("審覈狀態")}</div>
 <div className="font-bold text-gray-800">{rimoText(view.createdOrder.approvalText)}</div></div>

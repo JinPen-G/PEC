@@ -369,7 +369,7 @@
             font-weight: 500;
         }
 
-        @media (max-width: 1180px) {
+        @container (max-width: 1180px) {
             :where([data-rimo-page="enterprise-employee-management"], [data-rimo-overlay="enterprise-employee-management"]) .employee-layout {
                 flex-direction: column;
             }
@@ -380,12 +380,12 @@
             }
         }
 
-        @media (max-width: 960px) {
+        @container (max-width: 960px) {
             :where([data-rimo-page="enterprise-employee-management"], [data-rimo-overlay="enterprise-employee-management"]) .employee-page {
                 padding: 16px;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-employee-management"], [data-rimo-overlay="enterprise-employee-management"]) .el-pagination .el-pagination__jump {
           display: none;
         }

@@ -1,7 +1,7 @@
 /** The reference fullscreen surface grows from the preview's actual bounds.
  * The native mount moves into this surface and returns after exit, preserving
  * drafts and local state instead of creating a second prototype instance. */
-import { useLayoutEffect, useState, type RefObject, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type RefObject, type ReactNode } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { X } from 'lucide-react';
@@ -32,7 +32,7 @@ function FullscreenSurface({
     reduced = useReducedMotion();
   const [origin] = useState(initialBounds);
   const [viewport, setViewport] = useState(() => ({ width: window.innerWidth, height: window.innerHeight }));
-  const [host, setHost] = useState<HTMLDivElement | null>(null);
+  const host = useRef<HTMLDivElement | null>(null);
   useLayoutEffect(() => {
     const update = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener('resize', update);
@@ -40,14 +40,14 @@ function FullscreenSurface({
   }, []);
   useLayoutEffect(() => {
     const nativeElement = nativeRef.current;
-    if (!host || !nativeElement) return;
+    if (!host.current || !nativeElement) return;
     const parent = nativeElement.parentNode,
       next = nativeElement.nextSibling;
-    host.appendChild(nativeElement);
+    host.current.appendChild(nativeElement);
     return () => {
       if (parent) parent.insertBefore(nativeElement, next?.parentNode === parent ? next : null);
     };
-  }, [host, nativeRef]);
+  }, [nativeRef]);
   const full = { top: 0, left: 0, width: viewport.width, height: viewport.height, borderRadius: 0 };
   return (
     <>
@@ -75,7 +75,10 @@ function FullscreenSurface({
           if (target instanceof Node && nativeRef.current?.contains(target)) event.preventDefault();
         }}
         onEscapeKeyDown={(event) => {
-          if (nativeRef.current?.querySelector('[role="dialog"]')) event.preventDefault();
+          const target = event.target;
+          if (nativeRef.current?.querySelector('[role="dialog"]') ||
+            (target instanceof Element && target.closest('[role="menu"], [role="listbox"], [role="combobox"][aria-expanded="true"]')))
+            event.preventDefault();
         }}
       >
         <motion.div
@@ -111,7 +114,7 @@ function FullscreenSurface({
             </div>
           </div>
           <div className="preview-shell_panelBody__FXaKS" data-mode={mobile ? 'mobile' : 'fit'}>
-            <div ref={setHost} className="showcase-fullscreen-native" />
+            <div ref={host} className="showcase-fullscreen-native" />
           </div>
         </motion.div>
       </Dialog.Content>

@@ -5,9 +5,12 @@ import * as antd from 'antd';
 import dayjs from 'dayjs';
 import {
   RimoElement,
+  RimoList,
   RimoMarkup,
+  RimoTable,
 } from '../../packages/component-library/src/rimo-rental/lib/RimoElements.jsx';
 import { RimoEnvironmentProvider } from '../../packages/component-library/src/rimo-rental/lib/RimoEnvironment.jsx';
+import { RimoDialog } from '../../packages/component-library/src/rimo-rental/lib/RimoBusinessLayout.jsx';
 
 afterEach(cleanup);
 const element = (kind, props, ...children) => createElement(RimoElement, { kind, ...props }, ...children);
@@ -15,6 +18,145 @@ const host = (content, controls = {}, extra = {}) =>
   createElement(RimoEnvironmentProvider, { controls: { ...antd, ...controls }, ...extra }, content);
 
 describe('RIMO shared native controls', () => {
+  it.each([
+    [{ maskClosable: false }, { closable: false }],
+    [{ mask: false, maskClosable: true }, false],
+    [{ mask: { enabled: true, blur: false, closable: true }, maskClosable: false }, { enabled: true, blur: false, closable: false }],
+  ])('preserves the dialog backdrop contract with current modal props', (props, expected) => {
+    let received;
+    const Modal = value => { received = value; return null; };
+    render(host(createElement(RimoDialog, { pageKey: 'vehicle-transfer', ...props }), { Modal }));
+    expect(received.mask).toEqual(expected);
+    expect(received).not.toHaveProperty('maskClosable');
+  });
+  it('retains toolbar commands and disabled nested actions in the narrow-screen menu', () => {
+    let width = 390;
+    const rectangles = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width, height: 36, x: 0, y: 0, left: 0, right: width, top: 0, bottom: 36, toJSON() {} }));
+    const observers = [];
+    vi.stubGlobal('ResizeObserver', class { constructor(callback) { observers.push(callback); } observe() {} disconnect() {} });
+    let menu;
+    let popupContainer;
+    const Dropdown = props => { menu = props.menu; popupContainer = props.getPopupContainer; return props.children; };
+    const Table = props => createElement('div', { 'data-table-tools': '' }, props.toolbar);
+    const ListFilterItem = props => props.children;
+    const create = vi.fn();
+    const batch = vi.fn();
+    const messages = vi.spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      render(host(element('el-table', { slots: { toolbar: () => createElement('div', {},
+        createElement('div', {}, element('el-button', { key: 'action', onClick: create }, '新增')),
+        createElement('div', {}, element('el-dropdown', { key: 'action', onCommand: batch, slots: { dropdown: () => element('el-dropdown-menu', {}, element('el-dropdown-item', { command: 'enable' }, '启用'), element('el-dropdown-item', { command: 'disable', disabled: true }, '停用')) } }, element('el-button', {}, '批量设置'))),
+      ) } }), { Dropdown, Table, ListFilterItem }));
+      expect(screen.getByRole('button', { name: '更多操作' })).toBeInTheDocument();
+      expect(menu.items[1]).not.toHaveProperty('danger');
+      expect(menu.items[1].children[1].disabled).toBe(true);
+      const dialog = document.createElement('section');
+      const trigger = document.createElement('button');
+      dialog.setAttribute('role', 'dialog');
+      dialog.appendChild(trigger);
+      expect(popupContainer(trigger)).toBe(dialog);
+      expect(popupContainer(document.createElement('button'))).toBe(document.body);
+      expect(menu.getPopupContainer(trigger)).toBe(dialog);
+      expect(menu.triggerSubMenuAction).toBe('click');
+      menu.items[0].onClick({ domEvent: { type: 'click' } });
+      menu.items[1].children[0].onClick();
+      expect(create).toHaveBeenCalledOnce();
+      expect(batch).toHaveBeenCalledWith('enable');
+      act(() => { width = 900; observers.forEach(resize => resize()); });
+      expect(screen.queryByRole('button', { name: '更多操作' })).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /新\s*增/ })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: '批量设置' })).toBeInTheDocument();
+      expect(messages.mock.calls.flat().join('\n')).not.toContain('same key');
+    } finally {
+      messages.mockRestore();
+      rectangles.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('opens nested compact actions inside the fullscreen dialog using a click', async () => {
+    const rectangles = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width: 390, height: 36, x: 0, y: 0, left: 0, right: 390, top: 0, bottom: 36, toJSON() {} }));
+    vi.stubGlobal('ResizeObserver', class { observe() {} unobserve() {} disconnect() {} });
+    const Table = props => createElement('div', { 'data-table-tools': '' }, props.toolbar);
+    const ListFilterItem = props => props.children;
+    const command = vi.fn();
+    try {
+      render(host(createElement('section', { role: 'dialog', 'aria-label': '员工管理' }, element('el-table', { slots: { toolbar: () =>
+        element('el-dropdown', { onCommand: command, slots: { dropdown: () => element('el-dropdown-menu', {},
+          element('el-dropdown-item', { command: 'enable' }, '启用'),
+          element('el-dropdown-item', { command: 'disable', disabled: true }, '停用'),
+        ) } }, element('el-button', {}, '批量设置')),
+      } })), { Table, ListFilterItem }));
+      fireEvent.click(screen.getByRole('button', { name: '更多操作' }));
+      fireEvent.click(await screen.findByRole('menuitem', { name: /批量设置/ }));
+      const enabled = await screen.findByRole('menuitem', { name: '启用' });
+      expect(within(screen.getByRole('dialog')).getByRole('menuitem', { name: '启用' })).toBe(enabled);
+      fireEvent.click(screen.getByRole('menuitem', { name: '停用' }));
+      expect(command).not.toHaveBeenCalled();
+      fireEvent.click(enabled);
+      expect(command).toHaveBeenCalledExactlyOnceWith('enable');
+    } finally {
+      cleanup();
+      rectangles.mockRestore();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('supplies field feedback context to unlabelled controls inside a form', () => {
+    const messages = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const Input = props => { antd.Form.Item.useStatus(); return createElement('input', { value: props.value ?? '', onChange: props.onChange }); };
+    try {
+      render(host(element('el-form', { model: {} }, element('el-input', { modelValue: '填写内容' })), { Input }));
+      expect(screen.getByRole('textbox')).toHaveValue('填写内容');
+      expect(messages.mock.calls.flat().join('\n')).not.toContain('Form.Item.useStatus should be used under Form.Item');
+    } finally { messages.mockRestore(); }
+  });
+
+  it('keeps one primary search and marks the remaining criteria and reset for host overflow', () => {
+    const fields = [];
+    const ListFilterItem = (props) => { fields.push(props); return props.children; };
+    const Table = props => createElement('div', {}, props.toolbar);
+    const change = vi.fn();
+    render(host(element('el-table', { slots: { toolbar: () => createElement('div', {},
+      element('el-input', { modelValue: 'A123', placeholder: '订单号', onModelChange: change }),
+      element('el-input', { modelValue: '林', placeholder: '姓名' }),
+      element('el-select', { modelValue: ['active'], placeholder: '状态', 'data-rimo-secondary': 'true', multiple: true, options: [{ value: 'active', label: '有效' }] }),
+      element('el-tooltip', { content: '重置筛选' }, element('el-button', { 'data-rimo-filter-reset': 'true' }, '重置')),
+    ) } }), { Table, ListFilterItem }));
+    expect(fields.map(field => field.kind)).toEqual(['search', 'filter', 'filter', 'reset']);
+    expect(fields[2]).toMatchObject({ collapsed: true, active: true, label: '状态' });
+    expect(fields[3].label).toBe('重置筛选');
+    fireEvent.change(screen.getByPlaceholderText('订单号'), { target: { value: 'B456' } });
+    expect(change).toHaveBeenCalledWith('B456');
+  });
+
+  it('keeps shared filters available when switching the table schema', () => {
+    const Table = props => createElement('section', {}, props.toolbar, props.columns[0]?.title);
+    const contents = schema => host(createElement(RimoList, { slots: { toolbar: () => element('el-input', { modelValue: '台北', placeholder: '据点' }) } },
+      element('el-table', { 'data-rimo-shared-toolbar': 'true' }, element('el-table-column', { label: schema, prop: schema }))), { Table });
+    const view = render(contents('同站租还'));
+    expect(screen.getByPlaceholderText('据点')).toHaveValue('台北');
+    view.rerender(contents('甲租乙还'));
+    expect(screen.getByPlaceholderText('据点')).toHaveValue('台北');
+    expect(screen.getAllByPlaceholderText('据点')).toHaveLength(1);
+    expect(screen.getByText('甲租乙还')).toBeInTheDocument();
+  });
+
+  it('provides standard tools for a simple imported table and preserves merged cells in fallback', () => {
+    let received;
+    const Table = props => { received = props; return createElement('div', {}, props.toolbar); };
+    const table = span => host(createElement(RimoTable, { slots: { toolbar: () => element('el-input', { placeholder: '查找订单' }) } },
+      createElement('thead', {}, createElement('tr', {}, createElement('th', {}, '订单'), createElement('th', {}, '状态'))),
+      createElement('tbody', {}, createElement('tr', {}, createElement('td', { colSpan: span }, '预约中')))), { Table });
+    const view = render(table(1));
+    expect(received.components).toBeUndefined();
+    expect(screen.getByPlaceholderText('查找订单')).toBeInTheDocument();
+    view.rerender(table(2));
+    expect(received.components).toEqual({});
+    expect(received.columns[0].onCell(received.dataSource[0]).colSpan).toBe(2);
+    expect(screen.getByPlaceholderText('查找订单')).toBeInTheDocument();
+  });
+
   it('provides source filters to the standard table toolbar and keeps columns and row actions', () => {
     let received;
     const Table = (props) => {
@@ -28,6 +170,7 @@ describe('RIMO shared native controls', () => {
           'el-table',
           {
             data: [{ id: 'one', plate: 'RIMO-001' }],
+            style: { minWidth: 940 },
             slots: { toolbar: () => element('el-input', { placeholder: '搜索车辆', modelValue: '' }) },
           },
           element('el-table-column', {
@@ -44,6 +187,7 @@ describe('RIMO shared native controls', () => {
       ),
     );
     expect(screen.getByPlaceholderText('搜索车辆')).toBeInTheDocument();
+    expect(received.style).toMatchObject({ minWidth: 0, width: '100%', maxWidth: '100%' });
     expect(received.columns[0]).toMatchObject({ dataIndex: 'plate', width: 220 });
     expect(received.columns[1].fixed).toBe(false);
     const cell = received.columns[0].render(null, received.dataSource[0], 0);
@@ -225,7 +369,7 @@ describe('RIMO shared native controls', () => {
     );
     expect(screen.getByPlaceholderText('隐藏字段')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('隐藏字段')).not.toBeVisible();
-    expect(received.maskClosable).toBe(false);
+    expect(received.mask).toEqual({ closable: false });
     received.afterClose();
     expect(closed).toHaveBeenCalledOnce();
   });

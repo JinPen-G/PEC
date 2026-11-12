@@ -1,5 +1,5 @@
-/** RIMO display adapter: fixed host controls, private assets and registered local navigation. */
-import { useCallback, type ReactNode } from 'react';
+/** RIMO display adapter: business URL changes reset content; document navigation preserves drafts. */
+import { Fragment, useCallback, type ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import * as controls from '@preview/ui/admin';
 import { RimoEnvironmentProvider } from '@preview/library/rimo-rental/lib/RimoEnvironment.jsx';
@@ -20,6 +20,11 @@ function RimoView({ pageKey, clientId, assets, routes, children }: RimoPageProps
   const parts = location.pathname.split('/');
   const projectId = parts[2] || 'rimo-rental';
   const prefix = ['pages','demo','p'].includes(parts[1]) ? `/${parts[1]}` : '/pages';
+  const businessParameters = new URLSearchParams(location.search);
+  businessParameters.delete('document');
+  businessParameters.delete('anchor');
+  businessParameters.sort();
+  const contentKey = `${projectId}/${clientId}/${pageKey}?${businessParameters}`;
   const asset = useCallback((value: string) => {
     if (!value || /^(data:|blob:)/.test(value)) return value;
     const normalized = (/^https?:\/\//i.test(value) ? new URL(value).pathname.slice(1) : value).replaceAll('\\', '/').replace(/^\.\//, '');
@@ -41,7 +46,7 @@ function RimoView({ pageKey, clientId, assets, routes, children }: RimoPageProps
   const confirm = useCallback((message: string, title?: string) => new Promise((resolve, reject) => feedback.modal.confirm({
     title: text(title ?? '确认操作'), content: text(message), onOk: () => resolve(true), onCancel: () => reject(new Error('cancel')),
   })), [feedback.modal, text]);
-  return <RimoEnvironmentProvider controls={controls} text={text} navigate={route} search={location.search} asset={asset} notify={notify} confirm={confirm}>{children}</RimoEnvironmentProvider>;
+  return <RimoEnvironmentProvider controls={controls} text={text} navigate={route} search={location.search} asset={asset} notify={notify} confirm={confirm}><Fragment key={contentKey}>{children}</Fragment></RimoEnvironmentProvider>;
 }
 export function RimoPage(props: RimoPageProps) {
   return <controls.AdminFeedbackProvider><RimoView {...props} /></controls.AdminFeedbackProvider>;

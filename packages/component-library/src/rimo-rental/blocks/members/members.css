@@ -325,9 +325,6 @@
   --tw-tracking: var(--tracking-tight);
   letter-spacing: var(--tracking-tight);
 }
-:where([data-rimo-page="members"], [data-rimo-overlay="members"]) .whitespace-nowrap {
-  white-space: nowrap;
-}
 :where([data-rimo-page="members"], [data-rimo-overlay="members"]) .text-\[color\:var\(--app-color-primary\)\] {
   color: var(--app-color-primary);
 }
@@ -426,7 +423,7 @@
     background-color: var(--app-color-primary-light-9);
   }
 }
-@media (width >= 48rem) {
+@container (width >= 48rem) {
   :where([data-rimo-page="members"], [data-rimo-overlay="members"]) .md\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -678,7 +675,7 @@
         :where([data-rimo-page="members"], [data-rimo-overlay="members"]) .member-filter-controls > .el-button + .el-button {
             margin-left: 0 !important;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="members"], [data-rimo-overlay="members"]) .el-pagination .el-pagination__jump {
           display: none;
         }

@@ -353,7 +353,7 @@
 :where([data-rimo-page="corporate-detail"], [data-rimo-overlay="corporate-detail"]) .ring-inset {
   --tw-ring-inset: inset;
 }
-@media (width >= 48rem) {
+@container (width >= 48rem) {
   :where([data-rimo-page="corporate-detail"], [data-rimo-overlay="corporate-detail"]) .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -628,7 +628,7 @@
             font-size: 14px;
             font-weight: 500;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="corporate-detail"], [data-rimo-overlay="corporate-detail"]) .el-pagination .el-pagination__jump {
           display: none;
         }

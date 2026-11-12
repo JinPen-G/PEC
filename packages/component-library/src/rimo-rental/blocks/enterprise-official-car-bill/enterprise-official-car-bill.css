@@ -213,7 +213,7 @@
             padding-inline: 10px;
         }
 
-        @media (max-width: 960px) {
+        @container (max-width: 960px) {
             :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .company-bill-page {
                 padding: 16px;
             }
@@ -226,7 +226,7 @@
                 width: 100%;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-official-car-bill"], [data-rimo-overlay="enterprise-official-car-bill"]) .el-pagination .el-pagination__jump {
           display: none;
         }

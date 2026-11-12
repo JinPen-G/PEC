@@ -168,7 +168,7 @@ export default function EnterpriseDispatchScheduleBlock() {
   } = useRimoEnvironment();
   return <RimoRoot model={model} pageKey="enterprise-dispatch-schedule" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="car-control-page"><div className="car-control-page__header" data-rimo-layout="heading"><div><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("排程表")}</h1>
 <p className="text-gray-500 text-sm mt-1">{text("可視化管理車輛排班、調度與衝突處理。")}</p></div>
-<div className="flex items-center gap-3 flex-wrap justify-end"><RimoElement kind="el-button-group" className="shadow-sm"><RimoElement kind="el-button" type={view.viewMode === 'day' ? 'primary' : 'default'} onClick={_event => {
+<div className="flex items-center gap-3 flex-wrap justify-end" data-rimo-layout="field-row"><RimoElement kind="el-button-group" className="shadow-sm"><RimoElement kind="el-button" type={view.viewMode === 'day' ? 'primary' : 'default'} onClick={_event => {
                 model.write(["viewMode"], 'day');
               }}>{text("日")}</RimoElement>
 <RimoElement kind="el-button" type={view.viewMode === 'week' ? 'primary' : 'default'} onClick={_event => {

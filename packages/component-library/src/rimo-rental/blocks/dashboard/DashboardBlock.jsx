@@ -160,7 +160,7 @@ function createPageState(model) {
     const initMapChart = () => {
       const chartDom = document.getElementById('mapChart');
       if (!chartDom) return;
-      const myChart = echarts.init(chartDom);
+      const myChart = model.chart(echarts, chartDom);
       const data = [[121.32, 31.19, 85, '上海虹橋點'], [121.47, 31.23, 120, '上海市區'], [116.40, 39.90, 60, '北京門店'], [114.05, 22.54, 95, '深圳門店'], [120.15, 30.28, 45, '杭州門店']];
       const _option = {
         backgroundColor: 'transparent',
@@ -279,7 +279,7 @@ function createPageState(model) {
     const initUtilizationChart = () => {
       const chartDom = document.getElementById('utilizationChart');
       if (!chartDom) return;
-      const myChart = echarts.init(chartDom);
+      const myChart = model.chart(echarts, chartDom);
       const option = {
         tooltip: {
           trigger: 'axis',
@@ -351,7 +351,7 @@ function createPageState(model) {
     const initRevenueChart = () => {
       const chartDom = document.getElementById('revenueChart');
       if (!chartDom) return;
-      const myChart = echarts.init(chartDom);
+      const myChart = model.chart(echarts, chartDom);
       const option = {
         tooltip: {
           trigger: 'axis',
@@ -516,7 +516,7 @@ export default function DashboardBlock() {
 <RimoElement kind="el-button" onClick={_event => {
             model.write(["notificationDrawerVisible"], false);
           }}>{text("關閉")}</RimoElement></div></>
-    }}>{() => <><div className="flex items-center justify-between mb-4"><RimoElement kind="el-radio-group" modelValue={view.activeNotificationTab} onModelChange={value => {
+    }}>{() => <><div className="flex items-center justify-between mb-4" data-rimo-layout="toolbar"><RimoElement kind="el-radio-group" modelValue={view.activeNotificationTab} onModelChange={value => {
             model.write(["activeNotificationTab"], value);
           }} size="default"><RimoElement kind="el-radio-button" label="all">{text("全部提醒")}</RimoElement>
 <RimoElement kind="el-radio-button" label="訂單提醒">{text("訂單提醒")}</RimoElement>

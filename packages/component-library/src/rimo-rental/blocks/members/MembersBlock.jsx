@@ -990,7 +990,7 @@ export default function MembersBlock() {
             view.openCreateDialog?.(event);
           }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 新增會員\n                        ")}</RimoElement></div></div>
-<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl p-4 border shadow-sm cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'total' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} role="button" tabIndex="0" aria-pressed={view.activeSummaryCard === 'total'} onClick={_event => {
+<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-grid="4" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl p-4 border shadow-sm cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'total' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} role="button" tabIndex="0" aria-pressed={view.activeSummaryCard === 'total'} onClick={_event => {
           view.applySummaryFilter('total');
         }} onKeyDown={event => {
           event.preventDefault();
@@ -1027,68 +1027,44 @@ export default function MembersBlock() {
           color: 'var(--app-color-text-secondary)',
           fontWeight: 'bold'
         }} slots={{
-          "toolbar": _slot => <><div ref={model.ref("filterToolbar")} className="member-filter-toolbar p-4 flex justify-between items-center gap-4"><div className="member-filter-controls flex gap-3 items-center flex-1"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
+          "toolbar": _slot => <><div className="member-filter-toolbar p-4 flex justify-between items-center gap-4"><div className="member-filter-controls flex gap-3 items-center flex-1"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
                   model.write(["filters", "keyword"], value);
                 }} placeholder="搜索賬號/姓名/手機號/Email/身份證" clearable={true} style={rimoStyle("width: 280px")} prefixIcon="Search"></RimoElement>
-{view.filterLayoutTier >= 2 ? <><RimoElement kind="el-select" modelValue={view.filters.corporateQualification} onModelChange={value => {
-                    model.write(["filters", "corporateQualification"], value);
-                  }} placeholder="企業資格" clearable={true} style={rimoStyle("width: 140px")}><RimoElement kind="el-option" label="未加入企業" value="personal_only"></RimoElement>
-<RimoElement kind="el-option" label="已加入企業" value="corporate_qualified"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier >= 3 ? <><RimoElement kind="el-select" modelValue={view.filters.planId} onModelChange={value => {
-                    model.write(["filters", "planId"], value);
-                  }} placeholder="會員方案" clearable={true} style={rimoStyle("width: 140px")}>{rimoEntries(view.membershipPlans).map(([plan], _itemIndex) => <Fragment key={plan.id}><RimoElement kind="el-option" key={plan.id} label={plan.name} value={plan.id}></RimoElement></Fragment>)}</RimoElement></> : null}
+<RimoElement kind="el-select" modelValue={view.filters.corporateQualification} onModelChange={value => {
+                  model.write(["filters", "corporateQualification"], value);
+                }} placeholder="企業資格" clearable={true} style={rimoStyle("width: 140px")}><RimoElement kind="el-option" label="未加入企業" value="personal_only"></RimoElement>
+<RimoElement kind="el-option" label="已加入企業" value="corporate_qualified"></RimoElement></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.planId} onModelChange={value => {
+                  model.write(["filters", "planId"], value);
+                }} placeholder="會員方案" clearable={true} style={rimoStyle("width: 140px")}>{rimoEntries(view.membershipPlans).map(([plan], _itemIndex) => <Fragment key={plan.id}><RimoElement kind="el-option" key={plan.id} label={plan.name} value={plan.id}></RimoElement></Fragment>)}</RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.status} onModelChange={value => {
                   model.write(["filters", "status"], value);
                 }} placeholder="賬號狀態" clearable={true} style={rimoStyle("width: 120px")}><RimoElement kind="el-option" label="正常" value="active"></RimoElement>
 <RimoElement kind="el-option" label="停權" value="suspended"></RimoElement>
 <RimoElement kind="el-option" label="黑名單" value="blacklisted"></RimoElement>
 <RimoElement kind="el-option" label="封存" value="archived"></RimoElement></RimoElement>
-{view.filterLayoutTier >= 4 ? <><RimoElement kind="el-select" modelValue={view.filters.reviewStatus} onModelChange={value => {
-                    model.write(["filters", "reviewStatus"], value);
-                  }} placeholder="審覈狀態" clearable={true} style={rimoStyle("width: 120px")}><RimoElement kind="el-option" label="待審覈" value="pending"></RimoElement>
-<RimoElement kind="el-option" label="已通過" value="approved"></RimoElement>
-<RimoElement kind="el-option" label="已駁回" value="rejected"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier >= 5 ? <><RimoElement kind="el-select" modelValue={view.filters.registrationChannel} onModelChange={value => {
-                    model.write(["filters", "registrationChannel"], value);
-                  }} placeholder="註冊渠道" clearable={true} style={rimoStyle("width: 130px")}><RimoElement kind="el-option" label="官網" value="official_web"></RimoElement>
-<RimoElement kind="el-option" label="iOS APP" value="ios"></RimoElement>
-<RimoElement kind="el-option" label="Android APP" value="android"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier >= 6 ? <><RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
-                    model.write(["filters", "vehicleType"], value);
-                  }} placeholder="可用載具類型" clearable={true} style={rimoStyle("width: 150px")}>{rimoEntries(view.vehicleTypeOptions).map(([type], _itemIndex) => <Fragment key={type.value}><RimoElement kind="el-option" key={type.value} label={type.label} value={type.value}></RimoElement></Fragment>)}</RimoElement></> : null}
-<RimoElement kind="el-button" type="primary" icon="Filter" plain={true} onClick={_event => {
-                  model.write(["showMoreFilters"], !view.showMoreFilters);
-                }}>{text("\n                                    ")}{rimoText(view.showMoreFilters ? '收起篩選' : '更多篩選')}{text("\n                                ")}</RimoElement>
-<RimoElement kind="el-tooltip" content="重置篩選" placement="top"><RimoElement kind="el-button" circle={true} onClick={event => {
-                    view.resetFilters?.(event);
-                  }}><RimoElement kind="el-icon"><RimoIcon name="Refresh" /></RimoElement></RimoElement></RimoElement>
-<RimoElement kind="el-button" type="primary" plain={true} icon="Download" onClick={event => {
-                  view.exportData?.(event);
-                }}>{text("導出")}</RimoElement></div>
-<div className="text-sm text-gray-500 whitespace-nowrap">{text("共 ")}{rimoText(view.filteredMembers.length)}{text(" 位會員")}</div></div>
-<div hidden={!view.showMoreFilters} className="px-4 pb-4 flex gap-3 items-center flex-wrap">{view.filterLayoutTier < 2 ? <><RimoElement kind="el-select" modelValue={view.filters.corporateQualification} onModelChange={value => {
-                  model.write(["filters", "corporateQualification"], value);
-                }} placeholder="企業資格" clearable={true} style={rimoStyle("width: 140px")}><RimoElement kind="el-option" label="未加入企業" value="personal_only"></RimoElement>
-<RimoElement kind="el-option" label="已加入企業" value="corporate_qualified"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier < 3 ? <><RimoElement kind="el-select" modelValue={view.filters.planId} onModelChange={value => {
-                  model.write(["filters", "planId"], value);
-                }} placeholder="會員方案" clearable={true} style={rimoStyle("width: 140px")}>{rimoEntries(view.membershipPlans).map(([plan], _itemIndex) => <Fragment key={plan.id}><RimoElement kind="el-option" key={plan.id} label={plan.name} value={plan.id}></RimoElement></Fragment>)}</RimoElement></> : null}
-{view.filterLayoutTier < 4 ? <><RimoElement kind="el-select" modelValue={view.filters.reviewStatus} onModelChange={value => {
+<RimoElement kind="el-select" modelValue={view.filters.reviewStatus} onModelChange={value => {
                   model.write(["filters", "reviewStatus"], value);
                 }} placeholder="審覈狀態" clearable={true} style={rimoStyle("width: 120px")}><RimoElement kind="el-option" label="待審覈" value="pending"></RimoElement>
 <RimoElement kind="el-option" label="已通過" value="approved"></RimoElement>
-<RimoElement kind="el-option" label="已駁回" value="rejected"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier < 5 ? <><RimoElement kind="el-select" modelValue={view.filters.registrationChannel} onModelChange={value => {
+<RimoElement kind="el-option" label="已駁回" value="rejected"></RimoElement></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.registrationChannel} onModelChange={value => {
                   model.write(["filters", "registrationChannel"], value);
                 }} placeholder="註冊渠道" clearable={true} style={rimoStyle("width: 130px")}><RimoElement kind="el-option" label="官網" value="official_web"></RimoElement>
 <RimoElement kind="el-option" label="iOS APP" value="ios"></RimoElement>
-<RimoElement kind="el-option" label="Android APP" value="android"></RimoElement></RimoElement></> : null}
-{view.filterLayoutTier < 6 ? <><RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
+<RimoElement kind="el-option" label="Android APP" value="android"></RimoElement></RimoElement>
+<RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
                   model.write(["filters", "vehicleType"], value);
-                }} placeholder="可用載具類型" clearable={true} style={rimoStyle("width: 150px")}>{rimoEntries(view.vehicleTypeOptions).map(([type], _itemIndex) => <Fragment key={type.value}><RimoElement kind="el-option" key={type.value} label={type.label} value={type.value}></RimoElement></Fragment>)}</RimoElement></> : null}
-<RimoElement kind="el-date-picker" modelValue={view.filters.registrationDateRange} onModelChange={value => {
+                }} placeholder="可用載具類型" clearable={true} style={rimoStyle("width: 150px")}>{rimoEntries(view.vehicleTypeOptions).map(([type], _itemIndex) => <Fragment key={type.value}><RimoElement kind="el-option" key={type.value} label={type.label} value={type.value}></RimoElement></Fragment>)}</RimoElement>
+<RimoElement kind="el-tooltip" content="重置篩選" placement="top"><RimoElement kind="el-button" circle={true} onClick={event => {
+                    view.resetFilters?.(event);
+                  }} icon="Refresh" data-rimo-filter-reset="true" aria-label="重置筛选"></RimoElement></RimoElement>
+<RimoElement kind="el-button" type="primary" plain={true} icon="Download" onClick={event => {
+                  view.exportData?.(event);
+                }}>{text("導出")}</RimoElement></div></div>
+<div className="px-4 pb-4 flex gap-3 items-center flex-wrap"><RimoElement kind="el-date-picker" modelValue={view.filters.registrationDateRange} onModelChange={value => {
                 model.write(["filters", "registrationDateRange"], value);
-              }} type="daterange" rangeSeparator="-" startPlaceholder="註冊起始" endPlaceholder="註冊結束" className="member-registration-range"></RimoElement></div></>
+              }} type="daterange" rangeSeparator="-" startPlaceholder="註冊起始" endPlaceholder="註冊結束" className="member-registration-range" data-rimo-secondary="true"></RimoElement></div></>
         }}><RimoElement kind="el-table-column" prop="id" label="用戶ID" width="100" slots={{
             "default": ({
               row
@@ -1218,7 +1194,7 @@ export default function MembersBlock() {
 <RimoElement kind="el-col" span={8}><RimoElement kind="el-form-item" label="手機號"><RimoElement kind="el-input" modelValue={view.memberForm.emergencyContact.phone} onModelChange={value => {
                       model.write(["memberForm", "emergencyContact", "phone"], value);
                     }} placeholder="聯絡人電話" prefixIcon="Phone"></RimoElement></RimoElement></RimoElement></RimoElement></div></div>
-<div className="mb-5"><div className="text-sm font-bold text-gray-700 mb-3 flex items-center justify-between"><div className="flex items-center"><RimoElement kind="el-icon" className="mr-2 text-white"><RimoIcon name="Van" /></RimoElement>
+<div className="mb-5"><div className="text-sm font-bold text-gray-700 mb-3 flex items-center justify-between" data-rimo-layout="toolbar"><div className="flex items-center"><RimoElement kind="el-icon" className="mr-2 text-white"><RimoIcon name="Van" /></RimoElement>
 {text("\n                            駕駛執照\n                        ")}</div>
 <RimoElement kind="el-button" size="small" plain={true} type="primary" onClick={event => {
                 view.openLicenseTypeDialog?.(event);
@@ -1369,11 +1345,11 @@ export default function MembersBlock() {
                   }}>{text("手動續約")}</RimoElement></div></div></div>
 <div><h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-gray-500"><RimoIcon name="Star" /></RimoElement>
 {text(" 當前權益\n                    ")}</h3>
-<div className="grid grid-cols-2 gap-2">{rimoEntries(view.getPlanBenefits(view.currentMember.membership?.planId)).map(([benefit], _itemIndex) => <Fragment key={benefit}><div key={benefit} className="bg-gray-50 rounded px-3 py-2 text-xs text-gray-600 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-green-500"><RimoIcon name="Check" /></RimoElement>
+<div className="grid grid-cols-2 gap-2" data-rimo-grid="2">{rimoEntries(view.getPlanBenefits(view.currentMember.membership?.planId)).map(([benefit], _itemIndex) => <Fragment key={benefit}><div key={benefit} className="bg-gray-50 rounded px-3 py-2 text-xs text-gray-600 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-green-500"><RimoIcon name="Check" /></RimoElement>
 {text(" ")}{rimoText(benefit)}{text("\n                        ")}</div></Fragment>)}</div></div>
 <div className="border-t border-gray-100 pt-6"><h3 className="text-sm font-bold text-gray-800 mb-3 flex items-center"><RimoElement kind="el-icon" className="mr-1 text-gray-500"><RimoIcon name="Warning" /></RimoElement>
 {text(" 危險操作\n                    ")}</h3>
-<div className="bg-red-50 rounded-lg p-4 border border-red-100 flex items-center justify-between"><div><div className="text-sm font-bold text-red-800">{text("解約方案")}</div>
+<div className="bg-red-50 rounded-lg p-4 border border-red-100 flex items-center justify-between" data-rimo-layout="toolbar"><div><div className="text-sm font-bold text-red-800">{text("解約方案")}</div>
 <div className="text-xs text-red-500 mt-1">{text("退回到免費普通會員，立即失效")}</div></div>
 <RimoElement kind="el-button" type="danger" plain={true} size="small" onClick={event => {
                   view.handleTerminatePlan?.(event);

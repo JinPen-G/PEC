@@ -281,7 +281,7 @@
             box-shadow: 0 10px 18px var(--app-color-primary-shadow);
         }
 
-        @media (max-width: 1024px) {
+        @container (max-width: 1024px) {
             :where([data-rimo-page="enterprise-approval-setting"], [data-rimo-overlay="enterprise-approval-setting"]) .car-setting-page__hero-grid,
             :where([data-rimo-page="enterprise-approval-setting"], [data-rimo-overlay="enterprise-approval-setting"]) .car-setting-page__panel-grid,
             :where([data-rimo-page="enterprise-approval-setting"], [data-rimo-overlay="enterprise-approval-setting"]) .car-setting-page__field-grid {
@@ -289,7 +289,7 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @container (max-width: 768px) {
             :where([data-rimo-page="enterprise-approval-setting"], [data-rimo-overlay="enterprise-approval-setting"]) .car-setting-page {
                 padding: 16px;
             }
@@ -313,7 +313,7 @@
                 width: 100%;
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-approval-setting"], [data-rimo-overlay="enterprise-approval-setting"]) .el-pagination .el-pagination__jump {
           display: none;
         }

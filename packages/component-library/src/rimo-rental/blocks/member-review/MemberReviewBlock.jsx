@@ -838,7 +838,7 @@ export default function MemberReviewBlock() {
   } = useRimoEnvironment();
   return <RimoRoot model={model} pageKey="member-review" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="flex items-center justify-between mb-6" data-rimo-layout="heading"><div><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("資質認證審覈")}</h1>
 <p className="text-sm text-gray-500 mt-1">{text("審覈會員註冊申請，管理審覈流程")}</p></div></div>
-<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl p-4 border shadow-sm stat-card cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'pending' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} role="button" tabIndex="0" aria-pressed={view.activeSummaryCard === 'pending'} onClick={_event => {
+<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-grid="4" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl p-4 border shadow-sm stat-card cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'pending' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} role="button" tabIndex="0" aria-pressed={view.activeSummaryCard === 'pending'} onClick={_event => {
           view.applySummaryFilter('pending');
         }} onKeyDown={event => {
           event.preventDefault();
@@ -897,7 +897,7 @@ export default function MemberReviewBlock() {
               }} type="daterange" rangeSeparator="-" startPlaceholder="提交起始" endPlaceholder="提交結束" size="default" style={rimoStyle("width: 240px")}></RimoElement>
 <RimoElement kind="el-button" circle={true} onClick={event => {
                 view.resetFilters?.(event);
-              }} icon="RefreshRight" title="重置篩選"></RimoElement></div>
+              }} icon="RefreshRight" title="重置篩選" data-rimo-filter-reset="true" aria-label="重置筛选"></RimoElement></div>
 <div className="flex items-center gap-2"><RimoElement kind="el-button" type="primary" disabled={view.selectedRows.length === 0} onClick={event => {
                 view.handleBatchApprove?.(event);
               }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Check" /></RimoElement>
@@ -955,7 +955,7 @@ export default function MemberReviewBlock() {
         }}><RimoElement kind="el-tab-pane" label="新版審覈" name="new"><div className="space-y-4"><div className="rounded-xl border border-gray-200 p-4"><div className="flex items-center justify-between mb-3"><div><div className="text-sm font-bold text-gray-800">{text("資料審覈結果")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("逐項確認通過或不通過；不通過時必須選擇駁回原因。")}</div></div>
 {view.reviewSubmitMode === 'batch' ? <><RimoElement kind="el-tag" type="warning" effect="plain">{text("\n                                已選 ")}{rimoText(view.selectedRows.length)}{text(" 名會員\n                            ")}</RimoElement></> : null}</div>
-<div className="space-y-3">{rimoEntries(view.reviewItems).map(([item], _itemIndex) => <Fragment key={item.key}><div key={item.key} className="flex items-center gap-3 rounded-lg bg-gray-50 border border-gray-100 px-3 py-2"><div className="w-28 text-sm font-semibold text-gray-700">{rimoText(item.label)}</div>
+<div className="space-y-3">{rimoEntries(view.reviewItems).map(([item], _itemIndex) => <Fragment key={item.key}><div key={item.key} className="flex items-center gap-3 rounded-lg bg-gray-50 border border-gray-100 px-3 py-2" data-rimo-layout="field-row"><div className="w-28 text-sm font-semibold text-gray-700">{rimoText(item.label)}</div>
 <RimoElement kind="el-radio-group" modelValue={view.reviewSubmitForm[item.key].status} onModelChange={value => {
                         model.write(["reviewSubmitForm", item.key, "status"], value);
                       }} size="small"><RimoElement kind="el-radio-button" label="approved">{text("通過")}</RimoElement>
@@ -985,7 +985,7 @@ export default function MemberReviewBlock() {
 <div className="text-xs text-gray-500 mb-2">{text("選擇本次不通過的原因類型，可多選。")}</div>
 <RimoElement kind="el-checkbox-group" modelValue={view.legacyForm.rejectTypes} onModelChange={value => {
                         model.write(["legacyForm", "rejectTypes"], value);
-                      }} className="!grid grid-cols-2 gap-x-6 gap-y-1.5">{rimoEntries(view.legacyRejectTypeOptions).map(([item], _itemIndex) => <Fragment key={item.value}><RimoElement kind="el-checkbox" key={item.value} label={item.value}>{text("\n                                                ")}{rimoText(item.label)}{text("\n                                            ")}</RimoElement></Fragment>)}</RimoElement></div>
+                      }} className="!grid grid-cols-2 gap-x-6 gap-y-1.5" data-rimo-grid="2">{rimoEntries(view.legacyRejectTypeOptions).map(([item], _itemIndex) => <Fragment key={item.value}><RimoElement kind="el-checkbox" key={item.value} label={item.value}>{text("\n                                                ")}{rimoText(item.label)}{text("\n                                            ")}</RimoElement></Fragment>)}</RimoElement></div>
 <div><div className="text-sm font-bold text-gray-800 mb-1">{text("備註說明")}</div>
 <div className="text-xs text-gray-500 mb-2">{text("點擊下方常用原因可快速填寫，也可直接輸入。")}</div>
 <div className="flex flex-wrap gap-1.5 mb-2">{rimoEntries(view.legacyRemarkOptions).map(([r], _itemIndex) => <Fragment key={r}><RimoElement kind="el-tag" key={r} size="small" className="cursor-pointer" type={view.isLegacyRemarkSelected(r) ? 'success' : 'info'} effect="plain" onClick={_event => {
@@ -1009,7 +1009,7 @@ export default function MemberReviewBlock() {
         close,
         titleId: _titleId,
         titleClass: _titleClass
-      }) => <><div className="flex items-center justify-between w-full"><div className="flex items-center gap-3"><h4 className="text-lg font-bold text-gray-900">{text("審覈詳情")}</h4>
+      }) => <><div className="flex items-center justify-between w-full" data-rimo-layout="toolbar"><div className="flex items-center gap-3"><h4 className="text-lg font-bold text-gray-900">{text("審覈詳情")}</h4>
 {view.currentMember?.status === 'pending' ? <><RimoElement kind="el-tag" type="warning" effect="dark" size="small">{text("待審覈")}</RimoElement></> : view.currentMember?.status === 'rejected' ? <><RimoElement kind="el-tag" type="danger" effect="dark" size="small">{text("已駁回")}</RimoElement></> : null}</div>
 <RimoElement kind="el-button" link={true} onClick={event => {
             close?.(event);
@@ -1061,14 +1061,14 @@ export default function MemberReviewBlock() {
 <div className="review-section rounded-xl p-3 relative"><div className="flex items-center justify-between mb-2"><div className="flex items-center gap-3"><div className="drawer-step-badge bg-green-50 text-green-600">{text("2")}</div>
 <h5 className="font-bold text-gray-800 text-sm">{text("身份證")}</h5></div>
 <div className="text-xs text-gray-400">{text("提交審覈時確認")}</div></div>
-<div className="grid grid-cols-2 gap-4"><div className="drawer-photo-card"><div className="photo-label">{text("身份證正面")}</div>
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2"><div className="drawer-photo-card"><div className="photo-label">{text("身份證正面")}</div>
 <RimoElement kind="el-image" src={view.currentMember.idCardFront} previewSrcList={[view.currentMember.idCardFront]} fit="cover" className="w-full h-36 rounded-lg cursor-zoom-in"></RimoElement></div>
 <div className="drawer-photo-card"><div className="photo-label">{text("身份證反面")}</div>
 <RimoElement kind="el-image" src={view.currentMember.idCardBack} previewSrcList={[view.currentMember.idCardBack]} fit="cover" className="w-full h-36 rounded-lg cursor-zoom-in"></RimoElement></div></div></div>
 <div className="review-section rounded-xl p-3 relative"><div className="flex items-center justify-between mb-2"><div className="flex items-center gap-3"><div className="drawer-step-badge bg-amber-50 text-amber-600">{text("3")}</div>
 <h5 className="font-bold text-gray-800 text-sm">{text("駕駛執照")}</h5></div>
 <div className="text-xs text-gray-400">{text("提交審覈時確認")}</div></div>
-<div className="grid grid-cols-4 gap-3 mb-2"><div className="drawer-info-item"><dt>{text("駕照類型")}</dt>
+<div className="grid grid-cols-4 gap-3 mb-2" data-rimo-grid="4"><div className="drawer-info-item"><dt>{text("駕照類型")}</dt>
 <dd>{rimoText(view.currentMember.driverLicense?.type || '-')}</dd></div>
 <div className="drawer-info-item"><dt>{text("簽發地")}</dt>
 <dd>{rimoText(view.currentMember.driverLicense?.issuePlace || '-')}</dd></div>
@@ -1076,14 +1076,14 @@ export default function MemberReviewBlock() {
 <dd className="font-mono">{rimoText(view.currentMember.driverLicense?.number || '-')}</dd></div>
 <div className="drawer-info-item"><dt>{text("有效日期")}</dt>
 <dd className="font-mono">{rimoText(view.currentMember.driverLicense?.expiryDate || '-')}</dd></div></div>
-<div className="grid grid-cols-2 gap-4"><div className="drawer-photo-card"><div className="photo-label">{text("駕照正面")}</div>
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2"><div className="drawer-photo-card"><div className="photo-label">{text("駕照正面")}</div>
 <RimoElement kind="el-image" src={view.currentMember.dlFront} previewSrcList={[view.currentMember.dlFront]} fit="cover" className="w-full h-36 rounded-lg cursor-zoom-in"></RimoElement></div>
 <div className="drawer-photo-card"><div className="photo-label">{text("駕照反面")}</div>
 <RimoElement kind="el-image" src={view.currentMember.dlBack} previewSrcList={[view.currentMember.dlBack]} fit="cover" className="w-full h-36 rounded-lg cursor-zoom-in"></RimoElement></div></div></div>
 <div className="review-section rounded-xl p-3 relative"><div className="flex items-center justify-between mb-2"><div className="flex items-center gap-3"><div className="drawer-step-badge bg-[color:var(--app-color-primary-light-9)] text-[color:var(--app-color-primary)]">{text("4")}</div>
 <h5 className="font-bold text-gray-800 text-sm">{text("手持證件自拍")}</h5></div>
 <div className="text-xs text-gray-400">{text("提交審覈時確認")}</div></div>
-<div className="grid grid-cols-2 gap-4"><div className="drawer-photo-card"><div className="photo-label">{text("手持身份證自拍")}</div>
+<div className="grid grid-cols-2 gap-4" data-rimo-grid="2"><div className="drawer-photo-card"><div className="photo-label">{text("手持身份證自拍")}</div>
 <RimoElement kind="el-image" src={view.currentMember.selfie} previewSrcList={[view.currentMember.selfie]} fit="cover" className="w-full h-44 rounded-lg cursor-zoom-in"></RimoElement></div>
 <div className="drawer-photo-card"><div className="photo-label">{text("其他證件照")}</div>
 <RimoElement kind="el-image" src={view.currentMember.otherDocument} previewSrcList={[view.currentMember.otherDocument]} fit="cover" className="w-full h-44 rounded-lg cursor-zoom-in"></RimoElement></div></div></div>
@@ -1109,7 +1109,7 @@ export default function MemberReviewBlock() {
 <RimoElement kind="el-table-column" label="審覈人" width="100" slots={{
                   "default": scope => <>{rimoText(scope.row.operator || view.getHistoryOperator(scope.row))}</>
                 }}></RimoElement></RimoElement></div></div></> : null}
-<div className="absolute bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-200 px-6 py-3 flex justify-between items-center z-50"><div className="flex items-center gap-4"><div className="text-sm text-gray-500">{text("點擊提交審覈後，統一確認四項資料審覈結果。")}</div></div>
+<div className="absolute bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-200 px-6 py-3 flex justify-between items-center z-50" data-rimo-layout="toolbar"><div className="flex items-center gap-4"><div className="text-sm text-gray-500">{text("點擊提交審覈後，統一確認四項資料審覈結果。")}</div></div>
 <div className="flex gap-3"><RimoElement kind="el-button" onClick={_event => {
               model.write(["drawerVisible"], false);
             }}>{text("關閉")}</RimoElement>

@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { useRimoModel, rimoEntries } from '../../lib/rimo-model.js';
-import { RimoRoot, RimoIcon, rimoIcons, useRimoEnvironment } from '../../lib/RimoEnvironment.jsx';
+import { RimoRoot, rimoIcons, useRimoEnvironment } from '../../lib/RimoEnvironment.jsx';
 import { RimoElement, rimoStyle, rimoText } from '../../lib/RimoElements.jsx';
 import './enterprise-official-car-bill.css';
 function createPageState(model) {
@@ -153,9 +153,7 @@ export default function EnterpriseOfficialCarBillBlock() {
 <RimoElement kind="el-tooltip" content="重置" placement="top"><RimoElement kind="el-button" circle={true} icon={view.Refresh} onClick={event => {
                     view.refreshHandel?.(event);
                   }}></RimoElement></RimoElement>
-<RimoElement kind="el-button" plain={true} className="company-bill-page__history-button"><RimoElement kind="el-icon"><RimoIcon name="Clock" /></RimoElement>
-<span>{text("歷史賬單")}</span></RimoElement></div>
-<div className="company-bill-page__summary">{text("總數量 ")}{rimoText(view.tableData.length)}</div></>
+<RimoElement kind="el-button" plain={true} className="company-bill-page__history-button" icon="Clock"><span>{text("歷史賬單")}</span></RimoElement></div></>
           }}><RimoElement kind="el-table-column" prop="billDate" label="賬單日期" minWidth="120" align="center"></RimoElement>
 <RimoElement kind="el-table-column" prop="contractNo" label="合約號" minWidth="150" align="center"></RimoElement>
 <RimoElement kind="el-table-column" prop="type" label="類型" minWidth="100" align="center" slots={{

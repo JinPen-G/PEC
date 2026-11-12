@@ -413,10 +413,10 @@ export default function SystemRulesBlock() {
         }} className="rimo-page-tabs w-full bg-white rounded-xl shadow-sm border border-gray-100 min-h-[600px]">{view.canViewSystemTab('MEMBER') ? <><RimoElement kind="el-tab-pane" name="MEMBER" slots={{
               "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="User" /></RimoElement>
 <span>{text("會員策略")}</span></span></>
-            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")}><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
+            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")} data-rimo-layout="columns"><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
 <a href="#member-register" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("註冊與審覈")}</a>
 <a href="#member-points" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("積分獎勵")}</a></div>
-<div className="space-y-6 min-w-0"><div id="member-register" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-blue-600"><RimoIcon name="User" /></RimoElement>
+<div className="space-y-6 min-w-0"><div id="member-register" className="system-rule-section"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-blue-600"><RimoIcon name="User" /></RimoElement>
 {text(" 註冊設置\n                                        ")}</h3>
 <div>{view.ruleLocks.memberRegister ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
                             view.unlockRule('memberRegister');
@@ -437,7 +437,7 @@ export default function SystemRulesBlock() {
                             model.write(["systemConfig", "member", "auditRequired"], value);
                           }} activeText="開啓" inactiveText="關閉"></RimoElement>
 <div className="text-xs text-gray-400 mt-1">{text("開啓後，新會員註冊後需管理員審覈通過方可使用")}</div></RimoElement></RimoElement></div></div>
-<div id="member-points" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-orange-600"><RimoIcon name="Star" /></RimoElement>
+<div id="member-points" className="system-rule-section"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-orange-600"><RimoIcon name="Star" /></RimoElement>
 {text(" 積分獎勵策略\n                                        ")}</h3>
 <div>{view.ruleLocks.memberPoints ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
                             view.unlockRule('memberPoints');
@@ -454,7 +454,7 @@ export default function SystemRulesBlock() {
                           model.write(["systemConfig", "member", "welcomeGift", "enabled"], value);
                         }}></RimoElement>
 <div className="flex-1"><div className="font-medium text-gray-800 mb-2">{text("新人禮 (Welcome Gift)")}</div>
-{view.systemConfig.member.welcomeGift.enabled ? <><div className="flex flex-wrap gap-4 items-center"><span className="text-sm text-gray-600">{text("當會員")}</span>
+{view.systemConfig.member.welcomeGift.enabled ? <><div className="flex flex-wrap gap-4 items-center" data-rimo-layout="field-row"><span className="text-sm text-gray-600">{text("當會員")}</span>
 <RimoElement kind="el-select" modelValue={view.systemConfig.member.welcomeGift.trigger} onModelChange={value => {
                                 model.write(["systemConfig", "member", "welcomeGift", "trigger"], value);
                               }} size="small" style={rimoStyle("width: 140px")}><RimoElement kind="el-option" label="註冊成功後" value="REGISTER"></RimoElement>
@@ -473,7 +473,7 @@ export default function SystemRulesBlock() {
                           model.write(["systemConfig", "member", "referralGift", "enabled"], value);
                         }}></RimoElement>
 <div className="flex-1"><div className="font-medium text-gray-800 mb-2">{text("邀請禮 (Referral Gift)")}</div>
-{view.systemConfig.member.referralGift.enabled ? <><div className="flex flex-wrap gap-4 items-center"><span className="text-sm text-gray-600">{text("當被邀請人")}</span>
+{view.systemConfig.member.referralGift.enabled ? <><div className="flex flex-wrap gap-4 items-center" data-rimo-layout="field-row"><span className="text-sm text-gray-600">{text("當被邀請人")}</span>
 <RimoElement kind="el-select" modelValue={view.systemConfig.member.referralGift.trigger} onModelChange={value => {
                                 model.write(["systemConfig", "member", "referralGift", "trigger"], value);
                               }} size="small" style={rimoStyle("width: 140px")}><RimoElement kind="el-option" label="註冊成功後" value="INVITEE_REGISTER"></RimoElement>
@@ -490,10 +490,10 @@ export default function SystemRulesBlock() {
 {view.canViewSystemTab('FLEET') ? <><RimoElement kind="el-tab-pane" name="FLEET" slots={{
               "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Van" /></RimoElement>
 <span>{text("運維規則")}</span></span></>
-            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")}><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
+            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")} data-rimo-layout="columns"><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
 <a href="#fleet-maintenance" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("保養提醒")}</a>
 <a href="#fleet-cleaning" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("清潔提醒")}</a></div>
-<div className="space-y-6 min-w-0"><div id="fleet-maintenance" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-blue-600"><RimoIcon name="Tools" /></RimoElement>
+<div className="space-y-6 min-w-0"><div id="fleet-maintenance" className="system-rule-section"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-blue-600"><RimoIcon name="Tools" /></RimoElement>
 {text(" 保養提醒規則\n                                            ")}</h3>
 <div>{view.ruleLocks.fleetMaintenance ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
                             view.unlockRule('fleetMaintenance');
@@ -519,7 +519,7 @@ export default function SystemRulesBlock() {
 <RimoElement kind="el-col" span={12}><RimoElement kind="el-form-item" label="提前天數"><RimoElement kind="el-input-number" modelValue={view.systemConfig.fleet.maintenance.advanceDays} onModelChange={value => {
                                 model.write(["systemConfig", "fleet", "maintenance", "advanceDays"], value);
                               }} min={1} style={rimoStyle("width: 160px")}></RimoElement></RimoElement></RimoElement></RimoElement></RimoElement></div></div>
-<div id="fleet-cleaning" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-cyan-600"><RimoIcon name="Brush" /></RimoElement>
+<div id="fleet-cleaning" className="system-rule-section"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-cyan-600"><RimoIcon name="Brush" /></RimoElement>
 {text(" 清潔提醒規則\n                                            ")}</h3>
 <div>{view.ruleLocks.fleetCleaning ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
                             view.unlockRule('fleetCleaning');
@@ -548,10 +548,10 @@ export default function SystemRulesBlock() {
 {view.canViewSystemTab('CALENDAR') ? <><RimoElement kind="el-tab-pane" name="CALENDAR" slots={{
               "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Calendar" /></RimoElement>
 <span>{text("日曆與假日")}</span></span></>
-            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")}><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
+            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")} data-rimo-layout="columns"><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
 <a href="#calendar-weekly" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("固定假日")}</a>
 <a href="#calendar-special" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("特殊日期")}</a></div>
-<div className="space-y-6 min-w-0"><div id="calendar-weekly" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-[color:var(--app-color-primary)]"><RimoIcon name="Calendar" /></RimoElement>
+<div className="space-y-6 min-w-0"><div id="calendar-weekly" className="system-rule-section"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-[color:var(--app-color-primary)]"><RimoIcon name="Calendar" /></RimoElement>
 {text(" 固定假日設定\n                                        ")}</h3>
 <div>{view.ruleLocks.calendarFixed ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
                             view.unlockRule('calendarFixed');
@@ -579,12 +579,12 @@ export default function SystemRulesBlock() {
                                           model.assign(day, "startTime", value);
                                         }} start="00:00" step="00:30" end="23:30" placeholder="開始時間" size="small" style={rimoStyle("width: 120px")}></RimoElement>
 <span className="text-gray-500">{text("以後算作假日")}</span></div></> : null}</div></> : <><span className="text-gray-400 text-xs">{text("平日 (工作日)")}</span></>}</td></tr></Fragment>)}</tbody></RimoTable></div></div>
-<div id="calendar-special" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-[color:var(--app-color-primary)]"><RimoIcon name="Timer" /></RimoElement>
+<div id="calendar-special" className="system-rule-section"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-[color:var(--app-color-primary)]"><RimoIcon name="Timer" /></RimoElement>
 {text(" 特殊日期 (調休/節假日)\n                                        ")}</h3>
 <RimoElement kind="el-button" type="primary" size="small" plain={true} icon="Plus" onClick={event => {
                         view.openSpecialDateDialog?.(event);
                       }}>{text("新增特殊規則")}</RimoElement></div>
-<div className="bg-[color:var(--app-color-primary-light-9)] rounded-lg p-5 border border-[color:var(--app-color-primary-light-7)]"><div className="space-y-2">{rimoEntries(view.systemConfig.calendar.specialDates).map(([item, index], _itemIndex) => <Fragment key={index}><div key={index} className="flex items-center justify-between bg-white p-3 rounded border border-[color:var(--app-color-primary-light-8)] shadow-sm"><div className="flex items-center gap-3"><RimoElement kind="el-tag" type={item.type === 'HOLIDAY' ? 'danger' : 'success'} size="small">{text("\n                                                        ")}{rimoText(item.type === 'HOLIDAY' ? '假日' : '平日')}{text("\n                                                    ")}</RimoElement>
+<div className="bg-[color:var(--app-color-primary-light-9)] rounded-lg p-5 border border-[color:var(--app-color-primary-light-7)]"><div className="space-y-2">{rimoEntries(view.systemConfig.calendar.specialDates).map(([item, index], _itemIndex) => <Fragment key={index}><div key={index} className="flex items-center justify-between bg-white p-3 rounded border border-[color:var(--app-color-primary-light-8)] shadow-sm" data-rimo-layout="toolbar"><div className="flex items-center gap-3"><RimoElement kind="el-tag" type={item.type === 'HOLIDAY' ? 'danger' : 'success'} size="small">{text("\n                                                        ")}{rimoText(item.type === 'HOLIDAY' ? '假日' : '平日')}{text("\n                                                    ")}</RimoElement>
 <span className="font-mono text-gray-700 font-medium">{rimoText(item.range[0])}{text(" ~ ")}{rimoText(item.range[1])}</span>
 <span className="text-gray-500 text-sm ml-2">{text("(")}{rimoText(item.name)}{text(")")}</span></div>
 <RimoElement kind="el-button" link={true} type="danger" icon="Delete" onClick={_event => {
@@ -596,7 +596,7 @@ export default function SystemRulesBlock() {
 <span>{text("推送通知")}</span></span></>
             }}><div className="p-6 space-y-4"><div className="flex justify-between items-center bg-gray-50 p-4 rounded-xl border border-gray-100"><div><div className="text-sm font-semibold text-gray-800">{text("推送規則列表")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("管理系統自動推送給用戶的消息內容、觸發時機和推送渠道")}</div></div></div>
-<div className="rounded-xl border border-gray-100 overflow-hidden" data-rimo-layout="list"><RimoElement kind="el-table" data={view.systemConfig.push.list} style={rimoStyle("width: 100%")} stripe={true}><RimoElement kind="el-table-column" prop="category" label="分類" width="100" slots={{
+<div className="rounded-xl border border-gray-100 overflow-hidden"><RimoElement kind="el-table" data={view.systemConfig.push.list} style={rimoStyle("width: 100%")} stripe={true}><RimoElement kind="el-table-column" prop="category" label="分類" width="100" slots={{
                       "default": ({
                         row
                       }) => <><RimoElement kind="el-tag" type={view.getPushCategoryTag(row.category)}>{rimoText(row.category)}</RimoElement></>
@@ -633,11 +633,11 @@ export default function SystemRulesBlock() {
 {view.canViewSystemTab('AI') ? <><RimoElement kind="el-tab-pane" name="AI" slots={{
               "label": _slot => <><span className="flex items-center gap-2"><RimoElement kind="el-icon"><RimoIcon name="Connection" /></RimoElement>
 <span>{text("AI模型接入")}</span></span></>
-            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")}><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
+            }}><div className="grid gap-6 p-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")} data-rimo-layout="columns"><div className="system-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("設置項")}</div>
 <a href="#ai-dispatch" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("調度分析模型")}</a>
 <a href="#ai-security" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("安全與提示詞")}</a>
 <a href="#ai-logs" className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors">{text("調用日誌")}</a></div>
-<div className="space-y-6 min-w-0"><div id="ai-dispatch" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-[color:var(--app-color-primary)]"><RimoIcon name="Connection" /></RimoElement>
+<div className="space-y-6 min-w-0"><div id="ai-dispatch" className="system-rule-section"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-[color:var(--app-color-primary)]"><RimoIcon name="Connection" /></RimoElement>
 {text(" AI調度分析模型\n                                            ")}</h3>
 <div>{view.ruleLocks.aiModel ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
                             view.unlockRule('aiModel');
@@ -680,7 +680,7 @@ export default function SystemRulesBlock() {
 <span className="text-xs text-gray-500">{rimoText(view.systemConfig.aiModel.lastTestTime)}</span></div></RimoElement></RimoElement></div></div>
 <div id="ai-security" className="system-rule-section"><h3 className="text-lg font-bold text-gray-800 flex items-center mb-4"><RimoElement kind="el-icon" className="mr-2 text-slate-600"><RimoIcon name="DocumentChecked" /></RimoElement>
 {text(" 安全與提示詞\n                                        ")}</h3>
-<div className="bg-slate-50 rounded-lg p-5 border border-slate-200"><div className="grid grid-cols-3 gap-4">{rimoEntries(view.systemConfig.aiModel.guardrails).map(([item], _itemIndex) => <Fragment key={item.title}><div key={item.title} className="bg-white rounded-lg border border-slate-200 p-4"><div className="text-sm font-semibold text-gray-800">{rimoText(item.title)}</div>
+<div className="bg-slate-50 rounded-lg p-5 border border-slate-200"><div className="grid grid-cols-3 gap-4" data-rimo-grid="3">{rimoEntries(view.systemConfig.aiModel.guardrails).map(([item], _itemIndex) => <Fragment key={item.title}><div key={item.title} className="bg-white rounded-lg border border-slate-200 p-4"><div className="text-sm font-semibold text-gray-800">{rimoText(item.title)}</div>
 <div className="text-xs text-gray-500 mt-2 leading-5">{rimoText(item.desc)}</div></div></Fragment>)}</div>
 <div className="mt-4 rounded-lg border border-[color:var(--app-color-primary-light-8)] bg-white p-4"><div className="text-xs text-gray-400 uppercase tracking-wider">{text("當前提示詞版本")}</div>
 <div className="text-sm font-semibold text-gray-800 mt-2">{rimoText(view.systemConfig.aiModel.promptVersion)}</div>
@@ -688,7 +688,7 @@ export default function SystemRulesBlock() {
 <div id="ai-logs" className="system-rule-section"><div className="flex justify-between items-center mb-4"><h3 className="text-lg font-bold text-gray-800 flex items-center"><RimoElement kind="el-icon" className="mr-2 text-[color:var(--app-color-primary)]"><RimoIcon name="Tickets" /></RimoElement>
 {text(" AI調用日誌\n                                            ")}</h3>
 <RimoElement kind="el-tag" type="info" effect="plain">{text("保留實際請求內容")}</RimoElement></div>
-<div className="bg-white rounded-lg p-5 border border-slate-200" data-rimo-layout="list"><div className="text-xs text-gray-500 mb-4">{text("用於查看歷史 AI 調度分析實際提交給模型的提示詞、請求數據包、模型返回和系統校驗結果。")}</div>
+<div className="bg-white rounded-lg p-5 border border-slate-200"><div className="text-xs text-gray-500 mb-4">{text("用於查看歷史 AI 調度分析實際提交給模型的提示詞、請求數據包、模型返回和系統校驗結果。")}</div>
 <RimoElement kind="el-table" data={view.systemConfig.aiModel.logs} border={true} stripe={true}><RimoElement kind="el-table-column" prop="time" label="發起時間" width="160"></RimoElement>
 <RimoElement kind="el-table-column" prop="analysisId" label="任務ID" width="190"></RimoElement>
 <RimoElement kind="el-table-column" prop="operator" label="發起人" width="120"></RimoElement>
@@ -724,7 +724,7 @@ export default function SystemRulesBlock() {
 <RimoElement kind="el-button" type="primary" disabled={!view.isSpecDateValid} onClick={event => {
           view.addSpecialDate?.(event);
         }}>{text("保存規則")}</RimoElement></>
-    }}>{() => <><RimoElement kind="el-form" labelPosition="top"><RimoElement kind="el-form-item" label="規則類型"><div className="grid grid-cols-2 gap-4 w-full" data-rimo-layout="summary"><div onClick={_event => {
+    }}>{() => <><RimoElement kind="el-form" labelPosition="top"><RimoElement kind="el-form-item" label="規則類型"><div className="grid grid-cols-2 gap-4 w-full" data-rimo-grid="2" data-rimo-layout="summary"><div onClick={_event => {
                 model.write(["newSpecialDate", "type"], 'HOLIDAY');
               }} className={rimoClass(["cursor-pointer border-2 rounded-lg p-4 text-center transition-all", rimoClass(view.newSpecialDate.type === 'HOLIDAY' ? 'border-red-500 bg-red-50' : 'border-gray-200 hover:border-red-200')])} data-rimo-layout="stat"><div className={rimoClass(["font-bold", rimoClass(view.newSpecialDate.type === 'HOLIDAY' ? 'text-red-600' : 'text-gray-600')])}>{text("\n                                    設爲假日\n                                ")}</div>
 <div className="text-xs text-gray-400 mt-1">{text("工作日放假/調休")}</div></div>
@@ -776,7 +776,7 @@ export default function SystemRulesBlock() {
           model.write(["aiLogDialogVisible"], false);
         }}>{text("關閉")}</RimoElement>
 <RimoElement kind="el-button" type="primary" plain={true}>{text("導出 JSON")}</RimoElement></>
-    }}>{() => <>{view.selectedAiLog ? <><div className="space-y-4"><div className="grid grid-cols-4 gap-3"><div className="rounded-lg border border-slate-200 bg-slate-50 p-3"><div className="text-xs text-gray-400">{text("任務ID")}</div>
+    }}>{() => <>{view.selectedAiLog ? <><div className="space-y-4"><div className="grid grid-cols-4 gap-3" data-rimo-grid="4"><div className="rounded-lg border border-slate-200 bg-slate-50 p-3"><div className="text-xs text-gray-400">{text("任務ID")}</div>
 <div className="text-sm font-semibold text-gray-800 mt-1">{rimoText(view.selectedAiLog.analysisId)}</div></div>
 <div className="rounded-lg border border-slate-200 bg-slate-50 p-3"><div className="text-xs text-gray-400">{text("模型")}</div>
 <div className="text-sm font-semibold text-gray-800 mt-1">{rimoText(view.selectedAiLog.model)}</div></div>

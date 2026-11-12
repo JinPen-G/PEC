@@ -502,7 +502,7 @@
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
 }
-@media (width >= 48rem) {
+@container (width >= 48rem) {
   :where([data-rimo-page="official-vehicle-contracts"], [data-rimo-overlay="official-vehicle-contracts"]) .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -681,10 +681,10 @@
         :where([data-rimo-page="official-vehicle-contracts"], [data-rimo-overlay="official-vehicle-contracts"]) .official-vehicle-contracts-overlay .transfer-original-timing { border-top: 1px solid var(--app-color-border-light); padding-top: 16px; margin-top: 16px; }
         :where([data-rimo-page="official-vehicle-contracts"], [data-rimo-overlay="official-vehicle-contracts"]) .official-vehicle-contracts-overlay .transfer-original-timing > strong { display: block; margin-bottom: 12px; font-size: 14px; }
         :where([data-rimo-page="official-vehicle-contracts"], [data-rimo-overlay="official-vehicle-contracts"]) .official-vehicle-contracts-overlay .transfer-original-timing > p { margin: 8px 0 16px; }
-        @media (max-width: 760px) {
+        @container (max-width: 760px) {
             :where([data-rimo-page="official-vehicle-contracts"], [data-rimo-overlay="official-vehicle-contracts"]) .official-vehicle-contracts-overlay .transfer-original-summary { gap: 8px; }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="official-vehicle-contracts"], [data-rimo-overlay="official-vehicle-contracts"]) .el-pagination .el-pagination__jump {
           display: none;
         }

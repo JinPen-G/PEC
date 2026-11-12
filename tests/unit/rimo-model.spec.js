@@ -5,6 +5,24 @@ const environment = () => ({ navigate: vi.fn(), notify: vi.fn(), confirm: vi.fn(
 const settle = async () => { await Promise.resolve(); await Promise.resolve(); };
 
 describe('RIMO local React model', () => {
+  it('reads nested computed statistics as values and preserves writable cell bindings', async () => {
+    const model = createRimoModel(environment());
+    let source;
+    model.initialize(runtime => {
+      source = runtime.cell(4);
+      const statistics = runtime.record({ pending: runtime.derived(() => source.value), selected: source });
+      return { statistics, explicitCells: runtime.record([source]) };
+    });
+    const stop = model.start();
+    expect(model.view.statistics.pending).toBe(4);
+    model.write(['statistics', 'selected'], 7);
+    await settle();
+    expect(source.value).toBe(7);
+    expect(model.view.statistics.pending).toBe(7);
+    expect(model.view.explicitCells[0].value).toBe(7);
+    stop();
+  });
+
   it('publishes nested edits, derived values and dependent rules', async () => {
     const model = createRimoModel(environment());
     const watcher = vi.fn();
@@ -65,6 +83,20 @@ describe('RIMO local React model', () => {
     expect(resize).toHaveBeenCalledTimes(1);
     expect(timer).not.toHaveBeenCalled();
     vi.useRealTimers();
+  });
+
+  it('reuses an existing chart and disposes only the live page instance', () => {
+    const model = createRimoModel(environment());
+    const chart = { isDisposed: vi.fn(() => false), dispose: vi.fn() };
+    const engine = { getInstanceByDom: vi.fn().mockReturnValueOnce(undefined).mockReturnValue(chart), init: vi.fn(() => chart) };
+    const element = document.createElement('div');
+    model.initialize(() => ({}));
+    const stop = model.start();
+    expect(model.chart(engine, element)).toBe(chart);
+    expect(model.chart(engine, element)).toBe(chart);
+    expect(engine.init).toHaveBeenCalledTimes(1);
+    stop();
+    expect(chart.dispose).toHaveBeenCalledTimes(1);
   });
 
   it('binds dashboard references and derived methods to its local state', async () => {

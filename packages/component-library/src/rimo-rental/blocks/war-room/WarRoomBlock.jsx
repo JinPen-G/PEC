@@ -125,7 +125,7 @@ function createPageState(model) {
     const initHeatmap = () => {
       const dom = document.getElementById('heatmapChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       const hours = Array.from({
         length: 24
       }, (_, i) => i + ':00');
@@ -199,7 +199,7 @@ function createPageState(model) {
     const initWeeklyRevenue = () => {
       const dom = document.getElementById('weeklyRevenueChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       chart.setOption({
         tooltip: {
           trigger: 'axis'
@@ -282,7 +282,7 @@ function createPageState(model) {
     const initVehicleStatus = () => {
       const dom = document.getElementById('vehicleStatusChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       chart.setOption({
         tooltip: {
           trigger: 'item',
@@ -365,7 +365,7 @@ function createPageState(model) {
     const initUtilization = () => {
       const dom = document.getElementById('utilizationChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -429,7 +429,7 @@ function createPageState(model) {
     const initRevenue = () => {
       const dom = document.getElementById('revenueChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       chart.setOption({
         tooltip: {
           trigger: 'axis',
@@ -485,7 +485,7 @@ function createPageState(model) {
     const initTopModels = () => {
       const dom = document.getElementById('topModelsChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       const models = ['Tesla Model 3', 'Toyota Camry', 'BMW 3 Series', 'Mercedes C-Class', 'Honda CR-V', 'Audi A4', 'Volvo XC60', 'Lexus ES'];
       const counts = [456, 389, 312, 287, 265, 231, 198, 176];
       chart.setOption({
@@ -550,7 +550,7 @@ function createPageState(model) {
     const initBranchStatus = () => {
       const dom = document.getElementById('branchStatusChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       const branches = ['RIMO上海', 'RIMO北京', 'RIMO深圳', 'RIMO杭州', '合作方A', '合作方B'];
       chart.setOption({
         tooltip: {
@@ -635,7 +635,7 @@ function createPageState(model) {
     const initOrderStatus = () => {
       const dom = document.getElementById('orderStatusChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       chart.setOption({
         tooltip: {
           trigger: 'item',
@@ -703,7 +703,7 @@ function createPageState(model) {
     const initChannel = () => {
       const dom = document.getElementById('channelChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       chart.setOption({
         tooltip: {
           trigger: 'item',
@@ -774,7 +774,7 @@ function createPageState(model) {
     const initRiskTrend = () => {
       const dom = document.getElementById('riskTrendChart');
       if (!dom) return;
-      const chart = echarts.init(dom);
+      const chart = model.chart(echarts, dom);
       const days14 = Array.from({
         length: 14
       }, (_, i) => `${i + 1}日`);
@@ -884,7 +884,7 @@ export default function WarRoomBlock() {
               checkStrictly: true,
               expandTrigger: 'hover'
             }} size="small" placeholder="業務線過濾" clearable={true}></RimoElement></div>
-<div className="flex items-center space-x-4"><span className="text-sm text-gray-500">{text("統計區間")}</span>
+<div className="flex items-center space-x-4" data-rimo-layout="field-row"><span className="text-sm text-gray-500">{text("統計區間")}</span>
 <RimoElement kind="el-select" modelValue={view.dateRange} onModelChange={value => {
               model.write(["dateRange"], value);
             }} size="small" style={rimoStyle("width: 140px;")}><RimoElement kind="el-option" label="本週" value="week"></RimoElement>

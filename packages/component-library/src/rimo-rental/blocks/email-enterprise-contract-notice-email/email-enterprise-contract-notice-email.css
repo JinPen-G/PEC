@@ -315,7 +315,7 @@
       color: #111111;
     }
 
-    @media screen and (max-width: 980px) {
+    @container (max-width: 980px) {
       :where([data-rimo-page="email-enterprise-contract-notice-email"], [data-rimo-overlay="email-enterprise-contract-notice-email"]) .page-shell {
         padding: 0;
       }

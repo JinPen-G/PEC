@@ -237,7 +237,7 @@
             width: 100%;
         }
 
-        @media (max-width: 960px) {
+        @container (max-width: 960px) {
             :where([data-rimo-page="enterprise-branch-company-management"], [data-rimo-overlay="enterprise-branch-company-management"]) .branch-company-page {
                 padding: 16px;
             }
@@ -246,7 +246,7 @@
                 min-height: calc(100vh - 240px);
             }
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-branch-company-management"], [data-rimo-overlay="enterprise-branch-company-management"]) .el-pagination .el-pagination__jump {
           display: none;
         }

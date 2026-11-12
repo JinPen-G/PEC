@@ -58,12 +58,12 @@
       :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .permission-check input:focus-visible,
       :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .matrix-scroll:focus-visible { outline: 2px solid var(--app-color-primary); outline-offset: 2px; }
       :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .permissions-overlay { --el-text-color-primary: var(--app-color-text-primary); --el-text-color-regular: var(--app-color-text-secondary); --el-bg-color: var(--app-color-surface); --el-fill-color-blank: var(--app-color-surface); --el-border-color: var(--app-color-border); }
-      @media (max-width: 1179px) {
+      @container (max-width: 1179px) {
         :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .permission-layout { grid-template-columns: minmax(0, 1fr); }
         :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .role-list { grid-template-columns: repeat(4, minmax(0, 1fr)); }
         :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .role-item-title { align-items: flex-start; flex-wrap: wrap; }
       }
-      @media (max-width: 760px) {
+      @container (max-width: 760px) {
         :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .role-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .permission-header { padding: var(--app-space-4); }
         :where([data-rimo-page="permissions"], [data-rimo-overlay="permissions"]) .scope-toolbar { padding: 0 var(--app-space-4) var(--app-space-4); }

@@ -1594,7 +1594,7 @@ function createPageState(model) {
     },
     mounted() {
       nextTick(() => {
-        this.overallChart = model.markRaw(echarts.init(this.$refs.overallChartRef));
+        this.overallChart = model.markRaw(model.chart(echarts, this.$refs.overallChartRef));
         this.renderOverallChart();
         window.addEventListener("resize", this.handleResize);
       });

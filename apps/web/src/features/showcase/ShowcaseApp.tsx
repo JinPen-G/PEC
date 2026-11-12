@@ -269,7 +269,7 @@ export function Detail({ page }: { page: CatalogPage }) {
     () => documentDisplay(detail?.markdown ?? '', detail?.summaryMarkdown),
     [detail?.markdown, detail?.summaryMarkdown],
   );
-  const documentTab = display.long && permitted;
+  const documentTab = (display.long || Boolean(requestedDocument)) && permitted;
   const collaboration = useCollaboration();
   const following = usePresentation()?.following;
   const tab =
@@ -319,7 +319,9 @@ export function Detail({ page }: { page: CatalogPage }) {
                   )}
                 </div>
                 <p>
-                  {page.clientName} · {page.category || '功能页面'}
+                  {page.category?.startsWith(`${page.clientName} · `)
+                    ? page.category
+                    : `${page.clientName} · ${page.category || '功能页面'}`}
                 </p>
                 {permitted && <QuickInstall registry={detail?.registry} publicPage={page.access === 'public' && detail?.access === 'public'} />}
               </div>
@@ -560,10 +562,10 @@ export function Detail({ page }: { page: CatalogPage }) {
               )}
             </motion.section>
             {detail && permitted && !readingFullDocument && (
-              <motion.section id="prd" className={`showcase-document${detail.summaryMarkdown ? ' showcase-page-brief' : ''}`} {...enterPart(0.17)}>
+              <motion.section id="prd" className="showcase-document" {...enterPart(0.17)}>
                 {documentTab && (
                   <div className="showcase-document-summary-head">
-                    <span>关键需求</span>
+                    <span>功能说明</span>
                     <button
                       onClick={() => {
                         clearDocument();
@@ -578,10 +580,10 @@ export function Detail({ page }: { page: CatalogPage }) {
                 {detail.markdown ? (
                   <Suspense fallback={<LoadingStage label="加载业务需求…" />}>
                     <Reader
-                      source={display.summary}
+                      source={display.summary.replace(/^#\s+[^\r\n]+\r?\n+/, '')}
                       loading={false}
                       layout="site"
-                      documentPath={detail.summaryPath ?? detail.documents[0]?.path ?? 'overview.md'}
+                      documentPath={(display.long && display.summary === detail.summaryMarkdown ? detail.summaryPath : detail.documents[0]?.path) ?? 'overview.md'}
                       resolveDocumentUrl={documentUrl}
                       onDocumentNavigate={readDocument}
                       onHeadings={updateHeadings}

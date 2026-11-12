@@ -268,77 +268,66 @@ export default function EnterpriseOfficialOrderBlock() {
                 view.applyStatusCard(index);
               }}><div className="official-summary-label">{rimoText(item.label)}</div>
 <div className="official-summary-count">{rimoText(item.count)}</div></button></Fragment>)}</div></div>
-<div className="official-list-panel"><div className="official-filter-panel"><div className="official-filter-bar"><div ref={model.ref("filterToolbar")} className="official-filter-row">{view.filterLayoutTier >= 2 ? <><div className="official-filter-field official-filter-field--sm"><RimoElement kind="el-input" modelValue={view.filters.orderNumber} onModelChange={value => {
-                      model.write(["filters", "orderNumber"], value);
-                    }} clearable={true} placeholder="訂單號"></RimoElement></div></> : null}
+<div className="official-list-panel" data-rimo-layout="list"><div className="official-table-panel"><div className="table-scroll"><RimoTable className="official-order-table" slots={{
+                "toolbar": _slot => <><div className="official-filter-bar"><div className="official-filter-row"><div className="official-filter-field official-filter-field--sm"><RimoElement kind="el-input" modelValue={view.filters.orderNumber} onModelChange={value => {
+                          model.write(["filters", "orderNumber"], value);
+                        }} clearable={true} placeholder="訂單號"></RimoElement></div>
 <div className="official-filter-field official-filter-field--wide"><RimoElement kind="el-input" modelValue={view.filters.keyword} onModelChange={value => {
-                    model.write(["filters", "keyword"], value);
-                  }} clearable={true} prefixIcon={view.Search} placeholder="姓名/Email/手機/身份"></RimoElement></div>
-{view.filterLayoutTier >= 3 ? <><div className="official-filter-field official-filter-field--compact"><RimoElement kind="el-input" modelValue={view.filters.numberPlate} onModelChange={value => {
-                      model.write(["filters", "numberPlate"], value);
-                    }} clearable={true} placeholder="車牌號碼"></RimoElement></div></> : null}
+                          model.write(["filters", "keyword"], value);
+                        }} clearable={true} prefixIcon={view.Search} placeholder="姓名/Email/手機/身份"></RimoElement></div>
+<div className="official-filter-field official-filter-field--compact"><RimoElement kind="el-input" modelValue={view.filters.numberPlate} onModelChange={value => {
+                          model.write(["filters", "numberPlate"], value);
+                        }} clearable={true} placeholder="車牌號碼"></RimoElement></div>
 <div className="official-filter-field official-filter-field--status"><RimoElement kind="el-select" modelValue={view.filters.orderProgress} onModelChange={value => {
-                    model.write(["filters", "orderProgress"], value);
-                  }} multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} placeholder="全部狀態">{rimoEntries(view.orderProgressOptions).map(([item], _itemIndex) => <Fragment key={item}><RimoElement kind="el-option" key={item} label={item} value={item}></RimoElement></Fragment>)}</RimoElement></div>
-{view.filterLayoutTier >= 4 ? <><div className="official-filter-field official-filter-field--date"><RimoElement kind="el-date-picker" modelValue={view.filters.orderTime} onModelChange={value => {
-                      model.write(["filters", "orderTime"], value);
-                    }} type="datetimerange" startPlaceholder="開始時間" endPlaceholder="結束時間" format="YYYY/MM/DD HH:mm" valueFormat="YYYY/MM/DD HH:mm:ss"></RimoElement></div></> : null}
-<div className="official-filter-actions"><RimoElement kind="el-button" type="primary" plain={true} className="official-more-filter-button" icon={view.Filter} onClick={_event => {
-                    model.write(["searchPanelExpanded"], !view.searchPanelExpanded);
-                  }}>{text("\n                                        ")}{rimoText(view.searchPanelExpanded ? '收起篩選' : '更多篩選')}{text("\n                                    ")}</RimoElement>
-<RimoElement kind="el-button" circle={true} className="official-reset-button" icon={view.Refresh}></RimoElement>
+                          model.write(["filters", "orderProgress"], value);
+                        }} multiple={true} collapseTags={true} collapseTagsTooltip={true} clearable={true} placeholder="全部狀態">{rimoEntries(view.orderProgressOptions).map(([item], _itemIndex) => <Fragment key={item}><RimoElement kind="el-option" key={item} label={item} value={item}></RimoElement></Fragment>)}</RimoElement></div>
+<div className="official-filter-field official-filter-field--date"><RimoElement kind="el-date-picker" modelValue={view.filters.orderTime} onModelChange={value => {
+                          model.write(["filters", "orderTime"], value);
+                        }} type="datetimerange" startPlaceholder="開始時間" endPlaceholder="結束時間" format="YYYY/MM/DD HH:mm" valueFormat="YYYY/MM/DD HH:mm:ss"></RimoElement></div>
+<div className="official-filter-actions"><RimoElement kind="el-button" circle={true} className="official-reset-button" icon={view.Refresh}></RimoElement>
 <RimoElement kind="el-button" type="primary" plain={true} className="official-export-button" icon={view.Download}>{text("\n                                        匯出資料\n                                    ")}</RimoElement>
 <RimoElement kind="el-button" circle={true} className="official-column-button" icon={view.Setting}></RimoElement></div></div>
-<div hidden={!view.searchPanelExpanded} className="official-advanced-panel"><div className="official-advanced-grid">{view.filterLayoutTier < 2 ? <><div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-input" modelValue={view.filters.orderNumber} onModelChange={value => {
-                        model.write(["filters", "orderNumber"], value);
-                      }} clearable={true} placeholder="訂單號"></RimoElement></div></> : null}
-{view.filterLayoutTier < 3 ? <><div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-input" modelValue={view.filters.numberPlate} onModelChange={value => {
-                        model.write(["filters", "numberPlate"], value);
-                      }} clearable={true} placeholder="車牌號碼"></RimoElement></div></> : null}
-{view.filterLayoutTier < 4 ? <><div className="official-advanced-control official-advanced-control--date"><RimoElement kind="el-date-picker" modelValue={view.filters.orderTime} onModelChange={value => {
-                        model.write(["filters", "orderTime"], value);
-                      }} type="datetimerange" startPlaceholder="開始時間" endPlaceholder="結束時間" format="YYYY/MM/DD HH:mm" valueFormat="YYYY/MM/DD HH:mm:ss"></RimoElement></div></> : null}
-<div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-select" modelValue={view.filters.memberPlan} onModelChange={value => {
-                      model.write(["filters", "memberPlan"], value);
-                    }} multiple={true} collapseTags={true} collapseTagsTooltip={true} placeholder="會員方案"><RimoElement kind="el-option" label="企業員工方案" value="enterprise"></RimoElement>
+<div className="official-advanced-panel"><div className="official-advanced-grid"><div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-select" modelValue={view.filters.memberPlan} onModelChange={value => {
+                            model.write(["filters", "memberPlan"], value);
+                          }} multiple={true} collapseTags={true} collapseTagsTooltip={true} placeholder="會員方案" data-rimo-secondary="true"><RimoElement kind="el-option" label="企業員工方案" value="enterprise"></RimoElement>
 <RimoElement kind="el-option" label="主管用車方案" value="manager"></RimoElement></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--date"><RimoElement kind="el-date-picker" modelValue={view.filters.pickupTime} onModelChange={value => {
-                      model.write(["filters", "pickupTime"], value);
-                    }} type="datetimerange" startPlaceholder="預約取車" endPlaceholder="預約還車"></RimoElement></div>
+                            model.write(["filters", "pickupTime"], value);
+                          }} type="datetimerange" startPlaceholder="預約取車" endPlaceholder="預約還車" data-rimo-secondary="true"></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--date"><RimoElement kind="el-date-picker" modelValue={view.filters.actualPickupTime} onModelChange={value => {
-                      model.write(["filters", "actualPickupTime"], value);
-                    }} type="datetimerange" startPlaceholder="實際取車" endPlaceholder="實際取車"></RimoElement></div>
+                            model.write(["filters", "actualPickupTime"], value);
+                          }} type="datetimerange" startPlaceholder="實際取車" endPlaceholder="實際取車" data-rimo-secondary="true"></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--date"><RimoElement kind="el-date-picker" modelValue={view.filters.returnTime} onModelChange={value => {
-                      model.write(["filters", "returnTime"], value);
-                    }} type="datetimerange" startPlaceholder="預約還車" endPlaceholder="預約還車"></RimoElement></div>
+                            model.write(["filters", "returnTime"], value);
+                          }} type="datetimerange" startPlaceholder="預約還車" endPlaceholder="預約還車" data-rimo-secondary="true"></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--date"><RimoElement kind="el-date-picker" modelValue={view.filters.actualReturnTime} onModelChange={value => {
-                      model.write(["filters", "actualReturnTime"], value);
-                    }} type="datetimerange" startPlaceholder="實際還車" endPlaceholder="實際還車"></RimoElement></div>
+                            model.write(["filters", "actualReturnTime"], value);
+                          }} type="datetimerange" startPlaceholder="實際還車" endPlaceholder="實際還車" data-rimo-secondary="true"></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-select" modelValue={view.filters.pickupSite} onModelChange={value => {
-                      model.write(["filters", "pickupSite"], value);
-                    }} filterable={true} clearable={true} placeholder="取車據點"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
+                            model.write(["filters", "pickupSite"], value);
+                          }} filterable={true} clearable={true} placeholder="取車據點" data-rimo-secondary="true"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
 <RimoElement kind="el-option" label="八輪測試-啓迪用車點" value="qidi"></RimoElement></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-select" modelValue={view.filters.actualPickupSite} onModelChange={value => {
-                      model.write(["filters", "actualPickupSite"], value);
-                    }} filterable={true} clearable={true} placeholder="實際取車點"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
+                            model.write(["filters", "actualPickupSite"], value);
+                          }} filterable={true} clearable={true} placeholder="實際取車點" data-rimo-secondary="true"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
 <RimoElement kind="el-option" label="八輪測試-人工智能用車點" value="ai"></RimoElement></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-select" modelValue={view.filters.returnSite} onModelChange={value => {
-                      model.write(["filters", "returnSite"], value);
-                    }} filterable={true} clearable={true} placeholder="還車據點"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
+                            model.write(["filters", "returnSite"], value);
+                          }} filterable={true} clearable={true} placeholder="還車據點" data-rimo-secondary="true"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
 <RimoElement kind="el-option" label="八輪測試-啓迪用車點" value="qidi"></RimoElement></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-select" modelValue={view.filters.actualReturnSite} onModelChange={value => {
-                      model.write(["filters", "actualReturnSite"], value);
-                    }} filterable={true} clearable={true} placeholder="實際還車點"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
+                            model.write(["filters", "actualReturnSite"], value);
+                          }} filterable={true} clearable={true} placeholder="實際還車點" data-rimo-secondary="true"><RimoElement kind="el-option" label="八輪測試-寶龍用車點" value="baolong"></RimoElement>
 <RimoElement kind="el-option" label="八輪測試-人工智能用車點" value="ai"></RimoElement></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--xl"><RimoElement kind="el-select" modelValue={view.filters.model} onModelChange={value => {
-                      model.write(["filters", "model"], value);
-                    }} multiple={true} collapseTags={true} clearable={true} placeholder="車型"><RimoElement kind="el-option" label="Toyota Corolla Cross" value="cross"></RimoElement>
+                            model.write(["filters", "model"], value);
+                          }} multiple={true} collapseTags={true} clearable={true} placeholder="車型" data-rimo-secondary="true"><RimoElement kind="el-option" label="Toyota Corolla Cross" value="cross"></RimoElement>
 <RimoElement kind="el-option" label="Lexus ES 250" value="es250"></RimoElement></RimoElement></div>
 <div className="official-advanced-control official-advanced-control--md"><RimoElement kind="el-select" modelValue={view.filters.vehicleType} onModelChange={value => {
-                      model.write(["filters", "vehicleType"], value);
-                    }} multiple={true} collapseTags={true} clearable={true} placeholder="車輛類型"><RimoElement kind="el-option" label="轎車" value="sedan"></RimoElement>
-<RimoElement kind="el-option" label="SUV" value="suv"></RimoElement></RimoElement></div></div></div></div></div>
-<div className="official-table-panel"><div className="table-scroll"><RimoTable className="official-order-table"><thead><tr><th style={rimoStyle("width: 190px;")}>{text("訂單號")}</th>
+                            model.write(["filters", "vehicleType"], value);
+                          }} multiple={true} collapseTags={true} clearable={true} placeholder="車輛類型" data-rimo-secondary="true"><RimoElement kind="el-option" label="轎車" value="sedan"></RimoElement>
+<RimoElement kind="el-option" label="SUV" value="suv"></RimoElement></RimoElement></div></div></div></div></>
+              }}><thead><tr><th style={rimoStyle("width: 190px;")}>{text("訂單號")}</th>
 <th style={rimoStyle("width: 160px;")}>{text("用車人")}</th>
 <th style={rimoStyle("width: 180px;")}>{text("車輛信息")}</th>
 <th style={rimoStyle("width: 190px;")}>{text("預約取還車時間")}</th>

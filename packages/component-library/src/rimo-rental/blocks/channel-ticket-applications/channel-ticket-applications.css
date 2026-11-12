@@ -8,7 +8,6 @@
   --color-amber-600: var(--app-color-warning);
   --color-amber-800: var(--app-color-warning);
   --color-emerald-600: var(--app-color-success);
-  --color-gray-50: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
   --color-gray-100: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
   --color-gray-200: var(--muted, var(--surface-muted, var(--app-color-surface-muted)));
   --color-gray-500: var(--muted-foreground, var(--text-secondary, var(--app-color-text-secondary)));
@@ -112,10 +111,6 @@
   border-top-style: var(--tw-border-style);
   border-top-width: 1px;
 }
-:where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .border-b {
-  border-bottom-style: var(--tw-border-style);
-  border-bottom-width: 1px;
-}
 :where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .border-\[color\:var\(--app-color-primary\)\] {
   border-color: var(--app-color-primary);
 }
@@ -131,14 +126,8 @@
 :where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .bg-amber-50 {
   background-color: var(--color-amber-50);
 }
-:where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .bg-gray-50 {
-  background-color: var(--color-gray-50);
-}
 :where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .bg-white {
   background-color: var(--color-white);
-}
-:where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .p-4 {
-  padding: calc(var(--spacing) * 4);
 }
 :where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .p-5 {
   padding: calc(var(--spacing) * 5);
@@ -357,7 +346,7 @@
         :where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .channel-applications-filter-toolbar > .el-button + .el-button {
             margin-left: 0 !important;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="channel-ticket-applications"], [data-rimo-overlay="channel-ticket-applications"]) .el-pagination .el-pagination__jump {
           display: none;
         }

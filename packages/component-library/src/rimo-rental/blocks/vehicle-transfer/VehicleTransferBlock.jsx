@@ -14,7 +14,7 @@ const serviceTypes = [
 
 export default function VehicleTransferBlock() {
   const {
-    controls: { Button, SearchField, Select, Table, Tag, Alert },
+    controls: { Button, SearchField, Select, Table, Tag, Alert, Form },
     text,
   } = useRimoEnvironment();
   const model = useRimoModel(createPageState);
@@ -30,7 +30,7 @@ export default function VehicleTransferBlock() {
     if (!view.isSubmitting) model.write(['transferDrawerVisible'], false);
   };
   return (
-    <RimoRoot model={model} pageKey="vehicle-transfer">
+    <Form.Item noStyle><RimoRoot model={model} pageKey="vehicle-transfer">
       <RimoHeading
         title="車輛調撥管理"
         description="調整車輛所在站點與服務類型，支持單車和批量調撥。"
@@ -244,6 +244,6 @@ export default function VehicleTransferBlock() {
           ))}
         </div>
       </RimoDialog>
-    </RimoRoot>
+    </RimoRoot></Form.Item>
   );
 }

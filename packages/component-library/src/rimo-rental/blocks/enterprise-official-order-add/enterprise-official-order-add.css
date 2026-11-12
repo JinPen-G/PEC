@@ -637,7 +637,7 @@
       background: #f8fbfd;
     }
 
-    @media (max-width: 1380px) {
+    @container (max-width: 1380px) {
       :where([data-rimo-page="enterprise-official-order-add"], [data-rimo-overlay="enterprise-official-order-add"]) .official-layout {
         grid-template-columns: minmax(0, 1fr) 300px;
       }
@@ -647,7 +647,7 @@
       }
     }
 
-    @media (max-width: 1100px) {
+    @container (max-width: 1100px) {
 
       :where([data-rimo-page="enterprise-official-order-add"], [data-rimo-overlay="enterprise-official-order-add"]) .official-layout,
       :where([data-rimo-page="enterprise-official-order-add"], [data-rimo-overlay="enterprise-official-order-add"]) .official-top-grid {
@@ -659,7 +659,7 @@
       }
     }
 
-    @media (max-width: 720px) {
+    @container (max-width: 720px) {
       :where([data-rimo-page="enterprise-official-order-add"], [data-rimo-overlay="enterprise-official-order-add"]) .official-employee-dialog .employee-filter-bar {
         grid-template-columns: 1fr;
       }
@@ -668,7 +668,7 @@
         padding: 14px 14px 16px;
       }
     }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="enterprise-official-order-add"], [data-rimo-overlay="enterprise-official-order-add"]) .el-pagination .el-pagination__jump {
           display: none;
         }

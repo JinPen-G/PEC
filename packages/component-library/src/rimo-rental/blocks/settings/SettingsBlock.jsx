@@ -928,7 +928,7 @@ export default function SettingsBlock() {
 <p className="text-gray-500 text-sm mt-1">{text("配置門店租車業務的各項規則，包括交易支付、車輛排程看板、異地還車及違約處理等。")}</p>
 <div className="mt-4 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-800">{text("\n                                        本期門市租車規則按全局配置生效，頁面當前顯示值即默認值和當前設定值。支付、預授權、尾款和退款配置僅適用於個人訂單及非月結企業訂單；企業月結訂單不發起客戶支付或預授權，最終費用進入企業賬單。\n                                    ")}</div>
 <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3"><div className="rounded-lg border border-gray-200 bg-white px-4 py-3"><div className="text-xs text-gray-400 mb-1">{text("當前規則版本")}</div>
-<div className="flex items-center justify-between gap-2"><div className="font-mono font-bold text-gray-800 cursor-pointer underline decoration-dotted" onClick={_event => {
+<div className="flex items-center justify-between gap-2" data-rimo-layout="toolbar"><div className="font-mono font-bold text-gray-800 cursor-pointer underline decoration-dotted" onClick={_event => {
                           view.openRentalRuleVersion(view.ruleVersionRecords[0]);
                         }}>{text("RULE-STORE-20260418-002")}</div>
 <RimoElement kind="el-button" size="small" type="primary" link={true} onClick={_event => {
@@ -938,13 +938,13 @@ export default function SettingsBlock() {
 <div className="text-sm font-medium text-gray-800">{text("門市租車全局配置")}</div></div>
 <div className="rounded-lg border border-gray-200 bg-white px-4 py-3"><div className="text-xs text-gray-400 mb-1">{text("訂單快照")}</div>
 <div className="text-sm font-medium text-gray-800">{text("僅影響後續新建訂單")}</div></div></div></div>
-<div className="grid gap-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")}><div className="store-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("規則分類\n                                        ")}</div>
+<div className="grid gap-6" style={rimoStyle("grid-template-columns: 200px minmax(0, 1fr);")} data-rimo-layout="columns"><div className="store-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("規則分類\n                                        ")}</div>
 {rimoEntries(view.visibleStoreRuleNav).map(([item], _itemIndex) => <Fragment key={item.key}><a key={item.key} href={'#' + item.anchor} className="rule-nav-link block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors" onClick={event => {
                         event.preventDefault();
                         view.scrollToRule(item.anchor);
                       }}>{text("\n                                            ")}{rimoText(item.label)}{text("\n                                        ")}</a></Fragment>)}
 {view.visibleStoreRuleNav.length === 0 ? <><div className="rounded-lg bg-white px-3 py-4 text-xs text-gray-400">{text("\n                                            當前賬號暫無可查看的門市租賃設置項\n                                        ")}</div></> : null}</div>
-<div className="space-y-6 min-w-0">{view.canViewStoreRule('transaction') ? <><section id="store-transaction" className="store-rule-section"><div className="bg-blue-50/50 rounded-xl p-6 border border-blue-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4"><svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect>
+<div className="space-y-6 min-w-0">{view.canViewStoreRule('transaction') ? <><section id="store-transaction" className="store-rule-section"><div className="bg-blue-50/50 rounded-xl p-6 border border-blue-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4"><svg className="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect>
 <path d="M3 10h18"></path>
 <path d="M7 15h3"></path></svg></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("交易與授權")}</h3>
@@ -968,7 +968,7 @@ export default function SettingsBlock() {
                                       }} min={5} max={240} step={5} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="ml-2 text-gray-500 text-sm">{text("分鐘")}</span></RimoElement></RimoElement></> : null}
 {view.settings.pendingPaymentHoldEnabled ? <><RimoElement kind="el-col" span={8}><div className="text-xs text-amber-700 leading-relaxed">{text("\n                                                                    待支付訂單僅保留車組庫存，超時未完成預授權時自動取消並釋放庫存。\n                                                                ")}</div></RimoElement></> : null}</RimoElement></div>
-<div className="grid grid-cols-2 gap-4 mb-4"><div className="bg-blue-50 rounded-lg p-4 border border-blue-100"><div className="flex items-center justify-between mb-3"><div className="text-sm font-medium text-blue-700">{text("線上交易\n                                                                ")}</div>
+<div className="grid grid-cols-2 gap-4 mb-4" data-rimo-grid="2"><div className="bg-blue-50 rounded-lg p-4 border border-blue-100"><div className="flex items-center justify-between mb-3"><div className="text-sm font-medium text-blue-700">{text("線上交易\n                                                                ")}</div>
 <RimoElement kind="el-switch" modelValue={view.settings.onlinePaymentEnabled} onModelChange={value => {
                                     model.write(["settings", "onlinePaymentEnabled"], value);
                                   }}></RimoElement></div>
@@ -1002,12 +1002,12 @@ export default function SettingsBlock() {
 <RimoElement kind="el-divider" contentPosition="left"><span className="text-sm text-gray-400">{text("取車資金處理口徑")}</span></RimoElement>
 <RimoElement kind="el-checkbox-group" modelValue={view.settings.authorizationHandlingModes} onModelChange={value => {
                                 model.write(["settings", "authorizationHandlingModes"], value);
-                              }} className="grid grid-cols-2 gap-3"><RimoElement kind="el-checkbox" label="guarantee" border={true} className="!h-auto !items-start p-3"><div className="leading-relaxed"><div className="font-medium text-gray-800">{text("履約擔保")}</div>
+                              }} className="grid grid-cols-2 gap-3" data-rimo-grid="2"><RimoElement kind="el-checkbox" label="guarantee" border={true} className="!h-auto !items-start p-3"><div className="leading-relaxed"><div className="font-medium text-gray-800">{text("履約擔保")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("\n                                                                        取車時補足租金尾款，確認發車後釋放預授權押金。\n                                                                    ")}</div></div></RimoElement>
 <RimoElement kind="el-checkbox" label="rent_transfer" border={true} className="!h-auto !items-start p-3"><div className="leading-relaxed"><div className="font-medium text-gray-800">{text("預授權轉租金")}</div>
 <div className="text-xs text-gray-500 mt-1">{text("\n                                                                        取車時將預授權扣款轉爲租金實收，並抵扣取車尾款。\n                                                                    ")}</div></div></RimoElement></RimoElement>
 <div className="mt-3 text-xs text-gray-500">{text("\n                                                            至少啓用一種口徑；兩種都啓用時，取車辦理頁面按訂單實際情況選擇。\n                                                        ")}</div></div></RimoElement></div></section></> : null}
-{view.canViewStoreRule('crossCity') ? <><section id="store-cross-city" className="store-rule-section"><div className="bg-orange-50/50 rounded-xl p-6 border border-orange-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-orange-600 text-xl"><RimoIcon name="Location" /></RimoElement></div>
+{view.canViewStoreRule('crossCity') ? <><section id="store-cross-city" className="store-rule-section"><div className="bg-orange-50/50 rounded-xl p-6 border border-orange-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-orange-600 text-xl"><RimoIcon name="Location" /></RimoElement></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("異地還車")}</h3>
 <p className="text-gray-400 text-sm">{text("設定異地還車費用")}</p></div></div>
 <div>{view.cardLocks.crossCity ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
@@ -1024,7 +1024,7 @@ export default function SettingsBlock() {
                                 model.write(["settings", "crossCityFee"], value);
                               }} min={0} step={50} style={rimoStyle("width: 160px")}></RimoElement>
 <span className="ml-2 text-gray-400">{text("元/次")}</span></RimoElement></RimoElement></div></section></> : null}
-{view.canViewStoreRule('dispatch') ? <><section id="store-dispatch" className="store-rule-section"><div className="bg-[color:var(--app-color-primary-light-9)] rounded-xl p-6 border border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)] text-xl"><RimoIcon name="Van" /></RimoElement></div>
+{view.canViewStoreRule('dispatch') ? <><section id="store-dispatch" className="store-rule-section"><div className="bg-[color:var(--app-color-primary-light-9)] rounded-xl p-6 border border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)] text-xl"><RimoIcon name="Van" /></RimoElement></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("調度與派車")}</h3>
 <p className="text-gray-400 text-sm">{text("車輛排程看板限制和智能派車權重配置")}</p></div></div>
 <div>{view.cardLocks.dispatch ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
@@ -1051,7 +1051,7 @@ export default function SettingsBlock() {
 <span className="ml-2 text-gray-400">{text("km/天")}</span></RimoElement></RimoElement></RimoElement>
 <RimoElement kind="el-divider" contentPosition="left"><span className="text-sm text-gray-400">{text("智能派車權重配置")}</span></RimoElement>
 <div className="bg-[color:var(--app-color-primary-light-9)] rounded-lg p-4 border border-[color:var(--app-color-primary-light-8)]"><p className="text-xs text-gray-500 mb-4">{text("設置智能派車評分權重，系統按評分低者優先派遣；當前默認以營收權重爲主\n                                                        ")}</p>
-<div className="grid grid-cols-3 gap-6"><div className="text-center"><div className="text-sm text-gray-600 mb-2">{text("里程權重")}</div>
+<div className="grid grid-cols-3 gap-6" data-rimo-grid="3"><div className="text-center"><div className="text-sm text-gray-600 mb-2">{text("里程權重")}</div>
 <RimoElement kind="el-input-number" modelValue={view.settings.dispatchWeightMileage} onModelChange={value => {
                                     model.write(["settings", "dispatchWeightMileage"], value);
                                   }} min={0} max={100} size="large" style={rimoStyle("width: 100%")}></RimoElement>
@@ -1072,7 +1072,7 @@ export default function SettingsBlock() {
 <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden"><div className="h-full bg-blue-500 transition-all" style={rimoStyle({
                                       width: view.settings.dispatchWeightAge + '%'
                                     })}></div></div></div></div></div></RimoElement></div></section></> : null}
-{view.canViewStoreRule('hourlyDaily') ? <><section id="store-hourly-daily" className="store-rule-section"><div className="bg-green-50/50 rounded-xl p-6 border border-green-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-green-600 text-xl"><RimoIcon name="Clock" /></RimoElement></div>
+{view.canViewStoreRule('hourlyDaily') ? <><section id="store-hourly-daily" className="store-rule-section"><div className="bg-green-50/50 rounded-xl p-6 border border-green-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-green-600 text-xl"><RimoIcon name="Clock" /></RimoElement></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("時租與日租")}</h3>
 <p className="text-gray-400 text-sm">{text("時租轉日租規則和不滿日租定價")}</p></div></div>
 <div>{view.cardLocks.hourlyDaily ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
@@ -1106,7 +1106,7 @@ export default function SettingsBlock() {
                                       model.write(["settings", "hourlyFixedPrice"], value);
                                     }} min={0} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="ml-2 text-gray-400">{text("元（不滿日租統一收費）")}</span></RimoElement></RimoElement></RimoElement></> : null}</RimoElement></div></section></> : null}
-{view.canViewStoreRule('pickupReturn') ? <><section id="store-pickup-return" className="store-rule-section"><div className="bg-red-50/50 rounded-xl p-6 border border-red-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4"><svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10l-3-3"></path>
+{view.canViewStoreRule('pickupReturn') ? <><section id="store-pickup-return" className="store-rule-section"><div className="bg-red-50/50 rounded-xl p-6 border border-red-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-4"><svg className="w-5 h-5 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10l-3-3"></path>
 <path d="M17 17H7l3 3"></path>
 <path d="M14 4l3 3-3 3"></path>
 <path d="M10 14l-3 3 3 3"></path></svg></div>
@@ -1126,7 +1126,7 @@ export default function SettingsBlock() {
 <RimoElement kind="el-row" gutter={24} className="items-start"><RimoElement kind="el-col" span={8}><RimoElement kind="el-form-item" label="允許提前取車"><RimoElement kind="el-switch" modelValue={view.settings.allowEarlyPickup} onModelChange={value => {
                                     model.write(["settings", "allowEarlyPickup"], value);
                                   }}></RimoElement></RimoElement></RimoElement>
-{view.settings.allowEarlyPickup ? <><RimoElement kind="el-col" span={16}><RimoElement kind="el-form-item" label="免費寬限時間"><div className="flex items-center"><RimoElement kind="el-input-number" modelValue={view.settings.earlyPickupGraceMinutes} onModelChange={value => {
+{view.settings.allowEarlyPickup ? <><RimoElement kind="el-col" span={16}><RimoElement kind="el-form-item" label="免費寬限時間"><div className="flex items-center" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.settings.earlyPickupGraceMinutes} onModelChange={value => {
                                         model.write(["settings", "earlyPickupGraceMinutes"], value);
                                       }} min={0} step={15} size="small" style={rimoStyle("width: 120px")}></RimoElement>
 <span className="ml-2 text-gray-500 text-sm">{text("分鐘")}</span></div>
@@ -1171,21 +1171,21 @@ export default function SettingsBlock() {
 <RimoElement kind="el-switch" modelValue={view.settings.noShowPenaltyEnabled} onModelChange={value => {
                                     model.write(["settings", "noShowPenaltyEnabled"], value);
                                   }} activeText="收取" inactiveText="不收"></RimoElement></div>
-{view.settings.noShowPenaltyEnabled ? <><div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100"><div><div className="text-xs text-gray-500 mb-2">{text("扣款模式")}</div>
+{view.settings.noShowPenaltyEnabled ? <><div className="grid grid-cols-2 gap-4 pt-3 border-t border-gray-100" data-rimo-grid="2"><div><div className="text-xs text-gray-500 mb-2">{text("扣款模式")}</div>
 <RimoElement kind="el-radio-group" modelValue={view.settings.noShowPenaltyType} onModelChange={value => {
                                         model.write(["settings", "noShowPenaltyType"], value);
                                       }}><RimoElement kind="el-radio" label="fixed">{text("固定金額")}</RimoElement>
 <RimoElement kind="el-radio" label="auth_percent">{text("預授權比例")}</RimoElement></RimoElement></div>
 <div><div className="text-xs text-gray-500 mb-2">{text("扣款數值")}</div>
-{view.settings.noShowPenaltyType === 'fixed' ? <><div className="flex items-center gap-2"><RimoElement kind="el-input-number" modelValue={view.settings.noShowPenaltyFixed} onModelChange={value => {
+{view.settings.noShowPenaltyType === 'fixed' ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.settings.noShowPenaltyFixed} onModelChange={value => {
                                             model.write(["settings", "noShowPenaltyFixed"], value);
                                           }} min={0} step={50} style={rimoStyle("width: 140px")}></RimoElement>
 <span className="text-gray-500">{text("元")}</span></div></> : null}
-{view.settings.noShowPenaltyType === 'auth_percent' ? <><div className="flex items-center gap-2"><RimoElement kind="el-input-number" modelValue={view.settings.noShowPenaltyPercent} onModelChange={value => {
+{view.settings.noShowPenaltyType === 'auth_percent' ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.settings.noShowPenaltyPercent} onModelChange={value => {
                                             model.write(["settings", "noShowPenaltyPercent"], value);
                                           }} min={0} max={100} style={rimoStyle("width: 140px")}></RimoElement>
 <span className="text-gray-500">{text("%")}</span></div></> : null}</div></div></> : null}</div></div></RimoElement></div></section></> : null}
-{view.canViewStoreRule('cancellation') ? <><section id="store-cancellation" className="store-rule-section"><div className="bg-amber-50/50 rounded-xl p-6 border border-amber-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mr-4"><svg className="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l9 16H3L12 3z"></path>
+{view.canViewStoreRule('cancellation') ? <><section id="store-cancellation" className="store-rule-section"><div className="bg-amber-50/50 rounded-xl p-6 border border-amber-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mr-4"><svg className="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l9 16H3L12 3z"></path>
 <path d="M12 9v4"></path>
 <path d="M12 17h.01"></path></svg></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("取消與超時規則")}</h3>
@@ -1206,7 +1206,7 @@ export default function SettingsBlock() {
                                   model.write(["settings", "freeCancelAfterOrderEnabled"], value);
                                 }}></RimoElement>
 <div className="flex-1"><div className="text-sm font-medium text-gray-700 mb-1">{text("\n                                                                    下單後限時取消\n                                                                ")}</div>
-{view.settings.freeCancelAfterOrderEnabled ? <><div className="flex items-center gap-2"><span className="text-sm text-gray-500">{text("下單後")}</span>
+{view.settings.freeCancelAfterOrderEnabled ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><span className="text-sm text-gray-500">{text("下單後")}</span>
 <RimoElement kind="el-input-number" modelValue={view.settings.freeCancelAfterOrderMinutes} onModelChange={value => {
                                         model.write(["settings", "freeCancelAfterOrderMinutes"], value);
                                       }} min={1} max={1440} size="small" style={rimoStyle("width: 100px")}></RimoElement>
@@ -1219,7 +1219,7 @@ export default function SettingsBlock() {
                                   model.write(["settings", "freeCancelBeforePickupEnabled"], value);
                                 }}></RimoElement>
 <div className="flex-1"><div className="text-sm font-medium text-gray-700 mb-1">{text("\n                                                                    取車前提前取消\n                                                                ")}</div>
-{view.settings.freeCancelBeforePickupEnabled ? <><div className="flex items-center gap-2"><span className="text-sm text-gray-500">{text("取車前")}</span>
+{view.settings.freeCancelBeforePickupEnabled ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><span className="text-sm text-gray-500">{text("取車前")}</span>
 <RimoElement kind="el-input-number" modelValue={view.settings.freeCancelBeforePickupHours} onModelChange={value => {
                                         model.write(["settings", "freeCancelBeforePickupHours"], value);
                                       }} min={1} max={168} size="small" style={rimoStyle("width: 100px")}></RimoElement>
@@ -1287,7 +1287,7 @@ export default function SettingsBlock() {
 {text("\n                                                            小時按日租比例計費，不足 1 小時按 1 小時計；達到閾值後按整天計算\n                                                        ")}</p>
 <div className="bg-white rounded-lg p-4 border border-orange-200"><div className="text-sm font-medium text-gray-700 mb-2">{text("超時免費寬限\n                                                            ")}</div>
 <div className="text-xs text-gray-400 mb-3">{text("寬限期內還車不收取超時費")}</div>
-<div className="flex items-center gap-2"><RimoElement kind="el-input-number" modelValue={view.settings.overtimeGracePeriod} onModelChange={value => {
+<div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.settings.overtimeGracePeriod} onModelChange={value => {
                                     model.write(["settings", "overtimeGracePeriod"], value);
                                   }} min={0} max={120} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="text-gray-500">{text("分鐘")}</span></div></div>
@@ -1296,13 +1296,13 @@ export default function SettingsBlock() {
 <div className="flex items-center gap-3"><RimoElement kind="el-switch" modelValue={view.settings.overtimePenaltyEnabled} onModelChange={value => {
                                       model.write(["settings", "overtimePenaltyEnabled"], value);
                                     }}></RimoElement></div></div>
-{view.settings.overtimePenaltyEnabled ? <><div className="mt-4 pt-4 border-t border-gray-100"><div className="grid grid-cols-2 gap-4"><div><div className="text-xs text-gray-500 mb-2">{text("罰款類型\n                                                                        ")}</div>
+{view.settings.overtimePenaltyEnabled ? <><div className="mt-4 pt-4 border-t border-gray-100"><div className="grid grid-cols-2 gap-4" data-rimo-grid="2"><div><div className="text-xs text-gray-500 mb-2">{text("罰款類型\n                                                                        ")}</div>
 <RimoElement kind="el-radio-group" modelValue={view.settings.overtimePenaltyType} onModelChange={value => {
                                           model.write(["settings", "overtimePenaltyType"], value);
                                         }}><RimoElement kind="el-radio" label="fixed">{text("固定金額")}</RimoElement>
 <RimoElement kind="el-radio" label="percentage">{text("按超時費比例")}</RimoElement></RimoElement></div>
 <div><div className="text-xs text-gray-500 mb-2">{text("罰款數額\n                                                                        ")}</div>
-<div className="flex items-center gap-2"><RimoElement kind="el-input-number" modelValue={view.settings.overtimePenaltyAmount} onModelChange={value => {
+<div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.settings.overtimePenaltyAmount} onModelChange={value => {
                                             model.write(["settings", "overtimePenaltyAmount"], value);
                                           }} min={0} style={rimoStyle("width: 120px")}></RimoElement>
 {view.settings.overtimePenaltyType === 'fixed' ? <><span className="text-gray-500">{text("元")}</span></> : <><span className="text-gray-500">{text("%")}</span></>}</div></div></div></div></> : null}</div>
@@ -1311,12 +1311,12 @@ export default function SettingsBlock() {
 <div className="flex items-center gap-3"><RimoElement kind="el-switch" modelValue={view.settings.overtimeMaxEnabled} onModelChange={value => {
                                       model.write(["settings", "overtimeMaxEnabled"], value);
                                     }}></RimoElement>
-{view.settings.overtimeMaxEnabled ? <><div className="flex items-center gap-2"><span className="text-gray-500">{text("最高")}</span>
+{view.settings.overtimeMaxEnabled ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><span className="text-gray-500">{text("最高")}</span>
 <RimoElement kind="el-input-number" modelValue={view.settings.overtimeMaxAmount} onModelChange={value => {
                                           model.write(["settings", "overtimeMaxAmount"], value);
                                         }} min={0} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="text-gray-500">{text("元")}</span></div></> : null}</div></div></div></div></RimoElement></div></section></> : null}
-{view.canViewStoreRule('extension') ? <><section id="store-extension" className="store-rule-section"><div className="bg-sky-50/50 rounded-xl p-6 border border-sky-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-sky-600 text-xl"><RimoIcon name="Clock" /></RimoElement></div>
+{view.canViewStoreRule('extension') ? <><section id="store-extension" className="store-rule-section"><div className="bg-sky-50/50 rounded-xl p-6 border border-sky-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-sky-600 text-xl"><RimoIcon name="Clock" /></RimoElement></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("續租規則")}</h3>
 <p className="text-gray-400 text-sm">{text("控制延長用車、逾期補辦續租、庫存衝突和費用處理")}</p></div></div>
 <div>{view.cardLocks.extension ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
@@ -1364,14 +1364,14 @@ export default function SettingsBlock() {
 <span>{text("分時租賃")}</span></span></>
             }}><div className="w-full"><div className="mb-6"><h2 className="text-xl font-bold text-gray-800">{text("分時租賃規則")}</h2>
 <p className="text-gray-500 text-sm mt-1">{text("配置同站租還與甲租乙還的共用規則、訂單限制、取還車與風控策略。")}</p></div>
-<div className="grid gap-6" style={rimoStyle("grid-template-columns: 220px minmax(0, 1fr);")}><div className="sharing-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("規則分類\n                                        ")}</div>
+<div className="grid gap-6" style={rimoStyle("grid-template-columns: 220px minmax(0, 1fr);")} data-rimo-layout="columns"><div className="sharing-rule-nav rounded-xl border border-gray-100 bg-gray-50 p-3 h-fit"><div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">{text("規則分類\n                                        ")}</div>
 {rimoEntries(view.visibleSharingRuleNavGroups).map(([group], _itemIndex) => <Fragment key={group.label}><>{group.label ? <><div className="mt-3 mb-1 px-3 text-xs font-semibold text-gray-400">{text("\n                                                ")}{rimoText(group.label)}{text("\n                                            ")}</div></> : null}
 {rimoEntries(group.items).map(([item], _itemIndex) => <Fragment key={item.key}><a key={item.key} href={'#' + item.anchor} className="rule-nav-link block rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors" onClick={event => {
                             event.preventDefault();
                             view.scrollToRule(item.anchor);
                           }}>{text("\n                                                ")}{rimoText(item.label)}{text("\n                                            ")}</a></Fragment>)}</></Fragment>)}
 {view.visibleSharingRuleNavGroups.length === 0 ? <><div className="rounded-lg bg-white px-3 py-4 text-xs text-gray-400">{text("\n                                            當前賬號暫無可查看的分時租賃設置項\n                                        ")}</div></> : null}</div>
-<div className="space-y-6 min-w-0">{view.canViewSharingRule('global') ? <><section id="sharing-global" className="sharing-rule-section"><div className="bg-gray-50 rounded-xl p-6 border border-gray-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)] text-xl"><RimoIcon name="Operation" /></RimoElement></div>
+<div className="space-y-6 min-w-0">{view.canViewSharingRule('global') ? <><section id="sharing-global" className="sharing-rule-section"><div className="bg-gray-50 rounded-xl p-6 border border-gray-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)] text-xl"><RimoIcon name="Operation" /></RimoElement></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("分時共用規則")}</h3>
 <p className="text-gray-400 text-sm">{text("適用於同站租還及甲租乙還的基礎規則")}</p></div></div>
 <div>{view.sharingCardLocks.global ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
@@ -1398,7 +1398,7 @@ export default function SettingsBlock() {
                                     model.write(["sharingSettings", "lowFuelFee"], value);
                                   }} min={0} step={50} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="ml-2 text-gray-400">{text("元")}</span></RimoElement></RimoElement></RimoElement></RimoElement></div></section></> : null}
-{view.canViewSharingRule('roundTrip') ? <><section id="sharing-roundtrip" className="sharing-rule-section"><div className="bg-teal-50/50 rounded-xl p-6 border border-teal-100"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-teal-600 text-xl"><RimoIcon name="Refresh" /></RimoElement></div>
+{view.canViewSharingRule('roundTrip') ? <><section id="sharing-roundtrip" className="sharing-rule-section"><div className="bg-teal-50/50 rounded-xl p-6 border border-teal-100"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-teal-600 text-xl"><RimoIcon name="Refresh" /></RimoElement></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("同站租還規則")}</h3>
 <p className="text-gray-400 text-sm">{text("包含取消政策、取還車限制及訂單邏輯")}</p></div></div>
 <div>{view.sharingCardLocks.roundTrip ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
@@ -1420,7 +1420,7 @@ export default function SettingsBlock() {
                                         model.write(["sharingSettings", "freeCancelAfterOrderEnabled"], value);
                                       }}></RimoElement>
 <div className="flex-1"><div className="text-sm font-medium text-gray-700 mb-1">{text("\n                                                                            下單後限時取消\n                                                                        ")}</div>
-{view.sharingSettings.freeCancelAfterOrderEnabled ? <><div className="flex items-center gap-2"><span className="text-sm text-gray-500">{text("下單後")}</span>
+{view.sharingSettings.freeCancelAfterOrderEnabled ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><span className="text-sm text-gray-500">{text("下單後")}</span>
 <RimoElement kind="el-input-number" modelValue={view.sharingSettings.freeCancelAfterOrderMinutes} onModelChange={value => {
                                               model.write(["sharingSettings", "freeCancelAfterOrderMinutes"], value);
                                             }} min={1} max={1440} size="small" style={rimoStyle("width: 100px")}></RimoElement>
@@ -1433,7 +1433,7 @@ export default function SettingsBlock() {
                                         model.write(["sharingSettings", "freeCancelBeforePickupEnabled"], value);
                                       }}></RimoElement>
 <div className="flex-1"><div className="text-sm font-medium text-gray-700 mb-1">{text("\n                                                                            取車前提前取消\n                                                                        ")}</div>
-{view.sharingSettings.freeCancelBeforePickupEnabled ? <><div className="flex items-center gap-2"><span className="text-sm text-gray-500">{text("取車前")}</span>
+{view.sharingSettings.freeCancelBeforePickupEnabled ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><span className="text-sm text-gray-500">{text("取車前")}</span>
 <RimoElement kind="el-input-number" modelValue={view.sharingSettings.freeCancelBeforePickupHours} onModelChange={value => {
                                               model.write(["sharingSettings", "freeCancelBeforePickupHours"], value);
                                             }} min={1} max={168} size="small" style={rimoStyle("width: 100px")}></RimoElement>
@@ -1472,7 +1472,7 @@ export default function SettingsBlock() {
                                         });
                                       }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
 {text(" 添加階梯\n                                                                    ")}</RimoElement></div>
-<div className="mt-6 border-t border-red-200 pt-4" data-rimo-layout="list"><div className="flex justify-between items-center mb-2"><span className="text-sm font-bold text-gray-600">{text("臨時特殊取消規則\n                                                                            (節假日)")}</span>
+<div className="mt-6 border-t border-red-200 pt-4"><div className="flex justify-between items-center mb-2" data-rimo-layout="toolbar"><span className="text-sm font-bold text-gray-600">{text("臨時特殊取消規則\n                                                                            (節假日)")}</span>
 <RimoElement kind="el-button" link={true} type="primary" size="small" onClick={_event => {
                                           view.sharingSettings.tempCancelLadder.push({
                                             start: '',
@@ -1534,7 +1534,7 @@ export default function SettingsBlock() {
 <p className="text-xs text-gray-500 mb-4">{text("\n                                                                同站租還的超時費用按免費寬限時間與超時罰款階梯計算；寬限期內不收取超時費，超過寬限後按下方階梯收取。\n                                                            ")}</p>
 <div className="bg-white rounded-lg p-4 border border-orange-200"><div className="text-sm font-medium text-gray-700 mb-2">{text("\n                                                                    超時免費寬限\n                                                                ")}</div>
 <div className="text-xs text-gray-400 mb-3">{text("寬限期內還車不收取超時費\n                                                                ")}</div>
-<div className="flex items-center gap-2"><RimoElement kind="el-input-number" modelValue={view.sharingSettings.overtimeGracePeriod} onModelChange={value => {
+<div className="flex items-center gap-2" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.sharingSettings.overtimeGracePeriod} onModelChange={value => {
                                         model.write(["sharingSettings", "overtimeGracePeriod"], value);
                                       }} min={0} max={120} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="text-gray-500">{text("分鐘")}</span></div></div>
@@ -1575,7 +1575,7 @@ export default function SettingsBlock() {
 <div className="flex items-center gap-3"><RimoElement kind="el-switch" modelValue={view.sharingSettings.overtimeMaxEnabled} onModelChange={value => {
                                           model.write(["sharingSettings", "overtimeMaxEnabled"], value);
                                         }} disabled={true}></RimoElement>
-{view.sharingSettings.overtimeMaxEnabled ? <><div className="flex items-center gap-2"><span className="text-gray-500">{text("最高")}</span>
+{view.sharingSettings.overtimeMaxEnabled ? <><div className="flex items-center gap-2" data-rimo-layout="field-row"><span className="text-gray-500">{text("最高")}</span>
 <RimoElement kind="el-input-number" modelValue={view.sharingSettings.overtimeMaxAmount} onModelChange={value => {
                                               model.write(["sharingSettings", "overtimeMaxAmount"], value);
                                             }} min={0} disabled={true} style={rimoStyle("width: 120px")}></RimoElement>
@@ -1599,7 +1599,7 @@ export default function SettingsBlock() {
                                     }}><RimoElement kind="el-radio" label="original" disabled={true}>{text("\n                                                                    原路返回 (支付賬戶)\n                                                                    ")}
 <RimoElement kind="el-tag" size="small" type="info" effect="plain" className="ml-2">{text("開發中")}</RimoElement></RimoElement>
 <RimoElement kind="el-radio" label="points">{text("會員積分/餘額")}</RimoElement></RimoElement></RimoElement></div></section></> : null}</RimoElement></div></section></> : null}
-{view.canViewSharingRule('oneWay') ? <><section id="sharing-oneway" className="sharing-rule-section"><div className="bg-[color:var(--app-color-primary-light-9)] rounded-xl p-6 border border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center justify-between mb-5"><div className="flex items-center"><div className="w-10 h-10 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)] text-xl"><RimoIcon name="Promotion" /></RimoElement></div>
+{view.canViewSharingRule('oneWay') ? <><section id="sharing-oneway" className="sharing-rule-section"><div className="bg-[color:var(--app-color-primary-light-9)] rounded-xl p-6 border border-[color:var(--app-color-primary-light-8)]"><div className="flex items-center justify-between mb-5" data-rimo-layout="toolbar"><div className="flex items-center"><div className="w-10 h-10 bg-[color:var(--app-color-primary-light-8)] rounded-lg flex items-center justify-center mr-4"><RimoElement kind="el-icon" className="text-[color:var(--app-color-primary)] text-xl"><RimoIcon name="Promotion" /></RimoElement></div>
 <div><h3 className="font-bold text-gray-800 text-lg">{text("甲租乙還規則")}</h3>
 <p className="text-gray-400 text-sm">{text("預約限制、異地還車及風控設置")}</p></div></div>
 <div>{view.sharingCardLocks.oneWay ? <><RimoElement kind="el-button" type="primary" plain={true} size="small" onClick={_event => {
@@ -1618,7 +1618,7 @@ export default function SettingsBlock() {
                                     model.write(["sharingSettings", "oneWayPickupDefaultMinutes"], value);
                                   }} min={1} step={10} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="text-gray-500 ml-2">{text("分鐘")}</span></RimoElement>
-<div className="bg-white rounded-lg p-4 border border-[color:var(--app-color-primary-light-7)] mt-2" data-rimo-layout="list"><div className="flex justify-between items-center mb-2"><span className="text-xs font-medium text-gray-600">{text("會員差異化設置")}</span>
+<div className="bg-white rounded-lg p-4 border border-[color:var(--app-color-primary-light-7)] mt-2"><div className="flex justify-between items-center mb-2" data-rimo-layout="toolbar"><span className="text-xs font-medium text-gray-600">{text("會員差異化設置")}</span>
 <RimoElement kind="el-button" link={true} type="primary" size="small" onClick={_event => {
                                       view.sharingSettings.oneWayPickupTiers.push({
                                         levels: [],
@@ -1651,7 +1651,7 @@ export default function SettingsBlock() {
                                     model.write(["sharingSettings", "oneWayRestrictEnabled"], value);
                                   }}></RimoElement></div>
 <p className="text-xs text-gray-500 mb-4">{text("限制用戶在短時間內頻繁取消訂單的行爲。")}</p>
-{view.sharingSettings.oneWayRestrictEnabled ? <><div><div className="grid grid-cols-3 gap-4 mb-4"><div><div className="text-xs text-gray-500 mb-1">{text("統計週期")}</div>
+{view.sharingSettings.oneWayRestrictEnabled ? <><div><div className="grid grid-cols-3 gap-4 mb-4" data-rimo-grid="3"><div><div className="text-xs text-gray-500 mb-1">{text("統計週期")}</div>
 <RimoElement kind="el-input-number" modelValue={view.sharingSettings.oneWayRestrictWindow} onModelChange={value => {
                                           model.write(["sharingSettings", "oneWayRestrictWindow"], value);
                                         }} min={1} size="small" style={rimoStyle("width: 100px")}></RimoElement>
@@ -1666,7 +1666,7 @@ export default function SettingsBlock() {
                                           model.write(["sharingSettings", "oneWayRestrictBanMinutes"], value);
                                         }} min={1} size="small" style={rimoStyle("width: 100px")}></RimoElement>
 <span className="text-xs text-gray-500 ml-1">{text("分鐘")}</span></div></div>
-<div className="bg-white rounded-lg p-4 border border-[color:var(--app-color-primary-light-7)]" data-rimo-layout="list"><div className="flex justify-between items-center mb-2"><span className="text-xs font-medium text-gray-600">{text("會員差異化設置")}</span>
+<div className="bg-white rounded-lg p-4 border border-[color:var(--app-color-primary-light-7)]"><div className="flex justify-between items-center mb-2" data-rimo-layout="toolbar"><span className="text-xs font-medium text-gray-600">{text("會員差異化設置")}</span>
 <RimoElement kind="el-button" link={true} type="primary" size="small" onClick={_event => {
                                           view.sharingSettings.oneWayRestrictTiers.push({
                                             levels: [],
@@ -1712,12 +1712,12 @@ export default function SettingsBlock() {
                                         }}></RimoElement></RimoElement></div></div></> : null}</section></> : null}
 {view.canViewSharingRule('oneWayPreauth') ? <><section id="sharing-oneway-preauth" className="sharing-rule-section bg-[color:var(--app-color-primary-light-9)] rounded-lg p-4 mb-4 border border-[color:var(--app-color-primary-light-8)]"><div className="text-sm font-bold text-gray-700 mb-2">{text("3. 預授權規則")}</div>
 <p className="text-xs text-gray-500 mb-4">{text("設定用車期間的資金凍結策略。")}</p>
-<RimoElement kind="el-row" gutter={24}><RimoElement kind="el-col" span={12}><RimoElement kind="el-form-item" label="默認凍結金額"><div className="flex items-center"><RimoElement kind="el-input-number" modelValue={view.sharingSettings.oneWayPreAuthRentHours} onModelChange={value => {
+<RimoElement kind="el-row" gutter={24}><RimoElement kind="el-col" span={12}><RimoElement kind="el-form-item" label="默認凍結金額"><div className="flex items-center" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.sharingSettings.oneWayPreAuthRentHours} onModelChange={value => {
                                           model.write(["sharingSettings", "oneWayPreAuthRentHours"], value);
                                         }} min={0} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="text-gray-500 ml-2">{text("小時的租金")}</span></div>
 <div className="text-xs text-gray-400 mt-1">{text("\n                                                                        下單時預先凍結相當於此市場的租金")}</div></RimoElement></RimoElement>
-<RimoElement kind="el-col" span={12}><RimoElement kind="el-form-item" label="循環預授權間隔"><div className="flex items-center"><RimoElement kind="el-input-number" modelValue={view.sharingSettings.oneWayPreAuthCycleMinutes} onModelChange={value => {
+<RimoElement kind="el-col" span={12}><RimoElement kind="el-form-item" label="循環預授權間隔"><div className="flex items-center" data-rimo-layout="field-row"><RimoElement kind="el-input-number" modelValue={view.sharingSettings.oneWayPreAuthCycleMinutes} onModelChange={value => {
                                           model.write(["sharingSettings", "oneWayPreAuthCycleMinutes"], value);
                                         }} min={0} step={60} style={rimoStyle("width: 120px")}></RimoElement>
 <span className="text-gray-500 ml-2">{text("分鐘")}</span></div>
@@ -1727,7 +1727,7 @@ export default function SettingsBlock() {
       "footer": _slot => <><RimoElement kind="el-button" onClick={_event => {
           model.write(["rentalRuleVersionDialogVisible"], false);
         }}>{text("關閉")}</RimoElement></>
-    }}>{() => <>{view.selectedRentalRuleVersion ? <><div className="grid grid-cols-3 gap-4"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
+    }}>{() => <>{view.selectedRentalRuleVersion ? <><div className="grid grid-cols-3 gap-4" data-rimo-grid="3"><div className="col-span-1 border border-gray-100 rounded-lg overflow-hidden"><div className="px-3 py-2 bg-gray-50 text-xs font-bold text-gray-500">{text("版本列表")}</div>
 <div className="divide-y divide-gray-100 max-h-[420px] overflow-y-auto">{rimoEntries(view.ruleVersionRecords).map(([version], _itemIndex) => <Fragment key={version.version}><button key={version.version} className={rimoClass(["w-full text-left px-3 py-3 hover:bg-[color:var(--app-color-primary-light-9)] transition-colors", rimoClass(view.selectedRentalRuleVersion.version === version.version ? 'bg-[color:var(--app-color-primary-light-9)]' : 'bg-white')])} onClick={_event => {
                     model.write(["selectedRentalRuleVersion"], version);
                   }}><div className="font-mono text-xs text-[color:var(--app-color-primary)] font-bold">{rimoText(version.version)}</div>

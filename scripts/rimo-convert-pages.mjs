@@ -11,7 +11,7 @@ import postcss from 'postcss';
 import { compile as compileUtilities } from 'tailwindcss';
 import { writeFileAtomic } from '../packages/project-core/src/filesystem.js';
 import { authoredRimoModels, authoredRimoPages, extractRimoBusinessSurface, mapRimoStyleAssets } from './rimo-business-content.mjs';
-import { adaptRimoBusinessLayout, rimoEventProperty, rimoScopedSelector, rimoThemeColors } from './rimo-template-adapter.mjs';
+import { adaptRimoBusinessLayout, rimoContainerQuery, rimoEventProperty, rimoScopedSelector, rimoThemeColors } from './rimo-template-adapter.mjs';
 
 const traverse = traverseImport.default ?? traverseImport;
 const generate = generatorImport.default ?? generatorImport;
@@ -208,7 +208,7 @@ function compileNode(node, context, conditionHandled = false) {
     const dynamic = name.startsWith(':');
     if (name === 'v-html') { parameters.push(`html={${expression(value, context)}}`, `as=${quote(tag)}`); continue; }
     const rawName = dynamic ? name.slice(1) : name;
-    const property = rawName.startsWith('data-') || rawName.startsWith('aria-') ? rawName : htmlAttributes[rawName] ?? (component ? camel(rawName) : rawName);
+    const property = rawName.startsWith('data-') || rawName.startsWith('aria-') ? rawName : { cellpadding: 'cellPadding', cellspacing: 'cellSpacing' }[rawName] ?? htmlAttributes[rawName] ?? (component ? camel(rawName) : rawName);
     const templateValue = /^\{\{\s*(.*?)\s*\}\}$/.exec(value);
     if (!dynamic && templateValue) { parameters.push(`${property}={${expression(templateValue[1], context)}}`); continue; }
     if (dynamic) {
@@ -223,9 +223,11 @@ function compileNode(node, context, conditionHandled = false) {
     else parameters.push(`${property}=${quote(value)}`);
   }
   if (slots.length) parameters.push(`slots={{${slots.join(',')}}}`);
-  const name = attributes['v-html'] ? 'RimoMarkup' : component ? 'RimoElement' : tag === 'img' ? 'RimoImage' : tag === 'table' && context.clientId !== 'email' ? 'RimoTable' : tag;
+  const name = attributes['v-html'] ? 'RimoMarkup' : component ? 'RimoElement' : attributes['data-rimo-list'] ? 'RimoList' : tag === 'img' ? 'RimoImage' : tag === 'table' && context.clientId !== 'email' ? 'RimoTable' : tag === 'input' && attributes.type === 'checkbox' ? 'RimoCheckbox' : tag;
   const opening = `<${name}${parameters.length ? ` ${parameters.join(' ')}` : ''}`;
-  const content = compileChildren(children, context);
+  let content = compileChildren(children, context);
+  if (tag === 'table' && children.some(child => child.rawTagName?.toLowerCase() === 'tr') && children.every(child => child.nodeType !== 1 || child.rawTagName?.toLowerCase() === 'tr'))
+    content = `<tbody>${content}</tbody>`;
   const lazy = tag === 'el-dialog' || tag === 'el-drawer';
   return voidTags.has(tag) ? `${opening} />` : `${opening}>${lazy ? `{() => <>${content}</>}` : content}</${name}>`;
 }
@@ -249,6 +251,13 @@ function pageLogic(source, pageKey) {
   const exposed = new Set();
   let options = false;
   traverse(ast, {
+    CallExpression(current) {
+      const callee = current.node.callee;
+      if (callee.type === 'MemberExpression' && callee.object.name === 'echarts' && callee.property.name === 'init') {
+        current.node.callee = types.memberExpression(types.identifier('model'), types.identifier('chart'));
+        current.node.arguments.unshift(types.identifier('echarts'));
+      }
+    },
     FunctionDeclaration(current) {
       if (current.node.id?.name !== 'pageSetup') return;
       const statement = current.get('body.body').filter(item => item.isReturnStatement()).at(-1);
@@ -317,6 +326,10 @@ async function styles(source, pageKey, css, hostPalette = true, scopeClasses = [
   const candidates = [...new Set(source.match(/[^<>"'`\s]+/g) ?? [])];
   const parsed = postcss.parse(`${utilities.build(candidates)}\n${css}`);
   parsed.walkAtRules('import', rule => rule.remove());
+  parsed.walkAtRules('media', rule => {
+    const query = rimoContainerQuery(rule.params);
+    if (query) { rule.name = 'container'; rule.params = query; }
+  });
   const assets = {};
   parsed.walkDecls(declaration => {
     if (!hostPalette) { declaration.value = mapRimoStyleAssets(declaration.value, assets); return; }
@@ -391,7 +404,7 @@ for (const item of mapping) {
     }
   }
   const state = item.modelFile ? `import createPageState from './${item.pageKey}-model.js';` : setup;
-  const module = `import { Fragment } from 'react';\nimport { useRimoModel, rimoEntries } from '../../lib/rimo-model.js';\nimport { RimoRoot, RimoIcon, RimoImage, rimoIcons, useRimoEnvironment } from '../../lib/RimoEnvironment.jsx';\nimport { RimoElement, RimoTable, RimoMarkup, rimoClass, rimoStyle, rimoText } from '../../lib/RimoElements.jsx';\nimport dayjs from 'dayjs';\nimport * as echarts from 'echarts';\nimport './${item.pageKey}.css';\n${state}\nexport default function ${item.component}() {\nconst model = useRimoModel(createPageState);\nconst view = model.view;\nconst {text} = useRimoEnvironment();\nreturn <RimoRoot model={model} pageKey=${quote(item.pageKey)} assets={${JSON.stringify(stylesheet.assets)}}>${body}</RimoRoot>;\n}\n`;
+  const module = `import { Fragment } from 'react';\nimport { useRimoModel, rimoEntries } from '../../lib/rimo-model.js';\nimport { RimoRoot, RimoIcon, RimoImage, rimoIcons, useRimoEnvironment } from '../../lib/RimoEnvironment.jsx';\nimport { RimoElement, RimoList, RimoTable, RimoCheckbox, RimoMarkup, rimoClass, rimoStyle, rimoText } from '../../lib/RimoElements.jsx';\nimport dayjs from 'dayjs';\nimport * as echarts from 'echarts';\nimport './${item.pageKey}.css';\n${state}\nexport default function ${item.component}() {\nconst model = useRimoModel(createPageState);\nconst view = model.view;\nconst {text} = useRimoEnvironment();\nreturn <RimoRoot model={model} pageKey=${quote(item.pageKey)} assets={${JSON.stringify(stylesheet.assets)}}>${body}</RimoRoot>;\n}\n`;
   const parsed = parse(module, { sourceType: 'module', plugins: ['jsx'] });
   const statePath = expression => {
     if (expression.type === 'Identifier') return expression.name === 'view' ? [] : null;

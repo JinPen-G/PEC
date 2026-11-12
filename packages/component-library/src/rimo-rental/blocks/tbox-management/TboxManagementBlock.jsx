@@ -12,17 +12,18 @@ export default function TboxManagementBlock() {
   } = useRimoEnvironment();
   return <RimoRoot model={model} pageKey="tbox-management" assets={{}}><div data-business-content="" data-rimo-layout="page"><div className="flex justify-between items-end shrink-0" data-rimo-layout="heading"><div><h1 className="text-2xl font-bold text-gray-800 tracking-tight">{text("車機設定中心")}</h1>
 <p className="text-gray-500 text-sm mt-1">{text("管理租戶下所有車機設備，執行車輛換綁與授權驗證操作。")}</p></div></div>
-<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 shrink-0 flex justify-between items-center gap-6 relative overflow-hidden" data-rimo-layout="filters"><div className="flex gap-3 z-10 flex-1 min-w-0 max-w-[680px]"><RimoElement kind="el-input" modelValue={view.searchQuery} onModelChange={value => {
-            model.write(["searchQuery"], value);
-          }} placeholder="搜索 CID / SIM卡 / 綁定車牌" prefixIcon="Search" clearable={true} className="w-full"></RimoElement>
+<div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden"><RimoElement kind="el-table" data={view.filteredDevices} style={rimoStyle("width: 100%; height: 100%;")} stripe={true} slots={{
+          "toolbar": _slot => <><div className="flex gap-3 z-10 flex-1 min-w-0 max-w-[680px]"><RimoElement kind="el-input" modelValue={view.searchQuery} onModelChange={value => {
+                model.write(["searchQuery"], value);
+              }} placeholder="搜索 CID / SIM卡 / 綁定車牌" prefixIcon="Search" clearable={true} className="w-full"></RimoElement>
 <RimoElement kind="el-select" modelValue={view.statusFilter} onModelChange={value => {
-            model.write(["statusFilter"], value);
-          }} placeholder="狀態篩選" style={rimoStyle("width: 140px;")}><RimoElement kind="el-option" label="所有狀態" value="ALL"></RimoElement>
+                model.write(["statusFilter"], value);
+              }} placeholder="狀態篩選" style={rimoStyle("width: 140px;")}><RimoElement kind="el-option" label="所有狀態" value="ALL"></RimoElement>
 <RimoElement kind="el-option" label="已綁定" value="BOUND"></RimoElement>
 <RimoElement kind="el-option" label="未綁定 (閒置)" value="UNBOUND"></RimoElement></RimoElement>
 <RimoElement kind="el-button" type="primary" plain={true} icon="Download" onClick={event => {
-            view.handleExport?.(event);
-          }}>{text("導出")}</RimoElement></div>
+                view.handleExport?.(event);
+              }}>{text("導出")}</RimoElement></div>
 <div className="flex gap-8 z-10 shrink-0"><div><div className="text-xs text-gray-500 font-medium mb-1">{text("租戶名下車機總數")}</div>
 <div className="text-2xl font-bold text-gray-800">{rimoText(view.devices.length)}{text(" ")}
 <span className="text-sm font-normal text-gray-400">{text("臺")}</span></div></div>
@@ -33,8 +34,8 @@ export default function TboxManagementBlock() {
 <div className="w-px bg-gray-200"></div>
 <div><div className="text-xs text-gray-500 font-medium mb-1">{text("在庫閒置 (未綁定)")}</div>
 <div className="text-2xl font-bold text-orange-500">{rimoText(view.unboundCount)}{text(" ")}
-<span className="text-sm font-normal text-gray-400">{text("臺")}</span></div></div></div></div>
-<div className="flex-1 bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col overflow-hidden" data-rimo-layout="list"><RimoElement kind="el-table" data={view.filteredDevices} style={rimoStyle("width: 100%; height: 100%;")} stripe={true}><RimoElement kind="el-table-column" label="硬件身份 (CID & SIM)" minWidth="200" fixed="left" slots={{
+<span className="text-sm font-normal text-gray-400">{text("臺")}</span></div></div></div></>
+        }}><RimoElement kind="el-table-column" label="硬件身份 (CID & SIM)" minWidth="200" fixed="left" slots={{
             "default": ({
               row
             }) => <><div className="flex items-center gap-3"><div className="w-8 h-8 rounded bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0"><RimoElement kind="el-icon" className="text-blue-500"><RimoIcon name="Cpu" /></RimoElement></div>
@@ -89,7 +90,7 @@ export default function TboxManagementBlock() {
 <div className="p-4 border-t border-gray-100 flex justify-end bg-gray-50/50"><RimoElement kind="el-pagination" background={true} layout="total, prev, pager, next" total={view.filteredDevices.length} pageSize={10}></RimoElement></div></div></div><RimoElement kind="el-dialog" modelValue={view.bindDialogVisible} onModelChange={value => {
       model.write(["bindDialogVisible"], value);
     }} title={view.isChanging ? '車機換綁操作' : '車機綁定操作'} width="500px" destroyOnClose={true} className="tbox-management-overlay" slots={{
-      "footer": _slot => <><div className="flex justify-between items-center w-full"><div className="text-xs text-gray-400">{text("\n                        請確保現場硬件安裝完畢後再進行線上綁定\n                    ")}</div>
+      "footer": _slot => <><div className="flex justify-between items-center w-full" data-rimo-layout="toolbar"><div className="text-xs text-gray-400">{text("\n                        請確保現場硬件安裝完畢後再進行線上綁定\n                    ")}</div>
 <div><RimoElement kind="el-button" onClick={_event => {
               model.write(["bindDialogVisible"], false);
             }}>{text("取消")}</RimoElement>

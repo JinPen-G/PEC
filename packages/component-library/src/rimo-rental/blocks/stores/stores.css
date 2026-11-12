@@ -30,9 +30,6 @@
 :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .mb-6 {
   margin-bottom: calc(var(--spacing) * 6);
 }
-:where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .ml-auto {
-  margin-left: auto;
-}
 :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .flex {
   display: flex;
 }
@@ -262,13 +259,13 @@
 }
 :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .prototype-permission-label { color: var(--app-color-text-secondary); font-size: 13px; white-space: nowrap; }
 :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .prototype-permission-switcher .el-radio-button__inner { min-width: 88px; padding: 8px 12px; }
-@media (max-width: 1180px) { :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 900px) {
+@container (max-width: 1180px) { :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container (max-width: 900px) {
   :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .prototype-permission-switcher { right: 12px; bottom: 12px; }
   :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .prototype-permission-label { display: none; }
   :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .prototype-permission-switcher .el-radio-button__inner { min-width: auto; }
 }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="stores"], [data-rimo-overlay="stores"]) .el-pagination .el-pagination__jump {
           display: none;
         }

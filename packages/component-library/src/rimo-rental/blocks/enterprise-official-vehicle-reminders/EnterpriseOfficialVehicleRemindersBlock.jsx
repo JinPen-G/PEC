@@ -1252,7 +1252,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
             view.openSettingsDialog();
           }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Setting" /></RimoElement>
 {text(" 設定\n                        ")}</RimoElement></div></div>
-<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl shadow-sm border p-5 flex flex-col cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'pendingMaintenance' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} onClick={_event => {
+<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-grid="4" data-rimo-layout="summary"><div className={rimoClass(["bg-white rounded-xl shadow-sm border p-5 flex flex-col cursor-pointer hover:border-[color:var(--app-color-primary)] transition-colors", rimoClass(view.activeSummaryCard === 'pendingMaintenance' ? 'border-[color:var(--app-color-primary)] ring-1 ring-[color:var(--app-color-primary)]' : 'border-gray-100')])} onClick={_event => {
           view.applySummaryFilter('pendingMaintenance');
         }} data-rimo-layout="stat"><span className="text-sm text-gray-500 font-medium mb-1">{text("待保養車輛")}</span>
 <span className="card-value text-amber-500">{rimoText(view.stats.pendingMaintenanceVehicles)}</span></div>
@@ -1291,7 +1291,17 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
 <RimoElement kind="el-option" label="分公司專用" value="branch"></RimoElement></RimoElement>
 <RimoElement kind="el-select" modelValue={view.filters.templateKey} onModelChange={value => {
               model.write(["filters", "templateKey"], value);
-            }} placeholder="套用母版" clearable={true} style={rimoStyle("width: 240px")}>{rimoEntries(view.templateFilterOptions).map(([item], _itemIndex) => <Fragment key={item.value}><RimoElement kind="el-option" key={item.value} label={item.label} value={item.value}></RimoElement></Fragment>)}</RimoElement></>
+            }} placeholder="套用母版" clearable={true} style={rimoStyle("width: 240px")}>{rimoEntries(view.templateFilterOptions).map(([item], _itemIndex) => <Fragment key={item.value}><RimoElement kind="el-option" key={item.value} label={item.label} value={item.value}></RimoElement></Fragment>)}</RimoElement>
+<div className="flex items-center gap-2 text-sm text-gray-500"><RimoElement kind="el-select" modelValue={view.reminderPagination.pageSize} onModelChange={value => {
+                model.write(["reminderPagination", "pageSize"], value);
+              }} style={rimoStyle("width: 90px")} onChange={_event => {
+                model.write(["reminderPagination", "currentPage"], 1);
+              }}><RimoElement kind="el-option" label="10 條" value={10}></RimoElement>
+<RimoElement kind="el-option" label="20 條" value={20}></RimoElement>
+<RimoElement kind="el-option" label="50 條" value={50}></RimoElement></RimoElement></div>
+<RimoElement kind="el-pagination" currentPage={view.reminderPagination.currentPage} onCurrentPageChange={value => {
+              model.write(["reminderPagination", "currentPage"], value);
+            }} pageSize={view.reminderPagination.pageSize} layout="prev, pager, next" total={view.filteredReminders.length}></RimoElement></>
         }}><RimoElement kind="el-table-column" label="車輛" minWidth="210" slots={{
             "default": ({
               row
@@ -1346,18 +1356,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
 <RimoElement kind="el-button" type="primary" link={true} size="small" onClick={_event => {
                   view.goVehicleDetail(row.vehicleId);
                 }}>{text("查看車輛")}</RimoElement></div></>
-          }}></RimoElement></RimoElement>
-<div className="flex justify-between items-center p-4 border-t border-gray-100"><div className="flex items-center gap-2 text-sm text-gray-500"><span>{text("共 ")}{rimoText(view.filteredReminders.length)}{text(" 條提醒，每頁")}</span>
-<RimoElement kind="el-select" modelValue={view.reminderPagination.pageSize} onModelChange={value => {
-              model.write(["reminderPagination", "pageSize"], value);
-            }} style={rimoStyle("width: 90px")} onChange={_event => {
-              model.write(["reminderPagination", "currentPage"], 1);
-            }}><RimoElement kind="el-option" label="10 條" value={10}></RimoElement>
-<RimoElement kind="el-option" label="20 條" value={20}></RimoElement>
-<RimoElement kind="el-option" label="50 條" value={50}></RimoElement></RimoElement></div>
-<RimoElement kind="el-pagination" currentPage={view.reminderPagination.currentPage} onCurrentPageChange={value => {
-            model.write(["reminderPagination", "currentPage"], value);
-          }} pageSize={view.reminderPagination.pageSize} layout="prev, pager, next" total={view.filteredReminders.length}></RimoElement></div></div></div><RimoElement kind="el-dialog" modelValue={view.notificationDialogVisible} onModelChange={value => {
+          }}></RimoElement></RimoElement></div></div><RimoElement kind="el-dialog" modelValue={view.notificationDialogVisible} onModelChange={value => {
       model.write(["notificationDialogVisible"], value);
     }} title="通知設定" width="90%" className="reminder-notification-dialog official-vehicle-reminders-overlay" destroyOnClose={true} slots={{
       "footer": _slot => <><RimoElement kind="el-button" onClick={_event => {
@@ -1368,7 +1367,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
           }}>{text("保存")}</RimoElement></> : null}</>
     }}>{() => <><RimoElement kind="el-tabs" modelValue={view.notificationActiveTab} onModelChange={value => {
           model.write(["notificationActiveTab"], value);
-        }}><RimoElement kind="el-tab-pane" label="通知人設定" name="settings"><div className="flex justify-between items-center mb-4"><div className="text-sm text-gray-500">{text("通知人可手動填寫，不要求是系統賬號；外部 Email 只做提醒觸達，不授予系統權限。")}</div>
+        }}><RimoElement kind="el-tab-pane" label="通知人設定" name="settings"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><div className="text-sm text-gray-500">{text("通知人可手動填寫，不要求是系統賬號；外部 Email 只做提醒觸達，不授予系統權限。")}</div>
 <RimoElement kind="el-button" type="primary" onClick={event => {
                 view.addNotificationSetting?.(event);
               }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
@@ -1428,7 +1427,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
                     view.removeNotificationSetting(row);
                   }}>{text("刪除")}</RimoElement></>
               }}></RimoElement></RimoElement></RimoElement>
-<RimoElement kind="el-tab-pane" label="發送記錄" name="logs"><div className="flex flex-wrap gap-3 mb-4"><RimoElement kind="el-select" modelValue={view.notificationLogFilters.type} onModelChange={value => {
+<RimoElement kind="el-tab-pane" label="發送記錄" name="logs"><div className="flex flex-wrap gap-3 mb-4" data-rimo-layout="field-row"><RimoElement kind="el-select" modelValue={view.notificationLogFilters.type} onModelChange={value => {
                 model.write(["notificationLogFilters", "type"], value);
               }} placeholder="通知類型" clearable={true} style={rimoStyle("width: 150px")}><RimoElement kind="el-option" label="保養提醒" value="maintenance"></RimoElement>
 <RimoElement kind="el-option" label="清潔提醒" value="cleaning"></RimoElement></RimoElement>
@@ -1490,7 +1489,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
               }}></RimoElement></div></> : null}</div></>
     }}>{() => <><RimoElement kind="el-tabs" modelValue={view.settingsTab} onModelChange={value => {
           model.write(["settingsTab"], value);
-        }}><RimoElement kind="el-tab-pane" label="保養母版" name="maintenance"><div className="flex justify-between items-center mb-4"><div className="text-sm text-gray-500">{text("支持企業通用母版和分公司專用母版；分公司專用母版只適用於對應分公司車輛。")}</div>
+        }}><RimoElement kind="el-tab-pane" label="保養母版" name="maintenance"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><div className="text-sm text-gray-500">{text("支持企業通用母版和分公司專用母版；分公司專用母版只適用於對應分公司車輛。")}</div>
 {view.canCreateTemplates ? <><RimoElement kind="el-button" type="primary" onClick={_event => {
                   view.openTemplateDialog('maintenance');
                 }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
@@ -1529,7 +1528,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
                         view.removeTemplate('maintenance', row);
                       }}>{text("刪除")}</RimoElement></></> : null}</>
               }}></RimoElement></RimoElement></RimoElement>
-<RimoElement kind="el-tab-pane" label="清潔母版" name="cleaning"><div className="flex justify-between items-center mb-4"><div className="text-sm text-gray-500">{text("支持企業通用母版和分公司專用母版；分公司專用母版只適用於對應分公司車輛。")}</div>
+<RimoElement kind="el-tab-pane" label="清潔母版" name="cleaning"><div className="flex justify-between items-center mb-4" data-rimo-layout="toolbar"><div className="text-sm text-gray-500">{text("支持企業通用母版和分公司專用母版；分公司專用母版只適用於對應分公司車輛。")}</div>
 {view.canCreateTemplates ? <><RimoElement kind="el-button" type="primary" onClick={_event => {
                   view.openTemplateDialog('cleaning');
                 }}><RimoElement kind="el-icon" className="mr-1"><RimoIcon name="Plus" /></RimoElement>
@@ -1569,7 +1568,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
                       }}>{text("刪除")}</RimoElement></></> : null}</>
               }}></RimoElement></RimoElement></RimoElement>
 <RimoElement kind="el-tab-pane" label="車輛套用" name="binding"><div className="bg-amber-50 border border-amber-100 rounded-lg px-4 py-3 text-sm text-amber-800 mb-4">{text("\n                                保養和清潔分開判斷。只補齊保養母版和保養基線時，系統可正常計算保養提醒；清潔資料未補齊隻影響清潔提醒，不影響保養提醒。\n                            ")}</div>
-<div className="flex flex-wrap items-center gap-3 mb-3"><RimoElement kind="el-input" modelValue={view.vehicleBindingFilters.keyword} onModelChange={value => {
+<div className="flex flex-wrap items-center gap-3 mb-3" data-rimo-layout="field-row"><RimoElement kind="el-input" modelValue={view.vehicleBindingFilters.keyword} onModelChange={value => {
                 model.write(["vehicleBindingFilters", "keyword"], value);
               }} clearable={true} placeholder="搜索車牌 / 車型 / 據點" style={rimoStyle("width: 260px")} onInput={_event => {
                 model.write(["vehicleBindingPagination", "currentPage"], 1);
@@ -1671,7 +1670,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
                     view.saveVehicleBinding(row);
                   }}>{text("保存")}</RimoElement></>
               }}></RimoElement></RimoElement>
-<div className="flex justify-between items-center mt-4"><div className="flex items-center gap-2 text-sm text-gray-500"><span>{text("共 ")}{rimoText(view.filteredBindingVehicles.length)}{text(" 臺車輛，每頁")}</span>
+<div className="flex justify-between items-center mt-4"><div className="flex items-center gap-2 text-sm text-gray-500" data-rimo-layout="field-row"><span>{text("共 ")}{rimoText(view.filteredBindingVehicles.length)}{text(" 臺車輛，每頁")}</span>
 <RimoElement kind="el-select" modelValue={view.vehicleBindingPagination.pageSize} onModelChange={value => {
                   model.write(["vehicleBindingPagination", "pageSize"], value);
                 }} style={rimoStyle("width: 90px")} onChange={_event => {
@@ -1710,7 +1709,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
     }}>{() => <><RimoElement kind="el-form" labelPosition="top"><RimoElement kind="el-form-item" label="母版名稱" required={true}><RimoElement kind="el-input" modelValue={view.templateForm.name} onModelChange={value => {
               model.write(["templateForm", "name"], value);
             }} placeholder="例如：新車 / 老車 / 常用接待車"></RimoElement></RimoElement>
-{view.templateForm.type === 'maintenance' ? <><><div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="保養里程閾值 (km)" required={true}><RimoElement kind="el-input-number" modelValue={view.templateForm.thresholdMileageKm} onModelChange={value => {
+{view.templateForm.type === 'maintenance' ? <><><div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="保養里程閾值 (km)" required={true}><RimoElement kind="el-input-number" modelValue={view.templateForm.thresholdMileageKm} onModelChange={value => {
                     model.write(["templateForm", "thresholdMileageKm"], value);
                   }} min={1} step={100} style={rimoStyle("width: 100%")}></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="提前提醒公里數 (km)" required={true}><RimoElement kind="el-input-number" modelValue={view.templateForm.advanceMileageKm} onModelChange={value => {
@@ -1721,7 +1720,7 @@ export default function EnterpriseOfficialVehicleRemindersBlock() {
                   }} min={1} style={rimoStyle("width: 100%")}></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="提前提醒天數" required={true}><RimoElement kind="el-input-number" modelValue={view.templateForm.advanceDays} onModelChange={value => {
                     model.write(["templateForm", "advanceDays"], value);
-                  }} min={0} style={rimoStyle("width: 100%")}></RimoElement></RimoElement></div></></> : <><><div className="grid grid-cols-2 gap-4" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="清潔用車次數閾值" required={true}><RimoElement kind="el-input-number" modelValue={view.templateForm.thresholdUseCount} onModelChange={value => {
+                  }} min={0} style={rimoStyle("width: 100%")}></RimoElement></RimoElement></div></></> : <><><div className="grid grid-cols-2 gap-4" data-rimo-grid="2" data-rimo-layout="form-grid"><RimoElement kind="el-form-item" label="清潔用車次數閾值" required={true}><RimoElement kind="el-input-number" modelValue={view.templateForm.thresholdUseCount} onModelChange={value => {
                     model.write(["templateForm", "thresholdUseCount"], value);
                   }} min={1} style={rimoStyle("width: 100%")}></RimoElement></RimoElement>
 <RimoElement kind="el-form-item" label="提前提醒次數" required={true}><RimoElement kind="el-input-number" modelValue={view.templateForm.advanceUseCount} onModelChange={value => {

@@ -380,7 +380,7 @@ export default function CorporateDetailBlock() {
               }}>{text("暫停合作")}</RimoElement></> : <><RimoElement kind="el-button" type="success" icon={view.Unlock} onClick={event => {
                 view.handleUnfreeze?.(event);
               }}>{text("恢復合作")}</RimoElement></>}</div></div></div>
-<div className="grid grid-cols-4 gap-4 mb-6"><div className="metric-card"><div className="text-xs text-gray-400 mb-0.5">{text("企業員工數")}</div>
+<div className="grid grid-cols-4 gap-4 mb-6" data-rimo-grid="4"><div className="metric-card"><div className="text-xs text-gray-400 mb-0.5">{text("企業員工數")}</div>
 <div className="text-2xl font-bold text-gray-900">{rimoText(view.corporateStats.totalEmployees)}</div></div>
 <div className="metric-card"><div className="text-xs text-gray-400 mb-0.5">{text("激活合約配額")}</div>
 <div className="text-2xl font-bold text-gray-900">{rimoText(view.corporateStats.activeQuotas)}</div></div>
@@ -422,7 +422,7 @@ export default function CorporateDetailBlock() {
 <dd className="font-mono text-blue-600">{rimoText(view.corporate.account)}</dd></div></div></div></div></RimoElement>
 <RimoElement kind="el-tab-pane" name="quotas" lazy={true} slots={{
             "label": _slot => <><span>{text("合約配額")}</span></>
-          }}><div className="py-6" data-rimo-layout="list"><div className="text-sm text-gray-500 mb-4 flex items-center justify-between"><span>{text("目前激活的合約配額列表，主要用於公務用車與長租業務。")}</span>
+          }}><div className="py-6"><div className="text-sm text-gray-500 mb-4 flex items-center justify-between" data-rimo-layout="toolbar"><span>{text("目前激活的合約配額列表，主要用於公務用車與長租業務。")}</span>
 <RimoElement kind="el-button" type="primary" size="small" icon="Plus" plain={true}>{text("新增配額與綁定")}</RimoElement></div>
 <RimoElement kind="el-table" data={view.corporate.quotas} style={rimoStyle("width: 100%")} stripe={true} headerCellClassName="bg-gray-50 text-gray-700 font-bold" cellClassName="align-top"><RimoElement kind="el-table-column" label="合約編號與名稱" minWidth="200" slots={{
                   "default": ({
@@ -475,7 +475,7 @@ export default function CorporateDetailBlock() {
 <RimoElement kind="el-tab-pane" name="employees" lazy={true} slots={{
             "label": _slot => <><span>{text("員工列表 ")}
 <RimoElement kind="el-badge" value={view.corporate.employees.length} type="primary" className="ml-1"></RimoElement></span></>
-          }}><div className="py-4" data-rimo-layout="list"><div className="flex justify-end mb-4"><RimoElement kind="el-button" type="primary" size="small" icon="Plus">{text("新增員工")}</RimoElement></div>
+          }}><div className="py-4"><div className="flex justify-end mb-4"><RimoElement kind="el-button" type="primary" size="small" icon="Plus">{text("新增員工")}</RimoElement></div>
 <RimoElement kind="el-table" data={view.corporate.employees} stripe={true} style={rimoStyle("width: 100%")}><RimoElement kind="el-table-column" prop="id" label="員工ID" width="120"></RimoElement>
 <RimoElement kind="el-table-column" prop="name" label="姓名" minWidth="120"></RimoElement>
 <RimoElement kind="el-table-column" prop="phone" label="手機號" width="130"></RimoElement>
@@ -495,7 +495,7 @@ export default function CorporateDetailBlock() {
                 }}></RimoElement></RimoElement></div></RimoElement>
 <RimoElement kind="el-tab-pane" label="用車規則" name="rules" lazy={true}><div className="py-4 space-y-6"><div className="bg-blue-50 border border-blue-100 rounded-lg p-4"><h4 className="font-bold text-blue-800 mb-2">{text("當前用車政策")}</h4>
 <p className="text-sm text-blue-700">{text("以下規則適用於該企業所有員工，用於約束分時租賃和公務用車行爲。")}</p></div>
-<div className="grid grid-cols-2 gap-6 info-desc-list"><div className="bg-gray-50 rounded-lg p-5 border"><dt>{text("允許車型組")}</dt>
+<div className="grid grid-cols-2 gap-6 info-desc-list" data-rimo-grid="2"><div className="bg-gray-50 rounded-lg p-5 border"><dt>{text("允許車型組")}</dt>
 <dd className="mt-1">{text("經濟型轎車、商務MPV")}</dd></div>
 <div className="bg-gray-50 rounded-lg p-5 border"><dt>{text("單次租賃時長限制")}</dt>
 <dd className="mt-1">{text("最長 72 小時")}</dd></div>

@@ -759,7 +759,7 @@
         :where([data-rimo-page="member-review"], [data-rimo-overlay="member-review"]) .member-review-filter-toolbar > .el-button + .el-button {
             margin-left: 0 !important;
         }
-      @media (max-width: 1080px) {
+      @container (max-width: 1080px) {
         :where([data-rimo-page="member-review"], [data-rimo-overlay="member-review"]) .el-pagination .el-pagination__jump {
           display: none;
         }
