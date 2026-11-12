@@ -7,9 +7,19 @@ import { execFileSync, spawnSync } from 'node:child_process';
 import { DatabaseSync } from 'node:sqlite';
 import { createNativeServer } from '../../packages/platform-server/src/server.js';
 import { clientAddress } from '../../packages/platform-server/src/client-address.js';
+import { checkStructure } from '../../scripts/check-structure.mjs';
 
 const fixtures = [];
 const password = 'fixture-pilot-password';
+
+test('release worktrees allow Git metadata files while rejecting unrelated root files', async () => {
+  const item = await fixture();
+  await fs.writeFile(path.join(item.root, '.git'), 'gitdir: ../main/.git/worktrees/pilot\n');
+  expect(checkStructure(item.root).errors).toEqual([]);
+  await fs.writeFile(path.join(item.root, 'unapproved.txt'), 'fixture');
+  expect(checkStructure(item.root).errors).toHaveLength(1);
+  expect(checkStructure(item.root).errors[0]).toContain('unapproved.txt');
+});
 afterEach(async () => {
   for (const fixture of fixtures.splice(0)) {
     await fixture.runtime?.close();
