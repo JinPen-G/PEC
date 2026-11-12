@@ -18,11 +18,13 @@ const runtime = createNativeServer({
     : process.env.PREVIEW_STATIC_ROOT || path.join(root, 'output/web'),
   releaseRoot: args.includes('--releases') ? path.resolve(value('--releases')) : undefined,
   retainedReleaseRoot: process.env.PREVIEW_RELEASE_ROOT,
+  mediaRoot: process.env.PREVIEW_MEDIA_ROOT,
   releaseId: process.env.PREVIEW_RELEASE_ID,
   contentRoot: process.env.PREVIEW_CONTENT_ROOT || path.join(root, 'project-content'),
   pageSourceRoot: args.includes('--api-only') ? root : undefined,
   publicOrigin: origin,
   allowBootstrap: args.includes('--bootstrap'),
+  trustLoopbackProxy: process.env.PREVIEW_TRUST_LOOPBACK_PROXY === 'true',
 });
 runtime.server.listen(port, host, () => console.log(`Preview native platform: ${origin}`));
 runtime.server.on('error', (error) => {

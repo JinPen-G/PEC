@@ -17,10 +17,14 @@ import { usePlatformTheme } from '@/features/theme/platform-theme';
 import { useRest } from './rest-context';
 import { useRestText } from './rest-locale';
 import { formatRestTime } from './rest-session';
-import { REST_TRACK, REST_TRACK_ALBUM, REST_TRACK_ALBUM_URL, REST_TRACK_VERSION } from './rest-track';
+import {
+  REST_ARTWORK_FALLBACK as fallbackArtwork,
+  REST_TRACK,
+  REST_TRACK_ALBUM,
+  REST_TRACK_ALBUM_URL,
+  REST_TRACK_VERSION,
+} from './rest-track';
 import './rest-player.css';
-
-const fallbackArtwork = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400"><rect width="640" height="400" fill="#5b2831"/><circle cx="320" cy="200" r="140" fill="#201a1c"/><circle cx="320" cy="200" r="60" fill="#b98b80"/><circle cx="320" cy="200" r="8" fill="#201a1c"/></svg>')}`;
 
 export default function RestExperience() {
   const { snapshot, player, entry } = useRest();

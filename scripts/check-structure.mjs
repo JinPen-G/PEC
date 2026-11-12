@@ -27,6 +27,7 @@ const directories = new Set([
   'output',
 ]);
 const rootFiles = new Set([
+  '.git',
   'AGENTS.md',
   'CLAUDE.md',
   'README.md',

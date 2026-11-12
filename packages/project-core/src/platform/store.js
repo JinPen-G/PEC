@@ -331,7 +331,7 @@ export function createNativeStore({
         fail(400, '清空关联不能同时选择文档');
     return { clients, links };
   }
-  function createProject(user, input) {
+  function createProject(user, input, { ifMissing = false } = {}) {
     // Source registration is a developer concern, derived from the project code.
     // A new empty project requires no filesystem source and exposes no example page.
     const registration = moduleCatalog.find((entry) => (entry.projectId ?? entry.key) === input.id);
@@ -368,6 +368,8 @@ export function createNativeStore({
     if (sourceId === 'published' && !contentKey) fail(400, '请选择项目业务资料包');
     return transaction(() => {
       actor(user, true);
+      if (ifMissing && db.prepare('SELECT 1 FROM projects WHERE id=?').get(id))
+        return publicProject(projectAccess(user, id, false, true));
       db.prepare(
         'INSERT INTO projects(id,name,description,icon,position,module_key,source_id,configuration,content_key) VALUES(?,?,?,?,?,?,?,?,?)',
       ).run(
@@ -556,6 +558,15 @@ export function createNativeStore({
     return project;
   }
   return {
+    initializeRegisteredProjects(user) {
+      actor(user, true);
+      // Each project is atomic and a retry preserves existing configuration and grants.
+      return moduleCatalog
+        .filter((module) => module.projectId && module.initialClients)
+        .map((module) =>
+          createProject(user, { id: module.projectId, name: module.label }, { ifMissing: true }),
+        );
+    },
     synchronizeProjectSources() {
       // New source declarations may arrive after a project was created. Attach
       // only empty projects; never replace an existing project's registered code.
@@ -854,8 +865,7 @@ export function createNativeStore({
       const project = visibleProject(user, { row, memberRole: 'viewer' });
       if (project.clients.length) return project;
       const owned = publicProject(projectAccess(user, id));
-      if (owned.clients.some((client) => client.pages.length))
-        fail(403, '当前没有可协作的页面', 'FORBIDDEN');
+      if (owned.clients.some((client) => client.pages.length)) fail(403, '当前没有可协作的页面', 'FORBIDDEN');
       return owned;
     },
     listProjects(user) {

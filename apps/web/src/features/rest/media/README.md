@@ -1,5 +1,7 @@
 # Break music
 
+Server deployments may place the authorized recording at `/var/lib/preview/media/rest-track.mp3` and the artwork at `/var/lib/preview/media/rest-artwork.jpg`. The stable launcher passes this directory through `PREVIEW_MEDIA_ROOT`. The API resolves only these two files and injects their same-origin URLs into the two media meta tags in the application HTML. Deployment media takes precedence over build-local files and persists across code updates. Missing media uses the built-in artwork and local file selection. The formal CSP permits browser blob audio. Setup and private backup procedures are in the [deployment guide](../../../../../../docs/公共技术资料/部署运维/Preview-更新与缓存.md).
+
 The project owner supplied the 10:13 MP3 through the Rental OS PM conversation and authorized reuse in Preview. The local copy is `all-too-well.mp3`. Its SHA-256 is `2c06b9bd5f056434cd80ec76b995607923fcc9451c51b7997d95b07f732ccf5b`; the original download and Rental OS copy remain unchanged.
 
 `all-too-well-cover.jpg` is the same official Red (Taylor’s Version) cover selected in that conversation, reused unchanged from Rental OS. Its SHA-256 is `04bd68a3faa8bc2857df2912ad7a2a28f35b9ca18d26324a53adf5135c258c80`. Album attribution: [Apple Music](https://music.apple.com/cn/album/red-taylors-version-a-message-from-taylor/1590368448). No media is fetched or copied from the active Rental OS directory at runtime.

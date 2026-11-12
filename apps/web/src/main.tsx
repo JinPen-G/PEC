@@ -1,4 +1,5 @@
 import './i18n';
+import { installBrowserCompatibility } from './browser-compatibility';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -24,6 +25,7 @@ function redirectPathToHashRoute() {
   window.location.replace(`${basePath}index.html#/${route}${search}${hash}`);
 }
 
+installBrowserCompatibility();
 redirectPathToHashRoute();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

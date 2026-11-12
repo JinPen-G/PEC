@@ -23,9 +23,11 @@ const child = spawn(config.node, [path.join(directory, 'runtime/server.mjs')], {
   env: {
     ...process.env,
     PREVIEW_HOST: '127.0.0.1',
+    PREVIEW_TRUST_LOOPBACK_PROXY: 'true',
     PREVIEW_PORT: String(config.port),
     PREVIEW_PUBLIC_ORIGIN: config.publicOrigin,
     PREVIEW_DATA_ROOT: config.dataRoot,
+    PREVIEW_MEDIA_ROOT: config.mediaRoot,
     PREVIEW_STATIC_ROOT: path.join(directory, 'web'),
     PREVIEW_CONTENT_ROOT: path.join(directory, 'project-content'),
     PREVIEW_RELEASE_ROOT: config.releaseRoot,
