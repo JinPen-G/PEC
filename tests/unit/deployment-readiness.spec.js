@@ -161,6 +161,7 @@ test('installer accepts an independent HTTP pilot port and rejects API collision
     ['http://localhost:8088', '5192', true],
     ['https://preview.example.com', '5192', true],
     ['http://192.0.2.10:5190', '5190', false],
+    ['http://192.0.2.10:0', '5190', false],
     ['https://preview.example.com/path', '5190', false],
     ['http://192.0.2.10:8088', '0', false],
   ]) {

@@ -13,6 +13,7 @@ for command_name in systemctl nginx visudo tar install getent useradd; do comman
 "$node_path" --input-type=module - "$origin" "$api_port" <<'NODE'
 const origin = new URL(process.argv[2]);
 if (!['http:', 'https:'].includes(origin.protocol) || origin.origin !== process.argv[2] || !/^[a-z0-9.-]+$/.test(origin.hostname) || origin.username || origin.password) throw new Error('Use a DNS hostname or IPv4 HTTP/HTTPS origin without a path');
+if (origin.port === '0') throw new Error('Public port must be between 1 and 65535');
 if (origin.protocol === 'https:' && origin.port) throw new Error('The certificate helper supports HTTPS on port 443; HTTP pilot origins may use a custom port');
 const port = Number(process.argv[3]);
 if (!/^\d+$/.test(process.argv[3]) || !Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('API port must be an integer between 1024 and 65535');
