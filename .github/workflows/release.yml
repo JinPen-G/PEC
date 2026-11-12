@@ -28,6 +28,7 @@ jobs:
       - run: npm run docs:check && npm run architecture:check && npm run typecheck
       - run: npm run structure:check
       - run: npm run lint:deploy
+      - run: npm run test:deploy
       - run: npm run ui:source:check
       - run: npm run build:web
       - name: Report business graph maintenance gaps

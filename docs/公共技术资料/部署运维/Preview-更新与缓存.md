@@ -1,6 +1,6 @@
 # Preview 更新与缓存
 
-维护日期：2026-11-07。完整自动部署已在本地隔离环境验证；真实 Linux/systemd、nginx、TLS、SSH 与 GitHub Secrets 尚未接通。
+维护日期：2026-11-12。完整自动部署已在本地隔离环境验证；真实 Linux/systemd、nginx、TLS、SSH 与 GitHub Secrets 尚待现场验证。
 
 ## 日常更新
 
@@ -13,6 +13,22 @@ schemaVersion 3 的发行包只有 manifest.json、web、runtime 和 project-con
 普通完整更新也会短暂进入维护模式；不承诺零停机。后台每30秒检查版本，提示用户保存表单并手动刷新，不强制打断表单。全局散列资产保留供旧标签页加载，私有源码和资料仍由当前版本与实时授权决定。
 
 ## 首次服务器准备
+
+个人测试沿用独立的Preview服务与SQLite。首次可将入口设为`http://localhost:8088`，安装器会让Nginx仅监听服务器回环地址；通过SSH隧道访问，账号请求随SSH加密传输。应用也兼容普通HTTP下的UI随机标识和主动复制操作。公网及团队入口使用HTTPS。
+
+```bash
+sudo bash deploy/server/install.sh http://localhost:8088 /usr/bin/node 5190
+```
+
+第三个参数是独立API端口，默认5190，可按现场占用调整。HTTP入口支持独立端口，必须与API端口不同。HTTPS辅助流程使用标准443端口。域名、对外端口和浏览器地址须与publicOrigin一致，来源不匹配会拒绝登录和写操作。
+
+在自己的电脑保持SSH隧道连接，浏览器打开`http://localhost:8088`。
+
+```bash
+ssh -N -L 8088:127.0.0.1:8088 <ssh-user>@<server>
+```
+
+安装前核对现有服务、Node版本和所选端口。独立Nginx配置与服务只作用于Preview。当前选择systemd运行方式，容器化属于后续明确选用时的部署适配。
 
 当前支持Ubuntu/Debian类Linux，Node.js 24.13.0或更新24.x、systemd、nginx、tar、sudo与visudo。HTTPS辅助脚本使用certbot、python3-certbot-nginx及certbot.timer。发行暂不自动升级系统Node、系统软件或部署启动器。
 
@@ -34,7 +50,7 @@ sudo bash deploy/server/configure-tls.sh certificate-contact@example.com
 
 域名A记录须指向服务器，80/443可达。TLS脚本申请证书、保留nginx的维护判断、启用自动续期并运行renew --dry-run；它只有在真实环境执行成功后才代表证书可用。安装器不下载安装Node或更改其他业务服务，遇到现有Preview配置时拒绝覆盖。已有Preview服务或数据需先停机、备份并核对目录，再迁入独立数据目录；不要用新安装覆盖旧现场。
 
-生成的服务账号为preview；/opt/preview/scripts由root维护，/opt/preview/releases与state由preview维护。配置在/etc/preview/deploy.json，含独立安装根、存储根、固定publicOrigin、端口及Node可执行路径。API仅监听127.0.0.1:5190，公网入口统一经nginx。保护以下目录，不能通过nginx alias/root公开：
+生成的服务账号为preview；/opt/preview/scripts由root维护，/opt/preview/releases与state由preview维护。配置在/etc/preview/deploy.json，含独立安装根、存储根、固定publicOrigin、API端口及Node可执行路径。API仅监听127.0.0.1，入口统一经nginx。Nginx覆盖客户端提交的X-Forwarded-For，稳定启动器仅信任回环代理提供的单一客户端IP。保护以下目录，不能通过nginx alias/root公开：
 
 | 目录                      | 用途                                    |
 | ------------------------- | --------------------------------------- |
@@ -42,6 +58,7 @@ sudo bash deploy/server/configure-tls.sh certificate-contact@example.com
 | /opt/preview/state        | 部署锁、事务日志和维护标记              |
 | /var/lib/preview/data     | 私有platform.sqlite、WAL与会话/授权数据 |
 | /var/lib/preview/backups  | 迁移前备份及失败数据库副本              |
+| /var/lib/preview/media    | 独立保存的休息音频及封面                |
 | /var/lib/preview/incoming | CI上传压缩包                            |
 
 为preview账号安装专用SSH公钥到/var/lib/preview/.ssh/authorized_keys，.ssh权限700、authorized_keys权限600、所有者preview。建议为公钥添加restrict选项，禁用端口转发和PTY。私钥只保存在GitHub Secrets；不要上传仓库。安装器仅授予preview免密start/stop preview.service，不授予通用root命令。
@@ -64,12 +81,25 @@ sudo -u preview bash
 read -rsp '管理员密码（至少8字符）: ' PREVIEW_ADMIN_PASSWORD
 export PREVIEW_ADMIN_PASSWORD
 release_id=$(node -p "JSON.parse(require('fs').readFileSync('/opt/preview/releases/current.json','utf8')).releaseId")
-node "/opt/preview/releases/$release_id/runtime/admin.mjs" --data /var/lib/preview/data --username owner --name 管理员
+node "/opt/preview/releases/$release_id/runtime/admin.mjs" --data /var/lib/preview/data --username owner --name 管理员 --with-projects
 unset PREVIEW_ADMIN_PASSWORD
 exit
 ```
 
-密码不进入命令参数、日志或Git；已有管理员时初始化拒绝。正式浏览器bootstrap关闭。
+密码不进入命令参数、日志或Git；普通首次初始化命令在已有管理员时拒绝。正式浏览器bootstrap关闭。
+
+`--with-projects`同时建立工程已登记的项目，使用清单中的初始菜单与访问范围。带该选项重复执行时验证已有管理员密码，只补缺少的项目，现有名称、菜单、归档状态和授权继续由数据库管理。
+
+如果沿用本机配置，先通过`backup.mjs backup`取得一致SQLite备份，单独传入服务器的私有目录。首次发行前使用`backup.mjs restore --backup <snapshot.sqlite> --data /var/lib/preview/data --service-stopped`恢复到空目录；有数据库的目标会拒绝覆盖。该路径保留原账号、项目、菜单与授权，管理员使用原账号登录。数据库、音乐与公开发行包分开传输。
+
+休息媒体仅接受`media/rest-track.mp3`与`media/rest-artwork.jpg`两个固定文件。通过preview账号写入私有media目录后，完整服务在首页注入固定的同源媒体地址，并提供音频Range请求；发行更新和代码回退沿用该目录。文件缺失时使用本地音频选择和内置封面，CSP允许本地blob音频。原录音及封面继续按已确认的分发范围使用。
+
+```bash
+sudo install -o preview -g preview -m 600 <audio.mp3> /var/lib/preview/media/rest-track.mp3
+sudo install -o preview -g preview -m 600 <artwork.jpg> /var/lib/preview/media/rest-artwork.jpg
+```
+
+已有安装需同步升级root维护的supervisor工具，才能把媒体目录与可信代理配置传入API；日常应用发行继续由原部署事务执行。媒体与SQLite均纳入私有备份安排，恢复时分别校验文件。
 
 ## 回退、恢复与诊断
 

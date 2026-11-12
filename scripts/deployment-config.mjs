@@ -47,6 +47,7 @@ export async function readDeploymentConfig(filename) {
     stateRoot: path.join(config.installRoot, 'state'),
     dataRoot: path.join(config.storageRoot, 'data'),
     backupRoot: path.join(config.storageRoot, 'backups'),
+    mediaRoot: path.join(config.storageRoot, 'media'),
     healthUrl: `http://127.0.0.1:${config.port}/api/native/health`,
   };
 }

@@ -23,6 +23,8 @@ import {
 import { createProjectContextHandler } from './project-context.js';
 import { createShowcaseHandler } from './showcase-server.js';
 import { sendAudioAsset } from './audio-response.js';
+import { clientAddress } from './client-address.js';
+import { createRestMedia } from './rest-media.js';
 import { COMPONENT_REGISTRY } from '../../platform-contracts/src/component-registry.js';
 import { createAgentContext } from '../../project-core/src/platform/agent-context.js';
 import { requirementGraphView } from '../../project-core/src/platform/requirement-graph.js';
@@ -80,6 +82,7 @@ export function createNativeServer({
   dataDirectory,
   sources = {},
   staticRoot,
+  mediaRoot,
   releaseRoot,
   retainedReleaseRoot = releaseRoot,
   releaseId = 'development',
@@ -87,6 +90,7 @@ export function createNativeServer({
   pageSourceRoot,
   publicOrigin = 'http://127.0.0.1:5190',
   allowBootstrap = false,
+  trustLoopbackProxy = false,
   storeOptions = {},
   moduleCatalog = NATIVE_MODULES,
   componentRegistry = COMPONENT_REGISTRY,
@@ -123,6 +127,7 @@ export function createNativeServer({
     },
   };
   const collaboration = createCollaborationHub(store);
+  const restMedia = createRestMedia(mediaRoot);
   const attempts = new Map();
   const setCookie = (response, token, clear = false) =>
     response.setHeader(
@@ -167,7 +172,7 @@ export function createNativeServer({
       fail(403, '请求来源不允许', 'CSRF_REJECTED');
   }
   function rateLimit(request, username) {
-    const key = request.socket.remoteAddress ?? 'unknown',
+    const key = clientAddress(request, trustLoopbackProxy),
       at = Date.now();
     for (const [name, value] of attempts) if (at - value.at > 60_000) attempts.delete(name);
     const entry = attempts.get(key) ?? { at, count: 0 };
@@ -183,7 +188,7 @@ export function createNativeServer({
     response.setHeader('X-Frame-Options', 'DENY');
     response.setHeader(
       'Content-Security-Policy',
-      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; font-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
     );
     try {
       const url = new URL(request.url, publicOrigin);
@@ -548,9 +553,11 @@ export function createNativeServer({
         if (/^[a-f\d]{12}-[a-f\d]{12}$/.test(pointer.previous ?? ''))
           previousRoot = path.join(releaseRoot, pointer.previous, 'web');
       }
-      let file = await resolveExistingPathInsideRoot(activeRoot, relative, {
-        allowedExtensions: Object.keys(mime),
-      });
+      let file =
+        (await restMedia.file(relative)) ??
+        (await resolveExistingPathInsideRoot(activeRoot, relative, {
+          allowedExtensions: Object.keys(mime),
+        }));
       if (!file && previousRoot && relative.startsWith('assets/'))
         file = await resolveExistingPathInsideRoot(previousRoot, relative, {
           allowedExtensions: Object.keys(mime),
@@ -572,8 +579,10 @@ export function createNativeServer({
       }
       if (!file) fail(404, '静态资源不存在', 'NOT_FOUND');
       if (path.extname(file) === '.mp3') return await sendAudioAsset(request, response, file);
+      const bytes = request.method === 'HEAD' ? undefined : await fs.readFile(file);
+      const payload = relative === 'index.html' && bytes ? await restMedia.index(bytes) : bytes;
       response.writeHead(200, { 'Content-Type': mime[path.extname(file)] });
-      response.end(request.method === 'HEAD' ? undefined : await fs.readFile(file));
+      response.end(payload);
     } catch (error) {
       if (response.headersSent) {
         response.end();
