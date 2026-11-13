@@ -1,28 +1,9 @@
 .requirement-graph-page {
   width: 100%;
   min-width: 0;
-  padding: 40px 48px 52px;
   color: var(--foreground);
 }
-.requirement-graph-heading {
-  margin-top: 18px;
-  margin-bottom: 32px;
-}
-.requirement-graph-heading h1 {
-  margin: 0 0 14px;
-  font-size: 36px;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-}
-.requirement-graph-heading p {
-  max-width: 52ch;
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 15px;
-  line-height: 1.55;
-}
-.requirement-graph-page button {
+.requirement-graph-workspace button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -41,41 +22,39 @@
   position: relative;
   container: requirement-graph / inline-size;
 }
-.requirement-graph-viewbar {
-  display: flex;
-  flex: none;
+.requirement-graph-preview-label {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-  padding: 0 0 16px;
-  font-size: 12px;
-  color: var(--text-secondary);
-}
-.requirement-graph-viewbar > small {
-  margin-left: auto;
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-}
-.requirement-graph-view-switch {
-  display: flex;
-  padding: 3px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  background: var(--surface-muted);
-}
-.requirement-graph-view-switch button {
-  min-width: 48px;
-  height: 30px;
-  border-radius: 6px;
-  color: var(--text-secondary);
+  gap: 7px;
+  min-height: 34px;
   font-size: 13px;
+  font-weight: 500;
 }
-.requirement-graph-view-switch button[aria-selected='true'] {
-  background: var(--surface);
+.requirement-graph-preview-label::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  content: '';
+}
+.uiarc-showcase .requirement-graph-view-switch .preview-shell_option__gxVA2 {
+  width: 34px;
+  font-size: 12px;
+}
+.uiarc-showcase .requirement-graph-view-switch button[aria-selected='true'] {
   color: var(--foreground);
+}
+.requirement-graph-view-label {
+  position: relative;
+  z-index: 1;
 }
 .requirement-graph-legend {
   flex: none;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   font-size: 12px;
 }
 .requirement-graph-legend summary {
@@ -91,8 +70,12 @@
   margin-left: 8px;
   color: var(--text-secondary);
 }
-.requirement-graph-legend summary::-webkit-details-marker { display: none; }
-.requirement-graph-legend:not([open]) summary > svg { transform: rotate(-90deg); }
+.requirement-graph-legend summary::-webkit-details-marker {
+  display: none;
+}
+.requirement-graph-legend:not([open]) summary > svg {
+  transform: rotate(-90deg);
+}
 .requirement-graph-legend > div {
   display: flex;
   align-items: center;
@@ -118,8 +101,12 @@
   color: var(--text-secondary);
   text-decoration: line-through;
 }
-.requirement-graph-legend button[aria-pressed='false'] > i { opacity: 0.3; }
-.requirement-graph-legend button:hover { background: var(--surface-muted); }
+.requirement-graph-legend button[aria-pressed='false'] > i {
+  opacity: 0.3;
+}
+.requirement-graph-legend button:hover {
+  background: var(--surface-muted);
+}
 .requirement-graph-legend button > i,
 .requirement-graph-result-list button > i {
   flex: none;
@@ -133,10 +120,22 @@
   border-top: 2px solid currentColor;
   border-radius: 0;
 }
-.requirement-graph-legend-line.dashed { border-top-style: dashed !important; }
-.requirement-graph-legend .requirement-graph-legend-reset { border-color: transparent; text-decoration: underline; }
-.requirement-graph-result-count { margin: 8px 10px; color: var(--text-secondary); font-size: 12px; }
-.requirement-graph-result-list { display: grid; gap: 2px; }
+.requirement-graph-legend-line.dashed {
+  border-top-style: dashed !important;
+}
+.requirement-graph-legend .requirement-graph-legend-reset {
+  border-color: transparent;
+  text-decoration: underline;
+}
+.requirement-graph-result-count {
+  margin: 8px 10px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.requirement-graph-result-list {
+  display: grid;
+  gap: 2px;
+}
 .requirement-graph-result-list button {
   justify-content: flex-start;
   gap: 10px;
@@ -147,28 +146,83 @@
   font-size: 13px;
 }
 .requirement-graph-result-list button:hover,
-.requirement-graph-result-list button[aria-pressed='true'] { background: var(--surface-muted); }
-.requirement-graph-result-list button[aria-pressed='true'] { font-weight: 500; }
-.requirement-graph-result-list button > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.requirement-graph-result-list button small { display: block; margin-top: 3px; font-size: 11px; font-weight: 400; color: var(--text-secondary); }
-.requirement-graph-page .requirement-graph-more { width: 100%; margin-top: 10px; padding: 8px; font-size: 12px; color: var(--text-secondary); }
-.requirement-graph-sphere-labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.requirement-graph-sphere-label { position: absolute; top: 0; left: 0; max-width: 156px; padding: 3px 5px; border-radius: 4px; color: var(--foreground); background: var(--surface); font-size: 12px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.requirement-graph-sphere-label[data-selected='true'] { font-weight: 600; }
-.requirement-graph-canvas[data-view='3d'] { touch-action: none; }
-.requirement-graph-canvas[data-view='3d'] .graph-tooltip { max-width: 280px; padding: 10px 12px; white-space: normal; overflow-wrap: anywhere; color: var(--foreground); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font: inherit; font-size: 12px; }
+.requirement-graph-result-list button[aria-pressed='true'] {
+  background: var(--surface-muted);
+}
+.requirement-graph-result-list button[aria-pressed='true'] {
+  font-weight: 500;
+}
+.requirement-graph-result-list button > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.requirement-graph-result-list button small {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+.requirement-graph-page .requirement-graph-more {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.requirement-graph-sphere-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.requirement-graph-sphere-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 156px;
+  padding: 3px 5px;
+  border-radius: 4px;
+  color: var(--foreground);
+  background: var(--surface);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.requirement-graph-sphere-label[data-selected='true'] {
+  font-weight: 600;
+}
+.requirement-graph-canvas[data-view='3d'] {
+  touch-action: none;
+}
+.requirement-graph-canvas[data-view='3d'] .graph-tooltip {
+  max-width: 280px;
+  padding: 10px 12px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: var(--foreground);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+}
 /* Find | graph | detail. The detail column only exists while a node is selected. */
 .requirement-graph-frame {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-columns: 184px minmax(0, 1fr);
   height: 600px;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: 12px;
   background: var(--surface-muted);
 }
 .requirement-graph-frame[data-detail] {
-  grid-template-columns: 220px minmax(0, 1fr) 320px;
+  grid-template-columns: 176px minmax(240px, 1fr) 260px;
 }
 .requirement-graph-finder {
   display: flex;
@@ -570,6 +624,7 @@
   white-space: pre-line;
 }
 .requirement-graph-detail {
+  min-width: 0;
   min-height: 0;
   overflow: auto;
   padding: 20px 22px 24px;
@@ -803,7 +858,7 @@
   font-size: 11px;
 }
 .requirement-graph-maintenance {
-  margin-top: 18px;
+  margin: 0;
   color: var(--text-muted);
   font-size: 11px;
   line-height: 1.7;
@@ -844,28 +899,54 @@
   font-size: 12px;
 }
 .requirement-graph-workspace.expanded {
-  position: fixed;
-  z-index: 100;
-  inset: 16px;
   display: flex;
   flex-direction: column;
-  padding: 18px;
-  border-radius: 20px;
-  background: var(--surface);
-  box-shadow: 0 0 0 24px var(--surface);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 16px;
 }
 .requirement-graph-workspace.expanded .requirement-graph-frame {
   flex: 1;
   height: auto;
   min-height: 0;
 }
-.requirement-graph-page .requirement-graph-exit {
-  align-self: flex-end;
-  margin: 0 0 12px;
-  font-size: 12px;
-}
-.requirement-graph-workspace.expanded .requirement-graph-frame[data-detail] {
+.requirement-graph-workspace.expanded .requirement-graph-frame {
   grid-template-columns: 240px minmax(0, 1fr) 360px;
+}
+.uiarc-showcase .showcase-fullscreen-native:has(> .requirement-graph-workspace) {
+  padding: 0;
+  overflow: hidden;
+}
+.requirement-graph-status {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-top: 12px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.requirement-graph-status > details[open] {
+  flex-basis: 100%;
+}
+.requirement-graph-guide {
+  margin-top: 48px;
+  padding-bottom: 48px;
+}
+.requirement-graph-detail-empty {
+  color: var(--text-secondary);
+}
+.requirement-graph-detail-empty h2 {
+  font-size: 15px;
+  color: var(--foreground);
+}
+.requirement-graph-detail-empty p {
+  margin: 12px 0;
 }
 .requirement-graph-document {
   max-height: 600px;
@@ -894,7 +975,7 @@
 }
 .requirement-graph-workspace.expanded .requirement-graph-document {
   position: absolute;
-  inset: 68px 24px 24px;
+  inset: 16px;
   z-index: 5;
   max-height: none;
   padding: 28px;
@@ -903,25 +984,18 @@
   background: var(--surface);
 }
 @container requirement-graph (max-width: 1180px) {
-  .requirement-graph-frame[data-detail],
-  .requirement-graph-workspace.expanded .requirement-graph-frame[data-detail] {
-    grid-template-columns: 200px minmax(0, 1fr) 290px;
+  .requirement-graph-workspace.expanded .requirement-graph-frame {
+    grid-template-columns: 200px minmax(0, 1fr) 280px;
   }
 }
-@media (max-width: 1000px) {
-  .requirement-graph-page {
-    padding: 32px 30px;
-  }
-}
-@container requirement-graph (max-width: 1000px) {
-  .requirement-graph-frame,
+@container requirement-graph (max-width: 740px) {
   .requirement-graph-frame[data-detail],
-  .requirement-graph-workspace.expanded .requirement-graph-frame[data-detail] {
-    grid-template-columns: 200px minmax(0, 1fr);
-    grid-template-rows: 520px auto;
+  .requirement-graph-workspace.expanded .requirement-graph-frame {
+    grid-template-columns: 176px minmax(0, 1fr);
+    grid-template-rows: minmax(420px, 1fr) auto;
     height: auto;
   }
-  .requirement-graph-frame[data-detail] .requirement-graph-detail {
+  .requirement-graph-detail {
     grid-column: 1 / -1;
     max-height: 460px;
     border-top: 1px solid var(--border);
@@ -932,36 +1006,27 @@
   }
 }
 @media (max-width: 720px) {
-  .requirement-graph-viewbar { gap: 10px; flex-wrap: wrap; }
-  .requirement-graph-viewbar > small { margin-left: 0; }
-  .requirement-graph-legend > div { gap: 4px; }
-  .requirement-graph-legend summary > span { margin-left: 0; font-size: 11px; }
-  .requirement-graph-page {
-    padding: 28px 16px;
+  .requirement-graph-legend > div {
+    gap: 4px;
   }
-  .requirement-graph-heading {
-    margin-bottom: 24px;
-  }
-  .requirement-graph-heading h1 {
-    font-size: 30px;
-  }
-  .requirement-graph-heading p {
-    font-size: 13px;
+  .requirement-graph-legend summary > span {
+    margin-left: 0;
+    font-size: 11px;
   }
   .requirement-graph-workspace.expanded {
-    inset: 8px;
     padding: 12px;
   }
 }
-@container requirement-graph (max-width: 720px) {
+@container requirement-graph (max-width: 520px) {
   .requirement-graph-frame,
   .requirement-graph-frame[data-detail],
-  .requirement-graph-workspace.expanded .requirement-graph-frame[data-detail] {
+  .requirement-graph-workspace.expanded .requirement-graph-frame {
     display: flex;
     flex-direction: column;
-    border-radius: 18px;
+    height: auto;
   }
   .requirement-graph-finder {
+    flex: none;
     border-right: 0;
     border-bottom: 1px solid var(--border);
   }
@@ -982,6 +1047,9 @@
   }
   .requirement-graph-frame[data-detail] .requirement-graph-detail {
     max-height: none;
+  }
+  .requirement-graph-detail {
+    flex: none;
   }
   .requirement-graph-workspace.expanded .requirement-graph-frame {
     overflow: auto;

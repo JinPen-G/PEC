@@ -169,42 +169,42 @@
           "pageKey": "permissions-grouped",
           "anchor": "",
           "target": "權限管理（分組版）",
-          "revision": "2ce18d3b81b08549f701290028e4ba61becfbd04b85a3641d01b5d42ad8d732c"
+          "revision": "75ba9e9ebc1a117e30be702684095a46b1fc896025f641358d37f41c4fd8b25a"
         },
         {
           "clientId": "operation",
           "pageKey": "permissions",
           "anchor": "",
           "target": "權限管理",
-          "revision": "33fe37bcbebae3025a8ffd403eaef1359a3267af6d26939f58563b60dc2f13d1"
+          "revision": "20f28e7cc4789b45b42453823ab575e8d59035e16895924cdaa4cffb9e99f9e9"
         },
         {
           "clientId": "operation",
           "pageKey": "employees",
           "anchor": "",
           "target": "平臺賬戶管理",
-          "revision": "8d3c07a09a5fdf59cdb5bbc7620b9f31020870529ce3d490cb4146f13746e56a"
+          "revision": "48e23cc321f1c2868307a0e5b5a08027f8540ab9027fcbd028bd7d9a71afe9f9"
         },
         {
           "clientId": "operation",
           "pageKey": "login",
           "anchor": "",
           "target": "後臺登錄",
-          "revision": "04734c4da08122cd390f4ae259dba35e8adb6389d7a3aa9d37453df676cc44cc"
+          "revision": "6a2bab0432b7fd7ed6fed9bd912a2513a190c8dca139694edd46171e9900cf46"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-corporate-login",
           "anchor": "",
           "target": "企業端登錄",
-          "revision": "8979525019db2ec277a5c457905b0f9aa39e9d04065f85c0aaa83b59447f2c8e"
+          "revision": "65a35a4bcab882773eee2afb10f8a22ee051810142098d18f2b9bd8c9c5ead4e"
         },
         {
           "clientId": "operation",
           "pageKey": "corporate-login",
           "anchor": "",
           "target": "企業端登錄",
-          "revision": "f9cfa5074fc7200640386f8c84c9b7dc1af4abfe55362422f3a4ccfefa903916"
+          "revision": "17cb499bc459db2cfb93727a53c520fa56ea5d7cab7063b38884a2f1496fdb92"
         }
       ]
     },
@@ -280,42 +280,42 @@
           "pageKey": "email-notification-messages",
           "anchor": "",
           "target": "通知訊息",
-          "revision": "c40c634117882bdab50f86620fd23b2d8d33afba13b0ce0eafff6e5732e8d8c3"
+          "revision": "49d43752e318c6edbf0fd9141684f71ba8a911d00d377956524f8720c3c9e614"
         },
         {
           "clientId": "email",
           "pageKey": "email-boocar-account-notice-email",
           "anchor": "",
           "target": "boocar 公務車帳號通知信",
-          "revision": "6319804c4997046d7a0058ee2225168f6ef6d501e08295812b4e8a81c74f088f"
+          "revision": "1a0ec70eaf2d1f34e3eb635c70852fa6d691a6bf54c1a8b130e83198d4c8978f"
         },
         {
           "clientId": "email",
           "pageKey": "email-boocar-branch-admin-notice-email",
           "anchor": "",
           "target": "boocar 分公司帳號通知信",
-          "revision": "ac36726e9982f10118139c28709f98342507691c3a3d02cca90de8222d1853af"
+          "revision": "4ae71f565917798ad72cbddc9ed6cc69d6af7cad3f75dc7b7e8e477f7533b2d6"
         },
         {
           "clientId": "email",
           "pageKey": "email-enterprise-branch-admin-notice-email",
           "anchor": "",
           "target": "企業分公司管理員帳號通知信",
-          "revision": "089973058dd6e43b79f8234dfe7cd5f3ab8f1760627a1aa7b9a06970d5983b38"
+          "revision": "89e023628c8b8735689d5f828151759fdf9f056dc7e48333a865a11251727304"
         },
         {
           "clientId": "email",
           "pageKey": "email-enterprise-contract-notice-email",
           "anchor": "",
           "target": "企業簽約帳號通知信",
-          "revision": "520fc9c8acc1d59eaba9a3ffdd1857094db28012edce7c4607afaca7919aa170"
+          "revision": "06d33e2dfea1a2eae0cf068fdef65c048c86d871db7a33ea271999fe17d62e72"
         },
         {
           "clientId": "email",
           "pageKey": "verification-email",
           "anchor": "",
           "target": "{{tenant_group}} 驗證碼",
-          "revision": "4ef1f2c0af1c2ce40c354898d89c74dd5ce695cac0ff04021a7cf7e524f90efa"
+          "revision": "085cdf3bcf165e8b25ecb62fee962f022323d5b34ba77473a3e847b46b550639"
         }
       ]
     },
@@ -376,28 +376,28 @@
           "pageKey": "tutorial-index",
           "anchor": "",
           "target": "RIMO 公務車線上操作教學｜Ant Design v6 版",
-          "revision": "86bc52a26be873dc0b27f092ffe715cf91d4961e59e5fb1cf1988b7aad3614c3"
+          "revision": "8d0c325c9aead586139da691e9cf7f7c756b9adbbe789b2c8f1032fa0b62f736"
         },
         {
           "clientId": "public",
           "pageKey": "tutorial-documentation",
           "anchor": "",
           "target": "RIMO 公務車線上操作教學｜Ant Design v6 版",
-          "revision": "bae938cce0061a57b772439156d6823af22ef4196f822833052ec931f6040457"
+          "revision": "7f77a1b2ad99db3510a140d8facbfc584e97251d983ed5c5ac4129d981c0f708"
         },
         {
           "clientId": "public",
           "pageKey": "tutorial-editor",
           "anchor": "",
           "target": "RIMO 公務車操作教學維護",
-          "revision": "39dd2745ab817f668da3b80fc7fdd1a3769c26464f35579685a36e7b77692fa1"
+          "revision": "6324d7e673b6781fbec4e58fab0c19b01f0d4aa894cf8764b49c43e99b3300eb"
         },
         {
           "clientId": "public",
           "pageKey": "tutorial",
           "anchor": "",
           "target": "RIMO 公務車線上操作教學",
-          "revision": "d3de225f06eda31221c5090b7a74c6757f2a8250a117c3d109bf78b331ac4395"
+          "revision": "35ce76481c56b796e47bfad2cb30220c0618e7aed524554bb5d5a48b303628c8"
         }
       ]
     },
@@ -494,14 +494,14 @@
           "pageKey": "corporates",
           "anchor": "",
           "target": "企業客戶管理",
-          "revision": "7c44a08a50859b08ed6d447f6dffc511c0811becad53007a52634eaaa5d03450"
+          "revision": "28ca3703cac99d41dce141ad367720faa388ac6cb94dc058ecb781ca65bdc35a"
         },
         {
           "clientId": "operation",
           "pageKey": "corporate-detail",
           "anchor": "",
           "target": "企業詳情",
-          "revision": "68e3860876eed5dac43fbee482e609605ac3c6fecbdf1df89f4dda5c4b620c22"
+          "revision": "ef8d9a6a52798cf2c11a2904a28c7eb532052af53e37e4bc0c29c37896cee809"
         }
       ]
     },
@@ -637,21 +637,21 @@
           "pageKey": "member-review",
           "anchor": "",
           "target": "資質認證審覈",
-          "revision": "2f9e2cef14986c81e060fb8efe62fc49048137ead0d72b838b7cb4aa9afc8b8a"
+          "revision": "b4f771de1578322db1a14d091098191a5f0d2b7f75e16a6be0dc12d5251ea7c6"
         },
         {
           "clientId": "operation",
           "pageKey": "members",
           "anchor": "",
           "target": "個人會員管理",
-          "revision": "a7fce2ec723b13f4f5c86c16a2dd123de849db402190dbfadf6dc11760cd625b"
+          "revision": "12c6724233e03c75f5adfacfbcf720ca6580055ee0cf3ea938bf584912d8f6c6"
         },
         {
           "clientId": "operation",
           "pageKey": "member-detail",
           "anchor": "",
           "target": "會員詳情",
-          "revision": "3a9334b22a17e636a4cb562841771d6e11ed14e58805d6810e14af62ea984813"
+          "revision": "a8e57410ed3f887245e9a44ad7621611a2e6e1fddb4c7c7e8bbcb075b9ac1484"
         }
       ]
     },
@@ -687,7 +687,7 @@
           "pageKey": "membership-plans",
           "anchor": "",
           "target": "客戶等級方案",
-          "revision": "6317c40b009d635518e8ab5ff99808003c7e5714100a02705f366e25865cfe5b"
+          "revision": "7450a5dfe10034c2b28836d63d7d68f5386c9ae6f23f06a8ffac6b228ae99920"
         }
       ]
     },
@@ -803,14 +803,14 @@
           "pageKey": "rental-companies",
           "anchor": "",
           "target": "車行管理",
-          "revision": "a60e4b00b05ba60e7d429d4edfbec1d4327fe8b838a1c5019fff92820888608e"
+          "revision": "323f9fd95e259dd19c98eadff1546a653a21bfb34bfb39bbd5003805f15890ec"
         },
         {
           "clientId": "operation",
           "pageKey": "stores",
           "anchor": "",
           "target": "門市管理",
-          "revision": "f945a92c65fb3bcb123730aa29104a4aecea0479ad2c368efc52d351f80f4c5a"
+          "revision": "45e8e52dc87925ecdf0e7192a01c039ca86840130b50af336004b2bc77ba8c04"
         }
       ]
     },
@@ -895,21 +895,21 @@
           "pageKey": "rental-companies",
           "anchor": "",
           "target": "車行管理",
-          "revision": "a60e4b00b05ba60e7d429d4edfbec1d4327fe8b838a1c5019fff92820888608e"
+          "revision": "323f9fd95e259dd19c98eadff1546a653a21bfb34bfb39bbd5003805f15890ec"
         },
         {
           "clientId": "operation",
           "pageKey": "stores",
           "anchor": "",
           "target": "門市管理",
-          "revision": "f945a92c65fb3bcb123730aa29104a4aecea0479ad2c368efc52d351f80f4c5a"
+          "revision": "45e8e52dc87925ecdf0e7192a01c039ca86840130b50af336004b2bc77ba8c04"
         },
         {
           "clientId": "operation",
           "pageKey": "stations",
           "anchor": "",
           "target": "據點管理",
-          "revision": "598003ec3455be5903b08beb9e3532bfd5dc8a121cadc896d19e2d6bf6d402e6"
+          "revision": "d9dbc606958ab185f78e983285a62f1780a73e4282fe104340d4a31e13a89539"
         }
       ]
     },
@@ -1029,7 +1029,7 @@
           "pageKey": "stations",
           "anchor": "",
           "target": "據點管理",
-          "revision": "598003ec3455be5903b08beb9e3532bfd5dc8a121cadc896d19e2d6bf6d402e6"
+          "revision": "d9dbc606958ab185f78e983285a62f1780a73e4282fe104340d4a31e13a89539"
         }
       ]
     },
@@ -1112,14 +1112,14 @@
           "pageKey": "vehicles",
           "anchor": "",
           "target": "車輛檔案庫",
-          "revision": "a835605e310d70b42a3a4da907ba1578e9085b898cac209a5fb0253fa8d3ff7a"
+          "revision": "51ee3f25adeebaa5b11cbb5ddd689fcf6af652c737fc73fab287aaca365ff34c"
         },
         {
           "clientId": "operation",
           "pageKey": "vehicle-groups",
           "anchor": "",
           "target": "車型組管理",
-          "revision": "fbdfa4a1df74164b9685e3f579b17c140302e1db6a8b7bbd5617de8ca694628a"
+          "revision": "7691f5d006f041ab9a8097c97de1e189de9241ce2606bdccb1b3862fc5dc00f9"
         }
       ]
     },
@@ -1235,7 +1235,7 @@
           "pageKey": "vehicle-transfer",
           "anchor": "",
           "target": "車輛調撥管理",
-          "revision": "34c58449331d71a753a91988561ffe764e334e3c4df88a4e0fd93cfdc24fbe3d"
+          "revision": "194e46518d3093122ba2eabcaf7b19aecbbbc24471a61c2b6e4f62981a832652"
         }
       ]
     },
@@ -1339,7 +1339,7 @@
           "pageKey": "tbox-management",
           "anchor": "",
           "target": "車機設定中心",
-          "revision": "8767926043e4c8bf1cd56f3c7eb122272c03ad270a881d1cf453086fa0924d44"
+          "revision": "50bef09eac22e95d1dc0db0699eb98f9b3511f2778ba5e0edb25e87fa8ba6600"
         }
       ]
     },
@@ -1485,21 +1485,21 @@
           "pageKey": "vehicle-console",
           "anchor": "",
           "target": "車輛控制台",
-          "revision": "c9cd48e3d6d1f1d6e0d2d7e504095dc4aef3463e18f77414e1feec7dce9f1477"
+          "revision": "4ebde0d2b1ba46980dbbeb66229850094a654a72111ab54542d3673df4784a34"
         },
         {
           "clientId": "operation",
           "pageKey": "vehicle-status-list",
           "anchor": "",
           "target": "車輛速查表",
-          "revision": "6df42e43c87bcd7a7e6fcebfef28ca2eaf9811befa03a457af575a446f2f3f08"
+          "revision": "2e763ebc7846aefbe03baffbb783ab3a32296cb12364d94ebc7301aff7223da9"
         },
         {
           "clientId": "operation",
           "pageKey": "tbox-management",
           "anchor": "",
           "target": "車機設定中心",
-          "revision": "8767926043e4c8bf1cd56f3c7eb122272c03ad270a881d1cf453086fa0924d44"
+          "revision": "50bef09eac22e95d1dc0db0699eb98f9b3511f2778ba5e0edb25e87fa8ba6600"
         }
       ],
       "keyPoints": [
@@ -1614,21 +1614,21 @@
           "pageKey": "vehicle-console",
           "anchor": "",
           "target": "車輛控制台",
-          "revision": "c9cd48e3d6d1f1d6e0d2d7e504095dc4aef3463e18f77414e1feec7dce9f1477"
+          "revision": "4ebde0d2b1ba46980dbbeb66229850094a654a72111ab54542d3673df4784a34"
         },
         {
           "clientId": "operation",
           "pageKey": "vehicle-status-list",
           "anchor": "",
           "target": "車輛速查表",
-          "revision": "6df42e43c87bcd7a7e6fcebfef28ca2eaf9811befa03a457af575a446f2f3f08"
+          "revision": "2e763ebc7846aefbe03baffbb783ab3a32296cb12364d94ebc7301aff7223da9"
         },
         {
           "clientId": "operation",
           "pageKey": "tbox-management",
           "anchor": "",
           "target": "車機設定中心",
-          "revision": "8767926043e4c8bf1cd56f3c7eb122272c03ad270a881d1cf453086fa0924d44"
+          "revision": "50bef09eac22e95d1dc0db0699eb98f9b3511f2778ba5e0edb25e87fa8ba6600"
         }
       ],
       "keyPoints": [
@@ -1800,7 +1800,7 @@
           "pageKey": "vehicle-status-list",
           "anchor": "",
           "target": "車輛速查表",
-          "revision": "6df42e43c87bcd7a7e6fcebfef28ca2eaf9811befa03a457af575a446f2f3f08"
+          "revision": "2e763ebc7846aefbe03baffbb783ab3a32296cb12364d94ebc7301aff7223da9"
         }
       ]
     },
@@ -1979,7 +1979,7 @@
           "pageKey": "vehicle-console",
           "anchor": "",
           "target": "車輛控制台",
-          "revision": "c9cd48e3d6d1f1d6e0d2d7e504095dc4aef3463e18f77414e1feec7dce9f1477"
+          "revision": "4ebde0d2b1ba46980dbbeb66229850094a654a72111ab54542d3673df4784a34"
         }
       ]
     },
@@ -2118,21 +2118,21 @@
           "pageKey": "vehicle-console",
           "anchor": "",
           "target": "車輛控制台",
-          "revision": "c9cd48e3d6d1f1d6e0d2d7e504095dc4aef3463e18f77414e1feec7dce9f1477"
+          "revision": "4ebde0d2b1ba46980dbbeb66229850094a654a72111ab54542d3673df4784a34"
         },
         {
           "clientId": "operation",
           "pageKey": "tbox-management",
           "anchor": "",
           "target": "車機設定中心",
-          "revision": "8767926043e4c8bf1cd56f3c7eb122272c03ad270a881d1cf453086fa0924d44"
+          "revision": "50bef09eac22e95d1dc0db0699eb98f9b3511f2778ba5e0edb25e87fa8ba6600"
         },
         {
           "clientId": "operation",
           "pageKey": "vehicle-status-list",
           "anchor": "",
           "target": "車輛速查表",
-          "revision": "6df42e43c87bcd7a7e6fcebfef28ca2eaf9811befa03a457af575a446f2f3f08"
+          "revision": "2e763ebc7846aefbe03baffbb783ab3a32296cb12364d94ebc7301aff7223da9"
         }
       ]
     },
@@ -2212,7 +2212,7 @@
           "pageKey": "service-products",
           "anchor": "",
           "target": "基礎產品定價",
-          "revision": "6b160e53253f11c22ab427a9d83b511168b86bb4b50806da6b2261d8c66725f3"
+          "revision": "f34384b2800a41f760cb096c07dbb1200566a29c42cade11ff7d933554e21b66"
         }
       ]
     },
@@ -2278,7 +2278,7 @@
           "pageKey": "pricing",
           "anchor": "",
           "target": "動態調價策略",
-          "revision": "187fbe0ababbf18139a18ecbab978fc3bd4c0ea7f2f0981da17f10c0d61a7ae2"
+          "revision": "2114bcc80f06012b137f81859fbb5397ad5187c44bd8c52db8662990a45b350b"
         }
       ]
     },
@@ -2391,7 +2391,7 @@
           "pageKey": "marketing",
           "anchor": "",
           "target": "行銷方案管理",
-          "revision": "9fe989f643248444e763a6b133707a7a07847c363331a53bd3be9e4e302f804a"
+          "revision": "33237bd4c2b6d705e6a5685b49b368709a3a4921a9e425473dfa06a7d7f8bd0a"
         }
       ]
     },
@@ -2514,49 +2514,49 @@
           "pageKey": "service-products",
           "anchor": "",
           "target": "基礎產品定價",
-          "revision": "6b160e53253f11c22ab427a9d83b511168b86bb4b50806da6b2261d8c66725f3"
+          "revision": "f34384b2800a41f760cb096c07dbb1200566a29c42cade11ff7d933554e21b66"
         },
         {
           "clientId": "operation",
           "pageKey": "vehicle-groups",
           "anchor": "",
           "target": "車型組管理",
-          "revision": "fbdfa4a1df74164b9685e3f579b17c140302e1db6a8b7bbd5617de8ca694628a"
+          "revision": "7691f5d006f041ab9a8097c97de1e189de9241ce2606bdccb1b3862fc5dc00f9"
         },
         {
           "clientId": "operation",
           "pageKey": "settings",
           "anchor": "",
           "target": "租賃業務規則",
-          "revision": "352967b192c0dd7cc1329212e225f34f05f5d9b086aebf6d38d83aa61038b4c4"
+          "revision": "631a36c36848ffed6210116ac253050f49b43fa2d4701f4b6beef9ea3979f23f"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         }
       ]
     },
@@ -2636,7 +2636,7 @@
           "pageKey": "services",
           "anchor": "",
           "target": "增值服務管理",
-          "revision": "42d9b9cea68bd38f7b8954ffd6095b93be67a49d96c1f7a9dc2f19cbf08959d9"
+          "revision": "b7af748c60359d7331dc2ac17636465d4c430941fa1eed0ecd8233638a89fcc7"
         }
       ]
     },
@@ -2681,14 +2681,14 @@
           "pageKey": "settings",
           "anchor": "",
           "target": "租賃業務規則",
-          "revision": "352967b192c0dd7cc1329212e225f34f05f5d9b086aebf6d38d83aa61038b4c4"
+          "revision": "631a36c36848ffed6210116ac253050f49b43fa2d4701f4b6beef9ea3979f23f"
         },
         {
           "clientId": "operation",
           "pageKey": "system-rules",
           "anchor": "",
           "target": "系統通用參數",
-          "revision": "3a8fb2866f6b4f02d505ab5efceaf5097a4c742a1d3c6ba95032a6b53a4410a6"
+          "revision": "a8e23b8af752cde71148e21abe95c712141606d604dcb2a27702cedbeed6e21e"
         }
       ]
     },
@@ -2739,7 +2739,7 @@
           "pageKey": "new-order-same-station",
           "anchor": "",
           "target": "新增同站租還訂單",
-          "revision": "faa4faf4212360f657e519a5508571793502f6cd9e25cf5654184f6f7cb4f675"
+          "revision": "b0574e4ba12997862ae0da124f20465c559eafdf2739276f7f4b1dc36d3d0b50"
         }
       ]
     },
@@ -2874,7 +2874,7 @@
           "pageKey": "new-order-one-way",
           "anchor": "",
           "target": "新增甲租乙還訂單",
-          "revision": "f9611754326dfae2cebd76e7e7ce98d8b3cf6a10160ee0afb3b352440e248a37"
+          "revision": "4d09f09273f86398ac627d0a83ad084fbf52d0111ee89dae5dd7470b0158d59b"
         }
       ]
     },
@@ -3168,14 +3168,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3234,14 +3234,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3350,14 +3350,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3451,14 +3451,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3582,14 +3582,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3676,14 +3676,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3741,14 +3741,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3821,14 +3821,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3915,14 +3915,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -3978,14 +3978,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -4132,14 +4132,14 @@
           "pageKey": "time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "108b84f48420aa0764919c12d311fc6f2c43c64cd31242dbd55b62eab7b29510"
+          "revision": "12cbe63dc29d3ac72a8d688fa75fb6b874ba5f83e8f7ee1bb3f7ce2970c2686f"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-time-share-orders",
           "anchor": "",
           "target": "分時租賃訂單",
-          "revision": "2ba921e2ac42b1872006d0bd953501fff821e20b3fc352e1b4918122d7fa9482"
+          "revision": "df2baa1dab7ebc8f989082f0a8625a40239fb2ced0dd71a1006b3c0d3b8fcba4"
         }
       ]
     },
@@ -4213,14 +4213,14 @@
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         }
       ]
     },
@@ -4264,7 +4264,7 @@
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         }
       ]
     },
@@ -4365,28 +4365,28 @@
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -4464,21 +4464,21 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -4542,14 +4542,14 @@
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         }
       ]
     },
@@ -4626,28 +4626,28 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         }
       ]
     },
@@ -4779,14 +4779,14 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -4910,21 +4910,21 @@
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         }
       ]
     },
@@ -4995,21 +4995,21 @@
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         }
       ]
     },
@@ -5127,14 +5127,14 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -5247,70 +5247,70 @@
           "pageKey": "corporate-detail",
           "anchor": "",
           "target": "企業詳情",
-          "revision": "68e3860876eed5dac43fbee482e609605ac3c6fecbdf1df89f4dda5c4b620c22"
+          "revision": "ef8d9a6a52798cf2c11a2904a28c7eb532052af53e37e4bc0c29c37896cee809"
         },
         {
           "clientId": "operation",
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         },
         {
           "clientId": "operation",
           "pageKey": "marketing",
           "anchor": "",
           "target": "行銷方案管理",
-          "revision": "9fe989f643248444e763a6b133707a7a07847c363331a53bd3be9e4e302f804a"
+          "revision": "33237bd4c2b6d705e6a5685b49b368709a3a4921a9e425473dfa06a7d7f8bd0a"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "pricing",
           "anchor": "",
           "target": "動態調價策略",
-          "revision": "187fbe0ababbf18139a18ecbab978fc3bd4c0ea7f2f0981da17f10c0d61a7ae2"
+          "revision": "2114bcc80f06012b137f81859fbb5397ad5187c44bd8c52db8662990a45b350b"
         },
         {
           "clientId": "operation",
           "pageKey": "service-products",
           "anchor": "",
           "target": "基礎產品定價",
-          "revision": "6b160e53253f11c22ab427a9d83b511168b86bb4b50806da6b2261d8c66725f3"
+          "revision": "f34384b2800a41f760cb096c07dbb1200566a29c42cade11ff7d933554e21b66"
         },
         {
           "clientId": "operation",
           "pageKey": "settings",
           "anchor": "",
           "target": "租賃業務規則",
-          "revision": "352967b192c0dd7cc1329212e225f34f05f5d9b086aebf6d38d83aa61038b4c4"
+          "revision": "631a36c36848ffed6210116ac253050f49b43fa2d4701f4b6beef9ea3979f23f"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "workbench",
           "anchor": "",
           "target": "工作臺首頁",
-          "revision": "fb859688d1fba399f533d5bd34956788134208d6ba0814b0a6a92fba3a02ae41"
+          "revision": "d0d68dcf4b4389e70c8639788be5842774122e75f16ca08fb94d992079bb7336"
         }
       ]
     },
@@ -5519,70 +5519,70 @@
           "pageKey": "corporate-detail",
           "anchor": "",
           "target": "企業詳情",
-          "revision": "68e3860876eed5dac43fbee482e609605ac3c6fecbdf1df89f4dda5c4b620c22"
+          "revision": "ef8d9a6a52798cf2c11a2904a28c7eb532052af53e37e4bc0c29c37896cee809"
         },
         {
           "clientId": "operation",
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         },
         {
           "clientId": "operation",
           "pageKey": "marketing",
           "anchor": "",
           "target": "行銷方案管理",
-          "revision": "9fe989f643248444e763a6b133707a7a07847c363331a53bd3be9e4e302f804a"
+          "revision": "33237bd4c2b6d705e6a5685b49b368709a3a4921a9e425473dfa06a7d7f8bd0a"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "pricing",
           "anchor": "",
           "target": "動態調價策略",
-          "revision": "187fbe0ababbf18139a18ecbab978fc3bd4c0ea7f2f0981da17f10c0d61a7ae2"
+          "revision": "2114bcc80f06012b137f81859fbb5397ad5187c44bd8c52db8662990a45b350b"
         },
         {
           "clientId": "operation",
           "pageKey": "service-products",
           "anchor": "",
           "target": "基礎產品定價",
-          "revision": "6b160e53253f11c22ab427a9d83b511168b86bb4b50806da6b2261d8c66725f3"
+          "revision": "f34384b2800a41f760cb096c07dbb1200566a29c42cade11ff7d933554e21b66"
         },
         {
           "clientId": "operation",
           "pageKey": "settings",
           "anchor": "",
           "target": "租賃業務規則",
-          "revision": "352967b192c0dd7cc1329212e225f34f05f5d9b086aebf6d38d83aa61038b4c4"
+          "revision": "631a36c36848ffed6210116ac253050f49b43fa2d4701f4b6beef9ea3979f23f"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "workbench",
           "anchor": "",
           "target": "工作臺首頁",
-          "revision": "fb859688d1fba399f533d5bd34956788134208d6ba0814b0a6a92fba3a02ae41"
+          "revision": "d0d68dcf4b4389e70c8639788be5842774122e75f16ca08fb94d992079bb7336"
         }
       ]
     },
@@ -5682,21 +5682,21 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         }
       ]
     },
@@ -5820,21 +5820,21 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -5908,35 +5908,35 @@
           "pageKey": "service-products",
           "anchor": "",
           "target": "基礎產品定價",
-          "revision": "6b160e53253f11c22ab427a9d83b511168b86bb4b50806da6b2261d8c66725f3"
+          "revision": "f34384b2800a41f760cb096c07dbb1200566a29c42cade11ff7d933554e21b66"
         },
         {
           "clientId": "operation",
           "pageKey": "vehicle-groups",
           "anchor": "",
           "target": "車型組管理",
-          "revision": "fbdfa4a1df74164b9685e3f579b17c140302e1db6a8b7bbd5617de8ca694628a"
+          "revision": "7691f5d006f041ab9a8097c97de1e189de9241ce2606bdccb1b3862fc5dc00f9"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -6062,14 +6062,14 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -6113,14 +6113,14 @@
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         }
       ]
     },
@@ -6228,14 +6228,14 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -6300,14 +6300,14 @@
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -6379,21 +6379,21 @@
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "new-order",
           "anchor": "",
           "target": "新增門市租車訂單",
-          "revision": "aff21e1b0cd025a00f035546e6f7726f80da2cb8bae2e4bfc3180411c87d9d6a"
+          "revision": "c14757177876c1052ecc919c81a4e9c816e1a3d92f44c690bb57a63c12e9d55a"
         }
       ]
     },
@@ -6478,14 +6478,14 @@
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         }
       ]
     },
@@ -6658,7 +6658,7 @@
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         }
       ]
     },
@@ -6767,21 +6767,21 @@
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         },
         {
           "clientId": "operation",
           "pageKey": "order-detail",
           "anchor": "",
           "target": "訂單詳情",
-          "revision": "f58241d0bb69d3a7f17b2bf8a8bfb57cd8b284487f83a1de8eec83f71c459ebf"
+          "revision": "e1bdc46ae54dac83c9a4c8b4269de45f00a086c9d105b0fd5be188f503102a56"
         },
         {
           "clientId": "operation",
           "pageKey": "store-orders",
           "anchor": "",
           "target": "門市租賃訂單",
-          "revision": "2ae5322ed5977184faa1c5eac1143bb0a07027c9f0d357a7a38e4e13f0df4370"
+          "revision": "d8cd5c6cee5852a0455c2fe0452a26baf9bdce9f5be4f65775ea45a1e9c7c71d"
         }
       ]
     },
@@ -6934,21 +6934,21 @@
           "pageKey": "dispatch",
           "anchor": "",
           "target": "車輛排程看板",
-          "revision": "275ba501a33cbc9065b10683ee144b38155517cf366ba3657c897b1eb59b8bc3"
+          "revision": "70bdd6ae9f3025e6fe222c8cebbe123848660620b03deb2356f7a7660cc783e2"
         },
         {
           "clientId": "operation",
           "pageKey": "war-room",
           "anchor": "",
           "target": "戰情分析看板",
-          "revision": "5be761f9c0b24d7caaeb949fe48432fcb5171cfb079e2305a9348f5d065a0612"
+          "revision": "e900f49c100311753889f9d4f84f308f79ec361c27d155b35faca1cd1249e31c"
         },
         {
           "clientId": "operation",
           "pageKey": "system-rules",
           "anchor": "",
           "target": "系統通用參數",
-          "revision": "3a8fb2866f6b4f02d505ab5efceaf5097a4c742a1d3c6ba95032a6b53a4410a6"
+          "revision": "a8e23b8af752cde71148e21abe95c712141606d604dcb2a27702cedbeed6e21e"
         }
       ]
     },
@@ -7128,28 +7128,28 @@
           "pageKey": "enterprise-employee-management",
           "anchor": "",
           "target": "員工管理",
-          "revision": "28f12d0096e631eb404e696b73a9493a16ddf5750cf5936ac85c9a9b9d97d5d4"
+          "revision": "29f7e8c477bfbc2bc872fb773132a9bff07608c7d6ec424ec7539397a85d94cc"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-employee-review",
           "anchor": "",
           "target": "員工申請審覈",
-          "revision": "efe3ad50dc8f8f3e3b03262c990e98192e212ec8c25931a3e53f1ef9192fc85b"
+          "revision": "dbe12df1817a60b5e85e89bcc76b2a8d31f663a965750c05d1933a9150fc196c"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-branch-company-management",
           "anchor": "",
           "target": "分公司管理",
-          "revision": "6978f441d3403f010fab9f8497b310a9bfdc7005ef1b9bdfc17f762fc7bec5d0"
+          "revision": "e9b4d4814f8f31f8a092532efcd2633c59eb2461174a849dc4380d364aa45656"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-department-management",
           "anchor": "",
           "target": "部門管理",
-          "revision": "b49c8bb42bc54c7e6d2bc2a1716b21016ee668cd30d0a3db13b1cd850b86edbb"
+          "revision": "eb5da7e9a695e1c7daba8dce9dc64f2b1ecef24a64d99f7acdf8f593d40eb68a"
         }
       ]
     },
@@ -7381,7 +7381,7 @@
           "pageKey": "enterprise-car-use-management",
           "anchor": "",
           "target": "車輛使用範圍",
-          "revision": "387a0dc60e6c392fd59d86b14d497c99d788705da0bdef97f5ca27b04a79726f"
+          "revision": "a2538479516b64bc56650161b7a2415812e597181650c65f3b4042442904d429"
         }
       ]
     },
@@ -7556,14 +7556,14 @@
           "pageKey": "enterprise-official-vehicles",
           "anchor": "",
           "target": "公務車輛管理",
-          "revision": "8ffe5baff84121777e1626eb0b45131a9fcd7f2fd130db51cc3d392d4df8ef07"
+          "revision": "926730d66142428f8f6f5da7bc649e8183c94999fd66386782cc68f03a6bfd2a"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-official-vehicle-add",
           "anchor": "",
           "target": "新增公務車",
-          "revision": "45409495e26c6f9f36f15715a6488e1f355fb45928c1b83c524902db58ee0723"
+          "revision": "1cde56f5f8224045cbe9ae5985af3b32e76aba216061b42d7740b2ea71f2e8de"
         }
       ]
     },
@@ -7710,7 +7710,7 @@
           "pageKey": "enterprise-official-order-add",
           "anchor": "",
           "target": "新增公務訂單",
-          "revision": "5445b76ff9aceac2907a723158a09ee43a6be59d300be0feed3838e5047484c0"
+          "revision": "c639e77a2720d929a5a7cb0b45915c9d431238b21c49843e4a3d9a92f0b1f6df"
         }
       ]
     },
@@ -7860,7 +7860,7 @@
           "pageKey": "enterprise-approval-setting",
           "anchor": "",
           "target": "預約審批設定",
-          "revision": "7e8f0f3a469f42fe2ec9c09aee8ca406b80cdb302f0601087155626873c270a9"
+          "revision": "e299603ec2a4d37536d4d4e7580bb05621538ca382e40fcfbdd5ea5fb06695f0"
         }
       ]
     },
@@ -7965,7 +7965,7 @@
           "pageKey": "enterprise-dispatch-schedule",
           "anchor": "",
           "target": "車輛調度排程",
-          "revision": "a8db2ac61c9a159501292be423b183c73ea959fd8ceb0b15e1d5c37865ea1d28"
+          "revision": "1fc7c8cbcb768dea68eda346523d52664ac885418ef47a8d832ae7f19f354320"
         }
       ]
     },
@@ -8023,14 +8023,14 @@
           "pageKey": "enterprise-official-order-add",
           "anchor": "",
           "target": "新增公務訂單",
-          "revision": "5445b76ff9aceac2907a723158a09ee43a6be59d300be0feed3838e5047484c0"
+          "revision": "c639e77a2720d929a5a7cb0b45915c9d431238b21c49843e4a3d9a92f0b1f6df"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-approval-setting",
           "anchor": "",
           "target": "預約審批設定",
-          "revision": "7e8f0f3a469f42fe2ec9c09aee8ca406b80cdb302f0601087155626873c270a9"
+          "revision": "e299603ec2a4d37536d4d4e7580bb05621538ca382e40fcfbdd5ea5fb06695f0"
         }
       ]
     },
@@ -8103,21 +8103,21 @@
           "pageKey": "enterprise-official-order",
           "anchor": "",
           "target": "公務訂單管理",
-          "revision": "d19dd29c9ee5472bcac01e1085184e303b4bb6432ba259c1a1c4276dbeebd0f3"
+          "revision": "46ce3bd3cafee5769f74794a3d8bdeb62fcb6ef23f67a7e8e194f5bb64eace0b"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-dispatch-schedule",
           "anchor": "",
           "target": "車輛調度排程",
-          "revision": "a8db2ac61c9a159501292be423b183c73ea959fd8ceb0b15e1d5c37865ea1d28"
+          "revision": "1fc7c8cbcb768dea68eda346523d52664ac885418ef47a8d832ae7f19f354320"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-approval-setting",
           "anchor": "",
           "target": "預約審批設定",
-          "revision": "7e8f0f3a469f42fe2ec9c09aee8ca406b80cdb302f0601087155626873c270a9"
+          "revision": "e299603ec2a4d37536d4d4e7580bb05621538ca382e40fcfbdd5ea5fb06695f0"
         }
       ]
     },
@@ -8213,7 +8213,7 @@
           "pageKey": "enterprise-official-order",
           "anchor": "",
           "target": "公務訂單管理",
-          "revision": "d19dd29c9ee5472bcac01e1085184e303b4bb6432ba259c1a1c4276dbeebd0f3"
+          "revision": "46ce3bd3cafee5769f74794a3d8bdeb62fcb6ef23f67a7e8e194f5bb64eace0b"
         }
       ]
     },
@@ -8286,14 +8286,14 @@
           "pageKey": "enterprise-official-order",
           "anchor": "",
           "target": "公務訂單管理",
-          "revision": "d19dd29c9ee5472bcac01e1085184e303b4bb6432ba259c1a1c4276dbeebd0f3"
+          "revision": "46ce3bd3cafee5769f74794a3d8bdeb62fcb6ef23f67a7e8e194f5bb64eace0b"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-dispatch-schedule",
           "anchor": "",
           "target": "車輛調度排程",
-          "revision": "a8db2ac61c9a159501292be423b183c73ea959fd8ceb0b15e1d5c37865ea1d28"
+          "revision": "1fc7c8cbcb768dea68eda346523d52664ac885418ef47a8d832ae7f19f354320"
         }
       ]
     },
@@ -8453,7 +8453,7 @@
           "pageKey": "enterprise-dashboard",
           "anchor": "",
           "target": "公務車儀表板",
-          "revision": "36ed283ec9b83e0c60b70a6f4a2bd25ca241a7a1a1ad1473348843aff3125535"
+          "revision": "ee4b1be2cdfcfc70275dd90a7a61e2ac9150ed18436c1253d5834266aa1968da"
         }
       ]
     },
@@ -8613,7 +8613,7 @@
           "pageKey": "official-vehicle-contracts",
           "anchor": "",
           "target": "公務用車合約管理",
-          "revision": "d5947f22fa5ec8f69635e0488b893474a4a418f5b19951aa8875f3dcc708401b"
+          "revision": "5df8b1135211416c6a07e76474daa8e7401594e2014737fe38131b43f9019884"
         }
       ]
     },
@@ -8733,7 +8733,7 @@
           "pageKey": "enterprise-contract-quotas",
           "anchor": "",
           "target": "合約配額管理",
-          "revision": "b768c1ad90c587335b3375b0d46adefc62a428bfaa17bc59c63bb1ec7323c760"
+          "revision": "0333028f33603a9b9be0d118d1ba977682d58ea31b78302c6c0ef8a2a1bea815"
         }
       ]
     },
@@ -8885,14 +8885,14 @@
           "pageKey": "official-vehicle-contracts",
           "anchor": "",
           "target": "公務用車合約管理",
-          "revision": "d5947f22fa5ec8f69635e0488b893474a4a418f5b19951aa8875f3dcc708401b"
+          "revision": "5df8b1135211416c6a07e76474daa8e7401594e2014737fe38131b43f9019884"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-contract-quotas",
           "anchor": "",
           "target": "合約配額管理",
-          "revision": "b768c1ad90c587335b3375b0d46adefc62a428bfaa17bc59c63bb1ec7323c760"
+          "revision": "0333028f33603a9b9be0d118d1ba977682d58ea31b78302c6c0ef8a2a1bea815"
         }
       ]
     },
@@ -9025,7 +9025,7 @@
           "pageKey": "official-vehicle-contracts",
           "anchor": "",
           "target": "公務用車合約管理",
-          "revision": "d5947f22fa5ec8f69635e0488b893474a4a418f5b19951aa8875f3dcc708401b"
+          "revision": "5df8b1135211416c6a07e76474daa8e7401594e2014737fe38131b43f9019884"
         }
       ]
     },
@@ -9180,7 +9180,7 @@
           "pageKey": "enterprise-official-car-bill",
           "anchor": "",
           "target": "公務車賬單",
-          "revision": "9e462cd3c71f545daaabe741624e0a785021b2a05c499f2c0e58d1d48f07b3ed"
+          "revision": "d56c84398b278448f3be72d6de3b720fb6562217a6e98f1fca80249b11913c7e"
         }
       ]
     },
@@ -9389,7 +9389,7 @@
           "pageKey": "enterprise-official-vehicle-reminders",
           "anchor": "",
           "target": "清潔保養提醒",
-          "revision": "60e9381c9ee07563a6c2b56e3798bc8427bb5678d3088b51f7df1e548584d3ac"
+          "revision": "d93d701d1b4a98837da0dfeef0519149cf8683a20d30e00830e18a9da65d4c52"
         }
       ]
     },
@@ -9468,7 +9468,7 @@
           "pageKey": "enterprise-official-vehicle-reminders",
           "anchor": "",
           "target": "清潔保養提醒",
-          "revision": "60e9381c9ee07563a6c2b56e3798bc8427bb5678d3088b51f7df1e548584d3ac"
+          "revision": "d93d701d1b4a98837da0dfeef0519149cf8683a20d30e00830e18a9da65d4c52"
         }
       ]
     },
@@ -9574,7 +9574,7 @@
           "pageKey": "channel-ticket-applications",
           "anchor": "",
           "target": "租車券申報審批",
-          "revision": "95d7146858039870b91d1083cf482226d184be78cb728c2fc1d5b995e0fb0af9"
+          "revision": "8e461058f07f0b381afb664a4c2cd96900cb2d3fa498c115debe31805a9a449a"
         }
       ]
     },
@@ -9708,14 +9708,14 @@
           "pageKey": "channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "73a5543d779df57f3c2ed4a8b6b7e117a570916ebbc43e98f2fc354b3eaafa8d"
+          "revision": "0581845c8f3c2688f439721049775f9cce289d7b46d832db72f11583da4a7581"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "965db01cd9704e187c353ef37e49c0811ee577e43991f3f41d87fa78e76d02ff"
+          "revision": "c612a5c9eb8a097353f43aff6ece7057cec48f7bf2deeda88f894b45a8ac2d2c"
         }
       ]
     },
@@ -9853,49 +9853,49 @@
           "pageKey": "channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "73a5543d779df57f3c2ed4a8b6b7e117a570916ebbc43e98f2fc354b3eaafa8d"
+          "revision": "0581845c8f3c2688f439721049775f9cce289d7b46d832db72f11583da4a7581"
         },
         {
           "clientId": "operation",
           "pageKey": "channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "36ebe95040543c3aa47c531e64ca9cad6d3eb3fffb5874a968c56f41ff471229"
+          "revision": "a687e06a10f066071da0c577ed23704234f57bd03e421cd507c9dfa2f3e7ce58"
         },
         {
           "clientId": "operation",
           "pageKey": "channel-ticket-applications",
           "anchor": "",
           "target": "租車券申報審批",
-          "revision": "95d7146858039870b91d1083cf482226d184be78cb728c2fc1d5b995e0fb0af9"
+          "revision": "8e461058f07f0b381afb664a4c2cd96900cb2d3fa498c115debe31805a9a449a"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "965db01cd9704e187c353ef37e49c0811ee577e43991f3f41d87fa78e76d02ff"
+          "revision": "c612a5c9eb8a097353f43aff6ece7057cec48f7bf2deeda88f894b45a8ac2d2c"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "58116f169c9586ae61025714715a7b0c845d0514d6c4791f5fbd019d00b351e7"
+          "revision": "87d63930a2d5ee82fd96987f524b5c5f08ed69f68df59937f21815da02821b31"
         },
         {
           "clientId": "mobile",
           "pageKey": "mobile-channel-ticket-app",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型",
-          "revision": "f1a36e3d2adb9e8ef4580804056325a923e334a104333ad4f67947c1b82d93e3"
+          "revision": "188c175fd4ef1d841c481b21229f8a7e6fa3aa9809c9465d8a7419f9941a8481"
         },
         {
           "clientId": "mobile",
           "pageKey": "mobile-channel-ticket-app-compatible",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型（兼容現有流程）",
-          "revision": "cca5e013789ee8843430bc91a3127a7c940f732de0bacb39f02aa7887295fae9"
+          "revision": "b78e93931a833f658c463dd5c41adee9df08c69c9f726dbb63f6ede0006c53bd"
         }
       ]
     },
@@ -9986,49 +9986,49 @@
           "pageKey": "channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "73a5543d779df57f3c2ed4a8b6b7e117a570916ebbc43e98f2fc354b3eaafa8d"
+          "revision": "0581845c8f3c2688f439721049775f9cce289d7b46d832db72f11583da4a7581"
         },
         {
           "clientId": "operation",
           "pageKey": "channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "36ebe95040543c3aa47c531e64ca9cad6d3eb3fffb5874a968c56f41ff471229"
+          "revision": "a687e06a10f066071da0c577ed23704234f57bd03e421cd507c9dfa2f3e7ce58"
         },
         {
           "clientId": "operation",
           "pageKey": "channel-ticket-applications",
           "anchor": "",
           "target": "租車券申報審批",
-          "revision": "95d7146858039870b91d1083cf482226d184be78cb728c2fc1d5b995e0fb0af9"
+          "revision": "8e461058f07f0b381afb664a4c2cd96900cb2d3fa498c115debe31805a9a449a"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "965db01cd9704e187c353ef37e49c0811ee577e43991f3f41d87fa78e76d02ff"
+          "revision": "c612a5c9eb8a097353f43aff6ece7057cec48f7bf2deeda88f894b45a8ac2d2c"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "58116f169c9586ae61025714715a7b0c845d0514d6c4791f5fbd019d00b351e7"
+          "revision": "87d63930a2d5ee82fd96987f524b5c5f08ed69f68df59937f21815da02821b31"
         },
         {
           "clientId": "mobile",
           "pageKey": "mobile-channel-ticket-app",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型",
-          "revision": "f1a36e3d2adb9e8ef4580804056325a923e334a104333ad4f67947c1b82d93e3"
+          "revision": "188c175fd4ef1d841c481b21229f8a7e6fa3aa9809c9465d8a7419f9941a8481"
         },
         {
           "clientId": "mobile",
           "pageKey": "mobile-channel-ticket-app-compatible",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型（兼容現有流程）",
-          "revision": "cca5e013789ee8843430bc91a3127a7c940f732de0bacb39f02aa7887295fae9"
+          "revision": "b78e93931a833f658c463dd5c41adee9df08c69c9f726dbb63f6ede0006c53bd"
         }
       ]
     },
@@ -10171,14 +10171,14 @@
           "pageKey": "mobile-channel-ticket-app",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型",
-          "revision": "f1a36e3d2adb9e8ef4580804056325a923e334a104333ad4f67947c1b82d93e3"
+          "revision": "188c175fd4ef1d841c481b21229f8a7e6fa3aa9809c9465d8a7419f9941a8481"
         },
         {
           "clientId": "mobile",
           "pageKey": "mobile-channel-ticket-app-compatible",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型（兼容現有流程）",
-          "revision": "cca5e013789ee8843430bc91a3127a7c940f732de0bacb39f02aa7887295fae9"
+          "revision": "b78e93931a833f658c463dd5c41adee9df08c69c9f726dbb63f6ede0006c53bd"
         }
       ]
     },
@@ -10262,49 +10262,49 @@
           "pageKey": "channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "73a5543d779df57f3c2ed4a8b6b7e117a570916ebbc43e98f2fc354b3eaafa8d"
+          "revision": "0581845c8f3c2688f439721049775f9cce289d7b46d832db72f11583da4a7581"
         },
         {
           "clientId": "operation",
           "pageKey": "channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "36ebe95040543c3aa47c531e64ca9cad6d3eb3fffb5874a968c56f41ff471229"
+          "revision": "a687e06a10f066071da0c577ed23704234f57bd03e421cd507c9dfa2f3e7ce58"
         },
         {
           "clientId": "operation",
           "pageKey": "channel-ticket-applications",
           "anchor": "",
           "target": "租車券申報審批",
-          "revision": "95d7146858039870b91d1083cf482226d184be78cb728c2fc1d5b995e0fb0af9"
+          "revision": "8e461058f07f0b381afb664a4c2cd96900cb2d3fa498c115debe31805a9a449a"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batches",
           "anchor": "",
           "target": "合作通路租車券",
-          "revision": "965db01cd9704e187c353ef37e49c0811ee577e43991f3f41d87fa78e76d02ff"
+          "revision": "c612a5c9eb8a097353f43aff6ece7057cec48f7bf2deeda88f894b45a8ac2d2c"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "58116f169c9586ae61025714715a7b0c845d0514d6c4791f5fbd019d00b351e7"
+          "revision": "87d63930a2d5ee82fd96987f524b5c5f08ed69f68df59937f21815da02821b31"
         },
         {
           "clientId": "mobile",
           "pageKey": "mobile-channel-ticket-app",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型",
-          "revision": "f1a36e3d2adb9e8ef4580804056325a923e334a104333ad4f67947c1b82d93e3"
+          "revision": "188c175fd4ef1d841c481b21229f8a7e6fa3aa9809c9465d8a7419f9941a8481"
         },
         {
           "clientId": "mobile",
           "pageKey": "mobile-channel-ticket-app-compatible",
           "anchor": "",
           "target": "RIMO Rental - 合作通路租車券 APP 原型（兼容現有流程）",
-          "revision": "cca5e013789ee8843430bc91a3127a7c940f732de0bacb39f02aa7887295fae9"
+          "revision": "b78e93931a833f658c463dd5c41adee9df08c69c9f726dbb63f6ede0006c53bd"
         }
       ]
     },
@@ -10424,14 +10424,14 @@
           "pageKey": "channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "36ebe95040543c3aa47c531e64ca9cad6d3eb3fffb5874a968c56f41ff471229"
+          "revision": "a687e06a10f066071da0c577ed23704234f57bd03e421cd507c9dfa2f3e7ce58"
         },
         {
           "clientId": "enterprise",
           "pageKey": "enterprise-channel-ticket-batch-detail",
           "anchor": "",
           "target": "批次詳情",
-          "revision": "58116f169c9586ae61025714715a7b0c845d0514d6c4791f5fbd019d00b351e7"
+          "revision": "87d63930a2d5ee82fd96987f524b5c5f08ed69f68df59937f21815da02821b31"
         }
       ]
     },
@@ -10483,21 +10483,21 @@
           "pageKey": "dashboard",
           "anchor": "",
           "target": "綜合儀表板",
-          "revision": "ed821a2930a7940fe7b332c9eae1cf4d56d006da5274f569b2e308de54d36b41"
+          "revision": "0aa176d41b99985f3d7615ed84eba6ad85afb653127b878702a73e866e86b1bb"
         },
         {
           "clientId": "operation",
           "pageKey": "workbench",
           "anchor": "",
           "target": "工作臺首頁",
-          "revision": "fb859688d1fba399f533d5bd34956788134208d6ba0814b0a6a92fba3a02ae41"
+          "revision": "d0d68dcf4b4389e70c8639788be5842774122e75f16ca08fb94d992079bb7336"
         },
         {
           "clientId": "operation",
           "pageKey": "war-room",
           "anchor": "",
           "target": "戰情分析看板",
-          "revision": "5be761f9c0b24d7caaeb949fe48432fcb5171cfb079e2305a9348f5d065a0612"
+          "revision": "e900f49c100311753889f9d4f84f308f79ec361c27d155b35faca1cd1249e31c"
         }
       ]
     },

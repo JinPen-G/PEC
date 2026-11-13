@@ -28,21 +28,23 @@ RIMO 产品中心的前台使用语义颜色变量。页面、文档与图谱读
 
 | 变量 | 用途 |
 | --- | --- |
-| `--radius-control` | 基础输入与按钮圆角，默认 `1.125rem`。 |
-| `--radius-panel` | 菜单与内层面板圆角，默认 `26px`。 |
-| `--radius-surface` | 大块内容表面圆角，默认 `2.125rem`。 |
+| `--radius-control` | 基础输入与按钮圆角，默认 `0.875rem`（14px）。 |
+| `--radius-panel` | 菜单与内层面板圆角，默认 `1.25rem`（20px）。 |
+| `--radius-surface` | 大块内容表面圆角，默认 `1.5rem`（24px）。 |
 | `--radius-pill` | 胶囊形标签与分段控件。 |
 | `--font-display` | 页面标题使用的 Geist 字体栈。 |
 | `--font-body` | 正文与操作界面使用的 Inter 字体栈；中文使用系统回退字体。 |
 | `--font-mono` | 代码、变量名与路径。 |
 | `--shadow-floating` | 浮动在内容上方的弹层阴影。 |
 
+Screens与管理后台按控件职责使用默认圆角。内容容器12px、常用按钮12px、输入和下拉14px，侧栏菜单及搜索框8px。圆形头像、开关和胶囊标签保留原形态。已保存的自定义圆角继续生效。
+
 ## 深色模式
 
 使用顶部深浅色开关，或在外观面板中选择模式。前台由 `SiteFrame` 把主题写到 `.uiarc-showcase` 根容器，深色模式使用独立的颜色值。
 
 ```html
-<div class="uiarc-showcase" data-theme="dark" data-accent="blue">
+<div class="preview-showcase" data-theme="dark" data-accent="blue">
   <main>RIMO Rental</main>
 </div>
 ```
@@ -56,7 +58,7 @@ RIMO 产品中心的前台使用语义颜色变量。页面、文档与图谱读
 <div data-guide-example="accents"></div>
 
 ```html
-<div class="uiarc-showcase" data-theme="light" data-accent="violet">
+<div class="preview-showcase" data-theme="light" data-accent="violet">
   <main>RIMO Rental</main>
 </div>
 ```

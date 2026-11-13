@@ -29,9 +29,10 @@ describe('RIMO shared native controls', () => {
     expect(received.mask).toEqual(expected);
     expect(received).not.toHaveProperty('maskClosable');
   });
-  it('retains toolbar commands and disabled nested actions in the narrow-screen menu', () => {
+  it('retains toolbar commands at the logical Screen width and in the narrow-screen menu', () => {
     let width = 390;
-    const rectangles = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width, height: 36, x: 0, y: 0, left: 0, right: width, top: 0, bottom: 36, toJSON() {} }));
+    const logicalWidth = vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockImplementation(() => width);
+    const rectangles = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width: width / 3, height: 12, x: 0, y: 0, left: 0, right: width / 3, top: 0, bottom: 12, toJSON() {} }));
     const observers = [];
     vi.stubGlobal('ResizeObserver', class { constructor(callback) { observers.push(callback); } observe() {} disconnect() {} });
     let menu;
@@ -69,12 +70,14 @@ describe('RIMO shared native controls', () => {
       expect(messages.mock.calls.flat().join('\n')).not.toContain('same key');
     } finally {
       messages.mockRestore();
+      logicalWidth.mockRestore();
       rectangles.mockRestore();
       vi.unstubAllGlobals();
     }
   });
 
   it('opens nested compact actions inside the fullscreen dialog using a click', async () => {
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(390);
     const rectangles = vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(() => ({ width: 390, height: 36, x: 0, y: 0, left: 0, right: 390, top: 0, bottom: 36, toJSON() {} }));
     vi.stubGlobal('ResizeObserver', class { observe() {} unobserve() {} disconnect() {} });
     const Table = props => createElement('div', { 'data-table-tools': '' }, props.toolbar);

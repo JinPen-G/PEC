@@ -21,12 +21,14 @@ function FullscreenSurface({
   mobile,
   initialBounds,
   toolbar,
+  onEscapeKeyDown,
 }: {
   title: string;
   nativeRef: RefObject<HTMLDivElement | null>;
   mobile: boolean;
   initialBounds?: PreviewBounds | null;
   toolbar?: ReactNode;
+  onEscapeKeyDown?: (event: KeyboardEvent) => void;
 }) {
   const text = useShowcaseText(),
     reduced = useReducedMotion();
@@ -75,6 +77,8 @@ function FullscreenSurface({
           if (target instanceof Node && nativeRef.current?.contains(target)) event.preventDefault();
         }}
         onEscapeKeyDown={(event) => {
+          onEscapeKeyDown?.(event);
+          if (event.defaultPrevented) return;
           const target = event.target;
           if (nativeRef.current?.querySelector('[role="dialog"]') ||
             (target instanceof Element && target.closest('[role="menu"], [role="listbox"], [role="combobox"][aria-expanded="true"]')))
@@ -130,6 +134,7 @@ export function FullscreenPreview({
   initialBounds,
   onExitComplete,
   toolbar,
+  onEscapeKeyDown,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -139,6 +144,7 @@ export function FullscreenPreview({
   initialBounds?: PreviewBounds | null;
   onExitComplete?: () => void;
   toolbar?: ReactNode;
+  onEscapeKeyDown?: (event: KeyboardEvent) => void;
 }) {
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   return (
@@ -154,6 +160,7 @@ export function FullscreenPreview({
                 nativeRef={nativeRef}
                 initialBounds={initialBounds}
                 toolbar={toolbar}
+                onEscapeKeyDown={onEscapeKeyDown}
               />
             </Dialog.Portal>
           )}

@@ -1,0 +1,35 @@
+.uiarc-showcase .showcase-catalog-jump {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  margin: 4px 0 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  background: var(--surface-muted);
+}
+.uiarc-showcase .showcase-catalog-jump button {
+  display: grid;
+  place-items: center;
+  flex: 1;
+  height: 28px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.uiarc-showcase .showcase-catalog-jump button[aria-pressed='true'] {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--foreground);
+}
+.uiarc-showcase .showcase-catalog-jump button:hover {
+  color: var(--foreground);
+}
+.uiarc-showcase .showcase-catalog-jump button:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}

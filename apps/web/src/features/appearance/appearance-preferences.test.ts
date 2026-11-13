@@ -2,7 +2,7 @@ import { expect, test } from 'vitest';
 import { parseAppearance, resolveRadii } from './appearance-preferences';
 
 test('invalid stored settings preserve native defaults; only buttons allow the pill radius', () => {
-  expect(resolveRadii(parseAppearance('invalid'))).toEqual({ container: 26, button: 18, input: 18 });
+  expect(resolveRadii(parseAppearance('invalid'))).toEqual({ container: 12, button: 12, input: 14 });
   expect(
     parseAppearance(
       JSON.stringify({

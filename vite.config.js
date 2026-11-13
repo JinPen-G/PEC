@@ -2,6 +2,8 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { nativeSidebarStyles } from './plugins/sidebar-styles.js';
 import { motionPreferenceAdapter, motionPreferenceStyles } from './plugins/motion-preference-plugin.js';
+import { layoutMeasurementAdapter } from './plugins/layout-measurement-plugin.js';
+import { screenPortalAdapter } from './plugins/screen-portal-plugin.js';
 import { defineConfig } from 'vite';
 import { fileURLToPath } from 'node:url';
 
@@ -28,6 +30,8 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       react(),
       motionPreferenceAdapter(),
+      layoutMeasurementAdapter(),
+      screenPortalAdapter(),
       ...(native ? [nativeVersionPlugin(repositoryRoot), showcaseBuildPlugin(repositoryRoot)] : []),
     ],
     resolve: {

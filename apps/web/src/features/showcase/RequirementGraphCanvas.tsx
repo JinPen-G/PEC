@@ -417,14 +417,14 @@ export default function RequirementGraphCanvas(props: GraphViewProps) {
             <LocateFixed size={16} />
           </button>
         )}
-        <button
+        {props.onExpand && <button
           type="button"
           title={text(props.expanded ? '退出全屏' : '全屏')}
           aria-label={text(props.expanded ? '退出全屏' : '全屏')}
           onClick={props.onExpand}
         >
           {props.expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-        </button>
+        </button>}
       </div>
     </div>
   );

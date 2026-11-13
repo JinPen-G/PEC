@@ -45,6 +45,7 @@ export function validateComponentRegistry(catalog) {
     requireValue(validIdentifier(item.moduleKey) && validIdentifier(item.pageKey));
     requireValue(typeof item.title === 'string' && item.title.length > 0 && item.title.length <= 200);
     requireValue(typeof item.description === 'string' && item.description.length <= 2000);
+    requireValue(item.descriptionEn === undefined || typeof item.descriptionEn === 'string' && item.descriptionEn.length <= 2000);
     requireValue(
       Array.isArray(item.dependencies) &&
         item.dependencies.length <= 64 &&

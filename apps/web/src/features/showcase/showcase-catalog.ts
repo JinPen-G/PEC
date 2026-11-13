@@ -1,7 +1,7 @@
 /** Shared visible-page catalog for the public library and demo.
  * The page service owns visibility, ordering and account authorization. */
 import { useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 import { useNativeAuth } from '@/features/platform/platform-api';
 
 export interface CatalogPage {
@@ -12,6 +12,7 @@ export interface CatalogPage {
   pageKey: string;
   title: string;
   category: string;
+  kind?: 'page' | 'component' | 'block';
   access: 'public' | 'restricted';
   allowed: boolean;
   featuredOrder?: number;
@@ -63,5 +64,20 @@ export function useShowcasePages(projectId: string, enabled = true) {
     enabled: enabled && Boolean(projectId),
     retry: false,
     refetchInterval: 5000,
+  });
+}
+
+/** Each project is still read through its authorized catalog endpoint. */
+export function useShowcaseCatalog(projects: ShowcaseProject[], enabled = true) {
+  const { client, session } = useNativeAuth();
+  return useQueries({
+    queries: projects.map((project) => ({
+      queryKey: ['showcase-catalog', session?.user?.id, session?.user?.revision, project.id],
+      queryFn: ({ signal }: { signal: AbortSignal }) =>
+        client.request<{ pages: CatalogPage[] }>(`/showcase?projectId=${encodeURIComponent(project.id)}`, { signal }),
+      enabled,
+      retry: false,
+      refetchInterval: 5000,
+    })),
   });
 }

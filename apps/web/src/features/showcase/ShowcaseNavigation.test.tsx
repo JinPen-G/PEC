@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import type { ReactNode } from 'react';
@@ -22,7 +22,7 @@ vi.mock('./showcase-locale', () => ({
   LocalizedView: ({ children }: { children: ReactNode }) => children,
   useShowcaseText: () => (text: string) => text,
 }));
-vi.mock('./toc-navigation', () => ({ prepareShowcaseRoute: vi.fn() }));
+vi.mock('./toc-navigation', () => ({ prepareShowcaseRoute: vi.fn(), useTocNavigation: () => ({ active: 'graph-preview', scrollTo: vi.fn() }) }));
 vi.mock('./SiteLanguageMenu', () => ({ SiteLanguageMenu: () => null }));
 vi.mock('./SiteCollaboration', () => ({
   SiteCollaboration: ({ children }: { children: ReactNode }) => children,
@@ -32,34 +32,19 @@ vi.mock('./SiteDocumentation', () => ({
   SiteDocumentation: () => <h1>文档介绍</h1>,
 }));
 vi.mock('./SiteLanding', () => ({ SiteLanding: () => <h1>网站首页</h1> }));
-vi.mock('./showcase-catalog', async (importOriginal) => ({
-  ...await importOriginal<typeof import('./showcase-catalog')>(),
-  useShowcaseProjects: () => ({
-    data: {
-      projects: [
-        { id: 'components', name: '组件中心' },
-        { id: 'rental', name: '租赁项目' },
-      ],
-    },
-  }),
-  useShowcasePages: (projectId: string) => ({
-    data: {
-      pages: [
-        {
-          projectId,
-          projectName: projectId,
-          clientId: 'operation',
-          clientName: '营运端',
-          pageKey: 'vehicles',
-          title: '车辆管理',
-          category: '车辆',
-          access: 'public',
-          allowed: true,
-        },
-      ],
-    },
-  }),
-}));
+vi.mock('./showcase-catalog', async (importOriginal) => {
+  const entries = [
+    { projectId: 'rental', projectName: '租赁项目', clientId: 'operation', clientName: '营运端', pageKey: 'vehicles', title: '车辆管理', category: '车辆', access: 'public', allowed: true, kind: 'page' },
+    { projectId: 'components', projectName: '组件中心', clientId: 'web', clientName: 'Web', pageKey: 'button', title: '按钮', category: '操作', access: 'public', allowed: true, kind: 'component' },
+    { projectId: 'components', projectName: '组件中心', clientId: 'web', clientName: 'Web', pageKey: 'sign-in', title: '登录表单', category: '身份', access: 'public', allowed: true, kind: 'block' },
+  ];
+  return {
+    ...await importOriginal<typeof import('./showcase-catalog')>(),
+    useShowcaseProjects: () => ({ data: { projects: [{ id: 'rental', name: '租赁项目' }, { id: 'components', name: '组件中心' }] } }),
+    useShowcasePages: (projectId: string) => ({ data: { pages: entries.filter(entry => entry.projectId === projectId) } }),
+    useShowcaseCatalog: () => [{ data: { pages: entries } }],
+  };
+});
 
 import { ShowcaseApp } from './ShowcaseApp';
 
@@ -92,64 +77,65 @@ afterEach(() => {
   clients.splice(0).forEach((client) => client.clear());
 });
 
-describe('showcase graph navigation', () => {
-  it('keeps the site menu mounted and selected when entering and leaving the graph', async () => {
-    mount('/docs?project=rental');
+describe('showcase catalog navigation', () => {
+  it('groups authorized entries by type, category and item without a project selector', async () => {
+    mount('/docs');
     const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
-    fireEvent.click(within(sidebar).getByRole('link', { name: '需求关系图谱' }));
-    expect(await screen.findByRole('textbox', { name: '搜索需求点' })).toBeInTheDocument();
-    expect(screen.getByRole('complementary', { name: '项目页面导航' })).toBe(sidebar);
-    expect(within(sidebar).getByRole('link', { name: '需求关系图谱' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(within(sidebar).getByRole('link', { name: '车辆管理' })).toHaveAttribute(
-      'href',
-      '/pages/rental/operation/vehicles',
-    );
-    expect(screen.getAllByRole('button', { name: '切换项目' })).toHaveLength(1);
-    expect(
-      within(screen.getByRole('complementary', { name: '查找需求点' })).queryByRole('button', {
-        name: '切换项目',
-      }),
-    ).not.toBeInTheDocument();
+    expect(within(sidebar).queryByRole('button', { name: '切换项目' })).not.toBeInTheDocument();
+    const pages = within(sidebar).getByRole('navigation', { name: 'Screens' });
+    expect(within(pages).getByRole('button', { name: /车辆/ })).toBeInTheDocument();
+    expect(within(pages).getByRole('link', { name: '车辆管理' })).toHaveAttribute('href', '/pages/rental/operation/vehicles');
+    fireEvent.click(within(sidebar).getByRole('button', { name: /^组件1$/ }));
+    const components = await within(sidebar).findByRole('navigation', { name: '组件' });
+    expect(within(components).getByRole('link', { name: '按钮' })).toHaveAttribute('href', '/pages/components/web/button');
+    fireEvent.click(within(sidebar).getByRole('button', { name: /^区块1$/ }));
+    expect(await within(sidebar).findByRole('link', { name: '登录表单' })).toHaveAttribute('href', '/pages/components/web/sign-in');
+    expect(within(sidebar).getByRole('link', { name: '介绍' })).toHaveAttribute('href', '/docs?project=rental');
+    expect(within(sidebar).getByRole('link', { name: '需求关系图谱' })).toHaveAttribute('href', '/docs/graph?project=rental');
+  });
+  it('offers matching top-level sections and sidebar jumps without leaving the current document', async () => {
+    const scrollTo = vi.fn();
+    const view = mount('/docs');
+    const navigation = screen.getByRole('navigation', { name: '主导航' });
+    expect(within(navigation).getByRole('link', { name: 'Screens' })).toHaveAttribute('href', '/screens');
+    expect(within(navigation).getByRole('link', { name: '组件' })).toHaveAttribute('href', '/components');
+    expect(within(navigation).getByRole('link', { name: '区块' })).toHaveAttribute('href', '/blocks');
+    const scroller = view.container.querySelector('.library-sidebar_scroll__Tdgfx') as HTMLElement;
+    scroller.scrollTo = scrollTo;
+    const jump = screen.getByRole('group', { name: '跳转到内容分类' });
+    fireEvent.click(within(jump).getByRole('button', { name: '组件 · 1' }));
+    expect(await screen.findByRole('navigation', { name: '组件' })).toBeInTheDocument();
+    expect(within(jump).getByRole('button', { name: '组件 · 1' })).toHaveAttribute('aria-pressed', 'true');
+    expect(scrollTo).toHaveBeenCalled();
+    expect(screen.getByRole('heading', { name: '文档介绍' })).toBeInTheDocument();
+  });
+  it('preserves old project graph links when returning to project Docs', async () => {
+    mount('/docs/graph?project=rental');
+    await screen.findByRole('textbox', { name: '搜索需求点' });
+    expect(graphCatalog).toHaveBeenLastCalledWith(expect.any(Function), 'rental', expect.any(AbortSignal));
+    const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
     fireEvent.click(within(sidebar).getByRole('link', { name: '介绍' }));
     expect(await screen.findByRole('heading', { name: '文档介绍' })).toBeInTheDocument();
     expect(screen.getByRole('complementary', { name: '项目页面导航' })).toBe(sidebar);
   });
-
-  it('switches projects from the common menu without leaving the graph', async () => {
-    mount('/docs/graph?project=rental');
-    await screen.findByRole('textbox', { name: '搜索需求点' });
-    fireEvent.keyDown(screen.getByRole('button', { name: '切换项目' }), { key: 'ArrowDown' });
-    fireEvent.click(await screen.findByRole('menuitemradio', { name: '组件中心' }));
-    await waitFor(() =>
-      expect(graphCatalog).toHaveBeenLastCalledWith(
-        expect.any(Function),
-        'components',
-        expect.any(AbortSignal),
-      ),
-    );
-    const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
-    expect(within(sidebar).getByRole('link', { name: '需求关系图谱' })).toHaveAttribute(
-      'aria-current',
-      'page',
-    );
-    expect(within(sidebar).getByRole('link', { name: '介绍' })).toHaveAttribute(
-      'href',
-      '/docs?project=components',
-    );
-    expect(screen.getByRole('button', { name: '切换项目' })).toHaveTextContent('组件中心');
-  });
-
   it('keeps navigation available when graph data fails', async () => {
     graphCatalog.mockRejectedValue(new Error('读取失败'));
     mount('/docs/graph?project=rental');
     expect(await screen.findByRole('alert')).toHaveTextContent('图谱读取失败');
     expect(screen.getByRole('complementary', { name: '项目页面导航' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: '切换项目' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: '切换项目' })).not.toBeInTheDocument();
   });
-
+  it('opens the live graph from a bare graph URL and the Docs menu', async () => {
+    mount('/docs/graph');
+    expect(await screen.findByRole('textbox', { name: '搜索需求点' })).toBeInTheDocument();
+    expect(graphCatalog).toHaveBeenLastCalledWith(expect.any(Function), 'rental', expect.any(AbortSignal));
+    const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
+    fireEvent.click(within(sidebar).getByRole('link', { name: '介绍' }));
+    expect(await screen.findByRole('heading', { name: '文档介绍' })).toBeInTheDocument();
+    fireEvent.click(within(sidebar).getByRole('link', { name: '需求关系图谱' }));
+    expect(await screen.findByRole('textbox', { name: '搜索需求点' })).toBeInTheDocument();
+    expect(screen.getByRole('complementary', { name: '项目页面导航' })).toBe(sidebar);
+  });
   it('leaves the landing page without a persistent site sidebar', () => {
     mount('/');
     expect(screen.getByRole('heading', { name: '网站首页' })).toBeInTheDocument();

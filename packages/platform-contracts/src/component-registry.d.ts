@@ -2,6 +2,7 @@ export interface ComponentRegistryEntry {
   name: string;
   title: string;
   description: string;
+  descriptionEn?: string;
   kind: 'component' | 'block';
   moduleKey: string;
   pageKey: string;

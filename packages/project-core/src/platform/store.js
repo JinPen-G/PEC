@@ -79,6 +79,8 @@ export function createNativeStore({
         .map((page) => [`${module.key}/${page.key}`, page.featuredOrder]),
     ),
   );
+  const pageKinds = new Map(moduleCatalog.flatMap((module) =>
+    module.pages.map((page) => [`${module.key}/${page.key}`, page.kind ?? 'page'])));
   if (Object.keys(modules).length !== moduleCatalog.length) fail(500, '原生模块重复注册', 'REGISTRY_INVALID');
   const directory = path.resolve(dataDirectory);
   mkdirSync(directory, { recursive: true });
@@ -703,6 +705,7 @@ export function createNativeStore({
               pageKey: page.key,
               title: page.label,
               category: page.group,
+              kind: pageKinds.get(`${row.module_key}/${page.key}`) ?? 'page',
               access: page.access ?? 'restricted',
               allowed,
               ...(featuredOrder === undefined ? {} : { featuredOrder }),

@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import type { ReactNode } from 'react';
+import { PlatformLocaleProvider } from '@/features/locale/platform-locale';
 import type { ComponentRegistryReference } from '../../../../../packages/platform-contracts/src/component-registry';
 import '@/features/docs/MarkdownReader';
 
@@ -20,6 +21,7 @@ vi.mock('./showcase-locale', () => ({
   useShowcaseText: () => (text: string) => text,
 }));
 vi.mock('./RuntimePage', () => ({ RuntimePage: () => <input aria-label="原型筛选" defaultValue="" /> }));
+vi.mock('./ScreenWorkspace', () => ({ ScreenWorkspace: ({ children }: { children: ReactNode }) => <section aria-label="完整页面">{children}</section> }));
 vi.mock('./PageActions', () => ({ PageActions: () => null }));
 vi.mock('./FullscreenPreview', () => ({ FullscreenPreview: () => null }));
 vi.mock('./AnimatedPanel', () => ({
@@ -45,6 +47,7 @@ function mount(markdown: string, allowed = true, summaryMarkdown?: string, regis
         ? { source: 'export const page = true;', fileName: 'Page.tsx' }
         : {
             ...page,
+            description: '维护车辆的品牌、车型及规格，供车辆档案选择。',
             category,
             entry: 'sample',
             styles: [],
@@ -61,16 +64,17 @@ function mount(markdown: string, allowed = true, summaryMarkdown?: string, regis
   return render(
     <QueryClientProvider client={client}>
       <MemoryRouter>
-        <Detail page={{ ...page, category, allowed }} />
+        <PlatformLocaleProvider><Detail page={{ ...page, category, allowed }} /></PlatformLocaleProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   );
 }
 describe('page PRD tabs and authorization', () => {
-  it('uses the full category without repeating its client prefix in the subtitle', async () => {
+  it('shows the published functional description below the title and keeps categories in the breadcrumb', async () => {
     mount('页面说明。', true, undefined, undefined, undefined, '营运端 · 车辆管理');
     expect(await screen.findByText('页面说明。')).toBeInTheDocument();
-    expect(screen.getByText('营运端 · 车辆管理', { selector: 'header p' })).toBeInTheDocument();
+    expect(screen.getByText('维护车辆的品牌、车型及规格，供车辆档案选择。', { selector: 'header p' })).toBeInTheDocument();
+    expect(screen.queryByText('营运端 · 车辆管理', { selector: 'header p' })).not.toBeInTheDocument();
     expect(screen.queryByText('营运端 · 营运端 · 车辆管理')).not.toBeInTheDocument();
   });
   it('uses the page registry in the header and omits a fabricated install command when access is denied', async () => {

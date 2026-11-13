@@ -21,7 +21,7 @@ export interface GraphViewProps {
   selected: string | null;
   onSelect: (id: string | null) => void;
   expanded: boolean;
-  onExpand: () => void;
+  onExpand?: () => void;
   focus: string[] | null;
   hiddenTypes: GraphNodeType[];
   hiddenRelations: GraphRelation[];

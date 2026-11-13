@@ -1,0 +1,135 @@
+.showcase-screen-workspace,
+.showcase-screen-workspace .preview-screen-stage,
+.showcase-screen-workspace .preview-native-root.app-shell {
+  height: 100%;
+  min-height: 0;
+}
+.showcase-screen-workspace {
+  position: relative;
+  padding: 8px;
+  background: var(--surface-muted);
+}
+.showcase-screen-portals {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+.showcase-screen-portals > * {
+  pointer-events: auto;
+}
+.showcase-screen-portals [data-rental-arc-modal] {
+  max-width: calc(100% - 32px) !important;
+  max-height: calc(var(--preview-screen-height) - 32px);
+  overflow: auto;
+}
+.showcase-screen-workspace .preview-screen-stage {
+  --rental-sidebar-expanded-width: 248px;
+  background: transparent;
+}
+.showcase-screen-workspace .app-workspace {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--rental-ui-radius-container);
+}
+.showcase-screen-workspace .preview-context-header {
+  height: 52px;
+  padding: 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.showcase-screen-workspace .preview-context-header .preview-breadcrumb > span {
+  display: block;
+}
+.showcase-screen-workspace .preview-screen-sidebar {
+  width: var(--rental-sidebar-expanded-width);
+  flex: none;
+  padding-right: 8px;
+}
+.showcase-screen-workspace .preview-screen-sidebar[hidden] {
+  display: none;
+}
+.preview-screen-brand,
+.preview-screen-account {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px;
+}
+.preview-screen-account > span {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+.preview-screen-brand > button,
+.preview-screen-compact-brand > button {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+}
+.preview-screen-compact-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 8px;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 500;
+}
+.showcase-screen-workspace .preview-context-location:has(.preview-screen-compact-brand) .preview-breadcrumb {
+  display: none;
+}
+.showcase-screen-workspace [data-sidebar='group-label']:empty {
+  display: none;
+}
+.preview-screen-account strong {
+  font-size: 13px;
+  font-weight: 500;
+}
+.preview-screen-account small {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+.showcase-screen-workspace [data-sidebar='input'],
+.showcase-screen-workspace [data-sidebar='menu-button'],
+.showcase-screen-workspace [data-sidebar='menu-sub-button'] {
+  border-radius: 8px;
+}
+.showcase-screen-workspace .rental-sidebar-route-highlight {
+  display: none;
+}
+.showcase-screen-workspace [data-sidebar='menu-button'][data-active],
+.showcase-screen-workspace [data-sidebar='menu-sub-button'][data-active] {
+  color: var(--foreground);
+  background: var(--surface-muted);
+}
+.showcase-screen-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.showcase-screen-workspace .preview-screen-stage[data-compact] .preview-screen-sidebar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 4;
+  width: 260px;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+}
+.showcase-screen-workspace .preview-screen-stage[data-compact] .preview-breadcrumb > :not(:last-child) {
+  display: none;
+}
+.preview-screen-navigation-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: rgb(0 0 0 / 0.18);
+}
+.showcase-screen-workspace .preview-screen-stage[data-compact] .showcase-screen-content {
+  padding: 16px;
+}

@@ -4,8 +4,8 @@ import { createContext, useCallback, useContext, useLayoutEffect, type ReactNode
 import {
   applyAdminRadiusTokens,
   applyAdminTypographyTokens,
-  ARC_DEFAULT_RADII,
 } from './runtime/apps/admin/src/app/designTokens';
+import { DEFAULT_UI_RADII } from '../radii';
 
 type UiIdentity = { user?: { id: string }; tenant?: { tenantId: string }; currentWorkspaceId?: string };
 type Translator = (key: string, variables?: Record<string, string | number>) => string;
@@ -61,7 +61,7 @@ const Context = createContext({
   locale: 'zh-CN',
   reducedMotion: false,
   identity: '',
-  radii: ARC_DEFAULT_RADII as Radii,
+  radii: DEFAULT_UI_RADII as Radii,
   t: ((key: string) => key) as Translator,
 });
 let currentIdentity: UiIdentity = {};
@@ -70,7 +70,7 @@ export function ControlEnvironmentProvider({
   locale = 'zh-Hans',
   reducedMotion = false,
   identity = '',
-  radii = ARC_DEFAULT_RADII,
+  radii = DEFAULT_UI_RADII,
   translate,
   children,
 }: {

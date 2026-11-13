@@ -370,7 +370,7 @@ function PriceVersion({ model }) {
 
 export default function PricingBlock() {
   const {
-    controls: { Button, InputNumber, Select, Table, Tabs, Tag },
+    controls: { Button, InputNumber, Select, Table, Tabs, Tag, Form },
     text,
   } = useRimoEnvironment();
   const model = useRimoModel(createPageState);
@@ -571,7 +571,7 @@ export default function PricingBlock() {
     </>
   );
   return (
-    <RimoRoot model={model} pageKey="pricing">
+    <Form.Item noStyle><RimoRoot model={model} pageKey="pricing">
       <RimoHeading title="動態調價策略" description="管理門市與分時標準租金、定時調價和價格版本。" />
       <div className="rimo-price-permissions">
         <span>{text('權限演示')}</span>
@@ -644,6 +644,6 @@ export default function PricingBlock() {
       >
         <PriceVersion model={model} />
       </RimoDialog>
-    </RimoRoot>
+    </RimoRoot></Form.Item>
   );
 }

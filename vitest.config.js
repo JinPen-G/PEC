@@ -2,9 +2,11 @@ import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'node:url';
 import { motionPreferenceAdapter } from './plugins/motion-preference-plugin.js';
+import { layoutMeasurementAdapter } from './plugins/layout-measurement-plugin.js';
+import { screenPortalAdapter } from './plugins/screen-portal-plugin.js';
 
 export default defineConfig({
-  plugins: [react(), motionPreferenceAdapter()],
+  plugins: [react(), motionPreferenceAdapter(), layoutMeasurementAdapter(), screenPortalAdapter()],
   css: { postcss: { plugins: [] } },
   resolve: {
     alias: {

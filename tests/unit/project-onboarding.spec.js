@@ -21,6 +21,14 @@ import { NATIVE_MODULES } from '../../packages/platform-contracts/src/platform.j
 import registeredProjects from '../../packages/platform-contracts/src/registered-projects.json' with { type: 'json' };
 
 const fixtures = [];
+test('screen display entries retain the same installable block contract', () => {
+  const definition = structuredClone(registeredProjects.find((entry) => entry.module.projectId === 'rimo-rental'));
+  expect(definition.module.pages.every((page) => page.kind === 'page')).toBe(true);
+  expect(definition.registry.every((item) => item.kind === 'block')).toBe(true);
+  expect(() => validateProjectRegistration(definition)).not.toThrow();
+  definition.registry[0].kind = 'component';
+  expect(() => validateProjectRegistration(definition)).toThrow('互相绑定');
+});
 test('homepage highlights are optional and limited to six unique editorial positions', () => {
   const definition = {
     schemaVersion:1,
@@ -43,8 +51,8 @@ test('RIMO follows the same replaceable project definition while keeping its sta
   const definition = registeredProjects.find((item) => item.module.projectId === 'rimo-rental');
   expect(definition.module.key).toBe('rimo-native');
   expect(definition.module.pages.map((page) => [page.key, page.kind, page.registryItem])).toEqual(expect.arrayContaining([
-    ['vehicle-groups', 'block', 'rimo-vehicle-groups'],
-    ['vehicle-transfer', 'block', 'rimo-vehicle-transfer'],
+    ['vehicle-groups', 'page', 'rimo-vehicle-groups'],
+    ['vehicle-transfer', 'page', 'rimo-vehicle-transfer'],
   ]));
   expect(definition.module.pages).toHaveLength(71);
   expect(definition.module.initialClients.map((client) => [client.id, client.pages.length])).toEqual([

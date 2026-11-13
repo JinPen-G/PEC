@@ -25,6 +25,16 @@ const root = fileURLToPath(new URL('../..', import.meta.url));
 const resources = [];
 const vehicleGroups = COMPONENT_REGISTRY.find((item) => item.name === 'rimo-vehicle-groups');
 const vehicleTransfer = COMPONENT_REGISTRY.find((item) => item.name === 'rimo-vehicle-transfer');
+test('screens retain installable block identities and publish functional descriptions in both languages', () => {
+  const pages = NATIVE_MODULES.find(item => item.key === 'rimo-native').pages;
+  for (const page of pages) {
+    expect(page.kind).toBe('page');
+    const item = COMPONENT_REGISTRY.find(entry => entry.name === page.registryItem);
+    expect(item.kind).toBe('block');
+    expect(item.description).not.toMatch(/原生 React 演示|业务规则见关联 PRD/);
+    expect(item.descriptionEn).toMatch(/[a-z]{3}/i);
+  }
+});
 test('source dependencies are parsed as syntax, not as words inside examples or comments', () => {
   const source = `
     import { useState } from 'react';
@@ -127,6 +137,8 @@ test('catalog rejects undeclared files, conflicting install paths and unsafe pac
   for (const patch of [
     { name: '../private' },
     { kind: 'page' },
+    { descriptionEn: { private: 'unsupported' } },
+    { descriptionEn: 'a'.repeat(2001) },
     { dependencies: ['file:../../private'] },
     { files: [{ path: 'docs/private.ts', target: '@components/preview/private/private.ts' }] },
     {
@@ -219,6 +231,10 @@ test('public registry installs while restricted, hidden, archived and cross-proj
   const response = await fetch(publicUrl);
   expect(response.status).toBe(200);
   expect((await response.json()).files.map((file) => file.path)).toEqual(vehicleGroups.files.map((file) => file.path));
+  const detail = await fetch(`${item.base}/api/native/showcase/${item.project.id}/operation/vehicle-groups`);
+  expect(detail.status).toBe(200);
+  expect(await detail.json()).toMatchObject({ description: vehicleGroups.description, descriptionEn: vehicleGroups.descriptionEn });
+  expect((await fetch(`${item.base}/api/native/showcase/${item.project.id}/operation/vehicle-transfer`)).status).toBe(401);
   expect((await fetch(privateUrl)).status).toBe(403);
   expect((await fetch(`${item.base}/r/missing-project/rimo-vehicle-groups.json`)).status).toBe(403);
   expect(

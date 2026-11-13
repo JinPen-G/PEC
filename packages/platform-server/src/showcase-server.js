@@ -346,6 +346,8 @@ export function createShowcaseHandler({
       clientId,
       pageKey,
       title: initial.page.label,
+      description: componentRegistry.find((item) => item.name === descriptor.registryItem)?.description ?? '',
+      descriptionEn: componentRegistry.find((item) => item.name === descriptor.registryItem)?.descriptionEn,
       category: initial.page.group,
       access: initial.page.access ?? 'restricted',
       contentRevision: snapshot?.revision ?? '',

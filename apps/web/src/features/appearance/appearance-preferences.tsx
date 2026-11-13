@@ -1,5 +1,6 @@
 /** Preview-local appearance. Saving never calls Rental OS or implies account sync. */
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { DEFAULT_UI_RADII } from '@preview/ui';
 
 export const APPEARANCE_KEY = 'preview:appearance';
 export const RADIUS_MIN = 8;
@@ -82,8 +83,8 @@ export function useAppearancePreferences() {
 }
 export function resolveRadii(preferences: Pick<AppearancePreferences, 'container' | 'button' | 'input'>) {
   return {
-    container: preferences.container ?? 26,
-    button: preferences.button ?? 18,
-    input: preferences.input ?? 18,
+    container: preferences.container ?? DEFAULT_UI_RADII.container,
+    button: preferences.button ?? DEFAULT_UI_RADII.button,
+    input: preferences.input ?? DEFAULT_UI_RADII.input,
   };
 }

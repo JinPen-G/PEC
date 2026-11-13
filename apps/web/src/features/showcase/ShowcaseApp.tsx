@@ -10,14 +10,12 @@ import {
   useRef,
   useState,
   useMemo,
-  type ReactNode,
 } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { useQuery } from '@tanstack/react-query';
 import {
   BookOpen,
-  ChevronDown,
   ChevronRight,
   Code2,
   Eye,
@@ -26,6 +24,7 @@ import {
   LockKeyhole,
   Maximize2,
   Menu,
+  Monitor,
   Search,
   SlidersHorizontal,
   Smartphone,
@@ -33,7 +32,7 @@ import {
   Scan,
   ArrowUp,
 } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   SiteFrame,
   ThemeDrawer,
@@ -60,9 +59,13 @@ import { QuickInstall } from './QuickInstall';
 import { FullscreenPreview } from './FullscreenPreview';
 import { SiteLanding } from './SiteLanding';
 import { CatalogFilters } from './CatalogFilters';
+import { CatalogJump, catalogIcons } from './CatalogJump';
+import { catalogKind, catalogSections, sectionForPath, type CatalogKind } from './catalog-sections';
+import { desktopScreen, mobileScreen } from './screen-preview';
 import { SiteDocumentation } from './SiteDocumentation';
 import { RuntimePage } from './RuntimePage';
 import { SidebarSelection } from './SidebarSelection';
+import { SidebarSection } from './SidebarSection';
 import { TocSelection } from './TocSelection';
 import { SiteAccountMenu } from './SiteAccountMenu';
 import { SiteLanguageMenu } from './SiteLanguageMenu';
@@ -73,10 +76,12 @@ import { flushSync } from 'react-dom';
 import { AnimatedPanel } from './AnimatedPanel';
 import { documentDisplay } from './document-display';
 import { DevicePreview } from './DevicePreview';
-import { useShowcaseProject, useShowcaseProjects, useShowcasePages, type CatalogPage } from './showcase-catalog';
+import { ScreenWorkspace } from './ScreenWorkspace';
+import { useShowcaseProject, useShowcaseProjects, useShowcasePages, useShowcaseCatalog, type CatalogPage } from './showcase-catalog';
 import { isDemoRoute } from '@/features/demo/demo-routes';
 import { RestIdentityScope } from '@/features/rest/RestIdentityScope';
 import { RestEntry } from '@/features/rest/RestEntry';
+import { usePlatformLocale } from '@/features/locale/platform-locale';
 
 const Reader = lazy(() =>
   import('@/features/docs/MarkdownReader').then((module) => ({ default: module.MarkdownReader })),
@@ -94,6 +99,8 @@ const Password = lazy(() =>
 const publicClient = createNativeClient();
 const RequirementGraphPage = lazy(() => import('./RequirementGraphPage'));
 interface PageDetail extends CatalogPage {
+  description?: string;
+  descriptionEn?: string;
   registry?: ComponentRegistryReference | null;
   entry: string;
   styles: string[];
@@ -106,74 +113,6 @@ interface PageDetail extends CatalogPage {
 const pageLink = (page: CatalogPage) => `/pages/${page.projectId}/${page.clientId}/${page.pageKey}`;
 const pageApi = (page: CatalogPage) => `/showcase/${page.projectId}/${page.clientId}/${page.pageKey}`;
 const spring = siteMotionTokens.spring.snappy;
-function SidebarSection({
-  title,
-  count,
-  icon,
-  children,
-}: {
-  title: string;
-  count?: number;
-  icon?: ReactNode;
-  children: ReactNode;
-}) {
-  const [open, setOpen] = useState(true);
-  const reduced = useReducedMotion();
-  return (
-    <section className="library-sidebar_section__oQ3xJ">
-      <button
-        className="library-sidebar_sectionHead___A06N"
-        aria-expanded={open}
-        onClick={() => setOpen(!open)}
-      >
-        <span className="library-sidebar_sectionIcon__ii8U0">{icon}</span>
-        <span className="library-sidebar_sectionLabel__pIIq3">{title}</span>
-        {count !== undefined && (
-          <span className="library-sidebar_sectionCount__lRg1z">
-            <AnimatePresence initial={false} mode="popLayout">
-              <motion.span
-                key={count}
-                initial={reduced ? false : { y: 7, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: reduced ? 0 : -7, opacity: 0 }}
-                transition={reduced ? { duration: 0 } : spring}
-              >
-                {count}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-        )}
-        <motion.span
-          className="library-sidebar_chevron__Fc20n"
-          animate={{ rotate: open ? 0 : -90 }}
-          transition={reduced ? { duration: 0 } : spring}
-        >
-          <ChevronDown size={14} />
-        </motion.span>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0, overflow: 'clip' }}
-            animate={{ height: 'auto', opacity: 1, transitionEnd: { overflow: 'visible' } }}
-            exit={{ height: 0, opacity: 0, overflow: 'clip' }}
-            transition={
-              reduced
-                ? { duration: 0 }
-                : {
-                    height: siteMotionTokens.spring.smooth,
-                    opacity: { duration: 0.18, ease: [...siteMotionTokens.ease.standard] },
-                  }
-            }
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
-  );
-}
-
 function CopyActions({ detail }: { detail: PageDetail }) {
   const markdownUrl = `/api/native${pageApi(detail)}/markdown`;
   return (
@@ -188,6 +127,8 @@ function CopyActions({ detail }: { detail: PageDetail }) {
 }
 export function Detail({ page }: { page: CatalogPage }) {
   const text = useShowcaseText();
+  const { locale } = usePlatformLocale();
+  const isScreen = catalogKind(page) === 'page';
   const route = useLocation();
   const routeKey = route.key;
   const parameters = new URLSearchParams(route.search);
@@ -303,7 +244,11 @@ export function Detail({ page }: { page: CatalogPage }) {
         <div className="docs_docLayout__YK0uB">
           <article className="docs_docMain__jK5Ve">
             <motion.nav className="docs_breadcrumb__JFHCC" aria-label="当前位置" {...enterPart(0.02)}>
-              <Link to="/pages">{page.category || page.clientName}</Link>
+              <Link to={catalogSections.find((item) => item.kind === catalogKind(page))!.path}>
+                {catalogSections.find((item) => item.kind === catalogKind(page))!.title}
+              </Link>
+              <ChevronRight size={13} />
+              <span>{page.category || page.clientName}</span>
               <ChevronRight size={13} />
               <span>{page.title}</span>
             </motion.nav>
@@ -318,11 +263,7 @@ export function Detail({ page }: { page: CatalogPage }) {
                     </span>
                   )}
                 </div>
-                <p>
-                  {page.category?.startsWith(`${page.clientName} · `)
-                    ? page.category
-                    : `${page.clientName} · ${page.category || '功能页面'}`}
-                </p>
+                {permitted && detail?.description && <p>{locale === 'en' ? detail.descriptionEn || detail.description : detail.description}</p>}
                 {permitted && <QuickInstall registry={detail?.registry} publicPage={page.access === 'public' && detail?.access === 'public'} />}
               </div>
               {detail && permitted && <CopyActions detail={detail} />}
@@ -413,10 +354,14 @@ export function Detail({ page }: { page: CatalogPage }) {
                 <div className="docs_viewTools___VpV2">
                   {permitted && <SiteCollaborationControls />}
                   {tab === 'preview' && (
+                    <>
+                    {isScreen && <span className="showcase-screen-hint">
+                      {text('交互页面')} · {mobile ? mobileScreen.width : desktopScreen.width} × {mobile ? mobileScreen.height : desktopScreen.height}
+                    </span>}
                     <div className="preview-shell_tools___wPkm">
                       <div className="preview-shell_switch__v2Veh" role="radiogroup" aria-label="预览尺寸">
                         {[
-                          { label: '自适应预览', value: false, icon: <Scan size={14} /> },
+                          { label: isScreen ? '桌面预览' : '自适应预览', value: false, icon: isScreen ? <Monitor size={14} /> : <Scan size={14} /> },
                           { label: '窄屏预览', value: true, icon: <Smartphone size={14} /> },
                         ].map((item) => (
                           <button
@@ -443,14 +388,15 @@ export function Detail({ page }: { page: CatalogPage }) {
                         aria-label="放大预览"
                         disabled={!permitted}
                         onClick={() => {
-                          const rect = nativePreview.current?.parentElement?.getBoundingClientRect();
+                          const canvas = nativePreview.current?.parentElement;
+                          const rect = canvas?.getBoundingClientRect();
                           if (rect) {
                             setFullscreenBounds({
                               top: rect.top,
                               left: rect.left,
                               width: rect.width,
                               height: rect.height,
-                              borderRadius: 26,
+                              borderRadius: canvas ? parseFloat(getComputedStyle(canvas).borderRadius) || 0 : 0,
                             });
                             setReservedHeight(rect.height);
                           }
@@ -460,17 +406,18 @@ export function Detail({ page }: { page: CatalogPage }) {
                         <Maximize2 size={14} />
                       </button>
                     </div>
+                    </>
                   )}
                 </div>
               </div>
               <AnimatedPanel>
                 <div
                   hidden={tab !== 'preview'}
-                  className={`docs_canvas__hFCST showcase-preview${mobile ? ' mobile' : ''}`}
+                  className={`docs_canvas__hFCST showcase-preview${isScreen ? ' screen' : ''}${mobile ? ' mobile' : ''}`}
                   style={{ minHeight: reservedHeight }}
                 >
                   <div ref={nativePreview} className="showcase-native-mount">
-                    <DevicePreview mobile={mobile} maxWidth={expanded ? 410 : 332}>
+                    <DevicePreview mobile={mobile} screen={isScreen} expanded={expanded} maxWidth={expanded ? 410 : 332}>
                       {!permitted ? (
                         <div className="showcase-lock">
                           <LockKeyhole size={30} />
@@ -488,7 +435,11 @@ export function Detail({ page }: { page: CatalogPage }) {
                       ) : query.isPending ? (
                         <LoadingStage label="读取页面…" />
                       ) : detail ? (
-                        <div data-prototype-canvas={tab === 'preview' || undefined}>
+                        isScreen ? <ScreenWorkspace page={page} compact={mobile}>
+                          <div data-prototype-canvas={tab === 'preview' || undefined}>
+                            <RuntimePage key={detail.contentRevision} entry={detail.entry} styles={detail.styles} />
+                          </div>
+                        </ScreenWorkspace> : <div data-prototype-canvas={tab === 'preview' || undefined}>
                           <RuntimePage
                             key={detail.contentRevision}
                             entry={detail.entry}
@@ -746,6 +697,7 @@ function Site() {
   const navigationTrigger = useRef<HTMLButtonElement>(null),
     appearanceTrigger = useRef<HTMLButtonElement>(null);
   const projectCatalog = useShowcaseProjects(!administration);
+  const allCatalogs = useShowcaseCatalog(projectCatalog.data?.projects ?? [], !administration);
   const displayedProject = useShowcaseProject(
     /^\/pages\/([a-z0-9-]+)\//.exec(location.pathname)?.[1] ??
       new URLSearchParams(location.search).get('project'),
@@ -764,16 +716,29 @@ function Site() {
     document.addEventListener('keydown', shortcut);
     return () => document.removeEventListener('keydown', shortcut);
   }, [administration]);
-  const pages = catalog.data?.pages ?? [];
+  const pages = allCatalogs.flatMap((item) => item.isError ? [] : item.data?.pages ?? []);
   const selected = pages.find((page) => pageLink(page) === location.pathname);
+  const section = sectionForPath(location.pathname);
+  const selectedKind = selected ? catalogKind(selected) : section?.kind ?? 'page';
+  const [catalogJump, setCatalogJump] = useState<{ kind: CatalogKind; route: string; revision: number } | null>(null);
+  const jumpKind = catalogJump?.route === location.pathname ? catalogJump.kind : selectedKind;
+  const jumpToCatalog = (kind: CatalogKind, panel: HTMLElement | null) => {
+    flushSync(() => setCatalogJump({ kind, route: location.pathname, revision: (catalogJump?.revision ?? 0) + 1 }));
+    const target = panel?.querySelector<HTMLElement>(`[data-catalog-section="${kind}"]`);
+    const scroller = panel?.querySelector<HTMLElement>('.library-sidebar_scroll__Tdgfx');
+    if (target && scroller) scroller.scrollTo({
+      top: scroller.scrollTop + target.getBoundingClientRect().top - scroller.getBoundingClientRect().top,
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+    });
+  };
   const visible = pages.filter(
     (page) =>
       `${page.title} ${page.projectName} ${page.category}`.toLowerCase().includes(filter.toLowerCase()) &&
       (tier === 'all' || page.access === tier) &&
       (!accessibleOnly || page.allowed),
   );
-  const groups = [...new Set(visible.map((page) => page.category || page.clientName))];
-  const first = visible[0] ?? pages[0];
+  const sectionPages = section ? pages.filter((page) => catalogKind(page) === section.kind) : pages;
+  const first = sectionPages.find((page) => page.projectId === displayedProject) ?? sectionPages[0];
   const isDocs = location.pathname.startsWith('/docs');
   const home = location.pathname === '/';
   const changeProject = (value: string) => {
@@ -799,9 +764,10 @@ function Site() {
         <span>Preview</span>
       </Link>
       <nav className={home ? 'site-nav_desktopNav__a6XFI' : 'page_topNav__z05cm'} aria-label="主导航">
-        <Link to={first ? pageLink(first) : '/pages'} aria-current={!home && !isDocs ? 'page' : undefined}>
-          产品
-        </Link>
+        {catalogSections.map((item) => <Link key={item.kind} to={item.path}
+          aria-current={!home && !isDocs && selectedKind === item.kind ? 'page' : undefined}>
+          {item.title}
+        </Link>)}
         <Link
           to={`/docs${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}
           aria-current={isDocs ? 'page' : undefined}
@@ -854,11 +820,6 @@ function Site() {
   );
   const sidebar = (
     <div className="library-sidebar_panel__R3xBf">
-      <SiteProjectMenu
-        projects={projectCatalog.data?.projects ?? []}
-        value={displayedProject}
-        onChange={changeProject}
-      />
       <Link className="showcase-demo-navigation" to={demoDestination}>
         Try the demo
       </Link>
@@ -871,6 +832,7 @@ function Site() {
         accessible={accessibleOnly}
         onAccessible={setAccessibleOnly}
       />
+      <CatalogJump pages={visible} current={jumpKind} onJump={jumpToCatalog} />
       <SidebarSelection activeKey={location.pathname}>
         <SidebarSection title="文档" icon={<BookOpen size={15} strokeWidth={1.75} />}>
           <nav className="library-sidebar_sectionBody__qECt_">
@@ -890,18 +852,25 @@ function Site() {
             </div>
           </nav>
         </SidebarSection>
-        {groups.map((group) => (
-          <SidebarSection
-            key={group}
-            title={group}
-            count={pages.filter((page) => (page.category || page.clientName) === group).length}
-            icon={<Layers3 size={15} strokeWidth={1.75} />}
-          >
-            <nav className="library-sidebar_sectionBody__qECt_" aria-label={group}>
-              <div className="library-sidebar_rows__muylU">
-                {visible
-                  .filter((page) => (page.category || page.clientName) === group)
-                  .map((page) => (
+        {catalogSections.map(({ kind, title }) => {
+          const Icon = catalogIcons[kind];
+          const items = visible.filter((page) => catalogKind(page) === kind);
+          const groups = [...new Set(items.map((page) => page.category || page.clientName))];
+          const activeKey = catalogJump?.route === location.pathname && catalogJump.kind === kind ? `jump:${catalogJump.revision}` :
+            selected && catalogKind(selected) === kind ? pageLink(selected) : '';
+          return (
+            <div key={kind} data-catalog-section={kind}>
+            <SidebarSection title={title} count={items.length}
+              icon={<Icon size={15} strokeWidth={1.75} aria-hidden="true" />}
+              activeKey={activeKey} defaultOpen={kind === 'page'} forceOpen={Boolean(filter) && items.length > 0}>
+              <nav className="library-sidebar_sectionBody__qECt_" aria-label={title}>
+                {groups.map((group, index) => {
+                  const rows = items.filter((page) => (page.category || page.clientName) === group);
+                  const active = rows.some((page) => pageLink(page) === location.pathname) ? location.pathname : '';
+                  return <SidebarSection key={group} group title={group} count={rows.length}
+                    activeKey={active} defaultOpen={index === 0} forceOpen={Boolean(filter)}>
+                    <div className="library-sidebar_rows__muylU">
+                      {rows.map((page) => (
                     <Link
                       key={pageLink(page)}
                       to={pageLink(page)}
@@ -915,13 +884,17 @@ function Site() {
                         <span className="library-sidebar_pro__c08K_">授权</span>
                       )}
                     </Link>
-                  ))}
-              </div>
-            </nav>
-          </SidebarSection>
-        ))}
-        {catalog.error && <p className="showcase-error">{catalog.error.message}</p>}
-        {!catalog.isPending && !visible.length && <p className="showcase-muted">没有匹配页面</p>}
+                      ))}
+                    </div>
+                  </SidebarSection>;
+                })}
+                {!items.length && <p className="showcase-catalog-empty">{filter || tier !== 'all' ? '没有匹配内容' : `暂无${title}`}</p>}
+              </nav>
+            </SidebarSection>
+            </div>
+          );
+        })}
+        {allCatalogs.some((item) => item.isError) && <p className="showcase-error">部分目录读取失败，请稍后重试。</p>}
       </SidebarSelection>
       <div className="library-sidebar_footer__92pu1">
         <Link className="library-sidebar_whatsNew__j_D2O" to={`/docs/changelog${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}>
@@ -1124,11 +1097,11 @@ function Site() {
                 <LoadingStage label="读取原型目录…" />
               ) : catalog.error || projectCatalog.error ? (
                 <main className="showcase-error">{(catalog.error ?? projectCatalog.error)?.message}</main>
-              ) : first && location.pathname === '/pages' ? (
+              ) : first && section ? (
                 <Navigate to={pageLink(first)} replace />
               ) : (
                 <main className="showcase-docs-intro">
-                  <h1>{location.pathname.startsWith('/pages/') ? '页面不存在或已下架' : '暂无可展示页面'}</h1>
+                  <h1>{location.pathname.startsWith('/pages/') ? '页面不存在或已下架' : section ? `暂无${section.title}` : '暂无可展示页面'}</h1>
                   <p>
                     {location.pathname.startsWith('/pages/')
                       ? '请从左侧选择可用页面，或联系管理员核对页面状态。'

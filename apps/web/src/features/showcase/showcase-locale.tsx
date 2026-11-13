@@ -12,6 +12,19 @@ import { usePlatformLocale, type PlatformLocale } from '@/features/locale/platfo
 import { traditionalToSimplified, TRADITIONAL_TO_SIMPLIFIED } from '@/i18n/zh-hans-map';
 
 const english: Record<string, string> = {
+  组件: 'Components',
+  区块: 'Blocks',
+  图谱预览: 'Graph preview',
+  '选择左侧需求或图中节点，查看规则、前因、后果与原文。': 'Select a requirement or a graph node to read its rules, causes, effects and sources.',
+  跳转到内容分类: 'Jump to section',
+  交互页面: 'Live screen',
+  桌面预览: 'Desktop preview',
+  暂无Screens: 'No screens yet',
+  暂无组件: 'No components yet',
+  暂无区块: 'No blocks yet',
+  本页文档: 'Page document',
+  目录读取失败: 'Could not load the navigation',
+  重试: 'Retry',
   提示词: 'Prompt',
   访客: 'Guest',
   公开浏览: 'Public access',

@@ -12,7 +12,8 @@ import {
   Logout01Icon,
   Tick02Icon,
 } from '@hugeicons/core-free-icons';
-import { BookOpen, FileText, LayoutDashboard } from 'lucide-react';
+import { BookOpen, FileText, LayoutDashboard, PanelLeft } from 'lucide-react';
+import { Button as ControlButton } from './admin-controls/runtime/apps/admin/src/components/ui/Button';
 import SegmentedControl from '../upstream/rental-admin/packages/ui-arc/vendor/registry/components/segmented-control/segmented-control';
 import defaultAvatar from '../upstream/rental-admin/apps/admin/src/assets/default-user-avatar.jpg';
 import { useUiEnvironment } from './environment';
@@ -67,6 +68,8 @@ export interface ShellSection {
   routes: ShellRoute[];
 }
 export interface FrameworkShellProps {
+  embedded?: boolean;
+  compact?: boolean;
   title: string;
   subtitle: string;
   workspaces: { key: string; label: string; icon: ReactNode }[];
@@ -106,11 +109,13 @@ function Navigation({
   emptyLabel,
   groupLabel,
   keepEmptySections,
+  embedded = false,
 }: Pick<FrameworkShellProps, 'sections' | 'selectedKey' | 'onNavigate'> & {
   query: string;
   emptyLabel: string;
   groupLabel: string;
   keepEmptySections: boolean;
+  embedded?: boolean;
 }) {
   const { state, isMobile, setOpenMobile } = useSidebar();
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
@@ -122,7 +127,7 @@ function Navigation({
       routes: section.routes.filter((route) => !keyword || route.label.toLocaleLowerCase().includes(keyword)),
     }))
     .filter((section) => section.routes.length || (keepEmptySections && !keyword));
-  const collapsed = !isMobile && state === 'collapsed';
+  const collapsed = !embedded && !isMobile && state === 'collapsed';
   const expanded = (section: ShellSection) =>
     Boolean(
       keyword || (openGroups[section.key] ?? section.routes.some((route) => route.key === selectedKey)),
@@ -139,7 +144,7 @@ function Navigation({
       mode="parent"
       controlledItems
       value={selected}
-      enabled={selected !== null}
+      enabled={!embedded && selected !== null}
       hover={false}
       click={false}
       containerClassName="rental-sidebar-navigation"
@@ -378,7 +383,14 @@ function AccountMenu(props: FrameworkShellProps) {
 
 function ShellContents(props: FrameworkShellProps) {
   const [query, setQuery] = useState('');
+  const [sidebarHidden, setSidebarHidden] = useState(false);
+  const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);
   const { state, isMobile, setOpenMobile } = useSidebar();
+  const embeddedSidebarOpen = props.compact ? mobileNavigationOpen : !sidebarHidden;
+  const sidebarToggle = <ControlButton type="text" size="small" icon={<PanelLeft size={16} />}
+    aria-label={embeddedSidebarOpen ? props.labels.collapse : props.labels.expand}
+    aria-expanded={embeddedSidebarOpen}
+    onClick={() => props.compact ? setMobileNavigationOpen(!mobileNavigationOpen) : setSidebarHidden(!sidebarHidden)} />;
   const route = props.sections
     .flatMap((section) => section.routes)
     .find((item) => item.key === props.selectedKey);
@@ -396,17 +408,19 @@ function ShellContents(props: FrameworkShellProps) {
       </div>
       <div className="grid flex-1 text-left text-sm leading-tight">
         <span className="truncate font-medium">{props.title}</span>
-        <span className="truncate text-xs">{props.subtitle}</span>
+        {!props.embedded && <span className="truncate text-xs">{props.subtitle}</span>}
       </div>
     </>
   );
   return (
     <>
-      <Sidebar collapsible="icon" className="rental-sidebar-colors">
+      <Sidebar collapsible={props.embedded ? 'none' : 'icon'}
+        className={`rental-sidebar-colors${props.embedded ? ' preview-screen-sidebar' : ''}`}
+        hidden={props.embedded && (props.compact ? !mobileNavigationOpen : sidebarHidden)}>
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <DropdownMenu>
+              {props.embedded ? <div className="preview-screen-brand">{brandContent}{sidebarToggle}</div> : <DropdownMenu>
                 <DropdownMenuTrigger
                   aria-label={`${props.title} · ${props.subtitle}`}
                   render={
@@ -451,7 +465,7 @@ function ShellContents(props: FrameworkShellProps) {
                     ))}
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
-              </DropdownMenu>
+              </DropdownMenu>}
             </SidebarMenuItem>
           </SidebarMenu>
           <SidebarInput
@@ -504,25 +518,31 @@ function ShellContents(props: FrameworkShellProps) {
               props.navigationMode === 'components' ? props.labels.center : (props.sections[0]?.label ?? '')
             }
             sections={props.sections}
+            embedded={props.embedded}
             selectedKey={props.selectedKey}
             query={query}
-            onNavigate={props.onNavigate}
+            onNavigate={(path) => { setMobileNavigationOpen(false); props.onNavigate(path); }}
             emptyLabel={props.labels.noMenu}
           />
         </SidebarContent>
         <SidebarFooter>
-          <AccountMenu {...props} />
+          {props.embedded ? <div className="preview-screen-account">
+            <Avatar className="h-8 w-8 rounded-lg"><AvatarImage src={defaultAvatar} alt="" /><AvatarFallback>{props.account.slice(0, 1)}</AvatarFallback></Avatar>
+            <span><strong>{props.account}</strong><small>{props.accountDescription}</small></span>
+          </div> : <AccountMenu {...props} />}
         </SidebarFooter>
-        <SidebarRail />
+        {!props.embedded && <SidebarRail />}
       </Sidebar>
+      {props.embedded && props.compact && mobileNavigationOpen && <button className="preview-screen-navigation-scrim"
+        type="button" aria-label={props.labels.collapse} onClick={() => setMobileNavigationOpen(false)} />}
       <SidebarInset className="app-workspace min-h-0">
         <header className="rental-sidebar-colors native-workspace-context preview-context-header">
           <div className="preview-context-location">
-            <SidebarTrigger
+            {props.embedded ? (!embeddedSidebarOpen && <div className="preview-screen-compact-brand"><span>{props.title}</span>{sidebarToggle}</div>) : <SidebarTrigger
               className="-ml-1"
               aria-label={state === 'collapsed' ? props.labels.expand : props.labels.collapse}
-            />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            />}
+            {!props.embedded && <Separator orientation="vertical" className="mr-2 h-4" />}
             <nav aria-label={props.labels.breadcrumb} className="preview-breadcrumb">
               <span>{section?.label ?? props.subtitle}</span>
               <span aria-hidden="true">/</span>
@@ -534,7 +554,7 @@ function ShellContents(props: FrameworkShellProps) {
           </div>
           <div className="preview-context-actions">
             {props.contextControls}
-            <WorkspaceClock locale={props.locale} />
+            {!props.embedded && <WorkspaceClock locale={props.locale} />}
             {props.showDocumentControl !== false && (
               <button
                 type="button"
@@ -584,7 +604,7 @@ export function FrameworkShell(props: FrameworkShellProps) {
   const { dark } = useUiEnvironment();
   return (
     <TooltipProvider>
-      <div className="preview-native-stage">
+      <div className={`preview-native-stage${props.embedded ? ' preview-screen-stage' : ''}`} data-compact={props.embedded && props.compact || undefined}>
         <div className="app-shell native-admin-shell preview-native-root">
           <SidebarProvider
             animateOnHover={false}

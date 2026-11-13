@@ -90,12 +90,17 @@ const clients = Object.entries(clientNames).map(([id, name], index) => ({
 }));
 const definition = {
   schemaVersion: 1,
-  module: { key: 'rimo-native', projectId: 'rimo-rental', clientId: 'operation', contentKey: 'rimo-rental', label: 'RIMO Rental', surface: 'showcase', pages: pages.map(page => ({ key: page.pageKey, label: page.title, source: page.entry, kind: 'block', registryItem: page.registryName })), initialClients: clients },
+  module: { key: 'rimo-native', projectId: 'rimo-rental', clientId: 'operation', contentKey: 'rimo-rental', label: 'RIMO Rental', surface: 'showcase', pages: pages.map(page => ({ key: page.pageKey, label: page.title, source: page.entry, kind: 'page', registryItem: page.registryName })), initialClients: clients },
   registry: pages.map(page => ({ name: page.registryName, title: page.title, description: `${clientNames[page.clientId]} · ${page.group}。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。`, kind: 'block', moduleKey: 'rimo-native', pageKey: page.pageKey, dependencies: ['antd@^6.6.0','lucide-react@^1.49.0','dayjs@^1.11.21','echarts@^6.1.0','dompurify@^3.4.11'], registryDependencies: [], files: page.registryFiles })),
 };
 const registrationsPath = path.join(workspace, 'packages/platform-contracts/src/registered-projects.json');
 const registrations = JSON.parse(await fs.readFile(registrationsPath, 'utf8'));
 const index = registrations.findIndex(item => item.module.projectId === 'rimo-rental');
+for (const item of definition.registry) {
+  const previous = registrations[index]?.registry.find(entry => entry.name === item.name);
+  if (previous?.description) item.description = previous.description;
+  if (previous?.descriptionEn) item.descriptionEn = previous.descriptionEn;
+}
 for (const page of definition.module.pages) {
   const previous = registrations[index]?.module.pages.find(item => item.key === page.key);
   if (previous?.featuredOrder !== undefined) page.featuredOrder = previous.featuredOrder;

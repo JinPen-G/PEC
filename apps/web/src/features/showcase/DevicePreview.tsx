@@ -3,14 +3,20 @@
 import { useLayoutEffect, useRef, useState, type ReactNode, type CSSProperties } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { siteMotionTokens } from '@preview/ui';
+import { screenPreviewBounds } from './screen-preview';
+import './screen-preview.css';
 export function DevicePreview({
   mobile,
   children,
   maxWidth = 332,
+  screen = false,
+  expanded = false,
 }: {
   mobile: boolean;
   children: ReactNode;
   maxWidth?: number;
+  screen?: boolean;
+  expanded?: boolean;
 }) {
   const host = useRef<HTMLDivElement>(null);
   const [available, setAvailable] = useState(332);
@@ -28,7 +34,7 @@ export function DevicePreview({
         const height =
           fullscreen.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
         if (height > 0) setFitHeight(height);
-      } else if (!mobile) {
+      } else if (!mobile && !screen) {
         const canvas = element.closest<HTMLElement>('.showcase-preview');
         setFitHeight(canvas?.clientHeight || 520);
       }
@@ -40,62 +46,87 @@ export function DevicePreview({
     if (canvas) observer.observe(canvas);
     const fullscreen = element.closest('.showcase-fullscreen-native');
     if (fullscreen) observer.observe(fullscreen);
-    return () => observer.disconnect();
-  }, [mobile]);
+    window.addEventListener('resize', measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [mobile, screen, expanded]);
   const phoneWidth = Math.max(180, Math.min(maxWidth, available));
   const scale = (phoneWidth - 20) / 390;
-  const transition = reduced ? { duration: 0 } : siteMotionTokens.spring.smooth;
+  const bounds = screenPreviewBounds({
+    available,
+    fitHeight,
+    mobile,
+    expanded,
+    maxWidth: expanded ? maxWidth : 280,
+  });
+  const transition = reduced || screen ? { duration: 0 } : siteMotionTokens.spring.smooth;
+  const Scaler = screen ? 'div' : motion.div;
+  const scalerBounds = {
+    width: screen ? bounds.width : mobile ? 390 : available,
+    height: screen ? bounds.height : mobile ? 844 : fitHeight,
+  };
   return (
-    <div ref={host} className={`showcase-device-host${mobile ? ' phone' : ''}`}>
+    <div
+      ref={host}
+      className={`showcase-device-host${mobile ? ' phone' : ''}`}
+      data-screen={screen || undefined}
+    >
       <motion.div
         className="preview-shell_shell__OFjTY showcase-device-shell"
         data-mode={mobile ? 'mobile' : 'fit'}
         initial={false}
         animate={{
-          width: mobile ? phoneWidth : available,
-          height: mobile ? 844 * scale + 20 : fitHeight,
-          borderRadius: mobile ? 46 : 0,
+          width: screen ? bounds.frameWidth : mobile ? phoneWidth : available,
+          height: screen ? bounds.frameHeight : mobile ? 844 * scale + 20 : fitHeight,
+          borderRadius: mobile ? (screen ? 30 : 46) : 0,
         }}
         transition={transition}
       >
-        <motion.div
-          className="preview-shell_bezel__I2eh4"
-          aria-hidden="true"
-          initial={false}
-          animate={{ opacity: mobile ? 1 : 0 }}
-          transition={transition}
-        />
+        {!screen && (
+          <motion.div
+            className="preview-shell_bezel__I2eh4"
+            aria-hidden="true"
+            initial={false}
+            animate={{ opacity: mobile ? 1 : 0 }}
+            transition={transition}
+          />
+        )}
         <motion.div
           className="showcase-device-screen"
           initial={false}
-          animate={{ inset: mobile ? 10 : 0, borderRadius: mobile ? 36 : 0 }}
+          animate={{ inset: mobile && !screen ? 10 : 0, borderRadius: mobile ? (screen ? 30 : 36) : 0 }}
           transition={transition}
         >
-          <motion.div
+          <Scaler
             className="showcase-device-scaler"
-            initial={false}
-            animate={{
-              width: mobile ? 390 : available,
-              height: mobile ? 844 : fitHeight,
-              scale: mobile ? scale : 1,
-            }}
-            transition={transition}
-            style={{ '--preview-screen-height': mobile ? '844px' : `${fitHeight}px` } as CSSProperties}
+            {...(!screen && {
+              initial: false as const,
+              animate: { ...scalerBounds, scale: mobile ? scale : 1 },
+              transition,
+            })}
+            style={
+              {
+                ...(screen && { ...scalerBounds, transform: `scale(${bounds.scale})` }),
+                '--preview-screen-height': `${screen ? bounds.height : mobile ? 844 : fitHeight}px`,
+              } as CSSProperties
+            }
           >
             <motion.div
               className="showcase-device-native"
               initial={false}
               animate={{
-                paddingTop: 24,
-                paddingBottom: 24,
-                paddingLeft: mobile ? 18 : 24,
-                paddingRight: mobile ? 18 : 24,
+                paddingTop: screen ? 0 : 24,
+                paddingBottom: screen ? 0 : 24,
+                paddingLeft: screen ? 0 : mobile ? 18 : 24,
+                paddingRight: screen ? 0 : mobile ? 18 : 24,
               }}
               transition={transition}
             >
               <div className="showcase-device-page">{children}</div>
             </motion.div>
-          </motion.div>
+          </Scaler>
         </motion.div>
       </motion.div>
     </div>

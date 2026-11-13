@@ -1,6 +1,7 @@
 /** UI-only projection of the fixed admin arcTokens/theme baseline. No account,
  * tenant, settings or Rental OS runtime is consulted. */
 import { theme, type ThemeConfig } from 'antd';
+import { DEFAULT_UI_RADII } from '@preview/ui';
 import { resolveRadii, type AppearancePreferences } from '@/features/appearance/appearance-preferences';
 
 // Same OKLCH conversion as the preserved upstream arcTokens.ts.
@@ -30,7 +31,7 @@ function oklchToHex(lightness: number, chroma = 0, hue = 0) {
 }
 
 export function createNativeAntTheme(dark: boolean, preferences?: AppearancePreferences): ThemeConfig {
-  const radii = preferences ? resolveRadii(preferences) : { container: 26, button: 18, input: 18 };
+  const radii = preferences ? resolveRadii(preferences) : DEFAULT_UI_RADII;
   const primary = preferences?.themeColor || oklchToHex(dark ? 0.8 : 0.33);
   const status = dark
     ? {
@@ -115,7 +116,7 @@ export function applyNativeAntColors(root: HTMLElement, dark: boolean, preferenc
     const property = '--rental-' + name.replace(/[A-Z]/g, (letter) => '-' + letter.toLowerCase());
     set(property, value);
   }
-  const radii = preferences ? resolveRadii(preferences) : { container: 26, button: 18, input: 18 };
+  const radii = preferences ? resolveRadii(preferences) : DEFAULT_UI_RADII;
   for (const [name, radius] of Object.entries({
     container: radii.container,
     button: radii.button,

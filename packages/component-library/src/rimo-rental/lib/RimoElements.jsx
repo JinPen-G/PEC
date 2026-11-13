@@ -112,7 +112,7 @@ function RimoToolbarActions({ children }) {
   useLayoutEffect(() => {
     const toolbar = root.current?.closest('[data-table-tools]') ?? root.current?.parentElement;
     if (!toolbar) return;
-    const resize = () => { const width = toolbar.getBoundingClientRect().width; if (width > 0) setCompact(width < 640); };
+    const resize = () => { const width = toolbar.clientWidth; if (width > 0) setCompact(width < 640); };
     resize();
     const observer = new ResizeObserver(resize);
     observer.observe(toolbar);

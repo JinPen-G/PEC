@@ -13,140 +13,140 @@
           "key": "email-boocar-account-notice-email",
           "label": "boocar 公务车账号通知",
           "source": "EmailBoocarAccountNoticeEmailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-email-boocar-account-notice-email"
         },
         {
           "key": "email-boocar-branch-admin-notice-email",
           "label": "boocar 分公司账号通知",
           "source": "EmailBoocarBranchAdminNoticeEmailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-email-boocar-branch-admin-notice-email"
         },
         {
           "key": "email-enterprise-branch-admin-notice-email",
           "label": "企业分公司管理员通知",
           "source": "EmailEnterpriseBranchAdminNoticeEmailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-email-enterprise-branch-admin-notice-email"
         },
         {
           "key": "email-enterprise-contract-notice-email",
           "label": "企业签约账号通知",
           "source": "EmailEnterpriseContractNoticeEmailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-email-enterprise-contract-notice-email"
         },
         {
           "key": "email-notification-messages",
           "label": "通知消息",
           "source": "EmailNotificationMessagesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-email-notification-messages"
         },
         {
           "key": "verification-email",
           "label": "验证码邮件",
           "source": "VerificationEmailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-verification-email"
         },
         {
           "key": "enterprise-approval-setting",
           "label": "预约审批设定",
           "source": "EnterpriseApprovalSettingPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-approval-setting"
         },
         {
           "key": "enterprise-branch-company-management",
           "label": "分公司管理",
           "source": "EnterpriseBranchCompanyManagementPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-branch-company-management"
         },
         {
           "key": "enterprise-car-use-management",
           "label": "车辆使用范围",
           "source": "EnterpriseCarUseManagementPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-car-use-management"
         },
         {
           "key": "enterprise-channel-ticket-batch-detail",
           "label": "企业租车券批次详情",
           "source": "EnterpriseChannelTicketBatchDetailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-channel-ticket-batch-detail"
         },
         {
           "key": "enterprise-channel-ticket-batches",
           "label": "企业合作通路租车券",
           "source": "EnterpriseChannelTicketBatchesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-channel-ticket-batches"
         },
         {
           "key": "enterprise-contract-quotas",
           "label": "合约配额管理",
           "source": "EnterpriseContractQuotasPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-contract-quotas"
         },
         {
           "key": "enterprise-corporate-login",
           "label": "企业端登录",
           "source": "EnterpriseCorporateLoginPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-corporate-login"
         },
         {
           "key": "enterprise-dashboard",
           "label": "公务车仪表板",
           "source": "EnterpriseDashboardPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-dashboard"
         },
         {
           "key": "enterprise-department-management",
           "label": "部门管理",
           "source": "EnterpriseDepartmentManagementPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-department-management"
         },
         {
           "key": "enterprise-dispatch-schedule",
           "label": "车辆调度排程",
           "source": "EnterpriseDispatchSchedulePage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-dispatch-schedule"
         },
         {
           "key": "enterprise-employee-management",
           "label": "员工管理",
           "source": "EnterpriseEmployeeManagementPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-employee-management"
         },
         {
           "key": "enterprise-employee-review",
           "label": "员工申请审核",
           "source": "EnterpriseEmployeeReviewPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-employee-review"
         },
         {
           "key": "enterprise-official-car-bill",
           "label": "公务车账单",
           "source": "EnterpriseOfficialCarBillPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-official-car-bill"
         },
         {
           "key": "enterprise-official-order-add",
           "label": "新增公务订单",
           "source": "EnterpriseOfficialOrderAddPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-official-order-add"
         },
         {
@@ -154,91 +154,91 @@
           "label": "公务订单管理",
           "source": "EnterpriseOfficialOrderPage.tsx",
           "featuredOrder": 5,
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-official-order"
         },
         {
           "key": "enterprise-official-vehicle-add",
           "label": "新增公务车",
           "source": "EnterpriseOfficialVehicleAddPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-official-vehicle-add"
         },
         {
           "key": "enterprise-official-vehicle-reminders",
           "label": "清洁保养提醒",
           "source": "EnterpriseOfficialVehicleRemindersPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-official-vehicle-reminders"
         },
         {
           "key": "enterprise-official-vehicles",
           "label": "公务车辆管理",
           "source": "EnterpriseOfficialVehiclesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-official-vehicles"
         },
         {
           "key": "enterprise-time-share-orders",
           "label": "企业分时租赁订单",
           "source": "EnterpriseTimeShareOrdersPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-enterprise-time-share-orders"
         },
         {
           "key": "tutorial-index",
           "label": "公务车教程目录",
           "source": "TutorialIndexPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-tutorial-index"
         },
         {
           "key": "tutorial-documentation",
           "label": "公务车教程文档版",
           "source": "TutorialDocumentationPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-tutorial-documentation"
         },
         {
           "key": "tutorial-editor",
           "label": "公务车教程维护",
           "source": "TutorialEditorPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-tutorial-editor"
         },
         {
           "key": "tutorial",
           "label": "公务车操作教程",
           "source": "TutorialPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-tutorial"
         },
         {
           "key": "mobile-channel-ticket-app-compatible",
           "label": "租车券预约：现有流程适配",
           "source": "MobileChannelTicketAppCompatiblePage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-mobile-channel-ticket-app-compatible"
         },
         {
           "key": "mobile-channel-ticket-app",
           "label": "租车券预约 APP",
           "source": "MobileChannelTicketAppPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-mobile-channel-ticket-app"
         },
         {
           "key": "channel-ticket-applications",
           "label": "租车券申报审批",
           "source": "ChannelTicketApplicationsPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-channel-ticket-applications"
         },
         {
           "key": "channel-ticket-batch-detail",
           "label": "租车券批次详情",
           "source": "ChannelTicketBatchDetailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-channel-ticket-batch-detail"
         },
         {
@@ -246,35 +246,35 @@
           "label": "合作通路租车券",
           "source": "ChannelTicketBatchesPage.tsx",
           "featuredOrder": 6,
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-channel-ticket-batches"
         },
         {
           "key": "corporate-detail",
           "label": "企业详情",
           "source": "CorporateDetailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-corporate-detail"
         },
         {
           "key": "corporate-login",
           "label": "企业服务登录",
           "source": "CorporateLoginPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-corporate-login"
         },
         {
           "key": "corporates",
           "label": "企业客户管理",
           "source": "CorporatesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-corporates"
         },
         {
           "key": "dashboard",
           "label": "综合仪表板",
           "source": "DashboardPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-dashboard"
         },
         {
@@ -282,105 +282,105 @@
           "label": "车辆排程看板",
           "source": "DispatchPage.tsx",
           "featuredOrder": 3,
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-dispatch"
         },
         {
           "key": "employees",
           "label": "平台业务账户管理",
           "source": "EmployeesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-employees"
         },
         {
           "key": "login",
           "label": "营运后台登录",
           "source": "LoginPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-login"
         },
         {
           "key": "marketing",
           "label": "行销方案管理",
           "source": "MarketingPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-marketing"
         },
         {
           "key": "member-detail",
           "label": "会员详情",
           "source": "MemberDetailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-member-detail"
         },
         {
           "key": "member-review",
           "label": "资质认证审核",
           "source": "MemberReviewPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-member-review"
         },
         {
           "key": "members",
           "label": "个人会员管理",
           "source": "MembersPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-members"
         },
         {
           "key": "membership-plans",
           "label": "客户等级方案",
           "source": "MembershipPlansPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-membership-plans"
         },
         {
           "key": "new-order-one-way",
           "label": "新增甲租乙还订单",
           "source": "NewOrderOneWayPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-new-order-one-way"
         },
         {
           "key": "new-order-same-station",
           "label": "新增同站租还订单",
           "source": "NewOrderSameStationPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-new-order-same-station"
         },
         {
           "key": "new-order",
           "label": "新增门市租车订单",
           "source": "NewOrderPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-new-order"
         },
         {
           "key": "official-vehicle-contracts",
           "label": "公务用车合约管理",
           "source": "OfficialVehicleContractsPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-official-vehicle-contracts"
         },
         {
           "key": "order-detail",
           "label": "订单详情",
           "source": "OrderDetailPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-order-detail"
         },
         {
           "key": "permissions-grouped",
           "label": "权限管理：业务分组",
           "source": "PermissionsGroupedPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-permissions-grouped"
         },
         {
           "key": "permissions",
           "label": "权限管理",
           "source": "PermissionsPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-permissions"
         },
         {
@@ -388,42 +388,42 @@
           "label": "动态调价策略",
           "source": "PricingPage.tsx",
           "featuredOrder": 4,
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-pricing"
         },
         {
           "key": "rental-companies",
           "label": "车行管理",
           "source": "RentalCompaniesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-rental-companies"
         },
         {
           "key": "service-products",
           "label": "基础产品定价",
           "source": "ServiceProductsPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-service-products"
         },
         {
           "key": "services",
           "label": "增值服务管理",
           "source": "ServicesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-services"
         },
         {
           "key": "settings",
           "label": "租赁业务规则",
           "source": "SettingsPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-settings"
         },
         {
           "key": "stations",
           "label": "据点管理",
           "source": "StationsPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-stations"
         },
         {
@@ -431,42 +431,42 @@
           "label": "门市租赁订单",
           "source": "StoreOrdersPage.tsx",
           "featuredOrder": 2,
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-store-orders"
         },
         {
           "key": "stores",
           "label": "门市管理",
           "source": "StoresPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-stores"
         },
         {
           "key": "system-rules",
           "label": "系统通用参数",
           "source": "SystemRulesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-system-rules"
         },
         {
           "key": "tbox-management",
           "label": "车机设定中心",
           "source": "TboxManagementPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-tbox-management"
         },
         {
           "key": "time-share-orders",
           "label": "分时租赁订单",
           "source": "TimeShareOrdersPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-time-share-orders"
         },
         {
           "key": "vehicle-console",
           "label": "车辆控制台",
           "source": "VehicleConsolePage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-vehicle-console"
         },
         {
@@ -474,42 +474,42 @@
           "label": "车型组管理",
           "source": "VehicleGroupsPage.tsx",
           "featuredOrder": 1,
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-vehicle-groups"
         },
         {
           "key": "vehicle-status-list",
           "label": "车辆速查表",
           "source": "VehicleStatusListPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-vehicle-status-list"
         },
         {
           "key": "vehicle-transfer",
           "label": "车辆调拨管理",
           "source": "VehicleTransferPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-vehicle-transfer"
         },
         {
           "key": "vehicles",
           "label": "车辆档案库",
           "source": "VehiclesPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-vehicles"
         },
         {
           "key": "war-room",
           "label": "战情分析看板",
           "source": "WarRoomPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-war-room"
         },
         {
           "key": "workbench",
           "label": "工作台首页",
           "source": "WorkbenchPage.tsx",
-          "kind": "block",
+          "kind": "page",
           "registryItem": "rimo-workbench"
         }
       ],
@@ -1143,7 +1143,8 @@
       {
         "name": "rimo-email-boocar-account-notice-email",
         "title": "boocar 公务车账号通知",
-        "description": "通知信件 · 通知与账号信件。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Welcome company administrators with fleet account details, a sign-in link, and the steps to get started.",
+        "description": "向企业管理员发送公务车账号开通通知，集中说明账号信息、登录入口与开始使用的步骤。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "email-boocar-account-notice-email",
@@ -1201,7 +1202,8 @@
       {
         "name": "rimo-email-boocar-branch-admin-notice-email",
         "title": "boocar 分公司账号通知",
-        "description": "通知信件 · 通知与账号信件。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Notify branch administrators that their account is ready, with company, branch, sign-in, and management scope details.",
+        "description": "通知分公司管理员账号已开通，说明所属企业、分公司、登录方式及可管理的业务范围。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "email-boocar-branch-admin-notice-email",
@@ -1259,7 +1261,8 @@
       {
         "name": "rimo-email-enterprise-branch-admin-notice-email",
         "title": "企业分公司管理员通知",
-        "description": "通知信件 · 通知与账号信件。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Give newly authorized branch administrators their account details and sign-in link to start managing their branch.",
+        "description": "向企业指定的分公司管理员说明授权结果、账号信息与登录入口，帮助接手本分公司的日常管理。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "email-enterprise-branch-admin-notice-email",
@@ -1317,7 +1320,8 @@
       {
         "name": "rimo-email-enterprise-contract-notice-email",
         "title": "企业签约账号通知",
-        "description": "通知信件 · 通知与账号信件。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Send company administrators their sign-in details and a guide to the services available under their agreement.",
+        "description": "企业账号开通后，向管理员提供登录信息与已开放服务的使用指引，方便查看签约内容并开始使用。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "email-enterprise-contract-notice-email",
@@ -1375,7 +1379,8 @@
       {
         "name": "rimo-email-notification-messages",
         "title": "通知消息",
-        "description": "通知信件 · 通知与账号信件。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Browse email and SMS templates by use case. Review summaries, subjects, and content, or open a full email preview.",
+        "description": "按业务场景查找 Email 与短信模板，查看通知名称、摘要、主题及正文，并进入完整信件预览。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "email-notification-messages",
@@ -1433,7 +1438,8 @@
       {
         "name": "rimo-verification-email",
         "title": "验证码邮件",
-        "description": "通知信件 · 通知与账号信件。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Preview the email used to verify an address, including tenant identity, verification code, instructions, and security notice.",
+        "description": "展示用户验证邮箱时收到的验证码邮件，保留租户标识、验证码、操作提示与安全说明。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "verification-email",
@@ -1491,7 +1497,8 @@
       {
         "name": "rimo-enterprise-approval-setting",
         "title": "预约审批设定",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Set whether fleet reservations require approval for each branch, within the administrator’s organizational scope.",
+        "description": "按分公司设定公务车预约是否需要审批，明确员工提交后的处理方式，并按管理员的组织权限限制配置范围。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-approval-setting",
@@ -1549,7 +1556,8 @@
       {
         "name": "rimo-enterprise-branch-company-management",
         "title": "分公司管理",
-        "description": "企业端 · 企业组织。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage company branches, administrators, and available stations. Create, edit, and enable branches for staff, vehicle access, and reporting.",
+        "description": "维护企业分公司的基本资料、管理员与可用据点。支持新增、编辑和启停，为员工归属、车辆使用及统计提供组织依据。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-branch-company-management",
@@ -1607,7 +1615,8 @@
       {
         "name": "rimo-enterprise-car-use-management",
         "title": "车辆使用范围",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Assign employees or departments to company vehicles and review branch ownership and access rules for dedicated fleet reservations.",
+        "description": "为公务车辆配置可使用的员工或部门，查看车辆所属分公司及授权范围，控制专用车辆的预约资格。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-car-use-management",
@@ -1665,7 +1674,8 @@
       {
         "name": "rimo-enterprise-channel-ticket-batch-detail",
         "title": "企业租车券批次详情",
-        "description": "企业端 · 合作通路租车券。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review your company’s voucher batches, distribution, and usage. Follow related orders and settlement charges down to each voucher.",
+        "description": "查看本企业租车券活动的批次信息、发券与使用进度，核对关联订单和结算费用，追踪每张券的使用结果。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-channel-ticket-batch-detail",
@@ -1723,7 +1733,8 @@
       {
         "name": "rimo-enterprise-channel-ticket-batches",
         "title": "企业合作通路租车券",
-        "description": "企业端 · 合作通路租车券。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Submit voucher campaigns with rental periods and recipient lists or quantities, then track approvals, issued batches, and orders.",
+        "description": "合作企业提交租车券活动申报，维护用车时段、名单或数量，并查询正式批次、用券订单与审批进度。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-channel-ticket-batches",
@@ -1781,7 +1792,8 @@
       {
         "name": "rimo-enterprise-contract-quotas",
         "title": "合约配额管理",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review fleet contract quotas, branch allocations, and assigned vehicles. Arrange transfers between company contracts and track quota usage.",
+        "description": "查看公务车合约的可用配额、分公司分配及车辆绑定，在同企业合约间安排车辆转移，追踪配额的使用情况。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-contract-quotas",
@@ -1839,7 +1851,8 @@
       {
         "name": "rimo-enterprise-corporate-login",
         "title": "企业端登录",
-        "description": "企业端 · 账号登录。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "A company administrator sign-in flow with account and password fields, validation feedback, and access to the fleet workspace.",
+        "description": "企业管理员通过业务账号进入公务车后台。页面展示账号与密码输入、校验反馈和登录后的业务入口。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-corporate-login",
@@ -1897,7 +1910,8 @@
       {
         "name": "rimo-enterprise-dashboard",
         "title": "公务车仪表板",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "An overview of staff, fleet assets, orders, trip duration, and utilization, with branch trends and rankings to understand fleet usage.",
+        "description": "总览企业员工、车辆、订单、用车时长与使用率，按分公司查看趋势和排名，帮助了解公务车的投入与使用情况。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-dashboard",
@@ -1955,7 +1969,8 @@
       {
         "name": "rimo-enterprise-department-management",
         "title": "部门管理",
-        "description": "企业端 · 企业组织。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage departments and supervisors within each branch to support staff assignments, reservation approvals, vehicle access, and usage reporting.",
+        "description": "维护分公司内的部门与主管信息，为员工归属、预约审批、车辆使用授权及部门用车统计建立组织基础。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-department-management",
@@ -2013,7 +2028,8 @@
       {
         "name": "rimo-enterprise-dispatch-schedule",
         "title": "车辆调度排程",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Explore reservations and actual occupancy on a vehicle timeline. Find available periods and conflicts, including trips booked by other branches.",
+        "description": "沿车辆与时间轴查看公务车预约和实际占用，定位空闲时段与冲突；跨分公司的用车记录仍显示在对应车辆排程中。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-dispatch-schedule",
@@ -2071,7 +2087,8 @@
       {
         "name": "rimo-enterprise-employee-management",
         "title": "员工管理",
-        "description": "企业端 · 企业组织。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage approved employees, review organization and employment status, and update branches, departments, or bulk settings within your access scope.",
+        "description": "管理已审核通过的企业员工，查询组织归属、基础资料及在职状态，并按权限调整分公司、部门和批量业务设置。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-employee-management",
@@ -2129,7 +2146,8 @@
       {
         "name": "rimo-enterprise-employee-review",
         "title": "员工申请审核",
-        "description": "企业端 · 企业组织。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review requests to join the company, check employee details and branch assignments, approve or reject applications, and inspect review history.",
+        "description": "审核员工加入企业的申请，核对申请资料与分公司归属，处理通过或驳回，并查看审核记录。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-employee-review",
@@ -2187,7 +2205,8 @@
       {
         "name": "rimo-enterprise-official-car-bill",
         "title": "公务车账单",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review fleet contract billing periods, quota fees, payment progress, and transfer details for new subscriptions and renewals.",
+        "description": "按公务车合约查看账期、配额费用、付款进度与汇款明细，核对新增及续费产生的企业应付账款。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-official-car-bill",
@@ -2245,7 +2264,8 @@
       {
         "name": "rimo-enterprise-official-order-add",
         "title": "新增公务订单",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Book a company vehicle for an employee. Select the driver, station, vehicle, and period, then check eligibility and approval requirements.",
+        "description": "由企业管理员代员工预约公务车，选择用车人、据点、车辆与时段，核对可用范围及审批要求后提交。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-official-order-add",
@@ -2303,7 +2323,8 @@
       {
         "name": "rimo-enterprise-official-order",
         "title": "公务订单管理",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Find employee fleet reservations, approvals, and trips by status or organization, with vehicle and pickup and return details.",
+        "description": "查询员工的公务车预约、审批和实际用车记录，按状态与组织定位订单，查看行程、车辆及取还车详情。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-official-order",
@@ -2361,7 +2382,8 @@
       {
         "name": "rimo-enterprise-official-vehicle-add",
         "title": "新增公务车",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Create a company vehicle record with model, registration, ownership, and usage details for reservations and fleet administration.",
+        "description": "建立公务车辆档案，填写车型、证照和车辆基础资料，配置资产归属与使用信息，为后续预约和车辆管理提供依据。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-official-vehicle-add",
@@ -2419,7 +2441,8 @@
       {
         "name": "rimo-enterprise-official-vehicle-reminders",
         "title": "清洁保养提醒",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review cleaning and maintenance reminders against each vehicle’s baseline, record completed work, and track outstanding maintenance needs.",
+        "description": "根据车辆保养基线与提醒规则查看待处理事项，记录清洁保养完成情况，持续跟踪公务车辆的维护需求。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-official-vehicle-reminders",
@@ -2477,7 +2500,8 @@
       {
         "name": "rimo-enterprise-official-vehicles",
         "title": "公务车辆管理",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage company vehicles, asset branches, parking stations, contract quotas, and usage, including the conditions that make vehicles available to book.",
+        "description": "集中管理公务车辆资料、资产分公司、停放据点、合约配额及使用量，查看车辆状态并维护可预约条件。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-official-vehicles",
@@ -2535,7 +2559,8 @@
       {
         "name": "rimo-enterprise-time-share-orders",
         "title": "企业分时租赁订单",
-        "description": "企业端 · 公务车管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "A read-only view of your company’s round-trip and one-way rentals, with driver, itinerary, vehicle, and cost details for reconciliation.",
+        "description": "只读查询本企业的同站租还与甲租乙还订单，查看用车人、行程、车辆及费用信息，便于企业核对用车记录。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "enterprise-time-share-orders",
@@ -2593,7 +2618,8 @@
       {
         "name": "rimo-tutorial-index",
         "title": "公务车教程目录",
-        "description": "公开教程 · 公务车操作教程。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Browse fleet tutorials by role and chapter to find where a feature lives, how to use it, and what to check along the way.",
+        "description": "按角色与章节浏览公务车操作教程，快速找到对应功能的进入路径、操作步骤与注意事项。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "tutorial-index",
@@ -2659,7 +2685,8 @@
       {
         "name": "rimo-tutorial-documentation",
         "title": "公务车教程文档版",
-        "description": "公开教程 · 公务车操作教程。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Read fleet tutorials in a documentation layout with role-based chapters, navigation paths, steps, and illustrations.",
+        "description": "用文档式目录阅读公务车角色与操作章节，结合路径、步骤和图示理解每项功能，支持连续阅读与章节定位。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "tutorial-documentation",
@@ -2725,7 +2752,8 @@
       {
         "name": "rimo-tutorial-editor",
         "title": "公务车教程维护",
-        "description": "公开教程 · 公务车操作教程。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Edit fleet tutorial roles, chapters, navigation paths, steps, and screenshot notes in the shared structure used by each reading layout.",
+        "description": "维护公务车教程的角色、章节、路径、步骤与截图说明，统一编辑标题、简介及更新时间，供各阅读版本共用。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "tutorial-editor",
@@ -2791,7 +2819,8 @@
       {
         "name": "rimo-tutorial",
         "title": "公务车操作教程",
-        "description": "公开教程 · 公务车操作教程。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Role-based fleet instructions for company administrators, branch administrators, and employees, covering setup through reservation and use.",
+        "description": "面向企业管理员、分公司管理员与员工提供公务车操作指引，按角色查看从配置到预约用车的具体步骤。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "tutorial",
@@ -2857,7 +2886,8 @@
       {
         "name": "rimo-mobile-channel-ticket-app-compatible",
         "title": "租车券预约：现有流程适配",
-        "description": "移动端 · 租车券预约。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Add voucher booking to the existing rental flow, keeping period, station, and vehicle selection within the voucher’s permitted scope.",
+        "description": "在现有租车流程中接入租车券，保留时段、据点与车辆选择，并根据券的适用范围限定可预约内容。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "mobile-channel-ticket-app-compatible",
@@ -2919,7 +2949,8 @@
       {
         "name": "rimo-mobile-channel-ticket-app",
         "title": "租车券预约 APP",
-        "description": "移动端 · 租车券预约。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Start a round-trip booking from an available voucher or redemption code, with eligible rental periods, stations, and vehicles.",
+        "description": "会员从我的租车券或兑换码进入预约，查看券的可用状态，按指定时段、据点和车辆范围完成同站租还预订。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "mobile-channel-ticket-app",
@@ -2981,7 +3012,8 @@
       {
         "name": "rimo-channel-ticket-applications",
         "title": "租车券申报审批",
-        "description": "营运端 · 合作通路租车券。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review partner voucher campaigns by company, status, or distribution method. Check periods and recipients, assign stations, and approve or reject. Approval creates the issued batch.",
+        "description": "审核合作企业提交的租车券活动申报。按企业、状态与发券方式查找记录，核对用车时段、名单或数量，绑定据点并通过或驳回；审批通过后生成正式批次。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "channel-ticket-applications",
@@ -3039,7 +3071,8 @@
       {
         "name": "rimo-channel-ticket-batch-detail",
         "title": "租车券批次详情",
-        "description": "营运端 · 合作通路租车券。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Inspect campaign inventory risk, vouchers, orders, charges, and activity. Enable or suspend the batch, add recipients, or issue more vouchers.",
+        "description": "查看活动批次、库存风险、租车券状态与关联订单，核对费用和操作记录，并处理批次启停、追加名单及新增券。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "channel-ticket-batch-detail",
@@ -3097,7 +3130,8 @@
       {
         "name": "rimo-channel-ticket-batches",
         "title": "合作通路租车券",
-        "description": "营运端 · 合作通路租车券。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Create or approve partner voucher batches for round-trip rentals. Set eligible periods, stations, and distribution methods, then track issuance and use.",
+        "description": "管理合作企业的同站租还活动批次，直接创建或由申报审批生成，配置指定时段、据点与发券方式，追踪发放和使用进度。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "channel-ticket-batches",
@@ -3155,7 +3189,8 @@
       {
         "name": "rimo-corporate-detail",
         "title": "企业详情",
-        "description": "营运端 · 企业客户。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "A company record combining contacts, subscribed services, and monthly billing with fleet quotas, staff, orders, and invoices.",
+        "description": "集中查看企业基本资料、联系人、签约服务与月结设置，关联公务车合约配额、员工、订单及账单，了解企业的服务使用情况。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "corporate-detail",
@@ -3213,7 +3248,8 @@
       {
         "name": "rimo-corporate-login",
         "title": "企业服务登录",
-        "description": "营运端 · 账号登录。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "A company customer sign-in screen with credential fields, validation messages, and feedback when entering the service workspace.",
+        "description": "展示企业客户进入服务平台的账号登录流程，包含凭据输入、校验提示与进入业务后台的反馈。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "corporate-login",
@@ -3271,7 +3307,8 @@
       {
         "name": "rimo-corporates",
         "title": "企业客户管理",
-        "description": "营运端 · 企业客户。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Maintain company identifiers, contacts, and business accounts, configure subscribed services and plans, and find customers by status.",
+        "description": "维护企业名称、统一编号、联系人与业务账号，配置签约服务和方案，按状态查找客户并进入企业详情。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "corporates",
@@ -3329,7 +3366,8 @@
       {
         "name": "rimo-dashboard",
         "title": "综合仪表板",
-        "description": "营运端 · 营运总览。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "An operating overview of members, companies, fleet status, today’s orders, and estimated revenue, with recent trends and exception alerts.",
+        "description": "总览会员与企业规模、车队状态、今日订单及预估收入，结合近期趋势和异常提醒，掌握当前营运情况。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "dashboard",
@@ -3387,7 +3425,8 @@
       {
         "name": "rimo-dispatch",
         "title": "车辆排程看板",
-        "description": "营运端 · 车辆调度。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "View bookings, provisional assignments, and vehicle locks on a timeline. Spot conflicts and open slots, then move into manual dispatch.",
+        "description": "沿时间轴查看车辆订单占用、预分配与硬锁，识别排程冲突和可用空档，并进入人工派车及调度处理。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "dispatch",
@@ -3445,7 +3484,8 @@
       {
         "name": "rimo-employees",
         "title": "平台业务账户管理",
-        "description": "营运端 · 企业客户。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage business accounts for operators, rental companies, stores, and stations, including departments, roles, contacts, and active status.",
+        "description": "管理营运人员及车行、门市、据点的业务账号，维护部门、角色、联系方式和启停状态，明确各账号的业务归属。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "employees",
@@ -3503,7 +3543,8 @@
       {
         "name": "rimo-login",
         "title": "营运后台登录",
-        "description": "营运端 · 账号登录。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "An operator sign-in flow with account and password entry, validation and error feedback, and access to the organization’s workspace.",
+        "description": "营运人员通过业务账号登录后台，填写账号与密码，查看校验和异常提示后进入所属组织的业务工作区。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "login",
@@ -3561,7 +3602,8 @@
       {
         "name": "rimo-marketing",
         "title": "行销方案管理",
-        "description": "营运端 · 行销方案。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Build promotions around customer eligibility, time, location, vehicle group, and rental period. Manage priorities, discounts, deductions, and fixed prices.",
+        "description": "按客户资格、时段、据点、车组与租期配置优惠，维护方案优先级及折扣、直减、一口价规则，控制优惠在租车流程中的适用范围。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "marketing",
@@ -3619,7 +3661,8 @@
       {
         "name": "rimo-member-detail",
         "title": "会员详情",
-        "description": "营运端 · 会员管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review member identity, contacts, qualifications, eligible vehicles, and current plan alongside orders, transactions, points, and review history.",
+        "description": "集中查看会员身份、联系方式、证件资质、可用载具与当前方案，关联订单、交易、积分及审核历史，支持完整追踪会员记录。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "member-detail",
@@ -3677,7 +3720,8 @@
       {
         "name": "rimo-member-review",
         "title": "资质认证审核",
-        "description": "营运端 · 会员管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Find applications by date, channel, and review status. Check identity, licence, and selfie evidence, then record approvals, rejections, or risk decisions.",
+        "description": "按提交时间、渠道与审核状态查找会员，核对身份、驾照和自拍资料，处理通过、驳回及高风险记录并保留审核历史。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "member-review",
@@ -3735,7 +3779,8 @@
       {
         "name": "rimo-members",
         "title": "个人会员管理",
-        "description": "营运端 · 会员管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Find members by contact details, plan, company relationship, or account status, then open their full identity and rental history.",
+        "description": "查询个人会员的联系资料、等级方案、企业关系与账户状态，快速定位会员并查看完整身份及用车记录。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "members",
@@ -3793,7 +3838,8 @@
       {
         "name": "rimo-membership-plans",
         "title": "客户等级方案",
-        "description": "营运端 · 会员管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Configure customer tiers, billing cycles, and benefits, with default, recommended, and visibility settings for membership and targeted promotions.",
+        "description": "配置客户等级、收费周期与权益，维护默认、推荐和展示状态，为个人会员权益及企业专属行销匹配提供方案依据。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "membership-plans",
@@ -3851,7 +3897,8 @@
       {
         "name": "rimo-new-order-one-way",
         "title": "新增甲租乙还订单",
-        "description": "营运端 · 分时租赁。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Create a one-way rental for a customer. Select booking identity, pickup and return stations, vehicle, and period, then review prices and promotions.",
+        "description": "代客户创建异地还车订单，选择本次身份、取车及可还据点、具体车辆与租期，匹配价格和优惠后核对费用并提交。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "new-order-one-way",
@@ -3909,7 +3956,8 @@
       {
         "name": "rimo-new-order-same-station",
         "title": "新增同站租还订单",
-        "description": "营运端 · 分时租赁。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Create a round-trip reservation with a personal or company identity, station, vehicle, and period, then review services, promotions, and charges.",
+        "description": "代客户建立同站租还预约，选择个人或企业身份、据点、具体车辆与时段，配置服务和优惠，核对费用后提交订单。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "new-order-same-station",
@@ -3967,7 +4015,8 @@
       {
         "name": "rimo-new-order",
         "title": "新增门市租车订单",
-        "description": "营运端 · 门市租赁。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Create a store rental from customer and pickup and return details. Choose a vehicle group and extras, apply promotions, and review preauthorization or monthly billing.",
+        "description": "从客户身份、取还门市和时间开始，选择车组与增值服务，应用行销及抵扣，完成费用试算后以预授权或企业月结方式创建订单。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "new-order",
@@ -4025,7 +4074,8 @@
       {
         "name": "rimo-official-vehicle-contracts",
         "title": "公务用车合约管理",
-        "description": "营运端 · 公务车合约。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage fleet contracts with company and payer details, billing cycles, quotas, and charge periods, including termination and vehicle reassignment.",
+        "description": "建立和维护企业公务车合约，查看用车企业、代付方、计费周期、车辆配额与收费期间，并处理合约终止和车辆改绑。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "official-vehicle-contracts",
@@ -4083,7 +4133,8 @@
       {
         "name": "rimo-order-detail",
         "title": "订单详情",
-        "description": "营运端 · 门市租赁。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Follow itinerary, customer, vehicle, dispatch, and funds in one place. Handle pickup, return, extensions, transfers, and exceptions with charge and audit details.",
+        "description": "在一个页面追踪订单行程、客户与车辆、派车状态及资金情况，处理取还车、续租、转单和异常，并核对费用、交易与审计记录。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "order-detail",
@@ -4141,7 +4192,8 @@
       {
         "name": "rimo-permissions-grouped",
         "title": "权限管理：业务分组",
-        "description": "营运端 · 角色与权限。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Configure role permissions by business line and shared capability, with grouped menu, page, and action scopes and clear save and reset controls.",
+        "description": "按业务线与共用功能分组配置角色权限，查看菜单、页面和操作范围，支持集中选择、保存与重置。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "permissions-grouped",
@@ -4199,7 +4251,8 @@
       {
         "name": "rimo-permissions",
         "title": "权限管理",
-        "description": "营运端 · 角色与权限。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Maintain business roles and organization scopes. Configure menus, business lines, and actions in a permission tree, then save or restore settings.",
+        "description": "维护业务角色及组织归属，按权限树配置菜单、业务线和操作范围，核对变更后保存或恢复原配置。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "permissions",
@@ -4257,7 +4310,8 @@
       {
         "name": "rimo-pricing",
         "title": "动态调价策略",
-        "description": "营运端 · 产品与价格。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review daily rates by store and vehicle group, schedule future price changes, and check their scope and results within your pricing permissions.",
+        "description": "查看和维护门市车组的标准日租金，预设未来统一调价，并按权限控制改价、查看生效范围及调整结果。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "pricing",
@@ -4319,7 +4373,8 @@
       {
         "name": "rimo-rental-companies",
         "title": "车行管理",
-        "description": "营运端 · 车行与门市。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage rental company records, contacts, and operating status to establish vehicle ownership, store organization, and dispatch boundaries.",
+        "description": "维护车行基础资料、联系人与经营状态，明确车辆资产和经营归属，为门市组织及同车行调度建立边界。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "rental-companies",
@@ -4381,7 +4436,8 @@
       {
         "name": "rimo-service-products",
         "title": "基础产品定价",
-        "description": "营运端 · 产品与价格。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Combine vehicle models into rentable product groups and set standard prices and mileage rules for store rental quotes and charges.",
+        "description": "将车型组合为可销售的产品组，配置车组标准价格和里程规则，为门市租车报价与费用计算提供基础。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "service-products",
@@ -4439,7 +4495,8 @@
       {
         "name": "rimo-services",
         "title": "增值服务管理",
-        "description": "营运端 · 产品与价格。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Configure optional rental insurance, equipment, and services with eligibility, pricing, and display details for selection during booking.",
+        "description": "维护租车附加保险、设备与人工服务，配置适用范围、费用和展示信息，供创建订单时选择并计入报价。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "services",
@@ -4497,7 +4554,8 @@
       {
         "name": "rimo-settings",
         "title": "租赁业务规则",
-        "description": "营运端 · 业务规则。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage store rental transaction, dispatch, billing, and fulfillment rules. Unlock a group to edit, save a recorded revision, or cancel to restore it.",
+        "description": "按交易、派车、计费和履约管理门市租赁规则，解锁指定规则组后编辑，保存版本与操作记录，取消时恢复原配置。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "settings",
@@ -4555,7 +4613,8 @@
       {
         "name": "rimo-stations",
         "title": "据点管理",
-        "description": "营运端 · 据点管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Find parking stations by rental company and store. Maintain location details and service capabilities through station and rental-mode views.",
+        "description": "按车行和门市查询实体停车据点，维护位置资料及各租赁模式的服务能力，分别查看据点总览与模式配置。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "stations",
@@ -4613,7 +4672,8 @@
       {
         "name": "rimo-store-orders",
         "title": "门市租赁订单",
-        "description": "营运端 · 门市租赁。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Find store and authorized self-service rentals by status, customer, or itinerary, with access to pickup, return, extension, settlement, and exception handling.",
+        "description": "查询门市租车及获授权的自助订单，按状态、客户和行程筛选，快速进入取还车、续租、结算与异常处理。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "store-orders",
@@ -4671,7 +4731,8 @@
       {
         "name": "rimo-stores",
         "title": "门市管理",
-        "description": "营运端 · 车行与门市。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage rental company stores, opening hours, contacts, and staffed pickup and return services, linked to their parking stations.",
+        "description": "维护车行下的门市资料、营业安排、联系人及人工交还车服务，关联停车据点，建立客户服务与履约组织。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "stores",
@@ -4733,7 +4794,8 @@
       {
         "name": "rimo-system-rules",
         "title": "系统通用参数",
-        "description": "营运端 · 系统设置。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Configure membership policies, operations, holidays, notifications, and AI model connections in groups with explicit edit, save, and cancel actions.",
+        "description": "集中配置会员策略、运维、日历假日、推送通知与 AI 模型接入参数，按规则组解锁编辑、保存或取消。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "system-rules",
@@ -4791,7 +4853,8 @@
       {
         "name": "rimo-tbox-management",
         "title": "车机设定中心",
-        "description": "营运端 · 车辆与车机。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review telematics devices assigned to the operator, inspect device and vehicle links, and maintain permitted settings and usage status.",
+        "description": "查询分配给营运商的车机，查看设备资料和车辆绑定，维护允许的设备设定并追踪车机的使用状态。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "tbox-management",
@@ -4853,7 +4916,8 @@
       {
         "name": "rimo-time-share-orders",
         "title": "分时租赁订单",
-        "description": "营运端 · 分时租赁。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Browse round-trip and one-way rentals for personal and company customers, with vehicle, itinerary, status, and payment details for fulfillment.",
+        "description": "按同站租还与甲租乙还查询分时订单，区分个人和企业用车，查看车辆、行程、状态及资金信息并进入履约处理。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "time-share-orders",
@@ -4911,7 +4975,8 @@
       {
         "name": "rimo-vehicle-console",
         "title": "车辆控制台",
-        "description": "营运端 · 车辆与车机。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "A vehicle console for cars and micro EVs with live telematics, location, configured control actions, command receipts, and history.",
+        "description": "集中查看汽车与微电车的车辆摘要、实时车机资料及地图位置，执行已配置的控车操作并追踪指令回执与历史。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "vehicle-console",
@@ -4973,7 +5038,8 @@
       {
         "name": "rimo-vehicle-groups",
         "title": "车型组管理",
-        "description": "营运端 · 车辆管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Manage vehicle makes, models, years, types, and feature tags, with photos and brand records used when creating vehicle profiles.",
+        "description": "维护车辆的品牌、型号、年款、载具类型与规格标签，管理展示照片和品牌资料，供建立车辆档案时选择。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "vehicle-groups",
@@ -5035,7 +5101,8 @@
       {
         "name": "rimo-vehicle-status-list",
         "title": "车辆速查表",
-        "description": "营运端 · 车辆与车机。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Scan the fleet by organization, vehicle type, and attention status, with live conditions, exception tags, and links to the console, map, and history.",
+        "description": "按组织、车型和关注状态快速筛查车队，查看实时车况及异常标签，并进入车辆控制台、地图和历史记录。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "vehicle-status-list",
@@ -5097,7 +5164,8 @@
       {
         "name": "rimo-vehicle-transfer",
         "title": "车辆调拨管理",
-        "description": "营运端 · 车辆管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Review vehicle locations and service status, then arrange station moves or transfers between service types with destination and eligibility checks.",
+        "description": "查看车辆当前据点与服务状态，批量安排同业务据点调整或跨服务类型调拨，核对目标据点和车辆适用范围。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "vehicle-transfer",
@@ -5159,7 +5227,8 @@
       {
         "name": "rimo-vehicles",
         "title": "车辆档案库",
-        "description": "营运端 · 车辆管理。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Maintain plates, VINs, models, documents, and telematics links in a vehicle record separating ownership, current location, and service type.",
+        "description": "集中维护车牌、VIN、车型、证照和车机绑定，分别记录资产车行、当前位置与服务类型，形成完整车辆档案。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "vehicles",
@@ -5221,7 +5290,8 @@
       {
         "name": "rimo-war-room",
         "title": "战情分析看板",
-        "description": "营运端 · 经营分析。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Analyze revenue, rental trends, and fleet status by business line and period, comparing models, stations, channels, and risk indicators.",
+        "description": "按业务线和周期分析营收、出租趋势与车辆状态，比较车型及站点表现，结合订单、渠道和风险数据定位营运变化。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "war-room",
@@ -5279,7 +5349,8 @@
       {
         "name": "rimo-workbench",
         "title": "工作台首页",
-        "description": "营运端 · 营运总览。原生 React 演示，使用本地模拟状态；业务规则见关联 PRD。",
+        "descriptionEn": "Start the day with tasks, fleet and revenue summaries, asset exceptions, announcements, and shortcuts to common operating workflows.",
+        "description": "集中呈现今日待办、车队与收入概览、资产异常和最新公告，提供常用功能入口，帮助营运人员开始一天的工作。",
         "kind": "block",
         "moduleKey": "rimo-native",
         "pageKey": "workbench",

@@ -26,11 +26,11 @@
   --rental-sidebar-submenu-min-width: 160px;
   --rental-layout-context-height: 48px;
   --rental-layout-context-optical-inset: 4px;
-  --rental-ui-radius-container: 26px;
-  --rental-ui-radius-button: 18px;
-  --rental-ui-radius-input: 18px;
-  --rental-ui-radius-sm: 14px;
-  --rental-ui-radius-lg: 26px;
+  --rental-ui-radius-container: 12px;
+  --rental-ui-radius-button: 12px;
+  --rental-ui-radius-input: 14px;
+  --rental-ui-radius-sm: 9px;
+  --rental-ui-radius-lg: 12px;
   --rental-typography-body-size: 14px;
   --rental-typography-body-line-height: 22px;
   --rental-typography-body-weight: 400;

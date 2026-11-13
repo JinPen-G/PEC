@@ -80,7 +80,8 @@ export function validateProjectRegistration(input, existingModules = [], existin
   for (const item of registry) {
     const page = module.pages.find((page) => page.key === item.pageKey);
     requireValue(
-      item.moduleKey === module.key && page?.registryItem === item.name && page.kind === item.kind,
+      item.moduleKey === module.key && page?.registryItem === item.name &&
+        (page.kind === item.kind || (page.kind === 'page' && item.kind === 'block')),
       'Registry与展示页面必须互相绑定',
     );
     requireValue(
