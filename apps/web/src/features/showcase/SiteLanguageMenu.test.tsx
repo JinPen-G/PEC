@@ -11,13 +11,21 @@ it('uses a keyboard-accessible component menu and persists English without a nat
     </PlatformLocaleProvider>,
   );
   expect(view.container.querySelector('select')).toBeNull();
-  fireEvent.keyDown(screen.getByRole('button', { name: '界面语言' }), { key: 'ArrowDown' });
+  const trigger = screen.getByRole('button', { name: '界面语言' });
+  expect(trigger.textContent).toBe('');
+  expect(trigger.querySelectorAll('svg')).toHaveLength(1);
+  expect(trigger).toHaveAttribute('title', '界面语言 · 简体中文');
+  fireEvent.keyDown(trigger, { key: 'ArrowDown' });
   expect(await screen.findByRole('menuitemradio', { name: '简体中文' })).toHaveAttribute(
     'aria-checked',
     'true',
   );
   fireEvent.click(screen.getByRole('menuitemradio', { name: 'English' }));
   await waitFor(() => expect(document.documentElement.lang).toBe('en'));
-  expect(screen.getByRole('button', { name: 'Language' })).toHaveTextContent('English');
+  const translatedTrigger = screen.getByRole('button', { name: 'Language' });
+  expect(translatedTrigger.textContent).toBe('');
+  expect(translatedTrigger).toHaveAttribute('title', 'Language · English');
+  fireEvent.keyDown(translatedTrigger, { key: 'ArrowDown' });
+  expect(await screen.findByRole('menuitemradio', { name: 'English' })).toHaveAttribute('aria-checked', 'true');
   expect(document.body).not.toHaveAttribute('data-scroll-locked');
 });

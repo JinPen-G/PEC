@@ -1,9 +1,10 @@
 .uiarc-showcase .showcase-language-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  min-height: 34px;
-  padding: 5px 7px;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   border-radius: 8px;
   color: var(--text-secondary);
   font: 12px/1.3 var(--font-body);
@@ -16,9 +17,6 @@
 .uiarc-showcase .showcase-language-trigger[data-state='open'] {
   background: var(--surface-muted);
   color: var(--foreground);
-}
-.uiarc-showcase .showcase-language-chevron {
-  display: inline-flex;
 }
 .uiarc-showcase .showcase-language-menu {
   min-width: 162px;
@@ -49,13 +47,4 @@
 .uiarc-showcase .showcase-language-item[data-state='checked'] {
   color: var(--foreground);
   font-weight: 500;
-}
-@media (max-width: 760px) {
-  .uiarc-showcase .showcase-language-trigger {
-    padding-inline: 4px;
-    gap: 4px;
-  }
-  .uiarc-showcase .showcase-language-trigger > svg {
-    display: none;
-  }
 }

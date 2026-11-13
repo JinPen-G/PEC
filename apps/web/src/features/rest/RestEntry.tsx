@@ -19,11 +19,14 @@ function Entry({ surface }: { surface?: 'site' }) {
         className={`preview-rest-entry${surface === 'site' ? ' preview-rest-site-entry' : ''}`}
         icon={<Coffee size={17} aria-hidden="true" />}
         aria-label={text('expand')}
+        title={`${text('expand')} · ${snapshot.phase === 'finished' ? text('finished') : formatRestTime(snapshot.remaining)}`}
         aria-expanded={snapshot.expanded}
         onClick={player.expand}
         data-sound-silent
       >
-        <span>{snapshot.phase === 'finished' ? text('finished') : formatRestTime(snapshot.remaining)}</span>
+        {surface !== 'site' && (
+          <span>{snapshot.phase === 'finished' ? text('finished') : formatRestTime(snapshot.remaining)}</span>
+        )}
       </Button>
     );
   return (
@@ -41,9 +44,10 @@ function Entry({ surface }: { surface?: 'site' }) {
           className={`preview-rest-entry${surface === 'site' ? ' preview-rest-site-entry' : ''}`}
           icon={<Coffee size={17} aria-hidden="true" />}
           aria-label={text('choose')}
+          title={text('choose')}
           data-sound-silent
         >
-          <span className="preview-rest-entry-label">{text('rest')}</span>
+          {surface !== 'site' && <span className="preview-rest-entry-label">{text('rest')}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent

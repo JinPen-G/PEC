@@ -95,6 +95,31 @@ describe('break host lifetime', () => {
     expect(controller.snapshot().expanded).toBe(true);
   });
 
+  it('shows only the public break icon while keeping durations and player reopening available', async () => {
+    const controller = createPlayer();
+    render(
+      <PlatformLocaleProvider>
+        <RestProvider controller={controller}>
+          <RestEntry surface="site" />
+        </RestProvider>
+      </PlatformLocaleProvider>,
+    );
+    const trigger = screen.getByRole('button', { name: '选择休息时长' });
+    expect(trigger.textContent).toBe('');
+    expect(trigger.querySelectorAll('svg')).toHaveLength(1);
+    expect(trigger).toHaveAttribute('title', '选择休息时长');
+    fireEvent.click(trigger);
+    expect(await screen.findByRole('button', { name: '休息 30 分钟' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: '休息 10 分钟' }));
+    await waitFor(() => expect(controller.snapshot()).toMatchObject({ phase: 'preparing', minutes: 10 }));
+    const activeTrigger = screen.getByRole('button', { name: '展开休息播放器' });
+    expect(activeTrigger.textContent).toBe('');
+    expect(activeTrigger).toHaveAttribute('title', '展开休息播放器 · 10:00');
+    act(() => controller.minimize());
+    fireEvent.click(activeTrigger);
+    expect(controller.snapshot().expanded).toBe(true);
+  });
+
   it('checks elapsed wall time on tab visibility and page restoration, pauses on pagehide and disposes on host exit', () => {
     const controller = createPlayer();
     const check = vi.spyOn(controller, 'checkDeadline');

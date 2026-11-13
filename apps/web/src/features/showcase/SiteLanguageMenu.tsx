@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import * as Dropdown from '@radix-ui/react-dropdown-menu';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { Check, ChevronDown, Languages } from 'lucide-react';
+import { Check, Languages } from 'lucide-react';
 import { siteMotionTokens } from '@preview/ui';
 import { usePlatformLocale, type PlatformLocale } from '@/features/locale/platform-locale';
 import { useShowcaseText } from './showcase-locale';
@@ -24,16 +24,12 @@ export function SiteLanguageMenu() {
     <div className="showcase-language" data-preserve-language>
       <div ref={setContainer} className="showcase-menu-portal" />
       <Dropdown.Root open={open} onOpenChange={setOpen} modal={false}>
-        <Dropdown.Trigger className="showcase-language-trigger" aria-label={text('界面语言')}>
-          <Languages size={15} strokeWidth={1.75} />
-          <span>{languages.find((language) => language.value === locale)?.label}</span>
-          <motion.span
-            className="showcase-language-chevron"
-            animate={{ rotate: open ? 180 : 0 }}
-            transition={reduced ? { duration: 0 } : siteMotionTokens.spring.snappy}
-          >
-            <ChevronDown size={12} />
-          </motion.span>
+        <Dropdown.Trigger
+          className="showcase-language-trigger"
+          aria-label={text('界面语言')}
+          title={`${text('界面语言')} · ${languages.find((language) => language.value === locale)?.label}`}
+        >
+          <Languages size={16} strokeWidth={1.75} aria-hidden="true" />
         </Dropdown.Trigger>
         <AnimatePresence>
           {open && (
