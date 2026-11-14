@@ -139,8 +139,14 @@ select {
 .preview-breadcrumb {
   font-size: 13px;
   white-space: nowrap;
+  gap: 6px;
 }
-.preview-breadcrumb > :not(:last-child) {
+.preview-breadcrumb-separator {
+  flex: none;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+.preview-breadcrumb > span:not(:last-child) {
   color: var(--text-secondary);
 }
 .preview-breadcrumb > :last-child {
@@ -162,6 +168,9 @@ select {
   padding: 12px;
   color: var(--text-secondary);
   font-size: var(--rental-typography-meta-size);
+}
+.preview-native-root .rental-sidebar-submenu-motion {
+  overflow: hidden;
 }
 .preview-document-trigger {
   display: inline-flex;

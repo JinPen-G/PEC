@@ -6,9 +6,45 @@ import process from 'node:process';
 import { URL, fileURLToPath, pathToFileURL } from 'node:url';
 import { rentalLoginStyles } from './rental-login-styles.mjs';
 import { rentalSettingsStyles, rentalSidePanelStyles } from './rental-settings-styles.mjs';
+import { rentalConsoleStyles, rentalConsoleMotion } from './rental-console-styles.mjs';
 
 const ROOT = fileURLToPath(new URL('../packages/preview-ui/', import.meta.url));
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
+export function checkRentalConsole(root = ROOT) {
+  const errors = [];
+  const manifest = JSON.parse(readFileSync(path.join(root, 'console-source-manifest.json'), 'utf8'));
+  const sourceRoot = path.resolve(root, 'upstream/rental-console');
+  for (const record of manifest.files) {
+    const source = path.resolve(sourceRoot, record.source);
+    if (!source.startsWith(sourceRoot + path.sep)) {
+      errors.push('Invalid console snapshot path');
+      continue;
+    }
+    try {
+      if (hash(readFileSync(source)) !== record.sha256)
+        errors.push(`Console source changed: ${record.source}`);
+    } catch {
+      errors.push(`Missing console snapshot: ${record.source}`);
+    }
+  }
+  try {
+    const expected = rentalConsoleStyles(
+      readFileSync(
+        path.join(sourceRoot, 'apps/admin/src/components/animate-sidebar/sidebar-adapter.css'),
+        'utf8',
+      ),
+      readFileSync(path.join(sourceRoot, 'apps/admin/src/app/designTokens.ts'), 'utf8'),
+    );
+    if (readFileSync(path.join(root, 'src/console-source.css'), 'utf8') !== expected)
+      errors.push('Console source adapter changed');
+    if (readFileSync(path.join(root, 'src/console-motion.ts'), 'utf8') !== rentalConsoleMotion(
+      readFileSync(path.join(sourceRoot, 'apps/admin/src/app/designTokens.ts'), 'utf8'),
+    )) errors.push('Console motion adapter changed');
+  } catch {
+    errors.push('Console source adapter unavailable');
+  }
+  return { files: manifest.files.length, commit: manifest.commit, errors };
+}
 export function checkRentalFramework(root = ROOT) {
   const manifest = JSON.parse(readFileSync(path.join(root, 'source-manifest.json'), 'utf8'));
   const errors = [];
@@ -74,7 +110,11 @@ export function checkRentalFramework(root = ROOT) {
 }
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
   const result = checkRentalFramework();
-  for (const error of result.errors) console.error(error);
-  console.log(`Rental UI 来源检查：${result.files} 份固定源码，${result.errors.length} 个错误。`);
-  process.exitCode = result.errors.length ? 1 : 0;
+  const consoleResult = checkRentalConsole();
+  const errors = [...result.errors, ...consoleResult.errors];
+  for (const error of errors) console.error(error);
+  console.log(
+    `Rental UI 来源检查：${result.files} 份框架与 ${consoleResult.files} 份控制台来源，${errors.length} 个错误。`,
+  );
+  process.exitCode = errors.length ? 1 : 0;
 }

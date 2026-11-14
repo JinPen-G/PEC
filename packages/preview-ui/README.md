@@ -2,6 +2,8 @@
 
 Preview 内维护的前端外壳，固定来源为 Rental OS 提交 `2a66243656a5f4866585fe8fdd757f4b98d022ab`。本包不连接 Rental OS 运行环境，依赖由 Preview 根目录安装，不使用软链接、共享 node_modules 或 file 依赖。
 
+Demo 与管理后台共用的控制台样式固定于 Rental OS 提交 `215b515adcc263aeda0606566e8e1d3e72daa6e1`，原文及散列见 [console-source-manifest.json](console-source-manifest.json)。[生成器](../../scripts/rental-console-styles.mjs)解析固定样式和字面 token，不执行上游源码；运行 `node scripts/rental-console-styles.mjs` 同步 [console-source.css](src/console-source.css) 与 [console-motion.ts](src/console-motion.ts)，来源检查同时核对两份输出。外壳自己提供 `preview-console-host`，嵌入式 Screens 保持独立范围。桌面侧栏展开/收起为 248px/56px，内容面板上、下、右留白 8px，菜单为 14px/20px，滚动条为 6px；52px 首行与 54px 侧栏身份行对齐，时间独立放在第二行。顶部使用单下箭头，底部账号使用双向箭头，面包屑使用 13px、1.75 线宽的细右箭头。收缩宽度与子菜单高度共用原站无回弹动效，保留搜索恢复、键盘、菜单节点和页面草稿。业务控件主题色、圆角偏好和权限仍由 Preview 宿主管理。
+
 ## 来源与维护边界
 
 [source-manifest.json](source-manifest.json)登记 105 份原始文件及 SHA-256。[upstream](upstream/rental-admin)保留原文字节；侧栏 runtime 是原样副本。上游原文、runtime、生成的 PostCSS 插件和来源 CSS 不参与自有源码格式整理。

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "source": "Rental OS",
+  "commit": "215b515adcc263aeda0606566e8e1d3e72daa6e1",
+  "files": [
+    {
+      "source": "apps/admin/src/app/designTokens.ts",
+      "sha256": "500d49588a8e9fc5b74096c872d2ff26b9be6d89b85829bf8bb035a82cf121b3"
+    },
+    {
+      "source": "apps/admin/src/components/animate-sidebar/sidebar-adapter.css",
+      "sha256": "6176c07287fc0da2b93ad8133e5066017c936cdf644eceaf7a5b2e7103eb6f7d"
+    }
+  ],
+  "licenses": [
+    "upstream/rental-admin/apps/admin/src/components/animate-sidebar/LICENSE.md"
+  ],
+  "integration": "Shared Demo and administration shell palette, geometry and motion. Fixed source bytes remain unchanged; selectors and literal tokens are adapted in Preview without executing Rental OS code or services."
+}

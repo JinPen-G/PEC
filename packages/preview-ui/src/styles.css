@@ -4,6 +4,7 @@
 @import './side-panel-source.css';
 @import '../upstream/rental-admin/apps/admin/src/features/copilot/copilot.css';
 @import './framework.css';
+@import './console-source.css';
 @import './login-source.css';
 @import '../upstream/rental-admin/apps/admin/src/components/ui/arc-bridge.css';
 @import '../upstream/rental-admin/apps/admin/src/components/ui/input-radius.css';

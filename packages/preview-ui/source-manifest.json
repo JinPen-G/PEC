@@ -113,7 +113,8 @@
     },
     {
       "source": "apps/admin/src/components/animate-sidebar/runtime/sidebar.tsx",
-      "sha256": "78524331630201f8174417e8431ab29fc4782cf899d82a3776372e563f0e56fa"
+      "sha256": "d697f50711ecc590a07b6d80c3b04757c9a362e8decc2a8280af80ea121889e9",
+      "commit": "215b515adcc263aeda0606566e8e1d3e72daa6e1"
     },
     {
       "source": "apps/admin/src/components/animate-sidebar/runtime/skeleton.tsx",
