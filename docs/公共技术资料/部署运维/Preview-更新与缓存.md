@@ -4,6 +4,8 @@
 
 ## 日常更新
 
+入口 HTML、版本信息、业务文档和身份接口逐次读取。`assets` 下带构建哈希的公共 JS、CSS、字体及图片使用一年不可变缓存，同一地址可直接复用，新发行按新的哈希地址加载。`page-assets` 使用私有条件缓存，每次向服务端复核页面权限和内容 ETag，相同版本返回 304，撤权返回对应拒绝响应。
+
 首次配置完成后，本地修改并推送 main 即触发 [.github/workflows/release.yml](../../../.github/workflows/release.yml)：锁定提交 → 安装锁定构建依赖 → 文档/分层/类型与来源检查 → web/API构建 → 部署冒烟 → 打包并上传 → SSH部署。其他分支不会覆盖生产。仓库变量 PREVIEW_DEPLOY_ENABLED 不为 true 时只生成可下载产物。
 
 schemaVersion 3 的发行包只有 manifest.json、web、runtime 和 project-content。runtime 包含编译后的 server/admin/migrate、注册声明、运行合同和第三方许可；Node依赖已经打包，服务器无需执行 npm install。所有文件及运行时共同参与 SHA-256 和 releaseId。数据库、凭证、.env、源码研发四册及原始项目目录不进入包。业务资料按显式清单发布，只能通过受控API读取。

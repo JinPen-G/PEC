@@ -584,6 +584,9 @@ export function createNativeServer({
       const bytes = await fs.readFile(file);
       if (webAssetResidue(relative, bytes)) fail(404, '静态资源不存在', 'NOT_FOUND');
       const payload = relative === 'index.html' ? await restMedia.index(bytes) : bytes;
+      if (/^assets\/[\w.-]+-[\w-]{8}\.(?:js|css|woff2?|png|jpe?g|webp|avif|gif|svg|ico)$/.test(relative)) {
+        response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      }
       response.writeHead(200, { 'Content-Type': mime[path.extname(file)] });
       response.end(request.method === 'HEAD' ? undefined : payload);
     } catch (error) {

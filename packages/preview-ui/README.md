@@ -32,6 +32,8 @@ Tailwind 4 由 [Vite](../../vite.config.js)编译，[范围插件](../../plugins
 
 应用从 `@preview/ui` 导入公共出口；主题和语言仍由 Preview 提供。当前只是前端演示，管理与订单画布为空，文档展示平台说明样例，不代表项目授权或真实项目文档已接入。
 
+首页演示从 `@preview/ui/landing` 独立导入，页面路由按需加载该入口及其样式。公共外壳入口保持轻量，组件与 Screens 可分别加载自己的预览资源。
+
 在根目录执行 `npm run dev:ui` 可预览，`npm run build:ui` 生成 output/ui。两者不加载 .env、项目挂载、本机设置或旧 HTML 管理插件。它们不是正式服务或发布包。
 
 `npm run ui:source:check`只校验Preview内维护副本，不访问Rental OS；[定向测试](../../tests/unit/rental-framework.spec.js)覆盖来源损坏与禁止反向导入。[导入脚本](../../scripts/import-rental-framework.mjs)须显式提供source/commit；外部组件包的目录不同于`packages/ui-primitives`时，额外用`--primitives-root <包相对目录>`映射。本地已适配副本不会被原文自动覆盖；更新需核对差异、原始散列和许可，不跟随活动工作目录。

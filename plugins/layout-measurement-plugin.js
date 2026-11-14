@@ -16,7 +16,13 @@ const replacements = new Map([
   ],
   [
     `${runtime}${controls}data-table/DataTable.tsx`,
-    [['header.getBoundingClientRect().height', 'header.offsetHeight']],
+    [
+      ['header.getBoundingClientRect().height', 'header.offsetHeight'],
+      [
+        'if (!contentLayout || !root || !element) return;',
+        'if (!contentLayout || !root || !element || !columns.some(column => column.getIsPinned())) return;',
+      ],
+    ],
   ],
   [
     `${runtime}${controls}data-table/ListCapabilities.tsx`,

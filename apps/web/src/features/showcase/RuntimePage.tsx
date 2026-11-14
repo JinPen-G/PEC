@@ -1,16 +1,23 @@
 import { LoadingStage } from '@preview/ui/loading';
 /** Loads only the authorized entry returned by the page service. The server
  * checks both the entry and every protected runtime asset. */
-import type { ComponentType } from 'react';
+import { memo, type ComponentType } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useShowcaseText } from './showcase-locale';
 
-export function RuntimePage({ entry, styles = [] }: { entry: string; styles?: string[] }) {
+export const RuntimePage = memo(function RuntimePage({
+  entry,
+  styles = [],
+}: {
+  entry: string;
+  styles?: string[];
+}) {
   const text = useShowcaseText();
   const query = useQuery<{ default: ComponentType }>({
     queryKey: ['page-runtime', entry],
     queryFn: () => import(/* @vite-ignore */ entry),
     retry: false,
+    staleTime: Infinity,
   });
   if (query.error)
     return (
@@ -19,14 +26,19 @@ export function RuntimePage({ entry, styles = [] }: { entry: string; styles?: st
         {query.error.message}
       </p>
     );
-  if (!query.data) return <LoadingStage label={text('加载原型…')} />;
-  const Page = query.data.default;
+  const Page = query.data?.default;
   return (
-    <div className="showcase-runtime-ready">
+    <>
       {styles.map((href) => (
         <link key={href} rel="stylesheet" href={href} />
       ))}
-      <Page />
-    </div>
+      {Page ? (
+        <div className="showcase-runtime-ready">
+          <Page />
+        </div>
+      ) : (
+        <LoadingStage label={text('加载原型…')} />
+      )}
+    </>
   );
-}
+});

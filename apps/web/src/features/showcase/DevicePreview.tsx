@@ -22,9 +22,10 @@ export function DevicePreview({
   const [available, setAvailable] = useState(332);
   const [fitHeight, setFitHeight] = useState(520);
   const reduced = useReducedMotion();
+  const fluidScreen = screen && expanded && !mobile;
   useLayoutEffect(() => {
     const element = host.current;
-    if (!element) return;
+    if (!element || fluidScreen) return;
     // Hidden preview tabs retain their last valid bounds rather than collapsing.
     const measure = () => {
       if (element.clientWidth > 0) setAvailable(element.clientWidth);
@@ -40,18 +41,27 @@ export function DevicePreview({
       }
     };
     measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
     const canvas = element.closest('.showcase-preview');
-    if (canvas) observer.observe(canvas);
     const fullscreen = element.closest('.showcase-fullscreen-native');
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === element && entry.contentRect.width > 0) setAvailable(entry.contentRect.width);
+        if (entry.target === fullscreen && entry.contentRect.height > 0)
+          setFitHeight(entry.contentRect.height);
+        if (!fullscreen && !mobile && !screen && entry.target === canvas && entry.contentRect.height > 0) {
+          setFitHeight(entry.contentRect.height);
+        }
+      }
+    });
+    observer.observe(element);
+    if (canvas) observer.observe(canvas);
     if (fullscreen) observer.observe(fullscreen);
     window.addEventListener('resize', measure);
     return () => {
       observer.disconnect();
       window.removeEventListener('resize', measure);
     };
-  }, [mobile, screen, expanded]);
+  }, [mobile, screen, expanded, fluidScreen]);
   const phoneWidth = Math.max(180, Math.min(maxWidth, available));
   const scale = (phoneWidth - 20) / 390;
   const bounds = screenPreviewBounds({
@@ -62,27 +72,35 @@ export function DevicePreview({
     maxWidth: expanded ? maxWidth : 280,
   });
   const transition = reduced || screen ? { duration: 0 } : siteMotionTokens.spring.smooth;
+  const Surface = screen ? 'div' : motion.div;
   const Scaler = screen ? 'div' : motion.div;
   const scalerBounds = {
     width: screen ? bounds.width : mobile ? 390 : available,
     height: screen ? bounds.height : mobile ? 844 : fitHeight,
+  };
+  const shellBounds = {
+    width: fluidScreen ? '100%' : screen ? bounds.frameWidth : mobile ? phoneWidth : available,
+    height: fluidScreen ? '100%' : screen ? bounds.frameHeight : mobile ? 844 * scale + 20 : fitHeight,
+    borderRadius: mobile ? (screen ? 30 : 46) : 0,
+  };
+  const screenBounds = { inset: mobile && !screen ? 10 : 0, borderRadius: mobile ? (screen ? 30 : 36) : 0 };
+  const nativePadding = {
+    paddingTop: screen ? 0 : 24,
+    paddingBottom: screen ? 0 : 24,
+    paddingLeft: screen ? 0 : mobile ? 18 : 24,
+    paddingRight: screen ? 0 : mobile ? 18 : 24,
   };
   return (
     <div
       ref={host}
       className={`showcase-device-host${mobile ? ' phone' : ''}`}
       data-screen={screen || undefined}
+      data-fluid={fluidScreen || undefined}
     >
-      <motion.div
+      <Surface
         className="preview-shell_shell__OFjTY showcase-device-shell"
         data-mode={mobile ? 'mobile' : 'fit'}
-        initial={false}
-        animate={{
-          width: screen ? bounds.frameWidth : mobile ? phoneWidth : available,
-          height: screen ? bounds.frameHeight : mobile ? 844 * scale + 20 : fitHeight,
-          borderRadius: mobile ? (screen ? 30 : 46) : 0,
-        }}
-        transition={transition}
+        {...(screen ? { style: shellBounds } : { initial: false as const, animate: shellBounds, transition })}
       >
         {!screen && (
           <motion.div
@@ -93,11 +111,11 @@ export function DevicePreview({
             transition={transition}
           />
         )}
-        <motion.div
+        <Surface
           className="showcase-device-screen"
-          initial={false}
-          animate={{ inset: mobile && !screen ? 10 : 0, borderRadius: mobile ? (screen ? 30 : 36) : 0 }}
-          transition={transition}
+          {...(screen
+            ? { style: screenBounds }
+            : { initial: false as const, animate: screenBounds, transition })}
         >
           <Scaler
             className="showcase-device-scaler"
@@ -108,27 +126,27 @@ export function DevicePreview({
             })}
             style={
               {
-                ...(screen && { ...scalerBounds, transform: `scale(${bounds.scale})` }),
-                '--preview-screen-height': `${screen ? bounds.height : mobile ? 844 : fitHeight}px`,
-              } as CSSProperties
+                ...(screen && {
+                  ...(fluidScreen ? { width: '100%', height: '100%' } : scalerBounds),
+                  transform: `scale(${fluidScreen ? 1 : bounds.scale})`,
+                }),
+                '--preview-screen-height': fluidScreen
+                  ? '100cqh'
+                  : `${screen ? bounds.height : mobile ? 844 : fitHeight}px`,
+              } as CSSProperties & { '--preview-screen-height': string }
             }
           >
-            <motion.div
+            <Surface
               className="showcase-device-native"
-              initial={false}
-              animate={{
-                paddingTop: screen ? 0 : 24,
-                paddingBottom: screen ? 0 : 24,
-                paddingLeft: screen ? 0 : mobile ? 18 : 24,
-                paddingRight: screen ? 0 : mobile ? 18 : 24,
-              }}
-              transition={transition}
+              {...(screen
+                ? { style: nativePadding }
+                : { initial: false as const, animate: nativePadding, transition })}
             >
               <div className="showcase-device-page">{children}</div>
-            </motion.div>
+            </Surface>
           </Scaler>
-        </motion.div>
-      </motion.div>
+        </Surface>
+      </Surface>
     </div>
   );
 }

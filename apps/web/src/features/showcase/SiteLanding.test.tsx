@@ -8,7 +8,7 @@ import { motionValue } from 'motion/react';
 import { ShuffleLogo } from '../../../../../packages/preview-ui/src/site/landing/ShuffleLogo';
 
 vi.mock('./showcase-locale', () => ({ useShowcaseText: () => (text: string) => text }));
-vi.mock('@preview/ui', async () => {
+vi.mock('@preview/ui/landing', async () => {
   const [hero, orbit, agent, command] = await Promise.all([
     import('../../../../../packages/preview-ui/src/site/landing/LandingHeroTitle'),
     import('../../../../../packages/preview-ui/src/site/landing/LandingOrbit'),

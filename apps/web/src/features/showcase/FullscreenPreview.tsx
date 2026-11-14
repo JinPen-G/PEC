@@ -15,6 +15,15 @@ export interface PreviewBounds {
   borderRadius: number;
 }
 
+function relocatePreview(container: Node, element: Node, next: Node | null) {
+  const target = container as Node & { moveBefore?: (node: Node, child: Node | null) => void };
+  if (element.isConnected && container.isConnected && target.moveBefore) {
+    target.moveBefore(element, next);
+  } else {
+    container.insertBefore(element, next);
+  }
+}
+
 function FullscreenSurface({
   title,
   nativeRef,
@@ -45,9 +54,9 @@ function FullscreenSurface({
     if (!host.current || !nativeElement) return;
     const parent = nativeElement.parentNode,
       next = nativeElement.nextSibling;
-    host.current.appendChild(nativeElement);
+    relocatePreview(host.current, nativeElement, null);
     return () => {
-      if (parent) parent.insertBefore(nativeElement, next?.parentNode === parent ? next : null);
+      if (parent) relocatePreview(parent, nativeElement, next?.parentNode === parent ? next : null);
     };
   }, [nativeRef]);
   const full = { top: 0, left: 0, width: viewport.width, height: viewport.height, borderRadius: 0 };

@@ -16,6 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
+      "@preview/ui/landing": ["../../packages/preview-ui/src/landing.ts"],
       "@preview/library/*": ["../../packages/component-library/src/*"],
       "@preview/ui/admin": ["../../packages/preview-ui/src/admin.tsx"],
       "@preview/ui/loading": ["../../packages/preview-ui/src/LoadingState.tsx"],

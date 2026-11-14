@@ -4,7 +4,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fail } from './store.js';
-import { resolveExistingPathInsideRoot } from '../filesystem.js';
+import { mapWithConcurrency, resolveExistingPathInsideRoot } from '../filesystem.js';
 import { GRAPH_TOOL_NAMES } from '../../../project-shared/src/requirement-graph.js';
 import { requirementGraphView, queryRequirementGraph, graphHash } from './requirement-graph.js';
 import { PROJECT_GUIDE_IDS } from '../../../project-shared/src/project-guides.js';
@@ -219,7 +219,7 @@ export async function loadContentPackage(root, contentKey, moduleCatalog) {
     records = [];
   const realDirectory = await fs.realpath(directory);
   let total = 0;
-  for (const file of names.sort()) {
+  const loaded = await mapWithConcurrency(names.sort(), 8, async (file) => {
     const realFile = await fs.realpath(path.join(directory, file));
     requireValue(
       realFile.startsWith(`${realDirectory}${path.sep}`) &&
@@ -232,8 +232,11 @@ export async function loadContentPackage(root, contentKey, moduleCatalog) {
     requireValue((await fs.realpath(path.join(directory, file))) === realFile, '业务文件在读取时发生变更');
     total += bytes.length;
     requireValue(total <= 32 * 1024 * 1024, '业务资料包过大');
+    return { file, bytes, record: { path: file, bytes: bytes.length, sha256: hash(bytes) } };
+  });
+  for (const { file, bytes, record } of loaded) {
     files.set(file, bytes);
-    records.push({ path: file, bytes: bytes.length, sha256: hash(bytes) });
+    records.push(record);
   }
   for (const file of names.filter((name) => /\.md$/i.test(name) && files.has(name))) {
     const source = files.get(file).toString('utf8');
@@ -353,6 +356,39 @@ export async function loadPrototypeRevisions({
   const module = moduleCatalog.find((item) => item.key === moduleKey);
   if (!module) return {};
   const result = {};
+  const sourceHashes = new Map();
+  const realRoots = new Map();
+  let buildEntries;
+  const readSourceHash = async (root, directory, file, registryPath) => {
+    const key = `${root}\0${path.join(directory, file)}`;
+    if (!sourceHashes.has(key)) {
+      sourceHashes.set(
+        key,
+        (async () => {
+          if (!realRoots.has(root)) realRoots.set(root, fs.realpath(root));
+          const realRoot = await realRoots.get(root);
+          const target = registryPath
+            ? await resolveExistingPathInsideRoot(root, file, {
+                allowedExtensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.json'],
+              })
+            : path.join(directory, file);
+          if (!target) throw new Error('原型源码范围无效');
+          const stat = await fs.lstat(target);
+          const resolved = await fs.realpath(target);
+          if (
+            !stat.isFile() ||
+            stat.isSymbolicLink() ||
+            stat.size > 4 * 1024 * 1024 ||
+            !resolved.startsWith(`${realRoot}${path.sep}`)
+          ) {
+            throw new Error('原型源码范围无效');
+          }
+          return graphHash(await fs.readFile(target));
+        })(),
+      );
+    }
+    return sourceHashes.get(key);
+  };
   for (const page of module.pages) {
     if (!page.source) continue;
     const relative = `apps/web/src/project-modules/${module.projectId ?? module.key}/${page.key}`;
@@ -363,8 +399,10 @@ export async function loadPrototypeRevisions({
     try {
       let sourceDirectory = directory;
       if (!pageSourceRoot) {
-        const manifest = JSON.parse(await fs.readFile(path.join(directory, 'page-manifest.json'), 'utf8'));
-        const entry = manifest.entries.find(
+        buildEntries ??= fs
+          .readFile(path.join(directory, 'page-manifest.json'), 'utf8')
+          .then((bytes) => JSON.parse(bytes).entries);
+        const entry = (await buildEntries).find(
           (item) => item.moduleKey === moduleKey && item.pageKey === page.key,
         );
         if (entry && /^[a-f0-9]{64}$/.test(entry.prototypeRevision ?? '')) {
@@ -386,29 +424,16 @@ export async function loadPrototypeRevisions({
           ? [...new Set([...pageFiles.map((file) => `${relative}/${file}`), ...page.sourceFiles])].sort()
           : pageFiles;
       if (files.length > 100) continue;
-      const records = [];
-      const realRoot = await fs.realpath(
-        pageSourceRoot && page.sourceFiles?.length ? pageSourceRoot : directory,
-      );
-      for (const file of files) {
-        const target =
-          pageSourceRoot && page.sourceFiles?.length
-            ? await resolveExistingPathInsideRoot(pageSourceRoot, file, {
-                allowedExtensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.json'],
-              })
-            : path.join(sourceDirectory, file);
-        if (!target) throw new Error('原型源码范围无效');
-        const stat = await fs.lstat(target);
-        const resolved = await fs.realpath(target);
-        if (
-          !stat.isFile() ||
-          stat.isSymbolicLink() ||
-          stat.size > 4 * 1024 * 1024 ||
-          !resolved.startsWith(`${realRoot}${path.sep}`)
-        )
-          throw new Error('原型源码范围无效');
-        records.push({ file, hash: graphHash(await fs.readFile(target)) });
-      }
+      const registryPath = Boolean(pageSourceRoot && page.sourceFiles?.length);
+      const records = await mapWithConcurrency(files, 8, async (file) => ({
+        file,
+        hash: await readSourceHash(
+          registryPath ? pageSourceRoot : directory,
+          registryPath ? pageSourceRoot : sourceDirectory,
+          file,
+          registryPath,
+        ),
+      }));
       if (records.length) {
         // A module page can be published in more than one client; keys are completed by snapshot().
         result[page.key] = graphHash(JSON.stringify(records));
@@ -460,7 +485,7 @@ export function createProjectContent({
         };
       });
     },
-    async snapshot(project, expectedRevision) {
+    async snapshot(project, expectedRevision, { includePrototypes = true } = {}) {
       if (!project.contentKey) fail(503, '项目尚未绑定业务资料包', 'CONTENT_UNAVAILABLE');
       const { root, releaseId, contents } = await location();
       const snapshot = await loadContentPackage(root, project.contentKey, moduleCatalog);
@@ -474,6 +499,7 @@ export function createProjectContent({
       );
       if (expectedRevision && expectedRevision !== snapshot.revision)
         fail(409, '业务资料版本已更新，请重新读取概况', 'CONTENT_REVISION_CHANGED');
+      if (!includePrototypes) return { ...snapshot, releaseId };
       const prototypeHashes = await loadPrototypeRevisions({
         moduleCatalog,
         moduleKey: project.moduleKey,

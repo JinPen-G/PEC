@@ -10,6 +10,7 @@ export default defineConfig({
   css: { postcss: { plugins: [] } },
   resolve: {
     alias: {
+      '@preview/ui/landing': fileURLToPath(new URL('./packages/preview-ui/src/landing.ts', import.meta.url)),
       '@preview/library': fileURLToPath(new URL('./packages/component-library/src/', import.meta.url)),
       '@preview/ui/admin': fileURLToPath(new URL('./packages/preview-ui/src/admin.tsx', import.meta.url)),
       '@preview/ui/rest-player': fileURLToPath(

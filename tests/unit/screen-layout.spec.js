@@ -3,6 +3,8 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest';
 import { fileURLToPath, URL as NodeURL } from 'node:url';
 import { layoutMeasurementAdapter } from '../../plugins/layout-measurement-plugin.js';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { DataTable } from '../../packages/preview-ui/src/admin-controls/runtime/apps/admin/src/components/ui/data-table/DataTable';
 import {
   ListFilterBar,
   ListFilterItem,
@@ -92,4 +94,35 @@ it('adapts only declared layout measurements and refuses an unrecognized upstrea
     ),
   );
   expect(() => adapter.transform(source, target)).toThrow('Layout measurement source changed');
+});
+
+it('measures natural column widths only when pinning needs an offset', () => {
+  const columns = [
+    { accessorKey: 'name', header: 'Name' },
+    { accessorKey: 'status', header: 'Status' },
+  ];
+  const data = [{ name: 'Example', status: 'Available' }];
+  function Preview({ pinned }) {
+    const table = useReactTable({
+      columns,
+      data,
+      getCoreRowModel: getCoreRowModel(),
+      state: { columnPinning: { left: pinned ? ['name', 'status'] : [], right: [] } },
+    });
+    return createElement(DataTable, { table, caption: 'Items', empty: 'No items' });
+  }
+  const computed = vi.spyOn(window, 'getComputedStyle');
+  const view = render(createElement(Preview, { pinned: false }));
+  const measuredHeaders = () =>
+    computed.mock.calls.filter(([element]) => element.matches('th[data-column-id]'));
+  expect(measuredHeaders()).toHaveLength(0);
+  computed.mockClear();
+  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function () {
+    return this.dataset.columnId === 'name' ? 150 : 100;
+  });
+  view.rerender(createElement(Preview, { pinned: true }));
+  expect(measuredHeaders()).toHaveLength(2);
+  const root = view.container.querySelector('[data-column-layout="content"]');
+  expect(root.style.getPropertyValue('--table-pin-0')).toBe('0px');
+  expect(root.style.getPropertyValue('--table-pin-1')).toBe('150px');
 });

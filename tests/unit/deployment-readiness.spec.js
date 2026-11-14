@@ -117,6 +117,47 @@ test('persistent media survives the release directory and serves only fixed URLs
   expect(await restored.text()).toBe('0123456789');
 });
 
+test('hashed public assets can be reused while mutable entries and rejected assets revalidate', async () => {
+  const item = await fixture();
+  const web = path.join(item.root, 'web');
+  await fs.mkdir(path.join(web, 'assets'), { recursive: true });
+  await fs.mkdir(path.join(web, 'brand'));
+  const assets = {
+    'index.html': '<html>Current entry</html>',
+    'assets/app-aB3_dE9f.js': 'export const version = 1;',
+    'assets/app-Zx8wVt2q.css': '.application { color: inherit; }',
+    'assets/app.js': 'export const mutable = true;',
+    'assets/rejected-aB3_dE9f.js': 'const title = "Northwind redesign";',
+    'brand/version.json': '{"buildId":"current"}',
+  };
+  for (const [filename, content] of Object.entries(assets))
+    await fs.writeFile(path.join(web, filename), content);
+  await start(item, { staticRoot: web });
+  for (const method of ['GET', 'HEAD']) {
+    for (const filename of ['assets/app-aB3_dE9f.js', 'assets/app-Zx8wVt2q.css']) {
+      const response = await fetch(`${item.base}/${filename}`, { method });
+      expect(response.status).toBe(200);
+      expect(response.headers.get('cache-control')).toBe('public, max-age=31536000, immutable');
+      await response.arrayBuffer();
+    }
+    for (const filename of [
+      'index.html',
+      'assets/app.js',
+      'brand/version.json',
+      'assets/missing-aB3_dE9f.js',
+      'assets/rejected-aB3_dE9f.js',
+    ]) {
+      const response = await fetch(`${item.base}/${filename}`, { method });
+      expect(response.headers.get('cache-control')).toBe('no-store');
+      expect(response.status).toBe(filename.includes('missing') || filename.includes('rejected') ? 404 : 200);
+      await response.arrayBuffer();
+    }
+    const session = await fetch(`${item.base}/api/native/session`, { method: 'GET' });
+    expect(session.headers.get('cache-control')).toBe('no-store');
+    await session.arrayBuffer();
+  }
+});
+
 test('first-admin CLI prepares registered projects and retries without changing existing menus', async () => {
   const item = await fixture();
   const data = path.join(item.root, 'data');

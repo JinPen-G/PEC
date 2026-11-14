@@ -1,4 +1,4 @@
-import { afterEach, expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { PlatformLocaleProvider } from '@/features/locale/platform-locale';
 import { FullscreenPreview } from './FullscreenPreview';
@@ -64,6 +64,30 @@ it('preserves one native draft and restores its original parent after fullscreen
   expect(screen.getByLabelText('Draft')).toBe(draft);
   expect(draft).toHaveValue('Unsubmitted draft');
   expect(draft.parentElement?.parentElement).toBe(parent);
+});
+it('uses state-preserving DOM relocation when the browser provides it', async () => {
+  const previous = Object.getOwnPropertyDescriptor(Element.prototype, 'moveBefore');
+  const move = vi.fn(function (this: Element, node: Node, next: Node | null) {
+    this.insertBefore(node, next);
+  });
+  Object.defineProperty(Element.prototype, 'moveBefore', { configurable: true, value: move });
+  try {
+    render(<Fixture />);
+    const draft = screen.getByLabelText('Draft');
+    fireEvent.change(draft, { target: { value: 'Preserved during relocation' } });
+    fireEvent.click(screen.getByText('Open fullscreen'));
+    await screen.findByRole('dialog', { name: 'Example' });
+    expect(move).toHaveBeenCalledTimes(1);
+    expect(screen.getByLabelText('Draft')).toBe(draft);
+    fireEvent.click(screen.getByRole('button', { name: '关闭放大预览' }));
+    await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Example' })).not.toBeInTheDocument());
+    expect(move).toHaveBeenCalledTimes(2);
+    expect(draft).toHaveValue('Preserved during relocation');
+  } finally {
+    cleanup();
+    if (previous) Object.defineProperty(Element.prototype, 'moveBefore', previous);
+    else Reflect.deleteProperty(Element.prototype, 'moveBefore');
+  }
 });
 it('keeps fullscreen open when a transferred native button opens and edits a nested form', async () => {
   render(<Fixture />);

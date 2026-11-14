@@ -59,7 +59,6 @@ import { SourcePanel } from './SourcePanel';
 import { RegistryPanel } from './RegistryPanel';
 import { QuickInstall } from './QuickInstall';
 import { FullscreenPreview } from './FullscreenPreview';
-import { SiteLanding } from './SiteLanding';
 import { CatalogFilters } from './CatalogFilters';
 import { CatalogJump, catalogIcons } from './CatalogJump';
 import {
@@ -100,6 +99,11 @@ import { usePlatformLocale } from '@/features/locale/platform-locale';
 const Reader = lazy(() =>
   import('@/features/docs/MarkdownReader').then((module) => ({ default: module.MarkdownReader })),
 );
+const loadSiteLanding = () => import('./SiteLanding');
+const SiteLanding = lazy(() => loadSiteLanding().then((module) => ({ default: module.SiteLanding })));
+if (typeof window !== 'undefined' && /^#?(?:\/?)(?:\?.*)?$/.test(window.location.hash)) {
+  void loadSiteLanding().catch(() => {});
+}
 const Login = lazy(() => import('./SiteLogin').then((module) => ({ default: module.SiteLogin })));
 const DemoApp = lazy(() => import('@/features/demo/DemoApp'));
 const NativeAdministration = lazy(() =>
@@ -204,6 +208,7 @@ export function Detail({ page }: { page: CatalogPage }) {
     borderRadius: number;
   } | null>(null);
   const [reservedHeight, setReservedHeight] = useState<number>();
+  const previewExpanded = expanded || reservedHeight !== undefined;
   const [headings, setHeadings] = useState<MarkdownHeading[]>([]);
   const { active: activeHeading, scrollTo } = useTocNavigation([
     'preview',
@@ -484,8 +489,8 @@ export function Detail({ page }: { page: CatalogPage }) {
                     <DevicePreview
                       mobile={mobile}
                       screen={isScreen}
-                      expanded={expanded}
-                      maxWidth={expanded ? 410 : 332}
+                      expanded={previewExpanded}
+                      maxWidth={previewExpanded ? 410 : 332}
                     >
                       {!permitted ? (
                         <div className="showcase-lock">
@@ -1269,7 +1274,9 @@ function Site() {
           <SiteCollaboration page={catalog.error ? undefined : selected}>
             <div className="showcase-route-view" key={location.pathname}>
               {home ? (
-                <SiteLanding openingReady={homeIntroReady || reducedHomeMotion} />
+                <Suspense fallback={null}>
+                  <SiteLanding openingReady={homeIntroReady || reducedHomeMotion} />
+                </Suspense>
               ) : isGraph ? (
                 <RequirementGraphPage
                   key={graphProjectId}

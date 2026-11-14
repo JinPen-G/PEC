@@ -17,7 +17,7 @@ import {
   LandingOrbit,
   type LandingCommandOption,
   type LandingScenario,
-} from '@preview/ui';
+} from '@preview/ui/landing';
 import { useShowcaseText } from './showcase-locale';
 import { createLandingCommands } from './landing-copy';
 

@@ -2,6 +2,7 @@
  * protected runtime file must belong to a registered, authorized page. */
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { SHOWCASE_MODULES, showcaseModules } from '../../platform-contracts/src/showcase.js';
 import { COMPONENT_REGISTRY } from '../../platform-contracts/src/component-registry.js';
 import {
@@ -137,6 +138,18 @@ export function createShowcaseHandler({
       if (!resolved) fail(404, '页面资源不存在', 'NOT_FOUND');
       const bytes = await fs.readFile(resolved);
       authorizedModule(store.authenticate(cookies(request))?.user ?? null, entry.moduleKey, entry.pageKey);
+      const etag = `"${createHash('sha256').update(bytes).digest('hex')}"`;
+      response.setHeader('Cache-Control', 'private, no-cache');
+      response.setHeader('ETag', etag);
+      if (
+        request.headers['if-none-match']
+          ?.split(',')
+          .some((value) => value.trim().replace(/^W\//, '') === etag || value.trim() === '*')
+      ) {
+        response.writeHead(304);
+        response.end();
+        return true;
+      }
       response.writeHead(200, {
         'Content-Type': file.endsWith('.js') ? 'text/javascript; charset=utf-8' : 'text/css; charset=utf-8',
       });
@@ -193,7 +206,9 @@ export function createShowcaseHandler({
       const snapshot =
         project.sourceId === 'none' && !project.contentKey
           ? null
-          : await content.snapshot(project, url.searchParams.get('contentRevision') ?? undefined);
+          : await content.snapshot(project, url.searchParams.get('contentRevision') ?? undefined, {
+              includePrototypes: resource === 'graph' || resource === 'graph-query',
+            });
       const allowed = snapshot ? readableDocuments(store, user, project, snapshot) : [];
       const requireCurrentAccess = () => {
         const nowUser = store.authenticate(cookies(request))?.user ?? null;
@@ -300,7 +315,10 @@ export function createShowcaseHandler({
       json(response, { fileName: descriptor.source, source });
       return true;
     }
-    const snapshot = initial.project.sourceId === 'none' ? null : await content.snapshot(initial.project);
+    const snapshot =
+      initial.project.sourceId === 'none'
+        ? null
+        : await content.snapshot(initial.project, undefined, { includePrototypes: false });
     if (resource === 'document') {
       if (!snapshot) fail(404, '业务需求未发布', 'CONTENT_NOT_FOUND');
       const file = url.searchParams.get('path');

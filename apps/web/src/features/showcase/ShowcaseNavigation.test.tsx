@@ -297,9 +297,9 @@ describe('showcase catalog navigation', () => {
     expect(screen.getByRole('complementary', { name: '项目页面导航' })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: '切换项目' })).not.toBeInTheDocument();
   });
-  it('leaves the landing page without a persistent site sidebar', () => {
+  it('leaves the landing page without a persistent site sidebar', async () => {
     mount('/');
-    expect(screen.getByRole('heading', { name: '网站首页' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: '网站首页' })).toBeInTheDocument();
     expect(screen.queryByRole('complementary', { name: '项目页面导航' })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: '选择休息时长' })).toBeInTheDocument();
   });

@@ -173,13 +173,54 @@ test('a built block retains shared helpers and lazy component styles through pre
   );
   expect((await fetch(`${base}/r/fixture/status.json`, { headers })).status).toBe(200);
   const session = store.login('fixture-admin', 'fixture-password');
+  const cached = [];
   for (const asset of inbox.assets) {
     expect((await fetch(`${base}/${asset}`)).status).toBe(403);
-    expect(
-      (await fetch(`${base}/${asset}`, { headers: { cookie: `preview_session=${session.token}` } })).status,
-    ).toBe(200);
+    const response = await fetch(`${base}/${asset}`, {
+      headers: { cookie: `preview_session=${session.token}` },
+    });
+    expect(response.status).toBe(200);
+    expect(response.headers.get('cache-control')).toBe('private, no-cache');
+    const etag = response.headers.get('etag');
+    expect(etag).toMatch(/^"[a-f0-9]{64}"$/);
+    await response.arrayBuffer();
+    cached.push({ asset, etag });
+    const revalidated = await fetch(`${base}/${asset}`, {
+      headers: {
+        cookie: `preview_session=${session.token}`,
+        'if-none-match': etag,
+      },
+    });
+    expect(revalidated.status).toBe(304);
+    expect(await revalidated.text()).toBe('');
+    expect((await fetch(`${base}/${asset}`, { headers: { 'if-none-match': etag } })).status).toBe(403);
   }
+  const firstAsset = cached[0];
+  await fs.appendFile(path.join(web, firstAsset.asset), '\n/* Updated asset */\n');
+  const changed = await fetch(`${base}/${firstAsset.asset}`, {
+    headers: { cookie: `preview_session=${session.token}`, 'if-none-match': firstAsset.etag },
+  });
+  expect(changed.status).toBe(200);
+  expect(changed.headers.get('etag')).not.toBe(firstAsset.etag);
+  expect(await changed.text()).toContain('Updated asset');
   project.clients[0].pages[1].visible = false;
   store.updateProject(admin, project.id, project);
   expect((await fetch(`${base}/r/fixture/inbox.json`, { headers })).status).toBe(403);
+  const current = store.getProject(admin, project.id);
+  current.clients[0].defaultPage = '';
+  current.clients[0].pages.forEach((page) => {
+    page.visible = false;
+  });
+  store.updateProject(admin, project.id, current);
+  for (const { asset, etag } of cached) {
+    const response = await fetch(`${base}/${asset}`, {
+      headers: {
+        cookie: `preview_session=${session.token}`,
+        'if-none-match': etag,
+      },
+    });
+    expect(response.status).toBe(403);
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    await response.arrayBuffer();
+  }
 }, 30000);

@@ -37,6 +37,8 @@ function createIdentityStore(queries: QueryClient) {
       queries.clear();
       identity = key;
     }
+    if (!snapshot.loading && !snapshot.error && JSON.stringify(snapshot.session) === JSON.stringify(next))
+      return;
     update({ session: next, loading: false, error: '' });
   };
   const client = createNativeClient({
