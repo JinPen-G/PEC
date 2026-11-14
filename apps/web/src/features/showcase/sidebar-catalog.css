@@ -9,3 +9,17 @@
   color: var(--text-secondary);
   font-size: 12px;
 }
+.showcase-project-divider {
+  margin: 5px 6px 5px calc(var(--sb-text) - var(--sb-row-x));
+  border: 0;
+  border-top: 1px solid var(--border-subtle);
+}
+.showcase-page-qualifier {
+  flex: none;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}

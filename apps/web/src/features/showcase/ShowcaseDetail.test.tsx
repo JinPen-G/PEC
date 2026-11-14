@@ -70,12 +70,16 @@ function mount(markdown: string, allowed = true, summaryMarkdown?: string, regis
   );
 }
 describe('page PRD tabs and authorization', () => {
-  it('shows the published functional description below the title and keeps categories in the breadcrumb', async () => {
+  it('shows the published description and places the project in the Screens breadcrumb', async () => {
     mount('页面说明。', true, undefined, undefined, undefined, '营运端 · 车辆管理');
     expect(await screen.findByText('页面说明。')).toBeInTheDocument();
     expect(screen.getByText('维护车辆的品牌、车型及规格，供车辆档案选择。', { selector: 'header p' })).toBeInTheDocument();
     expect(screen.queryByText('营运端 · 车辆管理', { selector: 'header p' })).not.toBeInTheDocument();
     expect(screen.queryByText('营运端 · 营运端 · 车辆管理')).not.toBeInTheDocument();
+    const breadcrumb = screen.getByRole('navigation', { name: '当前位置' });
+    expect(breadcrumb).toHaveTextContent('ScreensSample车辆');
+    expect(breadcrumb.querySelectorAll('svg')).toHaveLength(2);
+    expect(breadcrumb.querySelector('a[href="/screens?project=sample"]')).not.toBeNull();
   });
   it('uses the page registry in the header and omits a fabricated install command when access is denied', async () => {
     const registry: ComponentRegistryReference = { name: 'vehicle-groups', kind: 'block', url: '/r/sample/vehicle-groups.json' };

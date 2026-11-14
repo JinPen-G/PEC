@@ -60,12 +60,14 @@ export interface ShellRoute {
   key: string;
   label: string;
   icon: ReactNode;
+  qualifier?: string;
 }
 export interface ShellSection {
   key: string;
   label: string;
   icon: ReactNode;
   routes: ShellRoute[];
+  flat?: boolean;
 }
 export interface FrameworkShellProps {
   embedded?: boolean;
@@ -139,7 +141,7 @@ function Navigation({
       keyword || (openGroups[section.key] ?? section.routes.some((route) => route.key === selectedKey)),
     );
   const active = visible.find((section) => section.routes.some((route) => route.key === selectedKey));
-  const selected = active ? (collapsed || !expanded(active) ? `group:${active.key}` : selectedKey) : null;
+  const selected = active ? (!active.flat && (collapsed || !expanded(active)) ? `group:${active.key}` : selectedKey) : null;
   const visit = (key: string) => {
     setPopup(null);
     setOpenMobile(false);
@@ -157,7 +159,7 @@ function Navigation({
       className="rental-sidebar-route-highlight"
     >
       <SidebarGroup>
-        <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>
+        {groupLabel && <SidebarGroupLabel>{groupLabel}</SidebarGroupLabel>}
         <SidebarMenu>
           {!visible.length && (
             <li className="preview-menu-empty" role="status">
@@ -165,6 +167,28 @@ function Navigation({
             </li>
           )}
           {visible.map((section) => {
+            if (section.flat) return section.routes.map((route) => (
+              <HighlightItem key={route.key} value={route.key} asChild>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    className="rental-sidebar-route-link"
+                    tooltip={route.qualifier ? `${route.label} · ${route.qualifier}` : route.label}
+                    aria-current={route.key === selectedKey ? 'page' : undefined}
+                    isActive={route.key === selectedKey}
+                    render={<a href={`#${route.key}`} />}
+                    onClick={(event) => {
+                      if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                      event.preventDefault();
+                      visit(route.key);
+                    }}
+                  >
+                    {route.icon}
+                    <span className="rental-sidebar-label">{route.label}</span>
+                    {route.qualifier && <small className="preview-route-qualifier">{route.qualifier}</small>}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </HighlightItem>
+            ));
             const groupOpen = expanded(section);
             const panelOpen = groupOpen && !collapsed;
             const panelId = `preview-menu-${encodeURIComponent(section.key)}`;
@@ -447,18 +471,19 @@ function ShellContents(props: FrameworkShellProps) {
       </div>
       <span className={props.embedded ? 'grid flex-1 text-left text-sm leading-tight' : 'rental-workspace-identity'}>
         <span className={props.embedded ? 'truncate font-medium' : 'rental-workspace-tenant-name'} title={props.title}>{props.title}</span>
-        {!props.embedded && <span className="rental-workspace-name" title={props.subtitle}>{props.subtitle}</span>}
+        {!props.embedded && props.subtitle && <span className="rental-workspace-name" title={props.subtitle}>{props.subtitle}</span>}
       </span>
     </>
   );
+  const workspaceLabel = props.subtitle ? `${props.title} · ${props.subtitle}` : props.title;
   const workspace = <SidebarMenu className="rental-workspace-menu"><SidebarMenuItem>
     {props.workspaces.length < 2 ?
       <SidebarMenuButton size="lg" className="rental-workspace-trigger"
-        render={<div role="group" tabIndex={0} aria-label={`${props.title} · ${props.subtitle}`} title={`${props.title} · ${props.subtitle}`} />}>
+        render={<div role="group" tabIndex={0} aria-label={workspaceLabel} title={workspaceLabel} />}>
         {brandContent}
       </SidebarMenuButton> : <DropdownMenu>
         <DropdownMenuTrigger
-          aria-label={`${props.title} · ${props.subtitle}`} title={`${props.title} · ${props.subtitle}`}
+          aria-label={workspaceLabel} title={workspaceLabel}
           render={<SidebarMenuButton size="lg" className="rental-workspace-trigger data-popup-open:bg-sidebar-accent data-popup-open:text-sidebar-accent-foreground" />}>
           {brandContent}<ChevronDown size={14} strokeWidth={1.75} className="rental-workspace-chevron" aria-hidden="true" />
         </DropdownMenuTrigger>

@@ -120,7 +120,15 @@ function GraphViewSwitch({
     </div>
   );
 }
-export default function RequirementGraphPage({ projectId }: { projectId: string }) {
+export default function RequirementGraphPage({
+  projectId,
+  title = '需求关系图谱',
+  projectName,
+}: {
+  projectId: string;
+  title?: string;
+  projectName?: string;
+}) {
   const text = useShowcaseText(),
     { client, session } = useNativeAuth(),
     reduced = useReducedMotion();
@@ -497,17 +505,21 @@ export default function RequirementGraphPage({ projectId }: { projectId: string 
     <main className="page_content__xGn__ requirement-graph-page">
       <div className="docs_docLayout__YK0uB">
         <article className="docs_docMain__jK5Ve">
-          <nav className="docs_breadcrumb__JFHCC" aria-label={text('文档')}>
-            <Link to={`/docs${projectId ? `?project=${encodeURIComponent(projectId)}` : ''}`}>
-              {text('文档')}
+          <nav className="docs_breadcrumb__JFHCC" aria-label="Screens">
+            <Link to={`/screens${projectId ? `?project=${encodeURIComponent(projectId)}` : ''}`}>
+              Screens
             </Link>
-            <span aria-hidden="true">›</span>
-            <span aria-current="page">{text('需求关系图谱')}</span>
+            <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
+            {projectName && <>
+              <Link to={`/screens?project=${encodeURIComponent(projectId)}`}>{text(projectName)}</Link>
+              <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
+            </>}
+            <span aria-current="page">{text(title)}</span>
           </nav>
           <header className="docs_header__0YD_z">
             <div className="docs_headerCopy__ZDQWU">
               <div className="docs_titleRow__nNp4A">
-                <h1>{text('需求关系图谱')}</h1>
+                <h1>{text(title)}</h1>
               </div>
               <p>{text('查找需求点，在图中定位，再看它的规则、前因与后果。')}</p>
             </div>

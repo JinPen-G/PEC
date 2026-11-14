@@ -68,7 +68,8 @@ it('keeps the full application navigation mounted across preview sizes without a
   expect(screen.getByRole('link', { name: 'Vehicles' })).toHaveAttribute('aria-current', 'page');
   expect(screen.getByRole('link', { name: 'Stations' })).toHaveAttribute('href', '#/pages/rental/operation/stations');
   expect(screen.queryByRole('link', { name: 'Restricted' })).not.toBeInTheDocument();
-  expect(screen.queryByRole('link', { name: 'Employees' })).not.toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'Employees' })).toHaveAttribute('href', '#/pages/rental/company/employees');
+  expect(view.container.querySelector('.preview-breadcrumb')).toHaveTextContent('RentalVehicles');
   expect(screen.queryByRole('link', { name: 'Button' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: '本页文档' })).not.toBeInTheDocument();
   const input = screen.getByRole('textbox', { name: 'Business draft' });

@@ -218,6 +218,25 @@ select {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+.rental-sidebar-route-link .rental-sidebar-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.preview-route-qualifier {
+  flex: none;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+[data-collapsible='icon'] .preview-route-qualifier {
+  display: none;
+}
 @media (max-width: 767px) {
   .preview-native-root .app-workspace {
     margin: 6px;

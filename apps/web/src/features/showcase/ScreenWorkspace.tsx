@@ -11,7 +11,7 @@ import { usePrefersReducedMotion } from '@/features/motion/use-motion-preference
 import { useShellLabels } from '@/features/shell/shell-labels';
 import { useShowcasePages, type CatalogPage } from './showcase-catalog';
 import { useShowcaseText } from './showcase-locale';
-import { catalogKind } from './catalog-sections';
+import { catalogKind, catalogPageQualifier, catalogPageTitle } from './catalog-sections';
 import './screen-workspace.css';
 
 export function ScreenWorkspace({ page, compact, children }: {
@@ -27,21 +27,23 @@ export function ScreenWorkspace({ page, compact, children }: {
   const reduced = usePrefersReducedMotion();
   const navigate = useNavigate();
   const catalog = useShowcasePages(page.projectId);
-  const pages = catalog.data?.pages.filter(item => item.allowed && catalogKind(item) === 'page' && item.clientId === page.clientId) ?? [];
-  const groups = [...new Set(pages.map(item => item.category || item.clientName))];
+  const pages = catalog.data?.pages.filter(item => item.allowed && catalogKind(item) === 'page') ?? [];
   const path = (item: CatalogPage) => `/pages/${item.projectId}/${item.clientId}/${item.pageKey}`;
   return <UiEnvironmentProvider dark={resolvedMode === 'dark'} reducedMotion={reduced}>
     <div className="showcase-screen-workspace">
       <ScreenPortalProvider>
         <FrameworkShell embedded compact={compact}
-          title={page.projectName} subtitle={text(page.clientName)} brand={<Layers3 size={24} />}
+          title={page.projectName} subtitle="" brand={<Layers3 size={24} />}
           workspaces={[]} workspaceKey={page.projectId} onWorkspaceChange={() => {}}
           navigationMode="components" onNavigationModeChange={() => {}} showNavigationModeSwitch={false}
           showAppearanceLink={false} showDocumentControl={false}
           account={session?.user?.displayName ?? text('访客')} accountDescription={text('公开浏览')}
-          sections={groups.map(group => ({ key: group, label: text(group.replace(`${page.clientName} · `, '')), icon: <Layers3 size={16} />,
-            routes: pages.filter(item => (item.category || item.clientName) === group)
-              .map(item => ({ key: path(item), label: text(item.title), icon: <FileText size={16} /> })) }))}
+          sections={[{ key: page.projectId, label: page.projectName, icon: <Layers3 size={16} />, flat: true,
+            routes: pages.map(item => {
+              const qualifier = catalogPageQualifier(item, pages);
+              return { key: path(item), label: text(catalogPageTitle(item)), icon: <FileText size={16} />,
+                qualifier: qualifier ? text(qualifier) : undefined };
+            }) }]}
           selectedKey={path(page)} onNavigate={navigate} preference={resolvedMode} onThemeChange={() => {}}
           locale={locale} onLocaleChange={() => {}} labels={{ ...labels, center: '' }}
           documentAvailable={false} documentOpen={false} onDocumentToggle={() => {}}

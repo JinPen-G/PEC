@@ -22,6 +22,7 @@ import {
   type CatalogPage,
 } from '@/features/showcase/showcase-catalog';
 import { useShowcaseText } from '@/features/showcase/showcase-locale';
+import { catalogKind, catalogPageQualifier, catalogPageTitle } from '@/features/showcase/catalog-sections';
 import { RuntimePage } from '@/features/showcase/RuntimePage';
 import { demoPageRoute, demoPageUrl } from './demo-routes';
 import { RestEntry } from '@/features/rest/RestEntry';
@@ -59,28 +60,31 @@ export function DemoWorkspace() {
   const projectId = useShowcaseProject(requestedProject, projectsQuery.error ? undefined : projectsQuery.data?.projects);
   const project = projects.find((item) => item.id === projectId);
   const pagesQuery = useShowcasePages(projectId, Boolean(project));
-  const pages = project && !pagesQuery.error ? (pagesQuery.data?.pages ?? []) : [];
+  const pages = project && !pagesQuery.error ? (pagesQuery.data?.pages.filter((page) => page.allowed && catalogKind(page) === 'page') ?? []) : [];
   const selected = route && pages.find((page) => demoPageUrl(page) === location.pathname);
-  const groups = [...new Set(pages.map((page) => page.category || page.clientName))];
-  const sections: ShellSection[] = groups.map((category) => ({
-    key: category,
-    label: text(category),
+  const sections: ShellSection[] = [{
+    key: projectId,
+    label: project?.name ?? 'Demo',
     icon: <Layers3 />,
-    routes: pages
-      .filter((page) => (page.category || page.clientName) === category)
-      .map((page) => ({ key: demoPageUrl(page), label: text(page.title), icon: <FileText /> })),
-  }));
+    flat: true,
+    routes: pages.map((page) => {
+      const qualifier = catalogPageQualifier(page, pages);
+      return { key: demoPageUrl(page), label: text(catalogPageTitle(page)), icon: <FileText />,
+        qualifier: qualifier ? text(qualifier) : undefined };
+    }),
+  }];
   const labels = {
     ...useShellLabels(),
-    center: text('产品'),
+    center: '',
     projects: text('产品'),
     passwordChange: text('修改密码'),
   };
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [logoutError, setLogoutError] = useState('');
+  const browserTitle = `${selected ? text(catalogPageTitle(selected)) : 'Demo'} · Preview`;
   useEffect(() => {
-    document.title = `${selected ? text(selected.title) : 'Demo'} · Preview`;
-  }, [selected, text]);
+    document.title = browserTitle;
+  }, [browserTitle]);
   let content;
   if (projectsQuery.error) {
     content = (
@@ -102,8 +106,8 @@ export function DemoWorkspace() {
   return (
     <CollaborationRoom project={project} enabled={Boolean(user && selected)} routePrefix="/demo">
       <FrameworkShell
-        title="Preview"
-        subtitle={project?.name ?? 'Demo'}
+        title={project?.name ?? 'Demo'}
+        subtitle=""
         brand={<Layers3 size={20} />}
         workspaces={projects.map((item) => ({ key: item.id, label: item.name, icon: <Layers3 /> }))}
         workspaceKey={projectId}

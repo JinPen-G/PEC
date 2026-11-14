@@ -1,4 +1,4 @@
-import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
@@ -119,8 +119,9 @@ beforeEach(() => {
     if (route === '/collaboration') return Promise.resolve({ id: 'connection-reader' });
     if (route === '/collaboration/connection-reader') return Promise.resolve({ accepted: true });
     if (route === '/showcase/projects') return Promise.resolve({ projects: [...projects] });
-    if (route === '/showcase?projectId=sample') return Promise.resolve({ pages: [...pages] });
-    if (route.startsWith('/showcase/sample/operation/'))
+    if (route.startsWith('/showcase?projectId=')) return Promise.resolve({ pages: pages.filter(page =>
+      page.projectId === route.slice('/showcase?projectId='.length)) });
+    if (/^\/showcase\/[a-z0-9-]+\/[a-z0-9-]+\//.test(route))
       return Promise.resolve({ entry: route.split('/').at(-1), styles: [] });
     throw new Error(`Unexpected request: ${route}`);
   });
@@ -141,6 +142,37 @@ it('combines the visible front-end pages in the existing shell without managemen
   expect(screen.queryByText('账号管理')).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: '本页文档' })).not.toBeInTheDocument();
   expect(document.querySelector('a[href^="#/manage"]')).toBeNull();
+  expect(document.querySelector('.preview-breadcrumb')).toHaveTextContent('Samplevehicle-groups');
+  expect(screen.queryByRole('button', { name: '车辆管理' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: /图谱/ })).not.toBeInTheDocument();
+});
+it('switches project menus, resets search and includes all readable clients with plain titles', async () => {
+  auth.session.user = null;
+  projects.push({ id: 'other', name: 'Other Project' });
+  pages.push(
+    { ...page('departments'), title: '营运端 · 部门管理' },
+    { ...page('employees'), clientId: 'enterprise', clientName: '企业端', title: '企业端 · 员工管理' },
+    { ...page('other-vehicles'), projectId: 'other', projectName: 'Other Project', title: '车辆管理' },
+    { ...page('locked'), title: '无权查看', allowed: false },
+    { ...page('button'), title: '基础按钮', kind: 'component' },
+    { ...page('form'), title: '表单区块', kind: 'block' },
+  );
+  mount('/demo?project=sample', true);
+  await screen.findByTestId('runtime');
+  expect(screen.getByRole('link', { name: '部门管理' })).toHaveAttribute('href', '#/demo/sample/operation/departments');
+  expect(screen.getByRole('link', { name: '员工管理' })).toHaveAttribute('href', '#/demo/sample/enterprise/employees');
+  expect(screen.queryByRole('link', { name: '无权查看' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: '基础按钮' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: '表单区块' })).not.toBeInTheDocument();
+  const search = screen.getByRole('searchbox');
+  fireEvent.change(search, { target: { value: '不存在' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Sample' }));
+  fireEvent.click(await screen.findByRole('menuitem', { name: 'Other Project' }));
+  await waitFor(() => expect(screen.getByTestId('route')).toHaveTextContent('/demo/other/operation/other-vehicles'));
+  expect(search).toHaveValue('');
+  expect(screen.getByRole('link', { name: '车辆管理' })).toHaveAttribute('aria-current', 'page');
+  expect(screen.queryByRole('link', { name: '员工管理' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('link', { name: /图谱/ })).not.toBeInTheDocument();
 });
 it('removes a hidden or revoked selected page on catalog refresh and stops displaying it', async () => {
   const queries = mount('/demo/sample/operation/vehicle-transfer');

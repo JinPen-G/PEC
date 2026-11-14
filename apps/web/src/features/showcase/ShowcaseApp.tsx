@@ -60,7 +60,8 @@ import { FullscreenPreview } from './FullscreenPreview';
 import { SiteLanding } from './SiteLanding';
 import { CatalogFilters } from './CatalogFilters';
 import { CatalogJump, catalogIcons } from './CatalogJump';
-import { catalogKind, catalogSections, sectionForPath, type CatalogKind } from './catalog-sections';
+import { catalogKind, catalogPageTitle, catalogSections, sectionForPath, type CatalogKind } from './catalog-sections';
+import { ProjectScreens } from './ProjectScreens';
 import { desktopScreen, mobileScreen } from './screen-preview';
 import { SiteDocumentation } from './SiteDocumentation';
 import { RuntimePage } from './RuntimePage';
@@ -129,6 +130,7 @@ export function Detail({ page }: { page: CatalogPage }) {
   const text = useShowcaseText();
   const { locale } = usePlatformLocale();
   const isScreen = catalogKind(page) === 'page';
+  const pageTitle = catalogPageTitle(page);
   const route = useLocation();
   const routeKey = route.key;
   const parameters = new URLSearchParams(route.search);
@@ -247,15 +249,17 @@ export function Detail({ page }: { page: CatalogPage }) {
               <Link to={catalogSections.find((item) => item.kind === catalogKind(page))!.path}>
                 {catalogSections.find((item) => item.kind === catalogKind(page))!.title}
               </Link>
-              <ChevronRight size={13} />
-              <span>{page.category || page.clientName}</span>
-              <ChevronRight size={13} />
-              <span>{page.title}</span>
+              <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
+              {isScreen ? (
+                <Link to={`/screens?project=${encodeURIComponent(page.projectId)}`}>{page.projectName}</Link>
+              ) : <span>{page.category || page.clientName}</span>}
+              <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
+              <span aria-current="page">{pageTitle}</span>
             </motion.nav>
             <motion.header className="docs_header__0YD_z" {...enterPart(0.07)}>
               <div className="docs_headerCopy__ZDQWU">
                 <div className="docs_titleRow__nNp4A">
-                  <h1>{page.title}</h1>
+                  <h1>{pageTitle}</h1>
                   {page.access === 'restricted' && (
                     <span className="docs_headerBadge__QRHNu">
                       <LockKeyhole size={12} />
@@ -503,7 +507,7 @@ export function Detail({ page }: { page: CatalogPage }) {
                 <FullscreenPreview
                   open={expanded}
                   onOpenChange={setExpanded}
-                  title={text(page.title)}
+                  title={text(pageTitle)}
                   mobile={mobile}
                   nativeRef={nativePreview}
                   toolbar={<SiteCollaborationControls />}
@@ -698,8 +702,10 @@ function Site() {
     appearanceTrigger = useRef<HTMLButtonElement>(null);
   const projectCatalog = useShowcaseProjects(!administration);
   const allCatalogs = useShowcaseCatalog(projectCatalog.data?.projects ?? [], !administration);
+  const projectDocs = /^\/docs\/projects\/([a-z0-9-]+)(?:\/(changelog|graph))?$/.exec(location.pathname);
   const displayedProject = useShowcaseProject(
     /^\/pages\/([a-z0-9-]+)\//.exec(location.pathname)?.[1] ??
+      projectDocs?.[1] ??
       new URLSearchParams(location.search).get('project'),
     projectCatalog.data?.projects,
     !administration,
@@ -733,13 +739,19 @@ function Site() {
   };
   const visible = pages.filter(
     (page) =>
-      `${page.title} ${page.projectName} ${page.category}`.toLowerCase().includes(filter.toLowerCase()) &&
+      `${page.title} ${catalogPageTitle(page)} ${text(catalogPageTitle(page))} ${page.projectName} ${page.category} ${text(page.category)}`
+        .toLowerCase().includes(filter.trim().toLowerCase()) &&
       (tier === 'all' || page.access === tier) &&
       (!accessibleOnly || page.allowed),
   );
   const sectionPages = section ? pages.filter((page) => catalogKind(page) === section.kind) : pages;
   const first = sectionPages.find((page) => page.projectId === displayedProject) ?? sectionPages[0];
-  const isDocs = location.pathname.startsWith('/docs');
+  const isGraph = projectDocs?.[2] === 'graph' || location.pathname === '/docs/graph';
+  const graphProjectId = projectDocs?.[1] ?? displayedProject;
+  const graphMenuKey = `/docs/graph?project=${encodeURIComponent(graphProjectId)}`;
+  const sidebarActiveKey = isGraph ? graphMenuKey : location.pathname;
+  const graphPageProject = projectCatalog.data?.projects.find((project) => project.id === graphProjectId);
+  const isDocs = location.pathname.startsWith('/docs') && !isGraph;
   const home = location.pathname === '/';
   const changeProject = (value: string) => {
     setFilter('');
@@ -833,11 +845,11 @@ function Site() {
         onAccessible={setAccessibleOnly}
       />
       <CatalogJump pages={visible} current={jumpKind} onJump={jumpToCatalog} />
-      <SidebarSelection activeKey={location.pathname}>
+      <SidebarSelection activeKey={sidebarActiveKey}>
         <SidebarSection title="文档" icon={<BookOpen size={15} strokeWidth={1.75} />}>
           <nav className="library-sidebar_sectionBody__qECt_">
             <div className="library-sidebar_rows__muylU">
-              {siteGuides.map((guide) => (
+              {siteGuides.filter((guide) => guide.id !== 'graph').map((guide) => (
                 <Link
                   key={guide.path}
                   className="library-sidebar_row__aE5SY"
@@ -855,16 +867,23 @@ function Site() {
         {catalogSections.map(({ kind, title }) => {
           const Icon = catalogIcons[kind];
           const items = visible.filter((page) => catalogKind(page) === kind);
+          const showGraphLink = kind === 'page' && pages.some((page) => catalogKind(page) === 'page' && page.allowed &&
+            `${page.projectName} 关系图谱 知识图谱 需求图谱 ${text('关系图谱')} ${text('需求关系图谱')}`
+              .toLowerCase().includes(filter.trim().toLowerCase()));
           const groups = [...new Set(items.map((page) => page.category || page.clientName))];
-          const activeKey = catalogJump?.route === location.pathname && catalogJump.kind === kind ? `jump:${catalogJump.revision}` :
+          const activeKey = kind === 'page' && isGraph ? graphMenuKey : catalogJump?.route === location.pathname && catalogJump.kind === kind ? `jump:${catalogJump.revision}` :
             selected && catalogKind(selected) === kind ? pageLink(selected) : '';
           return (
             <div key={kind} data-catalog-section={kind}>
             <SidebarSection title={title} count={items.length}
               icon={<Icon size={15} strokeWidth={1.75} aria-hidden="true" />}
-              activeKey={activeKey} defaultOpen={kind === 'page'} forceOpen={Boolean(filter) && items.length > 0}>
+              activeKey={activeKey} defaultOpen={kind === 'page'} forceOpen={Boolean(filter) && (items.length > 0 || showGraphLink)}>
               <nav className="library-sidebar_sectionBody__qECt_" aria-label={title}>
-                {groups.map((group, index) => {
+                {kind === 'page' ? (
+                  <ProjectScreens key={displayedProject} projects={projectCatalog.data?.projects ?? []} pages={pages} visible={items}
+                    projectId={displayedProject} activeKey={sidebarActiveKey} filter={filter}
+                    onVisit={() => setMobileOpen(false)} />
+                ) : groups.map((group, index) => {
                   const rows = items.filter((page) => (page.category || page.clientName) === group);
                   const active = rows.some((page) => pageLink(page) === location.pathname) ? location.pathname : '';
                   return <SidebarSection key={group} group title={group} count={rows.length}
@@ -879,7 +898,7 @@ function Site() {
                       className="library-sidebar_row__aE5SY"
                       data-sidebar-key={pageLink(page)}
                     >
-                      <span className="library-sidebar_label__EP9jR">{page.title}</span>
+                      <span className="library-sidebar_label__EP9jR">{catalogPageTitle(page)}</span>
                       {page.access === 'restricted' && (
                         <span className="library-sidebar_pro__c08K_">授权</span>
                       )}
@@ -888,7 +907,7 @@ function Site() {
                     </div>
                   </SidebarSection>;
                 })}
-                {!items.length && <p className="showcase-catalog-empty">{filter || tier !== 'all' ? '没有匹配内容' : `暂无${title}`}</p>}
+                {!items.length && !showGraphLink && <p className="showcase-catalog-empty">{filter || tier !== 'all' ? '没有匹配内容' : `暂无${title}`}</p>}
               </nav>
             </SidebarSection>
             </div>
@@ -1046,8 +1065,8 @@ function Site() {
                       >
                         <FileText size={16} />
                         <span>
-                          {text(page.title)}
-                          <small>{text(page.category)}</small>
+                          {text(catalogPageTitle(page))}
+                          <small>{text(catalogKind(page) === 'page' ? page.projectName : page.category)}</small>
                         </span>
                         {page.access === 'restricted' && <LockKeyhole size={14} />}
                       </button>
@@ -1082,10 +1101,12 @@ function Site() {
                     />
                   }
                 />
-              ) : location.pathname === '/docs/graph' ? (
+              ) : isGraph ? (
                 <RequirementGraphPage
-                  key={displayedProject}
-                  projectId={displayedProject}
+                  key={graphProjectId}
+                  projectId={graphProjectId}
+                  title="关系图谱"
+                  projectName={graphPageProject?.name}
                 />
               ) : isDocs ? (
                 <SiteDocumentation key={`${displayedProject}/${location.pathname}`} projectId={displayedProject} path={location.pathname} pages={pages} />
