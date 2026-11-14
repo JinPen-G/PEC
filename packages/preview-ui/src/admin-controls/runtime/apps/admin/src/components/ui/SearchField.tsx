@@ -1,5 +1,5 @@
 import { forwardRef, useState, type CSSProperties, type KeyboardEventHandler } from "react";
-import { SearchField as ArcSearchField } from "../../../../../packages/ui-arc/vendor/registry/components/search-field/search-field";
+import { SearchField as ArcSearchField } from "../../../../../packages/ui-primitives/vendor/registry/components/search-field/search-field";
 import { ConfigProvider } from "antd";
 
 export interface SearchFieldProps {
@@ -21,7 +21,7 @@ export interface SearchFieldProps {
 }
 
 /**
- * UIArc's source Search field, adapted to the app's controlled filtering contract.
+ * UI primitives's source Search field, adapted to the app's controlled filtering contract.
  * It intentionally owns the icon, clear affordance and clear animation; callers only
  * decide when a typed value becomes an applied server-side filter.
  */

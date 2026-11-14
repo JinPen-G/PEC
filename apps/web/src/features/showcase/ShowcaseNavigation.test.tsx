@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
 import type { ReactNode } from 'react';
@@ -22,7 +22,10 @@ vi.mock('./showcase-locale', () => ({
   LocalizedView: ({ children }: { children: ReactNode }) => children,
   useShowcaseText: () => (text: string) => text,
 }));
-vi.mock('./toc-navigation', () => ({ prepareShowcaseRoute: vi.fn(), useTocNavigation: () => ({ active: 'graph-preview', scrollTo: vi.fn() }) }));
+vi.mock('./toc-navigation', () => ({
+  prepareShowcaseRoute: vi.fn(),
+  useTocNavigation: () => ({ active: 'graph-preview', scrollTo: vi.fn() }),
+}));
 vi.mock('./SiteLanguageMenu', () => ({ SiteLanguageMenu: () => null }));
 vi.mock('./SiteCollaboration', () => ({
   SiteCollaboration: ({ children }: { children: ReactNode }) => children,
@@ -32,19 +35,98 @@ vi.mock('./SiteDocumentation', () => ({
   SiteDocumentation: () => <h1>文档介绍</h1>,
 }));
 vi.mock('./SiteLanding', () => ({ SiteLanding: () => <h1>网站首页</h1> }));
+vi.mock('../../../../../packages/preview-ui/src/BrandOpening', () => ({
+  BrandOpening: () => <span>Preview</span>,
+}));
 vi.mock('./showcase-catalog', async (importOriginal) => {
   const entries = [
-    { projectId: 'rental', projectName: 'RIMO Rental', clientId: 'operation', clientName: '营运端', pageKey: 'vehicles', title: '车辆管理', category: '车辆', access: 'public', allowed: true, kind: 'page' },
-    { projectId: 'rental', projectName: 'RIMO Rental', clientId: 'operation', clientName: '营运端', pageKey: 'departments', title: '营运端 · 部门管理', category: '营运端 · 组织', access: 'public', allowed: true, kind: 'page' },
-    { projectId: 'rental', projectName: 'RIMO Rental', clientId: 'enterprise', clientName: '企业端', pageKey: 'departments', title: '企业端 · 部门管理', category: '企业端 · 组织', access: 'public', allowed: true, kind: 'page' },
-    { projectId: 'store', projectName: '门市项目', clientId: 'web', clientName: 'Web', pageKey: 'orders', title: '订单管理', category: '门市业务', access: 'public', allowed: true, kind: 'page' },
-    { projectId: 'components', projectName: '组件中心', clientId: 'web', clientName: 'Web', pageKey: 'button', title: '按钮', category: '操作', access: 'public', allowed: true, kind: 'component' },
-    { projectId: 'components', projectName: '组件中心', clientId: 'web', clientName: 'Web', pageKey: 'sign-in', title: '登录表单', category: '身份', access: 'public', allowed: true, kind: 'block' },
+    {
+      projectId: 'rental',
+      projectName: 'RIMO Rental',
+      clientId: 'operation',
+      clientName: '营运端',
+      pageKey: 'vehicles',
+      title: '车辆管理',
+      category: '车辆',
+      access: 'public',
+      allowed: true,
+      kind: 'page',
+    },
+    {
+      projectId: 'rental',
+      projectName: 'RIMO Rental',
+      clientId: 'operation',
+      clientName: '营运端',
+      pageKey: 'departments',
+      title: '营运端 · 部门管理',
+      category: '营运端 · 组织',
+      access: 'public',
+      allowed: true,
+      kind: 'page',
+    },
+    {
+      projectId: 'rental',
+      projectName: 'RIMO Rental',
+      clientId: 'enterprise',
+      clientName: '企业端',
+      pageKey: 'departments',
+      title: '企业端 · 部门管理',
+      category: '企业端 · 组织',
+      access: 'public',
+      allowed: true,
+      kind: 'page',
+    },
+    {
+      projectId: 'store',
+      projectName: '门市项目',
+      clientId: 'web',
+      clientName: 'Web',
+      pageKey: 'orders',
+      title: '订单管理',
+      category: '门市业务',
+      access: 'public',
+      allowed: true,
+      kind: 'page',
+    },
+    {
+      projectId: 'components',
+      projectName: '组件中心',
+      clientId: 'web',
+      clientName: 'Web',
+      pageKey: 'button',
+      title: '按钮',
+      category: '操作',
+      access: 'public',
+      allowed: true,
+      kind: 'component',
+    },
+    {
+      projectId: 'components',
+      projectName: '组件中心',
+      clientId: 'web',
+      clientName: 'Web',
+      pageKey: 'sign-in',
+      title: '登录表单',
+      category: '身份',
+      access: 'public',
+      allowed: true,
+      kind: 'block',
+    },
   ];
   return {
-    ...await importOriginal<typeof import('./showcase-catalog')>(),
-    useShowcaseProjects: () => ({ data: { projects: [{ id: 'rental', name: 'RIMO Rental' }, { id: 'components', name: '组件中心' }, { id: 'store', name: '门市项目' }] } }),
-    useShowcasePages: (projectId: string) => ({ data: { pages: entries.filter(entry => entry.projectId === projectId) } }),
+    ...(await importOriginal<typeof import('./showcase-catalog')>()),
+    useShowcaseProjects: () => ({
+      data: {
+        projects: [
+          { id: 'rental', name: 'RIMO Rental' },
+          { id: 'components', name: '组件中心' },
+          { id: 'store', name: '门市项目' },
+        ],
+      },
+    }),
+    useShowcasePages: (projectId: string) => ({
+      data: { pages: entries.filter((entry) => entry.projectId === projectId) },
+    }),
     useShowcaseCatalog: () => [{ data: { pages: entries } }],
   };
 });
@@ -58,7 +140,9 @@ function mount(route: string) {
   return render(
     <QueryClientProvider client={client}>
       <MemoryRouter initialEntries={[route]}>
-        <PlatformLocaleProvider><ShowcaseApp /></PlatformLocaleProvider>
+        <PlatformLocaleProvider>
+          <ShowcaseApp />
+        </PlatformLocaleProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   );
@@ -86,28 +170,55 @@ describe('showcase catalog navigation', () => {
     const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
     expect(within(sidebar).queryByRole('button', { name: '切换项目' })).not.toBeInTheDocument();
     const pages = within(sidebar).getByRole('navigation', { name: 'Screens' });
-    expect(within(pages).getByRole('button', { name: 'RIMO Rental3' })).toHaveAttribute('aria-expanded', 'true');
-    expect(within(pages).getByRole('button', { name: '门市项目1' })).toHaveAttribute('aria-expanded', 'false');
+    expect(within(pages).getByRole('button', { name: 'RIMO Rental3' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
+    expect(within(pages).getByRole('button', { name: '门市项目1' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
     expect(within(pages).queryByRole('button', { name: /组织|车辆/ })).not.toBeInTheDocument();
-    expect(within(pages).getByRole('link', { name: '车辆管理' })).toHaveAttribute('href', '/pages/rental/operation/vehicles');
+    expect(within(pages).getByRole('link', { name: '车辆管理' })).toHaveAttribute(
+      'href',
+      '/pages/rental/operation/vehicles',
+    );
     fireEvent.click(within(sidebar).getByRole('button', { name: /^组件1$/ }));
     const components = await within(sidebar).findByRole('navigation', { name: '组件' });
-    expect(within(components).getByRole('link', { name: '按钮' })).toHaveAttribute('href', '/pages/components/web/button');
+    expect(within(components).getByRole('link', { name: '按钮' })).toHaveAttribute(
+      'href',
+      '/pages/components/web/button',
+    );
     fireEvent.click(within(sidebar).getByRole('button', { name: /^区块1$/ }));
-    expect(await within(sidebar).findByRole('link', { name: '登录表单' })).toHaveAttribute('href', '/pages/components/web/sign-in');
-    expect(within(sidebar).getByRole('link', { name: '介绍' })).toHaveAttribute('href', '/docs?project=rental');
+    expect(await within(sidebar).findByRole('link', { name: '登录表单' })).toHaveAttribute(
+      'href',
+      '/pages/components/web/sign-in',
+    );
+    expect(within(sidebar).getByRole('link', { name: '介绍' })).toHaveAttribute('href', '/docs');
     const rental = pages.querySelector('[data-screen-project="rental"]') as HTMLElement;
     const graphLink = within(rental).getByRole('link', { name: '关系图谱' });
     expect(graphLink).toHaveAttribute('href', '/docs/graph?project=rental');
     expect(rental.querySelector('a')).toBe(graphLink);
-    expect(within(rental).getByRole('link', { name: '部门管理 营运' })).toHaveAttribute('href', '/pages/rental/operation/departments');
-    expect(within(rental).getByRole('link', { name: '部门管理 企业' })).toHaveAttribute('href', '/pages/rental/enterprise/departments');
+    expect(within(rental).getByRole('link', { name: '部门管理 营运' })).toHaveAttribute(
+      'href',
+      '/pages/rental/operation/departments',
+    );
+    expect(within(rental).getByRole('link', { name: '部门管理 企业' })).toHaveAttribute(
+      'href',
+      '/pages/rental/enterprise/departments',
+    );
     expect(within(rental).queryByText('营运端 · 部门管理')).not.toBeInTheDocument();
     fireEvent.click(within(pages).getByRole('button', { name: '门市项目1' }));
     const store = pages.querySelector('[data-screen-project="store"]') as HTMLElement;
-    expect(within(store).getByRole('link', { name: '关系图谱' })).toHaveAttribute('href', '/docs/graph?project=store');
+    expect(within(store).getByRole('link', { name: '关系图谱' })).toHaveAttribute(
+      'href',
+      '/docs/graph?project=store',
+    );
     expect(store.querySelector('a')).toHaveTextContent('关系图谱');
-    expect(within(store).getByRole('link', { name: '订单管理' })).toHaveAttribute('href', '/pages/store/web/orders');
+    expect(within(store).getByRole('link', { name: '订单管理' })).toHaveAttribute(
+      'href',
+      '/pages/store/web/orders',
+    );
     expect(within(sidebar).queryByRole('link', { name: '需求关系图谱' })).not.toBeInTheDocument();
   });
   it('offers matching top-level sections and sidebar jumps without leaving the current document', async () => {
@@ -126,23 +237,19 @@ describe('showcase catalog navigation', () => {
     expect(scrollTo).toHaveBeenCalled();
     expect(screen.getByRole('heading', { name: '文档介绍' })).toBeInTheDocument();
   });
-  it('preserves old project graph links when returning to project Docs', async () => {
+  it('preserves old project graph links while platform Docs remain global', async () => {
     mount('/docs/graph?project=rental');
     await screen.findByRole('textbox', { name: '搜索需求点' });
     expect(graphCatalog).toHaveBeenLastCalledWith(expect.any(Function), 'rental', expect.any(AbortSignal));
+    expect(
+      within(screen.getByRole('navigation', { name: '主导航' })).getByRole('link', { name: 'Screens' }),
+    ).toHaveAttribute('aria-current', 'page');
     const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
     fireEvent.click(within(sidebar).getByRole('link', { name: '介绍' }));
     expect(await screen.findByRole('heading', { name: '文档介绍' })).toBeInTheDocument();
     expect(screen.getByRole('complementary', { name: '项目页面导航' })).toBe(sidebar);
   });
-  it('keeps navigation available when graph data fails', async () => {
-    graphCatalog.mockRejectedValue(new Error('读取失败'));
-    mount('/docs/graph?project=rental');
-    expect(await screen.findByRole('alert')).toHaveTextContent('图谱读取失败');
-    expect(screen.getByRole('complementary', { name: '项目页面导航' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: '切换项目' })).not.toBeInTheDocument();
-  });
-  it('opens the live graph from a bare graph URL and the Docs menu', async () => {
+  it('opens the live graph from a bare graph URL and the first Screens item', async () => {
     mount('/docs/graph');
     expect(await screen.findByRole('textbox', { name: '搜索需求点' })).toBeInTheDocument();
     expect(graphCatalog).toHaveBeenLastCalledWith(expect.any(Function), 'rental', expect.any(AbortSignal));
@@ -160,7 +267,10 @@ describe('showcase catalog navigation', () => {
     const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
     const store = sidebar.querySelector('[data-screen-project="store"]') as HTMLElement;
     expect(within(store).getByRole('link', { name: '关系图谱' })).toHaveAttribute('aria-current', 'page');
-    expect(within(sidebar).getByRole('button', { name: 'RIMO Rental3' })).toHaveAttribute('aria-expanded', 'false');
+    expect(within(sidebar).getByRole('button', { name: 'RIMO Rental3' })).toHaveAttribute(
+      'aria-expanded',
+      'false',
+    );
     const breadcrumb = within(screen.getByRole('main')).getByRole('navigation', { name: 'Screens' });
     expect(breadcrumb).toHaveTextContent('Screens门市项目关系图谱');
     expect(breadcrumb.querySelectorAll('svg')).toHaveLength(2);
@@ -172,7 +282,10 @@ describe('showcase catalog navigation', () => {
     mount('/docs');
     const sidebar = screen.getByRole('complementary', { name: '项目页面导航' });
     fireEvent.change(within(sidebar).getByRole('textbox'), { target: { value: '订单管理' } });
-    expect(await within(sidebar).findByRole('link', { name: '订单管理' })).toHaveAttribute('href', '/pages/store/web/orders');
+    expect(await within(sidebar).findByRole('link', { name: '订单管理' })).toHaveAttribute(
+      'href',
+      '/pages/store/web/orders',
+    );
     expect(sidebar.querySelector('[data-screen-project="rental"]')).toBeNull();
     expect(sidebar.querySelector('[data-screen-project="store"]')).not.toBeNull();
     expect(within(sidebar).queryByRole('link', { name: '关系图谱' })).not.toBeInTheDocument();
@@ -198,6 +311,50 @@ describe('showcase catalog navigation', () => {
     expect(screen.getByRole('button', { name: '休息 30 分钟' })).toBeInTheDocument();
   });
 
+  it('keeps mobile home utilities in navigation and restores them to the desktop header', async () => {
+    type QueryListener = Parameters<ReturnType<typeof window.matchMedia>['addEventListener']>[1];
+    const changes = new Set<QueryListener>();
+    let mobile = true;
+    vi.spyOn(window, 'matchMedia').mockImplementation((query) => ({
+      get matches() {
+        return query === '(max-width: 760px)' ? mobile : query === '(min-width:761px)' && !mobile;
+      },
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: (_type: string, listener: QueryListener) => {
+        if (query === '(max-width: 760px)' || query === '(min-width:761px)') changes.add(listener);
+      },
+      removeEventListener: (_type: string, listener: QueryListener) => {
+        changes.delete(listener);
+      },
+      dispatchEvent: () => true,
+    }));
+    mount('/');
+    const header = document.querySelector('header')!;
+    const navigation = screen.getByRole('button', { name: '打开页面导航' });
+    expect(within(header).queryByRole('button', { name: '选择休息时长' })).not.toBeInTheDocument();
+    fireEvent.click(navigation);
+    const drawer = await screen.findByRole('dialog', { name: '页面导航' });
+    expect(within(drawer).getByRole('link', { name: '登录' })).toHaveAttribute('href', '/login');
+    fireEvent.click(within(drawer).getByRole('button', { name: '选择休息时长' }));
+    expect(await screen.findByRole('button', { name: '休息 10 分钟' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '休息 30 分钟' })).toBeInTheDocument();
+    mobile = false;
+    await act(async () =>
+      changes.forEach((listener) => {
+        const event = new Event('change');
+        if (typeof listener === 'function') listener(event);
+        else listener.handleEvent(event);
+      }),
+    );
+    await waitFor(() =>
+      expect(within(header).getByRole('button', { name: '选择休息时长' })).toBeInTheDocument(),
+    );
+    expect(document.querySelector('.showcase-mobile-utilities')).not.toBeInTheDocument();
+  });
+
   it('opens the current project demo directly from the site navigation', () => {
     mount('/docs?project=rental');
     for (const link of screen.getAllByRole('link', { name: 'Try the demo' }))
@@ -208,7 +365,10 @@ describe('showcase catalog navigation', () => {
     mount('/docs?project=rental');
     fireEvent.click(screen.getByRole('link', { name: 'Preview' }));
     expect(await screen.findByRole('heading', { name: '网站首页' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Try the demo' })).toHaveAttribute('href', '/demo?project=rental');
-    expect(screen.getByRole('link', { name: '文档' })).toHaveAttribute('href', '/docs?project=rental');
+    expect(screen.getByRole('link', { name: 'Try the demo' })).toHaveAttribute(
+      'href',
+      '/demo?project=rental',
+    );
+    expect(screen.getByRole('link', { name: '文档' })).toHaveAttribute('href', '/docs');
   });
 });

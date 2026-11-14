@@ -6,13 +6,21 @@
     <meta name="theme-color" content="#2563eb" />
     <meta name="preview-rest-audio" content="" />
     <meta name="preview-rest-artwork" content="" />
-    <link rel="icon" type="image/svg+xml" href="%BASE_URL%brand/icon-sidebar.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%brand/icon-sidebar-32.png" />
-    <link rel="alternate icon" href="%BASE_URL%brand/icon-sidebar-32.png" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%brand/platform-icon.svg" />
     <title>Preview · 产品预览</title>
   </head>
   <body>
+    <div id="preview-home-boot" class="preview-showcase preview-home-boot" hidden>
+      <span class="preview-home-boot-target" aria-hidden="true">
+        <span class="preview-home-boot-menu"></span>
+        <span class="brand-opening">
+          <span class="brand-opening-icon-slot"></span>
+          <span class="brand-opening-word-slot"><span class="brand-opening-reserve">Preview.</span></span>
+        </span>
+        <span class="preview-home-boot-actions"></span>
+      </span>
+    </div>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/startup.ts"></script>
   </body>
 </html>

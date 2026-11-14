@@ -4,18 +4,14 @@ import { LoadingStage } from '@preview/ui/loading';
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Alert, Empty, Select } from '@preview/ui/admin';
+import { BookOpen, Boxes, FileText, Layers3, LayoutGrid, Settings, UsersRound } from 'lucide-react';
 import {
-  BookOpen,
-  Boxes,
-  FileText,
-  Layers3,
-  LayoutGrid,
-  Settings,
-  UsersRound,
-  Camera,
-  Car,
-} from 'lucide-react';
-import { DocumentDock, FrameworkShell, UiEnvironmentProvider, type ShellSection } from '@preview/ui';
+  BrandIcon,
+  DocumentDock,
+  FrameworkShell,
+  UiEnvironmentProvider,
+  type ShellSection,
+} from '@preview/ui';
 import { usePlatformTheme, type PlatformThemeMode } from '@/features/theme/platform-theme';
 import { usePlatformLocale, type PlatformLocale } from '@/features/locale/platform-locale';
 import { usePrefersReducedMotion } from '@/features/motion/use-motion-preference';
@@ -347,17 +343,7 @@ function Workspace() {
       <FrameworkShell
         title={settings.data?.brandName ?? 'Preview'}
         subtitle={(!configuring && project?.name) || (admin ? labels.platform : labels.projects)}
-        brand={
-          settings.data?.brandIcon === 'camera' ? (
-            <Camera size={20} />
-          ) : settings.data?.brandIcon === 'vehicle' ? (
-            <Car size={20} />
-          ) : settings.data?.brandIcon === 'boxes' ? (
-            <Boxes size={20} />
-          ) : (
-            <Layers3 size={20} />
-          )
-        }
+        brand={<BrandIcon />}
         account={user.displayName}
         accountDescription={
           admin
@@ -523,7 +509,9 @@ export function NativeAdministration() {
 export function PlatformApp() {
   return (
     <NativeAuthProvider>
-      <RestIdentityScope><NativeAdministration /></RestIdentityScope>
+      <RestIdentityScope>
+        <NativeAdministration />
+      </RestIdentityScope>
     </NativeAuthProvider>
   );
 }

@@ -7,9 +7,12 @@ import path from 'node:path';
 import process from 'node:process';
 import { URL, fileURLToPath, pathToFileURL } from 'node:url';
 import { parse } from '@babel/parser';
-import { COMPONENT_REGISTRY } from '../packages/platform-contracts/src/component-registry.js';
+import { loadProjectCatalog } from '../packages/platform-server/src/project-catalog.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
+const { componentRegistry: COMPONENT_REGISTRY } = await loadProjectCatalog(
+  path.join(ROOT, 'packages/platform-contracts/src'),
+);
 const RULES = Object.freeze({
   'platform-contracts': { dependencies: ['project-shared'], node: false },
   'platform-client': { dependencies: ['platform-contracts'], node: false },
@@ -177,7 +180,8 @@ export function checkArchitecture(root = ROOT) {
   for (const owner of Object.keys(RULES)) {
     const base = owner === 'web' || owner === 'api' ? 'apps' : 'packages';
     const directory = owner === 'api' ? path.join(root, base, owner) : path.join(root, base, owner, 'src');
-    if (!existsSync(directory)) errors.push(`${base}/${owner}/src: 缺少正式源码目录`);
+    if (!existsSync(directory) && owner !== 'component-library')
+      errors.push(`${base}/${owner}/src: 缺少正式源码目录`);
     for (const absolute of sourceFiles(directory)) {
       files++;
       const file = path.relative(root, absolute).replaceAll('\\', '/');

@@ -8,6 +8,7 @@ import { Buffer } from 'node:buffer';
 import { createNativeStore, NativeError, fail } from '../../project-core/src/platform/store.js';
 import { createNativeDocuments } from '../../project-core/src/platform/documents.js';
 import { resolveExistingPathInsideRoot } from '../../project-core/src/filesystem.js';
+import { webAssetResidue } from '../../project-core/src/platform/web-assets.js';
 import {
   NATIVE_API_PREFIX,
   NATIVE_MODULES,
@@ -225,7 +226,7 @@ export function createNativeServer({
             fail(403, '管理员初始化只允许本机受控入口', 'FORBIDDEN');
           const input = await body(request);
           rateLimit(request, input.username);
-          store.bootstrap(input);
+          store.bootstrap(input, { withProjects: true });
           return json(response, { initialized: true }, 201);
         }
         if (route === `${NATIVE_API_PREFIX}/login` && request.method === 'POST') {
@@ -579,10 +580,12 @@ export function createNativeServer({
       }
       if (!file) fail(404, '静态资源不存在', 'NOT_FOUND');
       if (path.extname(file) === '.mp3') return await sendAudioAsset(request, response, file);
-      const bytes = request.method === 'HEAD' ? undefined : await fs.readFile(file);
-      const payload = relative === 'index.html' && bytes ? await restMedia.index(bytes) : bytes;
+      // Check the resolved bytes, including HEAD and historical lazy-load fallbacks.
+      const bytes = await fs.readFile(file);
+      if (webAssetResidue(relative, bytes)) fail(404, '静态资源不存在', 'NOT_FOUND');
+      const payload = relative === 'index.html' ? await restMedia.index(bytes) : bytes;
       response.writeHead(200, { 'Content-Type': mime[path.extname(file)] });
-      response.end(payload);
+      response.end(request.method === 'HEAD' ? undefined : payload);
     } catch (error) {
       if (response.headersSent) {
         response.end();

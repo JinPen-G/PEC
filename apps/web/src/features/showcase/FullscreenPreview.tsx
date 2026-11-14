@@ -80,8 +80,11 @@ function FullscreenSurface({
           onEscapeKeyDown?.(event);
           if (event.defaultPrevented) return;
           const target = event.target;
-          if (nativeRef.current?.querySelector('[role="dialog"]') ||
-            (target instanceof Element && target.closest('[role="menu"], [role="listbox"], [role="combobox"][aria-expanded="true"]')))
+          if (
+            nativeRef.current?.querySelector('[role="dialog"]') ||
+            (target instanceof Element &&
+              target.closest('[role="menu"], [role="listbox"], [role="combobox"][aria-expanded="true"]'))
+          )
             event.preventDefault();
         }}
       >

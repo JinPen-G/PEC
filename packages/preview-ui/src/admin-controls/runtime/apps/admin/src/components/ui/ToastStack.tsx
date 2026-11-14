@@ -1,4 +1,4 @@
-// UIArc MIT integration: expose store subscription for real message-close promises; motion/CSS unchanged.
+// UI primitives MIT integration: expose store subscription for real message-close promises; motion/CSS unchanged.
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -6,8 +6,8 @@ import type { FocusEvent, KeyboardEvent, MouseEvent, PointerEvent as ReactPointe
 import { AnimatePresence, animate, motion, useIsPresent, useMotionValue, usePresence, useReducedMotion, useTransform } from "motion/react";
 import type { HTMLMotionProps, MotionProps, TargetAndTransition, Transition } from "motion/react";
 import { CircleCheck, CircleX, Info, TriangleAlert, X } from "lucide-react";
-import { motionTokens } from "../../../../../packages/ui-arc/vendor/lib/motion-tokens";
-import styles from "../../../../../packages/ui-arc/vendor/registry/components/toast-stack/toast-stack.module.css";
+import { motionTokens } from "../../../../../packages/ui-primitives/vendor/lib/motion-tokens";
+import styles from "../../../../../packages/ui-primitives/vendor/registry/components/toast-stack/toast-stack.module.css";
 
 export type ToastType = "success" | "info" | "warning" | "error" | "loading";
 

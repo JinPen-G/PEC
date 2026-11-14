@@ -30,13 +30,38 @@ export function checkRentalControls(root = ROOT) {
       else verify(root, item.runtime, item.runtimeSha256);
     }
   }
+  if (manifest.resultSource) {
+    const snapshot = manifest.resultSource;
+    if (!/^[a-f\d]{40}$/.test(snapshot.commit)) errors.push('Results require a fixed source commit');
+    if (snapshot.sourceDirectory !== 'upstream/rental-results')
+      errors.push('Invalid result source directory');
+    else
+      for (const item of snapshot.files) {
+        verify(path.join(root, snapshot.sourceDirectory), item.source, item.sha256);
+        if (item.runtime) {
+          if (
+            !item.runtime.startsWith('src/admin-controls/runtime/') &&
+            item.runtime !== 'src/result-source.css'
+          )
+            errors.push(`Invalid result runtime path: ${item.runtime}`);
+          else verify(root, item.runtime, item.runtimeSha256);
+        }
+      }
+  }
   verify(root, 'src/admin-controls/host-tokens.ts', manifest.tokensSha256);
   verify(root, 'src/loading-source.css', manifest.loadingCssSha256);
-  return { files: manifest.files.length, commit: manifest.commit, errors };
+  return {
+    files: manifest.files.length,
+    resultFiles: manifest.resultSource?.files.length ?? 0,
+    commit: manifest.commit,
+    errors,
+  };
 }
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
   const result = checkRentalControls();
   for (const error of result.errors) console.error(error);
-  console.log(`Rental controls: ${result.files} source files, ${result.errors.length} errors.`);
+  console.log(
+    `Rental controls: ${result.files} control and ${result.resultFiles} result source files, ${result.errors.length} errors.`,
+  );
   process.exitCode = result.errors.length ? 1 : 0;
 }

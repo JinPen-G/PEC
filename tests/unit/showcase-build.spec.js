@@ -1,14 +1,44 @@
 // @vitest-environment node
 import { expect, test, vi } from 'vitest';
+import { fileURLToPath } from 'node:url';
 import {
   assertPublicBundleIsolation,
   showcaseBuildPlugin,
   protectedLibraryChunk,
   protectedPageAssets,
 } from '../../plugins/showcase-build-plugin.js';
+import { TEST_MODULES, TEST_REGISTRY } from '../fixtures/project-catalog.js';
+
+test('browser bundles include the unchanged copyright for vendored primitives', async () => {
+  const root = fileURLToPath(new URL('../..', import.meta.url));
+  const emitted = [];
+  const plugin = showcaseBuildPlugin(root, { moduleCatalog: [], componentRegistry: [] });
+  await plugin.generateBundle.call(
+    { emitFile: (file) => emitted.push(file) },
+    {},
+    {
+      'assets/app.js': {
+        type: 'chunk',
+        fileName: 'assets/app.js',
+        imports: [],
+        dynamicImports: [],
+        modules: { [`${root.replaceAll('\\', '/')}/packages/preview-ui/src/Button.tsx`]: {} },
+      },
+    },
+  );
+  const notices = emitted.find((file) => file.fileName === 'assets/third-party-notices.txt');
+  expect(notices.source).toContain('Copyright (c) 2026 Elia Kuratli');
+  expect(notices.source).toContain('Animate UI homepage adaptations');
+  expect(notices.source).toContain('Copyright (c) 2025 Elliot Sutton');
+  expect(notices.source).toContain('Commons Clause Restriction');
+  expect(notices.source).toContain('The above copyright notice and this permission notice shall be included');
+});
 function developmentMiddleware() {
   let middleware;
-  showcaseBuildPlugin('/workspace').configureServer({
+  showcaseBuildPlugin('/workspace', {
+    moduleCatalog: TEST_MODULES,
+    componentRegistry: TEST_REGISTRY,
+  }).configureServer({
     middlewares: {
       use(handler) {
         middleware = handler;
@@ -60,15 +90,15 @@ test('development page paths authorize using the registered module identity', as
   const requestPermission = vi.spyOn(globalThis, 'fetch').mockResolvedValue({ ok: true, status: 200 });
   const middleware = developmentMiddleware();
   for (const pathname of [
-    '/src/project-modules/rimo-rental/vehicle-groups/VehicleGroupsPage.tsx?import',
-    '/@fs/workspace/apps/web/src/project-modules/rimo-rental/vehicle-transfer/vehicle-transfer.css',
+    '/src/project-modules/fixture/item-groups/GroupsPage.tsx?import',
+    '/@fs/workspace/apps/web/src/project-modules/fixture/item-transfer/item-transfer.css',
   ]) {
     const next = vi.fn();
     const response = { end: vi.fn() };
     await middleware({ url: pathname, headers: { cookie: 'preview_session=fixture' } }, response, next);
-    const pageKey = pathname.includes('vehicle-groups') ? 'vehicle-groups' : 'vehicle-transfer';
+    const pageKey = pathname.includes('item-groups') ? 'item-groups' : 'item-transfer';
     expect(requestPermission).toHaveBeenLastCalledWith(
-      `http://127.0.0.1:5190/api/native/showcase/module-permission?moduleKey=rimo-native&pageKey=${pageKey}`,
+      `http://127.0.0.1:5190/api/native/showcase/module-permission?moduleKey=fixture-module&pageKey=${pageKey}`,
       { headers: { cookie: 'preview_session=fixture' } },
     );
     expect(next).toHaveBeenCalledOnce();
@@ -84,7 +114,7 @@ test('development page access preserves rejection and does not authorize unregis
     const response = { end: vi.fn() };
     await middleware(
       {
-        url: '/src/project-modules/rimo-rental/vehicle-transfer/VehicleTransferPage.tsx',
+        url: '/src/project-modules/fixture/item-transfer/TransferPage.tsx',
         headers: {},
       },
       response,
@@ -97,7 +127,7 @@ test('development page access preserves rejection and does not authorize unregis
   const unavailable = { end: vi.fn() };
   const nextUnavailable = vi.fn();
   await middleware(
-    { url: '/src/project-modules/rimo-rental/vehicle-groups/VehicleGroupsPage.tsx', headers: {} },
+    { url: '/src/project-modules/fixture/item-groups/GroupsPage.tsx', headers: {} },
     unavailable,
     nextUnavailable,
   );
@@ -105,8 +135,8 @@ test('development page access preserves rejection and does not authorize unregis
   expect(nextUnavailable).not.toHaveBeenCalled();
   requestPermission.mockClear();
   for (const pathname of [
-    '/src/project-modules/unregistered/vehicle-groups/VehicleGroupsPage.tsx',
-    '/src/project-modules/rimo-rental/unregistered/Page.tsx',
+    '/src/project-modules/unregistered/item-groups/GroupsPage.tsx',
+    '/src/project-modules/fixture/unregistered/Page.tsx',
   ]) {
     const response = { end: vi.fn() };
     const next = vi.fn();

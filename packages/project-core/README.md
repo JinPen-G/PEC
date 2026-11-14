@@ -12,7 +12,7 @@
 
 ## 业务图谱
 
-业务资料包的 manifest 可声明 `"graph": "graph.json"`。节点/关系字段见 [运行契约](../platform-contracts/src/requirement-graph.d.ts)，实际作者数据可参考脱离外部原稿整理的 [RIMO 图谱](../../project-content/rimo-rental/graph.json)。图谱来源仅限已登记业务 PRD。资料不带页面时默认受限，显式 `access: "public"` 才能匿名读取；已绑定页面的需求仍需通过全部页面权限与原始绑定的权限底线。
+业务资料包的 manifest 可声明 `"graph": "graph.json"`。节点/关系字段见 [运行契约](../platform-contracts/src/requirement-graph.d.ts)，作者数据由各项目按照显式来源独立维护。图谱来源仅限已登记业务 PRD。资料不带页面时默认受限，显式 `access: "public"` 才能匿名读取；已绑定页面的需求仍需通过全部页面权限与原始绑定的权限底线。
 
 本地作者使用 `RequirementGraphDefinition`。API 里的 `stale/requirementStatus`、计数、分页、可读范围与维护诊断是服务端派生字段，不能粘贴进作者 JSON。核对记录同时绑定图谱、需求、页面关联和源码修订，修改图谱本身也会产生未核对提醒。
 

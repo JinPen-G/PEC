@@ -20,7 +20,12 @@ const shellMetricNames = [
 ];
 
 function fixedTokens(source) {
-  const names = ['ADMIN_LAYOUT_SPACING', 'ADMIN_SHELL_METRICS', 'ADMIN_TYPOGRAPHY', 'ADMIN_SIDEBAR_REFERENCE_MOTION'];
+  const names = [
+    'ADMIN_LAYOUT_SPACING',
+    'ADMIN_SHELL_METRICS',
+    'ADMIN_TYPOGRAPHY',
+    'ADMIN_SIDEBAR_REFERENCE_MOTION',
+  ];
   const constants = new Map();
   for (const statement of parse(source, { sourceType: 'module', plugins: ['typescript'] }).program.body) {
     const declaration = statement.type === 'ExportNamedDeclaration' ? statement.declaration : statement;
@@ -37,28 +42,52 @@ function fixedTokens(source) {
     if (node?.type === 'ObjectExpression') {
       const value = {};
       for (const property of node.properties) {
-        if (property.type !== 'ObjectProperty' || property.computed || property.key.type !== 'Identifier' || property.key.name in value)
+        if (
+          property.type !== 'ObjectProperty' ||
+          property.computed ||
+          property.key.type !== 'Identifier' ||
+          property.key.name in value
+        )
           throw new Error('Invalid fixed console token');
         value[property.key.name] = read(property.value);
       }
       return value;
     }
-    if (node?.type === 'MemberExpression' && !node.computed && node.object.type === 'Identifier' && node.property.type === 'Identifier' && node.object.name === 'ADMIN_LAYOUT_SPACING')
+    if (
+      node?.type === 'MemberExpression' &&
+      !node.computed &&
+      node.object.type === 'Identifier' &&
+      node.property.type === 'Identifier' &&
+      node.object.name === 'ADMIN_LAYOUT_SPACING'
+    )
       return read(constants.get(node.object.name))[node.property.name];
     if (node?.type === 'BinaryExpression' && node.operator === '+') {
-      const left = read(node.left), right = read(node.right);
+      const left = read(node.left),
+        right = read(node.right);
       if (typeof left === 'number' && typeof right === 'number') return left + right;
     }
     throw new Error('Unsupported fixed console token expression');
   };
   const values = Object.fromEntries(names.map((name) => [name, read(constants.get(name))]));
   const metrics = values.ADMIN_SHELL_METRICS;
-  if (Object.keys(metrics).length !== shellMetricNames.length || shellMetricNames.some((name) => !Number.isInteger(metrics[name]) || metrics[name] <= 0))
+  if (
+    Object.keys(metrics).length !== shellMetricNames.length ||
+    shellMetricNames.some((name) => !Number.isInteger(metrics[name]) || metrics[name] <= 0)
+  )
     throw new Error('Incomplete fixed console metrics');
   const typography = values.ADMIN_TYPOGRAPHY.body;
-  if (['size', 'lineHeight', 'weight'].some((name) => !Number.isInteger(typography[name]) || typography[name] <= 0))
+  if (
+    ['size', 'lineHeight', 'weight'].some(
+      (name) => !Number.isInteger(typography[name]) || typography[name] <= 0,
+    )
+  )
     throw new Error('Invalid fixed console typography');
-  return { metrics, typography, layout: values.ADMIN_LAYOUT_SPACING, motion: values.ADMIN_SIDEBAR_REFERENCE_MOTION };
+  return {
+    metrics,
+    typography,
+    layout: values.ADMIN_LAYOUT_SPACING,
+    motion: values.ADMIN_SIDEBAR_REFERENCE_MOTION,
+  };
 }
 
 export function rentalConsoleMotion(tokens) {
@@ -68,7 +97,11 @@ export function rentalConsoleMotion(tokens) {
 
 export function rentalConsoleStyles(styles, tokens) {
   const start = styles.indexOf(':root:has(.app-frame-stage[data-tenant-console])');
-  if (start < 0 || !styles.includes('.rental-sidebar-top-row') || !styles.includes('.rental-sidebar-submenu-motion'))
+  if (
+    start < 0 ||
+    !styles.includes('.rental-sidebar-top-row') ||
+    !styles.includes('.rental-sidebar-submenu-motion')
+  )
     throw new Error('Missing fixed console styles');
   const { metrics, typography, layout } = fixedTokens(tokens);
   const variables = Object.entries(metrics).map(
@@ -157,8 +190,14 @@ ${scope} .preview-breadcrumb-separator { color: var(--text-muted); }
 
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
   const root = fileURLToPath(new URL('../packages/preview-ui/', import.meta.url));
-  const tokens = readFileSync(path.join(root, 'upstream/rental-console/apps/admin/src/app/designTokens.ts'), 'utf8');
-  const styles = readFileSync(path.join(root, 'upstream/rental-console/apps/admin/src/components/animate-sidebar/sidebar-adapter.css'), 'utf8');
+  const tokens = readFileSync(
+    path.join(root, 'upstream/rental-console/apps/admin/src/app/designTokens.ts'),
+    'utf8',
+  );
+  const styles = readFileSync(
+    path.join(root, 'upstream/rental-console/apps/admin/src/components/animate-sidebar/sidebar-adapter.css'),
+    'utf8',
+  );
   writeFileSync(path.join(root, 'src/console-source.css'), rentalConsoleStyles(styles, tokens));
   writeFileSync(path.join(root, 'src/console-motion.ts'), rentalConsoleMotion(tokens));
 }

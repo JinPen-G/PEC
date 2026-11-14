@@ -1,4 +1,4 @@
-/** UIArc empty-states vector renderer, extracted for controlled business scenes. */
+/** UI primitives empty-states vector renderer, extracted for controlled business scenes. */
 import { useEffect, useLayoutEffect, useRef, type PointerEvent } from 'react';
 import { animate } from 'motion/react';
 import { motionTokens } from '@/lib/motion-tokens';

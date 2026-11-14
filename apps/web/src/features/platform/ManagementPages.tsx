@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Alert, Form, Input, InputNumber, Modal, Select, Switch, Table, Tag, Tabs } from '@preview/ui/admin';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@preview/ui/admin';
+import { BrandIcon } from '@preview/ui';
 import { useNativeAuth, useNativeQuery, type NativeAccount } from './platform-api';
 
 import { QueryFailure, PageHeading } from './PageLayout';
@@ -51,15 +52,11 @@ export function SettingsPage() {
         <Form.Item name="brandName" label="平台品牌名称" rules={[{ required: true, max: 80 }]}>
           <Input />
         </Form.Item>
-        <Form.Item name="brandIcon" label="品牌图标">
-          <Select
-            options={[
-              { value: 'layers', label: '图层' },
-              { value: 'boxes', label: '项目' },
-              { value: 'camera', label: '摄影' },
-              { value: 'vehicle', label: '车辆' },
-            ]}
-          />
+        <Form.Item name="brandIcon" hidden>
+          <Input />
+        </Form.Item>
+        <Form.Item label="平台标识">
+          <BrandIcon size={36} />
         </Form.Item>
         <p className="text-meta">主题与音效仍由每个浏览器独立设置，不随品牌修改覆盖个人偏好。</p>
         {error && <Alert type="error" title={error} />}

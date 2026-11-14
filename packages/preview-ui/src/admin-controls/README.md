@@ -2,7 +2,9 @@
 
 后台页面统一从 `@preview/ui/admin` 引用表格、表单、弹窗、输入、下拉、分页、提示和空状态。整页与区块加载从 `@preview/ui/loading` 引用原像素加载组件，表格自身使用原骨架；不能在页面中重新拼 Ant 表格或浏览器原生 select。
 
-源码固定于 Rental OS 提交 `2a66243656a5f4866585fe8fdd757f4b98d022ab`。原文字节存放 `upstream/rental-controls`，运行副本位于本目录 runtime；运行副本只改导入路径。原作者来源、UIARC/Tablecn/Motiq 许可和散列保存在 controls-source-manifest.json 及原目录中。
+整页异常提醒使用 `ResultPage`，独立错误入口从 `@preview/ui/result` 引用；结果原语 `Result` 仍由 `@preview/ui/admin` 导出。结果面板与整页布局固定于 Rental OS `9fb20dd236143f9b4c502bf7651b94ecc6bced8f`，新增来源单独记入现有控件清单，不替换既有156份控件版本。恢复页不依赖应用 Provider，错误细节交给控制台，重新加载和返回动作由调用方提供。
+
+源码固定于 Rental OS 提交 `2a66243656a5f4866585fe8fdd757f4b98d022ab`。原文字节存放 `upstream/rental-controls`，运行副本位于本目录 runtime；运行副本只改导入路径。原作者来源、既定组件库/Tablecn/Motiq 许可和散列保存在 controls-source-manifest.json 及原目录中。
 
 `environment.tsx` 适配 Preview 的语言、减少动效与本地选择状态身份。它不读取 Rental OS 的登录态、权限、API 或数据库；来源组件的 Copilot 扩展在 Preview 未接入时明确不可用。账号权限仍由 Preview 服务端负责。
 

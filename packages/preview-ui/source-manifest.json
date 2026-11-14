@@ -5,7 +5,8 @@
   "files": [
     {
       "source": "apps/admin/config/motionPreferenceAdapter.ts",
-      "sha256": "08780eb2bc750dd43b36c5a6575300aea4ba652e8451944a4275429717c7f574"
+      "sha256": "e3bd378bd2c8a268bbbbe68a85dde82d741415c3f31d9478ad1ba4a227674635",
+      "originalSha256": "08780eb2bc750dd43b36c5a6575300aea4ba652e8451944a4275429717c7f574"
     },
     {
       "source": "apps/admin/config/nativeSidebarStyles.ts",
@@ -21,11 +22,13 @@
     },
     {
       "source": "apps/admin/src/app/arcTokens.ts",
-      "sha256": "f66bfb0f3833706436a7f0b6a4c597fe2ed20b96e49e840f68db759369bd3913"
+      "sha256": "6dff07a4805108106546970de0a90b6c7b8329616f8d945f01a14459794ad174",
+      "originalSha256": "f66bfb0f3833706436a7f0b6a4c597fe2ed20b96e49e840f68db759369bd3913"
     },
     {
       "source": "apps/admin/src/app/designTokens.ts",
-      "sha256": "d8da95483ec1a8ad7d7be3dae5da71a944e12db7284bdc68621d3cc7c806a257"
+      "sha256": "d8f694365ddc2b65efafb375d640ea3b2a39c42bd920d689e0bd1cae8b96990a",
+      "originalSha256": "d8da95483ec1a8ad7d7be3dae5da71a944e12db7284bdc68621d3cc7c806a257"
     },
     {
       "source": "apps/admin/src/app/motionPreferences.ts",
@@ -33,7 +36,8 @@
     },
     {
       "source": "apps/admin/src/app/theme.tsx",
-      "sha256": "8fbd3ac194793820a03494441ddbf9d138ab607c51c8576c4b3c48a623d91713"
+      "sha256": "bd562e928d2099963b05b84a8daf734ee2ecfad0bc75d4540aea0ea30b091d09",
+      "originalSha256": "8fbd3ac194793820a03494441ddbf9d138ab607c51c8576c4b3c48a623d91713"
     },
     {
       "source": "apps/admin/src/app/userAvatar.ts",
@@ -190,7 +194,8 @@
     },
     {
       "source": "apps/admin/src/components/ui/Select.tsx",
-      "sha256": "5c0b070ebe8981ef9ed63c9cd3acce3d59c5439b2801875907b1cab9c411a2bf"
+      "sha256": "3b58ef6c31c2a4e1d6a82295840bd592110dc02b98d83297ee447dec155c4bef",
+      "originalSha256": "5c0b070ebe8981ef9ed63c9cd3acce3d59c5439b2801875907b1cab9c411a2bf"
     },
     {
       "source": "apps/admin/src/components/ui/Slider.tsx",
@@ -202,11 +207,13 @@
     },
     {
       "source": "apps/admin/src/components/ui/arc-bridge.css",
-      "sha256": "c8180b89f1b1f75a99a6e4e3702b384ed640942b203d6ba92e6f60f853a8c2aa"
+      "sha256": "a0f23fd0e405104b9d2e186a49c7fb078e62d1b5554ee48f9cba17d0eb12c9ad",
+      "originalSha256": "c8180b89f1b1f75a99a6e4e3702b384ed640942b203d6ba92e6f60f853a8c2aa"
     },
     {
       "source": "apps/admin/src/components/ui/data-table/DataTable.module.css",
-      "sha256": "a39d033d1ca0d0bab359d7ba2b381388295787eb29ce3b205f52b8b3bff0a919"
+      "sha256": "974f81405a9b169af3c4413cfae59912ba34d529f09bc27b27255d621083ad98",
+      "originalSha256": "a39d033d1ca0d0bab359d7ba2b381388295787eb29ce3b205f52b8b3bff0a919"
     },
     {
       "source": "apps/admin/src/components/ui/input-radius.css",
@@ -218,7 +225,8 @@
     },
     {
       "source": "apps/admin/src/features/ai-operator/ai-operator.css",
-      "sha256": "43c71dbebf915ad91912465ad279754b1a9fb1b00c4d1c4fc2d021cfe787b964"
+      "sha256": "eb26ac5cde779f0a3bac8a86d8a651f0f8426bd8557c7db4cd9a3266bebbe354",
+      "originalSha256": "43c71dbebf915ad91912465ad279754b1a9fb1b00c4d1c4fc2d021cfe787b964"
     },
     {
       "source": "apps/admin/src/features/appearance/AppearancePage.tsx",
@@ -306,114 +314,116 @@
     },
     {
       "source": "apps/admin/src/styles.css",
-      "sha256": "13ec1920d553ebfc5fdb2c174c2c9a8c99e465ca1cd9a53e19c850f105f73a93"
+      "sha256": "01c48a27b9492b6ab03caae2f0f2dbfc53ca542c5aad7e5d84a7461a96d5970a",
+      "originalSha256": "13ec1920d553ebfc5fdb2c174c2c9a8c99e465ca1cd9a53e19c850f105f73a93"
     },
     {
       "source": "packages/shared/src/platform.ts",
       "sha256": "d39886fe39b1dc89ac7ef074521a1eafb43e5fd696c458203f461fe628a6e8b3"
     },
     {
-      "source": "packages/ui-arc/LICENSE",
+      "source": "packages/ui-primitives/LICENSE",
       "sha256": "1b73a3fbab233cb995e6e9b6a63d302f91975c74c1629919c8e9820902820dde"
     },
     {
-      "source": "packages/ui-arc/README.md",
-      "sha256": "f946cac9129ef97a00bbca726f6fa121d5c468108fbf0e1266388acecbd018d4"
+      "source": "packages/ui-primitives/README.md",
+      "sha256": "80e6b2f3dd9dbdc9d7113672859c6908c70701c240bb6000bfd9b9a8891417f4",
+      "originalSha256": "f946cac9129ef97a00bbca726f6fa121d5c468108fbf0e1266388acecbd018d4"
     },
     {
-      "source": "packages/ui-arc/vendor/lib/motion-tokens.ts",
+      "source": "packages/ui-primitives/vendor/lib/motion-tokens.ts",
       "sha256": "8f301fb79fc34c2d505d770b8fa978327229151100bafb0cac9310f66a0e0088"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/blocks/login-centered/login-centered.module.css",
+      "source": "packages/ui-primitives/vendor/registry/blocks/login-centered/login-centered.module.css",
       "sha256": "b53f679cee01e22ff453596fbaba11dd735de5e31f1e720d15b603125b404963"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/button/button.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/button/button.module.css",
       "sha256": "bd884714fff6e29712938c4fdc60e86baf7da4ba9937facd380ada6b7e3c91a3"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/button/button.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/button/button.tsx",
       "sha256": "2cff729eadbee434e9a99c59a50cbde007276295b15599f78410ee7ee4750604"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/color-picker/color-picker.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/color-picker/color-picker.module.css",
       "sha256": "d37416a1a2e30cfcae32919e94d88b997f1cde7ecd959f6fec984a3d66ae7ec4"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/color-picker/color-picker.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/color-picker/color-picker.tsx",
       "sha256": "6cbdf3f5085a3a0f902fac4fdbb94c57e68637b59e9649374e1cb052be9cac53"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/input/input.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/input/input.module.css",
       "sha256": "d791a5338683eec6bed79d7c55a2bdf16c21f4f1b3d45883ae6aa782283482b0"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/input/input.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/input/input.tsx",
       "sha256": "82172538fef4470039f937b61027d550816e44e86f83b5f0fed662b20010815a"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/password-field/password-field.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/password-field/password-field.module.css",
       "sha256": "114f1424e1d4af1d8e925d788a64f7f3668c04676c4c0cd0a6a9be63ceadc4a6"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/password-field/password-field.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/password-field/password-field.tsx",
       "sha256": "6493602f64c5ec00ba2c6bfd06371310537e335f136e5266dd348e90dd213212"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/segmented-control/segmented-control.module.css",
       "sha256": "f9eff5af8ddf5f9c9343251b97767da613d8ad74a988c4a7ff8ec2782b2afd90"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/segmented-control/segmented-control.tsx",
       "sha256": "99b73db360557055ae4e12e2347413b2c16377e2b780a8646fee7e59c8853ce4"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/select/select.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/select/select.module.css",
       "sha256": "f7877644f67b32239e6333659044a6ddc00f86ac1e215e1cfe1eed282d8f3570"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/select/select.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/select/select.tsx",
       "sha256": "1b08a2a6966845c9422e42e5775c033abff06f5532a33e2f711018a003acffcc"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/slider/slider.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/slider/slider.module.css",
       "sha256": "0c5545071e4fe172e3f27d6deb91084e295537e76412910f862654600adbd44a"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/slider/slider.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/slider/slider.tsx",
       "sha256": "9e3eb796d076ce9beb5b70d3695f0f8d7d4f755d816eeaccfe478dfc4dfb7bd3"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/switch/switch.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/switch/switch.module.css",
       "sha256": "a859377ae59a4ed256e5ee535521e9a21301eb8e8dd4a2956f0a3bc103c35c77"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/switch/switch.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/switch/switch.tsx",
       "sha256": "f9080e0dae59db0efaa71922cf57e208252a91e14ed940156c13ea85e657ac6c"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/text-morph/text-morph.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/text-morph/text-morph.module.css",
       "sha256": "693280ab7dbb4e47962081dd1af3efe82daf7dbdec2f6fdb1faf8d0bd8a24f3b"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/text-morph/text-morph.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/text-morph/text-morph.tsx",
       "sha256": "8119dab51fe247962e8f45364ecaea66de81fd718a0ee0498893ce43cd716254"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/theme-switch/theme-switch.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/theme-switch/theme-switch.module.css",
       "sha256": "43eaaced4eb64894840fab8419563e5dd0005538e42b98ca8ee7d43658d9636f"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/theme-switch/theme-switch.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/theme-switch/theme-switch.tsx",
       "sha256": "bcdc0c21620db33936720a305f2ab3779d4b6978485e20bfa6ce771ab637b96a"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/foundation.css",
+      "source": "packages/ui-primitives/vendor/registry/foundation.css",
       "sha256": "12a33c2e8769f3555a8504ead579c8a7de4df253a772c3378e85b601a9de2126"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/motion-tokens.ts",
+      "source": "packages/ui-primitives/vendor/registry/motion-tokens.ts",
       "sha256": "42db5f86ac4981be3a8ef363de94012acab5e03f6627f4bd4829564c1e3d2251"
     },
     {
@@ -422,13 +432,17 @@
     },
     {
       "source": "packages/ui-tablecn/README.md",
-      "sha256": "bedb82d2c88d395190c8274a2cc1747512dcfaa4933935713a938a1e9b63cf3c"
+      "sha256": "d91632610ce181e12562b97b4845b1f8afbaf5d4d5f79267d2e20207b0e5c5af",
+      "originalSha256": "bedb82d2c88d395190c8274a2cc1747512dcfaa4933935713a938a1e9b63cf3c"
     }
   ],
   "licenses": [
     "apps/admin/src/components/animate-sidebar/LICENSE.md",
-    "packages/ui-arc/LICENSE",
+    "packages/ui-primitives/LICENSE",
     "packages/ui-tablecn/LICENSE.md"
   ],
-  "integration": "Preview-only; runtime copies and CSS scanning are adapters, not upstream modifications."
+  "integration": "Preview-maintained copies; original source bytes are retained separately from adaptation hashes.",
+  "snapshotKind": "maintained-adaptation",
+  "provenanceArchiveId": "2026-11-12-01a1cdd1",
+  "namingAdaptation": "Directory/import names and descriptive brand references only; original hashes and third-party copyrights retained."
 }

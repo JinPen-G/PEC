@@ -1,11 +1,11 @@
-.uiarc-showcase .showcase-collaboration {
+.preview-showcase .showcase-collaboration {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   min-width: 0;
 }
-.uiarc-showcase .showcase-collaboration-trigger,
-.uiarc-showcase .showcase-collaboration-exit {
+.preview-showcase .showcase-collaboration-trigger,
+.preview-showcase .showcase-collaboration-exit {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
@@ -16,73 +16,73 @@
   font: 500 var(--text-sm) / 1.4 var(--font-body);
   white-space: nowrap;
 }
-.uiarc-showcase .showcase-collaboration-trigger:hover,
-.uiarc-showcase .showcase-collaboration-trigger[data-state='open'],
-.uiarc-showcase .showcase-collaboration-exit:hover {
+.preview-showcase .showcase-collaboration-trigger:hover,
+.preview-showcase .showcase-collaboration-trigger[data-state='open'],
+.preview-showcase .showcase-collaboration-exit:hover {
   color: var(--foreground);
   background: var(--surface-muted);
 }
-.uiarc-showcase .showcase-collaboration-label {
+.preview-showcase .showcase-collaboration-label {
   max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.uiarc-showcase .showcase-collaboration-trigger > svg {
+.preview-showcase .showcase-collaboration-trigger > svg {
   flex-shrink: 0;
 }
-.uiarc-showcase .showcase-collaboration-menu {
+.preview-showcase .showcase-collaboration-menu {
   width: min(260px, calc(100vw - 24px));
   max-height: var(--radix-dropdown-menu-content-available-height);
   overflow-y: auto;
 }
-.uiarc-showcase .showcase-collaboration-menu .showcase-language-item {
+.preview-showcase .showcase-collaboration-menu .showcase-language-item {
   min-height: 44px;
 }
-.uiarc-showcase .showcase-collaboration-menu .showcase-language-item > span {
+.preview-showcase .showcase-collaboration-menu .showcase-language-item > span {
   overflow-wrap: anywhere;
   min-width: 0;
 }
-.uiarc-showcase .showcase-collaboration-caption {
+.preview-showcase .showcase-collaboration-caption {
   margin: 0;
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-sm);
   color: var(--text-secondary);
 }
-.uiarc-showcase .showcase-collaboration-ended {
+.preview-showcase .showcase-collaboration-ended {
   color: var(--text-secondary);
   font-size: var(--text-xs);
 }
-.uiarc-showcase .docs_viewBar__TMird:has(.showcase-collaboration) {
+.preview-showcase .docs_viewBar__TMird:has(.showcase-collaboration) {
   flex-wrap: wrap;
 }
-.uiarc-showcase .docs_viewTools___VpV2:has(.showcase-collaboration) {
+.preview-showcase .docs_viewTools___VpV2:has(.showcase-collaboration) {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: var(--space-2);
 }
-.uiarc-showcase .showcase-fullscreen-toolbar {
+.preview-showcase .showcase-fullscreen-toolbar {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-2);
   flex-wrap: wrap;
 }
-.uiarc-showcase .preview-shell_panelHead__Ir8ix:has(.showcase-collaboration) {
+.preview-showcase .preview-shell_panelHead__Ir8ix:has(.showcase-collaboration) {
   flex-wrap: wrap;
   gap: var(--space-2);
 }
-.uiarc-showcase .showcase-collaboration-trigger:focus-visible,
-.uiarc-showcase .showcase-collaboration-exit:focus-visible {
+.preview-showcase .showcase-collaboration-trigger:focus-visible,
+.preview-showcase .showcase-collaboration-exit:focus-visible {
   outline: 2px solid var(--foreground);
   outline-offset: 2px;
 }
 @media (max-width: 600px) {
-  .uiarc-showcase .docs_viewTools___VpV2:has(.showcase-collaboration) {
+  .preview-showcase .docs_viewTools___VpV2:has(.showcase-collaboration) {
     width: 100%;
     justify-content: space-between;
   }
-  .uiarc-showcase .showcase-collaboration-trigger,
-  .uiarc-showcase .showcase-collaboration-exit {
+  .preview-showcase .showcase-collaboration-trigger,
+  .preview-showcase .showcase-collaboration-exit {
     min-height: 44px;
   }
 }

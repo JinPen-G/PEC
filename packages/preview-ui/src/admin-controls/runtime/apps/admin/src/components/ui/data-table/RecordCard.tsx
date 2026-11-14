@@ -1,10 +1,10 @@
-/** UIArc owns the card morph and mobile sheet gesture. This adapter supplies read-only business content and defers edits until the preview closes. */
+/** UI primitives owns the card morph and mobile sheet gesture. This adapter supplies read-only business content and defers edits until the preview closes. */
 import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { Card } from "../../../../../../packages/ui-arc/vendor/registry/components/card/card";
-import { BottomSheet } from "../../../../../../packages/ui-arc/vendor/registry/components/bottom-sheet/bottom-sheet";
-import { Button } from "../../../../../../packages/ui-arc/vendor/registry/components/button/button";
-import { Checkbox } from "../../../../../../packages/ui-arc/vendor/registry/components/checkbox/checkbox";
+import { Card } from "../../../../../../packages/ui-primitives/vendor/registry/components/card/card";
+import { BottomSheet } from "../../../../../../packages/ui-primitives/vendor/registry/components/bottom-sheet/bottom-sheet";
+import { Button } from "../../../../../../packages/ui-primitives/vendor/registry/components/button/button";
+import { Checkbox } from "../../../../../../packages/ui-primitives/vendor/registry/components/checkbox/checkbox";
 import { useLocale } from "../../../../../../../environment";
 import { useAuthStore } from "../../../../../../../environment";
 import styles from "./RecordCard.module.css";

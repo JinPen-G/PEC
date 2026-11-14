@@ -2,7 +2,11 @@
  * before it can be saved. It never executes uploaded source or edits a database. */
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { resolveExistingPathInsideRoot, writeFileAtomic } from '../filesystem.js';
+import {
+  resolveExistingPathInsideRoot,
+  resolveWritablePathInsideRoot,
+  writeFileAtomic,
+} from '../filesystem.js';
 import { loadContentPackage, loadPrototypeRevisions } from './project-content.js';
 import { loadComponentRegistryItem, validateComponentRegistry } from './component-registry.js';
 import { fail } from './store.js';
@@ -80,7 +84,8 @@ export function validateProjectRegistration(input, existingModules = [], existin
   for (const item of registry) {
     const page = module.pages.find((page) => page.key === item.pageKey);
     requireValue(
-      item.moduleKey === module.key && page?.registryItem === item.name &&
+      item.moduleKey === module.key &&
+        page?.registryItem === item.name &&
         (page.kind === item.kind || (page.kind === 'page' && item.kind === 'block')),
       'Registry与展示页面必须互相绑定',
     );
@@ -219,12 +224,27 @@ export async function checkProjectRegistration(root, input, modules, registry) {
   };
 }
 export async function saveProjectRegistration(root, input, expectedCatalog, { replace = false } = {}) {
-  const relative = 'packages/platform-contracts/src/registered-projects.json';
-  const file = await resolveExistingPathInsideRoot(root, relative, { allowedExtensions: ['.json'] });
+  const local = 'packages/platform-contracts/src/registered-projects.local.json';
+  const file = await resolveWritablePathInsideRoot(root, local, { allowedExtensions: ['.json'] });
   requireValue(file, '项目登记目录不可用');
   const lock = await fs.open(`${file}.lock`, 'wx');
   try {
-    const current = JSON.parse(await fs.readFile(file, 'utf8'));
+    const stat = await fs.lstat(file).catch((error) => {
+      if (error.code === 'ENOENT') return null;
+      throw error;
+    });
+    requireValue(!stat || (stat.isFile() && !stat.isSymbolicLink()), '本地项目登记不允许符号链接');
+    const source = stat
+      ? file
+      : await resolveExistingPathInsideRoot(
+          root,
+          'packages/platform-contracts/src/registered-projects.json',
+          {
+            allowedExtensions: ['.json'],
+          },
+        );
+    requireValue(source, '项目登记目录不可用');
+    const current = JSON.parse(await fs.readFile(source, 'utf8'));
     requireValue(JSON.stringify(current) === JSON.stringify(expectedCatalog), '登记清单已变更，请重新执行');
     const previous = current.find((item) => item.module.projectId === input.module.projectId);
     requireValue(

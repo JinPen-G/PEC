@@ -18,10 +18,20 @@ function Fixture() {
           <input aria-label="Draft" defaultValue="" />
           <button onClick={() => setNativeDialog(true)}>Open native form</button>
           <button onClick={() => setNativeMenu(true)}>Open native menu</button>
-          {nativeMenu && <div role="menu" aria-label="Native menu" onKeyDown={(event) => { if (event.key === 'Escape') setNativeMenu(false); }}>
-            <button role="menuitem">Native action</button>
-          </div>}
-          <span role="status" aria-live="polite">Preview updated</span>
+          {nativeMenu && (
+            <div
+              role="menu"
+              aria-label="Native menu"
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') setNativeMenu(false);
+              }}
+            >
+              <button role="menuitem">Native action</button>
+            </div>
+          )}
+          <span role="status" aria-live="polite">
+            Preview updated
+          </span>
           {nativeDialog && (
             <section role="dialog" aria-label="Native form">
               <input aria-label="Native field" />

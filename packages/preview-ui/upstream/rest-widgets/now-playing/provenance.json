@@ -1,0 +1,46 @@
+{
+  "referenceDate": "2026-11-11",
+  "implementation": "Independent React and pointer/keyboard reconstruction from public preview and documentation.",
+  "reference": "source-reference:60d0151a965c2363a12fb3883a99b433815e99abaf1225f2737259976dddcc56",
+  "markdown": "source-reference:b8fe9e7bf96ac9855cf1f4770631f95a6f3b60ac9bbb8012214f8f63ca1f4f9b",
+  "license": "source-reference:88717f1d812d673e1637cf25234a40339245246937796804647d9bbb51f3f7ef",
+  "publicCssSha256": "09b69e2972bc3ba8be8e1a286c6c79337cb2c7920bde9144ef82d315caff3d6b",
+  "adaptation": [
+    "CSS selectors mapped to CSS Modules",
+    "Host-controlled playback, time, volume and expansion ports",
+    "Reduced motion follows the shared preference hook",
+    "Source appearance retained for default labels and data",
+    "Source rem dimensions evaluated locally from the original 16px component baseline for host-independent geometry"
+  ],
+  "assets": [
+    {
+      "url": "source-reference:e07e3ca1e78db909efa05dcd9dc8369bdeaa9516116fe6d8998e953df36d45a3",
+      "path": "src\\components\\now-playing\\assets\\undertow.jpg",
+      "bytes": 155652,
+      "sha256": "50da9bb6de11a2794520001605439501712f2d93ff86a6941219e8cbbb7aa06a"
+    },
+    {
+      "url": "source-reference:adc7bc47265465a4deecc098730f3836e13bad1211d575b994fd7120c04f9050",
+      "path": "src\\components\\now-playing\\assets\\dune.jpg",
+      "bytes": 83246,
+      "sha256": "a9a6c3773d67ea2186c0ccdf616e6675758871898ad47c4ee711b6c8a0463fcd"
+    },
+    {
+      "url": "source-reference:ec8aa404084c59aa6d73ef5aba5d01f097eba0fbc2ca359a43e1204bd23216e9",
+      "path": "src\\components\\now-playing\\assets\\halo.jpg",
+      "bytes": 106746,
+      "sha256": "4024f18a32b20631c07ca42cbae71b955b6141b428e135de1f8572786ed85d5e"
+    }
+  ],
+  "publicCssCapture": {
+    "kind": "Live browser CSSOM serialization of rendered public style rules",
+    "referenceDate": "2026-11-11",
+    "selectorPrefix": "now-playing",
+    "format": "CSSStyleSheet.cssRules filtered by component selector or keyframe prefix and joined with a newline"
+  },
+  "maintainedCssSha256": "d1b79b08b2085a0c8a409ffa1260be45c0dfb26bb3191897f997555657a5e5f2",
+  "protectedProTypeScriptObtained": false,
+  "provenanceArchiveId": "2026-11-12-01a1cdd1",
+  "referenceIdentifiers": "Original URLs retained in the external provenance archive.",
+  "originalMaintainedCssSha256": "138af0c112afc6d992a1f955b3996e99da581db8b619917672e54919e9cdca42"
+}

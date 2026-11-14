@@ -1,22 +1,22 @@
 # Preview 代码规范
 
-版本：1.0。维护日期：2026-11-05。当前结构见[架构说明](Preview-架构说明.md)，协作规则见根 [AGENTS](../../../AGENTS.md)。精确依赖版本以[根包声明](../../../package.json)与锁文件为准。
+版本：1.0。维护日期：2026-11-05。当前结构见[架构说明](Preview-架构说明.md)，协作规则见[工程治理规范](Preview-工程治理规范.md)。精确依赖版本以[根包声明](../../../package.json)与锁文件为准。
 
-新业务原型按[原生平台需求](../../原生原型平台/原生原型平台-需求.md)和[任务](../../原生原型平台/原生原型平台-开发任务.md)使用 React 项目包；HTML 挂载及相关工具已退役，新页面不得生成或加载 HTML 副本。后续新增 UI/原型运行时/正式 API 层时同步核对分层检查，不能提前豁免反向依赖。
+新业务原型按[项目接入模板](../../../templates/project/README.md)使用React项目包；HTML 挂载及相关工具已退役，新页面不得生成或加载 HTML 副本。后续新增 UI/原型运行时/正式 API 层时同步核对分层检查，不能提前豁免反向依赖。
 
 ## 目录与依赖方向
 
-| 层                 | 允许依赖                                                     | 负责内容                                                                          |
-| ------------------ | ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| platform-contracts | 平台无关的数据声明与纯逻辑                                   | 响应、错误、归一化和类型，不依赖 Node、DOM、React 或其他平台包                    |
-| platform-client    | platform-contracts、注入的 fetch                             | 请求、静态只读边界和响应归一化，不依赖 Node、React、Vite 或文件系统               |
-| project-shared     | 平台无关纯逻辑                                               | 浏览器与 Node 共用的上下文算法、语言映射和桥接脚本文本，不读取宿主文件或 DOM      |
-| component-library | React 与明确声明的组件依赖                                    | 可安装基础组件与区块，不依赖网站 features、账号、Node 或平台后台外壳              |
-| project-core       | Node 基础库、project-shared、自身领域模块                    | 文件契约、扫描、路径、文档、路由、迁移与原子写入，不依赖 HTTP、Vite、React 或应用 |
-| platform-server    | project-core、platform-contracts、Node                       | HTTP 与 MCP 适配、生命周期和运行边界，不依赖浏览器应用                            |
-| plugins / scripts  | 对应领域包与工具库                                           | Vite、CLI、构建及检查入口，不复制领域规则                                         |
+| 层                 | 允许依赖                                                                        | 负责内容                                                                          |
+| ------------------ | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| platform-contracts | 平台无关的数据声明与纯逻辑                                                      | 响应、错误、归一化和类型，不依赖 Node、DOM、React 或其他平台包                    |
+| platform-client    | platform-contracts、注入的 fetch                                                | 请求、静态只读边界和响应归一化，不依赖 Node、React、Vite 或文件系统               |
+| project-shared     | 平台无关纯逻辑                                                                  | 浏览器与 Node 共用的上下文算法、语言映射和桥接脚本文本，不读取宿主文件或 DOM      |
+| component-library  | React 与明确声明的组件依赖                                                      | 可安装基础组件与区块，不依赖网站 features、账号、Node 或平台后台外壳              |
+| project-core       | Node 基础库、project-shared、自身领域模块                                       | 文件契约、扫描、路径、文档、路由、迁移与原子写入，不依赖 HTTP、Vite、React 或应用 |
+| platform-server    | project-core、platform-contracts、Node                                          | HTTP 与 MCP 适配、生命周期和运行边界，不依赖浏览器应用                            |
+| plugins / scripts  | 对应领域包与工具库                                                              | Vite、CLI、构建及检查入口，不复制领域规则                                         |
 | web                | platform-client、platform-contracts、project-shared、公共 UI、component-library | 路由、原生页面、交互与主题，不直接调用 Node 领域核心或服务端实现                  |
-| api                | platform-server、Node                                        | 正式原生平台启动装配，不拥有领域规则或浏览器代码                                  |
+| api                | platform-server、Node                                                           | 正式原生平台启动装配，不拥有领域规则或浏览器代码                                  |
 
 公共出口优先复用；内部模块间相对导入可以保留，不为形式创建更多适配层。新增跨层依赖先说明职责变化，不以扩充白名单掩盖反向依赖。
 

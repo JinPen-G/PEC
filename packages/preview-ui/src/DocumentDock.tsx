@@ -1,7 +1,7 @@
 /** Copilot dock geometry with a reading slot, without chat/provider/tool state. */
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { PanelRightClose } from 'lucide-react';
-import { Button } from '../upstream/rental-admin/packages/ui-arc/vendor/registry/components/button/button';
+import { Button } from '../upstream/rental-admin/packages/ui-primitives/vendor/registry/components/button/button';
 
 export function DocumentDock({
   open,

@@ -65,7 +65,9 @@ it('keeps project-scoped links in the original next-step cards', () => {
   render(
     <GuideBody
       {...props}
-      source={'## 下一步\n\n<div data-guide-example="next-steps">\n\n- [主题设置](theming.md)：颜色变量与品牌。\n\n</div>'}
+      source={
+        '## 下一步\n\n<div data-guide-example="next-steps">\n\n- [主题设置](theming.md)：颜色变量与品牌。\n\n</div>'
+      }
     />,
   );
   expect(screen.getByRole('link', { name: /主题设置\s*颜色变量与品牌。/ })).toHaveAttribute(
@@ -73,4 +75,20 @@ it('keeps project-scoped links in the original next-step cards', () => {
     '#/docs/theming?project=rental',
   );
   expect(document.querySelector('.library-docs_cards__3I1_w .library-docs_card__PVOg9')).not.toBeNull();
+});
+
+it('keeps detailed rules collapsed, supports disclosure and resets it when switching projects', () => {
+  const source =
+    '## MCP接入\n\n配置客户端。\n\n## 工程治理\n\n先查需求与更新。\n\n<details open>\n<summary>查看完整工程治理规范</summary>\n\n### 需求来源\n\n保留原文和版本。\n\n</details>';
+  const instance = render(<GuideBody {...props} source={source} />);
+  const details = document.querySelector('details')!;
+  expect(details.open).toBe(false);
+  expect(screen.getByText('先查需求与更新。')).toBeVisible();
+  expect(screen.getByText('保留原文和版本。')).not.toBeVisible();
+  fireEvent.click(screen.getByText('查看完整工程治理规范'));
+  expect(details.open).toBe(true);
+  expect(screen.getByText('保留原文和版本。')).toBeVisible();
+  instance.rerender(<GuideBody {...props} projectId="other-project" source={source} />);
+  expect(document.querySelector('details')!.open).toBe(false);
+  expect(screen.getByText('保留原文和版本。')).not.toBeVisible();
 });

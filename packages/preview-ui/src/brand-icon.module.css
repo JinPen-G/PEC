@@ -1,0 +1,10 @@
+.icon {
+  display: block;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+:global([data-theme='dark']) .icon,
+:global(.login-card-brand) .icon {
+  filter: invert(1);
+}

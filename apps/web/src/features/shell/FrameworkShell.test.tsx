@@ -3,34 +3,70 @@ import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { FrameworkShell, UiEnvironmentProvider, type FrameworkShellProps } from '@preview/ui';
 
 const labels = {
-  search: 'Search menu', collapse: 'Collapse sidebar', expand: 'Expand sidebar',
-  breadcrumb: 'Current location', projects: 'Projects', account: 'Account',
-  appearance: 'Appearance', center: 'Screens', noMenu: 'No matching menu',
+  search: 'Search menu',
+  collapse: 'Collapse sidebar',
+  expand: 'Expand sidebar',
+  breadcrumb: 'Current location',
+  projects: 'Projects',
+  account: 'Account',
+  appearance: 'Appearance',
+  center: 'Screens',
+  noMenu: 'No matching menu',
 };
 
 function mount(overrides: Partial<FrameworkShellProps> = {}) {
   const props: FrameworkShellProps = {
-    title: 'Preview', subtitle: 'Rental', brand: <span>Brand</span>,
-    workspaces: [{ key: 'rental', label: 'Rental', icon: null }], workspaceKey: 'rental',
-    onWorkspaceChange: vi.fn(), navigationMode: 'components', onNavigationModeChange: vi.fn(),
-    showNavigationModeSwitch: false, showDocumentControl: false,
-    account: 'Reviewer', accountDescription: 'reviewer@example.test',
+    title: 'Preview',
+    subtitle: 'Rental',
+    brand: <span>Brand</span>,
+    workspaces: [{ key: 'rental', label: 'Rental', icon: null }],
+    workspaceKey: 'rental',
+    onWorkspaceChange: vi.fn(),
+    navigationMode: 'components',
+    onNavigationModeChange: vi.fn(),
+    showNavigationModeSwitch: false,
+    showDocumentControl: false,
+    account: 'Reviewer',
+    accountDescription: 'reviewer@example.test',
     sections: [
-      { key: 'fleet', label: 'Fleet', icon: null, routes: [{ key: '/vehicles', label: 'Vehicles', icon: null }] },
-      { key: 'orders', label: 'Orders', icon: null, routes: [{ key: '/orders', label: 'Reservations', icon: null }] },
+      {
+        key: 'fleet',
+        label: 'Fleet',
+        icon: null,
+        routes: [{ key: '/vehicles', label: 'Vehicles', icon: null }],
+      },
+      {
+        key: 'orders',
+        label: 'Orders',
+        icon: null,
+        routes: [{ key: '/orders', label: 'Reservations', icon: null }],
+      },
     ],
-    selectedKey: '/vehicles', onNavigate: vi.fn(), preference: 'glass', onThemeChange: vi.fn(),
-    locale: 'en', onLocaleChange: vi.fn(), documentAvailable: false, documentOpen: false,
-    onDocumentToggle: vi.fn(), labels, children: <input aria-label="Page draft" defaultValue="Keep this" />,
+    selectedKey: '/vehicles',
+    onNavigate: vi.fn(),
+    preference: 'glass',
+    onThemeChange: vi.fn(),
+    locale: 'en',
+    onLocaleChange: vi.fn(),
+    documentAvailable: false,
+    documentOpen: false,
+    onDocumentToggle: vi.fn(),
+    labels,
+    children: <input aria-label="Page draft" defaultValue="Keep this" />,
     ...overrides,
   };
-  const view = render(<UiEnvironmentProvider dark={false} reducedMotion><FrameworkShell {...props} /></UiEnvironmentProvider>);
+  const view = render(
+    <UiEnvironmentProvider dark={false} reducedMotion>
+      <FrameworkShell {...props} />
+    </UiEnvironmentProvider>,
+  );
   return { ...view, props };
 }
 
 beforeEach(() => {
   Object.defineProperty(Element.prototype, 'getAnimations', { configurable: true, value: () => [] });
-  Object.defineProperty(Element.prototype, 'animate', { configurable: true,
+  Object.defineProperty(Element.prototype, 'animate', {
+    configurable: true,
     value: () => ({ finished: Promise.resolve(), cancel() {}, finish() {}, addEventListener() {} }),
   });
 });
@@ -68,7 +104,9 @@ test('collapsing retains submenu nodes and the page draft; rail search expands a
   const draft = screen.getByRole('textbox', { name: 'Page draft' });
   fireEvent.change(draft, { target: { value: 'Keep edited draft' } });
   fireEvent.click(screen.getByRole('button', { name: 'Collapse sidebar' }));
-  await waitFor(() => expect(view.container.querySelector('[data-slot="sidebar"]')).toHaveAttribute('data-state', 'collapsed'));
+  await waitFor(() =>
+    expect(view.container.querySelector('[data-slot="sidebar"]')).toHaveAttribute('data-state', 'collapsed'),
+  );
   expect(vehicles.isConnected).toBe(true);
   expect(reservations.isConnected).toBe(true);
   expect(vehicles.closest('[inert]')).not.toBeNull();
@@ -81,10 +119,12 @@ test('collapsing retains submenu nodes and the page draft; rail search expands a
 });
 
 test('workspace switching keeps the host callback and clears the menu query', async () => {
-  const view = mount({ workspaces: [
-    { key: 'rental', label: 'Rental', icon: null },
-    { key: 'library', label: 'Component center', icon: null },
-  ] });
+  const view = mount({
+    workspaces: [
+      { key: 'rental', label: 'Rental', icon: null },
+      { key: 'library', label: 'Component center', icon: null },
+    ],
+  });
   fireEvent.change(screen.getByRole('searchbox', { name: 'Search menu' }), { target: { value: 'Vehicle' } });
   fireEvent.click(screen.getByRole('button', { name: 'Preview · Rental' }));
   fireEvent.click(await screen.findByRole('menuitem', { name: 'Component center' }));
@@ -97,14 +137,30 @@ test('embedded Screens retain their own frame rather than receiving the standalo
   expect(view.container.querySelector('.preview-native-stage')).toHaveClass('preview-screen-stage');
   expect(view.container.querySelector('.preview-console-host')).toBeNull();
   expect(view.container.querySelector('.preview-context-time')).toBeNull();
-  expect(within(view.container.querySelector('.preview-screen-brand') as HTMLElement).getByRole('button', { name: 'Collapse sidebar' })).toBeInTheDocument();
+  expect(
+    within(view.container.querySelector('.preview-screen-brand') as HTMLElement).getByRole('button', {
+      name: 'Collapse sidebar',
+    }),
+  ).toBeInTheDocument();
 });
 
 test('Chinese menu groups retain unique disclosure targets', () => {
-  const view = mount({ sections: [
-    { key: '车辆管理', label: 'Fleet', icon: null, routes: [{ key: '/vehicles', label: 'Vehicles', icon: null }] },
-    { key: '订单管理', label: 'Orders', icon: null, routes: [{ key: '/orders', label: 'Reservations', icon: null }] },
-  ] });
+  const view = mount({
+    sections: [
+      {
+        key: '车辆管理',
+        label: 'Fleet',
+        icon: null,
+        routes: [{ key: '/vehicles', label: 'Vehicles', icon: null }],
+      },
+      {
+        key: '订单管理',
+        label: 'Orders',
+        icon: null,
+        routes: [{ key: '/orders', label: 'Reservations', icon: null }],
+      },
+    ],
+  });
   const fleet = screen.getByRole('button', { name: 'Fleet' }).getAttribute('aria-controls');
   const orders = screen.getByRole('button', { name: 'Orders' }).getAttribute('aria-controls');
   expect(fleet).not.toBe(orders);

@@ -1,11 +1,11 @@
-/** UIArc empty-states vector renderer, extracted for controlled business scenes. */
+/** UI primitives empty-states vector renderer, extracted for controlled business scenes. */
 import { useEffect, useLayoutEffect, useRef, type PointerEvent } from 'react';
 import { animate } from 'motion/react';
-import { motionTokens } from '../../../../../../packages/ui-arc/vendor/lib/motion-tokens';
+import { motionTokens } from '../../../../../../packages/ui-primitives/vendor/lib/motion-tokens';
 import { usePrefersReducedMotion } from '../../../../../../../environment';
-import { KINDS, VIEW, shapePath, type Frame, type Phase } from '../../../../../../packages/ui-arc/vendor/registry/blocks/empty-states/empty-states-art';
+import { KINDS, VIEW, shapePath, type Frame, type Phase } from '../../../../../../packages/ui-primitives/vendor/registry/blocks/empty-states/empty-states-art';
 import { SCENE_FRAMES, entranceFrame, type EmptySceneKind } from './frames';
-import styles from '../../../../../../packages/ui-arc/vendor/registry/blocks/empty-states/empty-states.module.css';
+import styles from '../../../../../../packages/ui-primitives/vendor/registry/blocks/empty-states/empty-states.module.css';
 
 const DELAY = [.05, .03, 0, .04, .07, .1, .06, .09, .11, .14];
 const NUDGE = [.03, .015, 0, .02, .035, .05, .02, .04, .05, .07];

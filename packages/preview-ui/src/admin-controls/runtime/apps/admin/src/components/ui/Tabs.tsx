@@ -1,6 +1,6 @@
 import { Tabs as AntTabs, type TabsProps } from "antd";
 import { useEffect, useState } from "react";
-import { Tabs as ArcTabs, TabsList, TabsTrigger, TabsContent } from "../../../../../packages/ui-arc/vendor/registry/components/tabs/tabs";
+import { Tabs as ArcTabs, TabsList, TabsTrigger, TabsContent } from "../../../../../packages/ui-primitives/vendor/registry/components/tabs/tabs";
 
 export function Tabs(props: TabsProps) {
   const { items: originalItems = [], activeKey, defaultActiveKey, onChange, className, style, destroyOnHidden } = props;

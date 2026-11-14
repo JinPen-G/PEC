@@ -46,9 +46,9 @@ await fs.writeFile(
   path.join(buildRoot, 'index.html'),
   '<!doctype html><html><title>Smoke one</title></html>',
 );
-await fs.mkdir(path.join(buildRoot, 'auth-assets'));
+await fs.mkdir(path.join(buildRoot, 'brand'));
 await fs.writeFile(
-  path.join(buildRoot, 'auth-assets/marcus-johnson.svg'),
+  path.join(buildRoot, 'brand/platform-icon.svg'),
   '<svg xmlns="http://www.w3.org/2000/svg"/>',
 );
 await fs.writeFile(
@@ -171,7 +171,8 @@ try {
     ),
   );
   checks.push(`first deploy migrates schema 1 to ${DATABASE_SCHEMA} and preserves synthetic account`);
-  assert.equal((await fetch(`${config.publicOrigin}/auth-assets/marcus-johnson.svg`)).status, 200);
+  assert.equal((await fetch(`${config.publicOrigin}/brand/platform-icon.svg`)).status, 200);
+  assert.equal((await fetch(`${config.publicOrigin}/auth-assets/marcus-johnson.svg`)).status, 404);
   assert.equal((await fetch(`${config.publicOrigin}/auth-assets/undeclared.svg`)).status, 404);
   assert.equal(
     (await (await fetch(`${config.publicOrigin}/api/native/health`)).json()).releaseId,

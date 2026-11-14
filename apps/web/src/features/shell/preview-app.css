@@ -160,8 +160,12 @@ body {
   .preview-login-main {
     padding-bottom: 56px;
   }
-  .preview-documents,
-  .preview-appearance {
+  .preview-documents {
     padding: 24px;
+  }
+}
+@media (max-width: 760px) {
+  .preview-appearance {
+    padding: 0 var(--space-4) var(--space-4);
   }
 }

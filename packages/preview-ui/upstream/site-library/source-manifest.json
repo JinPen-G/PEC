@@ -1,0 +1,32 @@
+{
+  "repository": "https://github.com/kuratlielia/arc-library",
+  "commit": "8302b52ed9dc79ae7ca699b158a98dfdf09656f7",
+  "freeSourceLicense": "MIT",
+  "website": "source-reference:04fa65429602a3bec147008cb9e274433bfd1ab1c703e142bca253f25a666192",
+  "websiteSourceKind": "served HTML/CSS/JavaScript; original website TSX is not in the public repository",
+  "websiteLicense": "not declared; do not apply the free-library MIT license to the whole website",
+  "styleRecords": [
+    {
+      "file": "dce8d597c26e3056.css",
+      "sha256": "29404cf01783ba60766adf92a427eca5f8245f14793930f6f8beb6067f036516"
+    },
+    {
+      "file": "c78978ac3e2c160d.css",
+      "sha256": "b93f74a09d4c613427f76f09763234aa4a9fff1e07ec0ad3c47570cbcf0d0abe"
+    },
+    {
+      "file": "0288b3904cc07ec4.css",
+      "sha256": "3fb318926a3b1f3653f64e9636730a1a67f01b1141d039054694f59fdafcdcbf"
+    }
+  ],
+  "adaptedStyleSha256": "7794a1955ae541ac108b1720b2099bc8475c718a3bcae049387904e5d756d83d",
+  "initialAdaptedStyleSha256": "1c127706080ab968937851c86fd362a61e12227576ce8fb6b66e04412aada475",
+  "layoutBaseline": "browser-capture/manifest.json",
+  "runtimeScope": "preview-showcase",
+  "adaptedLoginStyleSha256": "1244f95cc744605518c059d56343562fc27d1485f9df116922214c4fb6a753e8",
+  "originalAdaptedStyleSha256": "f1db62b6b9bda270e350131cc3d4729bc55d8806d35ec7a57420b729192826e2",
+  "originalAdaptedLoginStyleSha256": "4f40ceadb36a51c81bcd843fe95e116a5eb1f71e3704b90ddb2a332b40fbb533",
+  "snapshotKind": "maintained-adaptation",
+  "provenanceArchiveId": "2026-11-12-01a1cdd1",
+  "referenceIdentifiers": "Original acquisition URLs are resolved in the external provenance archive; not runtime endpoints."
+}

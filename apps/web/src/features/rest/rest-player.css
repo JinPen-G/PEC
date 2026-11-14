@@ -3,7 +3,7 @@
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
-.uiarc-showcase .preview-rest-site-entry {
+.preview-showcase .preview-rest-site-entry {
   width: 36px;
   height: 36px;
   min-height: 36px;
@@ -12,7 +12,7 @@
   color: var(--text-secondary);
   font-size: var(--text-sm);
 }
-.uiarc-showcase .preview-rest-site-entry:hover {
+.preview-showcase .preview-rest-site-entry:hover {
   color: var(--foreground);
 }
 .preview-rest-chooser {

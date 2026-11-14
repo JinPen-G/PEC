@@ -1,3 +1,0 @@
-import Block from '@preview/library/rimo-rental/blocks/enterprise-official-vehicle-reminders/EnterpriseOfficialVehicleRemindersBlock.jsx';
-import { RimoPage } from '../RimoPage';
-export default function EnterpriseOfficialVehicleRemindersPage() { return <RimoPage pageKey="enterprise-official-vehicle-reminders" clientId="enterprise" assets={{}} routes={{"official_vehicle_reminders.html":{"clientId":"enterprise","pageKey":"enterprise-official-vehicle-reminders"},"official_vehicles.html":{"clientId":"enterprise","pageKey":"enterprise-official-vehicles"},"../营运端/vehicles.html":{"clientId":"operation","pageKey":"vehicles"},"vehicles.html":{"clientId":"operation","pageKey":"vehicles"}}}><Block /></RimoPage>; }

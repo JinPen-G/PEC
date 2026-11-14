@@ -1,9 +1,16 @@
 /** Frontend-only login preview in the original Rental OS frame/controls. */
 import { useState, type FormEvent } from 'react';
 import { AppleOutlined, GoogleOutlined, WechatOutlined } from '@ant-design/icons';
-import { Layers3 } from 'lucide-react';
-import { Button, LoginFrame, LoginInput, PasswordField, SegmentedControl, ThemeSwitch } from '@preview/ui';
-import loginStyles from '../../../../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/blocks/login-centered/login-centered.module.css';
+import {
+  BrandIcon,
+  Button,
+  LoginFrame,
+  LoginInput,
+  PasswordField,
+  SegmentedControl,
+  ThemeSwitch,
+} from '@preview/ui';
+import loginStyles from '../../../../../packages/preview-ui/upstream/rental-admin/packages/ui-primitives/vendor/registry/blocks/login-centered/login-centered.module.css';
 import { usePlatformTheme } from '@/features/theme/platform-theme';
 import { usePlatformLocale } from '@/features/locale/platform-locale';
 import { saveDemoSession, type DemoSession } from './demo-session';
@@ -32,7 +39,7 @@ export function DemoLogin({ onLogin }: { onLogin: (session: DemoSession) => void
   };
   const brand = (
     <span className="preview-login-wordmark">
-      <Layers3 size={28} strokeWidth={1.7} />
+      <BrandIcon size={36} />
       <span>Preview</span>
     </span>
   );

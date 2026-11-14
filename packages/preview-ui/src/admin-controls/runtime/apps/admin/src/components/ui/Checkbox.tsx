@@ -1,6 +1,6 @@
 import { Checkbox as AntCheckbox, ConfigProvider, type CheckboxProps } from "antd";
 import { createContext, forwardRef, useContext, useImperativeHandle, useRef, useState, type ComponentProps, type ElementRef, type MouseEvent } from "react";
-import { Checkbox as ArcCheckbox } from "../../../../../packages/ui-arc/vendor/registry/components/checkbox/checkbox";
+import { Checkbox as ArcCheckbox } from "../../../../../packages/ui-primitives/vendor/registry/components/checkbox/checkbox";
 
 // Ant groups own value propagation; do not silently detach their children.
 const AntGroupContext = createContext(false);

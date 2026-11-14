@@ -320,7 +320,7 @@ export default function RequirementGraphCanvas(props: GraphViewProps) {
       attributes: true,
       attributeFilter: ['class', 'data-theme', 'style'],
     });
-    const site = element.closest('.uiarc-showcase');
+    const site = element.closest('.preview-showcase');
     if (site) theme.observe(site, { attributes: true, attributeFilter: ['data-theme', 'style'] });
     if (element.parentElement)
       graph.resize(element.parentElement.clientWidth, element.parentElement.clientHeight);
@@ -417,14 +417,16 @@ export default function RequirementGraphCanvas(props: GraphViewProps) {
             <LocateFixed size={16} />
           </button>
         )}
-        {props.onExpand && <button
-          type="button"
-          title={text(props.expanded ? '退出全屏' : '全屏')}
-          aria-label={text(props.expanded ? '退出全屏' : '全屏')}
-          onClick={props.onExpand}
-        >
-          {props.expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-        </button>}
+        {props.onExpand && (
+          <button
+            type="button"
+            title={text(props.expanded ? '退出全屏' : '全屏')}
+            aria-label={text(props.expanded ? '退出全屏' : '全屏')}
+            onClick={props.onExpand}
+          >
+            {props.expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+          </button>
+        )}
       </div>
     </div>
   );

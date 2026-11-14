@@ -1,4 +1,4 @@
-// UIArc MIT integration: expose store subscription for real message-close promises; motion/CSS unchanged.
+// UI primitives MIT integration: expose store subscription for real message-close promises; motion/CSS unchanged.
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";

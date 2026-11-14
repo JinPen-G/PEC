@@ -1,4 +1,4 @@
-import { FRAMES, type Frame, type Phase, type SceneId } from '../../../../../../packages/ui-arc/vendor/registry/blocks/empty-states/empty-states-art';
+import { FRAMES, type Frame, type Phase, type SceneId } from '../../../../../../packages/ui-primitives/vendor/registry/blocks/empty-states/empty-states-art';
 
 export type EmptySceneKind = SceneId | 'empty';
 

@@ -130,7 +130,38 @@ test('first-admin CLI prepares registered projects and retries without changing 
     'Pilot',
     '--with-projects',
   ];
-  const env = { ...process.env, PREVIEW_ADMIN_PASSWORD: password };
+  const catalogRoot = path.join(item.root, 'catalog');
+  await fs.mkdir(catalogRoot);
+  await fs.writeFile(path.join(catalogRoot, 'builtin-modules.local.json'), '[]');
+  await fs.writeFile(
+    path.join(catalogRoot, 'registered-projects.local.json'),
+    JSON.stringify([
+      {
+        schemaVersion: 1,
+        module: {
+          key: 'fixture-module',
+          projectId: 'fixture-project',
+          clientId: 'web',
+          label: 'Fixture',
+          surface: 'showcase',
+          pages: [{ key: 'home-page', label: 'Home', source: 'HomePage.tsx' }],
+          initialClients: [
+            {
+              id: 'web',
+              name: 'Web',
+              layout: 'desktop',
+              enabled: true,
+              position: 0,
+              defaultPage: 'home-page',
+              pages: [{ key: 'home-page', label: 'Home', visible: true, access: 'public', position: 0 }],
+            },
+          ],
+        },
+        registry: [],
+      },
+    ]),
+  );
+  const env = { ...process.env, PREVIEW_ADMIN_PASSWORD: password, PREVIEW_PROJECT_CATALOG_ROOT: catalogRoot };
   const first = execFileSync(process.execPath, args, { env, encoding: 'utf8' });
   expect(first).not.toContain(password);
   const database = new DatabaseSync(path.join(data, 'platform.sqlite'));

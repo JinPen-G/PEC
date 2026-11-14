@@ -11,6 +11,15 @@ export default [
       'packages/preview-ui/src/animate-sidebar/runtime/**',
       'packages/preview-ui/src/site/auth-registry/**',
       'packages/preview-ui/src/admin-controls/runtime/**',
+      'packages/component-library/src/**',
+      'apps/web/src/project-modules/*',
+      '!apps/web/src/project-modules/example/',
+      'apps/web/src/features/orders/**',
+      'tests/local/**',
+      'scripts/rimo-*',
+      'scripts/capture-*',
+      '**/*.local.*',
+      'output/**',
       'plugins/sidebar-styles.js',
       'plugins/motion-preference-plugin.js',
       'dist/**',
@@ -26,6 +35,11 @@ export default [
     ],
   },
   js.configs.recommended,
+  {
+    files: ['apps/web/**/*.{ts,tsx}', 'packages/preview-ui/src/**/*.{ts,tsx}'],
+    // The TypeScript compiler checks identifiers, including DOM-only type names.
+    rules: { 'no-undef': 'off' },
+  },
   {
     files: [
       'apps/web/src/features/platform/**/*.{ts,tsx}',

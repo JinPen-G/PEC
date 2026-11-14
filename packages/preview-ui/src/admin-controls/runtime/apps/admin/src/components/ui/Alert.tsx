@@ -1,5 +1,5 @@
 import { Alert as AntAlert, type AlertProps } from "antd";
-import { Alert as ArcAlert } from "../../../../../packages/ui-arc/vendor/registry/components/alert/alert";
+import { Alert as ArcAlert } from "../../../../../packages/ui-primitives/vendor/registry/components/alert/alert";
 import { ArcLocale } from "./ArcLocale";
 import { Fragment, isValidElement, useState, type ReactNode } from "react";
 import { Button } from "./Button";

@@ -1,4 +1,4 @@
-/** Task sheets use the existing Radix/UIArc stack, keeping form popups and nested confirmations interoperable. */
+/** Task sheets use the existing Radix/UI primitives stack, keeping form popups and nested confirmations interoperable. */
 import type { CSSProperties, ReactNode } from "react";
 import { useLocale } from "@/app/locale";
 import { Drawer, DrawerContent } from "./TaskDrawer";

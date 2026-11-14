@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { Skeleton } from "../ui/Skeleton";
 import styles from "./LoadingSkeleton.module.css";
 
-/** Geometry only: the original UIArc Skeleton owns color, pulse and reduced motion. */
+/** Geometry only: the original UI primitives Skeleton owns color, pulse and reduced motion. */
 export function SkeletonBlock({ width, className = "" }: {
   width?: CSSProperties["width"]; className?: string;
 }) {

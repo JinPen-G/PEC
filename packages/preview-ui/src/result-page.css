@@ -1,0 +1,27 @@
+@import '../upstream/rental-admin/packages/ui-primitives/vendor/registry/foundation.css';
+
+body:has(.route-error-page) {
+  margin: 0;
+  overflow: auto;
+}
+
+.route-error-page {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--rental-typography-font-family, var(--font-body));
+  font-size: var(--text-sm);
+  line-height: var(--leading-body);
+}
+
+.route-error-page *,
+.route-error-page *::before,
+.route-error-page *::after {
+  box-sizing: border-box;
+}
+
+.route-error-page button {
+  font-family: inherit;
+}

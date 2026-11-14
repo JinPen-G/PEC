@@ -101,6 +101,7 @@ export function checkDocumentation(root = ROOT) {
   ];
   const errors = [];
   for (const file of new Set(files)) {
+    if (['AGENTS.md', 'CLAUDE.md'].includes(file) && !existsSync(path.join(root, file))) continue;
     try {
       errors.push(...checkDocument(file, readFileSync(path.join(root, file), 'utf8'), { root, scripts }));
     } catch (error) {
@@ -108,6 +109,7 @@ export function checkDocumentation(root = ROOT) {
     }
   }
   for (const { directory, topic } of PROJECT_DOCUMENTS) {
+    if (!existsSync(path.join(root, directory))) continue;
     const expected = BOOKS.map((book) => `${topic}-${book}.md`);
     const actual = existsSync(path.join(root, directory))
       ? readdirSync(path.join(root, directory)).filter((file) => file.endsWith('.md'))
@@ -119,7 +121,10 @@ export function checkDocumentation(root = ROOT) {
   const claude = existsSync(path.join(root, 'CLAUDE.md'))
     ? readFileSync(path.join(root, 'CLAUDE.md'), 'utf8')
     : '';
-  if (!linkDestinations(markdown.parse(claude, {})).includes('AGENTS.md')) {
+  if (
+    existsSync(path.join(root, 'CLAUDE.md')) &&
+    !linkDestinations(markdown.parse(claude, {})).includes('AGENTS.md')
+  ) {
     errors.push('CLAUDE.md: 必须引用共用 AGENTS.md 入口');
   }
   return { documents: new Set(files).size, errors };

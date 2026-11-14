@@ -2,7 +2,7 @@
  * Motiq Streaming Data Rows (MIT) motion port for the existing Tablecn renderer.
  * Original source/notice: packages/ui-motiq. These parameters are upstream's;
  * host adapters provide semantic tokens, exact business formatting and query identity.
- * No simulated feed, polling, business mutation or extra animation of UIArc controls.
+ * No simulated feed, polling, business mutation or extra animation of UI primitives controls.
  */
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";

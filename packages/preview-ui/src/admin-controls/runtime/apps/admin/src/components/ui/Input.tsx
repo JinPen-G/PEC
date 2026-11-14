@@ -1,9 +1,9 @@
 import { ConfigProvider, Form as AntForm, Input as AntInput, type InputProps, type InputRef } from "antd";
 import { forwardRef, useContext, useImperativeHandle, useRef, useState, type ComponentProps, type InputHTMLAttributes } from "react";
 import { NativeFieldFeedbackContext } from "./Form";
-import { Input as ArcInput } from "../../../../../packages/ui-arc/vendor/registry/components/input/input";
-import { Textarea as ArcTextarea } from "../../../../../packages/ui-arc/vendor/registry/components/textarea/textarea";
-import { PasswordField as ArcPasswordField } from "../../../../../packages/ui-arc/vendor/registry/components/password-field/password-field";
+import { Input as ArcInput } from "../../../../../packages/ui-primitives/vendor/registry/components/input/input";
+import { Textarea as ArcTextarea } from "../../../../../packages/ui-primitives/vendor/registry/components/textarea/textarea";
+import { PasswordField as ArcPasswordField } from "../../../../../packages/ui-primitives/vendor/registry/components/password-field/password-field";
 import { ArcLocale } from "./ArcLocale";
 import type { TextAreaRef } from "antd/es/input/TextArea";
 

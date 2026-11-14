@@ -17,6 +17,8 @@
   "chrome.action.backHome": "返回首頁",
   "chrome.error.title": "頁面暫時無法顯示",
   "chrome.error.reload": "重新加載",
+  "chrome.error.description": "請重新加載頁面。若剛提交過操作，請先核對結果。",
+  "chrome.error.home": "返回可訪問頁面",
   "chrome.notFound.title": "頁面不存在",
   "chrome.notFound.subtitle": "當前地址沒有對應的平臺頁面或兼容入口。",
   "chrome.notFound.backHome": "返回首頁",

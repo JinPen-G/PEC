@@ -1,9 +1,19 @@
-/** UIARC's split-menu structure, with Preview's authorized Markdown/source
+/** UI primitives's split-menu structure, with Preview's authorized Markdown/source
  * actions. External assistant links never include a token or private content. */
 import { useEffect, useRef, useState } from 'react';
 import * as Dropdown from '@radix-ui/react-dropdown-menu';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { ArrowUpRight, Check, ChevronDown, Copy, FileText, Link2, SquareTerminal } from 'lucide-react';
+import {
+  ArrowUpRight,
+  Check,
+  ChevronDown,
+  Copy,
+  FileText,
+  Link2,
+  SquareTerminal,
+  GitBranch,
+  History,
+} from 'lucide-react';
 import { siteMotionTokens, AssistantIcon, type AssistantIconName } from '@preview/ui';
 import { useShowcaseText } from './showcase-locale';
 
@@ -174,6 +184,28 @@ export function PageActions({
                         <Link2 size={15} />
                       </span>
                       <span className="docs_menuLabel___2blT">{text('复制页面链接')}</span>
+                    </Dropdown.Item>
+                    <Dropdown.Item asChild>
+                      <a
+                        className="docs_menuItem__vDe5y"
+                        href={`#/docs/projects/${encodeURIComponent(projectId)}/graph`}
+                      >
+                        <span className="docs_menuIcon__C7FV5">
+                          <GitBranch size={15} />
+                        </span>
+                        <span className="docs_menuLabel___2blT">{text('查看需求关系图谱')}</span>
+                      </a>
+                    </Dropdown.Item>
+                    <Dropdown.Item asChild>
+                      <a
+                        className="docs_menuItem__vDe5y"
+                        href={`#/docs/projects/${encodeURIComponent(projectId)}/changelog`}
+                      >
+                        <span className="docs_menuIcon__C7FV5">
+                          <History size={15} />
+                        </span>
+                        <span className="docs_menuLabel___2blT">{text('查看更新记录')}</span>
+                      </a>
                     </Dropdown.Item>
                     <Dropdown.Item
                       className="docs_menuItem__vDe5y"

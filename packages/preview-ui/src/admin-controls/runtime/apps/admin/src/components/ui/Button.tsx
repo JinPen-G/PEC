@@ -1,6 +1,6 @@
 import { ConfigProvider, Button as AntButton, type ButtonProps } from "antd";
 import { forwardRef, useEffect, useState, type ComponentProps } from "react";
-import { Button as ArcButton } from "../../../../../packages/ui-arc/vendor/registry/components/button/button";
+import { Button as ArcButton } from "../../../../../packages/ui-primitives/vendor/registry/components/button/button";
 
 /** Business-prop adapter only. Arc owns the button DOM, CSS, press and label motion. */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(props, ref) {

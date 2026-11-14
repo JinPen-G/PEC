@@ -12,18 +12,25 @@ const sourcePath = /^packages\/component-library\/src\/(?:[a-zA-Z0-9-]+\/)+[a-zA
 const targetPath = /^@components\/preview\/(?:[a-zA-Z0-9-]+\/)+[a-zA-Z0-9.-]+\.(?:[jt]sx?|css)$/;
 const dependency = /^(?:@[a-z0-9-]+\/)?[a-z0-9-]+(?:@[~^]?\d+(?:\.\d+){0,2})?$/;
 export function componentSourceImports(content, filename) {
-  const tree = parse(content, { sourceType: 'module', plugins: ['jsx', ...(filename.endsWith('.ts') || filename.endsWith('.tsx') ? ['typescript'] : [])] });
+  const tree = parse(content, {
+    sourceType: 'module',
+    plugins: ['jsx', ...(filename.endsWith('.ts') || filename.endsWith('.tsx') ? ['typescript'] : [])],
+  });
   const imports = [];
-  const visit = node => {
+  const visit = (node) => {
     if (!node || typeof node !== 'object') return;
-    if (['ImportDeclaration','ExportNamedDeclaration','ExportAllDeclaration'].includes(node.type) && node.source)
+    if (
+      ['ImportDeclaration', 'ExportNamedDeclaration', 'ExportAllDeclaration'].includes(node.type) &&
+      node.source
+    )
       imports.push(node.source.value);
     if (node.type === 'CallExpression' && node.callee?.type === 'Import') {
       requireValue(node.arguments[0]?.type === 'StringLiteral', '组件动态引用必须明确登记');
       imports.push(node.arguments[0].value);
     }
     for (const [key, value] of Object.entries(node)) {
-      if (['loc','start','end','comments','leadingComments','trailingComments','tokens'].includes(key)) continue;
+      if (['loc', 'start', 'end', 'comments', 'leadingComments', 'trailingComments', 'tokens'].includes(key))
+        continue;
       if (Array.isArray(value)) value.forEach(visit);
       else if (value && typeof value === 'object') visit(value);
     }
@@ -45,7 +52,10 @@ export function validateComponentRegistry(catalog) {
     requireValue(validIdentifier(item.moduleKey) && validIdentifier(item.pageKey));
     requireValue(typeof item.title === 'string' && item.title.length > 0 && item.title.length <= 200);
     requireValue(typeof item.description === 'string' && item.description.length <= 2000);
-    requireValue(item.descriptionEn === undefined || typeof item.descriptionEn === 'string' && item.descriptionEn.length <= 2000);
+    requireValue(
+      item.descriptionEn === undefined ||
+        (typeof item.descriptionEn === 'string' && item.descriptionEn.length <= 2000),
+    );
     requireValue(
       Array.isArray(item.dependencies) &&
         item.dependencies.length <= 64 &&
@@ -137,12 +147,28 @@ export async function loadComponentRegistryItem(root, catalog, name) {
         requireValue(
           available.some(
             (entry) =>
-              [source, `${source}.ts`, `${source}.tsx`, `${source}.js`, `${source}.jsx`, `${source}/index.ts`, `${source}/index.tsx`, `${source}/index.js`, `${source}/index.jsx`].includes(
-                entry.path,
-              ) &&
-              [target, `${target}.ts`, `${target}.tsx`, `${target}.js`, `${target}.jsx`, `${target}/index.ts`, `${target}/index.tsx`, `${target}/index.js`, `${target}/index.jsx`].includes(
-                entry.target,
-              ),
+              [
+                source,
+                `${source}.ts`,
+                `${source}.tsx`,
+                `${source}.js`,
+                `${source}.jsx`,
+                `${source}/index.ts`,
+                `${source}/index.tsx`,
+                `${source}/index.js`,
+                `${source}/index.jsx`,
+              ].includes(entry.path) &&
+              [
+                target,
+                `${target}.ts`,
+                `${target}.tsx`,
+                `${target}.js`,
+                `${target}.jsx`,
+                `${target}/index.ts`,
+                `${target}/index.tsx`,
+                `${target}/index.js`,
+                `${target}/index.jsx`,
+              ].includes(entry.target),
           ),
           '组件引用了未登记文件或安装路径不一致',
         );

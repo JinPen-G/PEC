@@ -1,6 +1,6 @@
 import { ConfigProvider, type FormInstance } from "antd";
 import { useRef } from "react";
-import { ActionButton as ArcActionButton, type ActionButtonProps as ArcProps } from "../../../../../packages/ui-arc/vendor/registry/components/action-button/action-button";
+import { ActionButton as ArcActionButton, type ActionButtonProps as ArcProps } from "../../../../../packages/ui-primitives/vendor/registry/components/action-button/action-button";
 import { useLocale } from "../../../../../../environment";
 import { formSnapshotFingerprint, notifyFormSaved } from "../../app/serverFormSnapshot";
 import { ActionButtonIconContext } from "./ActionButtonIcon";

@@ -10,15 +10,20 @@ import {
 } from 'react';
 import { usePlatformLocale, type PlatformLocale } from '@/features/locale/platform-locale';
 import { traditionalToSimplified, TRADITIONAL_TO_SIMPLIFIED } from '@/i18n/zh-hans-map';
+import { LANDING_ENGLISH } from './landing-copy';
 
 const english: Record<string, string> = {
+  ...LANDING_ENGLISH,
   组件: 'Components',
   区块: 'Blocks',
+  跳过开场: 'Skip intro',
   图谱预览: 'Graph preview',
   关系图谱: 'Relationship graph',
   营运: 'Operations',
   企业: 'Enterprise',
-  '选择左侧需求或图中节点，查看规则、前因、后果与原文。': 'Select a requirement or a graph node to read its rules, causes, effects and sources.',
+  'RIMO Rental知识图谱': 'RIMO Rental Knowledge Graph',
+  '选择左侧需求或图中节点，查看规则、前因、后果与原文。':
+    'Select a requirement or a graph node to read its rules, causes, effects and sources.',
   跳转到内容分类: 'Jump to section',
   交互页面: 'Live screen',
   桌面预览: 'Desktop preview',
@@ -34,7 +39,8 @@ const english: Record<string, string> = {
   '读取项目指南…': 'Loading project guide…',
   项目指南读取失败: 'Could not load project guides',
   '此指南需要项目授权。': 'This guide requires project access.',
-  '请联系管理员获取当前项目的资料访问权限。': 'Contact an administrator for access to this project’s documents.',
+  '请联系管理员获取当前项目的资料访问权限。':
+    'Contact an administrator for access to this project’s documents.',
   '此项目尚未发布这篇指南。': 'This guide has not been published for this project.',
   浏览当前项目: 'Explore this project',
   客户端配置: 'Client configuration',
@@ -50,7 +56,8 @@ const english: Record<string, string> = {
   '拖拽旋转 · 滚轮缩放': 'Drag to rotate · Scroll to zoom',
   '拖拽移动 · 滚轮缩放': 'Drag to pan · Scroll to zoom',
   '球形需求图谱，拖拽旋转，滚轮缩放': 'Spherical requirement graph. Drag to rotate and scroll to zoom',
-  '当前设备无法启用 3D，请切换到 2D 继续查看。': '3D is unavailable on this device. Switch to 2D to continue.',
+  '当前设备无法启用 3D，请切换到 2D 继续查看。':
+    '3D is unavailable on this device. Switch to 2D to continue.',
   '3D 画布已暂停，请切换到 2D 或重新打开 3D。': 'The 3D canvas has paused. Switch to 2D or reopen 3D.',
   显示全部: 'Show all',
   显示更多: 'Show more',

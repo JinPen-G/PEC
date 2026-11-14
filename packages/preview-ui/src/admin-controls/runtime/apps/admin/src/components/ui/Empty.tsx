@@ -1,6 +1,6 @@
 import { Empty as AntEmpty, type EmptyProps } from "antd";
 import { Folder } from "lucide-react";
-import { EmptyState } from "../../../../../packages/ui-arc/vendor/registry/components/empty-state/empty-state";
+import { EmptyState } from "../../../../../packages/ui-primitives/vendor/registry/components/empty-state/empty-state";
 import { useLocale } from "../../../../../../environment";
 import { EmptyScene, type EmptySceneKind } from './EmptyScene';
 

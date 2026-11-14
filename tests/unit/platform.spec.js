@@ -9,6 +9,10 @@ import { createNativeClient } from '../../packages/platform-client/src/client.js
 import { createNativeDocuments } from '../../packages/project-core/src/platform/documents.js';
 
 const fixtures = [];
+const fixtureModules = [
+  { key: 'empty', pages: [{ key: 'canvas' }] },
+  { key: 'rental-orders', pages: [{ key: 'orders' }] },
+];
 afterEach(async () => {
   for (const fixture of fixtures.splice(0)) {
     if (fixture.runtime) await fixture.runtime.close();
@@ -39,7 +43,10 @@ const configuration = {
 };
 async function fixture(options = {}) {
   const directory = await fs.mkdtemp(path.join(tmpdir(), 'preview-native-test-'));
-  const item = { directory, store: createNativeStore({ dataDirectory: directory, ...options }) };
+  const item = {
+    directory,
+    store: createNativeStore({ dataDirectory: directory, moduleCatalog: fixtureModules, ...options }),
+  };
   fixtures.push(item);
   const admin = item.store.bootstrap({ username: 'admin-user', displayName: '管理员', password });
   return { ...item, admin, owner: item };
@@ -50,20 +57,42 @@ function member(store, admin, username) {
   return store.login(username, `${password}-changed`).user;
 }
 test('homepage selection metadata preserves menu permissions and does not rewrite projects', async () => {
-  const {store,admin}=await fixture({moduleCatalog:[{key:'demo-module',pages:[
-    {key:'public-page',featuredOrder:2},{key:'private-page',featuredOrder:1},{key:'hidden-page',featuredOrder:3},
-  ]}]});
-  const project=store.createProject(admin,{id:'curated-project',name:'Curated',moduleKey:'demo-module',clients:[{
-    ...configuration.clients[0],defaultPage:'public-page',pages:[
-      {key:'public-page',label:'Public',visible:true,position:0,access:'public'},
-      {key:'private-page',label:'Private',visible:true,position:1,access:'restricted'},
-      {key:'hidden-page',label:'Hidden',visible:false,position:2,access:'public'},
+  const { store, admin } = await fixture({
+    moduleCatalog: [
+      {
+        key: 'demo-module',
+        pages: [
+          { key: 'public-page', featuredOrder: 2, kind: 'page' },
+          { key: 'private-page', featuredOrder: 1, kind: 'component' },
+          { key: 'hidden-page', featuredOrder: 3, kind: 'block' },
+        ],
+      },
     ],
-  }]});
-  expect(store.pageCatalog()).toMatchObject([{pageKey:'public-page',featuredOrder:2}]);
+  });
+  const project = store.createProject(admin, {
+    id: 'curated-project',
+    name: 'Curated',
+    moduleKey: 'demo-module',
+    clients: [
+      {
+        ...configuration.clients[0],
+        defaultPage: 'public-page',
+        pages: [
+          { key: 'public-page', label: 'Public', visible: true, position: 0, access: 'public' },
+          { key: 'private-page', label: 'Private', visible: true, position: 1, access: 'restricted' },
+          { key: 'hidden-page', label: 'Hidden', visible: false, position: 2, access: 'public' },
+        ],
+      },
+    ],
+  });
+  expect(store.pageCatalog()).toMatchObject([{ pageKey: 'public-page', featuredOrder: 2, kind: 'page' }]);
   expect(store.pageCatalog()).toHaveLength(1);
-  expect(store.pageCatalog(admin).map(page=>[page.pageKey,page.featuredOrder])).toEqual([['public-page',2],['private-page',1]]);
-  expect(store.getProject(admin,project.id).revision).toBe(project.revision);
+  expect(store.pageCatalog(admin).map((page) => [page.pageKey, page.featuredOrder])).toEqual([
+    ['public-page', 2],
+    ['private-page', 1],
+  ]);
+  expect(store.pageCatalog(admin).map((page) => page.kind)).toEqual(['page', 'component']);
+  expect(store.getProject(admin, project.id).revision).toBe(project.revision);
 });
 test('collaboration uses visible page grants and admits logged-in public viewers without backend membership', async () => {
   const { store, admin } = await fixture({
@@ -265,7 +294,7 @@ test('concurrent last-admin writes and stale configuration cannot silently overw
     password,
   });
   store.changePassword(second, { currentPassword: password, password: `${password}-new` });
-  const other = createNativeStore({ dataDirectory: directory });
+  const other = createNativeStore({ dataDirectory: directory, moduleCatalog: fixtureModules });
   try {
     store.updateAccount(admin, admin.id, { revision: admin.revision, role: 'member' });
     const currentSecond = other.login('second-admin', `${password}-new`).user;
@@ -317,6 +346,7 @@ async function httpFixture() {
   await fs.writeFile(path.join(statics, 'index.html'), '<!doctype html><title>Preview</title>');
   const runtime = createNativeServer({
     dataDirectory: path.join(directory, 'db'),
+    moduleCatalog: fixtureModules,
     sources: { sample: { root: docs, perProject: false, label: 'Fixture' } },
     staticRoot: statics,
     publicOrigin: 'http://127.0.0.1:5191',

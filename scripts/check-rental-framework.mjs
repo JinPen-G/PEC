@@ -1,4 +1,4 @@
-/** Verify local upstream bytes and immutable runtime copies without accessing Rental OS. */
+/** Verify recorded source adaptations and runtime hashes without accessing Rental OS. */
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -37,9 +37,11 @@ export function checkRentalConsole(root = ROOT) {
     );
     if (readFileSync(path.join(root, 'src/console-source.css'), 'utf8') !== expected)
       errors.push('Console source adapter changed');
-    if (readFileSync(path.join(root, 'src/console-motion.ts'), 'utf8') !== rentalConsoleMotion(
-      readFileSync(path.join(sourceRoot, 'apps/admin/src/app/designTokens.ts'), 'utf8'),
-    )) errors.push('Console motion adapter changed');
+    if (
+      readFileSync(path.join(root, 'src/console-motion.ts'), 'utf8') !==
+      rentalConsoleMotion(readFileSync(path.join(sourceRoot, 'apps/admin/src/app/designTokens.ts'), 'utf8'))
+    )
+      errors.push('Console motion adapter changed');
   } catch {
     errors.push('Console source adapter unavailable');
   }

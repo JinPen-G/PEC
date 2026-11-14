@@ -132,6 +132,9 @@ export default function RequirementGraphPage({
   const text = useShowcaseText(),
     { client, session } = useNativeAuth(),
     reduced = useReducedMotion();
+  useEffect(() => {
+    document.title = `${text(title)} · Preview`;
+  }, [text, title]);
   const [query, setQuery] = useState('');
   const [view, setView] = useState<'2d' | '3d'>('2d');
   const [hiddenTypes, setHiddenTypes] = useState<GraphNodeType[]>([]);
@@ -510,10 +513,12 @@ export default function RequirementGraphPage({
               Screens
             </Link>
             <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
-            {projectName && <>
-              <Link to={`/screens?project=${encodeURIComponent(projectId)}`}>{text(projectName)}</Link>
-              <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
-            </>}
+            {projectName && (
+              <>
+                <Link to={`/screens?project=${encodeURIComponent(projectId)}`}>{text(projectName)}</Link>
+                <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
+              </>
+            )}
             <span aria-current="page">{text(title)}</span>
           </nav>
           <header className="docs_header__0YD_z">

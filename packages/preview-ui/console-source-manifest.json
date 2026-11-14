@@ -12,8 +12,6 @@
       "sha256": "6176c07287fc0da2b93ad8133e5066017c936cdf644eceaf7a5b2e7103eb6f7d"
     }
   ],
-  "licenses": [
-    "upstream/rental-admin/apps/admin/src/components/animate-sidebar/LICENSE.md"
-  ],
+  "licenses": ["upstream/rental-admin/apps/admin/src/components/animate-sidebar/LICENSE.md"],
   "integration": "Shared Demo and administration shell palette, geometry and motion. Fixed source bytes remain unchanged; selectors and literal tokens are adapted in Preview without executing Rental OS code or services."
 }

@@ -1,6 +1,6 @@
 import { ADMIN_STATUS_COLORS, resolveAdminPrimaryColor } from "./designTokens";
 
-/** The neutral/semantic values are the UIArc foundation's OKLCH values, converted
+/** The neutral/semantic values are the UI primitives foundation's OKLCH values, converted
  * to sRGB for AntD's color algorithm. The original full palette lives in vendor/foundation.css. */
 export function oklchToHex(lightness: number, chroma = 0, hue = 0) {
   const angle = hue * Math.PI / 180, a = chroma * Math.cos(angle), b = chroma * Math.sin(angle);

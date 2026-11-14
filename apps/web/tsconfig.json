@@ -19,18 +19,22 @@
       "@preview/library/*": ["../../packages/component-library/src/*"],
       "@preview/ui/admin": ["../../packages/preview-ui/src/admin.tsx"],
       "@preview/ui/loading": ["../../packages/preview-ui/src/LoadingState.tsx"],
+      "@preview/ui/result": ["../../packages/preview-ui/src/ResultPage.tsx"],
       "@preview/ui/rest-player": ["../../packages/preview-ui/src/rest-player.ts"],
-      "@/registry/*": ["../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/*"],
+      "@/registry/*": [
+        "../../packages/preview-ui/upstream/rental-admin/packages/ui-primitives/vendor/registry/*"
+      ],
       "@preview/ui": ["../../packages/preview-ui/src/index.ts"],
       "@/registry/components/button/button": [
-        "../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/registry/components/button/button.tsx"
+        "../../packages/preview-ui/upstream/rental-admin/packages/ui-primitives/vendor/registry/components/button/button.tsx"
       ],
       "@/lib/motion-tokens": [
-        "../../packages/preview-ui/upstream/rental-admin/packages/ui-arc/vendor/lib/motion-tokens.ts"
+        "../../packages/preview-ui/upstream/rental-admin/packages/ui-primitives/vendor/lib/motion-tokens.ts"
       ],
       "@/*": ["./src/*"]
     },
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/project-modules/rimo-rental", "src/features/orders", "src/**/*.local.*"]
 }

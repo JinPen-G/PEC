@@ -2,10 +2,10 @@ import { ConfigProvider, Form as AntForm, Select as AntSelect, type SelectProps 
 import type { BaseOptionType, DefaultOptionType } from "antd/es/select";
 import { useState } from "react";
 import { X } from "lucide-react";
-import { Select as ArcSelect } from "../../../../../packages/ui-arc/vendor/registry/components/select/select";
-import { MultiSelect as ArcMultiSelect } from "../../../../../packages/ui-arc/vendor/registry/components/multi-select/multi-select";
+import { Select as ArcSelect } from "../../../../../packages/ui-primitives/vendor/registry/components/select/select";
+import { MultiSelect as ArcMultiSelect } from "../../../../../packages/ui-primitives/vendor/registry/components/multi-select/multi-select";
 import { ArcLocale } from "./ArcLocale";
-import { Combobox as ArcCombobox } from "../../../../../packages/ui-arc/vendor/registry/components/combobox/combobox";
+import { Combobox as ArcCombobox } from "../../../../../packages/ui-primitives/vendor/registry/components/combobox/combobox";
 import { useLocale } from "../../../../../../environment";
 
 type ArcValue = string | number | boolean;
@@ -24,10 +24,10 @@ const isBasicOption = (value: unknown): value is BasicOption => {
  * the deliberate compatibility implementation for advanced
  * contracts such as custom filtering/options, async loading and
  * controlled popup behavior. This keeps every current business form functional
- * while new/simple fields automatically get UIArc's value-roll and menu motion.
+ * while new/simple fields automatically get UI primitives's value-roll and menu motion.
  */
 // Keep Ant's generic inference: some existing forms use boolean option values.
-// Runtime still narrows to ArcValue before selecting the UIArc implementation.
+// Runtime still narrows to ArcValue before selecting the UI primitives implementation.
 export function Select<ValueType = any, OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(props: AntSelectProps<ValueType, OptionType>) {
   const { componentDisabled } = ConfigProvider.useConfig();
   const { t } = useLocale();

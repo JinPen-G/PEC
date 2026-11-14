@@ -2,8 +2,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
-import { NATIVE_MODULES } from '../packages/platform-contracts/src/platform.js';
-import { COMPONENT_REGISTRY } from '../packages/platform-contracts/src/component-registry.js';
+import { loadProjectCatalog } from '../packages/platform-server/src/project-catalog.js';
 import { componentRegistryClosure } from '../packages/project-core/src/platform/component-registry.js';
 import {
   checkProjectRegistration,
@@ -12,14 +11,16 @@ import {
 } from '../packages/project-core/src/platform/project-registration.js';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
+const {
+  projects: catalog,
+  moduleCatalog: NATIVE_MODULES,
+  componentRegistry: COMPONENT_REGISTRY,
+} = await loadProjectCatalog(path.join(root, 'packages/platform-contracts/src'));
 const args = process.argv.slice(2);
 const fileIndex = args.indexOf('--file');
 if (fileIndex < 0 || !args[fileIndex + 1])
   throw new Error('使用 project:register -- --file <project.json> [--check] [--replace]');
 const input = JSON.parse(await fs.readFile(path.resolve(args[fileIndex + 1]), 'utf8'));
-const catalog = JSON.parse(
-  await fs.readFile(path.join(root, 'packages/platform-contracts/src/registered-projects.json'), 'utf8'),
-);
 const replace = args.includes('--replace');
 const previous = catalog.find((item) => item.module.projectId === input.module?.projectId);
 if (replace && (!previous || previous.module.key !== input.module?.key))

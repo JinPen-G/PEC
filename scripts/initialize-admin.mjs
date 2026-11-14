@@ -1,6 +1,7 @@
 /** First-admin server initialization; password never enters arguments or output. */
 import { createNativeStore } from '../packages/project-core/src/platform/store.js';
-import { NATIVE_MODULES } from '../packages/platform-contracts/src/platform.js';
+import { loadProjectCatalog } from '../packages/platform-server/src/project-catalog.js';
+import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import process from 'node:process';
 const args = process.argv.slice(2);
@@ -11,9 +12,14 @@ if (!args.includes('--data') || !args.includes('--username') || !args.includes('
   );
 const password = process.env.PREVIEW_ADMIN_PASSWORD;
 delete process.env.PREVIEW_ADMIN_PASSWORD;
+const catalog = await loadProjectCatalog(
+  process.env.PREVIEW_PROJECT_CATALOG_ROOT ||
+    fileURLToPath(new URL('../packages/platform-contracts/src/', import.meta.url)),
+  { local: import.meta.previewBundled !== true },
+);
 const store = createNativeStore({
   dataDirectory: path.resolve(value('--data')),
-  moduleCatalog: NATIVE_MODULES,
+  moduleCatalog: catalog.moduleCatalog,
   documentSources: ['none', 'published'],
 });
 try {
@@ -22,7 +28,11 @@ try {
     const session = store.login(value('--username'), password);
     user = session.user;
     store.logout(session.token);
-  } else user = store.bootstrap({ username: value('--username'), displayName: value('--name'), password });
+  } else
+    user = store.bootstrap(
+      { username: value('--username'), displayName: value('--name'), password },
+      { withProjects: args.includes('--with-projects') },
+    );
   if (args.includes('--with-projects')) {
     const projects = store.initializeRegisteredProjects(user);
     console.log(`平台初始化完成，已准备 ${projects.length} 个已登记项目。`);

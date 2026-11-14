@@ -7,7 +7,8 @@
       "source": "apps/admin/src/components/ui/Table.tsx",
       "sha256": "cc3070e9fc43cc19d387d0ebf7631d9387062b2b811b7c4f014febfc9d988e3e",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Table.tsx",
-      "runtimeSha256": "c82d7f853e8ec93082497d6fd3b47110949bba4a00cbca9a716b0c1f8cc44eda"
+      "runtimeSha256": "b797a9af2065881677ceff0da651b008b5210b1499546cd492119472aab39ceb",
+      "originalRuntimeSha256": "c82d7f853e8ec93082497d6fd3b47110949bba4a00cbca9a716b0c1f8cc44eda"
     },
     {
       "source": "apps/admin/src/components/ui/Form.tsx",
@@ -19,13 +20,16 @@
       "source": "apps/admin/src/components/ui/Input.tsx",
       "sha256": "658d5da0ad19e43d6c665d3f0b7bd7fa6e5ab26d9783ffe98dd0e156e9b5f478",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Input.tsx",
-      "runtimeSha256": "0e7ab2156a38668b9dd172203cec52cf828d889bc6a05bf96b1d673985de17e0"
+      "runtimeSha256": "807beeb0cea9ddba3c751ebbee2011d044366b3b74ea4f865f022171305f0648",
+      "originalRuntimeSha256": "0e7ab2156a38668b9dd172203cec52cf828d889bc6a05bf96b1d673985de17e0"
     },
     {
       "source": "apps/admin/src/components/ui/Select.tsx",
-      "sha256": "5c0b070ebe8981ef9ed63c9cd3acce3d59c5439b2801875907b1cab9c411a2bf",
+      "sha256": "3b58ef6c31c2a4e1d6a82295840bd592110dc02b98d83297ee447dec155c4bef",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Select.tsx",
-      "runtimeSha256": "055533044817dec72c8a4c8d3b1c6fd11b29b78856bfeb8bca4a368dddfb1c2a"
+      "runtimeSha256": "393d1e9447ed8d70827024e0e54267a6f538477adf769ac34fcc046cc48eaa62",
+      "originalSha256": "5c0b070ebe8981ef9ed63c9cd3acce3d59c5439b2801875907b1cab9c411a2bf",
+      "originalRuntimeSha256": "055533044817dec72c8a4c8d3b1c6fd11b29b78856bfeb8bca4a368dddfb1c2a"
     },
     {
       "source": "apps/admin/src/components/ui/Modal.tsx",
@@ -37,37 +41,44 @@
       "source": "apps/admin/src/components/ui/Tabs.tsx",
       "sha256": "4af2d8edd195ab00911222dfc91a69634b256efaae5da6d654f42e36d9328124",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Tabs.tsx",
-      "runtimeSha256": "9fbcff0828a397f1dc11bb26a8e868f41f023de5405504c38e3a82162f357868"
+      "runtimeSha256": "8135f86ba02a297b6a8e2fec26677c1f68abcecd096af71dda81d5937698aa9a",
+      "originalRuntimeSha256": "9fbcff0828a397f1dc11bb26a8e868f41f023de5405504c38e3a82162f357868"
     },
     {
       "source": "apps/admin/src/components/ui/Alert.tsx",
       "sha256": "8d28c0cf41e98529d5ab1dd1488c1274dbfbc4a28febe0b382723b38e080b034",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Alert.tsx",
-      "runtimeSha256": "7e4630cfb98dc6d644eaf54ad4aff3fc7ee108dcfcbef6d494d4b762dac3c363"
+      "runtimeSha256": "00f32048896b8dc69726910cf42f63fda3eeb3fc0c4da1e8a30bd586ecc5a2e7",
+      "originalRuntimeSha256": "7e4630cfb98dc6d644eaf54ad4aff3fc7ee108dcfcbef6d494d4b762dac3c363"
     },
     {
       "source": "apps/admin/src/components/ui/Empty.tsx",
       "sha256": "6e44a61612c82446270064f1d8e3fb208fb66424fea4fc47edbf5293f1508850",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Empty.tsx",
-      "runtimeSha256": "18e9fc5c36e30b205b9a117c4c8eaac2a6d1ad768384375c72fb2666e694fd2b"
+      "runtimeSha256": "d626ab22349c2ad3e15fca3bf079ce1f1e78d9ecab6a8c5d4c7e9ccaf832d1a1",
+      "originalRuntimeSha256": "18e9fc5c36e30b205b9a117c4c8eaac2a6d1ad768384375c72fb2666e694fd2b"
     },
     {
       "source": "apps/admin/src/components/ui/Pagination.tsx",
       "sha256": "ff08caa216958c6f2e36afe004ea85729354a816e2c789dab60ec417f6a339a2",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Pagination.tsx",
-      "runtimeSha256": "e1c9927e89fd754f29262d2500f97586b2274d65fc93e73e990794acd0361e52"
+      "runtimeSha256": "6427d052d6dde6d8905d72d213d05a95633e07aefee5818f2448362662632669",
+      "originalRuntimeSha256": "e1c9927e89fd754f29262d2500f97586b2274d65fc93e73e990794acd0361e52"
     },
     {
       "source": "apps/admin/src/components/ui/Switch.tsx",
       "sha256": "b46663d7c2f2ddef0d444a9e6a3984d9cd454ffb019d6948d6c8e7e61fb58150",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Switch.tsx",
-      "runtimeSha256": "b7f46925f5ccdc331756465885f7dcf4b0f9c2b9f25478987ab85c5a303e0cd0"
+      "runtimeSha256": "33c7040a662e2f86893d3510b1df4f79d6c295d524bd53291e819856ddff0e75",
+      "originalRuntimeSha256": "b7f46925f5ccdc331756465885f7dcf4b0f9c2b9f25478987ab85c5a303e0cd0"
     },
     {
       "source": "apps/admin/src/components/ui/SearchField.tsx",
-      "sha256": "44d4d0da3aad6208a993fe79876d4abf4cd405e39fe6e73c1b1951a6ed262886",
+      "sha256": "8b2ef25a463f78c2abc352f048ddbca958b958a43a4d133357f8dd7ff39aea25",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/SearchField.tsx",
-      "runtimeSha256": "268e10f505f7dca7850a7fbbce1f9d1e06c950783b0f5995d31aea38e160dc92"
+      "runtimeSha256": "22c37470e62173412ae344312795e039e3c19f87fbdf7f4aa16021fc40c870ef",
+      "originalSha256": "44d4d0da3aad6208a993fe79876d4abf4cd405e39fe6e73c1b1951a6ed262886",
+      "originalRuntimeSha256": "268e10f505f7dca7850a7fbbce1f9d1e06c950783b0f5995d31aea38e160dc92"
     },
     {
       "source": "apps/admin/src/components/ui/Feedback.tsx",
@@ -79,19 +90,22 @@
       "source": "apps/admin/src/components/ui/DatePicker.tsx",
       "sha256": "aa939a085ad90e5b5f0029601cecae5cd6ef59ae15c7a83cdfdcd522bbaeb178",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/DatePicker.tsx",
-      "runtimeSha256": "1c2fc97894a40c8e2d82a19741967e725392429b8e56eff41471610c1dad0011"
+      "runtimeSha256": "127150cfe63ac94337f0af7f5317f531758c6292dc411f18e585c4d2da82937e",
+      "originalRuntimeSha256": "1c2fc97894a40c8e2d82a19741967e725392429b8e56eff41471610c1dad0011"
     },
     {
       "source": "apps/admin/src/components/ui/Dropdown.tsx",
       "sha256": "7b2d773d03895d41bbd32a95381773ecbd2a1c1b42977e3a1d631bcd6c21e67c",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Dropdown.tsx",
-      "runtimeSha256": "e532a5bbd8f2c8f7a3e479fc1b9df1d464023032c43e03450c29a11882ed397d"
+      "runtimeSha256": "8d2092aa50f80a71d7d6cbcf58641677ccbec32f8b043be114802b4f8fd2e213",
+      "originalRuntimeSha256": "e532a5bbd8f2c8f7a3e479fc1b9df1d464023032c43e03450c29a11882ed397d"
     },
     {
       "source": "apps/admin/src/components/ui/Checkbox.tsx",
       "sha256": "86c19377cfde754a6c6bd6d0432234ae2e087a25ad5718dc6679cdcd5e7a39f1",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Checkbox.tsx",
-      "runtimeSha256": "c3f17a67b79bbdbf5ace85507a0704adb83674536dea1bc5b2269cfe3b547137"
+      "runtimeSha256": "552ecb368ed0e36b3253988245408cf339b93c5113f5c956354edecb0a39df53",
+      "originalRuntimeSha256": "c3f17a67b79bbdbf5ace85507a0704adb83674536dea1bc5b2269cfe3b547137"
     },
     {
       "source": "apps/admin/src/components/LoadingState.tsx",
@@ -107,9 +121,11 @@
     },
     {
       "source": "apps/admin/src/components/ui/EmptyScene.tsx",
-      "sha256": "9a4af2c4716c86ff55d17633cf869a924e94325bca8e38cf7cf1b55118eb642e",
+      "sha256": "29b5633a742165ded9514d180f1310d2475f79aabba71f700efe9d5857f76e00",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/EmptyScene.tsx",
-      "runtimeSha256": "4f7cd85c38fb0bf66b0838ec1d1ad84ffa7da7a32024a053552f3f1ab31d553b"
+      "runtimeSha256": "2fb90b33c0a0cbd6a70a56fe2c4c9ea21ce89fa86b9a26eb139b391ae080a2fa",
+      "originalSha256": "9a4af2c4716c86ff55d17633cf869a924e94325bca8e38cf7cf1b55118eb642e",
+      "originalRuntimeSha256": "4f7cd85c38fb0bf66b0838ec1d1ad84ffa7da7a32024a053552f3f1ab31d553b"
     },
     {
       "source": "apps/admin/src/components/workspace/ContentTransition.tsx",
@@ -139,19 +155,22 @@
       "source": "apps/admin/src/components/ui/data-table/DataTableSelection.tsx",
       "sha256": "e714540872cce2294b38ce601c3bb5bb731448087f8eb00f5be27a2130de691c",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/data-table/DataTableSelection.tsx",
-      "runtimeSha256": "a80051d2365fa64074609956603fa23317f0aabd73c5ae682b2cbf2d75ef7d30"
+      "runtimeSha256": "864fc1a299fdd3fc1597b1faeea1657373257105eaa199a4cdecbefcfc7ea59a",
+      "originalRuntimeSha256": "a80051d2365fa64074609956603fa23317f0aabd73c5ae682b2cbf2d75ef7d30"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/checkbox/checkbox.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/checkbox/checkbox.tsx",
       "sha256": "20c5d1859252fc697deb9a013765331ce5a2d8e3bd6ae5d06246af41ef642d0a",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/checkbox/checkbox.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/checkbox/checkbox.tsx",
       "runtimeSha256": "e8d8f1717ec56f2b1734f16270c1438ea4c4005cb400081a7c2f03c5af02adea"
     },
     {
       "source": "apps/admin/src/components/ui/data-table/DataTable.module.css",
-      "sha256": "a39d033d1ca0d0bab359d7ba2b381388295787eb29ce3b205f52b8b3bff0a919",
+      "sha256": "974f81405a9b169af3c4413cfae59912ba34d529f09bc27b27255d621083ad98",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/data-table/DataTable.module.css",
-      "runtimeSha256": "a39d033d1ca0d0bab359d7ba2b381388295787eb29ce3b205f52b8b3bff0a919"
+      "runtimeSha256": "974f81405a9b169af3c4413cfae59912ba34d529f09bc27b27255d621083ad98",
+      "originalSha256": "a39d033d1ca0d0bab359d7ba2b381388295787eb29ce3b205f52b8b3bff0a919",
+      "originalRuntimeSha256": "a39d033d1ca0d0bab359d7ba2b381388295787eb29ce3b205f52b8b3bff0a919"
     },
     {
       "source": "apps/admin/src/components/ui/data-table/DataTableToolbar.tsx",
@@ -161,9 +180,11 @@
     },
     {
       "source": "apps/admin/src/components/ui/data-table/DataTable.tsx",
-      "sha256": "81be25fa71fdaf04814e0b76465fa817f16ae8c6cde9141ce73c2e479f3f9116",
+      "sha256": "6a4c192e8b05676a923b9b4f76be8056409ac53ee58d3177755da27ec31b06d9",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/data-table/DataTable.tsx",
-      "runtimeSha256": "6137a6f7c7bce0cbb4dc613077684430791080db5c8189325de794a91efd3ccb"
+      "runtimeSha256": "0b780b94d2a98bde412ac72e9880b308a1681a9867d9d2a5de1dd8b93f55c922",
+      "originalSha256": "81be25fa71fdaf04814e0b76465fa817f16ae8c6cde9141ce73c2e479f3f9116",
+      "originalRuntimeSha256": "6137a6f7c7bce0cbb4dc613077684430791080db5c8189325de794a91efd3ccb"
     },
     {
       "source": "apps/admin/src/components/ui/ListSection.tsx",
@@ -179,9 +200,11 @@
     },
     {
       "source": "apps/admin/src/app/designTokens.ts",
-      "sha256": "d8da95483ec1a8ad7d7be3dae5da71a944e12db7284bdc68621d3cc7c806a257",
+      "sha256": "d8f694365ddc2b65efafb375d640ea3b2a39c42bd920d689e0bd1cae8b96990a",
       "runtime": "src/admin-controls/runtime/apps/admin/src/app/designTokens.ts",
-      "runtimeSha256": "74b2545e2c1492ac6dcd041f03e6a66d78098e6140f8e3e71d156d6018ff7f7d"
+      "runtimeSha256": "32175e3ef810e323299ac213738e447457d44d1eaf06c66ef6b6a27fa4aa7621",
+      "originalSha256": "d8da95483ec1a8ad7d7be3dae5da71a944e12db7284bdc68621d3cc7c806a257",
+      "originalRuntimeSha256": "74b2545e2c1492ac6dcd041f03e6a66d78098e6140f8e3e71d156d6018ff7f7d"
     },
     {
       "source": "apps/admin/src/components/ui/ArcLocale.tsx",
@@ -190,99 +213,105 @@
       "runtimeSha256": "1bdfb48367f90a464ed0826da0a96edd04a8a60591be1d7b576932b1394e3b75"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/password-field/password-field.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/password-field/password-field.tsx",
       "sha256": "6493602f64c5ec00ba2c6bfd06371310537e335f136e5266dd348e90dd213212",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/password-field/password-field.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/password-field/password-field.tsx",
       "runtimeSha256": "ee6dac690424f9afbd65fadfa059752aee95dcf0f48b5b31c00a28082ad2fa92"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/textarea/textarea.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/textarea/textarea.tsx",
       "sha256": "23989cfa15a730a97f5b0cc7abb9f894e5d4f072a8c1e9aadae54272cf85b600",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/textarea/textarea.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/textarea/textarea.tsx",
       "runtimeSha256": "3a517baf7e864fc4506273b8dd9ef59cb928547225fa865fddc1917ac7bb38e1"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/input/input.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/input/input.tsx",
       "sha256": "82172538fef4470039f937b61027d550816e44e86f83b5f0fed662b20010815a",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/input/input.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/input/input.tsx",
       "runtimeSha256": "2e4009a3f669dd0232109496293e8b214740568b69a4a5f0af4c81b3e8596adb"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/combobox/combobox.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/combobox/combobox.tsx",
       "sha256": "53fa71a6d58d649e4c9d2fffa152e6652d25d2b2f29250610674dc636ede1cce",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/combobox/combobox.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/combobox/combobox.tsx",
       "runtimeSha256": "8bd78fca243661315bf7f90f00148266d84a375bcc70ade8f3f20656b8bac4ed"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/multi-select/multi-select.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/multi-select/multi-select.tsx",
       "sha256": "ee7f24a48a20503f06bf8ca527a247bc175faa32c090fba2442843eee822ce4e",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/multi-select/multi-select.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/multi-select/multi-select.tsx",
       "runtimeSha256": "53bb0a79a0a392ff970bd10b6b4e214f628398e05ec96903406197b3609a772d"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/select/select.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/select/select.tsx",
       "sha256": "1b08a2a6966845c9422e42e5775c033abff06f5532a33e2f711018a003acffcc",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/select/select.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/select/select.tsx",
       "runtimeSha256": "b28a04313692990440d022e59a59a7e0b46207f331631e7a897c5c8252dabaa0"
     },
     {
       "source": "apps/admin/src/components/ui/OperationSheet.tsx",
-      "sha256": "f8c496872afccee124e48b552179cee36a31bf0c221dc6720bba6dab3fc53f0a",
+      "sha256": "630a0e8006901e2c7ba795172362adbbf81a67fd4b2de1937420aafeba46c90c",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/OperationSheet.tsx",
-      "runtimeSha256": "3650dfb81ef3d22f4cd3484bcf0e2deb6b5b73a734e21a21a5e21b6d80a3c04d"
+      "runtimeSha256": "63d6de08af042d5dde6b4fc63292a3cad7aacbe918bea304483dcdbe3ef0effe",
+      "originalSha256": "f8c496872afccee124e48b552179cee36a31bf0c221dc6720bba6dab3fc53f0a",
+      "originalRuntimeSha256": "3650dfb81ef3d22f4cd3484bcf0e2deb6b5b73a734e21a21a5e21b6d80a3c04d"
     },
     {
       "source": "apps/admin/src/components/ui/ActionButton.tsx",
       "sha256": "f8233d62d8a67eba5d8a3ddd21ee8cf0776b1e4e764fe14902e00fae5d2d7f4e",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/ActionButton.tsx",
-      "runtimeSha256": "600e702d4c8012b5752655da0e0a5c1a9765b5d0ea78129de0731d5d6c17d40b"
+      "runtimeSha256": "7c207f093085804e46abff461f674e9619ade359e15f8ee8436a7c882b283edb",
+      "originalRuntimeSha256": "600e702d4c8012b5752655da0e0a5c1a9765b5d0ea78129de0731d5d6c17d40b"
     },
     {
       "source": "apps/admin/src/components/ui/Button.tsx",
       "sha256": "895edb9349bf544b739ea6d711edfdb72033fd6a544cb6b7d580312de9826182",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Button.tsx",
-      "runtimeSha256": "80b7b804aa799b585591662fb9d2abb5256a68d6933a80a59664a904b33cfb98"
+      "runtimeSha256": "91e7783da9baff77e82adac1d104c1ccee17a06d2f9e97ed1d0cd98a71ca8d67",
+      "originalRuntimeSha256": "80b7b804aa799b585591662fb9d2abb5256a68d6933a80a59664a904b33cfb98"
     },
     {
       "source": "apps/admin/src/components/ui/Dialog.tsx",
-      "sha256": "7efc6db3695872796b59deef53e4066e6560106d47751fd0a8b4851bfe8c198d",
+      "sha256": "1b9a9669da701406ffd76067d03daa8b61bcf3390d1e8e25dac4c3879b98cc05",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Dialog.tsx",
-      "runtimeSha256": "79a16f3b1fd6d125178237ba1742a57c2a852f138f81a551115f7ad6799b2e39"
+      "runtimeSha256": "c8dff534f65b00d539821187c06b1ea41120895689c78b324b84a8c14cc9d8c9",
+      "originalSha256": "7efc6db3695872796b59deef53e4066e6560106d47751fd0a8b4851bfe8c198d",
+      "originalRuntimeSha256": "79a16f3b1fd6d125178237ba1742a57c2a852f138f81a551115f7ad6799b2e39"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/tabs/tabs.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/tabs/tabs.tsx",
       "sha256": "40bf713fa33f83d3bab9a09e9b6dc58bdd26bfa775261be338d41b6e665c4b13",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/tabs/tabs.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/tabs/tabs.tsx",
       "runtimeSha256": "f8708fe6d11ffc27d942686d3fe3fb3777caeb2c8e97609f7b714ba922feba87"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/alert/alert.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/alert/alert.tsx",
       "sha256": "89026c7917cf4e90e74941d10525c5a0a27b1d5431354665e3962b48c4a5902e",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/alert/alert.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/alert/alert.tsx",
       "runtimeSha256": "5baa5c4a696854b2a64c554250dc03a2f60af938743bd3a02db46f573e6654ef"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/empty-state/empty-state.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/empty-state/empty-state.tsx",
       "sha256": "35630d6b8d74748ab464a5d7eab66d47625afd3a4e917ef285c85432a600642f",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/empty-state/empty-state.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/empty-state/empty-state.tsx",
       "runtimeSha256": "2f0668fadb3af46686c72f0e49f10d4d55ffa5ee757fc7adb82d25665c490c6c"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/pagination/pagination.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/pagination/pagination.tsx",
       "sha256": "0a3838595ecfdc30e14dd8c070d6d622ef8ba9ecf02e93029df235647eff462b",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/pagination/pagination.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/pagination/pagination.tsx",
       "runtimeSha256": "e607a80b40c211f62f239dde052ad98cfab9ace3eeea8d52bb4a32e8dda08e10"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/switch/switch.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/switch/switch.tsx",
       "sha256": "f9080e0dae59db0efaa71922cf57e208252a91e14ed940156c13ea85e657ac6c",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/switch/switch.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/switch/switch.tsx",
       "runtimeSha256": "aee9b266203d681182f74a0b74e072b62dd1e11691ea4562b3bdb733ef7c5d67"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/search-field/search-field.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/search-field/search-field.tsx",
       "sha256": "2a481c562c931df497e0793efdf4c4f14314ca3ed7d482a893a7772bd72df549",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/search-field/search-field.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/search-field/search-field.tsx",
       "runtimeSha256": "3e7c117c0b703850b1fb9a279aad699c5b26d9f52b888e8a721990bc85ebf410"
     },
     {
@@ -293,51 +322,54 @@
     },
     {
       "source": "apps/admin/src/components/ui/ToastStack.tsx",
-      "sha256": "1125a49fd3295d2b19031c75d9776fcfb2a27553ee96594319079e5348ab487d",
+      "sha256": "e73edc73d0e805667e8c8cc41e106a230fe676d1c35cf21b7333ba52fb841d5c",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/ToastStack.tsx",
-      "runtimeSha256": "16c27e96a1a30eb161b3760c604b1dd319428cf30e19e64f7896b500ba870bf3"
+      "runtimeSha256": "1211288536eb65fbfd81fc77c1ade7bc60cedaafe4b25afde854511cb33a4d75",
+      "originalSha256": "1125a49fd3295d2b19031c75d9776fcfb2a27553ee96594319079e5348ab487d",
+      "originalRuntimeSha256": "16c27e96a1a30eb161b3760c604b1dd319428cf30e19e64f7896b500ba870bf3"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/popover/popover.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/popover/popover.tsx",
       "sha256": "a6d89e85d78f62f5669a55c5b8efc2ccdba874457c8c91834467dc692394a4b9",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/popover/popover.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/popover/popover.tsx",
       "runtimeSha256": "a6d89e85d78f62f5669a55c5b8efc2ccdba874457c8c91834467dc692394a4b9"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/date-range-picker/date-range-picker.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/date-range-picker/date-range-picker.tsx",
       "sha256": "3f437354d32e1680bad15bc063601cff5b8f38023b141388c8c70ac754dc935d",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/date-range-picker/date-range-picker.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/date-range-picker/date-range-picker.tsx",
       "runtimeSha256": "e94aebdac4ea8237f1a3db882035b28995cafc605b2fded52f1b2d9a45f5dfe1"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/time-picker/time-picker.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/time-picker/time-picker.tsx",
       "sha256": "a5944b1c017cdb3044582261b50e7453be8e288d74f09bb805a8f31e8c52345f",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/time-picker/time-picker.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/time-picker/time-picker.tsx",
       "runtimeSha256": "86368a956aeea9e40d487ad7c0a120531fe1cca6f6b397bb956c7ea9fd3518fd"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/date-picker/date-picker.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/date-picker/date-picker.tsx",
       "sha256": "eaac04247e0e1fefc295b8339c066f53f9b75cb6b645e812390a023385d0bf12",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/date-picker/date-picker.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/date-picker/date-picker.tsx",
       "runtimeSha256": "f77ff57e0d44ec2162f2337646a8d6a601bc2be6861a0c338f75391b5a4c9ea3"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/dropdown-menu/dropdown-menu.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/dropdown-menu/dropdown-menu.module.css",
       "sha256": "4aa09550c71430ef376fbf91e8b71951b0fedde832b7efe31fb90de3071cf4ee",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/dropdown-menu/dropdown-menu.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/dropdown-menu/dropdown-menu.module.css",
       "runtimeSha256": "4aa09550c71430ef376fbf91e8b71951b0fedde832b7efe31fb90de3071cf4ee"
     },
     {
-      "source": "packages/ui-arc/vendor/lib/motion-tokens.ts",
+      "source": "packages/ui-primitives/vendor/lib/motion-tokens.ts",
       "sha256": "8f301fb79fc34c2d505d770b8fa978327229151100bafb0cac9310f66a0e0088",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/lib/motion-tokens.ts",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/lib/motion-tokens.ts",
       "runtimeSha256": "8f301fb79fc34c2d505d770b8fa978327229151100bafb0cac9310f66a0e0088"
     },
     {
       "source": "apps/admin/src/components/ui/empty-scene/frames.ts",
       "sha256": "ce13fe28de48f767432f31ee7e99a0102fab5bb476f86bbdca00ceb7acd4324e",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/empty-scene/frames.ts",
-      "runtimeSha256": "be1e042abe2be935c96f45f33ca4d159ca78d0d152c808f8837d1bc34a715c56"
+      "runtimeSha256": "0c88bdf2d798f1ff0be910f2a270598c4eb3c1691731462e383d2bf3d92eddb9",
+      "originalRuntimeSha256": "be1e042abe2be935c96f45f33ca4d159ca78d0d152c808f8837d1bc34a715c56"
     },
     {
       "source": "apps/admin/src/components/ui/empty-scene/EmptyScene.module.css",
@@ -347,9 +379,11 @@
     },
     {
       "source": "apps/admin/src/components/ui/empty-scene/EmptySceneArt.tsx",
-      "sha256": "5e9e3e71f7197728a361a60262bdce5ab191f6da561f50d247f2da662f0ad9a6",
+      "sha256": "ccc3f831bc933ecf972716581cbd585d7603be230ac35dfd891e6cead6b42edc",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/empty-scene/EmptySceneArt.tsx",
-      "runtimeSha256": "9185bdc79faadbb57a25d5157e414adbec06825f508ca7a8648b7b85d090a774"
+      "runtimeSha256": "234b99d1a7138badd8b40c947f749a09c252535ff4b7ef9b409ea6725a994f4a",
+      "originalSha256": "5e9e3e71f7197728a361a60262bdce5ab191f6da561f50d247f2da662f0ad9a6",
+      "originalRuntimeSha256": "9185bdc79faadbb57a25d5157e414adbec06825f508ca7a8648b7b85d090a774"
     },
     {
       "source": "apps/admin/src/components/selection-toolbar/adapter.css",
@@ -365,15 +399,18 @@
     },
     {
       "source": "apps/admin/src/components/ui/data-table/RecordCard.tsx",
-      "sha256": "c9e3cd01ef8b5c8bc4bb951a287bbb430e10fef9a4d2c919d1e5cc8cadcde9aa",
+      "sha256": "0ee15b18c31084e7688981de7bfef24c97ee2df06882c9dccc2940d4e20c660c",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/data-table/RecordCard.tsx",
-      "runtimeSha256": "5466925b9db9119c92a41cf362c3be89a1a0c31d1154ef77516d753a732b7e39"
+      "runtimeSha256": "38c271926419b858609bce0f7ebe3e1c79abd7a27db8054369dec3e95cf7dc26",
+      "originalSha256": "c9e3cd01ef8b5c8bc4bb951a287bbb430e10fef9a4d2c919d1e5cc8cadcde9aa",
+      "originalRuntimeSha256": "5466925b9db9119c92a41cf362c3be89a1a0c31d1154ef77516d753a732b7e39"
     },
     {
       "source": "apps/admin/src/components/ui/Segmented.tsx",
       "sha256": "827f43b9f4f4418985a5c812da8da4d8f3016fba6f05f648ed1868b7cf3aee00",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Segmented.tsx",
-      "runtimeSha256": "e9d641d2404bdc5efcbef9882b86ba9ce94bca8a61da2097c76328ae5100dd32"
+      "runtimeSha256": "338f6e778c5abb5d7447195a6333e0f1c2c09d1a75174dc26d846060b699e121",
+      "originalRuntimeSha256": "e9d641d2404bdc5efcbef9882b86ba9ce94bca8a61da2097c76328ae5100dd32"
     },
     {
       "source": "apps/admin/src/components/ui/App.tsx",
@@ -388,9 +425,9 @@
       "runtimeSha256": "cc5c1a3ccff541d1b88cebb7f53b37c87679b66096935b35f3fa1f87f8249803"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/checkbox/checkbox.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/checkbox/checkbox.module.css",
       "sha256": "98bcaaf3327e00fa2d3b733917ab69f06676d305665b1914836f9da03d5a5c4a",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/checkbox/checkbox.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/checkbox/checkbox.module.css",
       "runtimeSha256": "98bcaaf3327e00fa2d3b733917ab69f06676d305665b1914836f9da03d5a5c4a"
     },
     {
@@ -401,69 +438,79 @@
     },
     {
       "source": "apps/admin/src/components/ui/ListFilterBar.tsx",
-      "sha256": "d37a880db558f458c01f13f1c2b6d0f0f85bbabcbaf77fa459fb3a7cbc861530",
+      "sha256": "1e55ffb2159237fb69a0bb58374967051827dda7c04dbbfc45b9c82626d13914",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/ListFilterBar.tsx",
-      "runtimeSha256": "254eb511314b070b51d473bbb4fad47e4422579e3f1b49974f52d62cd343dcdb"
+      "runtimeSha256": "3ca47ae980f30a24b6f8715aaf8f47365e52b963fde9ecd9bc86e25745479509",
+      "originalSha256": "d37a880db558f458c01f13f1c2b6d0f0f85bbabcbaf77fa459fb3a7cbc861530",
+      "originalRuntimeSha256": "254eb511314b070b51d473bbb4fad47e4422579e3f1b49974f52d62cd343dcdb"
     },
     {
       "source": "apps/admin/src/components/ui/data-table/DataTableMotion.tsx",
-      "sha256": "f4d1abdf9f48868ab9ff39ce52c2558a8e11385f19b797d886bf12d466e4527e",
+      "sha256": "fc2241bbfe363cd760ce166f109526976ac83b8f5b0561f0ea95291a5e6bd711",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/data-table/DataTableMotion.tsx",
-      "runtimeSha256": "d141e8f0f5d1c394b95b57f76edda98bf8c0788928573280b1b1ea3369636efe"
+      "runtimeSha256": "5ff83300da11ded416bb0ef2839421a8a3346afbca85af69bd225d41e4118514",
+      "originalSha256": "f4d1abdf9f48868ab9ff39ce52c2558a8e11385f19b797d886bf12d466e4527e",
+      "originalRuntimeSha256": "d141e8f0f5d1c394b95b57f76edda98bf8c0788928573280b1b1ea3369636efe"
     },
     {
       "source": "apps/admin/src/components/loading/LoadingSkeleton.tsx",
-      "sha256": "dfc45fc9dd2b9a6a8893e5b006b17e489f41ba6f0520d5a158d99782b54500fb",
+      "sha256": "df349fecf29ecf40d9e7a4d956d4a02da960810dcb74b6287356ee070843873e",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/loading/LoadingSkeleton.tsx",
-      "runtimeSha256": "dfc45fc9dd2b9a6a8893e5b006b17e489f41ba6f0520d5a158d99782b54500fb"
+      "runtimeSha256": "df349fecf29ecf40d9e7a4d956d4a02da960810dcb74b6287356ee070843873e",
+      "originalSha256": "dfc45fc9dd2b9a6a8893e5b006b17e489f41ba6f0520d5a158d99782b54500fb",
+      "originalRuntimeSha256": "dfc45fc9dd2b9a6a8893e5b006b17e489f41ba6f0520d5a158d99782b54500fb"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/password-field/password-field.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/password-field/password-field.module.css",
       "sha256": "114f1424e1d4af1d8e925d788a64f7f3668c04676c4c0cd0a6a9be63ceadc4a6",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/password-field/password-field.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/password-field/password-field.module.css",
       "runtimeSha256": "114f1424e1d4af1d8e925d788a64f7f3668c04676c4c0cd0a6a9be63ceadc4a6"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/textarea/textarea.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/textarea/textarea.module.css",
       "sha256": "7063084e4c469a7daac61430d030f1e1450f001a602c3e744d1e6520cea3f3db",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/textarea/textarea.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/textarea/textarea.module.css",
       "runtimeSha256": "7063084e4c469a7daac61430d030f1e1450f001a602c3e744d1e6520cea3f3db"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/input/input.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/input/input.module.css",
       "sha256": "d791a5338683eec6bed79d7c55a2bdf16c21f4f1b3d45883ae6aa782283482b0",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/input/input.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/input/input.module.css",
       "runtimeSha256": "d791a5338683eec6bed79d7c55a2bdf16c21f4f1b3d45883ae6aa782283482b0"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/combobox/combobox.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/combobox/combobox.module.css",
       "sha256": "ef6b19c6e70ef015e25eedca9bf98356e3586902bf47cfea96459c35a8199679",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/combobox/combobox.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/combobox/combobox.module.css",
       "runtimeSha256": "ef6b19c6e70ef015e25eedca9bf98356e3586902bf47cfea96459c35a8199679"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/multi-select/multi-select.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/multi-select/multi-select.module.css",
       "sha256": "de822375c7deb3afe01307aa0744958d6ab1d4aefacf43f55669389b32a4b140",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/multi-select/multi-select.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/multi-select/multi-select.module.css",
       "runtimeSha256": "de822375c7deb3afe01307aa0744958d6ab1d4aefacf43f55669389b32a4b140"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/select/select.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/select/select.module.css",
       "sha256": "f7877644f67b32239e6333659044a6ddc00f86ac1e215e1cfe1eed282d8f3570",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/select/select.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/select/select.module.css",
       "runtimeSha256": "f7877644f67b32239e6333659044a6ddc00f86ac1e215e1cfe1eed282d8f3570"
     },
     {
       "source": "apps/admin/src/components/ui/OperationSheet.module.css",
-      "sha256": "d5ad3f58cb5f2d5a1472da0c6dc763afd35263a4cde19d758e2993f1108d1d24",
+      "sha256": "54082ee87282a4b5f1aa042491b795c22ce5e06328172585f316e60834166db4",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/OperationSheet.module.css",
-      "runtimeSha256": "d5ad3f58cb5f2d5a1472da0c6dc763afd35263a4cde19d758e2993f1108d1d24"
+      "runtimeSha256": "54082ee87282a4b5f1aa042491b795c22ce5e06328172585f316e60834166db4",
+      "originalSha256": "d5ad3f58cb5f2d5a1472da0c6dc763afd35263a4cde19d758e2993f1108d1d24",
+      "originalRuntimeSha256": "d5ad3f58cb5f2d5a1472da0c6dc763afd35263a4cde19d758e2993f1108d1d24"
     },
     {
       "source": "apps/admin/src/components/ui/TaskDrawer.tsx",
-      "sha256": "3abda2b7cd9f161c437e0cf41b8484993a5d2db3a6168ae2dc13518ffd87b681",
+      "sha256": "39342a40c448cfa23453e7152a856b2da5b6d22a5d4a907d0ae3a6644a845bc0",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/TaskDrawer.tsx",
-      "runtimeSha256": "95cd5617b349cf0aec9c424ca83fbbf7897367d7df25986a8926fd8b8f51b069"
+      "runtimeSha256": "d3cc2fda0b6f160bad7e106d68ed53413ed58599a231a9e8c01a17a9e94b292b",
+      "originalSha256": "3abda2b7cd9f161c437e0cf41b8484993a5d2db3a6168ae2dc13518ffd87b681",
+      "originalRuntimeSha256": "95cd5617b349cf0aec9c424ca83fbbf7897367d7df25986a8926fd8b8f51b069"
     },
     {
       "source": "apps/admin/src/components/ui/actionButtonIntent.ts",
@@ -484,117 +531,117 @@
       "runtimeSha256": "6be659641d7d10700c31de54e81a476f52795a8438b942499aaa7fcfd03c66a2"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/action-button/action-button.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/action-button/action-button.tsx",
       "sha256": "781abfb5e4768675db78a2706d8e037af0d4199381d08013c0151b567e5e046a",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/action-button/action-button.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/action-button/action-button.tsx",
       "runtimeSha256": "549c7c110691022d60df8b542f4fab924b669771be917c4ac2002807fd1fdb66"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/button/button.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/button/button.tsx",
       "sha256": "2cff729eadbee434e9a99c59a50cbde007276295b15599f78410ee7ee4750604",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/button/button.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/button/button.tsx",
       "runtimeSha256": "30eff4524415bef9743aee25041b2b5ae94888dc51067f3171fd5724d50a2e7a"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/dialog/dialog.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/dialog/dialog.module.css",
       "sha256": "470ed801b630f8ea13e2be3b83098ead8b079e0a9f643c21bb11352ad1f39043",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/dialog/dialog.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/dialog/dialog.module.css",
       "runtimeSha256": "470ed801b630f8ea13e2be3b83098ead8b079e0a9f643c21bb11352ad1f39043"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/tabs/tabs.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/tabs/tabs.module.css",
       "sha256": "519f7497fd5966bb0ef94d6e461d6df8a1ee588c07b240ffc1efca708829096d",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/tabs/tabs.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/tabs/tabs.module.css",
       "runtimeSha256": "519f7497fd5966bb0ef94d6e461d6df8a1ee588c07b240ffc1efca708829096d"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/alert/alert.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/alert/alert.module.css",
       "sha256": "3134fa3844d9dc2ecc88dbe09bef5cb359b47852735a7b37e3b0f3ec0b734970",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/alert/alert.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/alert/alert.module.css",
       "runtimeSha256": "3134fa3844d9dc2ecc88dbe09bef5cb359b47852735a7b37e3b0f3ec0b734970"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/empty-state/empty-state.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/empty-state/empty-state.module.css",
       "sha256": "b27cea014609e0ca13c97dcbd8db121c04c2ea2aac927cc7789cc13979e6524c",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/empty-state/empty-state.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/empty-state/empty-state.module.css",
       "runtimeSha256": "b27cea014609e0ca13c97dcbd8db121c04c2ea2aac927cc7789cc13979e6524c"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/pagination/pagination.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/pagination/pagination.module.css",
       "sha256": "ea57fe4ded86ae69fb7299b94a3d3d8ad1c758f6b90840e3e537e89197ccbccd",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/pagination/pagination.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/pagination/pagination.module.css",
       "runtimeSha256": "ea57fe4ded86ae69fb7299b94a3d3d8ad1c758f6b90840e3e537e89197ccbccd"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/switch/switch.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/switch/switch.module.css",
       "sha256": "a859377ae59a4ed256e5ee535521e9a21301eb8e8dd4a2956f0a3bc103c35c77",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/switch/switch.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/switch/switch.module.css",
       "runtimeSha256": "a859377ae59a4ed256e5ee535521e9a21301eb8e8dd4a2956f0a3bc103c35c77"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/search-field/search-field.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/search-field/search-field.module.css",
       "sha256": "586c5725422829fabbd2dbce98cf51240c17ede09987261b0d6d7d6b0e87f6f5",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/search-field/search-field.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/search-field/search-field.module.css",
       "runtimeSha256": "586c5725422829fabbd2dbce98cf51240c17ede09987261b0d6d7d6b0e87f6f5"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/toast-stack/toast-stack.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/toast-stack/toast-stack.module.css",
       "sha256": "be46c49ce61a3a3ca859e54e4d73fa1fd3e316eeb98b6445cf25d246fac30df5",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/toast-stack/toast-stack.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/toast-stack/toast-stack.module.css",
       "runtimeSha256": "be46c49ce61a3a3ca859e54e4d73fa1fd3e316eeb98b6445cf25d246fac30df5"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/popover/popover.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/popover/popover.module.css",
       "sha256": "56a155351bdccf6ff98b39f51dca90b83da3df6d0c9cd774db0c6869d2ebff34",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/popover/popover.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/popover/popover.module.css",
       "runtimeSha256": "56a155351bdccf6ff98b39f51dca90b83da3df6d0c9cd774db0c6869d2ebff34"
     },
     {
-      "source": "packages/ui-arc/vendor/lib/use-today.ts",
+      "source": "packages/ui-primitives/vendor/lib/use-today.ts",
       "sha256": "069a833b34cb103040013346c07ad453d235da1096ea011d2c50bd148029a3af",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/lib/use-today.ts",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/lib/use-today.ts",
       "runtimeSha256": "069a833b34cb103040013346c07ad453d235da1096ea011d2c50bd148029a3af"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/date-range-picker/date-range-picker.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/date-range-picker/date-range-picker.module.css",
       "sha256": "e83b9b26c0bc702dcfe613fe39b3a8cc75e44a5a354f5bca579bd36979e20597",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/date-range-picker/date-range-picker.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/date-range-picker/date-range-picker.module.css",
       "runtimeSha256": "e83b9b26c0bc702dcfe613fe39b3a8cc75e44a5a354f5bca579bd36979e20597"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/time-picker/time-picker.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/time-picker/time-picker.module.css",
       "sha256": "3a916b3dcb82b9cbc84846891f4de91af7eaf893098ad0bcfe5ed869d8c43ea5",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/time-picker/time-picker.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/time-picker/time-picker.module.css",
       "runtimeSha256": "3a916b3dcb82b9cbc84846891f4de91af7eaf893098ad0bcfe5ed869d8c43ea5"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/date-picker/date-picker.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/date-picker/date-picker.module.css",
       "sha256": "61f22b35d37880301a0dd2e4eac936c9269b69e739e5656c17bbc6ef18ef7e13",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/date-picker/date-picker.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/date-picker/date-picker.module.css",
       "runtimeSha256": "61f22b35d37880301a0dd2e4eac936c9269b69e739e5656c17bbc6ef18ef7e13"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/calendar/calendar.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/calendar/calendar.tsx",
       "sha256": "5556fd2c6853d488b6016f7e7ade5fbb5ec3d735d5c7397256d673ae0a2c69ee",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/calendar/calendar.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/calendar/calendar.tsx",
       "runtimeSha256": "1853bbb630f1f7362fd2fe6e9210824d1c473044774210ee88e890c2859cd9f4"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/motion-tokens.ts",
+      "source": "packages/ui-primitives/vendor/registry/motion-tokens.ts",
       "sha256": "42db5f86ac4981be3a8ef363de94012acab5e03f6627f4bd4829564c1e3d2251",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/motion-tokens.ts",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/motion-tokens.ts",
       "runtimeSha256": "42db5f86ac4981be3a8ef363de94012acab5e03f6627f4bd4829564c1e3d2251"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/blocks/empty-states/empty-states-art.ts",
+      "source": "packages/ui-primitives/vendor/registry/blocks/empty-states/empty-states-art.ts",
       "sha256": "0e11971b9070d46237269a85a02c332fdf292b9ba4261fb19e64c2f3a4ae39da",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/blocks/empty-states/empty-states-art.ts",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/blocks/empty-states/empty-states-art.ts",
       "runtimeSha256": "0e11971b9070d46237269a85a02c332fdf292b9ba4261fb19e64c2f3a4ae39da"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/blocks/empty-states/empty-states.module.css",
+      "source": "packages/ui-primitives/vendor/registry/blocks/empty-states/empty-states.module.css",
       "sha256": "c54ad3cae44a2ed782e3eaf02357a10bcbfb666ca424cf508cdb123577c420d5",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/blocks/empty-states/empty-states.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/blocks/empty-states/empty-states.module.css",
       "runtimeSha256": "c54ad3cae44a2ed782e3eaf02357a10bcbfb666ca424cf508cdb123577c420d5"
     },
     {
@@ -605,32 +652,36 @@
     },
     {
       "source": "apps/admin/src/components/selection-toolbar/archive/original.css",
-      "sha256": "be6fa4a87ace8ac8852b82086491dc83a3581747c1bcd9e771edbe690046ed6c",
+      "sha256": "6073ceba6ca9aaf939802daec311956346f74118bb7bfd25c18f64d8e48646e6",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/selection-toolbar/archive/original.css",
-      "runtimeSha256": "be6fa4a87ace8ac8852b82086491dc83a3581747c1bcd9e771edbe690046ed6c"
+      "runtimeSha256": "6073ceba6ca9aaf939802daec311956346f74118bb7bfd25c18f64d8e48646e6",
+      "originalSha256": "be6fa4a87ace8ac8852b82086491dc83a3581747c1bcd9e771edbe690046ed6c",
+      "originalRuntimeSha256": "be6fa4a87ace8ac8852b82086491dc83a3581747c1bcd9e771edbe690046ed6c"
     },
     {
       "source": "apps/admin/src/components/ui/data-table/RecordCard.module.css",
-      "sha256": "bd15cab70f2f8a7c998e4d20d4bc5179a33f70f26ed1cf3d8dd6e5e2a30cebaf",
+      "sha256": "24764cfc4ce2d092d44fa8b4e27835fefbb130032ef944628f39819e8d96ebeb",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/data-table/RecordCard.module.css",
-      "runtimeSha256": "bd15cab70f2f8a7c998e4d20d4bc5179a33f70f26ed1cf3d8dd6e5e2a30cebaf"
+      "runtimeSha256": "24764cfc4ce2d092d44fa8b4e27835fefbb130032ef944628f39819e8d96ebeb",
+      "originalSha256": "bd15cab70f2f8a7c998e4d20d4bc5179a33f70f26ed1cf3d8dd6e5e2a30cebaf",
+      "originalRuntimeSha256": "bd15cab70f2f8a7c998e4d20d4bc5179a33f70f26ed1cf3d8dd6e5e2a30cebaf"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/bottom-sheet/bottom-sheet.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/bottom-sheet/bottom-sheet.tsx",
       "sha256": "64ef5709a156c0de9313f11e32150c46063e8816e88b364e52f227e128a70360",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/bottom-sheet/bottom-sheet.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/bottom-sheet/bottom-sheet.tsx",
       "runtimeSha256": "45bbf5686ac69432420b480a9a920b777a0f47abf368e67963c025dde1d818ab"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/card/card.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/card/card.tsx",
       "sha256": "3f5ca331bed164fcaeb7af95152c4bcbbf1ec4f9e9c18c6fbdf27bd07db86afa",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/card/card.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/card/card.tsx",
       "runtimeSha256": "0aea4640aac03872439a2b84f967043a5fa2a468705aea4cd6c4ecdc52df9c7c"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/segmented-control/segmented-control.tsx",
       "sha256": "99b73db360557055ae4e12e2347413b2c16377e2b780a8646fee7e59c8853ce4",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/segmented-control/segmented-control.tsx",
       "runtimeSha256": "d17832cdaa69de1b4ad693f3e945ba8378313453ecbe72c12e214e9b4549ea29"
     },
     {
@@ -829,48 +880,49 @@
       "source": "apps/admin/src/components/ui/Skeleton.tsx",
       "sha256": "44f73e005533bee9da7d55522338d7a1b6f4abe2d60b18edfc792a9c7eea143d",
       "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Skeleton.tsx",
-      "runtimeSha256": "4e1c2df3dd310e10dd905a85fcae14ec17218f985a420d43e34a98499779b721"
+      "runtimeSha256": "8b83bf88200faf11bd306a872773ac5ec374e190e9b9dda04b1097c0c74b3980",
+      "originalRuntimeSha256": "4e1c2df3dd310e10dd905a85fcae14ec17218f985a420d43e34a98499779b721"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/drawer/drawer.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/drawer/drawer.module.css",
       "sha256": "94f028a8666592f3b064a2af0a6dcd9f8a254afe03c210f07ced3a708992409b",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/drawer/drawer.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/drawer/drawer.module.css",
       "runtimeSha256": "94f028a8666592f3b064a2af0a6dcd9f8a254afe03c210f07ced3a708992409b"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/action-button/action-button.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/action-button/action-button.module.css",
       "sha256": "78342e2ba4d0be8b4e9d2b6277b431de7b9cf5a543c2ba48fb6c2b4551de3567",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/action-button/action-button.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/action-button/action-button.module.css",
       "runtimeSha256": "78342e2ba4d0be8b4e9d2b6277b431de7b9cf5a543c2ba48fb6c2b4551de3567"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/button/button.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/button/button.module.css",
       "sha256": "bd884714fff6e29712938c4fdc60e86baf7da4ba9937facd380ada6b7e3c91a3",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/button/button.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/button/button.module.css",
       "runtimeSha256": "bd884714fff6e29712938c4fdc60e86baf7da4ba9937facd380ada6b7e3c91a3"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/calendar/calendar.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/calendar/calendar.module.css",
       "sha256": "758244fd2b771a9d4e549d7ce0f21b38605be6200ab17a15d6a0923b354372b1",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/calendar/calendar.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/calendar/calendar.module.css",
       "runtimeSha256": "758244fd2b771a9d4e549d7ce0f21b38605be6200ab17a15d6a0923b354372b1"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/bottom-sheet/bottom-sheet.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/bottom-sheet/bottom-sheet.module.css",
       "sha256": "5891c01ff9d04b7f6250d369b823f46a60de31e6ec4e52912fea0b99b3ed74eb",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/bottom-sheet/bottom-sheet.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/bottom-sheet/bottom-sheet.module.css",
       "runtimeSha256": "5891c01ff9d04b7f6250d369b823f46a60de31e6ec4e52912fea0b99b3ed74eb"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/card/card.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/card/card.module.css",
       "sha256": "c18e72036186f78071144cb333eb77c47d18573caabf1b1e74801d12778c7ac2",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/card/card.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/card/card.module.css",
       "runtimeSha256": "c18e72036186f78071144cb333eb77c47d18573caabf1b1e74801d12778c7ac2"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/segmented-control/segmented-control.module.css",
       "sha256": "f9eff5af8ddf5f9c9343251b97767da613d8ad74a988c4a7ff8ec2782b2afd90",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/segmented-control/segmented-control.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/segmented-control/segmented-control.module.css",
       "runtimeSha256": "f9eff5af8ddf5f9c9343251b97767da613d8ad74a988c4a7ff8ec2782b2afd90"
     },
     {
@@ -880,9 +932,9 @@
       "runtimeSha256": "9cef9c1870e36337074862caae9590a68d87184486df194c9ca3a4035717ad90"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/skeleton/skeleton.tsx",
+      "source": "packages/ui-primitives/vendor/registry/components/skeleton/skeleton.tsx",
       "sha256": "f4612b44165514b223a3d5d8ab3e64a998bd0a77c534c920ae34faad0008b97d",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/skeleton/skeleton.tsx",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/skeleton/skeleton.tsx",
       "runtimeSha256": "b4eb7d5ba84fe7f54b8067eb3832f7ca3629fd8a9d9b280521a40de59cfa4f4d"
     },
     {
@@ -898,9 +950,9 @@
       "runtimeSha256": "937c20c97078349e6fb2d2b296f8749fcc70887a6ad691cbdcf284342fb468dc"
     },
     {
-      "source": "packages/ui-arc/vendor/registry/components/skeleton/skeleton.module.css",
+      "source": "packages/ui-primitives/vendor/registry/components/skeleton/skeleton.module.css",
       "sha256": "91d52eca6c873bf11a27cc20d7d7570cc5ac3cdd66c6d3845be1f4570aace831",
-      "runtime": "src/admin-controls/runtime/packages/ui-arc/vendor/registry/components/skeleton/skeleton.module.css",
+      "runtime": "src/admin-controls/runtime/packages/ui-primitives/vendor/registry/components/skeleton/skeleton.module.css",
       "runtimeSha256": "91d52eca6c873bf11a27cc20d7d7570cc5ac3cdd66c6d3845be1f4570aace831"
     },
     {
@@ -910,7 +962,7 @@
       "runtimeSha256": "d70ab951c7925d537fb3104f76a4eca70a29ea530cd057507f28e09ca9bdb0cc"
     },
     {
-      "source": "packages/ui-arc/LICENSE",
+      "source": "packages/ui-primitives/LICENSE",
       "sha256": "1b73a3fbab233cb995e6e9b6a63d302f91975c74c1629919c8e9820902820dde"
     },
     {
@@ -923,11 +975,13 @@
     },
     {
       "source": "packages/ui-motiq/README.md",
-      "sha256": "c770dde6088c177994812e767210eab15c3d992e4e9d355966b46c9823b44a7a"
+      "sha256": "40d8ffbd7833be279f5871aef862555f6cd423b8495a82d4eae80f50241969c1",
+      "originalSha256": "c770dde6088c177994812e767210eab15c3d992e4e9d355966b46c9823b44a7a"
     },
     {
       "source": "apps/admin/src/styles.css",
-      "sha256": "13ec1920d553ebfc5fdb2c174c2c9a8c99e465ca1cd9a53e19c850f105f73a93"
+      "sha256": "01c48a27b9492b6ab03caae2f0f2dbfc53ca542c5aad7e5d84a7461a96d5970a",
+      "originalSha256": "13ec1920d553ebfc5fdb2c174c2c9a8c99e465ca1cd9a53e19c850f105f73a93"
     }
   ],
   "external": [
@@ -963,9 +1017,58 @@
   "tokensSha256": "9d1e79b25eb7a64d93cd476ff2baa0da65a2622b9a02ac18f443b2319519dffa",
   "loadingCssSha256": "2769b43269dc16d1e0d6f8159958cc2e3ea19fcd425d4466a9e6ae3faa6853d8",
   "adaptations": [
-    "Import paths only in runtime copies",
-    "Host locale and UI identity adapters; no Rental OS auth/API/Copilot",
-    "Four UI corner constants only; no shared business contracts",
-    "Original pixel loading CSS and reduced-motion rule"
-  ]
+    "Relative import paths and host environment adapters",
+    "Neutral module names and descriptive comments",
+    "Original hashes and third-party license text retained",
+    "No upstream runtime or account dependency"
+  ],
+  "snapshotKind": "maintained-adaptation",
+  "provenanceArchiveId": "2026-11-12-01a1cdd1",
+  "namingAdaptation": "Directory/import names and descriptive brand references only; original hashes and third-party copyrights retained.",
+  "resultSource": {
+    "source": "Rental OS",
+    "commit": "9fb20dd236143f9b4c502bf7651b94ecc6bced8f",
+    "sourceDirectory": "upstream/rental-results",
+    "files": [
+      {
+        "source": "apps/admin/src/components/ui/Result.tsx",
+        "originalSha256": "ed2f67aa684b0b1afbcc97d8b67e5b9bc5798e0f65489655a9ba69eea6096146",
+        "sha256": "fd7ed5324ef269498eb6cbddc1a720e869b523c25c2fb776687f09f3e5d20dfb",
+        "originalArchive": "output/source-records/rental-results/9fb20dd236143f9b4c502bf7651b94ecc6bced8f/apps/admin/src/components/ui/Result.tsx",
+        "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/Result.tsx",
+        "runtimeSha256": "6814377c858ddf4efb2a9545857cfe350513ecae6481d6f98c5be67e30dfc1ed"
+      },
+      {
+        "source": "apps/admin/src/components/ui/icons.tsx",
+        "originalSha256": "383f1dc6512110330a01bb3ef1ccd4c70d86a598624a66c4e1edae6ffca53ce6",
+        "sha256": "25dbcbea7f2a0c0579e8c7340b3106df9c29cf62039460d24e9bf49170844202",
+        "originalArchive": "output/source-records/rental-results/9fb20dd236143f9b4c502bf7651b94ecc6bced8f/apps/admin/src/components/ui/icons.tsx",
+        "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/result/ResultIcons.tsx",
+        "runtimeSha256": "25dbcbea7f2a0c0579e8c7340b3106df9c29cf62039460d24e9bf49170844202"
+      },
+      {
+        "source": "apps/admin/src/components/ui/empty-scene/EmptyScene.module.css",
+        "originalSha256": "7c74251b4418388a0bc77778998a4e7247a1a37ea65524f4d8c01842907e8c88",
+        "sha256": "7c74251b4418388a0bc77778998a4e7247a1a37ea65524f4d8c01842907e8c88",
+        "runtime": "src/admin-controls/runtime/apps/admin/src/components/ui/result/Result.module.css",
+        "runtimeSha256": "7c74251b4418388a0bc77778998a4e7247a1a37ea65524f4d8c01842907e8c88"
+      },
+      {
+        "source": "apps/admin/src/app/RouteErrorPage.tsx",
+        "originalSha256": "be5a76697398723a93ba3a6c07d06903dd7c11ad070b8ad39ea515490f0f32b0",
+        "sha256": "be5a76697398723a93ba3a6c07d06903dd7c11ad070b8ad39ea515490f0f32b0"
+      },
+      {
+        "source": "route-error-source.css",
+        "origin": "apps/admin/src/styles.css",
+        "originalFileSha256": "9a18c7e510eb984986e9ebcf097b7d0e4cc91f7be43626946058d9596360692b",
+        "selector": ".route-error-page",
+        "sha256": "23c31522040936925a93ca99101205d1a3891d61e667fb7d5180411a1bb319a4",
+        "runtime": "src/result-source.css",
+        "runtimeSha256": "23c31522040936925a93ca99101205d1a3891d61e667fb7d5180411a1bb319a4"
+      }
+    ],
+    "integration": "Results and route error layout only. Existing EmptyState, EmptyScene, Button and motion dependencies remain at their recorded versions; Preview owns recovery navigation and localized copy.",
+    "namingAdaptation": "Original brand comments use neutral UI primitives wording in maintained copies. Original bytes and hashes remain independently recorded; authorship and licenses are unchanged."
+  }
 }

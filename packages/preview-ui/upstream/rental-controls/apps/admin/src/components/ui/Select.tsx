@@ -24,10 +24,10 @@ const isBasicOption = (value: unknown): value is BasicOption => {
  * the deliberate compatibility implementation for advanced
  * contracts such as custom filtering/options, async loading and
  * controlled popup behavior. This keeps every current business form functional
- * while new/simple fields automatically get UIArc's value-roll and menu motion.
+ * while new/simple fields automatically get UI primitives's value-roll and menu motion.
  */
 // Keep Ant's generic inference: some existing forms use boolean option values.
-// Runtime still narrows to ArcValue before selecting the UIArc implementation.
+// Runtime still narrows to ArcValue before selecting the UI primitives implementation.
 export function Select<ValueType = any, OptionType extends BaseOptionType | DefaultOptionType = DefaultOptionType>(props: AntSelectProps<ValueType, OptionType>) {
   const { componentDisabled } = ConfigProvider.useConfig();
   const { t } = useLocale();

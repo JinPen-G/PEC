@@ -31,6 +31,7 @@ const elementClasses: Record<string, string> = {
   ol: 'library-docs_steps___R3KD',
   h3: 'library-docs_subhead__l9zJy',
   h4: 'library-docs_minorhead__ihsF5',
+  details: 'showcase-guide-details',
 };
 const supportedTags = new Set([
   'a',
@@ -56,6 +57,8 @@ const supportedTags = new Set([
   'ol',
   'li',
   'blockquote',
+  'details',
+  'summary',
 ]);
 
 export const GuideBody = memo(function GuideBody({
@@ -78,7 +81,7 @@ export const GuideBody = memo(function GuideBody({
   const parsed = useMemo(() => {
     const markdown = source
       .replaceAll('{{origin}}', window.location.origin)
-      .replaceAll('{{projectId}}', projectId);
+      .replaceAll('{{projectId}}', projectId || '<project-id>');
     const result = renderMarkdown(markdown, { documentPath, resolveDocumentUrl });
     const document = new DOMParser().parseFromString(result.html, 'text/html');
     const sections: { id: string; nodes: Node[] }[] = [];
@@ -223,7 +226,7 @@ export const GuideBody = memo(function GuideBody({
     <div ref={root} className="showcase-guide-body" onClick={followAnchor}>
       {parsed.sections.map((section, index) => (
         <section
-          key={section.id || index}
+          key={`${projectId}:${documentPath}:${section.id || index}`}
           className="library-docs_section__WJnkm"
           aria-labelledby={section.id || undefined}
         >

@@ -18,7 +18,7 @@ export function motionPreferenceAdapter(): Plugin {
   };
 }
 
-/** Adapt reduced-motion CSS at build time without editing reserved UIArc files.
+/** Adapt reduced-motion CSS at build time without editing reserved UI primitives files.
  * This also lets explicit Full motion override the OS, while System follows it.
  * All current source queries are standalone; preserve unrelated media rules. */
 export function motionPreferenceStyles() {

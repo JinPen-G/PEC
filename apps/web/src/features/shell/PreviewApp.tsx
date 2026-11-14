@@ -4,7 +4,13 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { usePrefersReducedMotion } from '@/features/motion/use-motion-preference';
 import { BookOpen, Boxes, FileText, Layers3, LayoutGrid, ShieldCheck, UsersRound } from 'lucide-react';
-import { DocumentDock, FrameworkShell, UiEnvironmentProvider, type ShellSection } from '@preview/ui';
+import {
+  BrandIcon,
+  DocumentDock,
+  FrameworkShell,
+  UiEnvironmentProvider,
+  type ShellSection,
+} from '@preview/ui';
 import { usePlatformTheme, type PlatformThemeMode } from '@/features/theme/platform-theme';
 import { usePlatformLocale, type PlatformLocale } from '@/features/locale/platform-locale';
 import { clearDemoSession, readDemoSession, type DemoSession } from './demo-session';
@@ -99,7 +105,7 @@ function NativeWorkspace({ session, onLogout }: { session: DemoSession; onLogout
       onNavigationModeChange={(next) =>
         navigate(next === 'components' ? '/center?kind=requirements' : lastAdminPath.current)
       }
-      brand={<Layers3 size={20} strokeWidth={1.7} />}
+      brand={<BrandIcon />}
       account={session.account}
       accountDescription={labels.demo}
       sections={sections}

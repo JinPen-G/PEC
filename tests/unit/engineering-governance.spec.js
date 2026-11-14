@@ -25,6 +25,15 @@ async function fixture() {
 }
 
 describe('current engineering documentation', () => {
+  it('accepts a framework checkout without local project records and still validates public documents', async () => {
+    const { root } = await fixture();
+    await fs.writeFile(path.join(root, 'package.json'), '{"scripts":{}}');
+    await fs.writeFile(path.join(root, 'CLAUDE.md'), '[rules](AGENTS.md)');
+    const result = checkDocumentation(root);
+    expect(result.errors.some((error) => error.includes('缺少 Preview-需求.md'))).toBe(false);
+    expect(result.errors.some((error) => error.includes('缺少 原生原型平台-需求.md'))).toBe(false);
+    expect(result.errors.some((error) => error.startsWith('README.md:'))).toBe(true);
+  });
   it('accepts local references and ignores fenced example links without executing commands', async () => {
     const context = await fixture();
     const source =

@@ -1,17 +1,13 @@
 /** Native platform protocol; browser inputs cannot grant roles or execute source. */
 export const NATIVE_API_PREFIX = '/api/native';
 export function nativePublicAssetAllowed(relative) {
-  return (
-    relative === 'index.html' ||
-    /^(assets|brand)\//.test(relative) ||
-    relative === 'auth-assets/marcus-johnson.svg'
-  );
+  return relative === 'index.html' || /^(assets|brand)\//.test(relative);
 }
 import { componentRegistryFiles } from './component-registry.js';
 import registeredProjects from './registered-projects.json' with { type: 'json' };
+import builtinModules from './builtin-modules.json' with { type: 'json' };
 export const NATIVE_MODULES = Object.freeze([
-  { key: 'empty', label: '空白工作台', pages: [{ key: 'canvas', label: '工作台' }] },
-  { key: 'rental-orders', label: '租赁订单示例', pages: [{ key: 'orders', label: '租赁订单' }] },
+  ...builtinModules,
   ...registeredProjects.map(({ module }) => ({
     ...module,
     surface: 'showcase',

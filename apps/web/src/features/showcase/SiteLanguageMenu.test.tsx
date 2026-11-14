@@ -26,6 +26,9 @@ it('uses a keyboard-accessible component menu and persists English without a nat
   expect(translatedTrigger.textContent).toBe('');
   expect(translatedTrigger).toHaveAttribute('title', 'Language · English');
   fireEvent.keyDown(translatedTrigger, { key: 'ArrowDown' });
-  expect(await screen.findByRole('menuitemradio', { name: 'English' })).toHaveAttribute('aria-checked', 'true');
+  expect(await screen.findByRole('menuitemradio', { name: 'English' })).toHaveAttribute(
+    'aria-checked',
+    'true',
+  );
   expect(document.body).not.toHaveAttribute('data-scroll-locked');
 });

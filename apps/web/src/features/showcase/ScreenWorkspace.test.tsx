@@ -8,25 +8,41 @@ import { Modal, Button } from '@preview/ui/admin';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const page = {
-  projectId: 'rental', projectName: 'Rental', clientId: 'operation', clientName: 'Operation',
-  pageKey: 'vehicles', title: 'Vehicles', category: 'Operation · Fleet', kind: 'page' as const,
-  access: 'public' as const, allowed: true,
+  projectId: 'rental',
+  projectName: 'Rental',
+  clientId: 'operation',
+  clientName: 'Operation',
+  pageKey: 'vehicles',
+  title: 'Vehicles',
+  category: 'Operation · Fleet',
+  kind: 'page' as const,
+  access: 'public' as const,
+  allowed: true,
 };
 vi.mock('@/features/platform/platform-api', () => ({ useNativeAuth: () => ({ session: null }) }));
 vi.mock('@/features/theme/platform-theme', () => ({ usePlatformTheme: () => ({ resolvedMode: 'light' }) }));
 vi.mock('@/features/motion/use-motion-preference', () => ({ usePrefersReducedMotion: () => true }));
-vi.mock('./showcase-catalog', () => ({ useShowcasePages: () => ({ data: { pages: [
-  page,
-  { ...page, pageKey: 'stations', title: 'Stations' },
-  { ...page, pageKey: 'restricted', title: 'Restricted', allowed: false },
-  { ...page, clientId: 'company', pageKey: 'employees', title: 'Employees' },
-  { ...page, kind: 'component', pageKey: 'button', title: 'Button' },
-] } }) }));
-function Location() { return <output aria-label="Current URL">{useLocation().pathname}</output>; }
+vi.mock('./showcase-catalog', () => ({
+  useShowcasePages: () => ({
+    data: {
+      pages: [
+        page,
+        { ...page, pageKey: 'stations', title: 'Stations' },
+        { ...page, pageKey: 'restricted', title: 'Restricted', allowed: false },
+        { ...page, clientId: 'company', pageKey: 'employees', title: 'Employees' },
+        { ...page, kind: 'component', pageKey: 'button', title: 'Button' },
+      ],
+    },
+  }),
+}));
+function Location() {
+  return <output aria-label="Current URL">{useLocation().pathname}</output>;
+}
 
 beforeEach(() => {
   Object.defineProperty(Element.prototype, 'getAnimations', { configurable: true, value: () => [] });
-  Object.defineProperty(Element.prototype, 'animate', { configurable: true,
+  Object.defineProperty(Element.prototype, 'animate', {
+    configurable: true,
     value: () => ({ finished: Promise.resolve(), cancel() {}, finish() {}, addEventListener() {} }),
   });
 });
@@ -34,21 +50,35 @@ beforeEach(() => {
 it('keeps business dialogs inside the scaled screen and restores their trigger', async () => {
   function Business() {
     const [open, setOpen] = useState(false);
-    return <><Button onClick={() => setOpen(true)}>Open business dialog</Button>
-      <Modal title="Business dialog" open={open} onCancel={() => setOpen(false)} footer={null}>
-        <input aria-label="Dialog draft" defaultValue="Keep this" />
-      </Modal></>;
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>Open business dialog</Button>
+        <Modal title="Business dialog" open={open} onCancel={() => setOpen(false)} footer={null}>
+          <input aria-label="Dialog draft" defaultValue="Keep this" />
+        </Modal>
+      </>
+    );
   }
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  const view = render(<QueryClientProvider client={client}><MemoryRouter><PlatformLocaleProvider>
-    <ScreenWorkspace page={page} compact={false}><Business /></ScreenWorkspace>
-  </PlatformLocaleProvider></MemoryRouter></QueryClientProvider>);
+  const view = render(
+    <QueryClientProvider client={client}>
+      <MemoryRouter>
+        <PlatformLocaleProvider>
+          <ScreenWorkspace page={page} compact={false}>
+            <Business />
+          </ScreenWorkspace>
+        </PlatformLocaleProvider>
+      </MemoryRouter>
+    </QueryClientProvider>,
+  );
   fireEvent.click(screen.getByRole('button', { name: 'Open business dialog' }));
   const dialog = await screen.findByRole('dialog', { name: 'Business dialog' });
   expect(view.container.querySelector('.showcase-screen-portals')).toContainElement(dialog);
   expect(screen.getByRole('textbox', { name: 'Dialog draft' })).toHaveValue('Keep this');
   fireEvent.click(screen.getByRole('button', { name: '关闭' }));
-  await waitFor(() => expect(screen.queryByRole('dialog', { name: 'Business dialog' })).not.toBeInTheDocument());
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog', { name: 'Business dialog' })).not.toBeInTheDocument(),
+  );
   client.clear();
 });
 afterEach(() => {
@@ -59,16 +89,32 @@ afterEach(() => {
 
 it('keeps the full application navigation mounted across preview sizes without adding a right-side panel', async () => {
   const content = <input aria-label="Business draft" defaultValue="" />;
-  const frame = (compact: boolean) => <MemoryRouter initialEntries={['/pages/rental/operation/vehicles']}>
-    <PlatformLocaleProvider><ScreenWorkspace page={page} compact={compact}>{content}</ScreenWorkspace><Location /></PlatformLocaleProvider>
-  </MemoryRouter>;
+  const frame = (compact: boolean) => (
+    <MemoryRouter initialEntries={['/pages/rental/operation/vehicles']}>
+      <PlatformLocaleProvider>
+        <ScreenWorkspace page={page} compact={compact}>
+          {content}
+        </ScreenWorkspace>
+        <Location />
+      </PlatformLocaleProvider>
+    </MemoryRouter>
+  );
   const view = render(frame(false));
   expect(view.container.querySelector('.preview-screen-brand')?.textContent).toBe('Rental');
-  expect(view.container.querySelector('.preview-screen-brand button')).toHaveAttribute('aria-label', '收起侧栏');
+  expect(view.container.querySelector('.preview-screen-brand button')).toHaveAttribute(
+    'aria-label',
+    '收起侧栏',
+  );
   expect(screen.getByRole('link', { name: 'Vehicles' })).toHaveAttribute('aria-current', 'page');
-  expect(screen.getByRole('link', { name: 'Stations' })).toHaveAttribute('href', '#/pages/rental/operation/stations');
+  expect(screen.getByRole('link', { name: 'Stations' })).toHaveAttribute(
+    'href',
+    '#/pages/rental/operation/stations',
+  );
   expect(screen.queryByRole('link', { name: 'Restricted' })).not.toBeInTheDocument();
-  expect(screen.getByRole('link', { name: 'Employees' })).toHaveAttribute('href', '#/pages/rental/company/employees');
+  expect(screen.getByRole('link', { name: 'Employees' })).toHaveAttribute(
+    'href',
+    '#/pages/rental/company/employees',
+  );
   expect(view.container.querySelector('.preview-breadcrumb')).toHaveTextContent('RentalVehicles');
   expect(screen.queryByRole('link', { name: 'Button' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: '本页文档' })).not.toBeInTheDocument();

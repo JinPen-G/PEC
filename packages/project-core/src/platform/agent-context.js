@@ -6,6 +6,9 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fail } from './store.js';
 import { resolveExistingPathInsideRoot } from '../filesystem.js';
+import { GOVERNANCE_ADOPTION_QUESTION } from '../../../project-shared/src/governance-adoption.js';
+import { PLATFORM_ENGINEERING_GOVERNANCE } from '../../../project-shared/src/platform-governance.js';
+import { PLATFORM_GUIDES } from '../../../project-shared/src/platform-docs.js';
 import {
   componentRegistryClosure,
   loadComponentRegistryItem,
@@ -119,6 +122,45 @@ export function createAgentContext({
         installUrl: `${publicOrigin}/r/${project.id}/${item.name}.json`,
       }));
   }
+  function updateInfo(snapshot, identity) {
+    const guide = snapshot?.manifest.guides?.find((guide) => guide.id === 'changelog');
+    if (!guide) return { availability: 'unconfigured', readTool: 'read_project_updates' };
+    if (guide.access !== 'public' && !identity.scopes.includes('business:read'))
+      return { availability: 'restricted', readTool: 'read_project_updates', requiredScope: 'business:read' };
+    return {
+      availability: 'ready',
+      readTool: 'read_project_updates',
+      title: guide.title,
+      revision: hash(snapshot.files.get(guide.path)),
+      contentRevision: snapshot.revision,
+      websiteUrl: `${publicOrigin}/#/docs/projects/${encodeURIComponent(identity.project.id)}/changelog`,
+    };
+  }
+  const platformUpdates = PLATFORM_GUIDES.find((guide) => guide.id === 'changelog');
+  const platformUpdatesRevision = hash(platformUpdates.markdown);
+  function governanceRules(snapshot) {
+    return [
+      {
+        id: 'engineering-governance',
+        title: '工程治理规范',
+        source: 'platform',
+        markdown: PLATFORM_ENGINEERING_GOVERNANCE,
+        revision: hash(PLATFORM_ENGINEERING_GOVERNANCE),
+      },
+      ...(snapshot?.manifest.governance ?? [])
+        .filter((rule) => rule.id !== 'engineering-governance')
+        .map((rule) => ({
+          id: rule.id,
+          title: rule.title,
+          source: 'project',
+          markdown: snapshot.files.get(rule.path).toString('utf8'),
+          revision: hash(snapshot.files.get(rule.path)),
+        })),
+    ];
+  }
+  function governanceVersion(rules) {
+    return hash(JSON.stringify(rules.map(({ id, revision }) => ({ id, revision }))));
+  }
   async function query(identity, operation, args = {}) {
     if (args.projectId !== undefined && args.projectId !== identity.project.id)
       fail(404, '项目不存在或无权访问', 'NOT_FOUND');
@@ -141,51 +183,142 @@ export function createAgentContext({
       nextOffset: offset + limit < items.length ? offset + limit : null,
     });
     if (operation === 'get_project_context') {
-      const readable = identity.scopes.some((scope) => ['business:read', 'governance:read'].includes(scope));
-      const snapshot =
-        readable && project.contentKey ? await content.snapshot(project, args.contentRevision) : null;
+      const snapshot = project.contentKey ? await content.snapshot(project, args.contentRevision) : null;
+      const updates = updateInfo(snapshot, identity);
+      const rules = identity.scopes.includes('governance:read') ? governanceRules(snapshot) : [];
+      // This is a client-side invitation, not a persisted adoption or compliance state.
+      const adoption = rules.length
+        ? {
+            mode: 'explain-and-ask',
+            decisionOwner: 'current-user',
+            decisionStorage: 'client',
+            question: GOVERNANCE_ADOPTION_QUESTION,
+            rules: rules.map(({ id, revision, source }) => ({ id, revision, source })),
+            contentRevision: snapshot?.revision ?? null,
+            governanceRevision: governanceVersion(rules),
+            beforeAsking: [
+              '列出并分页读完已发布治理规则，不能只读目录或第一页。',
+              '检查规范更新，说明需求确认、任务拆分、协作、验证与交接的方法；无需特定需求源。',
+            ],
+            existingDecision: '沿用当前项目已明确的采用、部分采用或拒绝选择，不因重新连接重复询问。',
+            ifAccepted: [
+              '在用户允许访问的目标工程读取现有规则、文档与Git现场；先对照缺项和冲突，保留原资料。',
+              '采用负责人认可的需求依据并保留出处与版本，本地需求文档可建可不建。',
+              '逐阶段维护原任务、开发记录和最新接续，执行必要验证并清理自己的临时环境。',
+            ],
+            ifDeclined: '尊重选择，继续原本的资料或组件任务，不把采用治理作为读取条件。',
+            selfCheck: {
+              statuses: ['已遵循', '待补齐', '有冲突', '无法核实'],
+              columns: ['检查项', '状态与依据', '下一步'],
+              claim: '每项结论附实际文件、条款或验证证据；看不到目标工程时标无法核实，不自称已合规。',
+            },
+          }
+        : null;
       return {
         projectId: project.id,
         title: project.name,
         scopes: identity.scopes,
         contentRevision: snapshot?.revision ?? null,
+        requirementsAuthority: {
+          source: 'target-project-confirmed-requirements',
+          localRequirementDocument: 'optional',
+          guidance:
+            '需求依据由目标工程负责人确认，治理不要求使用特定需求源。使用MCP提供的业务资料时保留原文位置、状态和版本，冲突回到来源核对。',
+        },
+        updates,
+        platformUpdates: {
+          availability: 'ready',
+          readTool: 'read_project_updates',
+          source: 'platform',
+          revision: platformUpdatesRevision,
+          websiteUrl: `${publicOrigin}/#/docs/changelog`,
+        },
         requirements: identity.scopes.includes('business:read')
           ? { configured: Boolean(snapshot), count: snapshot?.manifest.requirements.length ?? 0 }
           : null,
         governance: identity.scopes.includes('governance:read')
-          ? { configured: Boolean(snapshot), count: snapshot?.manifest.governance?.length ?? 0 }
+          ? { configured: true, count: rules.length, governanceRevision: governanceVersion(rules), adoption }
           : null,
         components: identity.scopes.includes('components:read') ? { count: listItems(project).length } : null,
         workflow: [
-          '读取已发布治理规则',
-          '读取相关PRD与图谱影响及维护状态',
-          '按需获取组件完整依赖与源码',
+          '读取平台规范和接入更新；治理方式可以独立用于自己的工程',
+          ...(updates.availability === 'ready' ? ['读取项目更新记录，核对与当前任务有关的需求变更'] : []),
+          ...(adoption ? ['读完治理规则，说明具体方法，并询问当前用户是否采用；沿用已有选择'] : []),
+          ...(identity.scopes.includes('business:read') && snapshot?.manifest.requirements.length
+            ? ['按任务需要读取相关PRD与图谱影响及维护状态']
+            : []),
+          ...(identity.scopes.includes('components:read')
+            ? ['读取组件、区块和页面的完整源码、样式、辅助文件及依赖']
+            : []),
           '结合项目约束验证改动',
         ],
       };
     }
+    if (operation === 'read_project_updates') {
+      if (args.source !== undefined && !['platform', 'project'].includes(args.source))
+        fail(400, '更新来源无效');
+      if (args.source === 'platform') {
+        if (args.contentRevision && args.contentRevision !== platformUpdatesRevision)
+          fail(409, '平台更新已变化，请重新读取', 'CONTENT_REVISION_CHANGED');
+        return {
+          projectId: project.id,
+          id: 'changelog',
+          source: 'platform',
+          title: 'Preview 更新日志',
+          contentRevision: platformUpdatesRevision,
+          revision: platformUpdatesRevision,
+          websiteUrl: `${publicOrigin}/#/docs/changelog`,
+          markdown: platformUpdates.markdown.slice(offset, offset + limit),
+          offset,
+          totalLength: platformUpdates.markdown.length,
+          nextOffset: offset + limit < platformUpdates.markdown.length ? offset + limit : null,
+        };
+      }
+      if (!project.contentKey) fail(404, '项目尚未发布更新记录', 'CONTENT_NOT_FOUND');
+      const snapshot = await content.snapshot(project, args.contentRevision);
+      const updates = updateInfo(snapshot, identity);
+      if (updates.availability === 'restricted') requireScope(identity, 'business:read');
+      if (updates.availability !== 'ready') fail(404, '项目尚未发布更新记录', 'CONTENT_NOT_FOUND');
+      const guide = snapshot.manifest.guides.find((guide) => guide.id === 'changelog');
+      const markdown = snapshot.files.get(guide.path).toString('utf8');
+      return {
+        projectId: project.id,
+        source: 'project',
+        id: 'changelog',
+        title: guide.title,
+        contentRevision: snapshot.revision,
+        revision: updates.revision,
+        websiteUrl: updates.websiteUrl,
+        markdown: markdown.slice(offset, offset + limit),
+        offset,
+        totalLength: markdown.length,
+        nextOffset: offset + limit < markdown.length ? offset + limit : null,
+      };
+    }
     if (['list_governance_rules', 'read_governance_rule'].includes(operation)) {
       requireScope(identity, 'governance:read');
-      if (!project.contentKey) {
-        if (operation === 'read_governance_rule') fail(404, '治理规则未配置', 'CONTENT_NOT_FOUND');
-        return { ...page([]), configured: false, contentRevision: null };
-      }
-      const snapshot = await content.snapshot(project, args.contentRevision);
-      const rules = (snapshot.manifest.governance ?? []).map((rule) => ({
-        id: rule.id,
-        title: rule.title,
-        revision: hash(snapshot.files.get(rule.path)),
-      }));
+      const snapshot = project.contentKey ? await content.snapshot(project, args.contentRevision) : null;
+      const rules = governanceRules(snapshot);
+      const governanceRevision = governanceVersion(rules);
+      if (args.governanceRevision && args.governanceRevision !== governanceRevision)
+        fail(409, '治理规范已变更，请重新读取目录', 'GOVERNANCE_REVISION_CHANGED');
       if (operation === 'list_governance_rules')
-        return { ...page(rules), configured: true, contentRevision: snapshot.revision };
-      const rule = snapshot.manifest.governance?.find((rule) => rule.id === args.id);
+        return {
+          ...page(rules.map(({ id, title, revision, source }) => ({ id, title, revision, source }))),
+          configured: true,
+          governanceRevision,
+          contentRevision: snapshot?.revision ?? null,
+        };
+      const rule = rules.find((rule) => rule.id === args.id);
       if (!rule) fail(404, '治理规则未发布', 'CONTENT_NOT_FOUND');
-      const markdown = snapshot.files.get(rule.path).toString('utf8');
+      const markdown = rule.markdown;
       return {
         projectId: project.id,
         id: rule.id,
         title: rule.title,
-        contentRevision: snapshot.revision,
+        contentRevision: snapshot?.revision ?? null,
+        governanceRevision,
+        source: rule.source,
         revision: hash(markdown),
         markdown: markdown.slice(offset, offset + limit),
         offset,

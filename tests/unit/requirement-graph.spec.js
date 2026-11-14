@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
-import { NATIVE_MODULES } from '../../packages/platform-contracts/src/platform.js';
+import { TEST_MODULES } from '../fixtures/project-catalog.js';
 import { createNativeServer } from '../../packages/platform-server/src/server.js';
 import {
   loadContentPackage,
@@ -42,7 +42,7 @@ const publicDoc = '# 公开规则\n字段变化影响功能。',
 const project = {
   id: 'graph-project',
   name: 'Graph fixture',
-  moduleKey: 'rimo-native',
+  moduleKey: 'fixture-module',
   contentKey: 'graph-fixture',
   sourceId: 'published',
   links: [],
@@ -54,10 +54,10 @@ const project = {
       layout: 'desktop',
       enabled: true,
       position: 0,
-      defaultPage: 'vehicle-groups',
+      defaultPage: 'item-groups',
       pages: [
         {
-          key: 'vehicle-groups',
+          key: 'item-groups',
           label: 'Public',
           group: 'Vehicles',
           visible: true,
@@ -65,7 +65,7 @@ const project = {
           access: 'public',
         },
         {
-          key: 'vehicle-transfer',
+          key: 'item-transfer',
           label: 'Private',
           group: 'Vehicles',
           visible: true,
@@ -85,7 +85,7 @@ async function fixture() {
     {
       schemaVersion: 1,
       contentKey: 'graph-fixture',
-      moduleKey: 'rimo-native',
+      moduleKey: 'fixture-module',
       title: 'Business fixture',
       overview: 'overview.md',
       graph: 'graph.json',
@@ -97,7 +97,7 @@ async function fixture() {
           category: 'Business',
           status: 'confirmed',
           path: 'requirements/public.md',
-          pages: [{ clientId: 'operation', pageKey: 'vehicle-groups' }],
+          pages: [{ clientId: 'operation', pageKey: 'item-groups' }],
         },
         {
           id: 'private',
@@ -105,7 +105,7 @@ async function fixture() {
           category: 'Business',
           status: 'confirmed',
           path: 'requirements/private.md',
-          pages: [{ clientId: 'operation', pageKey: 'vehicle-transfer' }],
+          pages: [{ clientId: 'operation', pageKey: 'item-transfer' }],
         },
         {
           id: 'orphan',
@@ -118,7 +118,7 @@ async function fixture() {
         },
       ],
     },
-    NATIVE_MODULES,
+    TEST_MODULES,
   );
   const bytes = { public: publicDoc, private: privateDoc, orphan: orphanDoc };
   const proof = (requirementId, anchor, quote) => ({
@@ -199,7 +199,7 @@ async function fixture() {
   await fs.writeFile(path.join(pkg, 'graph.json'), JSON.stringify(graph));
   const item = { root, contentRoot, pkg, graph };
   fixtures.push(item);
-  item.snapshot = await loadContentPackage(contentRoot, 'graph-fixture', NATIVE_MODULES);
+  item.snapshot = await loadContentPackage(contentRoot, 'graph-fixture', TEST_MODULES);
   item.snapshot.prototypeRevisions = {};
   return item;
 }
@@ -315,13 +315,14 @@ test('stale evidence and invalid graph remain visible without rejecting the busi
   item.snapshot.files.set('graph.json', Buffer.from('{'));
   expect(requirementGraphView(item.snapshot, project).availability).toBe('invalid');
   await fs.writeFile(path.join(item.pkg, 'graph.json'), '{');
-  const published = await loadContentPackage(item.contentRoot, 'graph-fixture', NATIVE_MODULES);
+  const published = await loadContentPackage(item.contentRoot, 'graph-fixture', TEST_MODULES);
   expect(published.files.has('requirements/public.md')).toBe(true);
   expect(requirementGraphView(published, project).complete).toBe(false);
 });
 test('web filters nodes, edges and no-prototype PRDs; authorized MCP reads business graph and rejects revoked tokens', async () => {
   const item = await fixture();
   item.runtime = createNativeServer({
+    moduleCatalog: TEST_MODULES,
     dataDirectory: path.join(item.root, 'data'),
     contentRoot: item.contentRoot,
     sources: {},
@@ -377,6 +378,7 @@ test('web filters nodes, edges and no-prototype PRDs; authorized MCP reads busin
 test('unconfigured graph is distinct from missing content, unpublished graph and invalid graph', async () => {
   const item = await fixture();
   item.runtime = createNativeServer({
+    moduleCatalog: TEST_MODULES,
     dataDirectory: path.join(item.root, 'data'),
     contentRoot: item.contentRoot,
     sources: {},

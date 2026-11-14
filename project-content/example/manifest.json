@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "contentKey": "example",
+  "moduleKey": "example",
+  "title": "示例",
+  "overview": "overview.md",
+  "governance": [
+    {
+      "id": "engineering-governance",
+      "title": "工程治理与 AI 协作规范",
+      "path": "governance/engineering-governance.md"
+    }
+  ],
+  "requirements": [],
+  "assets": [],
+  "guides": [
+    {
+      "id": "introduction",
+      "title": "介绍",
+      "description": "了解示例、组件与区块的组织方式，以及如何阅读和安装一个示例。",
+      "path": "guides/introduction.md",
+      "access": "public"
+    },
+    {
+      "id": "usage",
+      "title": "使用指南",
+      "description": "准备 React 项目、连接 Registry，并安装第一个页面区块。",
+      "path": "guides/usage.md",
+      "access": "public"
+    },
+    {
+      "id": "theming",
+      "title": "主题设置",
+      "description": "语义颜色变量、圆角与字体、深色模式，以及如何接入目标项目的品牌。",
+      "path": "guides/theming.md",
+      "access": "public"
+    },
+    {
+      "id": "motion",
+      "title": "动效",
+      "description": "共享弹簧预设、缓动与时长变量，以及减少动态效果的实现。",
+      "path": "guides/motion.md",
+      "access": "public"
+    },
+    {
+      "id": "ai",
+      "title": "AI 和 MCP",
+      "description": "连接Agent，获取源码与通用工程治理指引，按实际任务执行和自查。",
+      "path": "guides/ai.md",
+      "access": "public"
+    },
+    {
+      "id": "changelog",
+      "title": "更新日志",
+      "description": "组件示例、安装方式与文档的更新。",
+      "path": "guides/changelog.md",
+      "access": "public"
+    }
+  ]
+}

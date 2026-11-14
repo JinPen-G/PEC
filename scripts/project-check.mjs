@@ -1,11 +1,14 @@
 import { fileURLToPath } from 'node:url';
-import { NATIVE_MODULES } from '../packages/platform-contracts/src/platform.js';
-import { COMPONENT_REGISTRY } from '../packages/platform-contracts/src/component-registry.js';
+import { loadProjectCatalog } from '../packages/platform-server/src/project-catalog.js';
 import { checkProjectRegistration } from '../packages/project-core/src/platform/project-registration.js';
 import { validateComponentRegistry } from '../packages/project-core/src/platform/component-registry.js';
 import { validateProjectRegistrations } from '../packages/project-core/src/platform/project-registration.js';
-import registeredProjects from '../packages/platform-contracts/src/registered-projects.json' with { type: 'json' };
 const root = fileURLToPath(new URL('..', import.meta.url));
+const {
+  projects: registeredProjects,
+  moduleCatalog: NATIVE_MODULES,
+  componentRegistry: COMPONENT_REGISTRY,
+} = await loadProjectCatalog(fileURLToPath(new URL('../packages/platform-contracts/src/', import.meta.url)));
 validateComponentRegistry(COMPONENT_REGISTRY);
 validateProjectRegistrations(
   registeredProjects,

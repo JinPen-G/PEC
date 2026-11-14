@@ -492,7 +492,7 @@ html[data-appearance="dark"] .sider-pref-row .appearance-toggle-thumb { transfor
 }
 .sider-drawer .sider-shell { background: var(--app-sider-bg, var(--rental-color-bg-layout)); }
 
-/* 内容面板使用 UIArc 原版 surface，保留深浅色层级及现有双面板布局。 */
+/* 内容面板使用 UI primitives 原版 surface，保留深浅色层级及现有双面板布局。 */
 .app-workspace {
   min-width: 0;
   margin: 6px 6px 6px 0;
@@ -523,7 +523,7 @@ html[data-appearance="dark"] .sider-pref-row .appearance-toggle-thumb { transfor
 .breadcrumb-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .workspace-context-actions { display: flex; flex: none; align-items: center; gap: var(--space-4); }
 /* AI side panel preview's .asp-reopen button geometry; hosted in the shared header.
-   Source: uiarc-pro-archive/preview/src/components/ai-side-panel/side-panel.css.
+   Source: component-source-archive/preview/src/components/ai-side-panel/side-panel.css.
    Only the entry is previewed here; no panel or assistant action is connected. */
 .workspace-copilot-entry {
   display: inline-flex;
@@ -1055,7 +1055,7 @@ html[data-appearance="dark"] .appearance-toggle-thumb {
   overflow-x: hidden;
   /* Keep the tab strip's page coordinates stable while login methods change
      content height. Vertical centring/scroll anchoring moves the entire strip
-     underneath UIArc's shared-layout selection animation. */
+     underneath UI primitives's shared-layout selection animation. */
   align-items: start;
   justify-items: center;
   overflow-anchor: none;

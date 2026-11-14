@@ -1,5 +1,5 @@
 /* Original theme-rise (.36s), theme-split (.39s) and curve from the captured
-   UIARC stylesheet. A Preview-only attribute prevents affecting the backend. */
+   UI primitives stylesheet. A Preview-only attribute prevents affecting the backend. */
 html[data-preview-theme-motion]::view-transition-old(root) {
   animation: none;
 }

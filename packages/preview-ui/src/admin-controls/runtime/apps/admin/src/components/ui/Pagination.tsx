@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { Pagination as AntPagination, type PaginationProps } from "antd";
-import { Pagination as ArcPagination } from "../../../../../packages/ui-arc/vendor/registry/components/pagination/pagination";
-import { Select as ArcSelect } from "../../../../../packages/ui-arc/vendor/registry/components/select/select";
+import { Pagination as ArcPagination } from "../../../../../packages/ui-primitives/vendor/registry/components/pagination/pagination";
+import { Select as ArcSelect } from "../../../../../packages/ui-primitives/vendor/registry/components/select/select";
 import { useLocale } from "../../../../../../environment";
 import { ArcLocale } from "./ArcLocale";
 import { Input } from "./Input";

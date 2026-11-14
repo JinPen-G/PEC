@@ -17,6 +17,8 @@
   "chrome.action.backHome": "Back to Home",
   "chrome.error.title": "Page temporarily unavailable",
   "chrome.error.reload": "Reload",
+  "chrome.error.description": "Reload the page. If you just submitted an action, check its result first.",
+  "chrome.error.home": "Return to available pages",
   "chrome.notFound.title": "Page not found",
   "chrome.notFound.subtitle": "No platform page or legacy entry matches the current address.",
   "chrome.notFound.backHome": "Back to Home",

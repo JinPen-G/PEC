@@ -41,11 +41,11 @@
   background: currentColor;
   content: '';
 }
-.uiarc-showcase .requirement-graph-view-switch .preview-shell_option__gxVA2 {
+.preview-showcase .requirement-graph-view-switch .preview-shell_option__gxVA2 {
   width: 34px;
   font-size: 12px;
 }
-.uiarc-showcase .requirement-graph-view-switch button[aria-selected='true'] {
+.preview-showcase .requirement-graph-view-switch button[aria-selected='true'] {
   color: var(--foreground);
 }
 .requirement-graph-view-label {
@@ -914,7 +914,7 @@
 .requirement-graph-workspace.expanded .requirement-graph-frame {
   grid-template-columns: 240px minmax(0, 1fr) 360px;
 }
-.uiarc-showcase .showcase-fullscreen-native:has(> .requirement-graph-workspace) {
+.preview-showcase .showcase-fullscreen-native:has(> .requirement-graph-workspace) {
   padding: 0;
   overflow: hidden;
 }

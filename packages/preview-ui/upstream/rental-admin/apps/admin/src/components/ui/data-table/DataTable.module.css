@@ -1,7 +1,7 @@
 /* Tablecn/shadcn geometry, expressed through the existing platform token system.
    Radius roles are explicit: frame/popover=container, actions=button, fields=input.
    Never use legacy radius-sm (derived from button) to clip containers.
-   No outer card or overrides of UIArc motion. Data motion follows the Motiq source. */
+   No outer card or overrides of UI primitives motion. Data motion follows the Motiq source. */
 .root { --table-header-height: 40px; display: flex; flex-direction: column; gap: var(--rental-layout-list-toolbar-gap); min-width: 0; }
 /* Query widths are role-based and scoped: forms outside these hosts keep their grid geometry. */
 .toolbar, .filterBar, .filterPopover {

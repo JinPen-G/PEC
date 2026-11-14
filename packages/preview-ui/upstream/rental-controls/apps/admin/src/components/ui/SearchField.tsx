@@ -21,7 +21,7 @@ export interface SearchFieldProps {
 }
 
 /**
- * UIArc's source Search field, adapted to the app's controlled filtering contract.
+ * UI primitives's source Search field, adapted to the app's controlled filtering contract.
  * It intentionally owns the icon, clear affordance and clear animation; callers only
  * decide when a typed value becomes an applied server-side filter.
  */

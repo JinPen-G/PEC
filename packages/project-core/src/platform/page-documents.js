@@ -47,21 +47,30 @@ export function readableDocuments(store, user, project, snapshot) {
 export function readableProjectGuides(store, user, project, snapshot) {
   return (snapshot?.manifest.guides ?? [])
     .filter((guide) => canReadDocument(store, user, project, { ...guide, pages: [] }))
-    .map((guide) => ({ id: guide.id, title: guide.title, description: guide.description, path: guide.path, markdown: snapshot.files.get(guide.path).toString('utf8') }));
+    .map((guide) => ({
+      id: guide.id,
+      title: guide.title,
+      description: guide.description,
+      path: guide.path,
+      markdown: snapshot.files.get(guide.path).toString('utf8'),
+    }));
 }
 export function requireDocumentAccess(store, user, project, snapshot, file) {
   if (typeof file !== 'string' || !file) fail(400, '需要文档路径', 'BAD_REQUEST');
   const allowed = readableDocuments(store, user, project, snapshot);
   if (file.endsWith('.md')) {
-    if (!allowed.some((document) => document.path === file || document.summary === file)) fail(403, '此文档需要对应页面授权', 'FORBIDDEN');
+    if (!allowed.some((document) => document.path === file || document.summary === file))
+      fail(403, '此文档需要对应页面授权', 'FORBIDDEN');
     return;
   }
   if (!snapshot.manifest.assets.includes(file)) fail(404, '说明资源未发布', 'NOT_FOUND');
   if (user?.role === 'admin') return;
-  if (allowed.some(document => document.assets?.includes(file))) return;
+  if (allowed.some((document) => document.assets?.includes(file))) return;
   const references = contentDocuments(snapshot).filter((document) => {
-    const source = [document.path, document.summary].filter(Boolean)
-      .map((file) => snapshot.files.get(file).toString('utf8')).join('\n');
+    const source = [document.path, document.summary]
+      .filter(Boolean)
+      .map((file) => snapshot.files.get(file).toString('utf8'))
+      .join('\n');
     return [...source.matchAll(/!?\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g)].some(
       (match) =>
         path.posix.normalize(path.posix.join(path.posix.dirname(document.path), match[1].split('#')[0])) ===

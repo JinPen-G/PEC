@@ -19,8 +19,7 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
       return false;
     }
   }
-  const presentation = (connection) =>
-    connections.get(connection.following)?.state ?? connection.state;
+  const presentation = (connection) => connections.get(connection.following)?.state ?? connection.state;
   const participant = (connection) => ({
     id: connection.id,
     name: connection.name,
@@ -94,8 +93,7 @@ export function createCollaborationHub(store, { now = Date.now, timeout = 15_000
         connection.pointer = null;
       }
     }
-    for (const connection of connections.values())
-      if (connection.projectId === projectId) send(connection);
+    for (const connection of connections.values()) if (connection.projectId === projectId) send(connection);
   }
   function own(id, token) {
     const connection = connections.get(id);

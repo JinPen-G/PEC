@@ -44,7 +44,7 @@
 :global(body):has([data-record-card-preview-owner]) :global([data-list-selection-bar]) { visibility: hidden; pointer-events: none; }
 /* The native morph retains the outer shell. Only its inner content scrolls,
    keeping the Windows scrollbar and media inside the rounded clip. Returning
-   geometry remains entirely owned by UIArc. */
+   geometry remains entirely owned by UI primitives. */
 :global([role="dialog"][data-framer-portal-id]):not([data-returning]):has(.preview) { display: flex; flex-direction: column; overflow: hidden; }
 :global([role="dialog"][data-framer-portal-id]):not([data-returning]):has(.preview) > div:first-child:not(:last-child) { flex: none; }
 :global([role="dialog"][data-framer-portal-id]):not([data-returning]):has(.preview) > div:last-child { min-height: 0; overflow: hidden auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }

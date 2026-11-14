@@ -3,7 +3,7 @@
  */
 import type { ColumnDef, OnChangeFn, RowSelectionState, Table } from "@tanstack/react-table";
 import { useCallback, useEffect, useState } from "react";
-import { Checkbox } from "../../../../../../packages/ui-arc/vendor/registry/components/checkbox/checkbox";
+import { Checkbox } from "../../../../../../packages/ui-primitives/vendor/registry/components/checkbox/checkbox";
 import { useLocale } from "../../../../../../../environment";
 import { Button } from "../Button";
 import styles from "./DataTable.module.css";

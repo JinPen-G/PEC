@@ -1,4 +1,4 @@
-// Attributed UIArc MIT integration: original motion/CSS, localized close label and lifecycle hooks.
+// Attributed UI primitives MIT integration: original motion/CSS, localized close label and lifecycle hooks.
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -7,8 +7,8 @@ import type { ComponentPropsWithoutRef, ReactNode, CSSProperties } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { Transition } from "motion/react";
 import { X } from "lucide-react";
-import { motionTokens } from "../../../../../packages/ui-arc/vendor/lib/motion-tokens";
-import styles from "../../../../../packages/ui-arc/vendor/registry/components/dialog/dialog.module.css";
+import { motionTokens } from "../../../../../packages/ui-primitives/vendor/lib/motion-tokens";
+import styles from "../../../../../packages/ui-primitives/vendor/registry/components/dialog/dialog.module.css";
 
 /** Mirrors the open state so the content can stay mounted while it animates out, and retarget mid-flight if it is reopened or closed early. */
 const OpenContext = createContext<boolean | null>(null);

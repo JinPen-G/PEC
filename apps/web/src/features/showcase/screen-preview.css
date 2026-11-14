@@ -1,5 +1,5 @@
-.uiarc-showcase .showcase-preview.screen,
-.uiarc-showcase .showcase-preview.screen.mobile {
+.preview-showcase .showcase-preview.screen,
+.preview-showcase .showcase-preview.screen.mobile {
   height: auto;
   min-height: 0;
   max-height: none;
@@ -7,37 +7,37 @@
   border-radius: 12px;
   overflow: hidden;
 }
-.uiarc-showcase .showcase-preview.screen.mobile {
+.preview-showcase .showcase-preview.screen.mobile {
   padding-block: 24px;
 }
-.uiarc-showcase .showcase-device-host[data-screen] .showcase-device-shell {
+.preview-showcase .showcase-device-host[data-screen] .showcase-device-shell {
   position: relative;
   border: 0;
   box-shadow: none;
 }
-.uiarc-showcase .showcase-device-host[data-screen] .showcase-device-screen {
+.preview-showcase .showcase-device-host[data-screen] .showcase-device-screen {
   box-shadow: none;
 }
-.uiarc-showcase .showcase-device-host[data-screen] .showcase-device-native,
-.uiarc-showcase .showcase-device-host[data-screen] .showcase-device-page {
+.preview-showcase .showcase-device-host[data-screen] .showcase-device-native,
+.preview-showcase .showcase-device-host[data-screen] .showcase-device-page {
   height: 100%;
   min-height: 0;
   max-height: 100%;
   overflow: hidden;
 }
-.uiarc-showcase .showcase-fullscreen-native:has(.showcase-device-host[data-screen]) {
+.preview-showcase .showcase-fullscreen-native:has(.showcase-device-host[data-screen]) {
   padding: 0;
 }
-.uiarc-showcase .showcase-device-host[data-screen].phone .showcase-device-shell {
+.preview-showcase .showcase-device-host[data-screen].phone .showcase-device-shell {
   outline: 1px solid var(--border);
 }
-.uiarc-showcase .showcase-screen-hint {
+.preview-showcase .showcase-screen-hint {
   color: var(--text-secondary);
   font-size: 12px;
   white-space: nowrap;
 }
 @media (max-width: 1100px) {
-  .uiarc-showcase .showcase-screen-hint {
+  .preview-showcase .showcase-screen-hint {
     display: none;
   }
 }

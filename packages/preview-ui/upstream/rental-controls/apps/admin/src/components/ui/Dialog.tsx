@@ -1,4 +1,4 @@
-// Attributed UIArc MIT integration: original motion/CSS, localized close label and lifecycle hooks.
+// Attributed UI primitives MIT integration: original motion/CSS, localized close label and lifecycle hooks.
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";

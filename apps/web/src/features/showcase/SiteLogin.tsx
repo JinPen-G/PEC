@@ -1,10 +1,10 @@
-/** Mirrored UIARC login presentation; Preview alone owns identity. Provider
+/** Mirrored UI primitives login presentation; Preview alone owns identity. Provider
  * placeholders cannot launch third-party auth or create an unconfigured account. */
 import { useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Eye, EyeOff, Layers3, LoaderCircle } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { SiteThemeSwitch } from '@preview/ui';
+import { BrandIcon, SiteThemeSwitch } from '@preview/ui';
 import { useNativeLoginForm } from '@/features/platform/use-login-form';
 import { usePlatformTheme } from '@/features/theme/platform-theme';
 import { SiteLanguageMenu } from './SiteLanguageMenu';
@@ -12,9 +12,9 @@ import { useShowcaseText } from './showcase-locale';
 import { AuthShowcase } from './auth-showcase/AuthShowcase';
 import { changeSiteTheme, type ThemeTransitionState } from './site-theme-transition';
 import { flushSync } from 'react-dom';
-import '../../../../../packages/preview-ui/src/site/uiarc-layout-source.css';
+import '../../../../../packages/preview-ui/src/site/site-layout.css';
 import '../../../../../packages/preview-ui/src/site/site-adapter.css';
-import '../../../../../packages/preview-ui/src/site/uiarc-auth-source.css';
+import '../../../../../packages/preview-ui/src/site/auth-layout.css';
 import '../../../../../packages/preview-ui/src/site/site-theme-motion.css';
 import './site-login.css';
 
@@ -55,7 +55,7 @@ export function SiteLogin() {
   }, []);
   return (
     <div
-      className="uiarc-showcase showcase-auth"
+      className="preview-showcase showcase-auth"
       data-theme={resolvedMode === 'dark' ? 'dark' : 'light'}
       data-accent="neutral"
     >
@@ -63,7 +63,7 @@ export function SiteLogin() {
         <div className="auth-shell_formSide__amNg7">
           <header className="auth-shell_header__eyvd_">
             <Link className="auth-shell_brand___SiRY" to="/">
-              <Layers3 size={24} />
+              <BrandIcon size={32} />
               Preview
             </Link>
             <Link className="auth-shell_back__toVKW" to="/pages">

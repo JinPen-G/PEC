@@ -5,6 +5,7 @@ import { LoadingStage } from '@preview/ui/loading';
 import type { MarkdownHeading } from '@/features/docs/markdown';
 import { useShowcaseText } from './showcase-locale';
 import { GuideBody } from './GuideBody';
+import { PLATFORM_GUIDES } from '../../../../../packages/project-shared/src/platform-docs';
 import { siteGuides } from './site-guides';
 import { useProjectGuides } from './project-guide-query';
 import { useTocNavigation } from './toc-navigation';
@@ -15,24 +16,29 @@ export function SiteDocumentation({
   path,
   projectId,
   pages,
+  projectGuide,
 }: {
   path: string;
   projectId: string;
   pages: CatalogPage[];
+  projectGuide?: 'introduction' | 'changelog';
 }) {
   const text = useShowcaseText();
   const location = useLocation();
-  const query = useProjectGuides(projectId);
+  const query = useProjectGuides(projectGuide ? projectId : '');
   const guideIndex = Math.max(
     0,
     siteGuides.findIndex((item) => item.path === path),
   );
-  const navigation = siteGuides[guideIndex];
-  const catalog = query.isError ? undefined : query.data;
+  const navigation = projectGuide
+    ? { id: projectGuide, title: projectGuide === 'changelog' ? '更新记录' : '项目介绍', path }
+    : siteGuides[guideIndex];
+  const catalog = projectGuide ? (query.isError ? undefined : query.data) : undefined;
+  const guides = projectGuide ? catalog?.guides : PLATFORM_GUIDES;
   useEffect(() => {
     document.title = [text(navigation.title), catalog?.projectName, 'Preview'].filter(Boolean).join(' · ');
   }, [navigation.title, catalog?.projectName, text]);
-  const guide = catalog?.guides.find((item) => item.id === navigation.id);
+  const guide = guides?.find((item) => item.id === navigation.id);
   const restricted = catalog?.restrictedGuideIds?.some((identifier) => identifier === navigation.id);
   const [headings, setHeadings] = useState<MarkdownHeading[]>([]);
   const updateHeadings = useCallback(
@@ -47,13 +53,21 @@ export function SiteDocumentation({
   );
   const sectionIds = headings.filter((heading) => heading.level <= 2).map((heading) => heading.id);
   const { active, scrollTo } = useTocNavigation(sectionIds, 150);
-  const guidePath = useCallback((pathname: string, anchor?: string) =>
-    `${pathname}?${new URLSearchParams({ project: projectId, ...(anchor ? { anchor } : {}) })}`, [projectId]);
-  const resolveDocumentUrl = useCallback((file: string, anchor?: string) => {
-    const target = catalog?.guides.find((item) => item.path === file);
-    const route = siteGuides.find((item) => item.id === target?.id);
-    return route ? `#${guidePath(route.path, anchor)}` : '#';
-  }, [catalog?.guides, guidePath]);
+  const guidePath = useCallback(
+    (pathname: string, anchor?: string) =>
+      `${pathname}${anchor ? `?${new URLSearchParams({ anchor })}` : ''}`,
+    [],
+  );
+  const resolveDocumentUrl = useCallback(
+    (file: string, anchor?: string) => {
+      const target = guides?.find((item) => item.path === file);
+      const route = siteGuides.find((item) => item.id === target?.id);
+      if (projectGuide && (target?.id === 'changelog' || target?.id === 'introduction'))
+        return `#/docs/projects/${projectId}${target.id === 'changelog' ? '/changelog' : ''}${anchor ? `?${new URLSearchParams({ anchor })}` : ''}`;
+      return route ? `#${guidePath(route.path, anchor)}` : '#';
+    },
+    [guides, guidePath, projectGuide, projectId],
+  );
   const firstPage = pages.find((page) => page.projectId === projectId && page.allowed);
   return (
     <main className="page_content__xGn__">
@@ -72,11 +86,11 @@ export function SiteDocumentation({
               {guide && <p data-preserve-language>{guide.description}</p>}
             </div>
           </header>
-          {!projectId ? (
+          {projectGuide && !projectId ? (
             <p>{text('尚未配置项目')}</p>
-          ) : query.isPending ? (
+          ) : projectGuide && query.isPending ? (
             <LoadingStage label={text('读取项目指南…')} />
-          ) : query.isError ? (
+          ) : projectGuide && query.isError ? (
             <div className="showcase-error" role="alert">
               <p>{text('项目指南读取失败')}</p>
               <p>{query.error.message}</p>
@@ -86,7 +100,10 @@ export function SiteDocumentation({
               </button>
             </div>
           ) : !guide && restricted ? (
-            <div className="showcase-muted" role="alert"><p>{text('此指南需要项目授权。')}</p><p>{text('请联系管理员获取当前项目的资料访问权限。')}</p></div>
+            <div className="showcase-muted" role="alert">
+              <p>{text('此指南需要项目授权。')}</p>
+              <p>{text('请联系管理员获取当前项目的资料访问权限。')}</p>
+            </div>
           ) : !guide ? (
             <div className="showcase-muted" role="status">
               <p>{text('此项目尚未发布这篇指南。')}</p>
@@ -108,28 +125,30 @@ export function SiteDocumentation({
               />
             </div>
           )}
-          <nav className="docs_pager__7frTG" aria-label={text('文档导航')}>
-            {guideIndex > 0 ? (
-              <Link className="docs_pagerPrev__1lFr8" to={guidePath(siteGuides[guideIndex - 1].path)}>
-                <ArrowLeft size={16} />
-                <span>
-                  <small>{text('上一篇')}</small>
-                  {text(siteGuides[guideIndex - 1].title)}
-                </span>
-              </Link>
-            ) : (
-              <span aria-hidden="true" />
-            )}
-            {siteGuides[guideIndex + 1] && (
-              <Link className="docs_pagerNext__s5UpM" to={guidePath(siteGuides[guideIndex + 1].path)}>
-                <span>
-                  <small>{text('下一篇')}</small>
-                  {text(siteGuides[guideIndex + 1].title)}
-                </span>
-                <ArrowRight size={16} />
-              </Link>
-            )}
-          </nav>
+          {!projectGuide && (
+            <nav className="docs_pager__7frTG" aria-label={text('文档导航')}>
+              {guideIndex > 0 ? (
+                <Link className="docs_pagerPrev__1lFr8" to={guidePath(siteGuides[guideIndex - 1].path)}>
+                  <ArrowLeft size={16} />
+                  <span>
+                    <small>{text('上一篇')}</small>
+                    {text(siteGuides[guideIndex - 1].title)}
+                  </span>
+                </Link>
+              ) : (
+                <span aria-hidden="true" />
+              )}
+              {siteGuides[guideIndex + 1] && (
+                <Link className="docs_pagerNext__s5UpM" to={guidePath(siteGuides[guideIndex + 1].path)}>
+                  <span>
+                    <small>{text('下一篇')}</small>
+                    {text(siteGuides[guideIndex + 1].title)}
+                  </span>
+                  <ArrowRight size={16} />
+                </Link>
+              )}
+            </nav>
+          )}
         </article>
         <aside className="docs_tocRail__mVzSm">
           <nav aria-label={text('本页目录')} className="docs_toc__4bz2v">

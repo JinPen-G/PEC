@@ -11,7 +11,7 @@ export type AppearancePreference = AppearanceMode | "system";
 export type AppearanceTransition = Extract<ThemeSwitchVariant, "eclipse" | "rise" | "reveal"> | "legacy-reveal";
 
 /**
- * UIArc 原站的直边横向 reveal 扫屏。`rise`（上下）和旧的 `legacy-reveal`（圆形）仍完整保留，
+ * UI primitives 原站的直边横向 reveal 扫屏。`rise`（上下）和旧的 `legacy-reveal`（圆形）仍完整保留，
  * 只是不作为当前后台的默认动效；需要切换时由 AppearanceSwitcher 的 transition 指定。
  */
 export const DEFAULT_APPEARANCE_TRANSITION: AppearanceTransition = "reveal";
@@ -66,7 +66,7 @@ const THEME_REVEAL_MASK = `url("data:image/svg+xml,${encodeURIComponent(
 )}")`;
 
 /**
- * UIArc 原站页面 CSS：/_next/static/css/35c9d8b23d654900.css，2026-10-01 核对。
+ * UI primitives 原站页面 CSS：/_next/static/css/35c9d8b23d654900.css，2026-10-01 核对。
  * reveal：inset(0 100% 0 0) → inset(0)，380ms；rise：inset(100% 0 0) → inset(0)，360ms。
  * 两种主题均按同一路径揭示，缓动保持 cubic-bezier(.22,1,.36,1)。
  * eclipse 是原站另外提供的居中椭圆，不作为默认策略。
@@ -213,7 +213,7 @@ export function AppearanceProvider({ children }: { children: ReactNode }) {
     document.documentElement.dataset.appearance = mode;
     document.documentElement.dataset.theme = mode === "dark" ? "dark" : "light";
     document.documentElement.style.colorScheme = mode === "dark" ? "dark" : "light";
-    // 常驻菜单与移动抽屉共用 UIArc 原版背景；深浅色由 foundation token 控制。
+    // 常驻菜单与移动抽屉共用 UI primitives 原版背景；深浅色由 foundation token 控制。
     document.documentElement.style.setProperty("--app-sider-bg", "var(--background)");
     window.localStorage.setItem(STORAGE_KEY, preference);
   }, [mode, preference]);
@@ -295,7 +295,7 @@ export function createThemeConfig(mode: AppearanceMode, tenantThemeColor?: strin
         ...(light ? {
           bodyBg: palette.background,
           footerBg: palette.background,
-          // 侧栏底色由 UIArc --background 经 --app-sider-bg 统一给出（常驻侧栏与窄屏抽屉共用一处），
+          // 侧栏底色由 UI primitives --background 经 --app-sider-bg 统一给出（常驻侧栏与窄屏抽屉共用一处），
           // 这里保留 transparent 只是兜住变量落地前的那一帧。顶栏已取消，headerBg/headerHeight 不再使用。
           siderBg: "transparent",
           triggerBg: "var(--rental-color-primary-bg)",
@@ -325,7 +325,7 @@ export function createThemeConfig(mode: AppearanceMode, tenantThemeColor?: strin
       Cascader: { ...inputRadii },
       TreeSelect: { ...inputRadii },
       Mentions: { ...inputRadii },
-      // Same scale as UIArc, including explicit small/large and fallback links.
+      // Same scale as UI primitives, including explicit small/large and fallback links.
       Button: { paddingInline: ADMIN_CONTROL_PADDING.default, paddingInlineSM: ADMIN_CONTROL_PADDING.small, paddingInlineLG: ADMIN_CONTROL_PADDING.large, borderRadius: button, borderRadiusLG: button, borderRadiusSM: Math.max(4, Math.round(button * 0.75)) },
       Table: {
         cellPaddingBlock: 12,

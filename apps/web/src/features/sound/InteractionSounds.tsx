@@ -1,4 +1,4 @@
-/** Gesture sound feedback scoped to the Preview demo session, never a rental session. */
+/** Gesture sound feedback scoped to the active Preview identity and workspace. */
 import { useEffect } from 'react';
 import { setMasterGain } from './sound-engine';
 import { soundPreferences } from './sound-preferences';

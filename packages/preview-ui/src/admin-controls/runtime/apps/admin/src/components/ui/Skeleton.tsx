@@ -1,4 +1,4 @@
-import { Skeleton as ArcSkeleton, type SkeletonProps } from "../../../../../packages/ui-arc/vendor/registry/components/skeleton/skeleton";
+import { Skeleton as ArcSkeleton, type SkeletonProps } from "../../../../../packages/ui-primitives/vendor/registry/components/skeleton/skeleton";
 import { useLocale } from "../../../../../../environment";
 export function Skeleton(props: SkeletonProps) {
   const { t } = useLocale();

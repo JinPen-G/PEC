@@ -1,6 +1,6 @@
 import { ConfigProvider, Segmented as AntSegmented, type SegmentedProps } from "antd";
 import { useState } from "react";
-import SegmentedControl from "../../../../../packages/ui-arc/vendor/registry/components/segmented-control/segmented-control";
+import SegmentedControl from "../../../../../packages/ui-primitives/vendor/registry/components/segmented-control/segmented-control";
 
 export function Segmented<T extends string | number = string | number>(props: SegmentedProps<T> & { iconOnly?: boolean }) {
   const { iconOnly, ...native } = props;

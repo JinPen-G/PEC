@@ -4,7 +4,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
-import { NATIVE_MODULES } from '../packages/platform-contracts/src/platform.js';
+import { loadProjectCatalog } from '../packages/platform-server/src/project-catalog.js';
 import {
   loadContentCatalog,
   loadPrototypeRevisions,
@@ -17,6 +17,9 @@ import {
   reviewedGraphRevision,
 } from '../packages/project-core/src/platform/requirement-graph.js';
 const root = fileURLToPath(new URL('..', import.meta.url));
+const { moduleCatalog: NATIVE_MODULES } = await loadProjectCatalog(
+  path.join(root, 'packages/platform-contracts/src'),
+);
 const args = process.argv.slice(2),
   operation = args[0] ?? 'check';
 const value = (flag, fallback) => (args.includes(flag) ? args[args.indexOf(flag) + 1] : fallback);
@@ -41,7 +44,8 @@ for (const snapshot of packages) {
   const prototypes = {};
   const clients = module.initialClients ?? [{ id: module.clientId ?? 'operation', pages: module.pages }];
   for (const client of clients)
-    for (const page of client.pages) if (hashes[page.key]) prototypes[`${client.id}/${page.key}`] = hashes[page.key];
+    for (const page of client.pages)
+      if (hashes[page.key]) prototypes[`${client.id}/${page.key}`] = hashes[page.key];
   const project = { id: module.projectId ?? module.key, moduleKey: module.key, links: [] };
   snapshot.prototypeRevisions = prototypes;
   if (operation === 'review') {
@@ -68,7 +72,10 @@ for (const snapshot of packages) {
         snapshot.manifest.requirements.map((doc) => [doc.id, graphHash(snapshot.files.get(doc.path))]),
       ),
       bindings: Object.fromEntries(
-        snapshot.manifest.requirements.map((doc) => [doc.id, requirementBindingRevision(doc, snapshot.files)]),
+        snapshot.manifest.requirements.map((doc) => [
+          doc.id,
+          requirementBindingRevision(doc, snapshot.files),
+        ]),
       ),
       prototypes,
       note: value('--note'),
@@ -95,7 +102,10 @@ for (const snapshot of packages) {
           view,
           prototypeRevisions: prototypes,
           bindingRevisions: Object.fromEntries(
-            snapshot.manifest.requirements.map((doc) => [doc.id, requirementBindingRevision(doc, snapshot.files)]),
+            snapshot.manifest.requirements.map((doc) => [
+              doc.id,
+              requirementBindingRevision(doc, snapshot.files),
+            ]),
           ),
           graphReviewRevision:
             view.availability === 'ready'

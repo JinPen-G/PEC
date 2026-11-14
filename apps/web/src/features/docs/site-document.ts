@@ -1,4 +1,4 @@
-/** Adapts already sanitized Markdown to the observed UIARC reading structure.
+/** Adapts already sanitized Markdown to the observed UI primitives reading structure.
  * Only presentation changes: original text, safe links, IDs and diagrams stay. */
 export function siteDocument(html: string) {
   const document = new DOMParser().parseFromString(`<article>${html}</article>`, 'text/html');

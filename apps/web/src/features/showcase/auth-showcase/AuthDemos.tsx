@@ -1,4 +1,4 @@
-/** Demo compositions from observed UIARC login examples. Fixed MIT primitives
+/** Demo compositions from observed UI primitives login examples. Fixed MIT primitives
  * keep their motion; confirmation, charts and timers only use synthetic state. */
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
@@ -68,7 +68,7 @@ function useDemoCopy() {
 }
 
 function SelectDemo() {
-  const [events, setEvents] = useState(['Emma Collins opened this issue']);
+  const [events, setEvents] = useState(['Reviewer opened this demo']);
   const log = (field: string) => (_value: string, option: { label: string }) =>
     setEvents((previous) => [`You set ${field} to ${option.label}`, ...previous].slice(0, 3));
   const mark = (Icon: typeof Circle) => <Icon size={16} strokeWidth={1.75} />;
@@ -90,23 +90,14 @@ function SelectDemo() {
       ],
     },
   ];
-  const names = [
-    'Emma Collins',
-    'Jasmine Brooks',
-    'Marcus Johnson',
-    'Olivia Bennett',
-    'Daniel Kim',
-    'Mateo Alvarez',
-    'Hannah Walsh',
-    'Jordan Reyes',
-  ];
+  const names = ['Designer', 'Developer', 'Reviewer', 'Project owner'];
   return (
     <div className="morph-select_stage__gmb39">
       <article className="morph-select_card__GG2_A">
         <header className="morph-select_header__EY2Hf">
-          <h3 className="morph-select_title__quSvi">Checkout button stalls on Safari 17</h3>
+          <h3 className="morph-select_title__quSvi">Prototype preview needs a review</h3>
           <p className="morph-select_body__GLxkC">
-            Tapping Pay leaves the spinner running after the card is approved. Reproduced on iOS and macOS.
+            Explore sample status, owner, and priority controls in this local demo.
           </p>
         </header>
         <dl className="morph-select_properties__SyflY">
@@ -135,15 +126,10 @@ function SelectDemo() {
                   ...names.map((name) => ({
                     value: name,
                     label: name,
-                    icon:
-                      name === 'Marcus Johnson' ? (
-                        <img src="/auth-assets/marcus-johnson.svg" alt="" width={20} height={20} />
-                      ) : (
-                        mark(User)
-                      ),
+                    icon: mark(User),
                   })),
                 ]}
-                defaultValue="Marcus Johnson"
+                defaultValue="Reviewer"
                 align="end"
                 panelWidth={264}
                 searchPlaceholder="Find a teammate"
@@ -213,7 +199,7 @@ function ConfirmDemo() {
               {exists ? (
                 <>
                   <FolderClosed size={16} />
-                  <span>Northwind redesign</span>
+                  <span>Preview example project</span>
                 </>
               ) : (
                 'No projects'
@@ -290,7 +276,7 @@ function ChartDemo() {
   return (
     <section className="line-chart_card__H2N3v">
       <div className="line-chart_top__P5lwX">
-        <h3 className="line-chart_title__QUpqA">Trial signups</h3>
+        <h3 className="line-chart_title__QUpqA">Preview activity · demo</h3>
         <SegmentedControl
           label="Range"
           options={[
@@ -306,7 +292,7 @@ function ChartDemo() {
         />
       </div>
       <div className="line-chart_readout__zD5s2">
-        <AnimatedCounter value={active?.values.current ?? total} label="Total signups" />
+        <AnimatedCounter value={active?.values.current ?? total} label="Sample total" />
         <p className="line-chart_note__IoBSK">
           {active
             ? `${active.values.previous} in the previous period`
@@ -319,7 +305,7 @@ function ChartDemo() {
           { key: 'current', label: 'This period' },
           { key: 'previous', label: 'Previous period', dashed: true },
         ]}
-        label="Trial signups"
+        label="Preview activity demo"
         onActiveChange={(_index, datum) => setActive(datum)}
       />
     </section>
@@ -329,7 +315,7 @@ const icons: { name: IconMorphName; off: string; on: string }[] = [
   { name: 'menu', off: 'Menu', on: 'Menu open' },
   { name: 'play', off: 'Paused', on: 'Playing' },
   { name: 'plus', off: 'Add to list', on: 'Added' },
-  { name: 'copy', off: 'Copy command', on: 'Copied' },
+  { name: 'copy', off: 'Copy example', on: 'Copied' },
   { name: 'theme', off: 'Light', on: 'Dark' },
   { name: 'chevron', off: 'Show details', on: 'Hide details' },
   { name: 'bell', off: 'Alerts off', on: 'Alerts on' },
@@ -354,7 +340,7 @@ function IconsDemo() {
             aria-label={icon.name === 'copy' ? icon.off : state[icon.name] ? icon.on : icon.off}
             onClick={() =>
               icon.name === 'copy'
-                ? void clipboard.copy('npx arc add icon-morph')
+                ? void clipboard.copy('Preview · Prototypes and business requirements')
                 : setState((previous) => ({ ...previous, [icon.name]: !previous[icon.name] }))
             }
           >
@@ -379,7 +365,7 @@ function IconsDemo() {
       </div>
       <p role="status" className="icon-morph_srOnly__Yo7Ox">
         {clipboard.result === 'copied'
-          ? 'Copied install command'
+          ? 'Copied example text'
           : clipboard.result === 'failed'
             ? 'Clipboard is unavailable here'
             : ''}
@@ -393,14 +379,14 @@ function CountdownDemo() {
   return (
     <section className="countdown_card__FoN1G">
       <header>
-        <h3>Fieldwork 2.0 keynote</h3>
-        <p>10:00 AM PT · Streamed online</p>
+        <h3>Preview review · demo</h3>
+        <p>Sample schedule · local demo</p>
       </header>
       <div className="countdown_hero__HSdPp">
-        <Countdown target={target} label="Keynote starts in" completeLabel="Live now" />
+        <Countdown target={target} label="Sample review starts in" completeLabel="Demo started" />
       </div>
       <ul className="countdown_sessions__1hxf_">
-        {['Keynote', 'Design systems deep dive', 'Live Q&A with the team'].map((title, index) => (
+        {['Prototype walkthrough', 'Requirements review', 'Component discussion'].map((title, index) => (
           <li key={title} className="countdown_session__23BoT">
             <span>{title}</span>
             <Countdown
@@ -440,7 +426,12 @@ function ColorDemo() {
     </div>
   );
 }
-const phrases = ['Encrypted end to end', 'Synced in 40 ms', 'Deployed to 12 regions', 'Backed up every hour'];
+const phrases = [
+  'Explore project prototypes',
+  'Read business requirements',
+  'Review reusable components',
+  'Connect your AI tools',
+];
 /** Text and stopwatch are reconstructed from observed behavior; these two
  * implementations are not represented as the unprovided original TSX source. */
 function Scramble({
@@ -494,8 +485,8 @@ function ScrambleDemo() {
     [revision, setRevision] = useState(0),
     [glyphs, setGlyphs] = useState('Letters'),
     [order, setOrder] = useState('start'),
-    [billing, setBilling] = useState('monthly'),
-    [code, setCode] = useState('KX7-42Q-M9T');
+    [view, setView] = useState('prototype'),
+    [code, setCode] = useState('PREVIEW-001');
   const pools: Record<string, string> = {
     Letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
     Symbols: '!#$%&*+-/<=>?@[]^_{|}~',
@@ -538,31 +529,31 @@ function ScrambleDemo() {
       <div className="showcase-scramble-tiles">
         <section>
           <div className="showcase-demo-controls">
-            <span>Team plan</span>
+            <span>Preview content</span>
             <SegmentedControl
-              label="Billing period"
+              label="Example content"
               options={[
-                { value: 'monthly', label: 'Monthly' },
-                { value: 'annual', label: 'Annual' },
+                { value: 'prototype', label: 'Prototype' },
+                { value: 'component', label: 'Component' },
               ]}
-              value={billing}
-              onValueChange={setBilling}
+              value={view}
+              onValueChange={setView}
             />
           </div>
           <p className="showcase-scramble-price">
-            <Scramble text={billing === 'monthly' ? '$18' : '$180'} revision={0} />{' '}
-            <small>{billing === 'monthly' ? 'per seat a month' : 'per seat a year'}</small>
+            <Scramble text={view === 'prototype' ? 'Prototype' : 'Component'} revision={0} />{' '}
+            <small>example</small>
           </p>
         </section>
         <section>
           <div className="showcase-demo-controls">
-            <span>Invite code</span>
-            <button aria-label="Copy invite code" onClick={() => void clipboard.copy(code)}>
+            <span>Example ID</span>
+            <button aria-label="Copy example ID" onClick={() => void clipboard.copy(code)}>
               {clipboard.result === 'copied' ? <Check size={14} /> : <Copy size={14} />}
             </button>
             <button
               aria-label="Generate a new code"
-              onClick={() => setCode(Math.random().toString(36).slice(2, 11).toUpperCase())}
+              onClick={() => setCode(`PREVIEW-${Math.random().toString(36).slice(2, 8).toUpperCase()}`)}
             >
               <RotateCcw size={14} />
             </button>
@@ -574,7 +565,7 @@ function ScrambleDemo() {
             {clipboard.result === 'failed'
               ? 'Copy failed'
               : clipboard.result === 'copied'
-                ? 'Copied invite code'
+                ? 'Copied example ID'
                 : ''}
           </p>
         </section>
@@ -611,11 +602,11 @@ function StopwatchDemo() {
     <div className="stopwatch_demo__Mwjup">
       <div className="stopwatch_header__2cmyz">
         <div className="stopwatch_heading__jQKaq">
-          <p className="stopwatch_title__i00LX">Tuesday intervals</p>
-          <p className="stopwatch_meta__1EDHs">5 × 400 m at Franklin Field · 90 s rest</p>
+          <p className="stopwatch_title__i00LX">Interaction timer · demo</p>
+          <p className="stopwatch_meta__1EDHs">Start, pause, and record sample laps</p>
         </div>
         <p className="stopwatch_target__CHKve">
-          <span>Target</span>
+          <span>Sample target</span>
           <span className="stopwatch_pace__a7SCt">1:18</span>
         </p>
       </div>

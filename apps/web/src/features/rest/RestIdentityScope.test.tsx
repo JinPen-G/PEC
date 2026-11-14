@@ -16,7 +16,9 @@ let controller: RestPlayer;
 
 function Surface({ name }: { name: string }) {
   const { player, snapshot } = useRest();
-  useEffect(() => { controller = player; }, [player]);
+  useEffect(() => {
+    controller = player;
+  }, [player]);
   return (
     <>
       <h1>{name}</h1>

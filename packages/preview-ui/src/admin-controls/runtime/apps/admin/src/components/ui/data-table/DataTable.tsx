@@ -1,7 +1,7 @@
 /**
  * Tablecn (MIT) integration for flat, server-paged business lists.
  * Rendering/header/view interactions follow the pinned upstream source in packages/ui-tablecn.
- * CSS Modules replace Tailwind; locale, UIArc controls and transport remain platform-owned.
+ * CSS Modules replace Tailwind; locale, UI primitives controls and transport remain platform-owned.
  * No local sorting/pagination of a server page and no implicit business mutations.
  */
 import { flexRender, type Cell, type Column, type Row, type RowData, type Table as TanstackTable } from "@tanstack/react-table";

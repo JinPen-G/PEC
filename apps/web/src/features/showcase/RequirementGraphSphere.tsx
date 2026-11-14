@@ -173,12 +173,26 @@ export default function RequirementGraphSphere(props: GraphViewProps) {
         label.dataset.selected = String(identifier === data.selected);
       }
       currentLabels = drawing.nodes.filter((node) => labelElements.has(node.id));
-      const arrowSignature = JSON.stringify([data.selected, data.hiddenTypes, data.hiddenRelations, topology]);
+      const arrowSignature = JSON.stringify([
+        data.selected,
+        data.hiddenTypes,
+        data.hiddenRelations,
+        topology,
+      ]);
       if (arrowSignature !== lastArrows) {
         lastArrows = arrowSignature;
-        const directionless = new Set(data.edges.filter((edge) => edge.relation === 'integrates_with' || edge.relation === 'similar_to').map((edge) => edge.id));
+        const directionless = new Set(
+          data.edges
+            .filter((edge) => edge.relation === 'integrates_with' || edge.relation === 'similar_to')
+            .map((edge) => edge.id),
+        );
         graph.linkDirectionalArrowLength((link) =>
-          data.selected && emphasizing.edgeIds.has(link.id) && visible.edgeIds.has(link.id) && !directionless.has(link.id) ? 4 : 0,
+          data.selected &&
+          emphasizing.edgeIds.has(link.id) &&
+          visible.edgeIds.has(link.id) &&
+          !directionless.has(link.id)
+            ? 4
+            : 0,
         );
       }
       if (initialized && data.selected !== lastSelected && data.selected) focus();
@@ -269,7 +283,7 @@ export default function RequirementGraphSphere(props: GraphViewProps) {
       attributes: true,
       attributeFilter: ['class', 'data-theme', 'style'],
     });
-    const site = element.closest('.uiarc-showcase');
+    const site = element.closest('.preview-showcase');
     if (site) theme.observe(site, { attributes: true, attributeFilter: ['data-theme', 'style'] });
     const visibility = () => {
       if (document.hidden) demand.stop();
@@ -405,14 +419,16 @@ export default function RequirementGraphSphere(props: GraphViewProps) {
             <LocateFixed size={16} />
           </button>
         )}
-        {props.onExpand && <button
-          type="button"
-          title={text(props.expanded ? '退出全屏' : '全屏')}
-          aria-label={text(props.expanded ? '退出全屏' : '全屏')}
-          onClick={props.onExpand}
-        >
-          {props.expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
-        </button>}
+        {props.onExpand && (
+          <button
+            type="button"
+            title={text(props.expanded ? '退出全屏' : '全屏')}
+            aria-label={text(props.expanded ? '退出全屏' : '全屏')}
+            onClick={props.onExpand}
+          >
+            {props.expanded ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+          </button>
+        )}
       </div>
     </div>
   );

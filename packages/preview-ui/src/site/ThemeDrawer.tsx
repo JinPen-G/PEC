@@ -80,7 +80,7 @@ export function ThemeDrawer({
                 className="page_customizeCopy__2jpfL"
                 onClick={() => {
                   const style = getComputedStyle(
-                    portal?.closest('.uiarc-showcase') ?? document.documentElement,
+                    portal?.closest('.preview-showcase') ?? document.documentElement,
                   );
                   const theme = ['--accent', '--accent-strong', '--accent-subtle']
                     .map((token) => `  ${token}: ${style.getPropertyValue(token).trim()};`)

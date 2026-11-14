@@ -15,7 +15,7 @@ export const ARC_DEFAULT_RADII = { container: 26, button: 18, input: 18 } as con
 export const ADMIN_INPUT_COLORS = { borderDefault: "var(--border)" } as const;
 /** Navigation tabs and segmented criteria share neutral selection ink, never brand accent. */
 export const ADMIN_CHOICE_STYLE = { text: "var(--text-muted)", selectedText: "var(--foreground)", weight: 500 } as const;
-/** One density scale for UIArc and Ant compatibility; settings visibility is irrelevant. */
+/** One density scale for UI primitives and Ant compatibility; settings visibility is irrelevant. */
 export const ADMIN_CONTROL_HEIGHT = { small: 32, default: 36, large: 40, toolbar: 32, filter: 36 } as const;
 /** Widths express field roles, not individual pages. Forms may still fill their grid cell. */
 export const ADMIN_CONTROL_WIDTH = { search: 320, searchMin: 240, select: 192, field: 240, wide: 320, number: 160, compact: 96, date: 192, dateRange: 288 } as const;

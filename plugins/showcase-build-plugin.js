@@ -8,6 +8,7 @@ import { NATIVE_MODULES } from '../packages/platform-contracts/src/platform.js';
 import { COMPONENT_REGISTRY } from '../packages/platform-contracts/src/component-registry.js';
 import { loadComponentRegistryItem } from '../packages/project-core/src/platform/component-registry.js';
 import { loadPrototypeRevisions } from '../packages/project-core/src/platform/project-content.js';
+import { loadProjectCatalog } from '../packages/platform-server/src/project-catalog.js';
 export function protectedLibraryChunk(id) {
   const normalized = id.replaceAll('\\', '/').split('?')[0];
   const library = /\/component-library\/src\/([^/]+)\/(.+)$/.exec(normalized);
@@ -47,15 +48,19 @@ export function assertPublicBundleIsolation(bundle) {
       throw new Error(`Project source escaped protected bundle: ${item.fileName}`);
   }
 }
-export function showcaseBuildPlugin(
-  root,
-  { moduleCatalog = NATIVE_MODULES, componentRegistry = COMPONENT_REGISTRY } = {},
-) {
-  const pageModules = showcaseModules(moduleCatalog);
+export function showcaseBuildPlugin(root, options) {
+  let { moduleCatalog = NATIVE_MODULES, componentRegistry = COMPONENT_REGISTRY } = options ?? {};
+  let pageModules = showcaseModules(moduleCatalog);
   let building = false;
   return {
     name: 'preview-showcase-build',
-    configResolved(config) {
+    async configResolved(config) {
+      if (!options) {
+        const catalog = await loadProjectCatalog(path.join(root, 'packages/platform-contracts/src'));
+        moduleCatalog = catalog.moduleCatalog;
+        componentRegistry = catalog.componentRegistry;
+        pageModules = showcaseModules(moduleCatalog);
+      }
       building = config.command === 'build';
     },
     configureServer(server) {
@@ -187,6 +192,32 @@ export function showcaseBuildPlugin(
         notices.push(
           `${metadata.name}@${metadata.version} (${metadata.license ?? 'SEE LICENSE'})\n${body.join('\n')}`,
         );
+      }
+      // Copied primitives do not appear in node_modules; ship their full notices too.
+      const usesPlatformUi = Object.values(bundle).some(
+        (item) =>
+          item.type === 'chunk' &&
+          Object.keys(item.modules).some((id) => id.replaceAll('\\', '/').includes('/packages/preview-ui/')),
+      );
+      for (const [label, license] of usesPlatformUi
+        ? [
+            [
+              'UI primitives — Elia Kuratli (MIT)',
+              'packages/preview-ui/upstream/site-library/free-source/LICENSE',
+            ],
+            [
+              'Sidebar integration',
+              'packages/preview-ui/upstream/rental-admin/apps/admin/src/components/animate-sidebar/LICENSE.md',
+            ],
+            ['Table integration', 'packages/preview-ui/upstream/rental-admin/packages/ui-tablecn/LICENSE.md'],
+            ['Animate UI homepage adaptations', 'packages/preview-ui/upstream/animate-home/LICENSE.md'],
+            [
+              'Table motion integration',
+              'packages/preview-ui/upstream/rental-controls/packages/ui-motiq/LICENSE',
+            ],
+          ]
+        : []) {
+        notices.push(`${label}\n${await fs.readFile(path.join(root, license), 'utf8')}`);
       }
       this.emitFile({
         type: 'asset',

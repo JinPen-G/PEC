@@ -11,7 +11,7 @@ describe('PRD reading mode', () => {
   it('accepts a structured overview only for a genuinely long document', () => {
     const full = '# 文档\n\n## 范围\n实际范围。\n\n## 接口\n' + '详细资料。'.repeat(1500);
     const summary = '## 使用场景\n明确用途。\n\n## 主要流程\n1. 读取\n2. 处理';
-    expect(documentDisplay(full, summary)).toEqual({long:true,summary});
+    expect(documentDisplay(full, summary)).toEqual({ long: true, summary });
     expect(documentDisplay(full, '一句话摘要。').summary).toContain('## 范围');
   });
   it('keeps short PRDs complete and ignores heading-like code when counting chapters', () => {

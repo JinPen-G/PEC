@@ -25,7 +25,8 @@ export function documentDisplay(source: string, authoredSummary?: string) {
   }
   const long = source.replace(/\s/g, '').length >= 6000 || headingCount >= 12 || tableRows >= 40;
   if (!long) return { long: false, summary: source };
-  if (authoredSummary?.trim() && /^##\s+.+/m.test(authoredSummary)) return { long: true, summary: authoredSummary };
+  if (authoredSummary?.trim() && /^##\s+.+/m.test(authoredSummary))
+    return { long: true, summary: authoredSummary };
   const preamble = source.slice(0, sections[0]?.start ?? source.length).trim();
   const title = /^#\s+.+$/m.exec(preamble)?.[0] ?? '';
   const intro = preamble.length <= 1000 ? preamble : title;

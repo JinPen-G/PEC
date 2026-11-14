@@ -1,4 +1,4 @@
-.uiarc-showcase .showcase-catalog-jump {
+.preview-showcase .showcase-catalog-jump {
   display: flex;
   flex: none;
   align-items: center;
@@ -9,7 +9,7 @@
   border-radius: 10px;
   background: var(--surface-muted);
 }
-.uiarc-showcase .showcase-catalog-jump button {
+.preview-showcase .showcase-catalog-jump button {
   display: grid;
   place-items: center;
   flex: 1;
@@ -21,15 +21,15 @@
   color: var(--text-secondary);
   cursor: pointer;
 }
-.uiarc-showcase .showcase-catalog-jump button[aria-pressed='true'] {
+.preview-showcase .showcase-catalog-jump button[aria-pressed='true'] {
   border-color: var(--border);
   background: var(--surface);
   color: var(--foreground);
 }
-.uiarc-showcase .showcase-catalog-jump button:hover {
+.preview-showcase .showcase-catalog-jump button:hover {
   color: var(--foreground);
 }
-.uiarc-showcase .showcase-catalog-jump button:focus-visible {
+.preview-showcase .showcase-catalog-jump button:focus-visible {
   outline: 2px solid var(--foreground);
   outline-offset: 2px;
 }

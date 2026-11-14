@@ -21,7 +21,7 @@ async function removeTemporaryFixture(directory) {
   await fs.rm(directory, { recursive: true, force: true });
 }
 
-test('fixed upstream UI snapshot and runtime copies retain their source hashes', () => {
+test('maintained UI sources and runtime copies retain their recorded hashes', () => {
   const result = checkRentalFramework();
   expect(result.files).toBeGreaterThan(40);
   expect(result.errors).toEqual([]);
@@ -43,11 +43,19 @@ test('console adaptation retains fixed geometry and scopes neutral colors away f
   const parsed = postcss.parse(css);
   const paletteRules = [];
   parsed.walkRules((rule) => {
-    if (rule.nodes.some((node) => node.prop === '--rental-sidebar-selected-bg' && node.value.startsWith('color-mix(')))
+    if (
+      rule.nodes.some(
+        (node) => node.prop === '--rental-sidebar-selected-bg' && node.value.startsWith('color-mix('),
+      )
+    )
       paletteRules.push(rule.selector);
   });
   expect(paletteRules).toHaveLength(2);
-  expect(paletteRules.every((selector) => selector.includes(':has(.preview-console-host:not(.preview-screen-stage))'))).toBe(true);
+  expect(
+    paletteRules.every((selector) =>
+      selector.includes(':has(.preview-console-host:not(.preview-screen-stage))'),
+    ),
+  ).toBe(true);
   expect(css).toContain('--rental-shell-panel-inset: 8px;');
   expect(css).toContain('--rental-shell-sidebar-width: 248px;');
   expect(css).toContain('--rental-shell-sidebar-collapsed-width: 56px;');
@@ -66,14 +74,25 @@ test('console adaptation retains fixed geometry and scopes neutral colors away f
 
 test('console token extraction resolves only fixed data and rejects executable expressions', () => {
   const sourceRoot = new URL('../../packages/preview-ui/', import.meta.url);
-  const tokens = readFileSync(new URL('upstream/rental-console/apps/admin/src/app/designTokens.ts', sourceRoot), 'utf8');
-  const styles = readFileSync(new URL('upstream/rental-console/apps/admin/src/components/animate-sidebar/sidebar-adapter.css', sourceRoot), 'utf8');
+  const tokens = readFileSync(
+    new URL('upstream/rental-console/apps/admin/src/app/designTokens.ts', sourceRoot),
+    'utf8',
+  );
+  const styles = readFileSync(
+    new URL(
+      'upstream/rental-console/apps/admin/src/components/animate-sidebar/sidebar-adapter.css',
+      sourceRoot,
+    ),
+    'utf8',
+  );
   expect(rentalConsoleMotion(tokens)).toContain('"visualDuration": 0.3');
   expect(rentalConsoleMotion(tokens)).toContain('"bounce": 0');
-  expect(() => rentalConsoleStyles(styles, tokens.replace('panelInset: 8', 'panelInset: globalThis.parseInt("8")')))
-    .toThrow('Unsupported fixed console token expression');
-  expect(() => rentalConsoleStyles(styles, tokens.replace('sidebarWidth: 248', 'sidebarWidth: 248.5')))
-    .toThrow('Incomplete fixed console metrics');
+  expect(() =>
+    rentalConsoleStyles(styles, tokens.replace('panelInset: 8', 'panelInset: globalThis.parseInt("8")')),
+  ).toThrow('Unsupported fixed console token expression');
+  expect(() =>
+    rentalConsoleStyles(styles, tokens.replace('sidebarWidth: 248', 'sidebarWidth: 248.5')),
+  ).toThrow('Incomplete fixed console metrics');
 });
 
 test('console verification rejects changed sources, generated CSS and escaping paths', async () => {
@@ -94,7 +113,10 @@ test('console verification rejects changed sources, generated CSS and escaping p
       new URL('src/console-source.css', sourceRoot),
       path.join(directory, 'src/console-source.css'),
     );
-    await fs.copyFile(new URL('src/console-motion.ts', sourceRoot), path.join(directory, 'src/console-motion.ts'));
+    await fs.copyFile(
+      new URL('src/console-motion.ts', sourceRoot),
+      path.join(directory, 'src/console-motion.ts'),
+    );
     await fs.writeFile(path.join(directory, 'console-source-manifest.json'), JSON.stringify(manifest));
     await fs.appendFile(
       path.join(directory, 'upstream/rental-console', manifest.files[0].source),

@@ -1,7 +1,7 @@
-.uiarc-showcase .showcase-project-menu {
+.preview-showcase .showcase-project-menu {
   min-width: 0;
 }
-.uiarc-showcase .showcase-project-trigger {
+.preview-showcase .showcase-project-trigger {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -16,41 +16,41 @@
   text-align: left;
   transition: background-color var(--duration-fast) var(--ease-standard);
 }
-.uiarc-showcase .showcase-project-trigger:hover,
-.uiarc-showcase .showcase-project-trigger[data-state='open'] {
+.preview-showcase .showcase-project-trigger:hover,
+.preview-showcase .showcase-project-trigger[data-state='open'] {
   background: var(--surface);
 }
-.uiarc-showcase .showcase-project-trigger > svg {
+.preview-showcase .showcase-project-trigger > svg {
   flex-shrink: 0;
   color: var(--text-secondary);
 }
-.uiarc-showcase .showcase-project-name {
+.preview-showcase .showcase-project-name {
   flex: 1;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.uiarc-showcase .showcase-project-menu-sidebar {
+.preview-showcase .showcase-project-menu-sidebar {
   margin-bottom: var(--space-4);
 }
-.uiarc-showcase .showcase-project-menu-inline {
+.preview-showcase .showcase-project-menu-inline {
   width: min(260px, 100%);
 }
-.uiarc-showcase .showcase-project-options {
+.preview-showcase .showcase-project-options {
   min-width: min(240px, calc(100vw - 24px));
   max-width: min(320px, calc(100vw - 24px));
   max-height: var(--radix-dropdown-menu-content-available-height);
   overflow-y: auto;
 }
-.uiarc-showcase .showcase-project-options .showcase-language-item {
+.preview-showcase .showcase-project-options .showcase-language-item {
   min-height: 44px;
 }
-.uiarc-showcase .showcase-project-options .showcase-language-item > span {
+.preview-showcase .showcase-project-options .showcase-language-item > span {
   min-width: 0;
   overflow-wrap: anywhere;
 }
-.uiarc-showcase .showcase-product-section-actions {
+.preview-showcase .showcase-product-section-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -59,13 +59,13 @@
   max-width: 100%;
 }
 @media (max-width: 760px) {
-  .uiarc-showcase .showcase-product-section-actions {
+  .preview-showcase .showcase-product-section-actions {
     width: 100%;
     justify-content: flex-start;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .uiarc-showcase .showcase-project-trigger {
+  .preview-showcase .showcase-project-trigger {
     transition: none;
   }
 }

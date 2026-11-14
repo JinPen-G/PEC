@@ -17,7 +17,7 @@ import { DataTable, DataTableColumnHeader } from "./data-table/DataTable";
 import { DataTableToolbar } from "./data-table/DataTableToolbar";
 import { Pagination } from "./Pagination";
 import styles from "./data-table/DataTable.module.css";
-import { Checkbox as ArcCheckbox } from "../../../../../packages/ui-arc/vendor/registry/components/checkbox/checkbox";
+import { Checkbox as ArcCheckbox } from "../../../../../packages/ui-primitives/vendor/registry/components/checkbox/checkbox";
 import { useAuthStore } from "../../../../../../environment";
 import { useDataTableSelection } from "./data-table/DataTableSelection";
 import { ListCards, ListSelectionBar, ListTransferTools, ListViewSwitch, type ListBatchAction, type ListCard } from "./data-table/ListCapabilities";

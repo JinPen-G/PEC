@@ -4,13 +4,13 @@ import { fileURLToPath } from "node:url";
 export function motionPreferenceAdapter() {
     const id = "\0rental-motion-preference";
     const restId = "\0preview-rest-motion-preference";
-    const restMotion = fileURLToPath(new URL("../packages/preview-ui/upstream/uiarc-rest/primitives/motion.ts", import.meta.url)).replaceAll("\\", "/");
+    const restMotion = fileURLToPath(new URL("../packages/preview-ui/upstream/rest-widgets/primitives/motion.ts", import.meta.url)).replaceAll("\\", "/");
     const upstream = fileURLToPath(import.meta.resolve("motion/react")).replaceAll("\\", "/");
     const hook = fileURLToPath(new URL("../apps/web/src/features/motion/use-motion-preference.ts", import.meta.url)).replaceAll("\\", "/");
     return {
         name: "rental-motion-preference", enforce: "pre",
         resolveId(source, importer) {
-            if (source === "../primitives/motion" && importer?.replaceAll("\\", "/").includes("/upstream/uiarc-rest/")) return restId;
+            if (source === "../primitives/motion" && importer?.replaceAll("\\", "/").includes("/upstream/rest-widgets/")) return restId;
             if (source === "motion/react") return id;
         },
         load(source) {
@@ -21,7 +21,7 @@ export function motionPreferenceAdapter() {
         },
     };
 }
-/** Adapt reduced-motion CSS at build time without editing reserved UIArc files.
+/** Adapt reduced-motion CSS at build time without editing reserved UI primitives files.
  * This also lets explicit Full motion override the OS, while System follows it.
  * All current source queries are standalone; preserve unrelated media rules. */
 export function motionPreferenceStyles() {

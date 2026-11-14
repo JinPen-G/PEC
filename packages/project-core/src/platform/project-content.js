@@ -78,7 +78,14 @@ export function validateContentManifest(input, moduleCatalog) {
       requireValue(!paths.has(summary), '业务文件重复声明');
       paths.add(summary);
     }
-    if (item.assets !== undefined) requireValue(Array.isArray(item.assets) && item.assets.length <= 200 && new Set(item.assets).size === item.assets.length && item.assets.every(asset => input.assets.includes(asset)), '页面资源必须在业务清单内登记');
+    if (item.assets !== undefined)
+      requireValue(
+        Array.isArray(item.assets) &&
+          item.assets.length <= 200 &&
+          new Set(item.assets).size === item.assets.length &&
+          item.assets.every((asset) => input.assets.includes(asset)),
+        '页面资源必须在业务清单内登记',
+      );
     requireValue(['draft', 'confirmed', 'planned', 'historical'].includes(item.status));
     requireValue(Array.isArray(item.pages) && item.pages.length <= 40);
     const pageIds = new Set();
@@ -136,7 +143,13 @@ export function validateContentManifest(input, moduleCatalog) {
     requireValue(!paths.has(file), '业务文件重复声明');
     guideIds.add(item.id);
     paths.add(file);
-    return { id: item.id, title: text(item.title), description: text(item.description, 512), path: file, access: item.access };
+    return {
+      id: item.id,
+      title: text(item.title),
+      description: text(item.description, 512),
+      path: file,
+      access: item.access,
+    };
   });
   return {
     schemaVersion: 1,
@@ -552,10 +565,12 @@ export function queryBusinessContext(snapshot, project, operation, args = {}) {
       clientId: args.clientId,
       pageKey: args.pageKey,
       requirements,
-      summaries: requirements.filter((item) => item.summary).map((item) => ({
-        documentId: item.id,
-        markdown: snapshot.files.get(item.summary).toString('utf8'),
-      })),
+      summaries: requirements
+        .filter((item) => item.summary)
+        .map((item) => ({
+          documentId: item.id,
+          markdown: snapshot.files.get(item.summary).toString('utf8'),
+        })),
     };
   }
   if (operation === 'search_requirements') {

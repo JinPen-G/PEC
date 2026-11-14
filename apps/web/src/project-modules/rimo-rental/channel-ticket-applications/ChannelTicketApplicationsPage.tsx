@@ -1,3 +1,0 @@
-import Block from '@preview/library/rimo-rental/blocks/channel-ticket-applications/ChannelTicketApplicationsBlock.jsx';
-import { RimoPage } from '../RimoPage';
-export default function ChannelTicketApplicationsPage() { return <RimoPage pageKey="channel-ticket-applications" clientId="operation" assets={{}} routes={{"../企业端/channel_ticket_batch_detail.html":{"clientId":"enterprise","pageKey":"enterprise-channel-ticket-batch-detail"},"channel_ticket_batch_detail.html":{"clientId":"operation","pageKey":"channel-ticket-batch-detail"},"channel_ticket_applications.html":{"clientId":"operation","pageKey":"channel-ticket-applications"}}}><Block /></RimoPage>; }

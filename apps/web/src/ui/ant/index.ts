@@ -21,7 +21,6 @@ export {
   List,
   Menu,
   Modal,
-  Result,
   Select,
   Segmented,
   Space,

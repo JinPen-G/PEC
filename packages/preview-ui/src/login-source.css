@@ -67,7 +67,7 @@
   overflow-x: hidden;
   /* Keep the tab strip's page coordinates stable while login methods change
      content height. Vertical centring/scroll anchoring moves the entire strip
-     underneath UIArc's shared-layout selection animation. */
+     underneath UI primitives's shared-layout selection animation. */
   align-items: start;
   justify-items: center;
   overflow-anchor: none;

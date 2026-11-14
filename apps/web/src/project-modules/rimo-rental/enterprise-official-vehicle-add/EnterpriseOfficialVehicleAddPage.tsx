@@ -1,3 +1,0 @@
-import Block from '@preview/library/rimo-rental/blocks/enterprise-official-vehicle-add/EnterpriseOfficialVehicleAddBlock.jsx';
-import { RimoPage } from '../RimoPage';
-export default function EnterpriseOfficialVehicleAddPage() { return <RimoPage pageKey="enterprise-official-vehicle-add" clientId="enterprise" assets={{}} routes={{"official_vehicle_add.html":{"clientId":"enterprise","pageKey":"enterprise-official-vehicle-add"},"official_vehicles.html":{"clientId":"enterprise","pageKey":"enterprise-official-vehicles"},"../营运端/vehicles.html":{"clientId":"operation","pageKey":"vehicles"},"vehicles.html":{"clientId":"operation","pageKey":"vehicles"}}}><Block /></RimoPage>; }

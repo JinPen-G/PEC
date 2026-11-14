@@ -1,4 +1,4 @@
-.uiarc-showcase.showcase-auth {
+.preview-showcase.showcase-auth {
   --radius-surface: 34px;
   --control-height-md: 44px;
   --text-sm: 14px;
@@ -17,12 +17,12 @@
   --arc-gradient-from: oklch(0.38 0.05 300);
   --arc-gradient-to: oklch(0.4 0.045 60);
 }
-.uiarc-showcase .showcase-auth-mirrored .auth-shell_formSide__amNg7 {
+.preview-showcase .showcase-auth-mirrored .auth-shell_formSide__amNg7 {
   grid-column: 2;
   grid-row: 1;
   position: relative;
 }
-.uiarc-showcase .showcase-auth-mirrored .auth-shell_panel__bS1g_ {
+.preview-showcase .showcase-auth-mirrored .auth-shell_panel__bS1g_ {
   grid-column: 1;
   grid-row: 1;
   margin: 12px 0 12px 12px;
@@ -31,16 +31,16 @@
     radial-gradient(55% 45% at 75% 70%, var(--auth-wash-b), transparent 70%),
     color-mix(in oklab, var(--surface) 70%, var(--surface-muted));
 }
-.uiarc-showcase .showcase-auth-account-link {
+.preview-showcase .showcase-auth-account-link {
   font-size: 14px;
   font-weight: 500;
   color: var(--foreground);
 }
-.uiarc-showcase .showcase-auth-notice {
+.preview-showcase .showcase-auth-notice {
   text-align: center;
   line-height: 1.55;
 }
-.uiarc-showcase .showcase-auth-preferences {
+.preview-showcase .showcase-auth-preferences {
   position: absolute;
   bottom: 18px;
   right: 32px;
@@ -50,28 +50,28 @@
   color: var(--text-muted);
   font-size: 12px;
 }
-.uiarc-showcase .showcase-auth-preferences select {
+.preview-showcase .showcase-auth-preferences select {
   border: 0;
   background: transparent;
   color: inherit;
   font-size: 12px;
 }
-.uiarc-showcase .auth-flow_oauthButton__j9hGl > svg {
+.preview-showcase .auth-flow_oauthButton__j9hGl > svg {
   flex: none;
 }
-.uiarc-showcase .auth-shell_formBody__hla4i {
+.preview-showcase .auth-shell_formBody__hla4i {
   padding-bottom: 32px;
 }
-.uiarc-showcase .auth-flow_step__gU_3q {
+.preview-showcase .auth-flow_step__gU_3q {
   padding: 0;
 }
 @media (max-width: 980px) {
-  .uiarc-showcase .showcase-auth-mirrored .auth-shell_formSide__amNg7 {
+  .preview-showcase .showcase-auth-mirrored .auth-shell_formSide__amNg7 {
     grid-column: 1;
   }
 }
 @media (max-width: 420px) {
-  .uiarc-showcase .showcase-auth-preferences {
+  .preview-showcase .showcase-auth-preferences {
     position: static;
     justify-content: flex-end;
     margin: 18px 0;

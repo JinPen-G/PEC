@@ -1,0 +1,1 @@
+export const PLATFORM_ENGINEERING_GOVERNANCE: string;

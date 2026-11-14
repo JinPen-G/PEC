@@ -56,7 +56,7 @@ permissions, monetary formatting, selection and all vendor motion remain intact.
 
 ## Integration differences
 
-The adapter ports Tablecn's semantic table rendering, column-header sort/hide menu, searchable View popover and multi-sort list into CSS Modules because this admin does not install Tailwind/shadcn globally. It uses the same TanStack headless engine, Radix menus/popovers, cmdk field search and dnd-kit sorting interactions. Platform UIArc buttons, localization, configurable radii and neutral light/dark tokens remain in control. The later-approved motion composition uses [Motiq source](../ui-motiq/README.md); no synthetic data feed or replacement application/backend is introduced. Upstream source is preserved separately; this is an attributed integration, not byte-for-byte rendering of the entire demo site.
+The adapter ports Tablecn's semantic table rendering, column-header sort/hide menu, searchable View popover and multi-sort list into CSS Modules because this admin does not install Tailwind/shadcn globally. It uses the same TanStack headless engine, Radix menus/popovers, cmdk field search and dnd-kit sorting interactions. Platform 第三方UI组件 buttons, localization, configurable radii and neutral light/dark tokens remain in control. The later-approved motion composition uses [Motiq source](../ui-motiq/README.md); no synthetic data feed or replacement application/backend is introduced. Upstream source is preserved separately; this is an attributed integration, not byte-for-byte rendering of the entire demo site.
 
 The table has its own fine border and first/last column inset. No outer search/table card is added. Secondary quote, security, resource and location details remain available through View; the fixed identity/actions columns cannot be hidden. Long item collections use native disclosure instead of forcing every row to its full height. On narrow screens pinning is released and the table scrolls horizontally.
 
@@ -82,7 +82,7 @@ from the Tablecn badge's 20px geometry.
 
 Row actions follow the pinned task columns' Ellipsis/ghost trigger pattern.
 `DataTableRowActions` combines a permission/status-selected primary action with an
-always-available three-dot menu. Text actions retain the original UIArc Button
+always-available three-dot menu. Text actions retain the original 第三方UI组件 Button
 motion; the 32px zero-padding ghost Ellipsis trigger and Radix portal menu use
 the pinned Tablecn geometry and shared table-menu styles. There is no hover-expanding action dock.
 Both controls sit together with the shared 8px gap, without an auto margin pushing
@@ -91,7 +91,7 @@ rows without a primary action keep a document icon plus visible details text.
 Menu entries are text-only, exclude details and the visible primary action;
 an empty menu disables/grays its native trigger. Its separate CSS port follows
 the upstream 160px menu, padding, shadow/ring and 100ms directional fade/95% zoom,
-not the header menu's 150ms motion or UIArc's gliding highlight. Platform theme,
+not the header menu's 150ms motion or 第三方UI组件's gliding highlight. Platform theme,
 configurable radii and reduced-motion integration remain explicit host adaptations.
 The order-specific adapter filters shortcuts and deep-links
 to existing detail operations. Deep-link handling only scrolls/focuses an entry;

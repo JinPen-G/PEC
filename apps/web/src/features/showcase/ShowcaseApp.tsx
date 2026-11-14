@@ -1,5 +1,5 @@
 import { LoadingStage } from '@preview/ui/loading';
-/** UIARC layout adapter: anonymous discovery and authorized preview/source/PRD.
+/** UI primitives layout adapter: anonymous discovery and authorized preview/source/PRD.
  * Administrator routes keep the existing Rental OS frame and identity service. */
 import {
   lazy,
@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
   useMemo,
+  useSyncExternalStore,
 } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
@@ -20,7 +21,6 @@ import {
   Code2,
   Eye,
   FileText,
-  Layers3,
   LockKeyhole,
   Maximize2,
   Menu,
@@ -35,6 +35,8 @@ import {
 import { motion, useReducedMotion } from 'motion/react';
 import {
   SiteFrame,
+  BrandIcon,
+  BrandOpening,
   ThemeDrawer,
   SITE_ACCENTS,
   SiteThemeSwitch,
@@ -60,7 +62,13 @@ import { FullscreenPreview } from './FullscreenPreview';
 import { SiteLanding } from './SiteLanding';
 import { CatalogFilters } from './CatalogFilters';
 import { CatalogJump, catalogIcons } from './CatalogJump';
-import { catalogKind, catalogPageTitle, catalogSections, sectionForPath, type CatalogKind } from './catalog-sections';
+import {
+  catalogKind,
+  catalogPageTitle,
+  catalogSections,
+  sectionForPath,
+  type CatalogKind,
+} from './catalog-sections';
 import { ProjectScreens } from './ProjectScreens';
 import { desktopScreen, mobileScreen } from './screen-preview';
 import { SiteDocumentation } from './SiteDocumentation';
@@ -70,7 +78,6 @@ import { SidebarSection } from './SidebarSection';
 import { TocSelection } from './TocSelection';
 import { SiteAccountMenu } from './SiteAccountMenu';
 import { SiteLanguageMenu } from './SiteLanguageMenu';
-import { SiteProjectMenu } from './SiteProjectMenu';
 import { SiteCollaboration, SiteCollaborationControls } from './SiteCollaboration';
 import { changeSiteTheme, type ThemeTransitionState } from './site-theme-transition';
 import { flushSync } from 'react-dom';
@@ -78,7 +85,13 @@ import { AnimatedPanel } from './AnimatedPanel';
 import { documentDisplay } from './document-display';
 import { DevicePreview } from './DevicePreview';
 import { ScreenWorkspace } from './ScreenWorkspace';
-import { useShowcaseProject, useShowcaseProjects, useShowcasePages, useShowcaseCatalog, type CatalogPage } from './showcase-catalog';
+import {
+  useShowcaseProject,
+  useShowcaseProjects,
+  useShowcasePages,
+  useShowcaseCatalog,
+  type CatalogPage,
+} from './showcase-catalog';
 import { isDemoRoute } from '@/features/demo/demo-routes';
 import { RestIdentityScope } from '@/features/rest/RestIdentityScope';
 import { RestEntry } from '@/features/rest/RestEntry';
@@ -134,9 +147,17 @@ export function Detail({ page }: { page: CatalogPage }) {
   const route = useLocation();
   const routeKey = route.key;
   const parameters = new URLSearchParams(route.search);
-  const [documentSelection, setDocumentSelection] = useState<{ route: string; path: string | null; anchor?: string } | null>(null);
-  const requestedDocument = documentSelection?.route === route.key ? documentSelection.path : parameters.get('document');
-  const documentAnchor = documentSelection?.route === route.key ? documentSelection.anchor : parameters.get('anchor') ?? undefined;
+  const [documentSelection, setDocumentSelection] = useState<{
+    route: string;
+    path: string | null;
+    anchor?: string;
+  } | null>(null);
+  const requestedDocument =
+    documentSelection?.route === route.key ? documentSelection.path : parameters.get('document');
+  const documentAnchor =
+    documentSelection?.route === route.key
+      ? documentSelection.anchor
+      : (parameters.get('anchor') ?? undefined);
   const clearDocument = () => setDocumentSelection({ route: route.key, path: null });
   const reduced = useReducedMotion();
   const enterPart = (delay: number) => ({
@@ -161,8 +182,16 @@ export function Detail({ page }: { page: CatalogPage }) {
     retry: false,
     refetchInterval: 5000,
   });
-  const [tabSelection, setTabSelection] = useState<{ route: string; tab: 'preview' | 'document' | 'source' } | null>(null);
-  const requestedTab = tabSelection?.route === route.key ? tabSelection.tab : parameters.has('document') ? 'document' : 'preview';
+  const [tabSelection, setTabSelection] = useState<{
+    route: string;
+    tab: 'preview' | 'document' | 'source';
+  } | null>(null);
+  const requestedTab =
+    tabSelection?.route === route.key
+      ? tabSelection.tab
+      : parameters.has('document')
+        ? 'document'
+        : 'preview';
   const setTab = (tab: 'preview' | 'document' | 'source') => setTabSelection({ route: route.key, tab });
   const [mobile, setMobile] = useState(false),
     [expanded, setExpanded] = useState(false);
@@ -219,19 +248,32 @@ export function Detail({ page }: { page: CatalogPage }) {
     !permitted || following || (requestedTab === 'document' && !documentTab) ? 'preview' : requestedTab;
   const readingFullDocument = documentTab && tab === 'document';
   const linkedDocument = useQuery<{ path: string; title: string; markdown: string }>({
-    queryKey: ['showcase-linked-document', session?.user?.id, session?.user?.revision, pageLink(page), requestedDocument, detail?.contentRevision],
-    queryFn: () => publicClient.request(`${pageApi(page)}/document?path=${encodeURIComponent(requestedDocument!)}`),
+    queryKey: [
+      'showcase-linked-document',
+      session?.user?.id,
+      session?.user?.revision,
+      pageLink(page),
+      requestedDocument,
+      detail?.contentRevision,
+    ],
+    queryFn: () =>
+      publicClient.request(`${pageApi(page)}/document?path=${encodeURIComponent(requestedDocument!)}`),
     enabled: permitted && readingFullDocument && Boolean(requestedDocument),
     retry: false,
   });
-  const readDocument = useCallback((path: string, anchor?: string) => {
-    setDocumentSelection({ route: routeKey, path, anchor });
-    setTabSelection({ route: routeKey, tab: 'document' });
-  }, [routeKey, setDocumentSelection, setTabSelection]);
+  const readDocument = useCallback(
+    (path: string, anchor?: string) => {
+      setDocumentSelection({ route: routeKey, path, anchor });
+      setTabSelection({ route: routeKey, tab: 'document' });
+    },
+    [routeKey, setDocumentSelection, setTabSelection],
+  );
   const detailPath = pageLink(page);
-  const documentUrl = useCallback((path: string, anchor?: string) =>
-    `#${detailPath}?document=${encodeURIComponent(path)}${anchor ? `&anchor=${encodeURIComponent(anchor)}` : ''}`,
-  [detailPath]);
+  const documentUrl = useCallback(
+    (path: string, anchor?: string) =>
+      `#${detailPath}?document=${encodeURIComponent(path)}${anchor ? `&anchor=${encodeURIComponent(anchor)}` : ''}`,
+    [detailPath],
+  );
   useEffect(() => {
     if (tab !== 'preview' || !permitted) collaboration?.room.pointer(null);
   }, [tab, permitted, collaboration?.room]);
@@ -252,7 +294,9 @@ export function Detail({ page }: { page: CatalogPage }) {
               <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
               {isScreen ? (
                 <Link to={`/screens?project=${encodeURIComponent(page.projectId)}`}>{page.projectName}</Link>
-              ) : <span>{page.category || page.clientName}</span>}
+              ) : (
+                <span>{page.category || page.clientName}</span>
+              )}
               <ChevronRight size={13} strokeWidth={1.75} aria-hidden="true" />
               <span aria-current="page">{pageTitle}</span>
             </motion.nav>
@@ -267,8 +311,15 @@ export function Detail({ page }: { page: CatalogPage }) {
                     </span>
                   )}
                 </div>
-                {permitted && detail?.description && <p>{locale === 'en' ? detail.descriptionEn || detail.description : detail.description}</p>}
-                {permitted && <QuickInstall registry={detail?.registry} publicPage={page.access === 'public' && detail?.access === 'public'} />}
+                {permitted && detail?.description && (
+                  <p>{locale === 'en' ? detail.descriptionEn || detail.description : detail.description}</p>
+                )}
+                {permitted && (
+                  <QuickInstall
+                    registry={detail?.registry}
+                    publicPage={page.access === 'public' && detail?.access === 'public'}
+                  />
+                )}
               </div>
               {detail && permitted && <CopyActions detail={detail} />}
             </motion.header>
@@ -359,57 +410,66 @@ export function Detail({ page }: { page: CatalogPage }) {
                   {permitted && <SiteCollaborationControls />}
                   {tab === 'preview' && (
                     <>
-                    {isScreen && <span className="showcase-screen-hint">
-                      {text('交互页面')} · {mobile ? mobileScreen.width : desktopScreen.width} × {mobile ? mobileScreen.height : desktopScreen.height}
-                    </span>}
-                    <div className="preview-shell_tools___wPkm">
-                      <div className="preview-shell_switch__v2Veh" role="radiogroup" aria-label="预览尺寸">
-                        {[
-                          { label: isScreen ? '桌面预览' : '自适应预览', value: false, icon: isScreen ? <Monitor size={14} /> : <Scan size={14} /> },
-                          { label: '窄屏预览', value: true, icon: <Smartphone size={14} /> },
-                        ].map((item) => (
-                          <button
-                            key={item.label}
-                            className="preview-shell_option__gxVA2"
-                            role="radio"
-                            aria-label={item.label}
-                            aria-checked={mobile === item.value}
-                            onClick={() => setMobile(item.value)}
-                          >
-                            {mobile === item.value && (
-                              <motion.span
-                                className="preview-shell_highlight__cOThZ"
-                                layoutId="preview-size"
-                                transition={reduced ? { duration: 0 } : spring}
-                              />
-                            )}
-                            {item.icon}
-                          </button>
-                        ))}
+                      {isScreen && (
+                        <span className="showcase-screen-hint">
+                          {text('交互页面')} · {mobile ? mobileScreen.width : desktopScreen.width} ×{' '}
+                          {mobile ? mobileScreen.height : desktopScreen.height}
+                        </span>
+                      )}
+                      <div className="preview-shell_tools___wPkm">
+                        <div className="preview-shell_switch__v2Veh" role="radiogroup" aria-label="预览尺寸">
+                          {[
+                            {
+                              label: isScreen ? '桌面预览' : '自适应预览',
+                              value: false,
+                              icon: isScreen ? <Monitor size={14} /> : <Scan size={14} />,
+                            },
+                            { label: '窄屏预览', value: true, icon: <Smartphone size={14} /> },
+                          ].map((item) => (
+                            <button
+                              key={item.label}
+                              className="preview-shell_option__gxVA2"
+                              role="radio"
+                              aria-label={item.label}
+                              aria-checked={mobile === item.value}
+                              onClick={() => setMobile(item.value)}
+                            >
+                              {mobile === item.value && (
+                                <motion.span
+                                  className="preview-shell_highlight__cOThZ"
+                                  layoutId="preview-size"
+                                  transition={reduced ? { duration: 0 } : spring}
+                                />
+                              )}
+                              {item.icon}
+                            </button>
+                          ))}
+                        </div>
+                        <button
+                          className="preview-shell_expand__fXEJp"
+                          aria-label="放大预览"
+                          disabled={!permitted}
+                          onClick={() => {
+                            const canvas = nativePreview.current?.parentElement;
+                            const rect = canvas?.getBoundingClientRect();
+                            if (rect) {
+                              setFullscreenBounds({
+                                top: rect.top,
+                                left: rect.left,
+                                width: rect.width,
+                                height: rect.height,
+                                borderRadius: canvas
+                                  ? parseFloat(getComputedStyle(canvas).borderRadius) || 0
+                                  : 0,
+                              });
+                              setReservedHeight(rect.height);
+                            }
+                            setExpanded(true);
+                          }}
+                        >
+                          <Maximize2 size={14} />
+                        </button>
                       </div>
-                      <button
-                        className="preview-shell_expand__fXEJp"
-                        aria-label="放大预览"
-                        disabled={!permitted}
-                        onClick={() => {
-                          const canvas = nativePreview.current?.parentElement;
-                          const rect = canvas?.getBoundingClientRect();
-                          if (rect) {
-                            setFullscreenBounds({
-                              top: rect.top,
-                              left: rect.left,
-                              width: rect.width,
-                              height: rect.height,
-                              borderRadius: canvas ? parseFloat(getComputedStyle(canvas).borderRadius) || 0 : 0,
-                            });
-                            setReservedHeight(rect.height);
-                          }
-                          setExpanded(true);
-                        }}
-                      >
-                        <Maximize2 size={14} />
-                      </button>
-                    </div>
                     </>
                   )}
                 </div>
@@ -421,7 +481,12 @@ export function Detail({ page }: { page: CatalogPage }) {
                   style={{ minHeight: reservedHeight }}
                 >
                   <div ref={nativePreview} className="showcase-native-mount">
-                    <DevicePreview mobile={mobile} screen={isScreen} expanded={expanded} maxWidth={expanded ? 410 : 332}>
+                    <DevicePreview
+                      mobile={mobile}
+                      screen={isScreen}
+                      expanded={expanded}
+                      maxWidth={expanded ? 410 : 332}
+                    >
                       {!permitted ? (
                         <div className="showcase-lock">
                           <LockKeyhole size={30} />
@@ -439,17 +504,25 @@ export function Detail({ page }: { page: CatalogPage }) {
                       ) : query.isPending ? (
                         <LoadingStage label="读取页面…" />
                       ) : detail ? (
-                        isScreen ? <ScreenWorkspace page={page} compact={mobile}>
+                        isScreen ? (
+                          <ScreenWorkspace page={page} compact={mobile}>
+                            <div data-prototype-canvas={tab === 'preview' || undefined}>
+                              <RuntimePage
+                                key={detail.contentRevision}
+                                entry={detail.entry}
+                                styles={detail.styles}
+                              />
+                            </div>
+                          </ScreenWorkspace>
+                        ) : (
                           <div data-prototype-canvas={tab === 'preview' || undefined}>
-                            <RuntimePage key={detail.contentRevision} entry={detail.entry} styles={detail.styles} />
+                            <RuntimePage
+                              key={detail.contentRevision}
+                              entry={detail.entry}
+                              styles={detail.styles}
+                            />
                           </div>
-                        </ScreenWorkspace> : <div data-prototype-canvas={tab === 'preview' || undefined}>
-                          <RuntimePage
-                            key={detail.contentRevision}
-                            entry={detail.entry}
-                            styles={detail.styles}
-                          />
-                        </div>
+                        )
                       ) : null}
                     </DevicePreview>
                   </div>
@@ -480,15 +553,18 @@ export function Detail({ page }: { page: CatalogPage }) {
                   role="tabpanel"
                   aria-label={text('文档')}
                 >
-                  {requestedDocument && <div className="showcase-document-summary-head">
-                    <button onClick={clearDocument}>
-                      <ArrowUp size={14} />{text('返回本页需求')}
-                    </button>
-                    <span>{linkedDocument.data?.title}</span>
-                  </div>}
+                  {requestedDocument && (
+                    <div className="showcase-document-summary-head">
+                      <button onClick={clearDocument}>
+                        <ArrowUp size={14} />
+                        {text('返回本页需求')}
+                      </button>
+                      <span>{linkedDocument.data?.title}</span>
+                    </div>
+                  )}
                   <Suspense fallback={<LoadingStage label="加载业务需求…" />}>
                     <Reader
-                      source={requestedDocument ? linkedDocument.data?.markdown ?? '' : detail.markdown}
+                      source={requestedDocument ? (linkedDocument.data?.markdown ?? '') : detail.markdown}
                       loading={Boolean(requestedDocument) && linkedDocument.isPending}
                       error={requestedDocument ? linkedDocument.error?.message : undefined}
                       layout="site"
@@ -538,7 +614,11 @@ export function Detail({ page }: { page: CatalogPage }) {
                       source={display.summary.replace(/^#\s+[^\r\n]+\r?\n+/, '')}
                       loading={false}
                       layout="site"
-                      documentPath={(display.long && display.summary === detail.summaryMarkdown ? detail.summaryPath : detail.documents[0]?.path) ?? 'overview.md'}
+                      documentPath={
+                        (display.long && display.summary === detail.summaryMarkdown
+                          ? detail.summaryPath
+                          : detail.documents[0]?.path) ?? 'overview.md'
+                      }
                       resolveDocumentUrl={documentUrl}
                       onDocumentNavigate={readDocument}
                       onHeadings={updateHeadings}
@@ -624,6 +704,12 @@ function DirectPage({ path }: { path: string }) {
     </main>
   );
 }
+const subscribeMobileHeader = (notify: () => void) => {
+  const query = window.matchMedia('(max-width: 760px)');
+  query.addEventListener('change', notify);
+  return () => query.removeEventListener('change', notify);
+};
+
 function Site() {
   const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false),
@@ -664,6 +750,11 @@ function Site() {
     SITE_ACCENTS.find((item) => item.color.toLowerCase() === preferences.themeColor.toLowerCase())?.key ??
     'neutral';
   const location = useLocation();
+  const [homeIntroPending, setHomeIntroPending] = useState(() => location.pathname === '/');
+  const [homeIntroReady, setHomeIntroReady] = useState(() => location.pathname !== '/');
+  const reducedHomeMotion = Boolean(useReducedMotion());
+  const consumeHomeIntro = useCallback(() => setHomeIntroPending(false), []);
+  const revealHome = useCallback(() => setHomeIntroReady(true), []);
   const administration =
     location.pathname.startsWith('/manage') ||
     location.pathname.startsWith('/projects') ||
@@ -722,25 +813,33 @@ function Site() {
     document.addEventListener('keydown', shortcut);
     return () => document.removeEventListener('keydown', shortcut);
   }, [administration]);
-  const pages = allCatalogs.flatMap((item) => item.isError ? [] : item.data?.pages ?? []);
+  const pages = allCatalogs.flatMap((item) => (item.isError ? [] : (item.data?.pages ?? [])));
   const selected = pages.find((page) => pageLink(page) === location.pathname);
   const section = sectionForPath(location.pathname);
-  const selectedKind = selected ? catalogKind(selected) : section?.kind ?? 'page';
-  const [catalogJump, setCatalogJump] = useState<{ kind: CatalogKind; route: string; revision: number } | null>(null);
+  const selectedKind = selected ? catalogKind(selected) : (section?.kind ?? 'page');
+  const [catalogJump, setCatalogJump] = useState<{
+    kind: CatalogKind;
+    route: string;
+    revision: number;
+  } | null>(null);
   const jumpKind = catalogJump?.route === location.pathname ? catalogJump.kind : selectedKind;
   const jumpToCatalog = (kind: CatalogKind, panel: HTMLElement | null) => {
-    flushSync(() => setCatalogJump({ kind, route: location.pathname, revision: (catalogJump?.revision ?? 0) + 1 }));
+    flushSync(() =>
+      setCatalogJump({ kind, route: location.pathname, revision: (catalogJump?.revision ?? 0) + 1 }),
+    );
     const target = panel?.querySelector<HTMLElement>(`[data-catalog-section="${kind}"]`);
     const scroller = panel?.querySelector<HTMLElement>('.library-sidebar_scroll__Tdgfx');
-    if (target && scroller) scroller.scrollTo({
-      top: scroller.scrollTop + target.getBoundingClientRect().top - scroller.getBoundingClientRect().top,
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-    });
+    if (target && scroller)
+      scroller.scrollTo({
+        top: scroller.scrollTop + target.getBoundingClientRect().top - scroller.getBoundingClientRect().top,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+      });
   };
   const visible = pages.filter(
     (page) =>
       `${page.title} ${catalogPageTitle(page)} ${text(catalogPageTitle(page))} ${page.projectName} ${page.category} ${text(page.category)}`
-        .toLowerCase().includes(filter.trim().toLowerCase()) &&
+        .toLowerCase()
+        .includes(filter.trim().toLowerCase()) &&
       (tier === 'all' || page.access === tier) &&
       (!accessibleOnly || page.allowed),
   );
@@ -753,13 +852,13 @@ function Site() {
   const graphPageProject = projectCatalog.data?.projects.find((project) => project.id === graphProjectId);
   const isDocs = location.pathname.startsWith('/docs') && !isGraph;
   const home = location.pathname === '/';
-  const changeProject = (value: string) => {
-    setFilter('');
-    setMobileOpen(false);
-    const params = new URLSearchParams(location.search);
-    params.set('project', value);
-    navigate(`${home || isDocs ? location.pathname : '/pages'}?${params}`);
-  };
+  const mobileHeader = useSyncExternalStore(
+    subscribeMobileHeader,
+    () => window.matchMedia('(max-width: 760px)').matches,
+    () => false,
+  );
+  // Move utilities into mobile navigation so the brand can stay at the screen center.
+  const compactHomeHeader = home && mobileHeader;
   const demoDestination = `/demo${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`;
   const header = (
     <>
@@ -771,30 +870,47 @@ function Site() {
       >
         <Menu size={18} />
       </button>
-      <Link className={home ? 'site-nav_brand__GnbJw' : 'page_brand__CmA8v'} to="/">
-        <Layers3 size={26} />
-        <span>Preview</span>
+      <Link className={home ? 'site-nav_brand__GnbJw' : 'page_brand__CmA8v'} to="/" aria-label="Preview">
+        {home ? (
+          <BrandOpening
+            playIntro={homeIntroPending}
+            reducedMotion={reducedHomeMotion}
+            skipLabel={text('跳过开场')}
+            onStart={consumeHomeIntro}
+            onReveal={revealHome}
+            onComplete={consumeHomeIntro}
+          />
+        ) : (
+          <>
+            <BrandIcon size={32} />
+            <span>Preview</span>
+          </>
+        )}
       </Link>
       <nav className={home ? 'site-nav_desktopNav__a6XFI' : 'page_topNav__z05cm'} aria-label="主导航">
-        {catalogSections.map((item) => <Link key={item.kind} to={item.path}
-          aria-current={!home && !isDocs && selectedKind === item.kind ? 'page' : undefined}>
-          {item.title}
-        </Link>)}
-        <Link
-          to={`/docs${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}
-          aria-current={isDocs ? 'page' : undefined}
-        >
+        {catalogSections.map((item) => (
+          <Link
+            key={item.kind}
+            to={item.path}
+            aria-current={!home && !isDocs && selectedKind === item.kind ? 'page' : undefined}
+          >
+            {item.title}
+          </Link>
+        ))}
+        <Link to="/docs" aria-current={isDocs ? 'page' : undefined}>
           文档
         </Link>
-        <Link to={`/docs/ai${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}>
-          AI 接入
-        </Link>
+        <Link to="/docs/ai">AI 接入</Link>
         <Link to={demoDestination}>Try the demo</Link>
         {session?.user?.role === 'admin' && <Link to="/manage/projects">管理后台</Link>}
       </nav>
       <div className={home ? 'site-nav_headerActions__pddgO' : 'page_topActions__2fJLa'}>
-        <RestEntry surface="site" />
-        <SiteLanguageMenu />
+        {!compactHomeHeader && (
+          <>
+            <RestEntry surface="site" />
+            <SiteLanguageMenu />
+          </>
+        )}
         <button
           className="global-command-menu_launcher__grAw_ showcase-search-launch"
           onClick={() => setSearchOpen(true)}
@@ -820,13 +936,14 @@ function Site() {
             onThemeChange={(next, _variant, trigger) => changeTheme(next === 'dark', trigger)}
           />
         </div>
-        {session?.user ? (
-          <SiteAccountMenu />
-        ) : (
-          <Link className={home ? 'site-nav_accountLink__AXwZH' : 'get-pro-link_link__xOfqc'} to="/login">
-            登录
-          </Link>
-        )}
+        {!compactHomeHeader &&
+          (session?.user ? (
+            <SiteAccountMenu />
+          ) : (
+            <Link className={home ? 'site-nav_accountLink__AXwZH' : 'get-pro-link_link__xOfqc'} to="/login">
+              登录
+            </Link>
+          ))}
       </div>
     </>
   );
@@ -849,74 +966,122 @@ function Site() {
         <SidebarSection title="文档" icon={<BookOpen size={15} strokeWidth={1.75} />}>
           <nav className="library-sidebar_sectionBody__qECt_">
             <div className="library-sidebar_rows__muylU">
-              {siteGuides.filter((guide) => guide.id !== 'graph').map((guide) => (
-                <Link
-                  key={guide.path}
-                  className="library-sidebar_row__aE5SY"
-                  to={`${guide.path}${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}
-                  data-sidebar-key={guide.path}
-                  onClick={() => setMobileOpen(false)}
-                  aria-current={location.pathname === guide.path ? 'page' : undefined}
-                >
-                  <span className="library-sidebar_label__EP9jR">{guide.title}</span>
-                </Link>
-              ))}
+              {siteGuides
+                .filter((guide) => guide.id !== 'graph')
+                .map((guide) => (
+                  <Link
+                    key={guide.path}
+                    className="library-sidebar_row__aE5SY"
+                    to={guide.path}
+                    data-sidebar-key={guide.path}
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={location.pathname === guide.path ? 'page' : undefined}
+                  >
+                    <span className="library-sidebar_label__EP9jR">{guide.title}</span>
+                  </Link>
+                ))}
             </div>
           </nav>
         </SidebarSection>
         {catalogSections.map(({ kind, title }) => {
           const Icon = catalogIcons[kind];
           const items = visible.filter((page) => catalogKind(page) === kind);
-          const showGraphLink = kind === 'page' && pages.some((page) => catalogKind(page) === 'page' && page.allowed &&
-            `${page.projectName} 关系图谱 知识图谱 需求图谱 ${text('关系图谱')} ${text('需求关系图谱')}`
-              .toLowerCase().includes(filter.trim().toLowerCase()));
+          const showGraphLink =
+            kind === 'page' &&
+            pages.some(
+              (page) =>
+                catalogKind(page) === 'page' &&
+                page.allowed &&
+                `${page.projectName} 关系图谱 知识图谱 需求图谱 ${text('关系图谱')} ${text('需求关系图谱')}`
+                  .toLowerCase()
+                  .includes(filter.trim().toLowerCase()),
+            );
           const groups = [...new Set(items.map((page) => page.category || page.clientName))];
-          const activeKey = kind === 'page' && isGraph ? graphMenuKey : catalogJump?.route === location.pathname && catalogJump.kind === kind ? `jump:${catalogJump.revision}` :
-            selected && catalogKind(selected) === kind ? pageLink(selected) : '';
+          const activeKey =
+            kind === 'page' && isGraph
+              ? graphMenuKey
+              : catalogJump?.route === location.pathname && catalogJump.kind === kind
+                ? `jump:${catalogJump.revision}`
+                : selected && catalogKind(selected) === kind
+                  ? pageLink(selected)
+                  : '';
           return (
             <div key={kind} data-catalog-section={kind}>
-            <SidebarSection title={title} count={items.length}
-              icon={<Icon size={15} strokeWidth={1.75} aria-hidden="true" />}
-              activeKey={activeKey} defaultOpen={kind === 'page'} forceOpen={Boolean(filter) && (items.length > 0 || showGraphLink)}>
-              <nav className="library-sidebar_sectionBody__qECt_" aria-label={title}>
-                {kind === 'page' ? (
-                  <ProjectScreens key={displayedProject} projects={projectCatalog.data?.projects ?? []} pages={pages} visible={items}
-                    projectId={displayedProject} activeKey={sidebarActiveKey} filter={filter}
-                    onVisit={() => setMobileOpen(false)} />
-                ) : groups.map((group, index) => {
-                  const rows = items.filter((page) => (page.category || page.clientName) === group);
-                  const active = rows.some((page) => pageLink(page) === location.pathname) ? location.pathname : '';
-                  return <SidebarSection key={group} group title={group} count={rows.length}
-                    activeKey={active} defaultOpen={index === 0} forceOpen={Boolean(filter)}>
-                    <div className="library-sidebar_rows__muylU">
-                      {rows.map((page) => (
-                    <Link
-                      key={pageLink(page)}
-                      to={pageLink(page)}
-                      onClick={() => setMobileOpen(false)}
-                      aria-current={selected && pageLink(page) === pageLink(selected) ? 'page' : undefined}
-                      className="library-sidebar_row__aE5SY"
-                      data-sidebar-key={pageLink(page)}
-                    >
-                      <span className="library-sidebar_label__EP9jR">{catalogPageTitle(page)}</span>
-                      {page.access === 'restricted' && (
-                        <span className="library-sidebar_pro__c08K_">授权</span>
-                      )}
-                    </Link>
-                      ))}
-                    </div>
-                  </SidebarSection>;
-                })}
-                {!items.length && !showGraphLink && <p className="showcase-catalog-empty">{filter || tier !== 'all' ? '没有匹配内容' : `暂无${title}`}</p>}
-              </nav>
-            </SidebarSection>
+              <SidebarSection
+                title={title}
+                count={items.length}
+                icon={<Icon size={15} strokeWidth={1.75} aria-hidden="true" />}
+                activeKey={activeKey}
+                defaultOpen={kind === 'page'}
+                forceOpen={Boolean(filter) && (items.length > 0 || Boolean(showGraphLink))}
+              >
+                <nav className="library-sidebar_sectionBody__qECt_" aria-label={title}>
+                  {kind === 'page' ? (
+                    <ProjectScreens
+                      key={displayedProject}
+                      projects={projectCatalog.data?.projects ?? []}
+                      pages={pages}
+                      visible={items}
+                      projectId={displayedProject}
+                      activeKey={sidebarActiveKey}
+                      filter={filter}
+                      onVisit={() => setMobileOpen(false)}
+                    />
+                  ) : (
+                    groups.map((group, index) => {
+                      const rows = items.filter((page) => (page.category || page.clientName) === group);
+                      const active = rows.some((page) => pageLink(page) === location.pathname)
+                        ? location.pathname
+                        : '';
+                      return (
+                        <SidebarSection
+                          key={group}
+                          group
+                          title={group}
+                          count={rows.length}
+                          activeKey={active}
+                          defaultOpen={index === 0}
+                          forceOpen={Boolean(filter)}
+                        >
+                          <div className="library-sidebar_rows__muylU">
+                            {rows.map((page) => (
+                              <Link
+                                key={pageLink(page)}
+                                to={pageLink(page)}
+                                onClick={() => setMobileOpen(false)}
+                                aria-current={
+                                  selected && pageLink(page) === pageLink(selected) ? 'page' : undefined
+                                }
+                                className="library-sidebar_row__aE5SY"
+                                data-sidebar-key={pageLink(page)}
+                              >
+                                <span className="library-sidebar_label__EP9jR">{catalogPageTitle(page)}</span>
+                                {page.access === 'restricted' && (
+                                  <span className="library-sidebar_pro__c08K_">授权</span>
+                                )}
+                              </Link>
+                            ))}
+                          </div>
+                        </SidebarSection>
+                      );
+                    })
+                  )}
+                  {!items.length && !showGraphLink && (
+                    <p className="showcase-catalog-empty">
+                      {filter || tier !== 'all' ? '没有匹配内容' : `暂无${title}`}
+                    </p>
+                  )}
+                </nav>
+              </SidebarSection>
             </div>
           );
         })}
-        {allCatalogs.some((item) => item.isError) && <p className="showcase-error">部分目录读取失败，请稍后重试。</p>}
+        {allCatalogs.some((item) => item.isError) && (
+          <p className="showcase-error">部分目录读取失败，请稍后重试。</p>
+        )}
       </SidebarSelection>
       <div className="library-sidebar_footer__92pu1">
-        <Link className="library-sidebar_whatsNew__j_D2O" to={`/docs/changelog${displayedProject ? `?project=${encodeURIComponent(displayedProject)}` : ''}`}>
+        <Link className="library-sidebar_whatsNew__j_D2O" to="/docs/changelog">
           <span className="library-sidebar_whatsNewDot__vCkUh" />
           <span className="library-sidebar_whatsNewLabel__dPHge">更新日志</span>
           <ChevronRight size={14} className="library-sidebar_whatsNewArrow__yV6fC" />
@@ -1012,6 +1177,19 @@ function Site() {
               }}
             >
               {sidebar}
+              {compactHomeHeader && (
+                <div className="showcase-mobile-utilities">
+                  <RestEntry surface="site" />
+                  <SiteLanguageMenu />
+                  {session?.user ? (
+                    <SiteAccountMenu />
+                  ) : (
+                    <Link className="showcase-button" to="/login">
+                      登录
+                    </Link>
+                  )}
+                </div>
+              )}
             </div>
           </NavigationDrawer>
           <div ref={setSearchContainer} className="showcase-search-portal" />
@@ -1066,7 +1244,9 @@ function Site() {
                         <FileText size={16} />
                         <span>
                           {text(catalogPageTitle(page))}
-                          <small>{text(catalogKind(page) === 'page' ? page.projectName : page.category)}</small>
+                          <small>
+                            {text(catalogKind(page) === 'page' ? page.projectName : page.category)}
+                          </small>
                         </span>
                         {page.access === 'restricted' && <LockKeyhole size={14} />}
                       </button>
@@ -1089,18 +1269,7 @@ function Site() {
           <SiteCollaboration page={catalog.error ? undefined : selected}>
             <div className="showcase-route-view" key={location.pathname}>
               {home ? (
-                <SiteLanding
-                  pages={pages}
-                  projectId={displayedProject}
-                  projectMenu={
-                    <SiteProjectMenu
-                      projects={projectCatalog.data?.projects ?? []}
-                      value={displayedProject}
-                      onChange={changeProject}
-                      placement="inline"
-                    />
-                  }
-                />
+                <SiteLanding openingReady={homeIntroReady || reducedHomeMotion} />
               ) : isGraph ? (
                 <RequirementGraphPage
                   key={graphProjectId}
@@ -1108,8 +1277,21 @@ function Site() {
                   title="关系图谱"
                   projectName={graphPageProject?.name}
                 />
+              ) : projectDocs ? (
+                <SiteDocumentation
+                  key={location.pathname}
+                  projectId={projectDocs[1]}
+                  path={location.pathname}
+                  pages={pages}
+                  projectGuide={projectDocs[2] === 'changelog' ? 'changelog' : 'introduction'}
+                />
               ) : isDocs ? (
-                <SiteDocumentation key={`${displayedProject}/${location.pathname}`} projectId={displayedProject} path={location.pathname} pages={pages} />
+                <SiteDocumentation
+                  key={`${displayedProject}/${location.pathname}`}
+                  projectId={displayedProject}
+                  path={location.pathname}
+                  pages={pages}
+                />
               ) : selected ? (
                 <Detail key={`${pageLink(selected)}/${session?.user?.id ?? 'anonymous'}`} page={selected} />
               ) : /^\/pages\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+$/.test(location.pathname) ? (
@@ -1122,7 +1304,13 @@ function Site() {
                 <Navigate to={pageLink(first)} replace />
               ) : (
                 <main className="showcase-docs-intro">
-                  <h1>{location.pathname.startsWith('/pages/') ? '页面不存在或已下架' : section ? `暂无${section.title}` : '暂无可展示页面'}</h1>
+                  <h1>
+                    {location.pathname.startsWith('/pages/')
+                      ? '页面不存在或已下架'
+                      : section
+                        ? `暂无${section.title}`
+                        : '暂无可展示页面'}
+                  </h1>
                   <p>
                     {location.pathname.startsWith('/pages/')
                       ? '请从左侧选择可用页面，或联系管理员核对页面状态。'
@@ -1152,7 +1340,9 @@ function Site() {
 export function ShowcaseApp() {
   return (
     <NativeAuthProvider>
-      <RestIdentityScope><Site /></RestIdentityScope>
+      <RestIdentityScope>
+        <Site />
+      </RestIdentityScope>
     </NativeAuthProvider>
   );
 }

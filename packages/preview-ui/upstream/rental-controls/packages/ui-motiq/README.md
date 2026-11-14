@@ -44,7 +44,7 @@ the full reserved catalog/helper files are not bundled.
 - Currency display continues using the business formatter. Animated intermediate numbers
   are visual only; the exact current amount remains screen-reader-readable. A currency change
   resets the numeric context; missing/non-finite amounts are not animated as zero.
-- UIArc remains the sole checkbox motion owner. Reduced-motion disables row translation,
+- 第三方UI组件 remains the sole checkbox motion owner. Reduced-motion disables row translation,
   numeric interpolation, highlight and skeleton/refresh pulsing. There is no second click sound.
 - `dataTableSelectionColumn`, `DataTableSelectionSummary` and `useDataTableSelection` are shared
   template APIs. Controlled ID state retains selection across server pages, filters and sorting.

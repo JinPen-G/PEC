@@ -1,4 +1,4 @@
-// Attributed UIArc MIT integration. Original Drawer gestures/motion; admin lifecycle, title and close-label slots only.
+// Attributed UI primitives MIT integration. Original Drawer gestures/motion; admin lifecycle, title and close-label slots only.
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";

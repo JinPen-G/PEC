@@ -1,0 +1,92 @@
+@font-face {
+  font-family: geist;
+  src: url('../../../packages/preview-ui/src/site/fonts/9ff55a8a9670220d-s.p.woff2') format('woff2');
+  font-display: swap;
+  font-weight: 100 900;
+}
+@font-face {
+  font-family: 'geist Fallback';
+  src: local('Arial');
+  ascent-override: 94.56%;
+  descent-override: 27.76%;
+  line-gap-override: 0%;
+  size-adjust: 106.28%;
+}
+.preview-home-boot[hidden] {
+  display: none;
+}
+.preview-home-boot {
+  --background: oklch(100% 0 0);
+  --foreground: oklch(15% 0 0);
+  --text-secondary: oklch(46% 0 0);
+  --surface-muted: oklch(97.8% 0 0);
+  --font-display: geist, 'geist Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tracking-display: -0.03em;
+  position: fixed;
+  inset: 0;
+  z-index: 139;
+  background: var(--background);
+  color: var(--foreground);
+}
+.preview-home-boot[data-theme='dark'] {
+  --background: oklch(19% 0 0);
+  --foreground: oklch(96% 0 0);
+  --text-secondary: oklch(77% 0 0);
+  --surface-muted: oklch(26% 0 0);
+}
+.preview-home-boot-target {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  width: min(100% - 64px, 1408px);
+  min-height: 76px;
+  margin-inline: auto;
+}
+.preview-home-boot-menu,
+.preview-home-boot-actions {
+  display: none;
+}
+.preview-startup-error {
+  display: grid;
+  min-height: 100dvh;
+  place-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+/* Invisible slots match the existing mobile header before its React controls arrive. */
+@media (max-width: 760px) {
+  .preview-home-boot-target {
+    display: grid;
+    width: calc(100% - 40px);
+    min-height: 68px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 8px;
+  }
+  .preview-home-boot-target > .brand-opening {
+    justify-self: center;
+  }
+  .preview-home-boot-menu {
+    display: block;
+    width: 36px;
+  }
+  .preview-home-boot-actions {
+    display: block;
+    width: 75px;
+    justify-self: end;
+    visibility: hidden;
+  }
+}
+@media (max-width: 520px) {
+  .preview-home-boot-target {
+    width: calc(100% - 32px);
+  }
+}
+@media (max-width: 380px) {
+  .preview-home-boot-target {
+    gap: 4px;
+  }
+}

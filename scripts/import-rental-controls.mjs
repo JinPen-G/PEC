@@ -7,12 +7,14 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
+import { sourcePaths } from './source-paths.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const args = process.argv.slice(2);
 const option = (name) => (args.includes(name) ? args[args.indexOf(name) + 1] : '');
 const source = path.resolve(option('--source'));
 const commit = option('--commit');
+const paths = sourcePaths(option('--primitives-root') || undefined);
 if (!option('--source') || !/^[a-f\d]{40}$/.test(commit) || source === root)
   throw new Error('Use --source <read-only repository> --commit <fixed SHA>');
 const git = (...params) =>
@@ -27,13 +29,14 @@ const names = new Set(
     'apps/admin/src/components',
     'apps/admin/src/app/designTokens.ts',
     'apps/admin/src/app/serverFormSnapshot.ts',
-    'packages/ui-arc',
+    paths.toSource('packages/ui-primitives'),
     'packages/ui-tablecn',
     'packages/ui-motiq',
   )
     .toString('utf8')
     .trim()
-    .split('\n'),
+    .split('\n')
+    .map(paths.toLocal),
 );
 const resolve = (file) =>
   [file, `${file}.ts`, `${file}.tsx`, `${file}.css`, `${file}/index.ts`, `${file}/index.tsx`].find((name) =>
@@ -58,13 +61,13 @@ function targetFor(file, specifier) {
   if (specifier.startsWith('.'))
     target = path.posix.normalize(path.posix.join(path.posix.dirname(file), specifier));
   else if (specifier.startsWith('@/registry/'))
-    target = `packages/ui-arc/vendor/registry/${specifier.slice('@/registry/'.length)}`;
-  else if (specifier === '@/lib/motion-tokens') target = 'packages/ui-arc/vendor/lib/motion-tokens';
+    target = `packages/ui-primitives/vendor/registry/${specifier.slice('@/registry/'.length)}`;
+  else if (specifier === '@/lib/motion-tokens') target = 'packages/ui-primitives/vendor/lib/motion-tokens';
   else if (
     specifier.startsWith('@/lib/') &&
-    resolve(`packages/ui-arc/vendor/lib/${specifier.slice('@/lib/'.length)}`)
+    resolve(`packages/ui-primitives/vendor/lib/${specifier.slice('@/lib/'.length)}`)
   )
-    target = `packages/ui-arc/vendor/lib/${specifier.slice('@/lib/'.length)}`;
+    target = `packages/ui-primitives/vendor/lib/${specifier.slice('@/lib/'.length)}`;
   else if (specifier.startsWith('@/')) target = `apps/admin/src/${specifier.slice(2)}`;
   else return null;
   const found = resolve(target);
@@ -117,7 +120,7 @@ while (queue.length) {
   const file = queue.shift();
   if (seen.has(file)) continue;
   seen.add(file);
-  const bytes = git('show', `${commit}:${file}`);
+  const bytes = git('show', `${commit}:${paths.toSource(file)}`);
   let transformed = bytes.toString('utf8');
   const imports = /\.(?:tsx?|jsx?)$/.test(file)
     ? ts.preProcessFile(transformed, true, true).importedFiles
@@ -153,13 +156,13 @@ while (queue.length) {
   });
 }
 for (const file of [
-  'packages/ui-arc/LICENSE',
+  'packages/ui-primitives/LICENSE',
   'packages/ui-tablecn/LICENSE.md',
   'packages/ui-motiq/LICENSE',
   'packages/ui-motiq/README.md',
   'apps/admin/src/styles.css',
 ]) {
-  const bytes = git('show', `${commit}:${file}`);
+  const bytes = git('show', `${commit}:${paths.toSource(file)}`);
   write(path.join(originalRoot, file), bytes);
   records.push({ source: file, sha256: hash(bytes) });
 }

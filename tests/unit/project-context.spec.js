@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { afterEach, expect, test } from 'vitest';
+import { afterEach, expect, test, vi } from 'vitest';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { tmpdir } from 'node:os';
@@ -12,19 +12,38 @@ import {
   validateContentManifest,
   queryBusinessContext,
 } from '../../packages/project-core/src/platform/project-content.js';
-import { NATIVE_MODULES } from '../../packages/platform-contracts/src/platform.js';
+import { TEST_MODULES as NATIVE_MODULES } from '../fixtures/project-catalog.js';
 import { packageRelease, verifyRelease, activateRelease } from '../../scripts/release.mjs';
 
 const fixtures = [];
+vi.mock('../../packages/platform-contracts/src/platform.js', async (original) => ({
+  ...(await original()),
+  NATIVE_MODULES: (await import('../fixtures/project-catalog.js')).TEST_MODULES,
+}));
 test('project guides publish only their declared scope without opening requirement files', async () => {
   const item = await fixture({ server: true });
   const manifest = baseManifest();
   manifest.guides = [
-    { id: 'introduction', title: 'Fixture product', description: 'Public product introduction', path: 'guides/introduction.md', access: 'public' },
-    { id: 'usage', title: 'Project workflow', description: 'Authorized guide', path: 'guides/usage.md', access: 'project' },
+    {
+      id: 'introduction',
+      title: 'Fixture product',
+      description: 'Public product introduction',
+      path: 'guides/introduction.md',
+      access: 'public',
+    },
+    {
+      id: 'usage',
+      title: 'Project workflow',
+      description: 'Authorized guide',
+      path: 'guides/usage.md',
+      access: 'project',
+    },
   ];
   await fs.mkdir(path.join(item.packageRoot, 'guides'));
-  await fs.writeFile(path.join(item.packageRoot, 'guides/introduction.md'), '## Product\nPUBLIC-GUIDE-CANARY');
+  await fs.writeFile(
+    path.join(item.packageRoot, 'guides/introduction.md'),
+    '## Product\nPUBLIC-GUIDE-CANARY',
+  );
   await fs.writeFile(path.join(item.packageRoot, 'guides/usage.md'), '## Workflow\nPROJECT-GUIDE-CANARY');
   await fs.writeFile(path.join(item.packageRoot, 'manifest.json'), JSON.stringify(manifest));
   const endpoint = `${item.base}/api/native/showcase/${item.project.id}/guides`;
@@ -41,11 +60,28 @@ test('project guides publish only their declared scope without opening requireme
   const authorized = await fetch(endpoint, { headers: { cookie: `preview_session=${admin.token}` } });
   expect((await authorized.json()).guides).toHaveLength(2);
   expect((await fetch(`${item.base}/api/native/showcase/nonexistent/guides`)).ok).toBe(false);
-  expect((await fetch(`${item.base}/api/native/showcase/${item.project.id}/graph-document?id=usage`)).status).toBe(404);
-  for (const override of [{ id: 'private-notes' }, { path: '../private.md' }, { path: 'guides/开发记录.md' }, { access: undefined }]) {
-    expect(() => validateContentManifest({ ...manifest, guides: [{ ...manifest.guides[0], ...override }] }, NATIVE_MODULES)).toThrow();
+  expect(
+    (await fetch(`${item.base}/api/native/showcase/${item.project.id}/graph-document?id=usage`)).status,
+  ).toBe(404);
+  for (const override of [
+    { id: 'private-notes' },
+    { path: '../private.md' },
+    { path: 'guides/开发记录.md' },
+    { access: undefined },
+  ]) {
+    expect(() =>
+      validateContentManifest(
+        { ...manifest, guides: [{ ...manifest.guides[0], ...override }] },
+        NATIVE_MODULES,
+      ),
+    ).toThrow();
   }
-  expect(() => validateContentManifest({ ...manifest, guides: [manifest.guides[0], manifest.guides[0]] }, NATIVE_MODULES)).toThrow('重复');
+  expect(() =>
+    validateContentManifest(
+      { ...manifest, guides: [manifest.guides[0], manifest.guides[0]] },
+      NATIVE_MODULES,
+    ),
+  ).toThrow('重复');
 });
 test('project menu grants are atomic, discoverable, isolated and removed from every page reader', async () => {
   const item = await fixture({ server: true });
@@ -67,9 +103,9 @@ test('project menu grants are atomic, discoverable, isolated and removed from ev
     'content-type': 'application/json',
   };
   const url = item.base + `/api/native/projects/${item.project.id}/page-grants/${user.id}`;
-  const restricted = { clientId: 'operation', pageKey: 'vehicle-transfer' };
+  const restricted = { clientId: 'operation', pageKey: 'item-transfer' };
   expect(store.listProjects(session.user)).toEqual([]);
-  expect(store.pageCatalog(session.user).map((page) => page.pageKey)).toEqual(['vehicle-groups']);
+  expect(store.pageCatalog(session.user).map((page) => page.pageKey)).toEqual(['item-groups']);
   const granted = await fetch(url, {
     method: 'PUT',
     headers: writeHeaders,
@@ -80,7 +116,7 @@ test('project menu grants are atomic, discoverable, isolated and removed from ev
   expect(store.listProjects(session.user).map((project) => project.id)).toEqual(['project-one']);
   expect(store.getProject(session.user, item.project.id).clients[0].pages).toHaveLength(2);
   const other = store.createProject(item.admin, projectInput('project-two'));
-  expect(() => store.pageAccess(session.user, other.id, 'operation', 'vehicle-transfer')).toThrow('尚未获得');
+  expect(() => store.pageAccess(session.user, other.id, 'operation', 'item-transfer')).toThrow('尚未获得');
   expect(
     (
       await fetch(url, {
@@ -128,12 +164,12 @@ test('project menu grants are atomic, discoverable, isolated and removed from ev
     ).status,
   ).toBe(200);
   expect(store.getProject(session.user, item.project.id).clients[0].pages.map((page) => page.key)).toEqual([
-    'vehicle-groups',
+    'item-groups',
   ]);
   for (const suffix of ['', '/source', '/markdown'])
     expect(
       (
-        await fetch(item.base + '/api/native/showcase/project-one/operation/vehicle-transfer' + suffix, {
+        await fetch(item.base + '/api/native/showcase/project-one/operation/item-transfer' + suffix, {
           headers,
         })
       ).status,
@@ -148,7 +184,7 @@ test('project menu grants are atomic, discoverable, isolated and removed from ev
   const catalog = await (
     await fetch(item.base + '/api/native/showcase?projectId=project-one', { headers })
   ).json();
-  expect(catalog.pages.map((page) => page.pageKey)).toEqual(['vehicle-groups']);
+  expect(catalog.pages.map((page) => page.pageKey)).toEqual(['item-groups']);
 });
 afterEach(async () => {
   for (const fixture of fixtures.splice(0)) {
@@ -166,7 +202,7 @@ afterEach(async () => {
 const baseManifest = () => ({
   schemaVersion: 1,
   contentKey: 'test-content',
-  moduleKey: 'rimo-native',
+  moduleKey: 'fixture-module',
   title: '业务概况',
   overview: 'overview.md',
   requirements: [
@@ -176,7 +212,7 @@ const baseManifest = () => ({
       category: '车辆管理',
       status: 'confirmed',
       path: 'requirements/group.md',
-      pages: [{ clientId: 'operation', pageKey: 'vehicle-groups' }],
+      pages: [{ clientId: 'operation', pageKey: 'item-groups' }],
     },
     {
       id: 'transfer-rule',
@@ -184,7 +220,7 @@ const baseManifest = () => ({
       category: '车辆管理',
       status: 'draft',
       path: 'requirements/transfer.md',
-      pages: [{ clientId: 'operation', pageKey: 'vehicle-transfer' }],
+      pages: [{ clientId: 'operation', pageKey: 'item-transfer' }],
     },
   ],
   assets: [],
@@ -192,7 +228,7 @@ const baseManifest = () => ({
 const projectInput = (id = 'project-one') => ({
   id,
   name: id,
-  moduleKey: 'rimo-native',
+  moduleKey: 'fixture-module',
   sourceId: 'published',
   contentKey: 'test-content',
   links: [],
@@ -204,10 +240,10 @@ const projectInput = (id = 'project-one') => ({
       layout: 'desktop',
       enabled: true,
       position: 0,
-      defaultPage: 'vehicle-groups',
+      defaultPage: 'item-groups',
       pages: [
         {
-          key: 'vehicle-groups',
+          key: 'item-groups',
           label: '车组管理',
           group: '车辆管理',
           visible: true,
@@ -215,7 +251,7 @@ const projectInput = (id = 'project-one') => ({
           access: 'public',
         },
         {
-          key: 'vehicle-transfer',
+          key: 'item-transfer',
           label: '调拨管理',
           group: '车辆管理',
           visible: true,
@@ -239,10 +275,10 @@ async function fixture({ server = false, now } = {}) {
     '# 重要调拨规则\n重要机密字段用于授权测试。',
   );
   const sourceRoot = path.join(root, 'source');
-  const sourceDirectory = path.join(sourceRoot, 'apps/web/src/project-modules/rimo-rental/vehicle-groups');
+  const sourceDirectory = path.join(sourceRoot, 'apps/web/src/project-modules/fixture/item-groups');
   await fs.mkdir(sourceDirectory, { recursive: true });
   await fs.writeFile(
-    path.join(sourceDirectory, 'VehicleGroupsPage.tsx'),
+    path.join(sourceDirectory, 'GroupsPage.tsx'),
     'export default function Page(){return "registered-source"}',
   );
   const options = {
@@ -259,6 +295,7 @@ async function fixture({ server = false, now } = {}) {
       sources: {},
       contentRoot,
       pageSourceRoot: sourceRoot,
+      moduleCatalog: NATIVE_MODULES,
       publicOrigin: 'http://127.0.0.1:5191',
       storeOptions: now ? { now } : {},
     });
@@ -305,9 +342,12 @@ test('authored page summaries and full requirements share their document access 
   manifest.requirements[0].summary = 'requirements/group-summary.md';
   manifest.requirements[1].summary = 'requirements/transfer-summary.md';
   await fs.writeFile(path.join(item.packageRoot, 'manifest.json'), JSON.stringify(manifest));
-  await fs.writeFile(path.join(item.packageRoot, 'requirements/group-summary.md'), '品牌与型号必填；切换载具清除无效品牌。');
+  await fs.writeFile(
+    path.join(item.packageRoot, 'requirements/group-summary.md'),
+    '品牌与型号必填；切换载具清除无效品牌。',
+  );
   await fs.writeFile(path.join(item.packageRoot, 'requirements/transfer-summary.md'), '仅空闲车辆可以调拨。');
-  const route = '/api/native/showcase/project-one/operation/vehicle-groups';
+  const route = '/api/native/showcase/project-one/operation/item-groups';
   const detail = await (await fetch(item.base + route)).json();
   expect(detail.summaryMarkdown).toContain('清除无效品牌');
   expect(detail.markdown).toBe('# 车组功能\n品牌和型号必填。');
@@ -316,9 +356,14 @@ test('authored page summaries and full requirements share their document access 
   expect(publicDocument.status).toBe(200);
   expect((await publicDocument.json()).markdown).toBe(detail.markdown);
   expect((await fetch(item.base + route + '/document?path=requirements/transfer.md')).status).toBe(403);
-  expect((await fetch(item.base + '/api/native/showcase/project-one/operation/vehicle-transfer')).status).toBe(401);
+  expect((await fetch(item.base + '/api/native/showcase/project-one/operation/item-transfer')).status).toBe(
+    401,
+  );
   const snapshot = await loadContentPackage(item.contentRoot, 'test-content', NATIVE_MODULES);
-  const context = queryBusinessContext(snapshot, item.project, 'get_page_context', { clientId: 'operation', pageKey: 'vehicle-groups' });
+  const context = queryBusinessContext(snapshot, item.project, 'get_page_context', {
+    clientId: 'operation',
+    pageKey: 'item-groups',
+  });
   expect(context.summaries).toEqual([{ documentId: 'group-rule', markdown: detail.summaryMarkdown }]);
   const invalid = structuredClone(manifest);
   invalid.requirements[0].summary = 'requirements/../AGENTS.md';
@@ -328,13 +373,11 @@ test('authored page summaries and full requirements share their document access 
 });
 test('public preview is anonymous; restricted preview/source/PRD need an explicit account grant', async () => {
   const item = await fixture({ server: true });
-  const publicRoute = '/api/native/showcase/project-one/operation/vehicle-groups';
-  const privateRoute = '/api/native/showcase/project-one/operation/vehicle-transfer';
+  const publicRoute = '/api/native/showcase/project-one/operation/item-groups';
+  const privateRoute = '/api/native/showcase/project-one/operation/item-transfer';
   const preview = await fetch(item.base + publicRoute);
   expect(preview.status).toBe(200);
-  expect((await preview.json()).entry).toBe(
-    '/src/project-modules/rimo-rental/vehicle-groups/VehicleGroupsPage.tsx',
-  );
+  expect((await preview.json()).entry).toBe('/src/project-modules/fixture/item-groups/GroupsPage.tsx');
   expect((await fetch(item.base + publicRoute + '/source')).status).toBe(200);
   for (const suffix of ['', '/source', '/markdown'])
     expect((await fetch(item.base + privateRoute + suffix)).status).toBe(401);
@@ -348,11 +391,11 @@ test('public preview is anonymous; restricted preview/source/PRD need an explici
   const login = item.store.login(user.username, 'changed-password');
   const headers = { cookie: `preview_session=${login.token}` };
   expect((await fetch(item.base + privateRoute, { headers })).status).toBe(403);
-  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'vehicle-transfer', user.id, true);
+  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'item-transfer', user.id, true);
   expect((await fetch(item.base + privateRoute + '/markdown', { headers })).status).toBe(200);
-  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'vehicle-transfer', user.id, false);
+  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'item-transfer', user.id, false);
   expect((await fetch(item.base + privateRoute + '/markdown', { headers })).status).toBe(403);
-  expect((await fetch(item.base + '/page-source/rimo-native/vehicle-transfer.tsx')).status).toBe(404);
+  expect((await fetch(item.base + '/page-source/fixture-module/item-transfer.tsx')).status).toBe(404);
   expect(JSON.stringify(await (await fetch(item.base + '/api/native/showcase')).json())).not.toContain(
     '重要机密',
   );
@@ -363,14 +406,13 @@ test('the front-end catalog used by the demo excludes hidden, disabled and archi
   const headers = { cookie: `preview_session=${session.token}` };
   const route = item.base + '/api/native/showcase?projectId=project-one';
   const read = async () => (await (await fetch(route, { headers })).json()).pages.map((page) => page.pageKey);
-  expect(await read()).toEqual(['vehicle-groups', 'vehicle-transfer']);
+  expect(await read()).toEqual(['item-groups', 'item-transfer']);
   let project = item.store.getProject(item.admin, item.project.id);
   project.clients[0].pages[1].visible = false;
   project = item.store.updateProject(item.admin, project.id, project);
-  expect(await read()).toEqual(['vehicle-groups']);
+  expect(await read()).toEqual(['item-groups']);
   expect(
-    (await fetch(item.base + '/api/native/showcase/project-one/operation/vehicle-transfer', { headers }))
-      .status,
+    (await fetch(item.base + '/api/native/showcase/project-one/operation/item-transfer', { headers })).status,
   ).toBe(404);
   project.clients[0].enabled = false;
   project = item.store.updateProject(item.admin, project.id, project);
@@ -378,7 +420,7 @@ test('the front-end catalog used by the demo excludes hidden, disabled and archi
   project.clients[0].enabled = true;
   project.clients[0].pages[1].visible = true;
   project = item.store.updateProject(item.admin, project.id, project);
-  expect(await read()).toEqual(['vehicle-groups', 'vehicle-transfer']);
+  expect(await read()).toEqual(['item-groups', 'item-transfer']);
   item.store.updateProject(item.admin, project.id, { ...project, archived: true });
   expect(await read()).toEqual([]);
 });
@@ -433,7 +475,7 @@ test('standard Streamable HTTP MCP client reads the same business snapshot and l
     }),
   );
   const list = await item.client.listTools();
-  expect(list.tools).toHaveLength(13);
+  expect(list.tools).toHaveLength(14);
   const read = await item.client.callTool({ name: 'get_project_overview', arguments: {} });
   expect(JSON.parse(read.content[0].text).contentRevision).toBe(http.contentRevision);
   const doc = await item.client.callTool({ name: 'read_requirement', arguments: { id: 'group-rule' } });
@@ -497,8 +539,8 @@ test('page-management closes editor rebinding and sorting regressions', async ()
     revision: item.project.revision,
   });
   const swapped = structuredClone(project.clients);
-  swapped[0].pages[0].key = 'vehicle-transfer';
-  swapped[0].pages[1].key = 'vehicle-groups';
+  swapped[0].pages[0].key = 'item-transfer';
+  swapped[0].pages[1].key = 'item-groups';
   expect(() =>
     item.store.updateProject(editor, project.id, { revision: project.revision, clients: swapped }),
   ).toThrow('公开范围');
@@ -506,12 +548,9 @@ test('page-management closes editor rebinding and sorting regressions', async ()
   ordered[0].pages[0].position = 20;
   ordered[0].pages[1].position = 1;
   project = item.store.updateProject(editor, project.id, { revision: project.revision, clients: ordered });
-  expect(item.store.pageCatalog(item.admin).map((p) => p.pageKey)).toEqual([
-    'vehicle-transfer',
-    'vehicle-groups',
-  ]);
+  expect(item.store.pageCatalog(item.admin).map((p) => p.pageKey)).toEqual(['item-transfer', 'item-groups']);
   const single = structuredClone(project.clients);
-  single[0].pages = single[0].pages.filter((p) => p.key === 'vehicle-groups');
+  single[0].pages = single[0].pages.filter((p) => p.key === 'item-groups');
   project = item.store.updateProject(item.admin, project.id, { revision: project.revision, clients: single });
   expect(() =>
     item.store.updateProject(editor, project.id, { revision: project.revision, clients: ordered }),
@@ -539,9 +578,9 @@ test('project documents cannot bypass a restricted page and revocation applies t
     await fetch(item.base + '/api/native/projects/project-one/documents', { headers })
   ).json();
   expect(listing.some((d) => d.path === 'requirements/transfer.md')).toBe(false);
-  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'vehicle-transfer', user.id, true);
+  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'item-transfer', user.id, true);
   expect((await fetch(item.base + route, { headers })).status).toBe(200);
-  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'vehicle-transfer', user.id, false);
+  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'item-transfer', user.id, false);
   expect((await fetch(item.base + route, { headers })).status).toBe(403);
 });
 
@@ -552,16 +591,16 @@ test('explicit PRD overrides and clearing are shared by web and AI without decla
   let project = item.store.updateProject(item.admin, item.project.id, {
     revision: item.project.revision,
     links: [
-      { clientId: 'operation', pageKey: 'vehicle-groups', documentPath: 'requirements/group.md', anchor: '' },
+      { clientId: 'operation', pageKey: 'item-groups', documentPath: 'requirements/group.md', anchor: '' },
       {
         clientId: 'operation',
-        pageKey: 'vehicle-groups',
+        pageKey: 'item-groups',
         documentPath: 'requirements/transfer.md',
         anchor: '',
       },
     ],
   });
-  const url = item.base + '/api/native/showcase/project-one/operation/vehicle-groups';
+  const url = item.base + '/api/native/showcase/project-one/operation/item-groups';
   const detail = await (await fetch(url, { headers })).json();
   expect(detail.documents).toHaveLength(2);
   expect((await fetch(url)).status).toBe(403);
@@ -569,18 +608,18 @@ test('explicit PRD overrides and clearing are shared by web and AI without decla
   expect(
     queryBusinessContext(snapshot, project, 'get_page_context', {
       clientId: 'operation',
-      pageKey: 'vehicle-groups',
+      pageKey: 'item-groups',
     }).requirements,
   ).toHaveLength(2);
   project = item.store.updateProject(item.admin, project.id, {
     revision: project.revision,
-    links: [{ clientId: 'operation', pageKey: 'vehicle-groups', documentPath: '', anchor: '' }],
+    links: [{ clientId: 'operation', pageKey: 'item-groups', documentPath: '', anchor: '' }],
   });
   expect((await (await fetch(url, { headers })).json()).documents).toHaveLength(0);
   expect(
     queryBusinessContext(snapshot, project, 'get_page_context', {
       clientId: 'operation',
-      pageKey: 'vehicle-groups',
+      pageKey: 'item-groups',
     }).requirements,
   ).toHaveLength(0);
   expect((await (await fetch(item.base + '/api/native/showcase')).json()).pages).toEqual([]);
@@ -592,12 +631,12 @@ test('page management lifecycle uses persistent identities, drops removed grants
   const headers = { cookie: `preview_session=${login.token}` };
   const path = '/api/native/projects/project-one/page-management';
   const management = await (await fetch(item.base + path, { headers })).json();
-  expect(management.pages.find((p) => p.pageKey === 'vehicle-groups').documents[0].path).toBe(
+  expect(management.pages.find((p) => p.pageKey === 'item-groups').documents[0].path).toBe(
     'requirements/group.md',
   );
   const context = await (
     await fetch(
-      item.base + '/api/native/projects/project-one/page-context?clientId=operation&pageKey=vehicle-groups',
+      item.base + '/api/native/projects/project-one/page-context?clientId=operation&pageKey=item-groups',
       { headers },
     )
   ).json();
@@ -609,10 +648,10 @@ test('page management lifecycle uses persistent identities, drops removed grants
     role: 'member',
   });
   item.store.changePassword(user, { currentPassword: 'fixture-password', password: 'changed-password' });
-  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'vehicle-transfer', user.id, true);
+  item.store.setPageGrant(item.admin, item.project.id, 'operation', 'item-transfer', user.id, true);
   let project = item.store.getProject(item.admin, item.project.id);
   const clients = structuredClone(project.clients);
-  clients[0].pages = clients[0].pages.filter((p) => p.key !== 'vehicle-transfer');
+  clients[0].pages = clients[0].pages.filter((p) => p.key !== 'item-transfer');
   const saved = item.store.updateProject(item.admin, project.id, { revision: project.revision, clients });
   expect(item.store.listPageGrants(item.admin, project.id)).toHaveLength(0);
   expect(() =>
@@ -623,5 +662,5 @@ test('page management lifecycle uses persistent identities, drops removed grants
   ).toThrow('重新读取');
   item.store.updateProject(item.admin, project.id, { revision: saved.revision, clients: project.clients });
   const viewer = item.store.login(user.username, 'changed-password').user;
-  expect(() => item.store.pageAccess(viewer, project.id, 'operation', 'vehicle-transfer')).toThrow('授权');
+  expect(() => item.store.pageAccess(viewer, project.id, 'operation', 'item-transfer')).toThrow('授权');
 });

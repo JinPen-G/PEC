@@ -34,7 +34,8 @@ export function useShowcaseProject(
   } catch {
     remembered = null;
   }
-  const projectId = requested ?? projects?.find((project) => project.id === remembered)?.id ?? projects?.[0]?.id ?? '';
+  const projectId =
+    requested ?? projects?.find((project) => project.id === remembered)?.id ?? projects?.[0]?.id ?? '';
   useEffect(() => {
     if (!enabled || !projects?.some((project) => project.id === projectId)) return;
     try {
@@ -74,7 +75,9 @@ export function useShowcaseCatalog(projects: ShowcaseProject[], enabled = true) 
     queries: projects.map((project) => ({
       queryKey: ['showcase-catalog', session?.user?.id, session?.user?.revision, project.id],
       queryFn: ({ signal }: { signal: AbortSignal }) =>
-        client.request<{ pages: CatalogPage[] }>(`/showcase?projectId=${encodeURIComponent(project.id)}`, { signal }),
+        client.request<{ pages: CatalogPage[] }>(`/showcase?projectId=${encodeURIComponent(project.id)}`, {
+          signal,
+        }),
       enabled,
       retry: false,
       refetchInterval: 5000,

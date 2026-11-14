@@ -4,7 +4,13 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowLeft, FileText, Layers3 } from 'lucide-react';
-import { ControlIdentityScope, FrameworkShell, UiEnvironmentProvider, type ShellSection } from '@preview/ui';
+import {
+  BrandIcon,
+  ControlIdentityScope,
+  FrameworkShell,
+  UiEnvironmentProvider,
+  type ShellSection,
+} from '@preview/ui';
 import { AdminFeedbackProvider, Alert, Button, Empty } from '@preview/ui/admin';
 import { LoadingStage } from '@preview/ui/loading';
 import { useNativeAuth } from '@/features/platform/platform-api';
@@ -26,10 +32,14 @@ import { catalogKind, catalogPageQualifier, catalogPageTitle } from '@/features/
 import { RuntimePage } from '@/features/showcase/RuntimePage';
 import { demoPageRoute, demoPageUrl } from './demo-routes';
 import { RestEntry } from '@/features/rest/RestEntry';
+import { InteractionSounds } from '@/features/sound/InteractionSounds';
 import './demo.css';
 
 const PasswordForm = lazy(() =>
   import('@/features/platform/PasswordForm').then((module) => ({ default: module.PasswordForm })),
+);
+const AppearancePage = lazy(() =>
+  import('@/features/appearance/AppearancePage').then((module) => ({ default: module.AppearancePage })),
 );
 function DemoPage({ page }: { page: CatalogPage }) {
   const { client, session } = useNativeAuth();
@@ -50,6 +60,7 @@ export function DemoWorkspace() {
   const user = session?.user;
   const location = useLocation();
   const navigate = useNavigate();
+  const appearance = location.pathname === '/demo/appearance';
   const text = useShowcaseText();
   const { mode, setMode } = usePlatformTheme();
   const { locale, setLocale } = usePlatformLocale();
@@ -57,22 +68,34 @@ export function DemoWorkspace() {
   const projects = projectsQuery.error ? [] : (projectsQuery.data?.projects ?? []);
   const route = demoPageRoute(location.pathname);
   const requestedProject = route?.projectId ?? new URLSearchParams(location.search).get('project');
-  const projectId = useShowcaseProject(requestedProject, projectsQuery.error ? undefined : projectsQuery.data?.projects);
+  const projectId = useShowcaseProject(
+    requestedProject,
+    projectsQuery.error ? undefined : projectsQuery.data?.projects,
+  );
   const project = projects.find((item) => item.id === projectId);
   const pagesQuery = useShowcasePages(projectId, Boolean(project));
-  const pages = project && !pagesQuery.error ? (pagesQuery.data?.pages.filter((page) => page.allowed && catalogKind(page) === 'page') ?? []) : [];
+  const pages =
+    project && !pagesQuery.error
+      ? (pagesQuery.data?.pages.filter((page) => page.allowed && catalogKind(page) === 'page') ?? [])
+      : [];
   const selected = route && pages.find((page) => demoPageUrl(page) === location.pathname);
-  const sections: ShellSection[] = [{
-    key: projectId,
-    label: project?.name ?? 'Demo',
-    icon: <Layers3 />,
-    flat: true,
-    routes: pages.map((page) => {
-      const qualifier = catalogPageQualifier(page, pages);
-      return { key: demoPageUrl(page), label: text(catalogPageTitle(page)), icon: <FileText />,
-        qualifier: qualifier ? text(qualifier) : undefined };
-    }),
-  }];
+  const sections: ShellSection[] = [
+    {
+      key: projectId,
+      label: project?.name ?? 'Demo',
+      icon: <Layers3 />,
+      flat: true,
+      routes: pages.map((page) => {
+        const qualifier = catalogPageQualifier(page, pages);
+        return {
+          key: demoPageUrl(page),
+          label: text(catalogPageTitle(page)),
+          icon: <FileText />,
+          qualifier: qualifier ? text(qualifier) : undefined,
+        };
+      }),
+    },
+  ];
   const labels = {
     ...useShellLabels(),
     center: '',
@@ -81,12 +104,14 @@ export function DemoWorkspace() {
   };
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [logoutError, setLogoutError] = useState('');
-  const browserTitle = `${selected ? text(catalogPageTitle(selected)) : 'Demo'} · Preview`;
+  const browserTitle = `${appearance ? text('外观与音效') : selected ? text(catalogPageTitle(selected)) : 'Demo'} · Preview`;
   useEffect(() => {
     document.title = browserTitle;
   }, [browserTitle]);
   let content;
-  if (projectsQuery.error) {
+  if (appearance) {
+    content = <AppearancePage />;
+  } else if (projectsQuery.error) {
     content = (
       <QueryFailure message={projectsQuery.error.message} retry={() => void projectsQuery.refetch()} />
     );
@@ -105,55 +130,64 @@ export function DemoWorkspace() {
   }
   return (
     <CollaborationRoom project={project} enabled={Boolean(user && selected)} routePrefix="/demo">
-      <FrameworkShell
-        title={project?.name ?? 'Demo'}
-        subtitle=""
-        brand={<Layers3 size={20} />}
-        workspaces={projects.map((item) => ({ key: item.id, label: item.name, icon: <Layers3 /> }))}
-        workspaceKey={projectId}
-        onWorkspaceChange={(value) => navigate(`/demo?project=${encodeURIComponent(value)}`)}
-        navigationMode="components"
-        onNavigationModeChange={() => {}}
-        showNavigationModeSwitch={false}
-        showAppearanceLink={false}
-        showDocumentControl={false}
-        account={user?.displayName ?? text('访客')}
-        accountDescription={user?.username ?? text('公开浏览')}
-        sections={sections}
-        selectedKey={selected ? demoPageUrl(selected) : ''}
-        onNavigate={navigate}
-        preference={mode}
-        onThemeChange={(value) => setMode(value as PlatformThemeMode)}
-        locale={locale}
-        onLocaleChange={(value) => setLocale(value as PlatformLocale)}
-        onLogout={user ? () => void logout().catch((error: Error) => setLogoutError(error.message)) : undefined}
-        onPasswordChange={user ? () => setPasswordOpen(true) : undefined}
-        contextControls={
-          <>
-            <RestEntry />
-            <CollaborationControls />
-            <Button
-              icon={<ArrowLeft size={15} />}
-              onClick={() => navigate(project ? `/pages?project=${encodeURIComponent(project.id)}` : '/')}
-            >
-              {text('返回产品中心')}
-            </Button>
-          </>
-        }
-        documentAvailable={false}
-        documentOpen={false}
-        onDocumentToggle={() => {}}
-        labels={labels}
-      >
-        <VersionNotice />
-        <main className="preview-native-content demo-content" data-admin-content data-prototype-canvas>
-          {logoutError && <Alert type="error" title={logoutError} />}
-          <ControlIdentityScope identity={JSON.stringify([user?.id ?? 'anonymous', location.pathname])}>
-            {content}
-          </ControlIdentityScope>
-        </main>
-        {passwordOpen && <PasswordForm onClose={() => setPasswordOpen(false)} />}
-      </FrameworkShell>
+      <div className="preview-console-host">
+        <FrameworkShell
+          title={project?.name ?? 'Demo'}
+          subtitle=""
+          brand={<BrandIcon />}
+          workspaces={projects.map((item) => ({ key: item.id, label: item.name, icon: <Layers3 /> }))}
+          workspaceKey={projectId}
+          onWorkspaceChange={(value) => navigate(`/demo?project=${encodeURIComponent(value)}`)}
+          navigationMode="components"
+          onNavigationModeChange={() => {}}
+          showNavigationModeSwitch={false}
+          appearancePath="/demo/appearance"
+          showDocumentControl={false}
+          account={user?.displayName ?? text('访客')}
+          accountDescription={user?.username ?? text('公开浏览')}
+          sections={sections}
+          selectedKey={appearance ? '/demo/appearance' : selected ? demoPageUrl(selected) : ''}
+          onNavigate={navigate}
+          preference={mode}
+          onThemeChange={(value) => setMode(value as PlatformThemeMode)}
+          locale={locale}
+          onLocaleChange={(value) => setLocale(value as PlatformLocale)}
+          onLogout={
+            user ? () => void logout().catch((error: Error) => setLogoutError(error.message)) : undefined
+          }
+          onPasswordChange={user ? () => setPasswordOpen(true) : undefined}
+          contextControls={
+            <>
+              <RestEntry />
+              <CollaborationControls />
+              <Button
+                icon={<ArrowLeft size={15} />}
+                onClick={() => navigate(project ? `/pages?project=${encodeURIComponent(project.id)}` : '/')}
+              >
+                {text('返回产品中心')}
+              </Button>
+            </>
+          }
+          documentAvailable={false}
+          documentOpen={false}
+          onDocumentToggle={() => {}}
+          labels={labels}
+        >
+          <InteractionSounds account={user?.id ?? 'anonymous'} workspace={projectId || 'demo'} />
+          <VersionNotice />
+          <main
+            className={`preview-native-content${appearance ? '' : ' demo-content'}`}
+            data-admin-content
+            data-prototype-canvas={appearance ? undefined : true}
+          >
+            {logoutError && <Alert type="error" title={logoutError} />}
+            <ControlIdentityScope identity={JSON.stringify([user?.id ?? 'anonymous', location.pathname])}>
+              {content}
+            </ControlIdentityScope>
+          </main>
+          {passwordOpen && <PasswordForm onClose={() => setPasswordOpen(false)} />}
+        </FrameworkShell>
+      </div>
     </CollaborationRoom>
   );
 }

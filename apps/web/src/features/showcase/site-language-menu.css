@@ -1,4 +1,4 @@
-.uiarc-showcase .showcase-language-trigger {
+.preview-showcase .showcase-language-trigger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -13,12 +13,12 @@
     background 0.16s var(--ease-standard),
     color 0.16s var(--ease-standard);
 }
-.uiarc-showcase .showcase-language-trigger:hover,
-.uiarc-showcase .showcase-language-trigger[data-state='open'] {
+.preview-showcase .showcase-language-trigger:hover,
+.preview-showcase .showcase-language-trigger[data-state='open'] {
   background: var(--surface-muted);
   color: var(--foreground);
 }
-.uiarc-showcase .showcase-language-menu {
+.preview-showcase .showcase-language-menu {
   min-width: 162px;
   padding: 5px;
   border: 1px solid var(--border);
@@ -29,7 +29,7 @@
   outline: none;
   transform-origin: var(--radix-dropdown-menu-content-transform-origin);
 }
-.uiarc-showcase .showcase-language-item {
+.preview-showcase .showcase-language-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -41,10 +41,10 @@
   cursor: pointer;
   outline: none;
 }
-.uiarc-showcase .showcase-language-item[data-highlighted] {
+.preview-showcase .showcase-language-item[data-highlighted] {
   background: var(--surface-muted);
 }
-.uiarc-showcase .showcase-language-item[data-state='checked'] {
+.preview-showcase .showcase-language-item[data-state='checked'] {
   color: var(--foreground);
   font-weight: 500;
 }

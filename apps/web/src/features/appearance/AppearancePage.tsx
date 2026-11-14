@@ -5,6 +5,7 @@ import { SoundOutlined } from '@ant-design/icons';
 import { Button } from '@preview/ui/admin';
 import { ColorPicker, SegmentedControl, Select, Slider, Switch } from '@preview/ui';
 import { usePlatformLocale } from '@/features/locale/platform-locale';
+import { usePlatformTheme, type PlatformThemeMode } from '@/features/theme/platform-theme';
 import {
   getMotionPreference,
   setMotionPreference,
@@ -89,6 +90,7 @@ function RadiusPreview({
 
 export function AppearancePage() {
   const text = useText();
+  const { mode, setMode } = usePlatformTheme();
   const { preferences, save } = useAppearancePreferences();
   const [colorDraft, setColorDraft] = useState<{ base: string; value: string } | null>(null);
   const radiusRevision = JSON.stringify([preferences.container, preferences.button, preferences.input]);
@@ -169,6 +171,18 @@ export function AppearancePage() {
         </div>
       </div>
       <Space orientation="vertical" size={16} style={{ width: '100%' }}>
+        <Card size="small" title={text('显示模式', 'Display mode', '顯示模式')}>
+          <SegmentedControl
+            label={text('显示模式', 'Display mode', '顯示模式')}
+            value={mode}
+            onValueChange={(value) => setMode(value as PlatformThemeMode)}
+            options={[
+              { value: 'glass', label: text('浅色', 'Light', '淺色') },
+              { value: 'dark', label: text('深色', 'Dark') },
+              { value: 'system', label: text('跟随系统', 'System', '跟隨系統') },
+            ]}
+          />
+        </Card>
         <Card size="small" title={text('管理后台主题色', 'Admin theme color', '管理後台主題色')}>
           <Typography.Paragraph type="secondary" className="text-meta" style={{ marginBottom: 12 }}>
             {text(

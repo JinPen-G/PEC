@@ -12,14 +12,25 @@ export { Select } from './admin-controls/runtime/apps/admin/src/components/ui/Se
 export { Segmented } from './admin-controls/runtime/apps/admin/src/components/ui/Segmented';
 export { Modal } from './admin-controls/runtime/apps/admin/src/components/ui/Modal';
 export { Tabs } from './admin-controls/runtime/apps/admin/src/components/ui/Tabs';
-export { Tabs as TabsRoot, TabsList, TabsTrigger, TabsContent } from './admin-controls/runtime/packages/ui-arc/vendor/registry/components/tabs/tabs';
+export {
+  Tabs as TabsRoot,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from './admin-controls/runtime/packages/ui-primitives/vendor/registry/components/tabs/tabs';
 export { Alert } from './admin-controls/runtime/apps/admin/src/components/ui/Alert';
 export { Empty } from './admin-controls/runtime/apps/admin/src/components/ui/Empty';
+export { Result } from './admin-controls/runtime/apps/admin/src/components/ui/Result';
+export { ResultPage } from './ResultPage';
 export { Pagination } from './admin-controls/runtime/apps/admin/src/components/ui/Pagination';
 export { Switch } from './admin-controls/runtime/apps/admin/src/components/ui/Switch';
 export { Checkbox } from './admin-controls/runtime/apps/admin/src/components/ui/Checkbox';
 export { Dropdown } from './admin-controls/runtime/apps/admin/src/components/ui/Dropdown';
-export { Popover, PopoverContent, PopoverTrigger } from './admin-controls/runtime/packages/ui-arc/vendor/registry/components/popover/popover';
+export {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from './admin-controls/runtime/packages/ui-primitives/vendor/registry/components/popover/popover';
 export { DatePicker } from './admin-controls/runtime/apps/admin/src/components/ui/DatePicker';
 export { TableRefreshProvider } from './admin-controls/runtime/apps/admin/src/components/ui/data-table/TableRefreshContext';
 export { ListFilterItem } from './admin-controls/runtime/apps/admin/src/components/ui/ListFilterBar';

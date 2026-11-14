@@ -2,8 +2,8 @@ import { Dropdown as AntDropdown, type DropdownProps } from "antd";
 import * as Primitive from "@radix-ui/react-dropdown-menu";
 import { Fragment, isValidElement, useEffect, useRef, useState, type CSSProperties, type FocusEvent } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { motionTokens } from "../../../../../packages/ui-arc/vendor/lib/motion-tokens";
-import styles from "../../../../../packages/ui-arc/vendor/registry/components/dropdown-menu/dropdown-menu.module.css";
+import { motionTokens } from "../../../../../packages/ui-primitives/vendor/lib/motion-tokens";
+import styles from "../../../../../packages/ui-primitives/vendor/registry/components/dropdown-menu/dropdown-menu.module.css";
 
 /** Arc's menu styles and highlight motion, with the platform's existing trigger and action keys. */
 export function Dropdown(props: DropdownProps) {

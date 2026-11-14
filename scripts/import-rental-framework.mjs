@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { rentalLoginStyles } from './rental-login-styles.mjs';
 import { rentalSettingsStyles, rentalSidePanelStyles } from './rental-settings-styles.mjs';
+import { sourcePaths } from './source-paths.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 const args = process.argv.slice(2);
@@ -19,6 +20,7 @@ if (!args.includes('--source') || !args.includes('--commit')) {
 }
 const source = path.resolve(value('--source'));
 const commit = value('--commit');
+const paths = sourcePaths(args.includes('--primitives-root') ? value('--primitives-root') : undefined);
 if (!/^[a-f\d]{40}$/u.test(commit) || source === root) throw new Error('Invalid source or fixed commit');
 const destination = path.join(root, 'packages/preview-ui/upstream/rental-admin');
 const derived = path.join(root, 'packages/preview-ui/src/animate-sidebar');
@@ -27,15 +29,15 @@ const git = (parameters) => execFileSync('git', ['--no-optional-locks', ...param
 const prefixes = [
   'apps/admin/src/components/animate-sidebar/',
   'apps/admin/src/features/copilot/archive/ai-side-panel/',
-  'packages/ui-arc/vendor/registry/components/input/',
-  'packages/ui-arc/vendor/registry/components/password-field/',
-  'packages/ui-arc/vendor/registry/components/segmented-control/',
-  'packages/ui-arc/vendor/registry/components/theme-switch/',
-  'packages/ui-arc/vendor/registry/components/color-picker/',
-  'packages/ui-arc/vendor/registry/components/slider/',
-  'packages/ui-arc/vendor/registry/components/switch/',
-  'packages/ui-arc/vendor/registry/components/select/',
-  'packages/ui-arc/vendor/registry/components/text-morph/',
+  'packages/ui-primitives/vendor/registry/components/input/',
+  'packages/ui-primitives/vendor/registry/components/password-field/',
+  'packages/ui-primitives/vendor/registry/components/segmented-control/',
+  'packages/ui-primitives/vendor/registry/components/theme-switch/',
+  'packages/ui-primitives/vendor/registry/components/color-picker/',
+  'packages/ui-primitives/vendor/registry/components/slider/',
+  'packages/ui-primitives/vendor/registry/components/switch/',
+  'packages/ui-primitives/vendor/registry/components/select/',
+  'packages/ui-primitives/vendor/registry/components/text-morph/',
   'apps/admin/src/features/sound/',
 ];
 const individual = new Set([
@@ -45,7 +47,7 @@ const individual = new Set([
   'apps/admin/src/app/userAvatar.ts',
   'apps/admin/src/assets/default-user-avatar.jpg',
   'apps/admin/public/brand/login-graphite.webp',
-  'packages/ui-arc/vendor/registry/blocks/login-centered/login-centered.module.css',
+  'packages/ui-primitives/vendor/registry/blocks/login-centered/login-centered.module.css',
   'apps/admin/src/features/copilot/CopilotLayout.tsx',
   'apps/admin/src/features/copilot/copilot.css',
   'apps/admin/config/nativeSidebarStyles.ts',
@@ -76,18 +78,27 @@ const individual = new Set([
   'apps/admin/src/components/ui/arc-bridge.css',
   'apps/admin/src/components/ui/input-radius.css',
   'packages/shared/src/platform.ts',
-  'packages/ui-arc/README.md',
-  'packages/ui-arc/LICENSE',
-  'packages/ui-arc/vendor/registry/foundation.css',
-  'packages/ui-arc/vendor/registry/components/button/button.tsx',
-  'packages/ui-arc/vendor/registry/components/button/button.module.css',
-  'packages/ui-arc/vendor/lib/motion-tokens.ts',
-  'packages/ui-arc/vendor/registry/motion-tokens.ts',
+  'packages/ui-primitives/README.md',
+  'packages/ui-primitives/LICENSE',
+  'packages/ui-primitives/vendor/registry/foundation.css',
+  'packages/ui-primitives/vendor/registry/components/button/button.tsx',
+  'packages/ui-primitives/vendor/registry/components/button/button.module.css',
+  'packages/ui-primitives/vendor/lib/motion-tokens.ts',
+  'packages/ui-primitives/vendor/registry/motion-tokens.ts',
 ]);
-const files = git(['ls-tree', '-r', '--name-only', commit, '--', ...prefixes, ...individual])
+const files = git([
+  'ls-tree',
+  '-r',
+  '--name-only',
+  commit,
+  '--',
+  ...prefixes.map(paths.toSource),
+  ...[...individual].map(paths.toSource),
+])
   .toString('utf8')
   .trim()
   .split('\n')
+  .map(paths.toLocal)
   .filter((file) => individual.has(file) || prefixes.some((prefix) => file.startsWith(prefix)));
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const write = (target, bytes) => {
@@ -105,7 +116,7 @@ const write = (target, bytes) => {
 };
 const records = [];
 for (const file of files) {
-  const bytes = git(['show', `${commit}:${file}`]);
+  const bytes = git(['show', `${commit}:${paths.toSource(file)}`]);
   write(path.join(destination, file), bytes);
   records.push({ source: file, sha256: digest(bytes) });
   const runtimePrefix = 'apps/admin/src/components/animate-sidebar/runtime/';
@@ -166,7 +177,7 @@ writeFileSync(
       files: records,
       licenses: [
         'apps/admin/src/components/animate-sidebar/LICENSE.md',
-        'packages/ui-arc/LICENSE',
+        'packages/ui-primitives/LICENSE',
         'packages/ui-tablecn/LICENSE.md',
       ],
       integration: 'Preview-only; runtime copies and CSS scanning are adapters, not upstream modifications.',

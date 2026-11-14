@@ -1,10 +1,10 @@
-.uiarc-showcase .library-sidebar_groupHead__o7GWW {
+.preview-showcase .library-sidebar_groupHead__o7GWW {
   padding-left: var(--sb-icon-x);
 }
-.uiarc-showcase .library-sidebar_groupHead__o7GWW::before {
+.preview-showcase .library-sidebar_groupHead__o7GWW::before {
   content: none;
 }
-.uiarc-showcase .showcase-catalog-empty {
+.preview-showcase .showcase-catalog-empty {
   padding: 8px 12px 12px var(--sb-text);
   color: var(--text-secondary);
   font-size: 12px;

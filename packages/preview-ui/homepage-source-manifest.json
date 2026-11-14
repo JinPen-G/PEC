@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "repository": "https://github.com/imskyleen/animate-ui",
+    "commit": "22a9236ae107328f8564edb7e3299375da3247af",
+    "license": "MIT + Commons Clause",
+    "copyright": "Copyright (c) 2025 Elliot Sutton"
+  },
+  "dependencyVersions": {
+    "@animate-ui/react": "2.3.0",
+    "radix-ui": "1.6.7",
+    "motion": "14.6.0"
+  },
+  "originalRoot": "packages/preview-ui/upstream/animate-home",
+  "files": [
+    {
+      "path": "ai-section.tsx",
+      "sha256": "1082695782a7afc7161a159a21ba34986359c4010435e88ef02e3a73e4bdb372"
+    },
+    {
+      "path": "demos/accordion.tsx",
+      "sha256": "9bfab9a04d4df876b059e3fe5e192876276dad7fd140398f3cf6a3463cdc0dac"
+    },
+    {
+      "path": "demos/checkbox.tsx",
+      "sha256": "0dcafc38ddd27154bec0479ac9ec002d7c550f3cada4cd636831a3ee66fb75f8"
+    },
+    {
+      "path": "demos/progress.tsx",
+      "sha256": "1f15115fd99da235c147edd8b288ed7d8460c835770d9648907fa25b1164f421"
+    },
+    {
+      "path": "demos/radio-group.tsx",
+      "sha256": "b87dfaf545930e9b5b0c3b43c8f775414550fb0f2514ace6876a3c107ea9eb36"
+    },
+    {
+      "path": "demos/switch.tsx",
+      "sha256": "d1e9ea3b64460b69c3921df866b6fb109b70e7d7626855f63e4abc5165fb2c27"
+    },
+    {
+      "path": "demos/toast.tsx",
+      "sha256": "2bc23c5cc51f05b46610ba67e05cc0c4c7a761d2136cbcfa5389a784984711ed"
+    },
+    {
+      "path": "hero-title.tsx",
+      "sha256": "222f42fe4a2c9c2940fd0ace60fe762420ef3ff17cfc6877d2ee9e4055b8d51c"
+    },
+    {
+      "path": "hero.tsx",
+      "sha256": "a86bf6c1d2fc16741a88c2e35646798c36233ba98a9d5f8666432b6f90c56a05"
+    },
+    {
+      "path": "home-footer.tsx",
+      "sha256": "e21e3563d7b8e4889cd169bcac73ddc2515eae0ff2cd23de2ec9e68e2d02679b"
+    },
+    {
+      "path": "icons/clapperboard/index.tsx",
+      "sha256": "06bf994e7e0811c6ea651132b2c24ef5cc8eed480397348fd6ddec6944037398"
+    },
+    {
+      "path": "icons/favourite/index.tsx",
+      "sha256": "e6eeeda4bca9ece1b41a43dd042edd68719bb9773fc1e73cd7a9342a53148ec0"
+    },
+    {
+      "path": "icons/notification-01/index.tsx",
+      "sha256": "f88a6e678fe036d6e7dbb6375b5e20ec301bee3bc56aa7366bf756c72ab42ec0"
+    },
+    {
+      "path": "icons/sent/index.tsx",
+      "sha256": "1f861d1c8d9541be1fdf0114a4588910efb27ab9640956bac859774bff073ac1"
+    },
+    {
+      "path": "icons/settings-02/index.tsx",
+      "sha256": "2a070cc199044f7d8d3e6b30eace876dc3cc984d58c63c9e2ee70e152ae8f686"
+    },
+    {
+      "path": "icons/sparkles/index.tsx",
+      "sha256": "6ea89a9ba292b295105ba2654c989c4609894209e16e189aff681abd1bc146cf"
+    },
+    {
+      "path": "LICENSE.md",
+      "sha256": "d1caff68d2be8c03c406ca13bb33dc203cf54ac31c5b213617a917bfe9d4caf9"
+    },
+    {
+      "path": "orbit.tsx",
+      "sha256": "33e85957130c86bceb51ff405a4ea4446322f5e53bf32e36c0b9dc850f6b64aa"
+    },
+    {
+      "path": "vignettes.tsx",
+      "sha256": "da7b56b9dfe953ccb8d3067b83dbab6e6aedc40752df1f2b473429e9ef940890"
+    }
+  ],
+  "adaptations": [
+    "packages/preview-ui/src/site/landing/LandingOrbit.tsx",
+    "packages/preview-ui/src/site/landing/LandingVignettes.tsx",
+    "packages/preview-ui/src/site/landing/demo-controls.tsx",
+    "packages/preview-ui/src/site/landing/LandingHeroTitle.tsx",
+    "packages/preview-ui/src/site/landing/LandingCommand.tsx",
+    "packages/preview-ui/src/site/landing/LandingAgentDemo.tsx",
+    "packages/preview-ui/src/site/landing/landing.css",
+    "apps/web/src/features/showcase/SiteLanding.tsx"
+  ],
+  "changes": [
+    "Preview owns brand artwork and platform copy.",
+    "Original orbit geometry and vignette timings retained; logo rotation is replaced by scroll-controlled card extraction.",
+    "The original logo rotates 300 degrees over normalized scroll 0 to 0.95; the 300vh region now drives one reversible deck cycle over that same span.",
+    "Orbit positions and deck frames stay fixed when scrolling stops; only the local example controls autoplay.",
+    "MCP previews are local examples, not live requests.",
+    "All loops pause off screen, in hidden tabs and under reduced motion.",
+    "Homepage examples are not added to the component Registry."
+  ],
+  "distribution": "Included as part of the application; independent component redistribution is restricted. Open-source framework publication still requires license review."
+}

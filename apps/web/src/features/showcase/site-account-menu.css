@@ -1,16 +1,16 @@
-.uiarc-showcase .showcase-account-trigger {
+.preview-showcase .showcase-account-trigger {
   flex: none;
   width: 40px;
   padding: 4px;
 }
-.uiarc-showcase .showcase-account-panel {
+.preview-showcase .showcase-account-panel {
   position: relative;
   top: auto;
   left: auto;
   width: 248px;
   transform-origin: var(--radix-dropdown-menu-content-transform-origin);
 }
-.uiarc-showcase .showcase-account-item {
+.preview-showcase .showcase-account-item {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -23,10 +23,10 @@
   outline: none;
   text-decoration: none;
 }
-.uiarc-showcase .showcase-account-item[data-highlighted] {
+.preview-showcase .showcase-account-item[data-highlighted] {
   background: var(--surface-muted);
 }
-.uiarc-showcase .showcase-account-item[data-disabled] {
+.preview-showcase .showcase-account-item[data-disabled] {
   opacity: 0.5;
   cursor: default;
 }

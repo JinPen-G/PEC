@@ -1,5 +1,5 @@
 /** Host-owned appearance; imported UI never reads Rental OS or application auth. */
-import { createContext, useContext, useLayoutEffect, type ReactNode } from 'react';
+import { createContext, useContext, useLayoutEffect, useMemo, type ReactNode } from 'react';
 import { AnimateUIProvider } from '@animate-ui/react/provider';
 import { MotionConfig, MotionGlobalConfig } from 'motion/react';
 
@@ -15,6 +15,7 @@ export function UiEnvironmentProvider({
   reducedMotion: boolean;
   children: ReactNode;
 }) {
+  const environment = useMemo(() => ({ dark, reducedMotion }), [dark, reducedMotion]);
   useLayoutEffect(() => {
     const previousSkip = MotionGlobalConfig.skipAnimations;
     const previousPreference = document.documentElement.dataset.reducedMotion;
@@ -31,7 +32,7 @@ export function UiEnvironmentProvider({
     };
   }, [reducedMotion]);
   return (
-    <Environment.Provider value={{ dark, reducedMotion }}>
+    <Environment.Provider value={environment}>
       <MotionConfig reducedMotion="never">
         <AnimateUIProvider reducedMotion={reducedMotion ? 'always' : 'never'}>{children}</AnimateUIProvider>
       </MotionConfig>

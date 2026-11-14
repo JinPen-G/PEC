@@ -1,8 +1,8 @@
-/** One list-query row. Secondary criteria use the original UIArc anchored Popover;
+/** One list-query row. Secondary criteria use the original UI primitives anchored Popover;
  * page-owned values and transport stay intact; measurement never creates duplicate controls. */
 import { Children, Fragment, cloneElement, isValidElement, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { SlidersHorizontal } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../../../../../packages/ui-arc/vendor/registry/components/popover/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "../../../../../packages/ui-primitives/vendor/registry/components/popover/popover";
 import { ADMIN_LIST_CONTROL_WIDTH as LIST_WIDTH, ADMIN_LIST_METRICS } from "../../app/designTokens";
 import { useLocale } from "../../../../../../environment";
 import { Button } from "./Button";

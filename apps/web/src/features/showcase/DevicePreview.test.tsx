@@ -4,14 +4,26 @@ import { DevicePreview } from './DevicePreview';
 afterEach(cleanup);
 it('retains the same screen and draft when switching between scaled, phone and fullscreen layouts', async () => {
   const child = <input aria-label="Screen draft" defaultValue="" />;
-  const view = render(<DevicePreview mobile={false} screen>{child}</DevicePreview>);
+  const view = render(
+    <DevicePreview mobile={false} screen>
+      {child}
+    </DevicePreview>,
+  );
   const input = screen.getByLabelText('Screen draft');
   fireEvent.change(input, { target: { value: 'Keep this draft' } });
   const scaler = view.container.querySelector('.showcase-device-scaler');
   expect(scaler).toHaveStyle({ width: '1440px', height: '900px' });
-  view.rerender(<DevicePreview mobile screen>{child}</DevicePreview>);
+  view.rerender(
+    <DevicePreview mobile screen>
+      {child}
+    </DevicePreview>,
+  );
   await waitFor(() => expect(scaler).toHaveStyle({ width: '390px', height: '844px' }));
-  view.rerender(<DevicePreview mobile={false} screen expanded>{child}</DevicePreview>);
+  view.rerender(
+    <DevicePreview mobile={false} screen expanded>
+      {child}
+    </DevicePreview>,
+  );
   expect(screen.getByLabelText('Screen draft')).toBe(input);
   expect(input).toHaveValue('Keep this draft');
   expect(view.container.querySelector('.showcase-device-scaler')).toBe(scaler);

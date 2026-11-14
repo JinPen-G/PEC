@@ -7,7 +7,15 @@
     "surface": "showcase",
     "clientId": "web",
     "contentKey": "your-project",
-    "pages": [{ "key": "overview", "label": "业务页面", "source": "OverviewPage.tsx", "kind": "page", "featuredOrder": 1 }],
+    "pages": [
+      {
+        "key": "overview",
+        "label": "业务页面",
+        "source": "OverviewPage.tsx",
+        "kind": "page",
+        "featuredOrder": 1
+      }
+    ],
     "initialClients": [
       {
         "id": "web",

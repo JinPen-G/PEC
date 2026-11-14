@@ -1,4 +1,4 @@
-/** UIArc owns the card morph and mobile sheet gesture. This adapter supplies read-only business content and defers edits until the preview closes. */
+/** UI primitives owns the card morph and mobile sheet gesture. This adapter supplies read-only business content and defers edits until the preview closes. */
 import { useEffect, useId, useLayoutEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Card } from "@/registry/components/card/card";

@@ -139,7 +139,7 @@
 .arc-seconds { display: flex; align-items: center; gap: 4px; }
 .arc-seconds input { width: 60px; border-radius: var(--radius-control); border: 1px solid var(--border); background: var(--surface); padding: 6px; }
 .arc-range-presets { display: flex; flex-wrap: wrap; gap: 6px; }
-/* Order-list trial: UIArc sortable-data-table visual tokens over the existing
+/* Order-list trial: UI primitives sortable-data-table visual tokens over the existing
    business table engine. Keep fixed columns and horizontal scrolling intact. */
 .arc-orders-table .ant-table-container {
   overflow: hidden;

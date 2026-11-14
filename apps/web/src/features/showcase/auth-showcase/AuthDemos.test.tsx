@@ -14,10 +14,10 @@ it('shows copied feedback only after clipboard success and keeps denied copying 
     .mockResolvedValueOnce(undefined);
   Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } });
   render(<AuthDemos index={3} />);
-  fireEvent.click(screen.getByRole('button', { name: 'Copy command' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Copy example' }));
   expect(await screen.findByText('Copy failed')).toBeInTheDocument();
   expect(screen.queryByText('Copied')).not.toBeInTheDocument();
-  fireEvent.click(screen.getByRole('button', { name: 'Copy command' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Copy example' }));
   expect(await screen.findByText('Copied')).toBeInTheDocument();
-  expect(writeText).toHaveBeenCalledWith('npx arc add icon-morph');
+  expect(writeText).toHaveBeenCalledWith('Preview · Prototypes and business requirements');
 });

@@ -17,7 +17,8 @@ vi.mock('@/features/locale/platform-locale', () => ({
 vi.mock('./showcase-locale', () => ({ useShowcaseText: () => (value: string) => value }));
 vi.mock('./auth-showcase/AuthShowcase', () => ({ AuthShowcase: () => <div>Interactive showcase</div> }));
 vi.mock('./SiteLanguageMenu', () => ({ SiteLanguageMenu: () => <button>界面语言</button> }));
-vi.mock('@preview/ui', () => ({
+vi.mock('@preview/ui', async () => ({
+  BrandIcon: (await import('../../../../../packages/preview-ui/src/BrandIcon')).BrandIcon,
   SiteThemeSwitch: ({ label }: { label: string }) => <button>{label}</button>,
 }));
 import { SiteLogin } from './SiteLogin';

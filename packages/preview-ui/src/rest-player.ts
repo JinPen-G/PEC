@@ -1,3 +1,3 @@
-export { MediaPlayer } from '../upstream/uiarc-rest/media-player';
-export { NowPlaying } from '../upstream/uiarc-rest/now-playing';
-export type { MediaPlayerProps, MediaTrack } from '../upstream/uiarc-rest/media-player/types';
+export { MediaPlayer } from '../upstream/rest-widgets/media-player';
+export { NowPlaying } from '../upstream/rest-widgets/now-playing';
+export type { MediaPlayerProps, MediaTrack } from '../upstream/rest-widgets/media-player/types';

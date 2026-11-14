@@ -1,6 +1,6 @@
 import { ConfigProvider, Switch as AntSwitch, type SwitchProps } from "antd";
 import { forwardRef, useImperativeHandle, useRef, useState, type ElementRef, type MouseEvent } from "react";
-import { Switch as ArcSwitch } from "../../../../../packages/ui-arc/vendor/registry/components/switch/switch";
+import { Switch as ArcSwitch } from "../../../../../packages/ui-primitives/vendor/registry/components/switch/switch";
 
 export const Switch = forwardRef<ElementRef<typeof AntSwitch>, SwitchProps>(function Switch(props, ref) {
   const { componentDisabled } = ConfigProvider.useConfig();

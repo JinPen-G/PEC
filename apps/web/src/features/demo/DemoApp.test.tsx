@@ -4,8 +4,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { PlatformLocaleProvider } from '@/features/locale/platform-locale';
 import { PlatformThemeProvider } from '@/features/theme/platform-theme';
+import { AppearanceProvider } from '@/features/appearance/appearance-preferences';
 import { UiEnvironmentProvider } from '@preview/ui';
 import type { CatalogPage } from '@/features/showcase/showcase-catalog';
+// Compile the settings chunk during suite setup, before timing user interaction.
+import '@/features/appearance/AppearancePage';
 
 const auth = vi.hoisted(() => ({
   session: {
@@ -73,15 +76,17 @@ function mount(path: string, gate = false) {
     <QueryClientProvider client={queries}>
       <PlatformLocaleProvider>
         <PlatformThemeProvider>
-          <UiEnvironmentProvider dark={false} reducedMotion>
-            <MemoryRouter initialEntries={[path]}>
-              <Routes>
-                <Route path="/demo/*" element={gate ? <DemoApp /> : <DemoWorkspace />} />
-                <Route path="/login" element={<div>Login</div>} />
-              </Routes>
-              <Location />
-            </MemoryRouter>
-          </UiEnvironmentProvider>
+          <AppearanceProvider>
+            <UiEnvironmentProvider dark={false} reducedMotion>
+              <MemoryRouter initialEntries={[path]}>
+                <Routes>
+                  <Route path="/demo/*" element={gate ? <DemoApp /> : <DemoWorkspace />} />
+                  <Route path="/login" element={<div>Login</div>} />
+                </Routes>
+                <Location />
+              </MemoryRouter>
+            </UiEnvironmentProvider>
+          </AppearanceProvider>
         </PlatformThemeProvider>
       </PlatformLocaleProvider>
     </QueryClientProvider>,
@@ -119,8 +124,10 @@ beforeEach(() => {
     if (route === '/collaboration') return Promise.resolve({ id: 'connection-reader' });
     if (route === '/collaboration/connection-reader') return Promise.resolve({ accepted: true });
     if (route === '/showcase/projects') return Promise.resolve({ projects: [...projects] });
-    if (route.startsWith('/showcase?projectId=')) return Promise.resolve({ pages: pages.filter(page =>
-      page.projectId === route.slice('/showcase?projectId='.length)) });
+    if (route.startsWith('/showcase?projectId='))
+      return Promise.resolve({
+        pages: pages.filter((page) => page.projectId === route.slice('/showcase?projectId='.length)),
+      });
     if (/^\/showcase\/[a-z0-9-]+\/[a-z0-9-]+\//.test(route))
       return Promise.resolve({ entry: route.split('/').at(-1), styles: [] });
     throw new Error(`Unexpected request: ${route}`);
@@ -133,7 +140,11 @@ afterEach(() => {
   delete (Element.prototype as { animate?: unknown }).animate;
 });
 it('combines the visible front-end pages in the existing shell without management controls', async () => {
-  mount('/demo?project=sample');
+  await act(async () => {
+    mount('/demo?project=sample');
+  });
+  // The catalog resolves before the selected page request starts.
+  await screen.findByRole('link', { name: 'vehicle-groups' });
   expect(await screen.findByTestId('runtime')).toHaveTextContent('vehicle-groups');
   expect(screen.getByTestId('route')).toHaveTextContent('/demo/sample/operation/vehicle-groups');
   expect(screen.getByRole('link', { name: 'vehicle-groups' })).toHaveAttribute('aria-current', 'page');
@@ -159,8 +170,14 @@ it('switches project menus, resets search and includes all readable clients with
   );
   mount('/demo?project=sample', true);
   await screen.findByTestId('runtime');
-  expect(screen.getByRole('link', { name: '部门管理' })).toHaveAttribute('href', '#/demo/sample/operation/departments');
-  expect(screen.getByRole('link', { name: '员工管理' })).toHaveAttribute('href', '#/demo/sample/enterprise/employees');
+  expect(screen.getByRole('link', { name: '部门管理' })).toHaveAttribute(
+    'href',
+    '#/demo/sample/operation/departments',
+  );
+  expect(screen.getByRole('link', { name: '员工管理' })).toHaveAttribute(
+    'href',
+    '#/demo/sample/enterprise/employees',
+  );
   expect(screen.queryByRole('link', { name: '无权查看' })).not.toBeInTheDocument();
   expect(screen.queryByRole('link', { name: '基础按钮' })).not.toBeInTheDocument();
   expect(screen.queryByRole('link', { name: '表单区块' })).not.toBeInTheDocument();
@@ -168,7 +185,9 @@ it('switches project menus, resets search and includes all readable clients with
   fireEvent.change(search, { target: { value: '不存在' } });
   fireEvent.click(screen.getByRole('button', { name: 'Sample' }));
   fireEvent.click(await screen.findByRole('menuitem', { name: 'Other Project' }));
-  await waitFor(() => expect(screen.getByTestId('route')).toHaveTextContent('/demo/other/operation/other-vehicles'));
+  await waitFor(() =>
+    expect(screen.getByTestId('route')).toHaveTextContent('/demo/other/operation/other-vehicles'),
+  );
   expect(search).toHaveValue('');
   expect(screen.getByRole('link', { name: '车辆管理' })).toHaveAttribute('aria-current', 'page');
   expect(screen.queryByRole('link', { name: '员工管理' })).not.toBeInTheDocument();
@@ -206,6 +225,24 @@ it('lets visitors open public demo pages without signing in or joining collabora
   expect(roomStreams).toHaveLength(0);
   expect(auth.client.request.mock.calls.some(([route]) => route.startsWith('/collaboration'))).toBe(false);
 });
+it('opens browser appearance and sound settings from the visitor account menu inside Demo', async () => {
+  auth.session.user = null;
+  mount('/demo?project=sample', true);
+  await screen.findByTestId('runtime');
+  fireEvent.click(screen.getByRole('button', { name: '个人中心' }));
+  fireEvent.click(await screen.findByRole('menuitem', { name: '外观与音效' }));
+  expect(await screen.findByRole('heading', { name: '外观与音效' }, { timeout: 5000 })).toBeInTheDocument();
+  expect(screen.getByTestId('route')).toHaveTextContent('/demo/appearance');
+  expect(screen.getByText('显示模式')).toBeInTheDocument();
+  const sound = screen.getByRole('switch', { name: '交互音效' });
+  fireEvent.click(sound);
+  expect(sound).toBeChecked();
+  expect(JSON.parse(localStorage.getItem('preview:sound-preferences')!)).toMatchObject({
+    interactionEnabled: true,
+  });
+  expect(screen.queryByTestId('runtime')).not.toBeInTheDocument();
+  expect(auth.client.request.mock.calls.some(([route]) => route.startsWith('/collaboration'))).toBe(false);
+});
 it('prefers the current front-end project over the first available project', async () => {
   auth.session.user = null;
   projects.unshift({ id: 'components', name: '组件中心' });
@@ -214,7 +251,9 @@ it('prefers the current front-end project over the first available project', asy
   mount('/demo', true);
   expect(await screen.findByTestId('runtime')).toHaveTextContent('vehicle-groups');
   expect(screen.getByTestId('route')).toHaveTextContent('/demo/sample/operation/vehicle-groups');
-  expect(auth.client.request.mock.calls.some(([route]) => route === '/showcase?projectId=components')).toBe(false);
+  expect(auth.client.request.mock.calls.some(([route]) => route === '/showcase?projectId=components')).toBe(
+    false,
+  );
 });
 it('honors the explicit project even when another project was remembered', async () => {
   auth.session.user = null;

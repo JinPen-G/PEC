@@ -1,0 +1,37 @@
+{
+  "referenceDate": "2026-11-11",
+  "implementation": "Independent React and pointer/keyboard reconstruction from public preview and documentation.",
+  "reference": "source-reference:144cf9f9e7007dfaf804c331cbe8d00905bee2c598a76b0e46c8e30250b8add7",
+  "markdown": "source-reference:185915921aa4ece8a4331fac499bb3a7e0f41362925d9538b56ffac644d49add",
+  "license": "source-reference:88717f1d812d673e1637cf25234a40339245246937796804647d9bbb51f3f7ef",
+  "publicCssSha256": "c7d73b9351fe5b196fa023a261cdc4eef63d4c2bf19ae2d06dae5bcf7a7b5c17",
+  "adaptation": [
+    "CSS selectors mapped to CSS Modules",
+    "Host-controlled playback, time, volume and expansion ports",
+    "Reduced motion follows the shared preference hook",
+    "Source appearance retained for default labels and data",
+    "Source rem dimensions evaluated locally from the original 16px component baseline for host-independent geometry"
+  ],
+  "assets": [
+    {
+      "url": "source-reference:14d25769c0022634e9da10c58c7e03da8d823019657e8eb815c2043fd3c68a2e",
+      "path": "src\\components\\media-player\\assets\\sea-at-dusk.jpg",
+      "bytes": 174329,
+      "sha256": "fd863c7dee588f3a3e0793c6432cf9d3ed9940f193ea672a57bda41043f0a512"
+    }
+  ],
+  "publicCssCapture": {
+    "kind": "Live browser CSSOM serialization of rendered public style rules",
+    "referenceDate": "2026-11-11",
+    "selectorPrefix": "media-player",
+    "format": "CSSStyleSheet.cssRules filtered by component selector or keyframe prefix and joined with a newline"
+  },
+  "maintainedCssSha256": "4039d2e5bf831fb222cab414c06c78030def99998b8a73a1c3d371b4491ec90f",
+  "protectedProTypeScriptObtained": false,
+  "demo": {
+    "playlistArtwork": "Three local playlist rows reuse the single public sea-at-dusk cover. Consumer tracks each accept their own artwork."
+  },
+  "provenanceArchiveId": "2026-11-12-01a1cdd1",
+  "referenceIdentifiers": "Original URLs retained in the external provenance archive.",
+  "originalMaintainedCssSha256": "8ce4b35ba430ef639b26d92ac30a9743ef5ddd5885b3af35969837562b15be42"
+}

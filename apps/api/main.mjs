@@ -3,13 +3,20 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import process from 'node:process';
 import { createNativeServer } from '../../packages/platform-server/src/server.js';
+import { loadProjectCatalog } from '../../packages/platform-server/src/project-catalog.js';
 const root = fileURLToPath(new URL('../..', import.meta.url));
 const args = process.argv.slice(2);
 const value = (name, fallback) => (args.includes(name) ? args[args.indexOf(name) + 1] : fallback);
 const host = value('--host', process.env.PREVIEW_HOST || '127.0.0.1'),
   port = Number(value('--port', process.env.PREVIEW_PORT || '5190'));
 const origin = value('--origin', process.env.PREVIEW_PUBLIC_ORIGIN || `http://${host}:${port}`);
+const catalog = await loadProjectCatalog(
+  process.env.PREVIEW_PROJECT_CATALOG_ROOT || path.join(root, 'packages/platform-contracts/src'),
+  { local: import.meta.previewBundled !== true },
+);
 const runtime = createNativeServer({
+  moduleCatalog: catalog.moduleCatalog,
+  componentRegistry: catalog.componentRegistry,
   dataDirectory: path.resolve(
     value('--data', process.env.PREVIEW_DATA_ROOT || path.join(root, '.preview-data')),
   ),

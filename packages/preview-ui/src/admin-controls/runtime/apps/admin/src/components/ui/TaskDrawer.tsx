@@ -1,4 +1,4 @@
-// Attributed UIArc MIT integration. Original Drawer gestures/motion; admin lifecycle, title and close-label slots only.
+// Attributed UI primitives MIT integration. Original Drawer gestures/motion; admin lifecycle, title and close-label slots only.
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -7,8 +7,8 @@ import type { ComponentPropsWithoutRef, ReactNode, RefObject } from "react";
 import { AnimatePresence, animate, motion, useMotionValue, useReducedMotion } from "motion/react";
 import type { PanInfo, Transition } from "motion/react";
 import { X } from "lucide-react";
-import { motionTokens } from "../../../../../packages/ui-arc/vendor/lib/motion-tokens";
-import styles from "../../../../../packages/ui-arc/vendor/registry/components/drawer/drawer.module.css";
+import { motionTokens } from "../../../../../packages/ui-primitives/vendor/lib/motion-tokens";
+import styles from "../../../../../packages/ui-primitives/vendor/registry/components/drawer/drawer.module.css";
 
 /** Mirrors the open state so the panel can stay mounted while it slides out, retarget mid-flight, and close itself after a drag. */
 const DrawerContext = createContext<{ open: boolean; flung: boolean; setOpen: (open: boolean) => void; fling: () => void; openedAt: RefObject<number> } | null>(null);

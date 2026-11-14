@@ -182,9 +182,8 @@ export function createShowcaseHandler({
       json(response, { allowed: true });
       return true;
     }
-    const graphRoute = /^\/api\/native\/showcase\/([a-z0-9-]+)\/(graph|graph-query|graph-document|guides)$/.exec(
-      url.pathname,
-    );
+    const graphRoute =
+      /^\/api\/native\/showcase\/([a-z0-9-]+)\/(graph|graph-query|graph-document|guides)$/.exec(url.pathname);
     if (graphRoute) {
       const [, projectId, resource] = graphRoute;
       const first = store.pageCatalog(user).find((page) => page.projectId === projectId);
@@ -223,7 +222,9 @@ export function createShowcaseHandler({
           availability: snapshot?.manifest.guides?.length ? 'ready' : 'unconfigured',
           contentRevision: snapshot?.revision ?? null,
           guides,
-          restrictedGuideIds: (snapshot?.manifest.guides ?? []).filter((guide) => !guides.some((allowedGuide) => allowedGuide.id === guide.id)).map((guide) => guide.id),
+          restrictedGuideIds: (snapshot?.manifest.guides ?? [])
+            .filter((guide) => !guides.some((allowedGuide) => allowedGuide.id === guide.id))
+            .map((guide) => guide.id),
         });
         return true;
       }
@@ -304,10 +305,16 @@ export function createShowcaseHandler({
       if (!snapshot) fail(404, '业务需求未发布', 'CONTENT_NOT_FOUND');
       const file = url.searchParams.get('path');
       requireDocumentAccess(store, user, initial.project, snapshot, file);
-      const document = readableDocuments(store, user, initial.project, snapshot).find((item) => item.path === file);
+      const document = readableDocuments(store, user, initial.project, snapshot).find(
+        (item) => item.path === file,
+      );
       if (!document) fail(404, '业务需求未发布', 'CONTENT_NOT_FOUND');
       recheck();
-      json(response, { path: file, title: document.title, markdown: snapshot.files.get(file).toString('utf8') });
+      json(response, {
+        path: file,
+        title: document.title,
+        markdown: snapshot.files.get(file).toString('utf8'),
+      });
       return true;
     }
     const documents = snapshot ? pageDocuments(snapshot, initial.project, clientId, pageKey) : [];
@@ -358,8 +365,10 @@ export function createShowcaseHandler({
       styles: root ? compiled.assets.filter((file) => file.endsWith('.css')).map((file) => `/${file}`) : [],
       documents,
       markdown,
-      summaryMarkdown: documents.filter((item) => item.summary)
-        .map((item) => snapshot.files.get(item.summary).toString('utf8')).join('\n\n'),
+      summaryMarkdown: documents
+        .filter((item) => item.summary)
+        .map((item) => snapshot.files.get(item.summary).toString('utf8'))
+        .join('\n\n'),
       summaryPath: documents.find((item) => item.summary)?.summary ?? null,
       registry: descriptor.registryItem
         ? {

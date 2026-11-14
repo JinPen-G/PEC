@@ -1,7 +1,7 @@
-/** Site shell using the observed UIARC layout classes. Business content and
+/** Site shell using the observed UI primitives layout classes. Business content and
  * authorization remain in the application, not in the shared frame. */
 import type { ReactNode, CSSProperties } from 'react';
-import './uiarc-layout-source.css';
+import './site-layout.css';
 import './site-adapter.css';
 import './site-theme-motion.css';
 
@@ -26,7 +26,7 @@ export function SiteFrame({
 }) {
   return (
     <div
-      className="uiarc-showcase page_library__ciZWi"
+      className="preview-showcase page_library__ciZWi"
       data-theme={dark ? 'dark' : 'light'}
       data-accent={accent}
       style={

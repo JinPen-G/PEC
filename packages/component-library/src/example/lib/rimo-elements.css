@@ -1,0 +1,216 @@
+/* Adapted from Preview vehicle-group prototype. Source and hashes are recorded in the example source manifest. */
+.rimo-business-page {
+  container-type: inline-size;
+  width: 100%;
+  min-width: 0;
+  color: var(--foreground, #202124);
+  font: 14px / 1.55 var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  --app-color-primary: var(--primary, var(--foreground, #202124));
+  --app-color-primary-hover: var(--app-color-primary);
+  --app-color-primary-active: var(--app-color-primary);
+  --app-color-primary-light-5: color-mix(in srgb, var(--app-color-primary) 45%, var(--background, #fff));
+  --app-color-primary-light-7: color-mix(in srgb, var(--app-color-primary) 22%, var(--background, #fff));
+  --app-color-primary-light-8: color-mix(in srgb, var(--app-color-primary) 12%, var(--background, #fff));
+  --app-color-primary-light-9: color-mix(in srgb, var(--app-color-primary) 5%, var(--background, #fff));
+  --app-color-primary-shadow: transparent;
+  --app-color-primary-weak: color-mix(in srgb, var(--app-color-primary) 10%, transparent);
+  --app-color-text: var(--foreground, #202124);
+  --app-color-text-secondary: var(--muted-foreground, var(--text-secondary, #64748b));
+  --app-color-text-primary: var(--foreground, #202124);
+  --app-color-text-muted: var(--muted-foreground, var(--text-muted, #737b88));
+  --app-color-panel: var(--surface, #fff);
+  --app-color-bg: var(--background, #f8fafc);
+  --app-color-border: var(--border, #e5e7eb);
+  --app-color-border-light: var(--app-color-border);
+  --app-color-border-subtle: var(--app-color-border);
+  --app-color-surface: var(--background, #fff);
+  --app-color-surface-muted: var(--muted, var(--surface-muted, #f5f5f5));
+  --app-color-surface-subtle: var(--app-color-surface-muted);
+  --app-color-danger: var(--danger, #c23b38);
+  --app-color-success: var(--success, #25864b);
+  --app-color-warning: var(--warning, #a36d18);
+  --app-font-family-sans: var(--font-body, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  --app-font-family-mono: var(--font-mono, ui-monospace, monospace);
+  --app-font-size-xs: 12px;
+  --app-font-size-sm: 13px;
+  --app-font-size-base: 14px;
+  --app-font-size-md: 16px;
+  --app-radius-control: 8px;
+  --app-radius-list-panel: 12px;
+  --app-radius-panel: 12px;
+  --app-space-2: 8px;
+  --app-space-3: 12px;
+  --app-space-4: 16px;
+  --app-space-6: 24px;
+  --el-color-primary: var(--app-color-primary);
+  --el-bg-color: var(--app-color-panel);
+  --el-bg-color-overlay: var(--app-color-panel);
+  --el-fill-color-blank: var(--app-color-panel);
+  --el-fill-color-light: var(--surface-muted, #f4f4f5);
+  --el-text-color-primary: var(--app-color-text);
+  --el-text-color-regular: var(--app-color-text);
+  --el-text-color-secondary: var(--app-color-text-secondary);
+  --el-text-color-placeholder: var(--text-muted, #737b88);
+  --el-border-color: var(--app-color-border);
+  --el-border-color-light: var(--app-color-border);
+  --el-border-color-lighter: var(--app-color-border);
+}
+.rimo-business-page * {
+  box-sizing: border-box;
+}
+.rimo-business-page :is(h1, h2, h3, h4) {
+  color: inherit;
+}
+.rimo-business-page h1 {
+  font-size: 24px;
+  line-height: 1.35;
+  margin: 0 0 8px;
+  font-weight: 650;
+}
+.rimo-business-page h2 {
+  font-size: 19px;
+  line-height: 1.4;
+}
+.rimo-business-page .el-icon {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+.rimo-business-page .el-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.rimo-business-page .el-input,
+.rimo-business-page .el-select {
+  max-width: 100%;
+  min-width: 0;
+}
+.rimo-business-page .el-select {
+  min-width: 0;
+}
+.rimo-business-page .el-form-item {
+  margin-bottom: 18px;
+}
+.rimo-business-page .el-tag {
+  max-width: 100%;
+}
+.rimo-business-page .el-radio-group,
+.rimo-business-page .el-checkbox-group {
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.rimo-business-page .el-radio,
+.rimo-business-page .el-radio-button {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  cursor: pointer;
+}
+.rimo-business-page .el-table {
+  min-width: 0;
+  max-width: 100%;
+}
+.rimo-business-page .rimo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.rimo-business-page .rimo-icon-placeholder {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 42px;
+  background: var(--surface-muted, #f5f5f5);
+  border-radius: 8px;
+}
+.rimo-business-page .el-button-group {
+  display: inline-flex;
+  gap: 6px;
+}
+.rimo-business-page .el-divider {
+  height: 1px;
+  margin: 18px 0;
+  border: 0;
+  background: var(--app-color-border);
+}
+.rimo-business-page .el-alert {
+  margin: 12px 0;
+}
+.rimo-business-page .rimo-tree {
+  display: grid;
+  gap: 6px;
+}
+.rimo-business-page .rimo-tree button {
+  text-align: left;
+  padding: 8px;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+}
+.rimo-business-page .rimo-tree button[aria-pressed='true'] {
+  background: var(--surface-muted, #f3f4f6);
+}
+.rimo-business-page .rimo-form-errors {
+  color: var(--danger, #c23b38);
+  font-size: 13px;
+}
+.rimo-business-page .el-progress-bar {
+  height: 8px;
+  border-radius: 8px;
+  background: var(--surface-muted, #edf0f2);
+  overflow: hidden;
+}
+.rimo-business-page .el-progress-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--app-color-primary);
+}
+.rimo-business-page .el-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+.rimo-business-page .rimo-static-table {
+  overflow: auto;
+  max-width: 100%;
+}
+.rimo-business-page .rimo-static-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.rimo-business-page .rimo-static-table :is(th, td) {
+  border-bottom: 1px solid var(--app-color-border);
+  padding: 10px 12px;
+  text-align: left;
+}
+.rimo-business-page .el-timeline {
+  border-left: 1px solid var(--app-color-border);
+  margin-left: 8px;
+  padding-left: 20px;
+}
+.rimo-business-page .el-timeline-item {
+  margin-bottom: 16px;
+}
+.rimo-business-page .rimo-inline-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.rimo-business-page :is(.rimo-photo-trigger, .rimo-tree button):focus-visible {
+  outline: 2px solid var(--app-color-primary);
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .rimo-business-page h1 {
+    font-size: 22px;
+  }
+}

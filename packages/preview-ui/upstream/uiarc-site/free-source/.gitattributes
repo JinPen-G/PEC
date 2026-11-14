@@ -1,5 +1,0 @@
-* text=auto eol=lf
-*.jpg binary
-*.png binary
-public/r/*.json linguist-generated=true
-registry.json linguist-generated=true

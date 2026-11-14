@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "source": "Preview vehicle-group React prototype",
+  "referenceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+  "adaptation": "Selected demonstration block and its imported helpers. The sample brand is neutralized, unbundled external photos use the existing empty-image state, and original helper names are retained.",
+  "licensing": "Source provenance is preserved. No additional license is granted by this record.",
+  "files": [
+    {
+      "source": "packages/component-library/src/rimo-rental/lib/RimoEnvironment.jsx",
+      "target": "packages/component-library/src/example/lib/RimoEnvironment.jsx",
+      "sourceSha256": "60c2d5df3cf9e00d63a8a912421aab1cf2fc54f6b39124a62ff415ad1105faa8",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "60c2d5df3cf9e00d63a8a912421aab1cf2fc54f6b39124a62ff415ad1105faa8",
+      "sha256": "f22b59f40d360e5dc9848d2a8b9a0d8da908bcc4a6fafd8d861b888bbd303f8a"
+    },
+    {
+      "source": "packages/component-library/src/rimo-rental/lib/rimo-model.js",
+      "target": "packages/component-library/src/example/lib/rimo-model.js",
+      "sourceSha256": "bbe14b644bcafdbc9256c4296336e001cf111360c1c737e512f5bf4cd6f8b935",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "bbe14b644bcafdbc9256c4296336e001cf111360c1c737e512f5bf4cd6f8b935",
+      "sha256": "0401257b312bba6769caac4c6f17571b66d43a2d5272228ae9e70d4dc09ad90e"
+    },
+    {
+      "source": "packages/component-library/src/rimo-rental/lib/RimoBusinessLayout.jsx",
+      "target": "packages/component-library/src/example/lib/RimoBusinessLayout.jsx",
+      "sourceSha256": "50df1111b045e05030b1ef7f35398340cc741290b15f8d63efe0937a81f571cb",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "50df1111b045e05030b1ef7f35398340cc741290b15f8d63efe0937a81f571cb",
+      "sha256": "40c2c16f499948f36ddc30e215d8da38585a1d3774f2b1713b59eb7c7d8a49be"
+    },
+    {
+      "source": "packages/component-library/src/rimo-rental/lib/rimo-elements.css",
+      "target": "packages/component-library/src/example/lib/rimo-elements.css",
+      "sourceSha256": "829d2d71590dddf9d7a96306496381fd205a973876e94b4b149a23dadc0fd4dc",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "829d2d71590dddf9d7a96306496381fd205a973876e94b4b149a23dadc0fd4dc",
+      "sha256": "2ba6b510c9e3d8416d79db9c905e11afe792467ce0f6b699d671857250ea9733"
+    },
+    {
+      "source": "packages/component-library/src/rimo-rental/lib/rimo-business.css",
+      "target": "packages/component-library/src/example/lib/rimo-business.css",
+      "sourceSha256": "b61188f2ce5f9f603116d7937646dadf7fe9396f5a08d8c37a012e3ababbdab7",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "b61188f2ce5f9f603116d7937646dadf7fe9396f5a08d8c37a012e3ababbdab7",
+      "sha256": "e1636ab478df7cee375e977485da3dd04895f50b34227026d5aef8b05a0c3e6a"
+    },
+    {
+      "source": "packages/component-library/src/rimo-rental/blocks/vehicle-groups/VehicleGroupsBlock.jsx",
+      "target": "packages/component-library/src/example/blocks/vehicle-groups/VehicleGroupsBlock.jsx",
+      "sourceSha256": "a3b15a3f1b6321cf43e140864b46df7b823cd88f021ae8b6b7445485b4408351",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "a3b15a3f1b6321cf43e140864b46df7b823cd88f021ae8b6b7445485b4408351",
+      "sha256": "7756e51386a45af655dd598518516ab122f2fc5c459d94174d6683feb3ae9e09"
+    },
+    {
+      "source": "packages/component-library/src/rimo-rental/blocks/vehicle-groups/vehicle-groups.css",
+      "target": "packages/component-library/src/example/blocks/vehicle-groups/vehicle-groups.css",
+      "sourceSha256": "be4300ead2c50ca80dfdf80d394b4c0d16d80e650362518468877de213e19af4",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "be4300ead2c50ca80dfdf80d394b4c0d16d80e650362518468877de213e19af4",
+      "sha256": "109c1e050f512eecb7d9b95be904b0119c353be4e98c3b27666a5b5657c2ff5b"
+    },
+    {
+      "source": "packages/component-library/src/rimo-rental/blocks/vehicle-groups/vehicle-groups-model.js",
+      "target": "packages/component-library/src/example/blocks/vehicle-groups/vehicle-groups-model.js",
+      "sourceSha256": "a105ee46f5e49140192b65b697ab3877fce4108448048881f665ff9c0b252a59",
+      "sourceCommit": "4e11cafe63ed633fdbfe9a7aec3a751090eb0a54",
+      "committedSha256": "a105ee46f5e49140192b65b697ab3877fce4108448048881f665ff9c0b252a59",
+      "sha256": "eecff5db0acc4e41de41bcebb6188a95bee224664fdcdc3e576ccbf4782a1af1"
+    }
+  ]
+}

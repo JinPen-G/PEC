@@ -3,7 +3,10 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import type { GraphNode, GraphEdge } from '../../../../../packages/platform-contracts/src/requirement-graph';
 
 const { instances } = vi.hoisted(() => ({ instances: [] as MockGraph[] }));
-vi.mock('./graph-layout', () => ({ fixedGraphLayout: async (input: { nodes: { id: string }[] }) => input.nodes.map((node, index) => ({ id: node.id, x: index * 120, y: 80 })) }));
+vi.mock('./graph-layout', () => ({
+  fixedGraphLayout: async (input: { nodes: { id: string }[] }) =>
+    input.nodes.map((node, index) => ({ id: node.id, x: index * 120, y: 80 })),
+}));
 type MockGraph = {
   options: Record<string, unknown>;
   data: { nodes: { id: string }[]; edges: { id: string }[] };
@@ -70,9 +73,15 @@ vi.mock('@antv/g6', () => ({
     }
     async fitView() {}
     async fitCenter() {}
-    getSize() { return [800, 600]; }
-    getCanvasByViewport(point: number[]) { return point; }
-    getViewportByCanvas(point: number[]) { return point; }
+    getSize() {
+      return [800, 600];
+    }
+    getCanvasByViewport(point: number[]) {
+      return point;
+    }
+    getViewportByCanvas(point: number[]) {
+      return point;
+    }
     resize() {}
     destroy() {
       this.destroyed = true;

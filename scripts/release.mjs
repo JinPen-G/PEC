@@ -6,7 +6,9 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import process from 'node:process';
 import { loadContentCatalog } from '../packages/project-core/src/platform/project-content.js';
+import { webAssetResidue } from '../packages/project-core/src/platform/web-assets.js';
 import { NATIVE_MODULES, nativePublicAssetAllowed } from '../packages/platform-contracts/src/platform.js';
+import { loadProjectCatalog } from '../packages/platform-server/src/project-catalog.js';
 
 const hash = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const idPattern = /^[a-f\d]{12}-[a-f\d]{12}$/;
@@ -90,6 +92,7 @@ export async function packageRelease({
   const records = [];
   for (const name of names) {
     const bytes = await fs.readFile(path.join(buildRoot, name));
+    if (webAssetResidue(name, bytes)) throw new Error(`构建包含已退役的原站内容：${name}`);
     records.push({ path: name, bytes: bytes.length, sha256: hash(bytes) });
   }
   const packages = extended ? await loadContentCatalog(contentRoot, registry) : [];
@@ -203,6 +206,7 @@ export async function verifyRelease(directory) {
     const bytes = await fs.readFile(path.join(directory, 'web', record.path));
     if (bytes.length !== record.bytes || hash(bytes) !== record.sha256)
       throw new Error(`发行文件散列不一致：${record.path}`);
+    if (webAssetResidue(record.path, bytes)) throw new Error(`发行包含已退役的原站内容：${record.path}`);
   }
   if (manifest.schemaVersion >= 2) {
     if (
@@ -326,9 +330,17 @@ if (
     const uiCommit = JSON.parse(
       await fs.readFile(path.join(root, 'packages/preview-ui/source-manifest.json'), 'utf8'),
     ).commit;
+    const catalog = await loadProjectCatalog(path.join(root, 'packages/platform-contracts/src'));
+    const contentRoot = catalog.projects.length
+      ? path.join(root, 'project-content')
+      : path.join(root, 'output/release-content');
+    if (!catalog.projects.length) {
+      await fs.mkdir(contentRoot, { recursive: true });
+      if ((await fs.readdir(contentRoot)).length) throw new Error('空业务发行的资料目录必须为空');
+    }
     const result = await packageRelease({
       buildRoot: path.join(root, 'output/web'),
-      contentRoot: path.join(root, 'project-content'),
+      contentRoot,
       runtimeRoot: path.join(root, 'output/runtime'),
       destination,
       commit,

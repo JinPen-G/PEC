@@ -61,10 +61,7 @@ const safeAccount = (row) => ({
 export function createNativeStore({
   dataDirectory,
   documentSources = ['none', 'sample', 'local'],
-  moduleCatalog = [
-    { key: 'empty', pages: [{ key: 'canvas' }] },
-    { key: 'rental-orders', pages: [{ key: 'orders' }] },
-  ],
+  moduleCatalog = [{ key: 'empty', pages: [{ key: 'canvas' }] }],
   now = Date.now,
   sessionLifetime = 8 * 60 * 60 * 1000,
   idleLifetime = 30 * 60 * 1000,
@@ -79,8 +76,11 @@ export function createNativeStore({
         .map((page) => [`${module.key}/${page.key}`, page.featuredOrder]),
     ),
   );
-  const pageKinds = new Map(moduleCatalog.flatMap((module) =>
-    module.pages.map((page) => [`${module.key}/${page.key}`, page.kind ?? 'page'])));
+  const pageKinds = new Map(
+    moduleCatalog.flatMap((module) =>
+      module.pages.map((page) => [`${module.key}/${page.key}`, page.kind ?? 'page']),
+    ),
+  );
   if (Object.keys(modules).length !== moduleCatalog.length) fail(500, '原生模块重复注册', 'REGISTRY_INVALID');
   const directory = path.resolve(dataDirectory);
   mkdirSync(directory, { recursive: true });
@@ -118,6 +118,8 @@ export function createNativeStore({
     );
   }
   function transaction(fn) {
+    // Bootstrap and its registered projects share one rollback boundary.
+    if (db.isTransaction) return fn();
     db.exec('BEGIN IMMEDIATE');
     try {
       const value = fn();
@@ -837,7 +839,15 @@ export function createNativeStore({
       });
     },
     initialized,
-    bootstrap: (input) => createAccount(null, input, true),
+    bootstrap: (input, { withProjects = false } = {}) =>
+      transaction(() => {
+        const user = createAccount(null, input, true);
+        if (withProjects) {
+          for (const module of moduleCatalog.filter((entry) => entry.projectId && entry.initialClients))
+            createProject(user, { id: module.projectId, name: module.label }, { ifMissing: true });
+        }
+        return user;
+      }),
     createAccount,
     updateAccount,
     changePassword,
